@@ -1,0 +1,39 @@
+{
+  "name": "@gravitee/components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "src:build": "node tasks/build.js",
+    "storybook": "start-storybook -p 6006",
+    "storybook:docs": "wca analyze src/** --format markdown --outDir .docs",
+    "storybook:build": "npm run storybook:docs && build-storybook"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lit-element": "^2.2.1",
+    "lit-html": "^1.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@storybook/addon-actions": "^5.2.3",
+    "@storybook/addon-info": "^5.2.3",
+    "@storybook/addon-knobs": "^5.2.3",
+    "@storybook/addon-notes": "^5.2.3",
+    "@storybook/html": "^5.2.3",
+    "@storybook/theming": "^5.2.3",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-template-html-minifier": "^3.1.0",
+    "del": "^5.1.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
+    "terser": "^4.2.1",
+    "web-component-analyzer": "0.1.16",
+    "webpack-env": "^0.8.0"
+  }
+}
