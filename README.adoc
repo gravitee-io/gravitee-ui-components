@@ -1,0 +1,36 @@
+= Gravitee.io Web Components
+
+== Install
+
+- Install http://nodejs.org[nodejs], it comes with http://npmjs.org[npm]
+- Then install node modules with:
+```
+npm install
+```
+
+== Tasks
+
+If you wanna start the storybook on dev mode :
+```
+npm run dev
+```
+
+If you wanna generate docs :
+```
+npm run docs
+```
+
+If you wanna build storybook:
+```
+npm run build
+```
+
+If you start storybook on prod mode :
+```
+npm run prod 
+```
+
+If you wanna build components to use them in your project:
+```
+npm run export
+```

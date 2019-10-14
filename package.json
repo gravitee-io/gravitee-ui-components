@@ -7,10 +7,11 @@
     "dist"
   ],
   "scripts": {
-    "src:build": "node tasks/build.js",
-    "storybook": "start-storybook -p 6006",
-    "storybook:docs": "wca analyze src/** --format markdown --outDir .docs",
-    "storybook:build": "npm run storybook:docs && build-storybook"
+    "build": "npm run docs && build-storybook",
+    "dev": "npm run docs && start-storybook -p 6006",
+    "docs": "wca analyze src/** --format markdown --outDir .docs",
+    "export": "node tasks/export.js",
+    "prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "del": "^5.1.0",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.4",
+    "node-static": "^0.7.11",
     "terser": "^4.2.1",
     "web-component-analyzer": "0.1.16",
     "webpack-env": "^0.8.0"
