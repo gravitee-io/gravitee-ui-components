@@ -1,6 +1,6 @@
-import {css, LitElement} from "lit-element";
-import {TemplateResult} from "lit-html";
-import {GvIcons} from '../icons/gv-icons';
+import { css, LitElement } from 'lit-element';
+import { TemplateResult } from 'lit-html';
+import { GvIcons } from '../icons/gv-icons';
 
 /**
  * An icon
@@ -13,22 +13,22 @@ import {GvIcons} from '../icons/gv-icons';
  * import './shapes/all-shapes'
  * import './shapes/shopping-shapes'
  *
- * @attr {String} shape - name of shape like 
+ * @attr {String} shape - name of shape like
  * @attr {Number} size - size in pixel use for width and height
  */
 
 export class GvIcon extends LitElement {
 
-  static get properties() {
+  static get properties () {
     return {
-      shape: {type: String},
-      size: {type: Number},
+      shape: { type: String },
+      size: { type: Number },
     };
   }
 
-  static get styles() {
+  static get styles () {
     return [
-      //language=CSS
+      // language=CSS
       css`
           :host {
               box-sizing: border-box;
@@ -36,21 +36,21 @@ export class GvIcon extends LitElement {
               margin: 0.2rem;
               vertical-align: top;
           }
-      `]
+      `];
   }
 
-  constructor() {
+  constructor () {
     super();
     this.size = 24;
   }
 
-  render() {
+  render () {
     const icon = GvIcons.getIcon(this.shape);
 
     return new TemplateResult([
         `<svg width="${this.size}" height="${this.size}" viewBox="0 0 48 48">`, icon, '</svg>'],
-      [],
-      'html');
+    [],
+    'html');
   }
 
 }

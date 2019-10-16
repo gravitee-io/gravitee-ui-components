@@ -6,24 +6,24 @@ const SVGO = require('svgo');
 const pascalCase = require('pascal-case');
 
 const glob = util.promisify(rawGlob);
-const svgo = new SVGO({plugins: [{removeXMLNS: true}, {removeAttrs: false}]});
-//{attrs: 'fill:none|stroke|fill-rule|clip-rule|width|height'}
+const svgo = new SVGO({ plugins: [{ removeXMLNS: true }, { removeAttrs: false }] });
+// {attrs: 'fill:none|stroke|fill-rule|clip-rule|width|height'}
 const iconsByShape = {};
 
-async function run() {
+async function run () {
   const svgFilepaths = await glob('assets/icons/**/*.svg');
 
   for (const src of svgFilepaths) {
-    let relativePath = src.replace('assets/icons/', '');
-    let [category, filename] = relativePath.split('/');
+    const relativePath = src.replace('assets/icons/', '');
+    const [category, filename] = relativePath.split('/');
     console.log(`Parse ${src}`);
-    iconsByShape[category] = iconsByShape[category] || {}
-    let id = filename.replace('.svg', '').toLowerCase();
+    iconsByShape[category] = iconsByShape[category] || {};
+    const id = filename.replace('.svg', '').toLowerCase();
     const code = await fs.readFile(src, 'utf8');
     iconsByShape[category][id] = await svgo.optimize(code).then((optimizeCode) => optimizeCode.data.replace('<svg>', '').replace('</svg>', ''));
   }
   await del('src/icons/shapes');
-  await fs.mkdir('src/icons/shapes', {recursive: true});
+  await fs.mkdir('src/icons/shapes', { recursive: true });
   await fs.writeFile('src/icons/shapes/all-shapes.js', '');
   await fs.writeFile('stories/collection/icons.generated-stories.js', `import '../../src/icons/shapes/all-shapes';
 import '../../src/atoms/gv-icon.js';
@@ -33,13 +33,13 @@ storiesOf('Collection', module)
   .add('Icons', ()  => {
     return \``);
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
-    const shapeName = pascalCase(`${shapeId}shapes`);
+    const shapeName = pascalCase(`${shapeId}Shapes`);
     console.log(`Generate ${shapeName}`);
     await fs.writeFile(`src/icons/shapes/${shapeId}-shapes.js`,
       `export const ${shapeName} = ${JSON.stringify(icons)};
 window.GvIcons = window.GvIcons || {};
 window.GvIcons['${shapeId}'] = ${shapeName};
-`)
+`);
     await fs.appendFile('src/icons/shapes/all-shapes.js', `import './${shapeId}-shapes.js'\n`);
 
     // Generate tmp file for stories

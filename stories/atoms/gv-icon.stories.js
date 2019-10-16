@@ -1,7 +1,7 @@
 import '../../src/icons/shapes/all-shapes';
 import '../../src/atoms/gv-icon.js';
 import notes from '../../.docs/gv-icon.md';
-import {storiesOf} from '@storybook/html';
+import { storiesOf } from '@storybook/html';
 
 storiesOf('Atoms', module)
   .add('<gv-icon>', () => {
@@ -31,5 +31,4 @@ storiesOf('Atoms', module)
 <gv-icon shape="wheather:windy" size="96"></gv-icon>
 
 `;
-  }, {notes});
-
+  }, { notes });

@@ -39,3 +39,13 @@ If you wanna build icons component from svg files:
 ```
 npm run generate:icons
 ```
+
+If you wanna lint :
+```
+npm run lint
+```
+
+If you wanna fix lint :
+```
+npm run lint:fix
+```

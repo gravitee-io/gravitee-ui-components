@@ -10,7 +10,7 @@ const graviteeTheme = create({
   base: 'light',
   brandTitle: 'Gravitee components',
   brandUrl: 'https://gravitee.io/',
-  brandImage: 'https://graviteesource.com/images/GS_transp.png'
+  brandImage: 'https://avatars3.githubusercontent.com/u/12655666?s=280&v=4'
 });
 
 addParameters({

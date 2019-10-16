@@ -1,9 +1,9 @@
 import '../../src/icons/shapes/all-shapes';
 import '../../src/atoms/gv-icon.js';
-import {storiesOf} from '@storybook/html';
+import { storiesOf } from '@storybook/html';
 
 storiesOf('Collection', module)
-  .add('Icons', ()  => {
+  .add('Icons', () => {
     return `<div class="title">appliances</div>
 <div class="shape-container"><div class="icon-container"><gv-icon shape="appliances:air-conditioning" size="48"></gv-icon><span>appliances:air-conditioning</span></div>
 <div class="icon-container"><gv-icon shape="appliances:blender" size="48"></gv-icon><span>appliances:blender</span></div>
@@ -663,5 +663,5 @@ storiesOf('Collection', module)
 <div class="icon-container"><gv-icon shape="wheather:thunder" size="48"></gv-icon><span>wheather:thunder</span></div>
 <div class="icon-container"><gv-icon shape="wheather:umbrella" size="48"></gv-icon><span>wheather:umbrella</span></div>
 <div class="icon-container"><gv-icon shape="wheather:windy" size="48"></gv-icon><span>wheather:windy</span></div>
-</div>`
-});
+</div>`;
+  });
