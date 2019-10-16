@@ -1,5 +1,6 @@
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
+import { skeleton } from '../styles/skeleton.js';
 
 /**
  * A button
@@ -36,6 +37,7 @@ export class GvButton extends LitElement {
 
   static get styles () {
     return [
+      skeleton,
       // language=CSS
       css`        
           :host {
@@ -118,23 +120,9 @@ export class GvButton extends LitElement {
           }
 
           button.skeleton {
-              animation-direction: alternate;
-              animation-duration: 500ms;
-              animation-iteration-count: infinite;
-              animation-name: pulse;
               background-color: #aaa;
               border-color: #777;
               color: transparent;
-              cursor: progress;
-          }
-
-          @keyframes pulse {
-              from {
-                  opacity: 0.85;
-              }
-              to {
-                  opacity: 0.45;
-              }
           }
 
           /* TRANSITIONS */
