@@ -6,7 +6,7 @@ import { withActions } from '@storybook/addon-actions';
 
 const eventNames = ['click gv-button'];
 
-storiesOf('atoms', module)
+storiesOf('Atoms', module)
   .add('<gv-button>', () => withActions(...eventNames)(() => {
 
     const label = text('Button label', '');
