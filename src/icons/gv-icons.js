@@ -1,8 +1,8 @@
-import './shapes/general-shapes'
+import './shapes/general-shapes';
 
 export class GvIcons {
 
-  static getIcon(name) {
+  static getIcon (name) {
 
     const [shape, icon] = name.split(':');
     if (window.GvIcons[shape]) {
@@ -10,7 +10,8 @@ export class GvIcons {
         return window.GvIcons[shape][icon];
       }
       console.error(`Cannot find icon "${icon}" in shape "${shape}". Show Gravitee.io Components documentation.`);
-    } else {
+    }
+    else {
       console.error(`Cannot find shape "${shape}". Show Gravitee.io Components documentation.`);
     }
     return '?';

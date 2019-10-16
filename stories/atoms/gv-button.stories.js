@@ -1,7 +1,7 @@
 import '../../src/atoms/gv-button.js';
 import notes from '../../.docs/gv-button.md';
-import {storiesOf} from '@storybook/html';
-import {text} from '@storybook/addon-knobs';
+import { storiesOf } from '@storybook/html';
+import { text } from '@storybook/addon-knobs';
 import { withActions } from '@storybook/addon-actions';
 
 const eventNames = ['click gv-button'];
@@ -37,4 +37,3 @@ storiesOf('Atoms', module)
       <gv-button skeleton primary outlined disabled>${label || 'Primary outlined & disabled'}</gv-button>
     `;
   }), { notes });
-

@@ -1,5 +1,5 @@
-import {classMap} from 'lit-html/directives/class-map.js';
-import {LitElement, html, css} from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { LitElement, html, css } from 'lit-element';
 
 /**
  * A button
@@ -34,9 +34,9 @@ export class GvButton extends LitElement {
     };
   }
 
-  static get styles() {
+  static get styles () {
     return [
-      //language=CSS
+      // language=CSS
       css`        
           :host {
               box-sizing: border-box;
@@ -151,13 +151,13 @@ export class GvButton extends LitElement {
     ];
   }
 
-  render() {
+  render () {
 
     const modes = {
       primary: this.primary,
       skeleton: this.skeleton,
       default: !this.primary,
-      outlined: this.outlined
+      outlined: this.outlined,
     };
 
     return html`<button
