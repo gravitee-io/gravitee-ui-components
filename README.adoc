@@ -27,10 +27,15 @@ npm run build
 
 If you start storybook on prod mode :
 ```
-npm run prod 
+npm run prod
 ```
 
 If you wanna build components to use them in your project:
 ```
-npm run export
+npm run generate:dist
+```
+
+If you wanna build icons component from svg files:
+```
+npm run generate:icons
 ```

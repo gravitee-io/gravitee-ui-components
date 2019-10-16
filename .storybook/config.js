@@ -2,7 +2,7 @@ import { addDecorator, configure, addParameters } from '@storybook/html';
 import { create } from '@storybook/theming';
 import { withKnobs } from '@storybook/addon-knobs';
 
-const req = require.context('../stories', true, /.stories.tsx$/);
+const req = require.context('../stories', true, /.stories.js$/);
 
 addDecorator(withKnobs);
 
