@@ -5,7 +5,7 @@ import { withActions } from '@storybook/addon-actions';
 
 const eventNames = ['click gv-input'];
 
-storiesOf('atoms.gv-input', module)
+storiesOf('Atoms.<gv-input>', module)
   .add('label', () => withActions(...eventNames)(() => {
 
     return `
