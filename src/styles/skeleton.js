@@ -22,4 +22,8 @@ export const skeleton = css`
     -ms-user-select: none;
     user-select: none;
   }
+  
+  .skeleton svg {
+      opacity: 0;
+  }
 `;

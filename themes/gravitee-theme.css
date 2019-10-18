@@ -1,15 +1,21 @@
 :root {
-    font-family: "Ibm Plex Sans";
+    font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     color: #262626;
 
     /** Variables */
     --gv-dark-green: #193E34;
     --gv-green: #009B5B;
+    --github-color: #444;
+    --google-color: #4285F4;
+    --oidc-color: #000000;
+    --gv-logo-blue: rgb(58, 174, 224);
+    --gv-logo-grey: rgb(58, 58, 58);
+    --gv-logo-white: rgb(247, 250, 252);
 
     /**  gv-button */
-    --gv-button-primary: var(--gv-dark-green);
-    --gv-button-default: var(--gv-green);
+    --gv-button: var(--gv-dark-green);
+    --gv-button-primary: var(--gv-green);
 
     /**  gv-button */
     --gv-icon: #262626;
@@ -17,3 +23,4 @@
     /** gv-nav-link */
     --gv-nav-link-active: var(--gv-dark-green)
 }
+

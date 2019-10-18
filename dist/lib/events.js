@@ -1,2 +1,2 @@
-export function dispatchCustomEvent(t,e,o,n={}){const s=`${t.nodeName.toLocaleLowerCase()}:${e}`;t.dispatchEvent(new CustomEvent(s,{detail:o,bubbles:!0,composed:!0,...n}))}
+export function dispatchCustomEvent(t,e,o,n={}){const s=`${t.nodeName.toLocaleLowerCase()}_${e}`;t.dispatchEvent(new CustomEvent(s,{detail:o,bubbles:!0,composed:!0,...n}))}
 //# sourceMappingURL=events.js.map

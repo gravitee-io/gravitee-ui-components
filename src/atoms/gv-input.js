@@ -105,7 +105,7 @@ export class GvInput extends LitElement {
   }
 
   focus () {
-    this.shadowRoot.querySelector('.input').focus();
+    this.shadowRoot.querySelector('input').focus();
   }
 
   _onInput (e) {
@@ -145,7 +145,7 @@ export class GvInput extends LitElement {
         .required=${this.required}
         .disabled=${this.disabled || this.skeleton}
         placeholder=${ifDefined(this.placeholder)}
-        value=${ifDefined(this.value)}
+        .value=${ifDefined(this.value)}
         class=${classMap(modes)}
         @input=${this._onInput}
         >
