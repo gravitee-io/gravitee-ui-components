@@ -1,4 +1,4 @@
-= Gravitee.io Web Components
+= Gravitee.io UI Components
 
 == Install
 

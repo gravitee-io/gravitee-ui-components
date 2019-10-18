@@ -1,6 +1,4 @@
 import { css, LitElement } from 'lit-element';
-import { TemplateResult } from 'lit-html';
-import { getCssVar } from '../lib/style';
 import { GvIcons } from '../icons/gv-icons';
 
 /**
@@ -34,9 +32,8 @@ export class GvIcon extends LitElement {
       css`
           :host {
               box-sizing: border-box;
-              display: inline-block;
-              margin: 0.2rem;
-              vertical-align: top;
+              display: inline-flex;
+              vertical-align: middle;
           }
       `];
   }
@@ -47,13 +44,7 @@ export class GvIcon extends LitElement {
   }
 
   render () {
-    let icon = GvIcons.getIcon(this.shape);
-    const color = getCssVar(this, 'gv-icon');
-    if (color) {
-      icon = icon.replace(/fill="#000"/g, `fill="${color}"`);
-    }
-    return new TemplateResult([
-      `<svg width="${this.size}" height="${this.size}" viewBox="0 0 48 48">`, icon, '</svg>'], [], 'html');
+    return GvIcons.getIcon(this.shape, this.size, this);
   }
 
 }

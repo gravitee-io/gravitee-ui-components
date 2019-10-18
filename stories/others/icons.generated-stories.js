@@ -2,8 +2,8 @@ import '../../src/icons/shapes/all-shapes';
 import '../../src/atoms/gv-icon.js';
 import { storiesOf } from '@storybook/html';
 
-storiesOf('Others', module)
-  .add('All icons', () => {
+storiesOf('Collection', module)
+  .add('Icons', () => {
     return `<div class="title">appliances</div>
 <div class="shape-container"><div class="icon-container"><gv-icon shape="appliances:air-conditioning" size="48"></gv-icon><span>appliances:air-conditioning</span></div>
 <div class="icon-container"><gv-icon shape="appliances:blender" size="48"></gv-icon><span>appliances:blender</span></div>
@@ -612,6 +612,11 @@ storiesOf('Others', module)
 <div class="icon-container"><gv-icon shape="text:text" size="48"></gv-icon><span>text:text</span></div>
 <div class="icon-container"><gv-icon shape="text:underline" size="48"></gv-icon><span>text:underline</span></div>
 <div class="icon-container"><gv-icon shape="text:undo" size="48"></gv-icon><span>text:undo</span></div>
+</div><div class="title">thirdparty</div>
+<div class="shape-container"><div class="icon-container"><gv-icon shape="thirdparty:github" size="48"></gv-icon><span>thirdparty:github</span></div>
+<div class="icon-container"><gv-icon shape="thirdparty:google" size="48"></gv-icon><span>thirdparty:google</span></div>
+<div class="icon-container"><gv-icon shape="thirdparty:gravitee" size="48"></gv-icon><span>thirdparty:gravitee</span></div>
+<div class="icon-container"><gv-icon shape="thirdparty:oidc" size="48"></gv-icon><span>thirdparty:oidc</span></div>
 </div><div class="title">tools</div>
 <div class="shape-container"><div class="icon-container"><gv-icon shape="tools:angle grinder" size="48"></gv-icon><span>tools:angle grinder</span></div>
 <div class="icon-container"><gv-icon shape="tools:axe" size="48"></gv-icon><span>tools:axe</span></div>

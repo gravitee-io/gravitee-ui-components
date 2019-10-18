@@ -6,7 +6,7 @@ const SVGO = require('svgo');
 const pascalCase = require('pascal-case');
 
 const glob = util.promisify(rawGlob);
-const svgo = new SVGO({ plugins: [{ removeXMLNS: true }, { removeAttrs: false }] });
+const svgo = new SVGO({ plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill:none'] } }] });
 // {attrs: 'fill:none|stroke|fill-rule|clip-rule|width|height'}
 const iconsByShape = {};
 
@@ -25,7 +25,7 @@ async function run () {
   await del('src/icons/shapes');
   await fs.mkdir('src/icons/shapes', { recursive: true });
   await fs.writeFile('src/icons/shapes/all-shapes.js', '');
-  await fs.writeFile('stories/collection/icons.generated-stories.js', `import '../../src/icons/shapes/all-shapes';
+  await fs.writeFile('stories/others/icons.generated-stories.js', `import '../../src/icons/shapes/all-shapes';
 import '../../src/atoms/gv-icon.js';
 import {storiesOf} from '@storybook/html';
 
@@ -43,14 +43,14 @@ window.GvIcons['${shapeId}'] = ${shapeName};
     await fs.appendFile('src/icons/shapes/all-shapes.js', `import './${shapeId}-shapes.js'\n`);
 
     // Generate tmp file for stories
-    await fs.appendFile('stories/collection/icons.generated-stories.js', `<div class="title">${shapeId}</div>\n<div class="shape-container">`);
+    await fs.appendFile('stories/others/icons.generated-stories.js', `<div class="title">${shapeId}</div>\n<div class="shape-container">`);
     for (const icon of Object.keys(icons)) {
-      await fs.appendFile('stories/collection/icons.generated-stories.js',
+      await fs.appendFile('stories/others/icons.generated-stories.js',
         `<div class="icon-container"><gv-icon shape="${shapeId}:${icon}" size="48"></gv-icon><span>${shapeId}:${icon}</span></div>\n`);
     }
-    await fs.appendFile('stories/collection/icons.generated-stories.js', `</div>`);
+    await fs.appendFile('stories/others/icons.generated-stories.js', `</div>`);
   }
-  await fs.appendFile('stories/collection/icons.generated-stories.js', `\`\n});`);
+  await fs.appendFile('stories/others/icons.generated-stories.js', `\`\n});`);
 }
 
 run()

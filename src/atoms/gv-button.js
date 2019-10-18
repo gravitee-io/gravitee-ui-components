@@ -1,6 +1,7 @@
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles';
+import { GvIcons } from '../icons/gv-icons';
 
 /**
  * A button
@@ -20,8 +21,9 @@ import { skeleton } from '../styles';
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} --gv-button-default - set the color of default button.
+ * @cssprop {String} --gv-button - set the color of default button.
  * @cssprop {String} --gv-button-primary - set the color of primary button.
+ * @cssprop {String} --gv-icon - set the color of icon
  */
 
 export class GvButton extends LitElement {
@@ -32,6 +34,7 @@ export class GvButton extends LitElement {
       primary: { type: Boolean },
       outlined: { type: Boolean },
       skeleton: { type: Boolean },
+      icon: { type: String },
     };
   }
 
@@ -44,7 +47,7 @@ export class GvButton extends LitElement {
               box-sizing: border-box;
               display: inline-block;
               margin: 0.2rem;
-              vertical-align: top;
+              vertical-align: middle;
           }
 
           /* RESET */
@@ -62,7 +65,6 @@ export class GvButton extends LitElement {
           button {
               border-radius: 0.15rem;
               cursor: pointer;
-              font-weight: bold;
               min-height: 2rem;
               padding: 0 0.5rem;
               text-transform: uppercase;
@@ -75,11 +77,11 @@ export class GvButton extends LitElement {
 
           /* COLORS */
           button.default {
-              --btn-color: var(--gv-button-default, #555);
+              --btn-color: var(--gv-button, #333);
           }
 
           button.primary {
-              --btn-color: var(--gv-button-primary, #333);
+              --btn-color: var(--gv-button-primary, #555);
           }
 
           /* MODES */
@@ -135,6 +137,12 @@ export class GvButton extends LitElement {
           button::-moz-focus-inner {
               border: 0;
           }
+
+          button.icon > * {
+              vertical-align: middle;
+              display: inline;
+          }
+        
       `,
     ];
   }
@@ -145,14 +153,18 @@ export class GvButton extends LitElement {
       skeleton: this.skeleton,
       default: !this.primary,
       outlined: this.outlined,
+      icon: !!this.icon,
     };
 
+    console.log('slot ', this.slot, ' / ', this.icon);
     return html`<button
-      type="button"
+        type="button"
       class=${classMap(modes)}
       .disabled=${this.disabled || this.skeleton}>
-       <slot></slot>
-       </button>`;
+
+     ${this.icon ? GvIcons.getIcon(this.icon, 24, this) : ''}
+
+    <slot></slot></button>`;
   }
 
 }

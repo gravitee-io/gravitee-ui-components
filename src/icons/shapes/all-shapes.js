@@ -15,5 +15,6 @@ import './media-shapes.js';
 import './navigation-shapes.js';
 import './shopping-shapes.js';
 import './text-shapes.js';
+import './thirdparty-shapes.js';
 import './tools-shapes.js';
 import './wheather-shapes.js';
