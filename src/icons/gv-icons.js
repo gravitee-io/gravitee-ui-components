@@ -3,7 +3,6 @@ import './shapes/general-shapes';
 export class GvIcons {
 
   static getIcon (name) {
-
     const [shape, icon] = name.split(':');
     if (window.GvIcons[shape]) {
       if (window.GvIcons[shape][icon]) {

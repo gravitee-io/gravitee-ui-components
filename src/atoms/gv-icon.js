@@ -1,5 +1,6 @@
 import { css, LitElement } from 'lit-element';
 import { TemplateResult } from 'lit-html';
+import { getCssVar } from '../lib/style';
 import { GvIcons } from '../icons/gv-icons';
 
 /**
@@ -15,6 +16,7 @@ import { GvIcons } from '../icons/gv-icons';
  *
  * @attr {String} shape - name of shape like
  * @attr {Number} size - size in pixel use for width and height
+ * @cssprop {String} --gv-icon - set the color of icon
  */
 
 export class GvIcon extends LitElement {
@@ -45,12 +47,13 @@ export class GvIcon extends LitElement {
   }
 
   render () {
-    const icon = GvIcons.getIcon(this.shape);
-
+    let icon = GvIcons.getIcon(this.shape);
+    const color = getCssVar(this, 'gv-icon');
+    if (color) {
+      icon = icon.replace(/fill="#000"/g, `fill="${color}"`);
+    }
     return new TemplateResult([
-        `<svg width="${this.size}" height="${this.size}" viewBox="0 0 48 48">`, icon, '</svg>'],
-    [],
-    'html');
+      `<svg width="${this.size}" height="${this.size}" viewBox="0 0 48 48">`, icon, '</svg>'], [], 'html');
   }
 
 }

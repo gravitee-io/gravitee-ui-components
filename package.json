@@ -8,13 +8,13 @@
   ],
   "scripts": {
     "build": "npm run docs && build-storybook",
-    "dev": "npm run docs && start-storybook -p 6006",
     "docs": "wca analyze src/** --format markdown --outDir .docs",
     "generate:dist": "node tasks/generate-dist.js",
     "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
     "lint": "eslint src stories tasks",
     "lint:fix": "eslint --fix src stories tasks",
-    "prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static"
+    "start": "npm run docs && start-storybook -p 6006",
+    "start:prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.3",
+    "@storybook/addon-a11y": "^5.2.4",
     "@storybook/addon-actions": "^5.2.3",
     "@storybook/addon-info": "^5.2.3",
     "@storybook/addon-knobs": "^5.2.3",
