@@ -1,10 +1,13 @@
 import { addDecorator, configure, addParameters } from '@storybook/html';
 import { create } from '@storybook/theming';
+import { withA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs';
+import '../themes/gravitee-theme.css';
 
 const req = require.context('../stories', true, /.stories.js$/);
 
 addDecorator(withKnobs);
+addDecorator(withA11y);
 
 const graviteeTheme = create({
   base: 'light',
@@ -16,7 +19,11 @@ const graviteeTheme = create({
 addParameters({
   options: {
     enableShortcuts: true,
+    showPanel: true,
     theme: graviteeTheme,
+  },
+  a11y: {
+    restoreScroll: true,
   },
 });
 

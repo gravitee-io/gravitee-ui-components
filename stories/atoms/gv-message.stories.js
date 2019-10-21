@@ -2,7 +2,7 @@ import '../../src/atoms/gv-message.js';
 import notes from '../../.docs/gv-message.md';
 import { storiesOf } from '@storybook/html';
 
-storiesOf('Atoms', module)
+storiesOf('Components.Atoms', module)
   .add('<gv-message>', () => {
     return `
       <div class="title">Info message</div>

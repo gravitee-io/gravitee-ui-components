@@ -1,0 +1,19 @@
+:root {
+    font-family: "Ibm Plex Sans";
+    font-size: 14px;
+    color: #262626;
+
+    /** Variables */
+    --gv-dark-green: #193E34;
+    --gv-green: #009B5B;
+
+    /**  gv-button */
+    --gv-button-primary: var(--gv-dark-green);
+    --gv-button-default: var(--gv-green);
+
+    /**  gv-button */
+    --gv-icon: #262626;
+
+    /** gv-nav-link */
+    --gv-nav-link-active: var(--gv-dark-green)
+}

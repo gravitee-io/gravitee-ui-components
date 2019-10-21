@@ -1,6 +1,6 @@
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
+import { skeleton } from '../styles';
 
 /**
  * A button
@@ -20,8 +20,8 @@ import { skeleton } from '../styles/skeleton.js';
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} --btn-default - set the color of default button.
- * @cssprop {String} --btn-primary - set the color of primary button.
+ * @cssprop {String} --gv-button-default - set the color of default button.
+ * @cssprop {String} --gv-button-primary - set the color of primary button.
  */
 
 export class GvButton extends LitElement {
@@ -39,7 +39,7 @@ export class GvButton extends LitElement {
     return [
       skeleton,
       // language=CSS
-      css`        
+      css`
           :host {
               box-sizing: border-box;
               display: inline-block;
@@ -75,11 +75,11 @@ export class GvButton extends LitElement {
 
           /* COLORS */
           button.default {
-              --btn-color: var(--btn-default, #009B5B);
+              --btn-color: var(--gv-button-default, #555);
           }
 
           button.primary {
-              --btn-color: var(--btn-primary, #193E34);
+              --btn-color: var(--gv-button-primary, #333);
           }
 
           /* MODES */
@@ -140,7 +140,6 @@ export class GvButton extends LitElement {
   }
 
   render () {
-
     const modes = {
       primary: this.primary,
       skeleton: this.skeleton,
