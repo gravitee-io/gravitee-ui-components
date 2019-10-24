@@ -1,2 +1,0 @@
-import{css as t,LitElement as e}from"lit-element";import{GvIcons as i}from"../icons/gv-icons";export class GvIcon extends e{static get properties(){return{shape:{type:String},size:{type:Number}}}static get styles(){return[t`:host{box-sizing:border-box;display:inline-flex;vertical-align:middle}`]}constructor(){super(),this.size=24}render(){return i.getIcon(this.shape,this.size,this)}}window.customElements.define("gv-icon",GvIcon);
-//# sourceMappingURL=gv-icon.js.map

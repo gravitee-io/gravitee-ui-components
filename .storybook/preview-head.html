@@ -16,8 +16,8 @@
         text-transform: capitalize;
     }
 
-    .icon-container {
-        margin: 18px 0;
+    .item {
+        margin: 18px 2px;
         padding: 0 18px;
         text-align: center;
         display: flex;
@@ -27,7 +27,12 @@
         word-break: keep-all;
     }
 
-    .shape-container {
+    .colors .item {
+        border: solid 1px var(--gv-theme-color-darker);
+        min-width: 100px;
+    }
+
+    .collection {
         display: flex;
         flex-wrap: wrap;
     }

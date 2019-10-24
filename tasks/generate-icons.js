@@ -43,10 +43,10 @@ window.GvIcons['${shapeId}'] = ${shapeName};
     await fs.appendFile('src/icons/shapes/all-shapes.js', `import './${shapeId}-shapes.js'\n`);
 
     // Generate tmp file for stories
-    await fs.appendFile('stories/others/icons.generated-stories.js', `<div class="title">${shapeId}</div>\n<div class="shape-container">`);
+    await fs.appendFile('stories/others/icons.generated-stories.js', `<div class="title">${shapeId}</div>\n<div class="collection">`);
     for (const icon of Object.keys(icons)) {
       await fs.appendFile('stories/others/icons.generated-stories.js',
-        `<div class="icon-container"><gv-icon shape="${shapeId}:${icon}" size="48"></gv-icon><span>${shapeId}:${icon}</span></div>\n`);
+        `<div class="item"><gv-icon shape="${shapeId}:${icon}" size="48"></gv-icon><span>${shapeId}:${icon}</span></div>\n`);
     }
     await fs.appendFile('stories/others/icons.generated-stories.js', `</div>`);
   }

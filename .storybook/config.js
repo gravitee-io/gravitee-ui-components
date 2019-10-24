@@ -32,3 +32,12 @@ function loadStories () {
 }
 
 configure(loadStories, module);
+
+// force full reload to not redefine web components
+if (module.hot) {
+  module.hot.accept(req.id, () => {
+    const currentLocationHref = window.location.href;
+    window.history.pushState(null, null, currentLocationHref);
+    location.reload();
+  });
+}
