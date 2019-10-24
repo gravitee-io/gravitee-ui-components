@@ -1,1 +1,0 @@
-{"version":3,"sources":["node_modules/@gravitee/components/styles/index.js"],"names":["link","skeleton"],"mappings":"OAASA,SAAY,gBACZC,aAAgB","sourcesContent":["export { link } from './link';\nexport { skeleton } from './skeleton';\n"]}

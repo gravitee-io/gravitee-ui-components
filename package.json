@@ -1,10 +1,12 @@
 {
-  "name": "@gravitee/components",
+  "name": "@gravitee/ui-components",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "files": [
-    "dist"
+    "src",
+    "themes",
+    "wc/gv-*.js"
   ],
   "scripts": {
     "build": "npm run docs && build-storybook",
@@ -13,7 +15,7 @@
     "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
     "lint": "eslint src stories tasks",
     "lint:fix": "eslint --fix src stories tasks",
-    "start": "npm run docs && start-storybook -p 6006",
+    "start": "npm run docs && start-storybook -p 6006 --ci",
     "start:prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static"
   },
   "keywords": [],
@@ -25,14 +27,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.3",
-    "@storybook/addon-a11y": "^5.2.4",
-    "@storybook/addon-actions": "^5.2.3",
-    "@storybook/addon-info": "^5.2.3",
-    "@storybook/addon-knobs": "^5.2.3",
-    "@storybook/addon-notes": "^5.2.3",
-    "@storybook/addon-storysource": "^5.2.4",
-    "@storybook/html": "^5.2.3",
-    "@storybook/theming": "^5.2.3",
+    "@storybook/addon-a11y": "^5.2.5",
+    "@storybook/addon-actions": "^5.2.5",
+    "@storybook/addon-info": "^5.2.5",
+    "@storybook/addon-knobs": "^5.2.5",
+    "@storybook/addon-notes": "^5.2.5",
+    "@storybook/addon-storysource": "^5.2.5",
+    "@storybook/html": "^5.2.5",
+    "@storybook/theming": "^5.2.5",
     "babel-loader": "^8.0.6",
     "babel-plugin-template-html-minifier": "^3.1.0",
     "del": "^5.1.0",

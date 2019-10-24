@@ -4,8 +4,12 @@
     color: #262626;
 
     /** Variables */
-    --gv-dark-green: #193E34;
-    --gv-green: #009B5B;
+    --gv-theme-color-darker: #1D3730;
+    --gv-theme-color-dark: #193E34;
+    --gv-theme-color: #009B5B;
+    --gv-theme-color-light: #D5FDCB;
+    --gv-theme-color-lighter: #FAFAFA;
+
     --github-color: #444;
     --google-color: #4285F4;
     --oidc-color: #000000;
@@ -14,13 +18,14 @@
     --gv-logo-white: rgb(247, 250, 252);
 
     /**  gv-button */
-    --gv-button: var(--gv-dark-green);
-    --gv-button-primary: var(--gv-green);
+    --gv-button: var(--gv-theme-color-dark);
+    --gv-button-primary: var(--gv-theme-color);
 
     /**  gv-button */
     --gv-icon: #262626;
 
     /** gv-nav-link */
-    --gv-nav-link-active: var(--gv-dark-green)
+    --gv-nav-link-active: var(--gv-theme-color-dark);
 }
+
 

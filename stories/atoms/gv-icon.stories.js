@@ -4,6 +4,7 @@ import notes from '../../.docs/gv-icon.md';
 import { storiesOf } from '@storybook/html';
 
 storiesOf('Components.Atoms', module)
+  .addParameters({ notes })
   .add('<gv-icon>', () => {
     return `
 <div class="title">Size 24px (default)</div>
@@ -29,12 +30,5 @@ storiesOf('Components.Atoms', module)
 <gv-icon shape="wheather:thunder" size="96" style="--gv-icon:#ff725c;"></gv-icon>
 <gv-icon shape="wheather:umbrella" size="96"></gv-icon>
 <gv-icon shape="wheather:windy" size="96" style="--gv-icon:#357edd;"></gv-icon>
-
-<div class="title">Colors</div>
-<gv-icon shape="wheather:thunder-night" size="96"></gv-icon>
-<gv-icon shape="wheather:thunder" size="96" style="--gv-icon:#357edd;"></gv-icon>
-<gv-icon shape="wheather:umbrella" size="96" style="--gv-icon:#ffb700;"></gv-icon>
-<gv-icon shape="wheather:windy" size="96" style="--gv-icon:#ff725c;"></gv-icon>
-
 `;
-  }, { notes });
+  });

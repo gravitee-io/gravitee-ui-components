@@ -156,7 +156,6 @@ export class GvButton extends LitElement {
       icon: !!this.icon,
     };
 
-    console.log('slot ', this.slot, ' / ', this.icon);
     return html`<button
         type="button"
       class=${classMap(modes)}

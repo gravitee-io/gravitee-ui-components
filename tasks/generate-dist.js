@@ -65,7 +65,7 @@ async function run () {
 
   const filepaths = sourceFilepaths.map((src) => {
     // this seems to get better integration in browsers
-    const sourceMapFilename = src.replace('/src/', '/node_modules/@gravitee/components/');
+    const sourceMapFilename = src.replace('/src/', '/node_modules/@gravitee/ui-components/');
     const dst = src.replace('/src/', '/dist/');
     const sourceMapUrl = path.parse(dst).base + '.map';
     return { src, sourceMapFilename, dst, sourceMapUrl };
@@ -82,6 +82,18 @@ async function run () {
       });
     console.log(`   DONE! ${dst}`);
   }
+
+  const componentPaths = await glob('./src/**/gv-*.js');
+  await del('wc/gv-*.js');
+  for (const src of componentPaths) {
+    const filePath = './wc/' + path.basename(src);
+    // TODO: replace src by dist in package.json when you publish the project
+    // and uncomment this line and delete the next
+    // const dst = src.replace('/src/', './dist/');
+    const dst = src.replace('/src/', './src/');
+    await fs.outputFile(filePath, `import "${dst.replace('.js', '')}";`);
+  }
+
 }
 
 run()
