@@ -14,6 +14,5 @@ storiesOf('Components.Molecules', module)
       { path: '#', title: 'Catalogue', isActive: true },
       { path: '#', title: 'Mes applications' },
     ];
-    nav.style = '--gv-nav-link-selected:#357edd;';
     return nav;
   }, { notes }));

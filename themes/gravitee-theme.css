@@ -18,14 +18,17 @@
     --gv-logo-white: rgb(247, 250, 252);
 
     /**  gv-button */
-    --gv-button: var(--gv-theme-color-dark);
-    --gv-button-primary: var(--gv-theme-color);
+    --gv-button--bgc: var(--gv-theme-color-dark);
+    --gv-button-primary--bgc: var(--gv-theme-color);
 
     /**  gv-button */
-    --gv-icon: #262626;
+    --gv-icon--c: #262626;
 
     /** gv-nav-link */
-    --gv-nav-link-active: var(--gv-theme-color-dark);
+    --gv-nav-link--bgc: transparent;
+    --gv-nav-link--c: #262626;
+    --gv-nav-link-active--bgc: var(--gv-theme-color-dark);
+    --gv-nav-link-active--c: var(--gv-theme-color-lighter);
 }
 
 

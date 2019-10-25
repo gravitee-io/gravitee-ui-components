@@ -11,7 +11,8 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @attr {Object} route - Simple object with {title: String, path: String, isActive: Boolean}
  *
- * @cssprop {String} --gv-nav-link-active - set the color of selected link.
+ * @cssprop {String} --gv-nav-link([-active])--c - set the color of link.
+ * @cssprop {String} --gv-nav-link([-active])--bgc - set the background color of link.
  */
 export class GvNavLink extends LitElement {
 
@@ -30,15 +31,15 @@ export class GvNavLink extends LitElement {
           a {
               opacity: 1;
               padding: 1rem 2rem;
-              color: #333333;
+              color: var(--gv-nav-link--c, #333);
               display: inline-block;
-              background-color: transparent;
+              background-color: var(--gv-nav-link--bgc, transparent);
               text-align: center;
           }
 
           .active {
-              color: #fff;
-              background-color: var(--gv-nav-link-active, #333)
+              color: var(--gv-nav-link-active--c, #fff);
+              background-color: var(--gv-nav-link-active--bgc, #333)
           }
       `,
     ];

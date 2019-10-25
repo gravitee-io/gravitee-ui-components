@@ -4,8 +4,11 @@ function getPropertyValue (element, propertyName) {
 }
 
 export function getCssVar (element, variableName) {
-  if (variableName.startsWith('--')) {
-    return getPropertyValue(element, variableName);
+  if (element) {
+    if (variableName.startsWith('--')) {
+      return getPropertyValue(element, variableName);
+    }
+    return getPropertyValue(element, `--${variableName}`);
   }
-  return getPropertyValue(element, `--${variableName}`);
+  return '';
 }

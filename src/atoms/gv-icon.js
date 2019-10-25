@@ -12,9 +12,10 @@ import { GvIcons } from '../icons/gv-icons';
  * import './shapes/all-shapes'
  * import './shapes/shopping-shapes'
  *
- * @attr {String} shape - name of shape like
+ * @attr {String} shape - name of shape
  * @attr {Number} size - size in pixel use for width and height
- * @cssprop {String} --gv-icon - set the color of icon
+ *
+ * @cssprop {String} --gv-icon--c - set the color of icon
  */
 
 export class GvIcon extends LitElement {

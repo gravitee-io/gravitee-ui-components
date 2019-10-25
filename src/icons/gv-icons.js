@@ -21,12 +21,12 @@ export class GvIcons {
   static getIcon (name, size, element) {
     let icon = this._getIcon(name);
     if (element) {
-      const color = getCssVar(element, 'gv-icon');
+      const color = getCssVar(element, 'gv-icon--c');
       if (color) {
         icon = icon.replace(/fill="#000"/g, `fill="${color}"`);
       }
-      icon = icon.replace(/<svg/, `<svg width="${size}" height="${size}"`);
     }
+    icon = icon.replace(/<svg/, `<svg width="${size}" height="${size}"`);
     return new TemplateResult([icon], [], 'html');
   }
 
