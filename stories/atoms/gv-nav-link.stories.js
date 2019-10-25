@@ -21,6 +21,7 @@ storiesOf('Components.Atoms', module)
     container.querySelector('#empty').route = Promise.resolve(null);
     container.querySelector('#dashboard').route = { title: 'Dashboard', path: '#' };
     container.querySelector('#catalog').route = Promise.resolve({ title: 'Catalog', path: '#', isActive: true });
+    container.querySelector('#catalog').style = '--gv-nav-link-active--bgc:#357edd;';
     container.querySelector('#apps').route = Promise.resolve({ title: 'Apps', path: '#', isActive: false });
     container.querySelector('#error').route = Promise.reject(new Error('True story.'));
     return container;

@@ -21,11 +21,9 @@ import { GvIcons } from '../icons/gv-icons';
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} --gv-button - set the color of default button.
- * @cssprop {String} --gv-button-primary - set the color of primary button.
- * @cssprop {String} --gv-icon - set the color of icon
+ * @cssprop {String} --gv-button([-primary])--bgc - set the background color of button.
+ * @cssprop {String} --gv-icon--c - set the color of icon
  */
-
 export class GvButton extends LitElement {
 
   static get properties () {
@@ -77,23 +75,23 @@ export class GvButton extends LitElement {
 
           /* COLORS */
           button.default {
-              --btn-color: var(--gv-button, #333);
+              --c: var(--gv-button--bgc, #333);
           }
 
           button.primary {
-              --btn-color: var(--gv-button-primary, #555);
+              --c: var(--gv-button-primary--bgc, #555);
           }
 
           /* MODES */
           button {
-              background-color: var(--btn-color);
-              border-color: var(--btn-color);
+              background-color: var(--c);
+              border-color: var(--c);
               color: #fff;
           }
 
           button.outlined {
               background-color: #fff;
-              color: var(--btn-color);
+              color: var(--c);
           }
 
           /* special case: we want to keep simple buttons subtle */
@@ -142,7 +140,7 @@ export class GvButton extends LitElement {
               vertical-align: middle;
               display: inline;
           }
-        
+
       `,
     ];
   }
