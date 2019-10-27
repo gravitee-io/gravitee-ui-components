@@ -1,1 +1,1 @@
-import "../src/atoms/gv-icon";
+import '../src/atoms/gv-icon';

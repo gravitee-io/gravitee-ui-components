@@ -1,1 +1,1 @@
-import "../src/atoms/gv-input";
+import '../src/atoms/gv-input';
