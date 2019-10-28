@@ -17,6 +17,12 @@ export class GvMessage extends LitElement {
     return [
       // language=CSS
       css`        
+          :host {
+            box-sizing: border-box;
+            display: inline-block;
+            margin: 0.2rem;
+            vertical-align: middle;
+          }
           /* BASE */
           div {
               border: 1px solid black;

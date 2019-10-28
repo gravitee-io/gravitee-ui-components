@@ -615,7 +615,7 @@ storiesOf('Collection', module)
 </div><div class="title">thirdparty</div>
 <div class="collection"><div class="item"><gv-icon shape="thirdparty:github" size="48"></gv-icon><span>thirdparty:github</span></div>
 <div class="item"><gv-icon shape="thirdparty:google" size="48"></gv-icon><span>thirdparty:google</span></div>
-<div class="item"><gv-icon shape="thirdparty:gravitee" size="48"></gv-icon><span>thirdparty:gravitee</span></div>
+<div class="item"><gv-icon shape="thirdparty:graviteeio_am" size="48"></gv-icon><span>thirdparty:graviteeio_am</span></div>
 <div class="item"><gv-icon shape="thirdparty:oidc" size="48"></gv-icon><span>thirdparty:oidc</span></div>
 </div><div class="title">tools</div>
 <div class="collection"><div class="item"><gv-icon shape="tools:angle grinder" size="48"></gv-icon><span>tools:angle grinder</span></div>
