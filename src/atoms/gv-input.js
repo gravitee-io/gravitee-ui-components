@@ -43,6 +43,12 @@ export class GvInput extends LitElement {
       skeleton,
       // language=CSS
       css`        
+          :host {
+            box-sizing: border-box;
+            display: inline-block;
+            margin: 0.2rem;
+            vertical-align: middle;
+          }
           /* BASE */
           input {
               border: 1px solid #D9D9D9;
@@ -54,25 +60,25 @@ export class GvInput extends LitElement {
 
           /* SIZE */
           input.large {
-            width: 256px;
-            height: 40px;
+            width: 100%;
+            height: 100%;
             padding: 12px 8px;
             font-size: 16px;
             line-height: 24px;
           }
 
           input.medium {
-            width: 256px;
-            height: 32px;
-            padding: 12px 5px;
+            width: 100%;
+            height: 100%;
+            padding: 10px 5px;
             font-size: 14px;
             line-height: 22px;
           }
 
           input.small {
-            width: 256px;
-            height: 24px;
-            font-size: 14px;
+            width: 100%;
+            height: 100%;
+            font-size: 12px;
             line-height: 22px;
           }
 
@@ -137,6 +143,11 @@ export class GvInput extends LitElement {
       labelHTML = html``;
     }
 
+    var placeholderValue = '';
+    if (this.placeholder) {
+      placeholderValue = this.placeholder + (this.required ? '*' : '');
+    }
+
     return html`
       ${labelHTML}
       <input
@@ -144,7 +155,7 @@ export class GvInput extends LitElement {
         type=${inputType}
         .required=${this.required}
         .disabled=${this.disabled || this.skeleton}
-        placeholder=${ifDefined(this.placeholder)}
+        placeholder=${placeholderValue}
         .value=${ifDefined(this.value)}
         class=${classMap(modes)}
         @input=${this._onInput}

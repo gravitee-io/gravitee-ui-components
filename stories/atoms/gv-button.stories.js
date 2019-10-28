@@ -44,15 +44,16 @@ storiesOf('Components.Atoms', module)
       <gv-button skeleton primary disabled icon="cooking:dish" style="--gv-icon--c:orange"></gv-button>
       
       <div class="title">Sign In</div>
-      <gv-button icon="thirdparty:github" outlined style="--gv-button: var(--github-color); --gv-icon--c: var(--github-color);">Sign in with GitHub</gv-button>
-      <gv-button icon="thirdparty:github" style="--gv-button: var(--github-color);--gv-icon--c: #fff;">Sign in with GitHub</gv-button>
-      <gv-button icon="thirdparty:google" outlined style="--gv-button: var(--google-color);">Sign in with Google</gv-button>
-      <gv-button icon="thirdparty:google" style="--gv-button: var(--google-color);">Sign in with Google</gv-button>
+      <gv-button icon="thirdparty:github" outlined class="github_outlined">Sign in with GitHub</gv-button>
+      <gv-button icon="thirdparty:github" class="github">Sign in with GitHub</gv-button>
+
+      <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
+      <gv-button icon="thirdparty:google" class="google">Sign in with Google</gv-button>
       
-      <gv-button icon="thirdparty:oidc" outlined style="--gv-button: var(--oidc-color);">Sign in with OIDC</gv-button>
-      <gv-button icon="thirdparty:oidc" style="--gv-button: var(--oidc-color);--gv-icon--c: #fff;">Sign in with OIDC</gv-button>
+      <gv-button icon="thirdparty:oidc" outlined class="oidc_outlined">Sign in with OIDC</gv-button>
+      <gv-button icon="thirdparty:oidc" class="oidc">Sign in with OIDC</gv-button>
       
-      <gv-button icon="thirdparty:gravitee" outlined style="--gv-button: var(--gv-logo-grey);">Sign in with Gravitee.io AM</gv-button>
-      <gv-button icon="thirdparty:gravitee" style="--gv-button: var(--gv-logo-blue);--gv-icon--c: var(--gv-logo-white);">Sign in with Gravitee.io AM</gv-button>
+      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Sign in with Gravitee.io AM</gv-button>
+      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>
     `;
   }), { notes });

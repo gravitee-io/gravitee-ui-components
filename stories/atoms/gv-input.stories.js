@@ -14,7 +14,7 @@ storiesOf('Components.Atoms', module)
       <gv-input type="email" placeholder="Email..."></gv-input>
       
       <div class="title">Size</div>
-      <gv-input label="Medium" placeholder="Default size"></gv-input>
+      <gv-input placeholder="Default size"></gv-input>
       <gv-input large placeholder="Large size"></gv-input>
       <gv-input small placeholder="Small size" ></gv-input>
     
@@ -24,7 +24,7 @@ storiesOf('Components.Atoms', module)
        <gv-input small disabled></gv-input>
 
       <div class="title">Required</div>
-      <gv-input label="Required field" required></gv-input>
+      <gv-input placeholder="Required field with placeholder" required></gv-input>
       <gv-input large required></gv-input>
       <gv-input small required></gv-input>
 

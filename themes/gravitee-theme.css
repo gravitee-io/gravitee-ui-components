@@ -3,6 +3,7 @@
     font-size: 14px;
     color: #262626;
 
+    background-color: #EFEFEF;
     /** Variables */
     --gv-theme-color-darker: #1D3730;
     --gv-theme-color-dark: #193E34;
@@ -31,4 +32,36 @@
     --gv-nav-link-active--c: var(--gv-theme-color-lighter);
 }
 
+gv-button.github_outlined {
+    --gv-button--bgc: var(--github-color);
+    --gv-icon--c: var(--github-color);
+}
+gv-button.github {
+    --gv-button--bgc: var(--github-color);
+    --gv-icon--c: #FFF;
+}
 
+gv-button.google_outlined {
+    --gv-button--bgc: var(--google-color);
+}
+gv-button.google {
+    --gv-button--bgc: var(--google-color);
+}
+
+gv-button.oidc_outlined {
+    --gv-button--bgc: var(--oidc-color);
+    --gv-icon--c: var(--oidc-color);
+}
+gv-button.oidc {
+    --gv-button--bgc: var(--oidc-color);
+    --gv-icon--c: #fff;
+}
+
+gv-button.graviteeio_am_outlined {
+    --gv-button--bgc: var(--gv-logo-blue);
+    --gv-icon--c: var(--gv-logo-grey);
+}
+gv-button.graviteeio_am {
+    --gv-button--bgc: var(--gv-logo-blue);
+    --gv-icon--c: var(--gv-logo-white);
+}
