@@ -12,7 +12,8 @@ import { skeleton } from '../styles/skeleton.js';
  * @attr {Boolean} required - same as native input element `required` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  * @attr {String} value - the value of the input
- * @attr {String} label - name of the label and id of the input
+ * @attr {String} label - name of the label
+ * @attr {String} name - name of the input
  * @attr {String} placeholder - an example value to display in the input when empty
  * @attr {String} type - type of the input. Can be text (Default), password or email.
  * @attr {Boolean} large - for a large input
@@ -30,6 +31,7 @@ export class GvInput extends LitElement {
       skeleton: { type: Boolean },
       value: { type: String },
       label: { type: String },
+      name: { type: String },
       placeholder: { type: String },
       type: { type: String },
       large: { type: Boolean },
@@ -153,6 +155,7 @@ export class GvInput extends LitElement {
       <input
         .id=${ifDefined(inputId)}
         type=${inputType}
+        .name=${this.name}
         .required=${this.required}
         .disabled=${this.disabled || this.skeleton}
         placeholder=${placeholderValue}
