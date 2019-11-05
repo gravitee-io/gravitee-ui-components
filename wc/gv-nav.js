@@ -1,1 +1,1 @@
-import '../src/molecules/gv-nav';
+import "../src/molecules/gv-nav";
