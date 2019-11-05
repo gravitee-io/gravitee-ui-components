@@ -1,1 +1,1 @@
-import '../src/icons/gv-icons';
+import "../src/icons/gv-icons";
