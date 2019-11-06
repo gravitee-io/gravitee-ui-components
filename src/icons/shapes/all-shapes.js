@@ -8,6 +8,7 @@ import './devices-shapes.js';
 import './finance-shapes.js';
 import './food-shapes.js';
 import './general-shapes.js';
+import './gravitee-shapes.js';
 import './home-shapes.js';
 import './layout-shapes.js';
 import './maps-shapes.js';

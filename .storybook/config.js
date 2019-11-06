@@ -2,7 +2,8 @@ import { addDecorator, configure, addParameters } from '@storybook/html';
 import { create } from '@storybook/theming';
 import { withA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs';
-import '../themes/gravitee-theme.css';
+import '../assets/css/gravitee-theme.css';
+import brandImage from  '../assets/icons/gravitee/graviteeio.svg';
 
 const req = require.context('../stories', true, /.stories.js$/);
 
@@ -13,7 +14,7 @@ const graviteeTheme = create({
   base: 'light',
   brandTitle: 'Gravitee components',
   brandUrl: 'https://gravitee.io/',
-  brandImage: 'https://avatars3.githubusercontent.com/u/12655666?s=280&v=4'
+  brandImage
 });
 
 addParameters({
