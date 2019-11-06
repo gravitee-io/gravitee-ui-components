@@ -4,8 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "files": [
+    "assets/css",
+    "assets/icons/gravitee",
     "src",
-    "themes",
     "wc/gv-*.js"
   ],
   "scripts": {

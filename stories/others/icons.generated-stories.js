@@ -386,6 +386,8 @@ storiesOf('Collection', module)
 <div class="item"><gv-icon shape="general:update" size="48"></gv-icon><span>general:update</span></div>
 <div class="item"><gv-icon shape="general:user" size="48"></gv-icon><span>general:user</span></div>
 <div class="item"><gv-icon shape="general:visible" size="48"></gv-icon><span>general:visible</span></div>
+</div><div class="title">gravitee</div>
+<div class="collection"><div class="item"><gv-icon shape="gravitee:graviteeio" size="48"></gv-icon><span>gravitee:graviteeio</span></div>
 </div><div class="title">home</div>
 <div class="collection"><div class="item"><gv-icon shape="home:air-ballon" size="48"></gv-icon><span>home:air-ballon</span></div>
 <div class="item"><gv-icon shape="home:alarm-clock" size="48"></gv-icon><span>home:alarm-clock</span></div>
