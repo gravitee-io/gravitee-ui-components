@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-nav.js';
-import notes from '../../.docs/gv-nav.md';
+import '../../src/organisms/gv-menu.js';
+import notes from '../../.docs/gv-menu.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 
-const withActions = withCustomEventActions('gv-nav-link:click');
+const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input');
 
-storiesOf('Components.Molecules', module)
-  .add('<gv-nav>', withActions(() => {
+storiesOf('Components.Organisms', module)
+  .addParameters({ notes })
+  .add('<gv-menu>', withActions(() => {
 
-    const nav = document.createElement('gv-nav');
-    nav.routes = [
-      { path: '', title: 'Dashboard' },
-      { path: '', title: 'Catalogue', active: true },
-      { path: '', title: Promise.resolve('Mes applications') },
+    const menu = document.createElement('gv-menu');
+    menu.routes = [
+      { path: '#', title: 'All', active: true, icon: 'home:flower#2' },
+      { path: '#', title: Promise.resolve('Categories'), icon: 'layout:layout-arrange' },
     ];
-    return nav;
-  }, { notes }));
+    menu.searchTitle = 'Rechercher une API, une APP...';
+    return menu;
+  }));

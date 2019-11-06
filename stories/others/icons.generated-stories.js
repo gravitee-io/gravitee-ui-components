@@ -1,4 +1,3 @@
-import '../../src/icons/shapes/all-shapes';
 import '../../src/atoms/gv-icon.js';
 import { storiesOf } from '@storybook/html';
 

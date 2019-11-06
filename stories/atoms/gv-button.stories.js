@@ -15,11 +15,10 @@
  */
 import '../../src/atoms/gv-button.js';
 import notes from '../../.docs/gv-button.md';
-import '../../src/icons/shapes/all-shapes';
 import { storiesOf } from '@storybook/html';
-import { boolean, text } from '@storybook/addon-knobs';
+import { text } from '@storybook/addon-knobs';
 import { withActions } from '@storybook/addon-actions';
-import { updateBooleanAttributes } from '../lib/update-attributes';
+import { updateInnerText } from '../lib/update-attributes';
 
 const eventNames = ['click gv-button'];
 
@@ -28,23 +27,27 @@ storiesOf('Components.Atoms', module)
   .add('<gv-button>', () => withActions(...eventNames)(() => {
 
     const label = text('Button label', '');
-    const disabled = boolean('Disabled', false);
-    const skeleton = boolean('Skeleton', false);
 
     const container = document.createElement('div');
     container.innerHTML = `
-      <div class="title"> Default </div>
+      <div class="title">Default</div>
+      <div class="group">
+        <gv-button default>Simple</gv-button>
+        <gv-button icon="cooking:dish" style="--gv-icon--c:white"></gv-button>
+        <gv-button icon="cooking:dish" style="--gv-icon--c:white">Icon</gv-button>
+        <gv-button disabled>Disabled</gv-button>
+        <gv-button icon="cooking:dish" style="--gv-icon--c:white" disabled></gv-button>
+        <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
+        <gv-button outlined default>Outlined</gv-button>
+        <gv-button outlined icon="cooking:dish"></gv-button>
+        <gv-button outlined icon="cooking:dish">Outlined icon</gv-button>
+        <gv-button outlined disabled>Outlined disabled</gv-button>
+        <gv-button outlined icon="cooking:dish" disabled></gv-button>
+        <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
+      </div>
       
-      <gv-button>${label || 'Simple'}</gv-button>
-      <gv-button outlined>${label || 'Simple outlined'}</gv-button>
-      <gv-button icon="cooking:dish" style="--gv-icon--c:white">${label || 'Simple icon'}</gv-button>
-      <gv-button icon="cooking:dish" style="--gv-icon--c:white"></gv-button>
-      
-      <div class="title"> Primary </div>
-      <gv-button primary>${label || 'Simple'}</gv-button>
-      <gv-button primary outlined>${label || 'Simple outlined'}</gv-button>
-      <gv-button primary icon="cooking:dish" style="--gv-icon--c:orange">${label || 'Simple icon'}</gv-button>
-      <gv-button primary icon="cooking:dish" style="--gv-icon--c:orange"></gv-button>
+      <div class="generated-zone">
+      </div>
        
       <div class="title">Github</div>
       <gv-button icon="thirdparty:github" outlined class="github_outlined">Sign in with GitHub</gv-button>
@@ -63,8 +66,28 @@ storiesOf('Components.Atoms', module)
       <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>
     `;
 
+    const variants = [['skeleton'], ['primary'], ['primary', 'skeleton']];
+    const generatedZone = container.querySelector('.generated-zone');
+    const elements = container.querySelectorAll('.group gv-button');
+
+    variants.forEach((variant) => {
+
+      const title = document.createElement('div');
+      title.className = 'title';
+      title.innerText = variant.join(' ');
+      generatedZone.appendChild(title);
+      elements.forEach((e) => {
+        const n = e.cloneNode();
+        n.innerText = e.innerText;
+        variant.forEach((attr) => n.setAttribute(attr, ''));
+        generatedZone.appendChild(n);
+      });
+    });
+
     const nodeList = container.querySelectorAll('gv-button');
-    updateBooleanAttributes(nodeList, 'disabled', disabled);
-    updateBooleanAttributes(nodeList, 'skeleton', skeleton);
+    if (label) {
+      updateInnerText(nodeList, label);
+    }
+
     return container;
   }));

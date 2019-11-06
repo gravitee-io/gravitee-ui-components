@@ -17,6 +17,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles';
 import { GvIcons } from '../icons/gv-icons';
+import { until } from 'lit-html/directives/until';
 
 /**
  * A button
@@ -160,6 +161,13 @@ export class GvButton extends LitElement {
     ];
   }
 
+  _onClick () {
+    const form = this.closest('form');
+    if (form) {
+      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    }
+  }
+
   render () {
     const modes = {
       primary: this.primary,
@@ -172,10 +180,9 @@ export class GvButton extends LitElement {
     return html`<button
         type="button"
       class=${classMap(modes)}
-      .disabled=${this.disabled || this.skeleton}>
-
-     ${this.icon ? GvIcons.getIcon(this.icon, 24, this) : ''}
-
+      .disabled=${this.disabled || this.skeleton}
+      @click="${this._onClick}">
+     ${this.icon ? until(GvIcons.getIcon(this.icon, 24, this), '') : ''}
     <slot></slot></button>`;
   }
 

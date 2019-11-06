@@ -25,3 +25,9 @@ export function updateBooleanAttributes (nodeList, attribute, value) {
 export function updateTextAttributes (nodeList, attribute, value) {
   nodeList.forEach((e) => e.setAttribute(attribute, value));
 }
+
+export function updateInnerText (nodeList, value) {
+  nodeList.forEach((e) => {
+    e.innerText = value;
+  });
+}

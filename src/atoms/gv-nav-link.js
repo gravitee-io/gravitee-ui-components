@@ -15,6 +15,9 @@
  */
 import { LitElement, html, css } from 'lit-element';
 import { link } from '../styles';
+import { classMap } from 'lit-html/directives/class-map';
+import { styleMap } from 'lit-html/directives/style-map';
+import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
@@ -24,17 +27,22 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @slot - The content of the link (text or HTML)
  *
- * @attr {Object} route - Simple object with {title: String, path: String, isActive: Boolean}
+ * @attr {Boolean} active - set if link is active
+ * @attr {String} path - link title
+ * @attr {Promise<String>} title - link title
  *
- * @cssprop {String} --gv-nav-link([-active])--c - set the color of link.
- * @cssprop {String} --gv-nav-link([-active])--bgc - set the background color of link.
+ * @cssprop {String} --gv-nav-link([-active]?)--c - set the color of link.
+ * @cssprop {String} --gv-nav-link([-active]?)--bgc - set the background color of link.
+ * @cssprop {String} --gv-nav-link-active--bdb - set the border bottom of active link. (Default: none)
  */
 export class GvNavLink extends LitElement {
 
   static get properties () {
     return {
-      route: { type: Object },
-      _currentRoute: { type: Array, attribute: false },
+      active: { type: Boolean },
+      icon: { type: String },
+      path: { type: String },
+      title: { type: Promise },
     };
   }
 
@@ -54,49 +62,38 @@ export class GvNavLink extends LitElement {
 
           .active {
               color: var(--gv-nav-link-active--c, #fff);
-              background-color: var(--gv-nav-link-active--bgc, #333)
+              background-color: var(--gv-nav-link-active--bgc, #333);
+              border-bottom: var(--gv-nav-link-active--bdb, none);
+          }
+
+          a span, a svg {
+              display: inline;
+              vertical-align: middle;
           }
       `,
     ];
   }
 
-  constructor () {
-    super();
-    this._currentRoute = {};
-  }
-
-  set route (route) {
-    if (route) {
-      Promise.resolve(route)
-        .then((value) => {
-          this._currentRoute = value;
-        })
-        .catch((e) => {
-          console.trace('Cannot get route', e);
-        });
-    }
-  }
-
-  get route () {
-    return this.route;
-  }
-
-  _onClick (e) {
+  async _onClick (e) {
     e.preventDefault();
-    dispatchCustomEvent(this, 'click', this._currentRoute);
+    dispatchCustomEvent(this, 'click', { active: this.active, icon: this.icon, path: this.path, title: await Promise.resolve(this.title) });
   }
 
   render () {
+    const classes = {
+      active: this.active, link: true,
+    };
+    const iconStyle = this.active ? { '--gv-icon--c': 'var(--gv-nav-link-active--c)' } : { '--gv-icon--c': 'var(--gv-nav-link--c)' };
     return html`
       <a @click=${this._onClick} 
-      class="${this._currentRoute.isActive ? 'active ' : ''}link" 
-      href="${this._currentRoute.path}" 
-      title="${this._currentRoute.title}">
-${this._currentRoute.title}
+      class="${classMap(classes)}" 
+      ?href="${this.path}" 
+      ?title="${until(this.title, '')}">
+        ${this.icon ? html`<gv-icon shape=${this.icon} size=24 style=${styleMap(iconStyle)}></gv-icon>` : ''}
+        <span>${until(this.title, '')}</span>
       </a>
     `;
   }
-
 }
 
 window.customElements.define('gv-nav-link', GvNavLink);

@@ -51,6 +51,7 @@ function minifyHtmlCss (code, sourceFileName) {
           },
         },
       ],
+      '@babel/plugin-syntax-dynamic-import',
     ],
   });
 }
@@ -106,7 +107,7 @@ async function run () {
     // and uncomment this line and delete the next
     // const dst = src.replace('/src/', './dist/');
     const dst = src.replace('/src/', './src/');
-    await fs.outputFile(filePath, `import "${dst.replace('.js', '')}";`);
+    await fs.outputFile(filePath, `import '${dst.replace('.js', '')}';`);
   }
 
 }

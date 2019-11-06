@@ -20,13 +20,13 @@ import '../molecules/gv-nav';
 /**
  * A header
  *
- * @fires gv-nav:change - Custom event when nav link change
+ * @fires gv-nav_change - Custom event when nav link change
  *
  * @attr {String} logoHref - href of logo link
  * @attr {String} logoImg - source of image
  * @attr {String} logoImgAlt - alt text of image
  * @attr {String} logoTitle - title of logo link
- * @attr {Array} routes - definition of routes [{path: String, selected: Boolean, title: String}]
+ * @attr {Array} routes - definition of routes [{path: String, isActive: Boolean, title: String}]
  *
  */
 export class GvHeader extends LitElement {
@@ -37,7 +37,7 @@ export class GvHeader extends LitElement {
       logoImg: { type: String },
       logoImgAlt: { type: String },
       logoTitle: { type: String },
-      routes: { type: Array, attribute: false },
+      routes: { type: Array },
     };
   }
 

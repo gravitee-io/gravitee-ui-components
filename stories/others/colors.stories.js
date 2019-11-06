@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/icons/shapes/all-shapes';
 import '../../src/atoms/gv-icon.js';
 import { storiesOf } from '@storybook/html';
 
