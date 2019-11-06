@@ -15,17 +15,11 @@
  */
 import { css, LitElement } from 'lit-element';
 import { GvIcons } from '../icons/gv-icons';
+import { until } from 'lit-html/directives/until';
+import { html } from 'lit-html';
 
 /**
  * An icon
- *
- * ## Details
- *
- * *  You can import all shapes or only shapes by category
- *
- * @example
- * import './shapes/all-shapes'
- * import './shapes/shopping-shapes'
  *
  * @attr {String} shape - name of shape
  * @attr {Number} size - size in pixel use for width and height
@@ -60,7 +54,7 @@ export class GvIcon extends LitElement {
   }
 
   render () {
-    return GvIcons.getIcon(this.shape, this.size, this);
+    return html`${until(GvIcons.getIcon(this.shape, this.size, this), '')}`;
   }
 
 }

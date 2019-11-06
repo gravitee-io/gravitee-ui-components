@@ -17,6 +17,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles';
 import { GvIcons } from '../icons/gv-icons';
+import { until } from 'lit-html/directives/until';
 
 /**
  * A Tag
@@ -117,7 +118,7 @@ export class GvTag extends LitElement {
 
     return html`
       <div class=${classMap(modes)}>
-         ${this.icon ? GvIcons.getIcon(this.icon, 18, this) : ''}
+         ${this.icon ? until(GvIcons.getIcon(this.icon, 18, this)) : ''}
         <slot></slot>
       </div>
     `;

@@ -1,1 +1,1 @@
-import "../src/atoms/gv-nav-link";
+import '../src/atoms/gv-nav-link';

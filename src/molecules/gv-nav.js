@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 import { LitElement, html } from 'lit-element';
-import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-nav-link';
 
 /**
  * A main nav
  *
- * @fires gv-nav_change - Custom event when nav link change
+ * @fires gv-nav-link_click - Custom event from child components
  *
- * @attr {Array} routes - definition of routes [{path: String, selected: Boolean, title: String}]
+ * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>}]
  *
  */
 export class GvNav extends LitElement {
@@ -34,29 +33,30 @@ export class GvNav extends LitElement {
     };
   }
 
-  _onClick ({ detail: { title } }) {
-    this.routes = this.routes.map((route) => {
-      return Promise.resolve(route).then((_route) => {
-        if (_route.title === title) {
-          _route.isActive = true;
-          dispatchCustomEvent(this, 'change', _route);
-        }
-        else {
-          delete _route.isActive;
-        }
-        return _route;
-      });
-    });
+  async _onClick ({ detail: { title } }) {
+    this.routes = await Promise.all(this.routes.map(async (route) => {
+      route.title = await route.title;
+      if (route.title === title) {
+        route.active = true;
+      }
+      else {
+        delete route.active;
+      }
+      return route;
+    }));
+
   }
 
   render () {
-
     return html`
         <nav>
-          ${repeat(this.routes, (route) => route, (route) => html`
+          ${repeat(this.routes, (route) => route, (route, index) => html`
             <gv-nav-link 
-            @gv-nav-link_click=${this._onClick} 
-            .route="${route}"></gv-nav-link>
+            @gv-nav-link:click=${this._onClick} 
+            .active="${route.active}"
+            .icon="${route.icon}"
+            .path="${route.path}"
+            .title="${route.title}"></gv-nav-link>
       `)}
         </nav>`;
   }

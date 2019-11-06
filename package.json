@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@storybook/addon-a11y": "^5.2.5",
     "@storybook/addon-actions": "^5.2.5",
     "@storybook/addon-info": "^5.2.5",

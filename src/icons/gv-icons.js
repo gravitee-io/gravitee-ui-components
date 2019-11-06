@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import './shapes/general-shapes';
 import { getCssVar } from '../lib/style';
 import { TemplateResult } from 'lit-html';
 
 export class GvIcons {
 
-  static _getIcon (name) {
+  static async _getIcon (name) {
     const [shape, icon] = name.split(':');
-    if (window.GvIcons[shape]) {
-      if (window.GvIcons[shape][icon]) {
-        return window.GvIcons[shape][icon];
-      }
-      console.error(`Cannot find icon "${icon}" in shape "${shape}". Show Gravitee.io Components documentation.`);
+    if (window.GvIcons == null) {
+      window.GvIcons = {};
+    }
+    if (shape && window.GvIcons[shape] == null) {
+      await import(`./shapes/${shape}.js`);
+    }
+    if (shape && window.GvIcons[shape]) {
+      return window.GvIcons[shape][icon];
     }
     else {
       console.error(`Cannot find shape "${shape}". Show Gravitee.io Components documentation.`);
@@ -33,8 +35,8 @@ export class GvIcons {
     return '?';
   }
 
-  static getIcon (name, size, element) {
-    let icon = this._getIcon(name);
+  static async getIcon (name, size, element) {
+    let icon = await this._getIcon(name);
     if (element) {
       const color = getCssVar(element, 'gv-icon--c');
       if (color) {

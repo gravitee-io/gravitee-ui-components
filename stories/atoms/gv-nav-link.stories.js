@@ -18,27 +18,32 @@ import notes from '../../.docs/gv-nav-link.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 
-const withActions = withCustomEventActions('gv-nav-link_click');
+const withActions = withCustomEventActions('gv-nav-link:click');
 
 storiesOf('Components.Atoms', module)
   .addParameters({ notes })
   .add('<gv-nav-link>', withActions(() => {
 
     const container = document.createElement('div');
+    container.style = '--gv-nav-link-active--bdb: 8px solid #CCCCCC;'
+      + '--gv-nav-link-active--c: #F4F4F4;'
+      + '--gv-nav-link-active--bgc: #137752;'
+      + '--gv-nav-link--c: #137752;';
+
     container.innerHTML = `
       <div class="title">Nav link</div>
+      <gv-nav-link id="bread" title="Bread" icon="food:french-bread"></gv-nav-link>
+      <gv-nav-link id="cheese" icon="food:cheese"></gv-nav-link>
+      <gv-nav-link id="wine" icon="food:wine" active></gv-nav-link>
       <gv-nav-link id="empty"></gv-nav-link>
-      <gv-nav-link id="dashboard"></gv-nav-link>
-      <gv-nav-link id="catalog"></gv-nav-link>
-      <gv-nav-link id="apps"></gv-nav-link>
       <gv-nav-link id="error"></gv-nav-link>
     `;
-    container.querySelector('#empty').route = Promise.resolve(null);
-    container.querySelector('#dashboard').route = { title: 'Dashboard', path: '#' };
-    container.querySelector('#catalog').route = Promise.resolve({ title: 'Catalog', path: '#', isActive: true });
-    container.querySelector('#catalog').style = '--gv-nav-link-active--bgc:#357edd;';
-    container.querySelector('#apps').route = Promise.resolve({ title: 'Apps', path: '#', isActive: false });
-    container.querySelector('#error').route = Promise.reject(new Error('True story.'));
+
+    container.querySelector('#bread').title = Promise.resolve('Bread');
+    container.querySelector('#wine').title = Promise.resolve('Wine')
+      .then((value) => new Promise((resolve) => setTimeout(() => {
+        resolve(value);
+      }, 1000)));
     return container;
 
   }));

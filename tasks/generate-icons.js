@@ -39,9 +39,7 @@ async function run () {
   }
   await del('src/icons/shapes');
   await fs.mkdir('src/icons/shapes', { recursive: true });
-  await fs.writeFile('src/icons/shapes/all-shapes.js', '');
-  await fs.writeFile('stories/others/icons.generated-stories.js', `import '../../src/icons/shapes/all-shapes';
-import '../../src/atoms/gv-icon.js';
+  await fs.writeFile('stories/others/icons.generated-stories.js', `import '../../src/atoms/gv-icon.js';
 import {storiesOf} from '@storybook/html';
 
 storiesOf('Collection', module)
@@ -50,12 +48,11 @@ storiesOf('Collection', module)
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
     const shapeName = pascalCase(`${shapeId}Shapes`);
     console.log(`Generate ${shapeName}`);
-    await fs.writeFile(`src/icons/shapes/${shapeId}-shapes.js`,
+    await fs.writeFile(`src/icons/shapes/${shapeId}.js`,
       `export const ${shapeName} = ${JSON.stringify(icons)};
 window.GvIcons = window.GvIcons || {};
 window.GvIcons['${shapeId}'] = ${shapeName};
 `);
-    await fs.appendFile('src/icons/shapes/all-shapes.js', `import './${shapeId}-shapes.js'\n`);
 
     // Generate tmp file for stories
     await fs.appendFile('stories/others/icons.generated-stories.js', `<div class="title">${shapeId}</div>\n<div class="collection">`);

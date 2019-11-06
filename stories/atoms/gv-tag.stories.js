@@ -15,7 +15,6 @@
  */
 import '../../src/atoms/gv-tag.js';
 import notes from '../../.docs/gv-tag.md';
-import '../../src/icons/shapes/all-shapes';
 import { storiesOf } from '@storybook/html';
 import { text } from '@storybook/addon-knobs';
 import { withActions } from '@storybook/addon-actions';
