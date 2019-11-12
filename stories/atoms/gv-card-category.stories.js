@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-card-category.js';
-import notes from '../../.docs/gv-card.md';
+import notes from '../../.docs/gv-card-category.md';
 import { storiesOf } from '@storybook/html';
 import { number } from '@storybook/addon-knobs';
 
