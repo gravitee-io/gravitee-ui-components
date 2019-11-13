@@ -16,7 +16,7 @@
 :root {
   font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  color: #262626;
+  color: var(--gv-theme-font-color);
 
   background-color: #EFEFEF;
   /** Variables */
@@ -31,6 +31,7 @@
   --gv-theme-color: #009B5B;
   --gv-theme-color-light: #D5FDCB;
   --gv-theme-color-lighter: #FAFAFA;
+  --gv-theme-font-color: #262626;
   --gv-theme-logo: url('../images/gravitee-logo-darker.png');
   --gv-theme-logo-blue: #32ABDF;
   --gv-theme-logo-grey: #2B2E31;
@@ -46,13 +47,22 @@
   --gv-button-primary--bgc: var(--gv-theme-color);
 
   /**  gv-button */
-  --gv-icon--c: #262626;
+  --gv-icon--c: var(--gv-theme-font-color);
 
   /** gv-nav-link */
   --gv-nav-link--bgc: transparent;
-  --gv-nav-link--c: #262626;
+  --gv-nav-link--c: var(--gv-theme-font-color);
   --gv-nav-link-active--bgc: var(--gv-theme-color-dark);
   --gv-nav-link-active--c: var(--gv-theme-color-lighter);
+
+  /** gv-user-menu */
+  --gv-user-menu--bdl: 1px solid lightgrey;
+  --gv-user-menu--bgc:#FFFFFF;
+  --gv-user-menu--c:var(--gv-theme-font-color);
+  --gv-user-menu-hover--bgc: var(--gv-theme-color-light);
+  --gv-user-menu-hover--c: var(--gv-theme-color-dark);
+  --gv-user-menu-logout-hover--bgc: var(--gv-theme-color);
+  --gv-user-menu-logout-hover--c: var(--gv-theme-color-lighter);
 }
 
 gv-button.github_outlined {

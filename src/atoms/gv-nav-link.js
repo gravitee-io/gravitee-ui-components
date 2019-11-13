@@ -31,9 +31,11 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} path - link title
  * @attr {Promise<String>} title - link title
  *
+ * @cssprop {String} --gv-nav-link-a--ph - set the horizontal padding for the inner <a> tag. (Default: 2rem)
  * @cssprop {String} --gv-nav-link([-active]?)--c - set the color of link.
  * @cssprop {String} --gv-nav-link([-active]?)--bgc - set the background color of link.
  * @cssprop {String} --gv-nav-link-active--bdb - set the border bottom of active link. (Default: none)
+ * @cssprop {String} --gv-nav-link--ta - set the text align (Default: center)
  */
 export class GvNavLink extends LitElement {
 
@@ -53,7 +55,7 @@ export class GvNavLink extends LitElement {
       css`
           :host {
               box-sizing: border-box;
-              display: inline-block;
+              display: inline-flex;
               margin: 0.2rem;
               vertical-align: middle;
               --gv-icon--h: 24px;
@@ -62,11 +64,18 @@ export class GvNavLink extends LitElement {
 
           a {
               opacity: 1;
-              padding: 1rem 2rem;
+              padding: 1rem var(--gv-nav-link-a--ph, 1rem);
               color: var(--gv-nav-link--c, #333);
-              display: inline-block;
               background-color: var(--gv-nav-link--bgc, transparent);
-              text-align: center;
+              width: 100%;
+              display: inline-flex;
+              align-content: center;
+              text-align: var(--gv-nav-link--ta, center);
+          }
+          
+          a > * {
+              flex: 1;
+              align-self: center;
           }
 
           .active {
@@ -75,9 +84,15 @@ export class GvNavLink extends LitElement {
               border-bottom: var(--gv-nav-link-active--bdb, none);
           }
 
-          a span, a svg {
+          a div, a svg {
               display: inline;
-              vertical-align: middle;
+              align-self: center;
+          }
+
+          a div {
+              flex: 1;
+              align-self: center;
+              white-space: nowrap;
           }
       `,
     ];
@@ -85,7 +100,12 @@ export class GvNavLink extends LitElement {
 
   async _onClick (e) {
     e.preventDefault();
-    dispatchCustomEvent(this, 'click', { active: this.active, icon: this.icon, path: this.path, title: await Promise.resolve(this.title) });
+    dispatchCustomEvent(this, 'click', {
+      active: this.active,
+      icon: this.icon,
+      path: this.path,
+      title: await Promise.resolve(this.title),
+    });
   }
 
   render () {
@@ -99,7 +119,7 @@ export class GvNavLink extends LitElement {
       ?href="${this.path}" 
       ?title="${until(this.title, '')}">
         ${this.icon ? html`<gv-icon shape=${this.icon} style=${styleMap(iconStyle)}></gv-icon>` : ''}
-        <span>${until(this.title, '')}</span>
+        <div>${until(this.title, '')}</div>
       </a>
     `;
   }

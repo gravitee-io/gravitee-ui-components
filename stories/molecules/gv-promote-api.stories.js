@@ -66,7 +66,7 @@ storiesOf('2. Molecules|<gv-promote-api>', module)
     `;
     const delayElement = container.querySelector('#delay');
     delayElement.title = Promise.resolve(title).then(delay(1000));
-    delayElement.description = Promise.resolve(title).then(delay(2000));
+    delayElement.description = Promise.resolve(description).then(delay(2000));
 
     return container;
   }));
