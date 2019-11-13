@@ -20,9 +20,9 @@ import { withCustomEventActions } from '../lib/event-action.js';
 
 const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input');
 
-storiesOf('Components.Organisms', module)
+storiesOf('3. Organisms|<gv-menu>', module)
   .addParameters({ notes })
-  .add('<gv-menu>', withActions(() => {
+  .add('Basics', withActions(() => {
 
     const menu = document.createElement('gv-menu');
     menu.routes = [

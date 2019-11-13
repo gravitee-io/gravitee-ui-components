@@ -20,7 +20,7 @@ import '../atoms/gv-nav-link';
 /**
  * A main nav
  *
- * @fires gv-nav-link_click - Custom event from child components
+ * @fires gv-nav-link:click - Custom event from child components
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>}]
  *

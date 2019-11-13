@@ -20,9 +20,9 @@ import { withCustomEventActions } from '../lib/event-action.js';
 
 const withActions = withCustomEventActions('gv-nav-link:click');
 
-storiesOf('Components.Atoms', module)
+storiesOf('1. Atoms | <gv-nav-link>', module)
   .addParameters({ notes })
-  .add('<gv-nav-link>', withActions(() => {
+  .add('Basics', withActions(() => {
 
     const container = document.createElement('div');
     container.style = '--gv-nav-link-active--bdb: 8px solid #CCCCCC;'

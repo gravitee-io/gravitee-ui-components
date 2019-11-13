@@ -56,7 +56,7 @@
             <exclude>storybook-static/**</exclude>
             <exclude>wc/**</exclude>
             <exclude>src/icons/shapes/**</exclude>
-            <exclude>stories/others/icons.generated-stories.js</exclude>
+            <exclude>stories/lib/icons.generated.js</exclude>
           </excludes>
         </configuration>
       </plugin>

@@ -22,9 +22,10 @@ import { html } from 'lit-html';
  * An icon
  *
  * @attr {String} shape - name of shape
- * @attr {Number} size - size in pixel use for width and height
  *
  * @cssprop {String} --gv-icon--c - set the color of icon
+ * @cssprop {String} --gv-icon--h - set the height of icon (crushes size property)
+ * @cssprop {String} --gv-icon--W - set the width of icon (crushes size property)
  */
 
 export class GvIcon extends LitElement {
@@ -32,7 +33,6 @@ export class GvIcon extends LitElement {
   static get properties () {
     return {
       shape: { type: String },
-      size: { type: Number },
     };
   }
 
@@ -54,7 +54,7 @@ export class GvIcon extends LitElement {
   }
 
   render () {
-    return html`${until(GvIcons.getIcon(this.shape, this.size, this), '')}`;
+    return html`${until(GvIcons.getIcon(this.shape, this), '')}`;
   }
 
 }

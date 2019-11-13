@@ -13,36 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css } from 'lit-element';
-
-// language=CSS
-export const skeleton = css`
-  @keyframes skeleton-pulse {
-    from {
-      opacity: 0.85;
-    }
-    to {
-      opacity: 0.45;
-    }
-  }
-  .skeleton {
-    animation-direction: alternate;
-    animation-duration: 500ms;
-    animation-iteration-count: infinite;
-    animation-name: skeleton-pulse;
-    color: transparent;
-    cursor: progress;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  .skeleton svg {
-      opacity: 0;
-  }
-
-  .skeleton gv-image {
-      opacity: 0;
-  }
-`;
+export function delay (time) {
+  return (result) => new Promise((resolve) => setTimeout(() => resolve(result), time));
+}

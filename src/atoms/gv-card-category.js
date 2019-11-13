@@ -17,7 +17,7 @@ import { LitElement, html, css } from 'lit-element';
 
 /**
  * A card used to display a category
- * 
+ *
  * @attr {String} src - src of the image.
  * @attr {String} title - title of the card.
  * @attr {String} description - description of the card.

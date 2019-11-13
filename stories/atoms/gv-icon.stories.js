@@ -16,33 +16,44 @@
 import '../../src/atoms/gv-icon.js';
 import notes from '../../.docs/gv-icon.md';
 import { storiesOf } from '@storybook/html';
+import { generateIcons } from '../lib/icons.generated';
 
-storiesOf('Components.Atoms', module)
+import { select, text, color } from '@storybook/addon-knobs';
+
+storiesOf('1. Atoms|<gv-icon>', module)
   .addParameters({ notes })
-  .add('<gv-icon>', () => {
-    return `
-<div class="title">Size 24px (default)</div>
-<gv-icon shape="wheather:thunder-night"></gv-icon>
-<gv-icon shape="wheather:thunder" style="--gv-icon:#ff725c;"></gv-icon>
-<gv-icon shape="wheather:umbrella" style="--gv-icon:#ffb700;"></gv-icon>
-<gv-icon shape="wheather:windy" style="--gv-icon:#357edd;"></gv-icon>
+  .add('Basics', () => {
 
-<div class="title">Size: 36px</div>
-<gv-icon shape="wheather:thunder-night" size="36"  style="--gv-icon:#ff725c;"></gv-icon>
-<gv-icon shape="wheather:thunder" size="36" style="--gv-icon:#357edd;"></gv-icon>
-<gv-icon shape="wheather:umbrella" size="36"></gv-icon>
-<gv-icon shape="wheather:windy" size="36" style="--gv-icon:#ffb700;"></gv-icon>
+    const container = document.createElement('div');
+    container.innerHTML = generateIcons();
+    const categories = ['All'];
+    container.querySelectorAll('.title').forEach((title) => categories.push(title.innerText));
 
-<div class="title">Size: 48px</div>
-<gv-icon shape="wheather:thunder-night" size="48"></gv-icon>
-<gv-icon shape="wheather:thunder" size="48" style="--gv-icon:#ffb700;"></gv-icon>
-<gv-icon shape="wheather:umbrella" size="48" style="--gv-icon:#357edd;"></gv-icon>
-<gv-icon shape="wheather:windy" size="48"></gv-icon>
+    const category = select('Category', categories, categories[0]);
+    const icon = text('Icon', '');
 
-<div class="title">Size: 96px</div>
-<gv-icon shape="wheather:thunder-night" size="96" style="--gv-icon:#ffb700;"></gv-icon>
-<gv-icon shape="wheather:thunder" size="96" style="--gv-icon:#ff725c;"></gv-icon>
-<gv-icon shape="wheather:umbrella" size="96"></gv-icon>
-<gv-icon shape="wheather:windy" size="96" style="--gv-icon:#357edd;"></gv-icon>
-`;
+    if (category || icon) {
+      container.querySelectorAll('[data-shape]').forEach((e) => {
+        const { dataset: { shape } } = e;
+        const hasCategory = (category !== categories[0] && !shape.startsWith(category));
+        const hasIcon = icon && !shape.includes(icon);
+        if (hasCategory || hasIcon) {
+          e.classList.add('hide');
+        }
+      });
+    }
+    const iconColor = color('--gv--icon-c', '');
+    const height = text('--gv-icon--h', '32px');
+    const width = text('--gv-icon--w', '32px');
+
+    container.style = [
+      { value: iconColor, prop: '--gv-icon--c' },
+      { value: height, prop: '--gv-icon--h' },
+      { value: width, prop: '--gv-icon--w' },
+    ]
+      .filter(({ value }) => value)
+      .map(({ value, prop }) => `${prop}:${value}`)
+      .join(';');
+
+    return container;
   });

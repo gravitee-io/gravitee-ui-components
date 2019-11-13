@@ -59,6 +59,8 @@ export class GvTag extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
+              --gv-icon--h: 18px;
+              --gv-icon--w: 18px;
           }
 
           div.default {
@@ -118,7 +120,7 @@ export class GvTag extends LitElement {
 
     return html`
       <div class=${classMap(modes)}>
-         ${this.icon ? until(GvIcons.getIcon(this.icon, 18, this)) : ''}
+         ${this.icon ? until(GvIcons.getIcon(this.icon, this)) : ''}
         <slot></slot>
       </div>
     `;

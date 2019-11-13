@@ -51,6 +51,15 @@ export class GvNavLink extends LitElement {
       link,
       // language=css
       css`
+          :host {
+              box-sizing: border-box;
+              display: inline-block;
+              margin: 0.2rem;
+              vertical-align: middle;
+              --gv-icon--h: 24px;
+              --gv-icon--w: 24px;
+          }
+
           a {
               opacity: 1;
               padding: 1rem 2rem;
@@ -89,7 +98,7 @@ export class GvNavLink extends LitElement {
       class="${classMap(classes)}" 
       ?href="${this.path}" 
       ?title="${until(this.title, '')}">
-        ${this.icon ? html`<gv-icon shape=${this.icon} size=24 style=${styleMap(iconStyle)}></gv-icon>` : ''}
+        ${this.icon ? html`<gv-icon shape=${this.icon} style=${styleMap(iconStyle)}></gv-icon>` : ''}
         <span>${until(this.title, '')}</span>
       </a>
     `;

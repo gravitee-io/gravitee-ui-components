@@ -22,9 +22,9 @@ import { withCustomEventActions } from '../lib/event-action';
 
 const withActions = withCustomEventActions('gv-input:input');
 
-storiesOf('Components.Atoms', module)
+storiesOf('1. Atoms|<gv-input>', module)
   .addParameters({ notes })
-  .add('<gv-input>', withActions(() => {
+  .add('Basics', withActions(() => {
 
     const label = text('Label', '');
 
@@ -37,7 +37,6 @@ storiesOf('Components.Atoms', module)
       <gv-input placeholder="Password icon" icon="general:shield-protected"></gv-input>
       <gv-input type="email" placeholder="Email"></gv-input>
       <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
-      
       
       <div class="title">Size</div>
       <gv-input placeholder="Medium (default)"></gv-input>

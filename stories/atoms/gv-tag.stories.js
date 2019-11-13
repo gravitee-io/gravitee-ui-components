@@ -21,9 +21,9 @@ import { withActions } from '@storybook/addon-actions';
 
 const eventNames = ['click gv-tag'];
 
-storiesOf('Components.Atoms', module)
+storiesOf('1. Atoms |<gv-tag>', module)
   .addParameters({ notes })
-  .add('<gv-tag>', () => withActions(...eventNames)(() => {
+  .add('Basics', () => withActions(...eventNames)(() => {
 
     const label = text('Tag label', '');
 

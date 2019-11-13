@@ -38,6 +38,8 @@ import { until } from 'lit-html/directives/until';
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
  * @cssprop {String} --gv-button([-primary])--bgc - set the background color of button.
+ * @cssprop {String} --gv-button--p - set the padding.
+ * @cssprop {String} --gv-button--fz - set the font-size
  * @cssprop {String} --gv-icon--c - set the color of icon
  */
 export class GvButton extends LitElement {
@@ -62,6 +64,8 @@ export class GvButton extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
+              --gv-icon--h: 24px;
+              --gv-icon--w: 24px;
           }
 
           /* RESET */
@@ -69,7 +73,7 @@ export class GvButton extends LitElement {
               background: #fff;
               border: 1px solid #000;
               display: block;
-              font-size: 14px;
+              font-size: var(--gv-button--fz, 14px);
               font-family: inherit;
               margin: 0;
               padding: 0;
@@ -80,7 +84,7 @@ export class GvButton extends LitElement {
               border-radius: 0.15rem;
               cursor: pointer;
               min-height: 2rem;
-              padding: 0 0.5rem;
+              padding: var(--gv-button--p, 0rem 0.5rem);
               text-transform: uppercase;
               -moz-user-select: none;
               -webkit-user-select: none;
@@ -182,7 +186,7 @@ export class GvButton extends LitElement {
       class=${classMap(modes)}
       .disabled=${this.disabled || this.skeleton}
       @click="${this._onClick}">
-     ${this.icon ? until(GvIcons.getIcon(this.icon, 24, this), '') : ''}
+     ${this.icon ? until(GvIcons.getIcon(this.icon, this), '') : ''}
     <slot></slot></button>`;
   }
 
