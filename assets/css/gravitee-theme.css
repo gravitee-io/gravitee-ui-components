@@ -20,12 +20,19 @@
 
     background-color: #EFEFEF;
     /** Variables */
+    --gv-theme-color-category-1: #CCE6EB;
+    --gv-theme-color-category-2: #FCF1A8;
+    --gv-theme-color-category-3: #D9D4F1;
+    --gv-theme-color-category-4: #F9C15E;
+    --gv-theme-color-category-5: #D4FCCD;
+    --gv-theme-color-category-6: #E0C8B2;
     --gv-theme-color-darker: #1D3730;
     --gv-theme-color-dark: #193E34;
     --gv-theme-color: #009B5B;
     --gv-theme-color-light: #D5FDCB;
     --gv-theme-color-lighter: #FAFAFA;
     --gv-theme-logo: url('../icons/gravitee/graviteeio.svg');
+    
 
     --github-color: #444;
     --google-color: #4285F4;

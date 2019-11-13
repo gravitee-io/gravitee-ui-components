@@ -16,51 +16,51 @@
 import '../../src/atoms/gv-card-category.js';
 import notes from '../../.docs/gv-card-category.md';
 import { storiesOf } from '@storybook/html';
-import { number } from '@storybook/addon-knobs';
+import { color, number } from '@storybook/addon-knobs';
 
 storiesOf('1. Atoms|<gv-card-category>', module)
   .add('Basics', () => {
     const limit = number('Limit size for description', '');
 
-    return `
+    const cards = [
+      {
+        title: 'Title',
+      },
+      {
+        title: 'Truncated description if > 4 lines (Default)',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      },
+      {
+        title: 'Title + description + description limit',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        limit: limit || 50,
+      },
+    ];
+
+    const container = document.createElement('div');
+    container.innerHTML = `
       <div class="title">Cards</div>
-      <gv-card-category 
-        title="Title"
-      >
-      </gv-card-category>
-      <gv-card-category
-        title="Title + image"
-        src="http://picsum.photos/200"
-      >
-      </gv-card-category>
-      <gv-card-category
-        title="Title + description" 
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-      >
-      </gv-card-category>
-      <gv-card-category
-        title="Title + image + description" 
-        src="http://picsum.photos/200"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-      >
-      </gv-card-category>
-      <gv-card-category
-        title="Title + image + description + description limit" 
-        src="http://picsum.photos/200"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-        limit="${limit || 50}";
-      >
-      </gv-card-category>
-      <gv-card-category
-      title="Category card" 
-      src="http://picsum.photos/200"
-      description="An example of what could be done with some styling"
-      limit="50"
-      style="--gv-card-category--bgc: #D9D4F1; --gv-card-category--c: var(--gv-theme-color-dark);width: 440px; height: 228px";
-      >
-      </gv-card-category>
-    `;
+      `;
+
+    cards.forEach((card) => {
+      const gvCardCategory = document.createElement('gv-card-category');
+      gvCardCategory.title = card.title;
+      gvCardCategory.description = card.description;
+      gvCardCategory.limit = card.limit;
+      container.appendChild(gvCardCategory);
+    });
+
+    const cardCategoryBackgroundColor = color('--gv-card-category--bgc', '');
+    const cardCategoryFontColor = color('--gv-card-category--c', '');
+
+    container.style = [
+      { value: cardCategoryBackgroundColor, prop: '--gv-card-category--bgc' },
+      { value: cardCategoryFontColor, prop: '--gv-card-category--c' },
+    ]
+      .filter(({ value }) => value)
+      .map(({ value, prop }) => `${prop}:${value}`)
+      .join(';');
+
+    return container;
+
   }, { notes });

@@ -46,75 +46,53 @@ export class GvCardCategory extends LitElement {
       :host {
         box-sizing: border-box;
         display: inline-block;
-        margin: 0.2rem;
+        margin: 0 24px 24px 0;
         vertical-align: middle;
       }
 
       .card {
         background-color: var(--gv-card-category--bgc, white);
         border-radius: 4px;
-        box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
         display: flex;
         flex-direction: column;
-        align-content: flex-end;
-        overflow: hidden;
-        height: 100%;
-        padding-top: 5px;
-      }
-
-      .card__description {
-        margin: 0 0 27px 40px;
-        color: var(--gv-card-category--c, black);
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 24px;
-        opacity: 0.5;
-      }
-
-      .card__header {
-        display: flex;
-        flex: 1 1 auto;
-        flex-direction: row;
-        margin: 1rem 1rem 0 0;
+        height: 228px;
+        justify-content: flex-end;
+        width: 364px;
+        padding: 0 40px;
       }
 
       .card__title {
-        color: var(--gv-card--c, black);
+        color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
+        font-size: 30px;
         font-style: normal;
         font-weight: 600;
-        font-size: 30px;
         line-height: 38px;
-        margin: 0 40px;
       }
 
-      .card__container__image {
-        padding-bottom: 5px;
-        margin: auto;
+      .card__description {
+        color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
+        font-size: 16px;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 24px;
+        margin-bottom: 32px;
+        opacity: 0.5;
+        
+        /** text-overflow **/
+        max-height: 150px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
-      .card__image {
-        background-color: white;
-        background-repeat: no-repeat;
-        background-size: 96px;
-        border-radius: 4px;
-        background-position: center center;
-        height: 96px;
-        width: 96px;
-        filter: contrast(50%);
-        transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
-      }
-
-      .card:hover .card__image {
-        filter: contrast(100%);
+      .card:hover {
+        box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+        cursor: pointer;
       }
 
       `,
     ];
-  }
-
-  _renderPhoto () {
-    return this.src ? html`<div class="card__container__image"><div class="card__image" style="background-image: url('${this.src}');"></div></div>` : '';
   }
 
   _renderDescription () {
@@ -128,11 +106,8 @@ export class GvCardCategory extends LitElement {
   render () {
     return html`
       <div class="card">
-
-        ${this._renderPhoto()}
         <div class="card__title">${this.title}</div>
         ${this._renderDescription()}
-        
       </div>
     `;
   }
