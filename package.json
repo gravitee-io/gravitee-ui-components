@@ -17,7 +17,7 @@
     "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
     "lint": "eslint src stories tasks",
     "lint:fix": "eslint --fix src stories tasks",
-    "start": "npm run docs && start-storybook -p 6006 --ci",
+    "start": "npm run docs && start-storybook -p 6006 --ci -s assets/images",
     "start:prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static"
   },
   "keywords": [],
