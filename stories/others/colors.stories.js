@@ -16,7 +16,7 @@
 import '../../src/atoms/gv-icon.js';
 import { storiesOf } from '@storybook/html';
 
-storiesOf('Collection', module)
+storiesOf('4. Theme|CSS variables', module)
   .add('Colors', () => {
     return `<div class="title">Colors</div>
 

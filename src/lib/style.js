@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function getPropertyValue (element, propertyName) {
+function getPropertyValue (element, propertyName, defaultValue) {
   /* global getComputedStyle */
-  return getComputedStyle(element).getPropertyValue(propertyName);
+  const value = getComputedStyle(element).getPropertyValue(propertyName);
+  return value || defaultValue;
 }
 
-export function getCssVar (element, variableName) {
+export function getCssVar (element, variableName, defaultValue) {
   if (element) {
     if (variableName.startsWith('--')) {
-      return getPropertyValue(element, variableName);
+      return getPropertyValue(element, variableName, defaultValue);
     }
-    return getPropertyValue(element, `--${variableName}`);
+    return getPropertyValue(element, `--${variableName}`, defaultValue);
   }
-  return '';
+  return defaultValue;
 }

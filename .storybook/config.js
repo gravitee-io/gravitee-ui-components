@@ -3,7 +3,7 @@ import { create } from '@storybook/theming';
 import { withA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.css';
-import brandImage from  '../assets/icons/gravitee/graviteeio.svg';
+import brandImage from '../assets/images/gravitee-logo-inline.png';
 
 const req = require.context('../stories', true, /.stories.js$/);
 

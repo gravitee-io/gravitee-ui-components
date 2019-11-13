@@ -112,6 +112,11 @@ export class GvInput extends LitElement {
               padding-right: 49px;
           }
 
+          gv-icon.medium {
+              --gv-icon--h: 25px;
+              --gv-icon--w: 25px;
+          }
+
           input.small {
               width: 100%;
               height: 100%;
@@ -122,6 +127,11 @@ export class GvInput extends LitElement {
 
           input.small.icon {
               padding-right: 30px;
+          }
+          
+          gv-icon.small {
+              --gv-icon--h: 13px;
+              --gv-icon--w: 13px;
           }
 
           /* STATES */
@@ -223,8 +233,12 @@ ${this._renderRequired()}${this.label}
         backgroundColor: 'rgba(25, 62, 52, 0.1)',
       };
 
-      const iconSize = this.large ? '32' : (this.small ? '13' : '25');
-      return html`<gv-icon style="${styleMap(iconStyle)}" shape="${this.icon}" size="${iconSize}"></gv-icon>`;
+      const classes = {
+        small: this.small,
+        medium: (this.medium || (!this.large && !this.small)),
+      };
+
+      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon}"></gv-icon>`;
     }
     return '';
   }
@@ -254,7 +268,7 @@ ${this._renderRequired()}${this.label}
             .value=${ifDefined(this.value)}
             class=${classMap(classes)}
             @input=${this._onInput}
-            @keyup="${this._onKeyUp}" {>
+            @keyup="${this._onKeyUp}">
             ${this._renderIcon()}
         </div>
     `;

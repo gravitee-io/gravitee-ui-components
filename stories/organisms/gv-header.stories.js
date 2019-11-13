@@ -20,8 +20,8 @@ import { withCustomEventActions } from '../lib/event-action.js';
 
 const withActions = withCustomEventActions('gv-nav-link:click');
 
-storiesOf('Components.Organisms', module)
-  .add('<gv-header>', withActions(() => {
+storiesOf('3. Organisms|<gv-header>', module)
+  .add('Basics', withActions(() => {
 
     const header = document.createElement('gv-header');
     header.routes = [

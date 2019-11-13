@@ -21,9 +21,9 @@ import { withActions } from '@storybook/addon-actions';
 
 const eventNames = ['click gv-state'];
 
-storiesOf('Components.Atoms', module)
+storiesOf('1. Atoms|<gv-state>', module)
   .addParameters({ notes })
-  .add('<gv-state>', () => withActions(...eventNames)(() => {
+  .add('Basics', () => withActions(...eventNames)(() => {
 
     const label = text('State label', '');
 

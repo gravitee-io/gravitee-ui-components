@@ -17,16 +17,16 @@ import '../../src/atoms/gv-message.js';
 import notes from '../../.docs/gv-message.md';
 import { storiesOf } from '@storybook/html';
 
-storiesOf('Components.Atoms', module)
-  .add('<gv-message>', () => {
+storiesOf('1. Atoms|<gv-message>', module)
+  .add('Basics', () => {
     return `
-      <div class="title">Info message</div>
+      <div class="title">Info</div>
       <gv-message type="info">The cake is a lie</gv-message>
       
-      <div class="title">Success message</div>
+      <div class="title">Success</div>
       <gv-message type="success">Yeah, piece of cake !</gv-message>
       
-      <div class="title">Error message</div>
+      <div class="title">Error</div>
       <gv-message type="error">Never gonna give you up</gv-message>
     `;
   }, { notes });

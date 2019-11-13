@@ -20,8 +20,8 @@ import { withCustomEventActions } from '../lib/event-action.js';
 
 const withActions = withCustomEventActions('gv-nav-link:click');
 
-storiesOf('Components.Molecules', module)
-  .add('<gv-nav>', withActions(() => {
+storiesOf('2. Molecules|<gv-nav>', module)
+  .add('Basics', withActions(() => {
 
     const nav = document.createElement('gv-nav');
     nav.routes = [

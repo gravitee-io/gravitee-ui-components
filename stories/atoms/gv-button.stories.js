@@ -16,15 +16,15 @@
 import '../../src/atoms/gv-button.js';
 import notes from '../../.docs/gv-button.md';
 import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
+import { color, text } from '@storybook/addon-knobs';
 import { withActions } from '@storybook/addon-actions';
 import { updateInnerText } from '../lib/update-attributes';
 
 const eventNames = ['click gv-button'];
 
-storiesOf('Components.Atoms', module)
+storiesOf('1. Atoms|<gv-button>', module)
   .addParameters({ notes })
-  .add('<gv-button>', () => withActions(...eventNames)(() => {
+  .add('Basics', () => withActions(...eventNames)(() => {
 
     const label = text('Button label', '');
 
@@ -48,22 +48,6 @@ storiesOf('Components.Atoms', module)
       
       <div class="generated-zone">
       </div>
-       
-      <div class="title">Github</div>
-      <gv-button icon="thirdparty:github" outlined class="github_outlined">Sign in with GitHub</gv-button>
-      <gv-button icon="thirdparty:github" class="github">Sign in with GitHub</gv-button>
-
-      <div class="title">Google</div>
-      <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
-      <gv-button icon="thirdparty:google" class="google">Sign in with Google</gv-button>
-      
-      <div class="title">Oidc</div>
-      <gv-button icon="thirdparty:oidc" outlined class="oidc_outlined">Sign in with OIDC</gv-button>
-      <gv-button icon="thirdparty:oidc" class="oidc">Sign in with OIDC</gv-button>
-      
-      <div class="title">Gravitee</div>
-      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Sign in with Gravitee.io AM</gv-button>
-      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>
     `;
 
     const variants = [['skeleton'], ['primary'], ['primary', 'skeleton']];
@@ -89,5 +73,38 @@ storiesOf('Components.Atoms', module)
       updateInnerText(nodeList, label);
     }
 
+    const padding = text('--gv-button--p', '0rem 0.5rem');
+    const fz = text('--gv-button--fz', '14px');
+    const btnColor = color('--gv-button--bgc', '');
+    const btnPrimaryColor = color('--gv-button-primary--bgc', '');
+    const iconColor = color('--gv-icon--c', '');
+
+    container.style = [{ value: padding, prop: '--gv-button--p' },
+      { value: fz, prop: '--gv-button--fz' },
+      { value: btnColor, prop: '--gv-button--bgc' },
+      { value: btnPrimaryColor, prop: '--gv-button-primary--bgc' },
+      { value: iconColor, prop: '--gv-icon--c' }]
+      .filter(({ value }) => value)
+      .map(({ value, prop }) => `${prop}:${value}`)
+      .join(';');
+
     return container;
+  }))
+  .add('Customs', () => withActions(...eventNames)(() => {
+    return `
+      <div class="title">Github</div>
+      <gv-button icon="thirdparty:github" outlined class="github_outlined">Sign in with GitHub</gv-button>
+      <gv-button icon="thirdparty:github" class="github">Sign in with GitHub</gv-button>
+
+      <div class="title">Google</div>
+      <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
+      <gv-button icon="thirdparty:google" class="google">Sign in with Google</gv-button>
+      
+      <div class="title">Oidc</div>
+      <gv-button icon="thirdparty:oidc" outlined class="oidc_outlined">Sign in with OIDC</gv-button>
+      <gv-button icon="thirdparty:oidc" class="oidc">Sign in with OIDC</gv-button>
+      
+      <div class="title">Gravitee</div>
+      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Sign in with Gravitee.io AM</gv-button>
+      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>`;
   }));

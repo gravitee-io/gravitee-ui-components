@@ -18,8 +18,8 @@ import notes from '../../.docs/gv-card-category.md';
 import { storiesOf } from '@storybook/html';
 import { number } from '@storybook/addon-knobs';
 
-storiesOf('Components.Atoms', module)
-  .add('<gv-card-category>', () => {
+storiesOf('1. Atoms|<gv-card-category>', module)
+  .add('Basics', () => {
     const limit = number('Limit size for description', '');
 
     return `

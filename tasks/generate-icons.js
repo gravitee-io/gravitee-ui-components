@@ -37,13 +37,12 @@ async function run () {
     const code = await fs.readFile(src, 'utf8');
     iconsByShape[category][id] = await svgo.optimize(code).then((optimizeCode) => optimizeCode.data.replace('<svg>', '').replace('</svg>', ''));
   }
+  const filepath = 'stories/lib/icons.generated.js';
   await del('src/icons/shapes');
   await fs.mkdir('src/icons/shapes', { recursive: true });
-  await fs.writeFile('stories/others/icons.generated-stories.js', `import '../../src/atoms/gv-icon.js';
-import {storiesOf} from '@storybook/html';
+  await fs.writeFile(filepath, `import '../../src/atoms/gv-icon.js';
 
-storiesOf('Collection', module)
-  .add('Icons', ()  => {
+export function generateIcons() {  
     return \``);
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
     const shapeName = pascalCase(`${shapeId}Shapes`);
@@ -55,14 +54,14 @@ window.GvIcons['${shapeId}'] = ${shapeName};
 `);
 
     // Generate tmp file for stories
-    await fs.appendFile('stories/others/icons.generated-stories.js', `<div class="title">${shapeId}</div>\n<div class="collection">`);
+    await fs.appendFile(filepath, `<div class="title" data-shape="${shapeId}">${shapeId}</div>\n<div class="collection">`);
     for (const icon of Object.keys(icons)) {
-      await fs.appendFile('stories/others/icons.generated-stories.js',
-        `<div class="item"><gv-icon shape="${shapeId}:${icon}" size="48"></gv-icon><span>${shapeId}:${icon}</span></div>\n`);
+      await fs.appendFile(filepath,
+        `<div class="item" data-shape="${shapeId}:${icon}"><gv-icon shape="${shapeId}:${icon}" size="48"></gv-icon><span>${shapeId}:${icon}</span></div>\n`);
     }
-    await fs.appendFile('stories/others/icons.generated-stories.js', `</div>`);
+    await fs.appendFile(filepath, `</div>`);
   }
-  await fs.appendFile('stories/others/icons.generated-stories.js', `\`\n});`);
+  await fs.appendFile(filepath, `\`\n};`);
 }
 
 run()

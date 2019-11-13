@@ -35,15 +35,20 @@ export class GvIcons {
     return '?';
   }
 
-  static async getIcon (name, size, element) {
+  static async getIcon (name, element) {
     let icon = await this._getIcon(name);
     if (element) {
-      const color = getCssVar(element, 'gv-icon--c');
+      const color = getCssVar(element, 'gv-icon--c', '#000');
       if (color) {
         icon = icon.replace(/fill="#000"/g, `fill="${color}"`);
       }
+      const width = getCssVar(element, 'gv-icon--w', 32);
+      const height = getCssVar(element, 'gv-icon--h', 32);
+      if (width && height) {
+        icon = icon.replace(/<svg/, `<svg width="${width}" height="${height}"`);
+      }
     }
-    icon = icon.replace(/<svg/, `<svg width="${size}" height="${size}"`);
+
     return new TemplateResult([icon], [], 'html');
   }
 
