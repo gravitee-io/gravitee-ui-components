@@ -93,7 +93,7 @@ storiesOf('1. Atoms|<gv-button>', module)
   .add('Customs', () => withActions(...eventNames)(() => {
     return `
       <div class="title">Github</div>
-      <gv-button icon="thirdparty:github" outlined class="github_outlined">Sign in with GitHub</gv-button>
+      <gv-button icon="thirdparty:github" outlined class="github_outlined"><span>Sign in with GitHub</span></gv-button>
       <gv-button icon="thirdparty:github" class="github">Sign in with GitHub</gv-button>
 
       <div class="title">Google</div>
@@ -106,5 +106,23 @@ storiesOf('1. Atoms|<gv-button>', module)
       
       <div class="title">Gravitee</div>
       <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Sign in with Gravitee.io AM</gv-button>
-      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>`;
+      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>
+     `;
+  }))
+  .add('In column', () => withActions(...eventNames)(() => {
+    return `
+       <div class="title">Column with a fixed width </div>
+       <div style="display: flex; flex-direction: column; max-width: 30rem;">
+        <gv-button default>Simple</gv-button>
+        <gv-button icon="cooking:dish" style="--gv-icon--c:white">Simple</gv-button>
+        <gv-button disabled>Disabled</gv-button>
+        <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
+        <gv-button outlined default>Outlined</gv-button>
+        <gv-button outlined icon="cooking:dish">Outlined icon</gv-button>
+        <gv-button outlined disabled>Outlined disabled</gv-button>
+        <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
+        <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>
+        <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
+       </div>
+     `;
   }));
