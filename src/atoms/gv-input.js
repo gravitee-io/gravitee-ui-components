@@ -153,6 +153,10 @@ export class GvInput extends LitElement {
               cursor: default;
               opacity: .5;
           }
+          
+          input:required {
+              box-shadow: none;
+          }
 
           label {
               display: block;

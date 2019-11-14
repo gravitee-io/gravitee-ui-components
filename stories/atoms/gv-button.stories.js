@@ -105,8 +105,8 @@ storiesOf('1. Atoms|<gv-button>', module)
       <gv-button icon="thirdparty:oidc" class="oidc">Sign in with OIDC</gv-button>
       
       <div class="title">Gravitee</div>
-      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Sign in with Gravitee.io AM</gv-button>
-      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>
+      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined"><span>Gravitee.<bold style="color: var(--gv-theme-logo-grey)">IO</bold> AM</span></gv-button>
+      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am"><span>Gravitee.<bold style="color: var(--gv-theme-logo-grey)">IO</bold> AM</span></gv-button>
      `;
   }))
   .add('In column', () => withActions(...eventNames)(() => {
@@ -121,7 +121,7 @@ storiesOf('1. Atoms|<gv-button>', module)
         <gv-button outlined icon="cooking:dish">Outlined icon</gv-button>
         <gv-button outlined disabled>Outlined disabled</gv-button>
         <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
-        <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Sign in with Gravitee.io AM</gv-button>
+        <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am"><span>Gravitee<span>.io<span> AM</span></gv-button>
         <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
        </div>
      `;

@@ -28,6 +28,9 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @cssprop {String} --gv-menu--c - set the color.
  * @cssprop {String} --gv-menu--bgc - set the background color.
  * @cssprop {String} --gv-menu-link-active--bdb - set the border of active link.
+ * @cssprop {String} --gv-menu--pl - set the padding left
+ * @cssprop {String} --gv-menu--pr - set the padding right
+ * @cssprop {String} --gv-menu-input--w - input width
  */
 export class GvMenu extends LitElement {
 
@@ -64,12 +67,12 @@ export class GvMenu extends LitElement {
           }
 
           gv-nav {
-              padding-left: 4rem;
+              padding-left: var(--gv-menu--pl, 4rem);
           }
         
           gv-input {
-              width: 23rem;
-              padding-right: 4rem;
+              width: var(--gv-menu-input--w, 26rem);
+              padding-right: var(--gv-menu--pr, 4rem);
           }
       `,
     ];
