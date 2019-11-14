@@ -77,4 +77,16 @@ storiesOf('1. Atoms|<gv-input>', module)
     }
 
     return container;
+  }))
+  .add('In column', withActions(() => {
+    return `<div class="title">Column with a fixed width </div>
+    <div style ="display: flex; flex-direction: column; max-width: 30rem;">
+      <gv-input placeholder="Text (default)"></gv-input>
+      <gv-input placeholder="Text" icon="general:search"></gv-input>
+      <gv-input type="password" placeholder="Password"></gv-input>
+      <gv-input placeholder="Password icon" icon="general:shield-protected"></gv-input>
+      <gv-input type="email" placeholder="Email"></gv-input>
+      <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
+    </div>
+`;
   }));

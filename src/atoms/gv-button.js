@@ -16,8 +16,7 @@
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles';
-import { GvIcons } from '../icons/gv-icons';
-import { until } from 'lit-html/directives/until';
+import '../atoms/gv-icon';
 
 /**
  * A button
@@ -145,6 +144,10 @@ export class GvButton extends LitElement {
               color: transparent;
           }
 
+          button.skeleton > gv-icon {
+              opacity: 0;
+          }
+
           /* TRANSITIONS */
           button {
               box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
@@ -158,7 +161,22 @@ export class GvButton extends LitElement {
 
           button.icon > * {
               vertical-align: middle;
+          }
+
+          button.icon {
+              display: flex;
+              align-items: center;
+          }
+
+          button slot {
+              flex: 1;
+              white-space: nowrap;
               display: inline;
+          }
+
+          button.icon .fake-icon {
+              max-width: var(--gv-icon--w);
+              width: 100%;
           }
 
       `,
@@ -186,8 +204,10 @@ export class GvButton extends LitElement {
       class=${classMap(modes)}
       .disabled=${this.disabled || this.skeleton}
       @click="${this._onClick}">
-     ${this.icon ? until(GvIcons.getIcon(this.icon, this), '') : ''}
-    <slot></slot></button>`;
+      ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
+      <slot></slot>
+      ${this.icon ? html`<div class="fake-icon"></div>` : ''}
+    </button>`;
   }
 
 }
