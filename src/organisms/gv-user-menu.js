@@ -170,6 +170,10 @@ export class GvUserMenu extends LitElement {
     this._isClosed = true;
   }
 
+  _onSelect (e) {
+    this._isClosed = true;
+  }
+
   render () {
     const classes = { closed: this._isClosed };
 
@@ -189,6 +193,7 @@ export class GvUserMenu extends LitElement {
                         .icon="${route.icon}"
                         .path="${route.path}"
                         .title="${route.title}"
+                         @click=${this._onSelect}
                       ></gv-nav-link>
                     </li>
                 `)}
