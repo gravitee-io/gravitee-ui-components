@@ -63,6 +63,14 @@
   --gv-user-menu-hover--c: var(--gv-theme-color-dark);
   --gv-user-menu-logout-hover--bgc: var(--gv-theme-color);
   --gv-user-menu-logout-hover--c: var(--gv-theme-color-lighter);
+
+  /** gv-select */
+  --gv-select--bdl: 1px solid lightgrey;
+  --gv-select--bgc:#FFFFFF;
+  --gv-select--c:var(--gv-theme-font-color);
+  --gv-select-hover--bgc: var(--gv-theme-color-light);
+  --gv-select-hover--c: var(--gv-theme-color-dark);
+  --gv-select-selected--bgc: var(--gv-theme-color-lighter);
 }
 
 gv-button.github_outlined {
