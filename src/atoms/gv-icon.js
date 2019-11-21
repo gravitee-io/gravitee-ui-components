@@ -17,6 +17,7 @@ import { css, LitElement } from 'lit-element';
 import { GvIcons } from '../icons/gv-icons';
 import { until } from 'lit-html/directives/until';
 import { html } from 'lit-html';
+import { skeleton } from '../styles';
 
 /**
  * An icon
@@ -38,6 +39,7 @@ export class GvIcon extends LitElement {
 
   static get styles () {
     return [
+      skeleton,
       // language=CSS
       css`
           :host {

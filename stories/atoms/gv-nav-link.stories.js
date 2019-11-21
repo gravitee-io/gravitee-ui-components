@@ -37,6 +37,7 @@ storiesOf('1. Atoms | <gv-nav-link>', module)
       <gv-nav-link id="wine" icon="food:wine" active></gv-nav-link>
       <gv-nav-link id="empty"></gv-nav-link>
       <gv-nav-link id="error"></gv-nav-link>
+      <gv-nav-link id="wine" icon="navigation:waiting" title="Waiting" skeleton active></gv-nav-link>
     `;
 
     container.querySelector('#bread').title = Promise.resolve('Bread');

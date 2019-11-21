@@ -32,8 +32,8 @@ storiesOf('1. Atoms|<gv-state>', module)
       <gv-state>${label || 'beta'}</gv-state>
       <gv-state skeleton>${label || 'Beta'}</gv-state>
       
-      <div class="title">Running</div>
-      <gv-state running>${label || 'Running'}</gv-state>
-      <gv-state running skeleton>${label || 'Running'}</gv-state>
+      <div class="title">Major</div>
+      <gv-state major>${label || 'Running'}</gv-state>
+      <gv-state major skeleton>${label || 'Running'}</gv-state>
     `;
   }));

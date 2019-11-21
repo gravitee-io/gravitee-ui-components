@@ -16,6 +16,7 @@
 import { LitElement, html } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-nav-link';
+import { until } from 'lit-html/directives/until';
 
 /**
  * A main nav
@@ -34,31 +35,41 @@ export class GvNav extends LitElement {
   }
 
   async _onClick ({ detail: { title } }) {
-    this.routes = await Promise.all(this.routes.map(async (route) => {
-      route.title = await route.title;
-      if (route.title === title) {
-        route.active = true;
-      }
-      else {
-        delete route.active;
-      }
-      return route;
-    }));
+    Promise.all(this.routes).then((routes) => {
+      this.routes = routes.map(async (route) => {
+        route.title = await route.title;
 
+        if (route.title === title) {
+          route.active = true;
+        }
+        else {
+          delete route.active;
+        }
+        return route;
+      });
+    }).catch((e) => {
+    });
+  }
+
+  _getLink (route, index) {
+    return Promise.resolve(route).then((_route) => {
+      return html`
+            <gv-nav-link 
+            @gv-nav-link:click=${this._onClick} 
+            .active="${_route.active}"
+            .icon="${_route.icon}"
+            .path="${_route.path}"
+            .title="${_route.title}"
+            .help="${_route.help}"></gv-nav-link>`;
+    }).catch(() => {
+      delete this.routes[index];
+    });
   }
 
   render () {
-    return html`
-        <nav>
-          ${repeat(this.routes, (route) => route, (route, index) => html`
-            <gv-nav-link 
-            @gv-nav-link:click=${this._onClick} 
-            .active="${route.active}"
-            .icon="${route.icon}"
-            .path="${route.path}"
-            .title="${route.title}"></gv-nav-link>
-      `)}
-        </nav>`;
+    return html`<nav>${repeat(this.routes, (route) => route, (route, index) =>
+      until(this._getLink(route, index), html`<gv-nav-link skeleton></gv-nav-link>`)
+    )}</nav>`;
   }
 
 }

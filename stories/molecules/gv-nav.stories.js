@@ -17,10 +17,12 @@ import '../../src/molecules/gv-nav.js';
 import notes from '../../.docs/gv-nav.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
+import { delay } from '../lib/delay';
 
 const withActions = withCustomEventActions('gv-nav-link:click');
 
 storiesOf('2. Molecules|<gv-nav>', module)
+  .addParameters({ notes })
   .add('Basics', withActions(() => {
 
     const nav = document.createElement('gv-nav');
@@ -30,4 +32,14 @@ storiesOf('2. Molecules|<gv-nav>', module)
       { path: '', title: Promise.resolve('Mes applications') },
     ];
     return nav;
-  }, { notes }));
+  }))
+  .add('Delay', withActions(() => {
+
+    const nav = document.createElement('gv-nav');
+    nav.routes = [
+      Promise.resolve({ path: '', title: 'Dashboard' }).then(delay(4000)),
+      Promise.resolve({ path: '', title: 'Catalogue', active: true }).then(delay(2000)),
+      Promise.resolve({ path: '', title: 'Mes applications' }),
+    ];
+    return nav;
+  }));

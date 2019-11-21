@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit-element';
+import { card } from '../styles/card';
+import { truncate } from '../lib/utils';
 
 /**
  * A card used to display a category
@@ -26,7 +28,7 @@ import { LitElement, html, css } from 'lit-element';
  * @cssprop {String} --gv-card-category--bgc - set the background color of card.
  * @cssprop {String} --gv-card-category--c - set the color of text.
  *
-*/
+ */
 
 export class GvCardCategory extends LitElement {
 
@@ -41,73 +43,60 @@ export class GvCardCategory extends LitElement {
 
   static get styles () {
     return [
+      card,
       // language=CSS
-      css`        
-      :host {
-        box-sizing: border-box;
-        display: inline-block;
-        margin: 0 24px 24px 0;
-        vertical-align: middle;
-      }
+      css`
+          :host {
+              box-sizing: border-box;
+              display: inline-block;
+              margin: 0 24px 24px 0;
+              vertical-align: middle;
+          }
 
-      .card {
-        background-color: var(--gv-card-category--bgc, white);
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        height: 228px;
-        justify-content: flex-end;
-        width: 364px;
-        padding: 0 40px;
-      }
+          .card {
+              background-color: var(--gv-card-category--bgc, white);
+              border-radius: 4px;
+              display: flex;
+              flex-direction: column;
+              height: 228px;
+              justify-content: flex-end;
+              width: 364px;
+              padding: 0 40px;
+          }
 
-      .card__title {
-        color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
-        font-size: 30px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 38px;
-      }
+          .card__title {
+              color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
+              font-size: 30px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 38px;
+          }
 
-      .card__description {
-        color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
-        font-size: 16px;
-        font-style: normal;
-        font-weight: normal;
-        line-height: 24px;
-        margin-bottom: 32px;
-        opacity: 0.5;
-        
-        /** text-overflow **/
-        max-height: 150px;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
+          .card__description {
+              color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
+              font-size: 16px;
+              font-style: normal;
+              font-weight: normal;
+              line-height: 24px;
+              margin-bottom: 32px;
+              opacity: 0.5;
 
-      .card:hover {
-        box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
-        cursor: pointer;
-      }
-
+              /** text-overflow **/
+              max-height: 150px;
+              display: -webkit-box;
+              -webkit-line-clamp: 4;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+          }
       `,
     ];
-  }
-
-  _renderDescription () {
-    let shortenedDescription = this.description;
-    if (this.limit && shortenedDescription.length > this.limit) {
-      shortenedDescription = shortenedDescription.substring(0, this.limit) + '...';
-    }
-    return html`<div class="card__description">${shortenedDescription}</div>`;
   }
 
   render () {
     return html`
       <div class="card">
         <div class="card__title">${this.title}</div>
-        ${this._renderDescription()}
+        <div class="card__description">${truncate(this.description, this.limit)}</div>
       </div>
     `;
   }

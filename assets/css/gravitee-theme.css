@@ -15,8 +15,9 @@
  */
 :root {
   font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size:var(--gv-theme-font-size, 12px);
   color: var(--gv-theme-font-color);
+  font-color: var( --gv-theme-font-color);
 
   background-color: #EFEFEF;
   /** Variables */
