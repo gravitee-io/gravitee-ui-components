@@ -17,6 +17,8 @@ import { LitElement, html, css } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
 import { skeleton } from '../styles';
 import '../atoms/gv-icon';
+import { classMap } from 'lit-html/directives/class-map';
+import { until } from 'lit-html/directives/until';
 
 /**
  * An image
@@ -40,6 +42,9 @@ export class GvImage extends LitElement {
       src: { type: String },
       alt: { type: String },
       loaded: { type: Boolean, reflect: true },
+      skeleton: { type: Boolean },
+      _skeleton: { type: Boolean, attribute: false },
+      _error: { type: Boolean },
     };
   }
 
@@ -49,14 +54,43 @@ export class GvImage extends LitElement {
       // language=CSS
       css`
           :host {
-              --gv-icon--w: var(--gv-image--w, 128);
-              --gv-icon--h: var(--gv-image--h, 128);
+              --gv-icon--w: var(--gv-image--w,128px);
+              --gv-icon--h: var(--gv-image--h,128px);
               --gv-icon--c: #777;
               box-sizing: border-box;
               margin: 0.2rem;
               vertical-align: middle;
               position: relative;
               display: block;
+              max-width: var(--gv-image--w, 100%);
+              max-height: var(--gv-image--h, 100%);
+          }
+
+          :host([loaded]) div {
+              width: var(--gv-image--w, 100%);
+              height: var(--gv-image--h, 100%);
+          }
+
+          div {
+              width: var(--gv-image--w, var(--gv-image--w, 128px));
+              height: var(--gv-image--h, var(--gv-image--w, 128px));
+              display: flex;
+          }
+
+          img {
+              overflow: hidden;
+              width: var(--gv-image--w, 100%);
+              height: var(--gv-image--h, 100%);
+          }
+
+          .placeholder {
+              max-width: var(--gv-icon--w);
+              max-height: var(--gv-icon--h);
+              align-self: center;
+          }
+          
+          gv-icon {
+              align-self: center;
           }
 
           img, .placeholder {
@@ -66,20 +100,8 @@ export class GvImage extends LitElement {
               border-radius: var(--gv-image--bdrs, none);
           }
 
-          :host([loaded]) img {
-              overflow: hidden;
-              width: var(--gv-image--w, 100%);
-              height: var(--gv-image--h, 100%);
-          }
-
           .placeholder, :host([loaded]) img {
               opacity: 1;
-          }
-
-          .placeholder {
-              position: absolute;
-              top: 0;
-              left: 0;
           }
 
           img, :host([loaded]) .placeholder {
@@ -91,27 +113,63 @@ export class GvImage extends LitElement {
           }
 
           .skeleton {
+              background-color: #aaa;
               border-color: #777;
-              color: #262626;
+              color: transparent;
+              transition: 0.5s;
+              opacity: 0.5;
           }
+
+          .skeleton img {
+              visibility: hidden;
+          }
+
 
       `,
     ];
   }
 
+  constructor () {
+    super();
+    this._forceSkeleton = false;
+    this._skeleton = true;
+    this._image = new Promise((resolve) => (this.imageResolver = resolve));
+  }
+
+  async performUpdate () {
+    Promise.all([this.alt, this.src, this._image])
+      .catch(() => (this._error = true))
+      .finally(() => {
+        this._skeleton = this._forceSkeleton;
+      });
+    super.performUpdate();
+  }
+
+  set skeleton (value) {
+    this._forceSkeleton = value;
+    this._skeleton = value;
+  }
+
+  _onError (e) {
+    this.loaded = true;
+    this.imageResolver();
+    this.dispatchEvent(new Event('error'), e);
+  }
+
   _onLoad () {
     this.loaded = true;
+    this.imageResolver();
     dispatchCustomEvent(this, 'loaded', { src: this.src, alt: this.alt });
   }
 
-  _renderImage () {
-    if (this.src) {
-      return html`<img src="${this.src}" alt="${this.alt}" @load="${this._onLoad}" @error="${this._onLoad}">`;
-    }
-  }
-
   render () {
-    return html`${this._renderImage()}<div class="placeholder skeleton"><gv-icon shape="design:image"></gv-icon></div>`;
+
+    return html`<div class="${classMap({ skeleton: this._skeleton && this.src && this.alt })}">
+       ${this.src && this.alt
+      ? html`<img src="${until(this.src, '')}" alt="${until(this.alt, '')}" @load="${this._onLoad}" @error="${this._onError}">`
+      : html`<div class="placeholder"><gv-icon shape="design:image"></gv-icon></div>`}
+</div>`;
+
   }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit-element';
-import { link } from '../styles';
+import { link, skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 import { until } from 'lit-html/directives/until';
@@ -28,8 +28,9 @@ import { dispatchCustomEvent } from '../lib/events';
  * @slot - The content of the link (text or HTML)
  *
  * @attr {Boolean} active - set if link is active
- * @attr {String} path - link title
- * @attr {Promise<String>} title - link title
+ * @attr {String} path - link path
+ * @attr {String} title - link title
+ * @attr {String} help - help text left between parentheses
  *
  * @cssprop {String} --gv-nav-link-a--ph - set the horizontal padding for the inner <a> tag. (Default: 2rem)
  * @cssprop {String} --gv-nav-link([-active]?)--c - set the color of link.
@@ -44,19 +45,22 @@ export class GvNavLink extends LitElement {
       active: { type: Boolean },
       icon: { type: String },
       path: { type: String },
-      title: { type: Promise },
+      title: { type: String },
+      _title: { type: String, attribute: false },
+      help: { type: String },
+      skeleton: { type: Boolean },
     };
   }
 
   static get styles () {
     return [
+      skeleton,
       link,
       // language=css
       css`
           :host {
               box-sizing: border-box;
               display: inline-flex;
-              margin: 0.2rem;
               vertical-align: middle;
               --gv-icon--h: 24px;
               --gv-icon--w: 24px;
@@ -71,8 +75,9 @@ export class GvNavLink extends LitElement {
               display: inline-flex;
               align-content: center;
               text-align: var(--gv-nav-link--ta, center);
+              text-transform: capitalize;
           }
-          
+
           a > * {
               flex: 1;
               align-self: center;
@@ -84,15 +89,39 @@ export class GvNavLink extends LitElement {
               border-bottom: var(--gv-nav-link-active--bdb, none);
           }
 
-          a div, a svg {
-              display: inline;
+          a span, a gv-icon {
               align-self: center;
           }
 
-          a div {
+          a span {
               flex: 1;
               align-self: center;
               white-space: nowrap;
+              margin: 0.3rem 0.5rem 0;
+          }
+
+          .help {
+              margin: 0 0.2rem;
+              opacity: 0.5;
+              font-size: 10px;
+          }
+
+          .help::before {
+              content: '('
+          }
+
+          .help::after {
+              content: ')'
+          }
+
+          .skeleton {
+              background-color: #aaa;
+              border-color: #777;
+              color: transparent;
+              transition: 0.5s;
+              min-width: 100px;
+              margin: 0 0.2rem;
+              opacity: 0.5;
           }
       `,
     ];
@@ -104,22 +133,28 @@ export class GvNavLink extends LitElement {
       active: this.active,
       icon: this.icon,
       path: this.path,
-      title: await Promise.resolve(this.title),
+      title: this._title,
     });
+  }
+
+  set title (value) {
+    Promise.resolve(value).then((title) => {
+      this._title = title;
+    }).catch((e) => {});
   }
 
   render () {
     const classes = {
-      active: this.active, link: true,
+      active: this.active, link: true, skeleton: this.skeleton,
     };
     const iconStyle = this.active ? { '--gv-icon--c': 'var(--gv-nav-link-active--c)' } : { '--gv-icon--c': 'var(--gv-nav-link--c)' };
     return html`
       <a @click=${this._onClick} 
       class="${classMap(classes)}" 
       ?href="${this.path}" 
-      ?title="${until(this.title, '')}">
+      ?title="${until(this._title, '')}">
         ${this.icon ? html`<gv-icon shape=${this.icon} style=${styleMap(iconStyle)}></gv-icon>` : ''}
-        <div>${until(this.title, '')}</div>
+        <span>${until(this._title, '')}${this.help ? html`<span class="help">${until(this.help, '')}</span>` : ''}</span>
       </a>
     `;
   }

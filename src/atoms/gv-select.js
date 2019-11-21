@@ -154,6 +154,7 @@ export class GvSelect extends LitElement {
               transition: all 0.5s ease;
               padding: 2px 20px;
               height: 30px;
+              text-transform: capitalize;
           }
 
           .select__list__item:hover {
@@ -169,6 +170,7 @@ export class GvSelect extends LitElement {
     this._id = 'gv-id';
     this._type = 'text';
     this._isClosed = true;
+    this.options = [{ label: '', value: '' }];
 
     window.addEventListener('click', (e) => {
       if (e.target !== this) {
@@ -221,9 +223,6 @@ export class GvSelect extends LitElement {
       skeleton: this.skeleton,
       closed: this._isClosed,
     };
-    if (!this.options || !this.options.length) {
-      this.options = [{ label: '', value: '' }];
-    }
 
     return html`
       <div class="${classMap(classes)}">
@@ -243,7 +242,7 @@ export class GvSelect extends LitElement {
           @click=${this._onClick}>
           <ul class="select__list">
             ${this.options && repeat(this.options, (option) => option, (option) => html`
-              <li class="select__list__item ${this.value === option.value ? 'selected' : ''}" @click=${this._onSelect} data-value="${option.value}">${option.label}</li>
+              <li class="select__list__item ${this.value === option.value ? 'selected' : ''}" @click=${this._onSelect} data-value="${option.value}">${option.label || option.value}</li>
             `)}
           </ul>
       </div>

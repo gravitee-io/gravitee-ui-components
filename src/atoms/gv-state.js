@@ -24,18 +24,19 @@ import { skeleton } from '../styles';
  *
  * @slot - The content of the state (text or HTML)
  *
- * @attr {Boolean} running - enable running mode
+ * @attr {Boolean} major - enable major mode
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
  * @cssprop {String} --gv-state--bdr - set the border radius.
- * @cssprop {String} --gv-state([-running]?)--bgc - set the background color.
- * @cssprop {String} --gv-state([-running]?)--c - set the color.
+ * @cssprop {String} --gv-state([-major]?)--bgc - set the background color.
+ * @cssprop {String} --gv-state([-major]?)--c - set the color.
  */
 export class GvState extends LitElement {
 
   static get properties () {
     return {
-      running: { type: Boolean },
+      default: { type: Boolean },
+      major: { type: Boolean },
       skeleton: { type: Boolean },
     };
   }
@@ -57,9 +58,9 @@ export class GvState extends LitElement {
               --c: var(--gv-tag--c, #597EF7)
           }
 
-          div.running {
-              --bgc: var(--gv-state-running--bgc, #D5FDCB);
-              --c: var(--gv-state-running--c, #009B5B);
+          div.major {
+              --bgc: var(--gv-state-major--bgc, #D5FDCB);
+              --c: var(--gv-state-major--c, #009B5B);
           }
 
           div {
@@ -80,8 +81,8 @@ export class GvState extends LitElement {
   render () {
 
     const modes = {
-      default: !this.running,
-      running: this.running,
+      default: !this.major,
+      major: this.major,
       skeleton: this.skeleton,
     };
 

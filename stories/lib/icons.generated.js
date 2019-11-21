@@ -352,11 +352,12 @@ export function generateIcons () {
 <div class="item" data-shape="general:expand-arrows"><gv-icon shape="general:expand-arrows" size="48"></gv-icon><span>general:expand-arrows</span></div>
 <div class="item" data-shape="general:fire"><gv-icon shape="general:fire" size="48"></gv-icon><span>general:fire</span></div>
 <div class="item" data-shape="general:half-heart"><gv-icon shape="general:half-heart" size="48"></gv-icon><span>general:half-heart</span></div>
-<div class="item" data-shape="general:half-start"><gv-icon shape="general:half-start" size="48"></gv-icon><span>general:half-start</span></div>
+<div class="item" data-shape="general:half-star"><gv-icon shape="general:half-star" size="48"></gv-icon><span>general:half-star</span></div>
 <div class="item" data-shape="general:heart"><gv-icon shape="general:heart" size="48"></gv-icon><span>general:heart</span></div>
 <div class="item" data-shape="general:hidden"><gv-icon shape="general:hidden" size="48"></gv-icon><span>general:hidden</span></div>
 <div class="item" data-shape="general:like"><gv-icon shape="general:like" size="48"></gv-icon><span>general:like</span></div>
 <div class="item" data-shape="general:lock"><gv-icon shape="general:lock" size="48"></gv-icon><span>general:lock</span></div>
+<div class="item" data-shape="general:no-star"><gv-icon shape="general:no-star" size="48"></gv-icon><span>general:no-star</span></div>
 <div class="item" data-shape="general:notifications#1"><gv-icon shape="general:notifications#1" size="48"></gv-icon><span>general:notifications#1</span></div>
 <div class="item" data-shape="general:notifications#2"><gv-icon shape="general:notifications#2" size="48"></gv-icon><span>general:notifications#2</span></div>
 <div class="item" data-shape="general:other#1"><gv-icon shape="general:other#1" size="48"></gv-icon><span>general:other#1</span></div>

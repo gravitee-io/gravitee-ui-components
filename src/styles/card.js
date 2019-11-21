@@ -16,30 +16,9 @@
 import { css } from 'lit-element';
 
 // language=CSS
-export const skeleton = css`
-  @keyframes skeleton-pulse {
-    from {
-      opacity: 0.85;
+export const card = css`
+    .card:hover {
+        box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+        cursor: pointer;
     }
-    to {
-      opacity: 0.45;
-    }
-  }
-  .skeleton {
-    animation-direction: alternate;
-    animation-duration: 500ms;
-    animation-iteration-count: infinite;
-    animation-name: skeleton-pulse;
-    color: transparent;
-    cursor: progress;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  .skeleton svg, .skeleton gv-icon{
-      visibility: hidden;
-  }
-
 `;

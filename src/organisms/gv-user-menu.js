@@ -80,7 +80,6 @@ export class GvUserMenu extends LitElement {
           }
 
           ::slotted(*) {
-              border-radius: 20px;
               display: inline-block;
               vertical-align: middle;
               max-height: 40px;
@@ -181,7 +180,10 @@ export class GvUserMenu extends LitElement {
       <nav class="${classMap(classes)}">
         <ul class="user-menu" @mouseleave=${this._onMouseLeave}>
           <li class="user-menu__title" @click=${this._onClick} >
-            <slot></slot>
+            <div class="user-menu__avatar">
+               <slot></slot>
+            </div>
+         
             <span>${this.username}</span>
             <gv-icon shape="design:triangle"></gv-icon>
           </li>

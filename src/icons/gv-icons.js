@@ -37,7 +37,7 @@ export class GvIcons {
 
   static async getIcon (name, element) {
     let icon = await this._getIcon(name);
-    if (element) {
+    if (icon && element) {
       const color = getCssVar(element, 'gv-icon--c', '#000');
       if (color) {
         icon = icon.replace(/fill="#000"/g, `fill="${color}"`);

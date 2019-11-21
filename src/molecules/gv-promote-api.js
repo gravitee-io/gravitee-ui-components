@@ -20,6 +20,7 @@ import { skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
+import '../molecules/gv-rating';
 import defaultSrc from '../../assets/images/promote-api.png';
 import { dispatchCustomEvent } from '../lib/events';
 
@@ -28,10 +29,12 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @fires gv-promote-api:click - When click on button for view API
  *
- * @attr {String} alt - Image alternative text.
  * @attr {String} description - Promoted API description.
- * @attr {String} src - Image source file.
+ * @attr {String} picture - Image source file.
+ * @attr {String} altPicture - Image alternative text.
  * @attr {String} title - Promoted API title.
+ * @attr {String} path - Path for view button. if no defined, there is no button
+ * @attr {average, count} rating - Rating object (Show <gv-rating> component)
  *
  * @cssprop {String} --gv-promote-api-image--bgc - set the background color of image.
  * @cssprop {String} --gv-promote-api--bgc - set the background color.
@@ -42,9 +45,14 @@ export class GvPromoteApi extends LitElement {
     return {
       description: { type: String },
       title: { type: String },
-      src: { type: String },
-      alt: { type: String },
-      _skeleton: { type: Boolean },
+      picture: { type: String },
+      altPicture: { type: String },
+      skeleton: { type: Boolean },
+      path: { type: String },
+      rating: { type: Object },
+      _picture: { type: String },
+      _skeleton: { type: Boolean, attribute: false },
+      _error: { type: Boolean, attribute: false },
     };
   }
 
@@ -58,16 +66,18 @@ export class GvPromoteApi extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              width: 100%;
+              --gv-image--w: 300px;
+              --gv-image--h: 300px;
           }
 
           .container {
               display: flex;
+              min-height: 416px;
           }
 
           .container > div {
-              max-width: 450px;
-              max-height: 450px;
+              width: 514px;
+              max-height: 416px;
           }
 
           .image {
@@ -82,9 +92,9 @@ export class GvPromoteApi extends LitElement {
           }
 
           .title {
-              line-height: 32px;
               font-size: 24px;
               text-transform: capitalize;
+              min-height: 32px;
           }
 
           .content {
@@ -92,13 +102,17 @@ export class GvPromoteApi extends LitElement {
               padding: 50px 70px;
               background-color: var(--gv-promote-api--bgc, white);
               color: #262626;
-              line-height: 24px;
               font-size: 16px;
+              line-height: 24px;
               border-radius: 0 4px 4px 0;
+              display: flex;
+              flex-direction: column;
+              max-width: 374px;
           }
 
           .description {
               margin: 24px 0px;
+              flex-grow: 1;
           }
 
           .skeleton gv-image {
@@ -117,17 +131,33 @@ export class GvPromoteApi extends LitElement {
 
   constructor () {
     super();
-    this.src = defaultSrc;
-    this.alt = 'Promote API image';
+    this.picture = defaultSrc;
+    this.altPicture = 'Promote API image';
+    this._forceSkeleton = false;
     this._skeleton = true;
-    this._skeletonTitle = new Array(8).join('x ');
-    this._skeletonDescription = new Array(120).join('x ');
+    this._error = false;
     this._image = new Promise((resolve) => (this.imageResolver = resolve));
   }
 
   async performUpdate () {
-    Promise.all([this.title, this.description, this._image]).then(() => (this._skeleton = false));
+    Promise.all([this.title, this.description, this._image])
+      .catch(() => (this._error = true))
+      .finally(() => {
+        this._error = this.title == null;
+        this._skeleton = this._forceSkeleton;
+      });
     super.performUpdate();
+  }
+
+  set skeleton (value) {
+    this._forceSkeleton = value;
+    this._skeleton = value;
+  }
+
+  set picture (value) {
+    if (value) {
+      this._picture = value;
+    }
   }
 
   _onImageLoaded () {
@@ -135,34 +165,41 @@ export class GvPromoteApi extends LitElement {
   }
 
   _renderImage () {
-    return html`<gv-image src="${this.src}" alt="${this.alt}" @gv-image:loaded="${this._onImageLoaded()}"></gv-image>`;
+    return html`<gv-image ?skeleton=${this._skeleton}  src="${this._picture}" alt="${this.altPicture}" @gv-image:loaded="${this._onImageLoaded()}"></gv-image>`;
   }
 
   _renderDescription () {
-    if (this._skeleton) {
-      return html`${this._skeletonDescription}`;
-    }
     return html`${until(this.description, '')}`;
   }
 
   _renderTitle () {
-    if (this._skeleton) {
-      return this._skeletonTitle;
-    }
     return html`${until(this.title, '')}`;
   }
 
   _onClick () {
-    dispatchCustomEvent(this, 'click');
+    dispatchCustomEvent(this, 'click', { path: this.path });
+  }
+
+  _renderInfoRating () {
+    if (this.rating) {
+      return html`<gv-rating .skeleton="${this._skeleton}" .average="${this.rating.average}" .count="${this.rating.count}"></gv-rating>`;
+    }
+    return html`<div class="info"></div>`;
   }
 
   render () {
     return html`<div class="container"> 
-    <div class=${classMap({ skeleton: this._skeleton, image: true })}>${this._renderImage()}</div>
+    <div class="image">${this._renderImage()}</div>
     <div class="content">
-        <h2 class=${classMap({ skeleton: this._skeleton, title: true })}>${this._renderTitle()}</h2>
+    ${this._error && !this._skeleton ? html`<p class="description">An error has occured.</p>` : html`
+        <h2 class=${classMap({ skeleton: this._skeleton, title: true })}>${this._renderTitle()} ${this._renderInfoRating()}</h2>
+       
         <p class=${classMap({ skeleton: this._skeleton, description: true })}>${this._renderDescription()}</p>
-        <gv-button @click="${this._onClick}" .skeleton=${this._skeleton} style="--gv-button--p:19px 80px;--gv-button--fz:16px;">VIEW API</gv-button>
+        ${this.path ? html`<gv-button ?skeleton=${this._skeleton} 
+@click="${this._onClick}" 
+.skeleton=${this._skeleton} 
+style="--gv-button--p:19px 80px;--gv-button--fz:16px;">VIEW API</gv-button>` : ''}
+    `}
     </div>
 </div>`;
   }

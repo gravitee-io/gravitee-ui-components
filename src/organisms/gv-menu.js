@@ -58,6 +58,7 @@ export class GvMenu extends LitElement {
               color: var(--gv-menu--c, #FFF);
               display: table;
               width: 100%;
+              min-height: 90px;
           }
 
           gv-nav, gv-input {
@@ -71,7 +72,6 @@ export class GvMenu extends LitElement {
           }
         
           gv-input {
-              width: var(--gv-menu-input--w, 26rem);
               padding-right: var(--gv-menu--pr, 4rem);
           }
       `,

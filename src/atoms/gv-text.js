@@ -18,7 +18,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
-import {dispatchCustomEvent} from "../lib/events";
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  *
