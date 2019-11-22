@@ -200,6 +200,7 @@ export class GvInput extends LitElement {
       if (form) {
         form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
       }
+      dispatchCustomEvent(this, 'submit', this.value);
     }
   }
 

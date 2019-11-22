@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-menu.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 
-const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input');
+const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input', 'gv-input:submit');
 
 storiesOf('3. Organisms|<gv-menu>', module)
   .addParameters({ notes })
