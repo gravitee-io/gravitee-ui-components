@@ -227,8 +227,8 @@ export class GvSelect extends LitElement {
     }
 
     return html`
-      <div class="${classMap(classes)}" @click=${this._onClick}>
-        <gv-icon shape="design:triangle"></gv-icon>
+      <div class="${classMap(classes)}">
+        <gv-icon shape="design:triangle" @click=${this._onClick}></gv-icon>
         <label>${this._renderLabel()}</label>
         <input
           id=${this._id}
@@ -240,7 +240,8 @@ export class GvSelect extends LitElement {
           ?disabled=${this.disabled || this.skeleton}
           .placeholder=${ifDefined(this.placeholder)}
           .value=${ifDefined(this.selectedLabel())}
-          readonly="readonly">
+          readonly="readonly"
+          @click=${this._onClick}>
           <ul class="select__list">
             ${this.options && repeat(this.options, (option) => option, (option) => html`
               <li class="select__list__item ${this.value === option.value ? 'selected' : ''}" @click=${this._onSelect} slot="${option.value}">${option.label}</li>
