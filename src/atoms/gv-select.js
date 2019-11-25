@@ -18,7 +18,6 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
-import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
 
 /**
@@ -185,9 +184,9 @@ export class GvSelect extends LitElement {
 
   _onSelect (e) {
     e.stopPropagation();
-    this.value = e.target.slot;
-    dispatchCustomEvent(this, 'select', this.value);
+    this.value = e.target.dataset.value;
     this._isClosed = !this._isClosed;
+    this.dispatchEvent(new Event('input', {}));
   }
 
   _renderRequired () {
@@ -222,7 +221,7 @@ export class GvSelect extends LitElement {
       skeleton: this.skeleton,
       closed: this._isClosed,
     };
-    if (!this.options) {
+    if (!this.options || !this.options.length) {
       this.options = [{ label: '', value: '' }];
     }
 
@@ -244,7 +243,7 @@ export class GvSelect extends LitElement {
           @click=${this._onClick}>
           <ul class="select__list">
             ${this.options && repeat(this.options, (option) => option, (option) => html`
-              <li class="select__list__item ${this.value === option.value ? 'selected' : ''}" @click=${this._onSelect} slot="${option.value}">${option.label}</li>
+              <li class="select__list__item ${this.value === option.value ? 'selected' : ''}" @click=${this._onSelect} data-value="${option.value}">${option.label}</li>
             `)}
           </ul>
       </div>

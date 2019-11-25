@@ -18,7 +18,6 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
-import { dispatchCustomEvent } from '../lib/events';
 
 /**
  *
@@ -26,7 +25,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @attr {Boolean} disabled - same as native checkbox element `disabled` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
- * @attr {Boolean} checked - true if the checkbox is checked, false otherwise
+ * @attr {Boolean} value - true if the checkbox is checked, false otherwise
  * @attr {String} label - label of the checkbox
  * @attr {String} title - title of the checkbox
  * @attr {String} name - name of the checkbox
@@ -39,7 +38,7 @@ export class GvCheckbox extends LitElement {
     return {
       disabled: { type: Boolean },
       skeleton: { type: Boolean },
-      checked: { type: Boolean },
+      value: { type: Boolean },
       label: { type: String },
       title: { type: String },
       name: { type: String },
@@ -96,6 +95,7 @@ export class GvCheckbox extends LitElement {
     super();
     this._id = 'gv-id';
     this._type = 'checkbox';
+    this.value = false;
   }
 
   _renderLabel () {
@@ -108,28 +108,35 @@ export class GvCheckbox extends LitElement {
     return '';
   }
 
-  _onClick (e) {
+  _onInput () {
     if (!(this.disabled || this.skeleton)) {
-      this.checked = e.target.checked || !this.checked;
-      dispatchCustomEvent(this, 'checkbox', this.checked);
+      this.value = !this.value;
     }
+  }
+
+  _onClick () {
+    this._onInput();
+    this.dispatchEvent(new Event('input', {}));
   }
 
   render () {
     const classes = {
       skeleton: this.skeleton,
+      disabled: this.disabled,
     };
 
     return html`
       <div>
-        <label @click=${this._onClick}>
-          <input class=${classMap(classes)}
-            id=${this._id}
-            .type=${this._type}
-            .name=${ifDefined(this.name)}
-            .title=${ifDefined(this.title || this.label)}
-            ?disabled=${this.disabled || this.skeleton}
-            .checked=${ifDefined(this.checked)}>
+        <input
+          id=${this._id}
+          .type=${this._type}
+          .name=${ifDefined(this.name)}
+          .title=${ifDefined(this.title || this.label)}
+          ?disabled=${this.disabled || this.skeleton}
+          .checked=${this.value}
+          value=${this.value}
+          @input=${this._onInput}>
+          <label class=${classMap(classes)} for="${this._id}" @click=${this._onClick}>
           ${this._renderLabel()}
         </label>
       </div>

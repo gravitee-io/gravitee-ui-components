@@ -18,6 +18,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
+import {dispatchCustomEvent} from "../lib/events";
 
 /**
  *
@@ -66,12 +67,12 @@ export class GvText extends LitElement {
               border: 1px solid #D9D9D9;
               box-sizing: border-box;
               border-radius: 4px;
-              font-style: normal;
-              font-weight: normal;
               outline: none;
               padding: 10px;
               width: 100%;
               resize: none;
+              font-size: 14px;
+              line-height: 17px;
           }
 
           textarea:disabled {
@@ -100,6 +101,10 @@ export class GvText extends LitElement {
     ];
   }
 
+  focus () {
+    this.shadowRoot.querySelector('textarea').focus();
+  }
+
   constructor () {
     super();
     this._id = 'gv-id';
@@ -122,6 +127,11 @@ export class GvText extends LitElement {
     return '';
   }
 
+  _onInput (e) {
+    this.value = e.target.value;
+    dispatchCustomEvent(this, 'text', this.value);
+  }
+
   render () {
     const classes = {
       skeleton: this.skeleton,
@@ -139,7 +149,8 @@ export class GvText extends LitElement {
             ?disabled=${this.disabled || this.skeleton}
             .placeholder=${ifDefined(this.placeholder)}
             .value=${ifDefined(this.value)}
-            rows="${this.rows || 10}"></textarea>
+            rows="${this.rows || 10}"
+            @input=${this._onInput}></textarea>
       </div>
     `;
   }

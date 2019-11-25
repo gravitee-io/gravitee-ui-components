@@ -19,7 +19,7 @@ const graviteeTheme = create({
 
 addParameters({
   options: {
-    enableShortcuts: true,
+    enableShortcuts: false,
     showPanel: true,
     theme: graviteeTheme,
   },
