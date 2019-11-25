@@ -21,8 +21,8 @@ import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
 import '../molecules/gv-rating';
-import '../atoms/gv-state'
-import '../atoms/gv-tag'
+import '../atoms/gv-state';
+import '../atoms/gv-tag';
 import _picture from '../../assets/images/api-full.png';
 import { repeat } from 'lit-html/directives/repeat';
 import { card } from '../styles/card';
