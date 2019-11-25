@@ -85,6 +85,7 @@ export class GvInput extends LitElement {
               border-radius: 4px;
               font-style: normal;
               font-weight: normal;
+              outline: none;
           }
 
           /* SIZE */
@@ -135,20 +136,6 @@ export class GvInput extends LitElement {
           }
 
           /* STATES */
-          input:enabled:focus {
-              box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
-              outline: 0;
-          }
-
-          input:enabled:hover {
-              box-shadow: 0 1px 3px #888;
-          }
-
-          input:enabled:active {
-              box-shadow: none;
-              outline: 0;
-          }
-
           input:disabled {
               cursor: default;
               opacity: .5;
