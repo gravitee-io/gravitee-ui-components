@@ -19,6 +19,7 @@ import { styleMap } from 'lit-html/directives/style-map';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
+import { input } from '../styles/input.js';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
@@ -33,7 +34,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} title - title of the input
  * @attr {String} name - name of the input
  * @attr {String} placeholder - an example value to display in the input when empty
- * @attr {String} type - type of the input, can be text (Default), password or email
+ * @attr {String} type - type of the input, can be text (Default), password, email or search
  * @attr {Boolean} large - for a large input
  * @attr {Boolean} medium - for a medium input (Default)
  * @attr {Boolean} small - for a small input
@@ -64,103 +65,25 @@ export class GvInput extends LitElement {
   static get styles () {
     return [
       skeleton,
+      input,
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              margin: 0.2rem;
-              vertical-align: middle;
-          }
-
-          div {
-              position: relative;
-              line-height: 0;
-          }
-
-          /* BASE */
-          input {
-              border: 1px solid #D9D9D9;
-              box-sizing: border-box;
-              border-radius: 4px;
-              font-style: normal;
-              font-weight: normal;
-              outline: none;
-          }
-
-          /* SIZE */
-          input.large {
-              width: 100%;
-              height: 100%;
-              padding: 12px 8px;
-              font-size: 16px;
-              line-height: 18px;
-          }
-
-          input.large.icon {
-              padding-right: 58px;
-          }
-
-          input.medium {
-              width: 100%;
-              height: 100%;
-              padding: 10px 5px;
-              font-size: 14px;
-              line-height: 17px;
-          }
-
-          input.medium.icon {
-              padding-right: 49px;
-          }
 
           gv-icon.medium {
               --gv-icon--h: 25px;
               --gv-icon--w: 25px;
           }
 
-          input.small {
-              width: 100%;
-              height: 100%;
-              padding: 1px 4px;
-              font-size: 12px;
-              line-height: 15px;
-          }
-
-          input.small.icon {
-              padding-right: 30px;
-          }
-          
           gv-icon.small {
-              --gv-icon--h: 13px;
-              --gv-icon--w: 13px;
+              --gv-icon--h: 19px;
+              --gv-icon--w: 19px;
           }
-
-          /* STATES */
-          input:disabled {
-              cursor: default;
-              opacity: .5;
+          gv-icon.search {
+              cursor: pointer;
           }
           
-          input:required {
-              box-shadow: none;
-          }
-
-          label {
-              display: block;
-              line-height: 15px;
-              padding: 0.2rem 0.4rem;
-          }
-
-          label.required {
-              padding-left: 0.6rem;
-          }
-
-          label abbr {
-              position: absolute;
-              left: 0;
-              color: red;
-              font-variant: none;
-              text-decoration: none;
+          gv-icon.search:hover {
+              box-shadow: 0 1px 3px #888;
           }
       `,
     ];
@@ -192,8 +115,12 @@ export class GvInput extends LitElement {
   }
 
   set type (value) {
-    if (['text', 'password', 'email'].includes(value)) {
+    if (['text', 'password', 'email', 'search'].includes(value)) {
       this._type = value;
+    }
+
+    if (this._type === 'search' && this.icon == null) {
+      this.icon = 'general:search';
     }
   }
 
@@ -214,6 +141,12 @@ ${this._renderRequired()}${this.label}
     return '';
   }
 
+  _onIconClick () {
+    if (this._type === 'search') {
+      dispatchCustomEvent(this, 'input', this.value);
+    }
+  }
+
   _renderIcon () {
     if (this.icon) {
       const iconStyle = {
@@ -228,9 +161,10 @@ ${this._renderRequired()}${this.label}
       const classes = {
         small: this.small,
         medium: (this.medium || (!this.large && !this.small)),
+        search: this._type === 'search',
       };
 
-      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon}"></gv-icon>`;
+      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon}" @click="${this._onIconClick}"></gv-icon>`;
     }
     return '';
   }
@@ -255,6 +189,7 @@ ${this._renderRequired()}${this.label}
             .title=${ifDefined(this.title || this.label)}
             .required=${this.required}
             aria-required=${!!this.required}
+            .aria-label="${ifDefined(this.label)}"
             ?disabled=${this.disabled || this.skeleton}
             .placeholder=${ifDefined(this.placeholder)}
             .value=${ifDefined(this.value)}

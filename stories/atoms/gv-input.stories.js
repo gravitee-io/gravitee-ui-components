@@ -89,4 +89,9 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
     </div>
 `;
+  }))
+  .add('Search', withActions(() => {
+    return `<div class="title">Search input</div>
+      <gv-input type="search" placeholder=""></gv-input>
+`;
   }));
