@@ -18,7 +18,9 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
+import { input } from '../styles/input.js';
 import { repeat } from 'lit-html/directives/repeat';
+import { styleMap } from 'lit-html/directives/style-map';
 
 /**
  *
@@ -44,10 +46,14 @@ export class GvSelect extends LitElement {
       required: { type: Boolean },
       skeleton: { type: Boolean },
       options: { type: Array },
+      _options: { type: Array, attribute: false },
       value: { type: String },
       label: { type: String },
       title: { type: String },
       name: { type: String },
+      large: { type: Boolean },
+      medium: { type: Boolean },
+      small: { type: Boolean },
       placeholder: { type: String },
       _isClosed: { type: Boolean, attribute: false },
     };
@@ -56,6 +62,7 @@ export class GvSelect extends LitElement {
   static get styles () {
     return [
       skeleton,
+      input,
       // language=CSS
       css`
           :host {
@@ -65,58 +72,26 @@ export class GvSelect extends LitElement {
               --hover-bgc: var(--gv-select-hover--bgc, grey);
               --selected-bgc: var(--gv-select-selected--bgc, grey);
           }
-          
-          div {
-              position: relative;
-              line-height: 0;
-              user-select:none;
-          }
-          
-          /* BASE */
-          input {
-              border: 1px solid #D9D9D9;
-              box-sizing: border-box;
-              border-radius: 4px;
-              cursor: pointer;
-              font-style: normal;
-              font-weight: normal;
-              outline: none;
-              padding: 10px;
-              width: 100%;
-          }
 
-          input:disabled {
-              cursor: default;
-              opacity: .5;
+          div, input {
+              user-select: none;
+              cursor: pointer;
           }
 
           gv-icon {
-              bottom: 0px;
-              cursor: pointer;
-              height: 14px;
-              margin: 0;
-              position: absolute;
-              right: 10px;
-              transform:rotate(180deg);
-              width: 14px;
+              transform: rotate(180deg);
+              --gv-icon--h: 19px;
+              --gv-icon--w: 19px;
           }
 
-          label {
-              display: block;
-              line-height: 15px;
-              padding: 0.2rem 0;
+          gv-icon.medium {
+              --gv-icon--h: 14px;
+              --gv-icon--w: 14px;
           }
 
-          label.required {
-              padding-left: 0.6rem;
-          }
-
-          label abbr {
-              position: absolute;
-              left: 0;
-              color: red;
-              font-variant: none;
-              text-decoration: none;
+          gv-icon.small {
+              --gv-icon--h: 11px;
+              --gv-icon--w: 11px;
           }
 
           .closed .select__list {
@@ -137,7 +112,7 @@ export class GvSelect extends LitElement {
               width: 100%;
               cursor: pointer;
               z-index: 100;
-              box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+              box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
               border-radius: 4px;
               max-height: 340px;
               overflow: auto;
@@ -152,9 +127,25 @@ export class GvSelect extends LitElement {
               display: flex;
               align-items: center;
               transition: all 0.5s ease;
-              padding: 2px 20px;
-              height: 30px;
               text-transform: capitalize;
+          }
+
+          .large .select__list__item {
+              padding: var(--input-large--p);
+              font-size: var(--input-large--fz);
+              height: var(--input-large--h);
+          }
+
+          .medium .select__list__item {
+              padding: var(--input-medium--p);
+              font-size: var(--input-medium--fz);
+              height: var(--input-medium--h);
+          }
+
+          .small .select__list__item {
+              padding: var(--input-small--p);
+              font-size: var(--input-small--fz);
+              height: var(--input-small--h);
           }
 
           .select__list__item:hover {
@@ -170,25 +161,29 @@ export class GvSelect extends LitElement {
     this._id = 'gv-id';
     this._type = 'text';
     this._isClosed = true;
-    this.options = [{ label: '', value: '' }];
+    this._options = [{ label: '', value: '' }];
 
     window.addEventListener('click', (e) => {
-      if (e.target !== this) {
-        this._isClosed = true;
-      }
+      this._isClosed = true;
     });
   }
 
   _onClick (e) {
-    e.preventDefault();
-    this._isClosed = !this._isClosed;
+    if (!this.disabled && !this.skeleton) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (this._isClosed) {
+        this.dispatchEvent(new Event('click', { bubbles: true, cancelable: true, composed: true }));
+      }
+      this._isClosed = !this._isClosed;
+    }
   }
 
   _onSelect (e) {
     e.stopPropagation();
     this.value = e.target.dataset.value;
     this._isClosed = !this._isClosed;
-    this.dispatchEvent(new Event('input', {}));
+    this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
   }
 
   _renderRequired () {
@@ -208,9 +203,38 @@ export class GvSelect extends LitElement {
     return '';
   }
 
+  _renderIcon () {
+    const iconStyle = {
+      position: 'absolute',
+      bottom: '1px',
+      right: '1px',
+      padding: this.small ? '5px' : '11px',
+      borderRadius: '3px 0 0 3px',
+    };
+    const classes = {
+      small: this.small,
+      medium: (this.medium || (!this.large && !this.small)),
+    };
+    return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="design:triangle" @click=${this._onClick}></gv-icon>`;
+  }
+
+  set options (options) {
+    if (options) {
+      this._options = options.map((option) => {
+        if (typeof option === 'string') {
+          return { value: option, label: option };
+        }
+        else if (!option.label) {
+          return { value: option.value, label: option.value };
+        }
+        return option;
+      });
+    }
+  }
+
   selectedLabel () {
     if (this.value) {
-      const element = this.options.find((o) => this.value === o.value);
+      const element = this._options.find((o) => this.value === o.value);
       if (element) {
         return element.label;
       }
@@ -224,12 +248,18 @@ export class GvSelect extends LitElement {
       closed: this._isClosed,
     };
 
+    const inputClasses = {
+      large: this.large,
+      medium: (this.medium || (!this.large && !this.small)),
+      small: this.small,
+      icon: true,
+    };
     return html`
       <div class="${classMap(classes)}">
-        <gv-icon shape="design:triangle" @click=${this._onClick}></gv-icon>
-        <label>${this._renderLabel()}</label>
+        ${this._renderLabel()}
         <input
           id=${this._id}
+          class="${classMap(inputClasses)}"
           .type=${this._type}
           .name=${ifDefined(this.name)}
           .title=${ifDefined(this.title || this.label)}
@@ -238,13 +268,15 @@ export class GvSelect extends LitElement {
           ?disabled=${this.disabled || this.skeleton}
           .placeholder=${ifDefined(this.placeholder)}
           .value=${ifDefined(this.selectedLabel())}
-          readonly="readonly"
-          @click=${this._onClick}>
-          <ul class="select__list">
-            ${this.options && repeat(this.options, (option) => option, (option) => html`
-              <li class="select__list__item ${this.value === option.value ? 'selected' : ''}" @click=${this._onSelect} data-value="${option.value}">${option.label || option.value}</li>
-            `)}
-          </ul>
+          @click=${this._onClick}
+          readonly="readonly">
+          ${this._renderIcon()}
+        <ul class="${classMap(Object.assign({ select__list: true }, inputClasses))}">
+          ${this._options && repeat(this._options, (option) => option, (option) => html`
+            <li class="${classMap({ select__list__item: true, selected: this.value === option.value })}" 
+            @click=${this._onSelect} data-value="${option.value}">${option.label}</li>
+          `)}
+        </ul>
       </div>
     `;
   }

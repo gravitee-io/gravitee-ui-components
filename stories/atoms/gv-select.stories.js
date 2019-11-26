@@ -18,13 +18,13 @@ import notes from '../../.docs/gv-select.md';
 import { storiesOf } from '@storybook/html';
 import { text } from '@storybook/addon-knobs';
 import { updateTextAttributes } from '../lib/update-attributes';
-import { withCustomEventActions } from '../lib/event-action';
+import { withActions } from '@storybook/addon-actions';
 
-const withActions = withCustomEventActions('gv-select:select');
+const eventNames = ['input gv-select'];
 
 storiesOf('1. Atoms|<gv-select>', module)
   .addParameters({ notes })
-  .add('Basics', withActions(() => {
+  .add('Basics', () => withActions(...eventNames)(() => {
 
     const label = text('Label', '');
 
@@ -33,17 +33,25 @@ storiesOf('1. Atoms|<gv-select>', module)
       { label: 'Application 1', value: '1' },
       { label: 'Application 2', value: '2' },
       { label: 'Application 3', value: '3' },
-      { label: 'Application 4', value: '4' },
-      { label: 'Application 5', value: '5' },
+      { value: '4' },
+      'Application 5',
     ];
     container.innerHTML = `
       <div class="title">Default without options</div>
       <gv-select></gv-select>
+      <gv-select small></gv-select>
+      <gv-select large></gv-select>
       
       <div class="title">Default with label</div>
       <gv-select 
         label="Associer une application" 
-        placeholder="Trouver une application">
+        placeholder="Trouver une application"></gv-select>
+        <gv-select 
+        label="Associer une application" 
+        placeholder="Trouver une application" small></gv-select>
+        <gv-select 
+        label="Associer une application" 
+        placeholder="Trouver une application" large>
       </gv-select>
       
       <div class="title">Required with label</div>
@@ -74,22 +82,23 @@ storiesOf('1. Atoms|<gv-select>', module)
       </gv-select>
     `;
 
-    const nodeSelect = container.querySelectorAll('gv-select');
+    const selectList = container.querySelectorAll('gv-select');
     if (label) {
-      updateTextAttributes(nodeSelect, 'label', label);
+      updateTextAttributes(selectList, 'label', label);
     }
-    let i = 0;
-    nodeSelect.forEach((e) => {
-      if (i++ > 0) {
-        if (i === nodeSelect.length) {
-          e.options = [];
-          for (let j = 0; j < 100; j++) {
-            e.options[j] = { label: `Application ${j}`, value: `${j}` };
-          }
+
+    const selectListWithData = Array.prototype.slice.call(selectList, 3);
+
+    selectListWithData.forEach((e, i) => {
+      if (i === selectListWithData.length) {
+        const opts = [];
+        for (let j = 0; j < 100; j++) {
+          opts[j] = { label: `Application ${j}`, value: `${j}` };
         }
-        else {
-          e.options = options;
-        }
+        e.options = opts;
+      }
+      else {
+        e.options = options;
       }
     });
 
