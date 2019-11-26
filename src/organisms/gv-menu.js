@@ -36,15 +36,16 @@ export class GvMenu extends LitElement {
 
   static get properties () {
     return {
-      routes: { type: Array, attribute: false },
+      routes: { type: Array },
       searchTitle: { type: String },
+      _routes: { type: Array, attribute: false },
     };
   }
 
   static get styles () {
     return [
       // language=css
-      css`        
+      css`
           :host {
               --gv-nav-link--c: var(--gv-menu--c, #FFF);
               --gv-nav-link-active--c: var(--gv-menu--c, #FFF);
@@ -59,6 +60,7 @@ export class GvMenu extends LitElement {
               display: table;
               width: 100%;
               min-height: 90px;
+              height: 90px;
           }
 
           gv-nav, gv-input {
@@ -69,8 +71,9 @@ export class GvMenu extends LitElement {
 
           gv-nav {
               padding-left: var(--gv-menu--pl, 4rem);
+              width: 70%;
           }
-        
+
           gv-input {
               padding-right: var(--gv-menu--pr, 4rem);
           }
@@ -78,9 +81,15 @@ export class GvMenu extends LitElement {
     ];
   }
 
+  set routes (routes) {
+    Promise.all(routes).then((_routes) => {
+      this._routes = _routes;
+    });
+  }
+
   render () {
     const mainNav = document.createElement('gv-nav');
-    mainNav.routes = this.routes;
+    mainNav.routes = this._routes;
     return html`
       <div>
         ${mainNav}

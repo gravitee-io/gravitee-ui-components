@@ -60,7 +60,7 @@ export class GvNav extends LitElement {
             .icon="${_route.icon}"
             .path="${_route.path}"
             .title="${_route.title}"
-            .help="${_route.help}"></gv-nav-link>`;
+            .help="${until(_route.help, null)}"></gv-nav-link>`;
     }).catch(() => {
       delete this.routes[index];
     });
