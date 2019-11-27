@@ -22,6 +22,7 @@ export const input = css`
         display: inline-block;
         margin: 0.2rem;
         vertical-align: middle;
+        background-color: transparent;
         --input-small--p: 4px 4px;
         --input-small--fz: 12px;
         --input-small--h: 15px;

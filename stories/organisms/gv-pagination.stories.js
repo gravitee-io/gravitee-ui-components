@@ -39,6 +39,8 @@ storiesOf('3. Organisms|<gv-pagination>', module)
     <div class="title">Without sizes</div>
     <gv-pagination id="nosize"></gv-pagination>
     
+    <div class="title">Without links</div>
+    <gv-pagination id="nolinks"></gv-pagination>
     `;
     const basic = container.querySelector('#basic');
     basic.links = { first: '/first', prev: '/prev', next: '/next', last: '/last' };
@@ -51,5 +53,9 @@ storiesOf('3. Organisms|<gv-pagination>', module)
 
     const nosize = container.querySelector('#nosize');
     nosize.links = { first: '', prev: '', next: '/next', last: '/last' };
+
+    const nolinks = container.querySelector('#nolinks');
+    nolinks.sizes = ['5', '10', '15', '20'];
+    nolinks.data = { first: 1, last: 10, total: 100 };
     return container;
   }));

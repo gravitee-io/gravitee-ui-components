@@ -100,17 +100,13 @@ export class GvPagination extends LitElement {
     return this.sizes && this.sizes.length > 0;
   }
 
-  _hasLinks () {
-    return this.links && (this.links.first != null || this.links.prev != null || this.links.next != null || this.links.last != null);
-  }
-
   render () {
     return html`
      <div class="pagination">
           ${this._hasSizes() ? html`<label>Rows per page</label>
           <gv-select .options="${this.sizes}" .value="${this.size}" small @input="${this._onSelectSize}"></gv-select>` : ''}
           ${this._hasData() ? html`<span> ${this.data.first} - ${this.data.last} of ${this.data.total} </span>` : ''}
-          ${this._hasLinks() ? html`<div>
+          <div>
             <gv-button outlined icon="navigation:arrow-to-left" 
                         @click="${this._toFirst}"
                        .disabled="${!this.links.first}"></gv-button>
@@ -123,7 +119,7 @@ export class GvPagination extends LitElement {
             <gv-button outlined icon="navigation:arrow-to-right" 
                         @click="${this._toLast}"
                        .disabled="${!this.links.last}"></gv-button>
-          </div>` : ''}
+          </div>
         </div>
     `;
   }

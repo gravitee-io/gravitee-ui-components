@@ -128,6 +128,9 @@ export class GvSelect extends LitElement {
               align-items: center;
               transition: all 0.5s ease;
               text-transform: capitalize;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
           }
 
           .large .select__list__item {
