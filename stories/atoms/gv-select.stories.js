@@ -103,4 +103,21 @@ storiesOf('1. Atoms|<gv-select>', module)
     });
 
     return container;
+  }))
+  .add('In column', () => withActions(...eventNames)(() => {
+    const container = document.createElement('div');
+    container.innerHTML = `<div class="title">Column with a fixed width </div>
+    <div style ="display: flex; flex-direction: column; max-width: 30rem;">
+       <gv-select 
+        label="Associer une application" 
+        placeholder="Trouver une application"></gv-select>
+    </div>`;
+
+    container.querySelector('gv-select').options = [
+      { label: 'Iam aliis imaginarius nec praestituto quid exsertantis defensi agenda aulaeum.', value: '1' },
+      { label: 'Application 2', value: '2' },
+      { label: 'Application 3', value: '3' },
+    ];
+
+    return container;
   }));

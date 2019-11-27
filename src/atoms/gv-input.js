@@ -144,6 +144,10 @@ ${this._renderRequired()}${this.label}
   _onIconClick () {
     if (this._type === 'search') {
       dispatchCustomEvent(this, 'input', this.value);
+      const form = this.closest('form');
+      if (form) {
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      }
       dispatchCustomEvent(this, 'submit', this.value);
     }
   }
