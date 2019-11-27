@@ -144,6 +144,7 @@ ${this._renderRequired()}${this.label}
   _onIconClick () {
     if (this._type === 'search') {
       dispatchCustomEvent(this, 'input', this.value);
+      dispatchCustomEvent(this, 'submit', this.value);
     }
   }
 
