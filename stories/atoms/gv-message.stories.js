@@ -21,12 +21,18 @@ storiesOf('1. Atoms|<gv-message>', module)
   .add('Basics', () => {
     return `
       <div class="title">Info</div>
-      <gv-message type="info">The cake is a lie</gv-message>
+      <div style="height: 20px">
+          <gv-message type="info">The cake is a lie</gv-message>
+      </div>
       
       <div class="title">Success</div>
-      <gv-message type="success">Yeah, piece of cake !</gv-message>
+      <div style="height: 20px">
+        <gv-message type="success">Yeah, piece of cake !</gv-message>
+      </div>
       
       <div class="title">Error</div>
-      <gv-message type="error">Never gonna give you up</gv-message>
+      <div style="height: 20px">
+        <gv-message type="error">Never gonna give you up</gv-message>
+      </div>
     `;
   }, { notes });

@@ -33,37 +33,32 @@ export class GvMessage extends LitElement {
       // language=CSS
       css`        
           :host {
-            box-sizing: border-box;
-            display: inline-block;
-            margin: 0.2rem;
+            display: block;
             vertical-align: middle;
           }
           /* BASE */
           div {
-              border: 1px solid black;
-              box-sizing: border-box;
-              border-radius: 4px;
               font-style: normal;
               font-weight: normal;
               line-height: normal;
               padding: 12px 8px;
+              position: absolute;
+              text-align: center;
+              width: 100%;
           }
 
           /* COLOR */
           div.info {
-            border-color: #1D3730;
             background-color: #FAFAFA;
             color: #1D3730;
           }
 
           div.success {
-            border-color: #193E34;
             background-color: #D5FDCB;
             color: #193E34;
           }
 
           div.error {
-            border-color: #820014;
             background-color: #FFCCC7;
             color: #820014;
           }
