@@ -94,10 +94,10 @@ export class GvMenu extends LitElement {
       <div>
         ${mainNav}
         <gv-input 
-        type="text" 
+        type="search" 
         placeholder="${ifDefined(this.searchTitle)}" 
         title="${ifDefined(this.searchTitle)}"
-        icon="general:search"></gv-input>
+        ></gv-input>
       </div>
     `;
   }
