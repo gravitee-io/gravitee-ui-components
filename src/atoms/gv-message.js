@@ -17,7 +17,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
 
 /**
- * @attr {String} type - type of the message. Can be info (Default), success or error.
+ * @attr {String} type - type of the message. Can be info (Default), success, error, warning or info.
 */
 
 export class GvMessage extends LitElement {
@@ -49,13 +49,18 @@ export class GvMessage extends LitElement {
 
           /* COLOR */
           div.info {
-            background-color: #FAFAFA;
-            color: #1D3730;
+            background-color: #BDE5F8;
+            color: #00529B;
           }
 
           div.success {
             background-color: #D5FDCB;
             color: #193E34;
+          }
+
+          div.warning {
+            background-color: #FEEFB3;
+            color: #9F6000;
           }
 
           div.error {
@@ -69,7 +74,8 @@ export class GvMessage extends LitElement {
   render () {
 
     const modes = {
-      info: (!this.type || (this.type !== 'success' && this.type !== 'error')),
+      info: (!this.type || (this.type !== 'success' && this.type !== 'error' && this.type !== 'warning')),
+      warning: (this.type === 'warning'),
       success: (this.type === 'success'),
       error: (this.type === 'error'),
     };

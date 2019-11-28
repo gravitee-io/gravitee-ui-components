@@ -97,7 +97,7 @@ export class GvNavLink extends LitElement {
               flex: 1;
               align-self: center;
               white-space: nowrap;
-              margin: 0.3rem 0.5rem 0;
+              margin: 0.3rem 0.5rem;
           }
 
           .help {

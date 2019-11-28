@@ -44,6 +44,8 @@ storiesOf('1. Atoms|<gv-button>', module)
         <gv-button outlined disabled>Outlined disabled</gv-button>
         <gv-button outlined icon="cooking:dish" disabled></gv-button>
         <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
+        <gv-button outlined loading>Loading</gv-button>
+        <gv-button loading style="--gv-icon--c:white">Loading</gv-button>
       </div>
       
       <div class="generated-zone">
