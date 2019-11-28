@@ -39,6 +39,8 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} medium - for a medium input (Default)
  * @attr {Boolean} small - for a small input
  * @attr {String} icon - icon of the input
+ * @attr {String} icon-left - icon of the input to display at left
+ * @attr {Boolean} loading - true to display a loading icon
  *
  */
 
@@ -59,6 +61,8 @@ export class GvInput extends LitElement {
       medium: { type: Boolean },
       small: { type: Boolean },
       icon: { type: String },
+      iconLeft: { type: String, attribute: 'icon-left' },
+      loading: { type: Boolean },
     };
   }
 
@@ -85,6 +89,14 @@ export class GvInput extends LitElement {
           gv-icon.search:hover {
               box-shadow: 0 1px 3px #888;
           }
+
+          .loading {
+              animation: spinner 1.6s linear infinite;
+          }
+
+          @keyframes spinner {
+              to {transform: rotate(360deg);}
+          }
       `,
     ];
   }
@@ -93,6 +105,7 @@ export class GvInput extends LitElement {
     super();
     this._id = 'gv-id';
     this._type = 'text';
+    this._showPassword = false;
   }
 
   focus () {
@@ -153,35 +166,87 @@ ${this._renderRequired()}${this.label}
   }
 
   _renderIcon () {
-    if (this.icon) {
-      const iconStyle = {
-        position: 'absolute',
-        bottom: '1px',
-        right: '1px',
-        padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
-        borderRadius: '0 3px 3px 0',
-        backgroundColor: 'rgba(25, 62, 52, 0.1)',
-      };
+    const iconStyle = {
+      position: 'absolute',
+      bottom: '1px',
+      left: this.iconLeft ? '1px' : 'default',
+      right: this.iconLeft ? 'default' : '1px',
+      padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
+      borderRadius: '0 3px 3px 0',
+      backgroundColor: 'rgba(25, 62, 52, 0.1)',
+    };
 
-      const classes = {
-        small: this.small,
-        medium: (this.medium || (!this.large && !this.small)),
-        search: this._type === 'search',
-      };
+    const classes = {
+      small: this.small,
+      medium: (this.medium || (!this.large && !this.small)),
+      search: this._type === 'search',
+    };
 
-      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon}" @click="${this._onIconClick}"></gv-icon>`;
+    if (this.icon || this.iconLeft) {
+      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon || this.iconLeft}" @click="${this._onIconClick}"></gv-icon>`;
     }
     return '';
   }
 
-  render () {
+  _renderLoadingIcon () {
+    const iconStyle = {
+      position: 'absolute',
+      bottom: '1px',
+      left: this.iconLeft ? '1px' : 'default',
+      right: this.iconLeft ? 'default' : '1px',
+      padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
+      borderRadius: '0 3px 3px 0',
+    };
 
+    const classes = {
+      small: this.small,
+      medium: (this.medium || (!this.large && !this.small)),
+      loading: this.loading,
+    };
+
+    if (this.loading) {
+      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="navigation:waiting"></gv-icon>`;
+    }
+    return '';
+  }
+
+  _renderPasswordIcon () {
+    const iconStyle = {
+      position: 'absolute',
+      bottom: '1px',
+      right: this.icon ? '40px' : '1px',
+      padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
+      cursor: 'pointer',
+    };
+
+    const classes = {
+      small: this.small,
+      medium: (this.medium || (!this.large && !this.small)),
+      search: this._type === 'search',
+    };
+
+    if (!this.disabled) {
+      if (this._type === 'password' || (this._type === 'text' && this._showPassword)) {
+        return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this._showPassword ? 'general:visible' : 'general:hidden'}" @click="${this._onPasswordIconClick}"></gv-icon>`;
+      }
+    }
+    return '';
+  }
+
+  _onPasswordIconClick () {
+    this._showPassword = !this._showPassword;
+    this._type = this._showPassword ? 'text' : 'password';
+    this.requestUpdate();
+  }
+
+  render () {
     const classes = {
       skeleton: this.skeleton,
       large: this.large,
       medium: (this.medium || (!this.large && !this.small)),
       small: this.small,
       icon: !!this.icon,
+      'icon-left': !!this.iconLeft,
     };
 
     return html`
@@ -202,6 +267,8 @@ ${this._renderRequired()}${this.label}
             @input=${this._onInput}
             @keyup="${this._onKeyUp}">
             ${this._renderIcon()}
+            ${this._renderLoadingIcon()}
+            ${this._renderPasswordIcon()}
         </div>
     `;
   }

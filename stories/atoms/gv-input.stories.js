@@ -64,11 +64,19 @@ storiesOf('1. Atoms|<gv-input>', module)
 
       <div class="title">Skeleton</div>
       <gv-input placeholder="Medium text" skeleton></gv-input>
-      <gv-input label="Medium text"  placeholder="Medium text" skeleton icon="code:loading"></gv-input>
-      <gv-input label="Large password" placeholder="Large password"  large skeleton></gv-input>
-      <gv-input placeholder="Large password"  large skeleton icon="navigation:waiting"></gv-input>
+      <gv-input label="Medium text" placeholder="Medium text" skeleton icon="code:loading"></gv-input>
+      <gv-input label="Large password" placeholder="Large password" large skeleton></gv-input>
+      <gv-input placeholder="Large password" large skeleton icon="navigation:waiting"></gv-input>
       <gv-input small skeleton disabled required></gv-input>
       <gv-input label="Small required & disabled email" small skeleton disabled required icon="navigation:waiting"></gv-input>
+
+      <div class="title">Loading</div>
+      <gv-input placeholder="Medium text" loading></gv-input>
+      <gv-input label="Medium text" placeholder="Medium text" loading></gv-input>
+      <gv-input label="Large password" placeholder="Large password" large loading></gv-input>
+      <gv-input placeholder="Large password" large loading></gv-input>
+      <gv-input small loading disabled required></gv-input>
+      <gv-input label="Small required & disabled email" small loading disabled required></gv-input>
     `;
 
     const nodeList = container.querySelectorAll('gv-input');
@@ -83,10 +91,13 @@ storiesOf('1. Atoms|<gv-input>', module)
     <div style ="display: flex; flex-direction: column; max-width: 30rem;">
       <gv-input placeholder="Text (default)"></gv-input>
       <gv-input placeholder="Text" icon="general:search"></gv-input>
+      <gv-input placeholder="Text left" icon-left="general:search"></gv-input>
       <gv-input type="password" placeholder="Password"></gv-input>
-      <gv-input placeholder="Password icon" icon="general:shield-protected"></gv-input>
+      <gv-input type="password" placeholder="Password icon" icon="general:shield-protected"></gv-input>
+      <gv-input type="password" placeholder="Password icon left" icon-left="general:shield-protected"></gv-input>
       <gv-input type="email" placeholder="Email"></gv-input>
       <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
+      <gv-input placeholder="Email icon left" icon-left="communication:mail-@"></gv-input>
     </div>
 `;
   }))

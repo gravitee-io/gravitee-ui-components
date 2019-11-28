@@ -84,6 +84,18 @@ export const input = css`
         padding-right: 30px;
     }
 
+    input.large.icon-left {
+        padding-left: 58px;
+    }
+
+    input.medium.icon-left {
+        padding-left: 49px;
+    }
+
+    input.small.icon-left {
+        padding-left: 30px;
+    }
+
     /* STATES */
     input:disabled {
         cursor: default;

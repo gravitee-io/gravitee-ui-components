@@ -35,6 +35,8 @@ import '../atoms/gv-icon';
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
+ * @attr {String} icon - display an icon on the button
+ * @attr {Boolean} loading - true to display a loading icon
  *
  * @cssprop {String} --gv-button([-primary])--bgc - set the background color of button.
  * @cssprop {String} --gv-button--p - set the padding.
@@ -50,6 +52,7 @@ export class GvButton extends LitElement {
       outlined: { type: Boolean },
       skeleton: { type: Boolean },
       icon: { type: String },
+      loading: { type: Boolean },
     };
   }
 
@@ -179,6 +182,13 @@ export class GvButton extends LitElement {
               width: 100%;
           }
 
+          .loading gv-icon {
+              animation: spinner 1.6s linear infinite;
+          }
+
+          @keyframes spinner {
+              to {transform: rotate(360deg);}
+          }
       `,
     ];
   }
@@ -191,22 +201,24 @@ export class GvButton extends LitElement {
   }
 
   render () {
-    const modes = {
+    const classes = {
       primary: this.primary,
       skeleton: this.skeleton,
       default: !this.primary,
       outlined: this.outlined,
-      icon: !!this.icon,
+      icon: !!this.icon || this.loading,
+      loading: this.loading,
     };
 
     return html`<button
         type="button"
-      class=${classMap(modes)}
+      class=${classMap(classes)}
       .disabled=${this.disabled || this.skeleton}
       @click="${this._onClick}">
-      ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
+      ${this.loading ? html`<gv-icon shape="navigation:waiting"></gv-icon>` : ''}
+      ${(this.icon && !this.loading) ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
       <slot></slot>
-      ${this.icon ? html`<div class="fake-icon"></div>` : ''}
+      ${(this.icon || this.loading) ? html`<div class="fake-icon"></div>` : ''}
     </button>`;
   }
 

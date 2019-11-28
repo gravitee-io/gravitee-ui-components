@@ -27,7 +27,12 @@ storiesOf('1. Atoms|<gv-message>', module)
       
       <div class="title">Success</div>
       <div style="height: 20px">
-        <gv-message type="success">Yeah, piece of cake !</gv-message>
+        <gv-message type="success">Yeah, piece of cake!</gv-message>
+      </div>
+      
+      <div class="title">Warning</div>
+      <div style="height: 20px">
+        <gv-message type="warning">Attention please</gv-message>
       </div>
       
       <div class="title">Error</div>
