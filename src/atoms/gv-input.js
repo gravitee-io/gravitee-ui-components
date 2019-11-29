@@ -85,7 +85,7 @@ export class GvInput extends LitElement {
           gv-icon.search {
               cursor: pointer;
           }
-          
+
           gv-icon.search:hover {
               box-shadow: 0 1px 3px #888;
           }
@@ -182,7 +182,7 @@ ${this._renderRequired()}${this.label}
       search: this._type === 'search',
     };
 
-    if (this.icon || this.iconLeft) {
+    if (!this.loading && (this.icon || this.iconLeft)) {
       return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon || this.iconLeft}" @click="${this._onIconClick}"></gv-icon>`;
     }
     return '';
