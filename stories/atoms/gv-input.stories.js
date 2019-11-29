@@ -37,7 +37,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input placeholder="Password icon" icon="general:shield-protected"></gv-input>
       <gv-input type="email" placeholder="Email"></gv-input>
       <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
-      
+
       <div class="title">Size</div>
       <gv-input placeholder="Medium (default)"></gv-input>
       <gv-input placeholder="Medium icon" icon="general:size"></gv-input>
@@ -45,7 +45,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input large placeholder="Large icon" icon="general:size"></gv-input>
       <gv-input small placeholder="Small" ></gv-input>
       <gv-input small placeholder="Small icon" icon="general:size"></gv-input>
-    
+
       <div class="title">Disabled</div>
       <gv-input placeholder="Medium" disabled></gv-input>
       <gv-input placeholder="Medium icon" disabled icon="general:shield-disabled"></gv-input>
@@ -71,8 +71,8 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input label="Small required & disabled email" small skeleton disabled required icon="navigation:waiting"></gv-input>
 
       <div class="title">Loading</div>
-      <gv-input placeholder="Medium text" loading></gv-input>
-      <gv-input label="Medium text" placeholder="Medium text" loading></gv-input>
+      <gv-input placeholder="Medium text" loading icon="communication:shield-thunder"></gv-input>
+      <gv-input label="Medium text left" placeholder="Medium text left" icon-left="communication:shield-thunder" loading></gv-input>
       <gv-input label="Large password" placeholder="Large password" large loading></gv-input>
       <gv-input placeholder="Large password" large loading></gv-input>
       <gv-input small loading disabled required></gv-input>
