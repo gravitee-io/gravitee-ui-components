@@ -61,6 +61,14 @@
   --gv-nav-link-active--bgc: var(--gv-theme-color-dark);
   --gv-nav-link-active--c: var(--gv-theme-color-lighter);
 
+  /** gv-tree-menu */
+  --gv-tree-menu--bgc: #FFFFFF;
+  --gv-tree-menu--c: var(--gv-theme-font-color);
+  --gv-tree-menu-active--bdl: 1px dotted lightgrey;
+  --gv-tree-menu-active--bgc: var(--gv-theme-color-lighter);
+  --gv-tree-menu-hover--bgc: #FFFFFF;
+  --gv-tree-menu-hover--c: var(--gv-theme-color-dark);
+
   /** gv-user-menu */
   --gv-user-menu--bdl: 1px solid lightgrey;
   --gv-user-menu--bgc:#FFFFFF;
