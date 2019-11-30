@@ -167,8 +167,8 @@ export class GvButton extends LitElement {
           }
 
           button.icon {
-              display: flex;
               align-items: center;
+              display: flex;
           }
 
           button slot {
@@ -184,6 +184,10 @@ export class GvButton extends LitElement {
 
           .loading gv-icon {
               animation: spinner 1.6s linear infinite;
+          }
+
+          slot {
+            margin-left: 0.3rem;
           }
 
           @keyframes spinner {
