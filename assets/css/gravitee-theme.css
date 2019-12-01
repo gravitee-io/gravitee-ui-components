@@ -19,7 +19,7 @@
   color: var(--gv-theme-font-color);
   font-color: var( --gv-theme-font-color);
 
-  background-color: #EFEFEF;
+  background-color: var(--gv-theme-color-grey-1);
   /** Variables */
   --gv-theme-color-category-1: #CCE6EB;
   --gv-theme-color-category-2: #FCF1A8;
@@ -32,6 +32,10 @@
   --gv-theme-color: #009B5B;
   --gv-theme-color-light: #D5FDCB;
   --gv-theme-color-lighter: #FAFAFA;
+  --gv-theme-color-grey-1: #EFEFEF;
+  --gv-theme-color-grey-2: #E5E5E5;
+  --gv-theme-color-grey-3: #E8E8E8;
+  --gv-theme-color-grey-4: #BFBFBF;
   --gv-theme-font-color: #262626;
   --gv-theme-logo: url('../images/gravitee-logo-darker.png');
   --gv-theme-logo-blue: #32ABDF;

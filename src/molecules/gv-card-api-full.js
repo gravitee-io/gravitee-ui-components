@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
+import { css } from 'lit-element';
 import { html } from 'lit-html';
-import { until } from 'lit-html/directives/until';
 import { skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
@@ -23,50 +22,19 @@ import '../atoms/gv-button';
 import '../molecules/gv-rating';
 import '../atoms/gv-state';
 import '../atoms/gv-tag';
-import _picture from '../../assets/images/api-full.png';
-import { repeat } from 'lit-html/directives/repeat';
+import picture from '../../assets/images/api-full.png';
 import { card } from '../styles/card';
 import { truncate } from '../lib/utils';
+import { ApiElement } from '../mixins/api-element';
 
 /**
  * Api Full Card component
  *
- * @attr {String} title - API title.
- * @attr {String} description - API descriptions.
- * @attr {Number} limit - number of characters that can be display in the description. (default: 150 characters)
- * @attr {String} picture - Image source file.
- * @attr {String} altPicture - Image alternative text.
- * @attr {Array} states - Array of states (Show <gv-state> component)
- * @attr {Array} labels - Array of labels (Show <gv-label> component)
- * @attr {String} version - API version
- * @attr {String} subscribers - All subscribers
- * @attr {String} hits - All hits
- * @attr {String} health - health
- * @attr {average, count} rating - Rating object (Show <gv-rating> component)
+ * @attr {Promise<Api>} api - An Api.
  *
  * @cssprop {String} --gv-card-api-full--bgc - set the background color.
  */
-export class GvCardApiFull extends LitElement {
-
-  static get properties () {
-    return {
-      description: { type: String },
-      descriptionMaxSize: { type: Number },
-      title: { type: String },
-      picture: { type: String },
-      altPicture: { type: String },
-      states: { type: Array },
-      labels: { type: Array },
-      version: { type: String },
-      subscribers: { type: String },
-      hits: { type: String },
-      health: { type: String },
-      rating: { type: Object },
-      skeleton: { type: Boolean },
-      _skeleton: { type: Boolean, attribute: false },
-      _error: { type: Boolean, attribute: false },
-    };
-  }
+export class GvCardApiFull extends ApiElement {
 
   static get styles () {
     return [
@@ -78,14 +46,16 @@ export class GvCardApiFull extends LitElement {
               box-sizing: border-box;
               display: inline-block;
               margin: 0.2rem;
-              
+
               vertical-align: middle;
               --gv-image--w: 110px;
               --gv-image--h: 65px;
               --gv-icon--w: 65px;
               --gv-icon--h: 65px;
               --gv-icon--c: #777;
+              min-width: 400px;
               width: 444px;
+              max-width: 444px;
               max-height: 281px;
               line-height: 22px;
               font-size: 14px;
@@ -94,7 +64,6 @@ export class GvCardApiFull extends LitElement {
           .card {
               display: flex;
               flex-direction: column;
-              max-width: 444px;;
               height: 250px;
               border-radius: 4px;
               background-color: var(--gv-card-api-full--bgc, white);
@@ -153,6 +122,10 @@ export class GvCardApiFull extends LitElement {
               margin: 8px;
           }
 
+          .skeleton .infos {
+              border-bottom: none;
+          }
+
           .info {
               flex: 1;
               --gv-icon--w: 24px;
@@ -199,40 +172,11 @@ export class GvCardApiFull extends LitElement {
 
   constructor () {
     super();
-    this.picture = _picture;
-    this.altPicture = 'Card image';
-    this.states = [];
-    this.labels = [];
     this.limit = 150;
-    this._forceSkeleton = false;
-    this._skeleton = true;
-    this._image = new Promise((resolve) => (this.imageResolver = resolve));
-    this._error = false;
   }
 
-  async performUpdate () {
-    Promise.all([this.title, this._image]).catch(() => {
-      this._error = true;
-      this.description = 'Sorry, an error has occurred ;(';
-    })
-      .finally(() => (this._skeleton = this._forceSkeleton));
-    super.performUpdate();
-  }
-
-  set skeleton (value) {
-    this._forceSkeleton = value;
-    this._skeleton = value;
-  }
-
-  _onImageLoaded () {
-    this.imageResolver();
-  }
-
-  _renderImage () {
-    if (this._error) {
-      return html`<gv-icon ?skeleton="${this._skeleton}" shape="design:image"></gv-icon>`;
-    }
-    return html`<gv-image ?skeleton="${this._skeleton}" src="${this.picture}" alt="${until(this.altPicture, '')}" @gv-image:loaded="${this._onImageLoaded()}"></gv-image>`;
+  getDefaultPicture () {
+    return picture;
   }
 
   _renderInfo (data, icon, name) {
@@ -242,42 +186,47 @@ export class GvCardApiFull extends LitElement {
   }
 
   _renderInfoRating () {
-    if (this.rating) {
-      return html`<gv-rating .skeleton="${this._skeleton}" .average="${this.rating.average}" .count="${this.rating.count}"></gv-rating>`;
+    const rating = this._getRating();
+    if (rating) {
+      return html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`;
     }
     return html`<div class="info"></div>`;
   }
 
+  _renderMetrics () {
+    const metrics = this._getMetrics();
+    if (metrics) {
+      return html`${this._renderInfo(metrics.subscribers, 'communication:group', 'Subscribers')}
+    ${this._renderInfo(metrics.hits, 'general:cursor', 'Hits')}
+    ${this._renderInfo(metrics.health, 'general:heart', 'Health')}`;
+    }
+    return '';
+  }
+
   render () {
-    return html`<div class="${classMap({ error: this._error, card: true })}" title="${until(this.title, '')}"> 
-        <div>
-            <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
+    return html`<div class="${classMap({ error: this._error, card: true })}" title="${this._getTitle()}"> 
+        <div class="${classMap({ skeleton: this._skeleton })}">
+            <div class="${classMap({ image: true })}">${this._renderImage()}</div>
             <div class="content">
-                <div class="${classMap({ skeleton: this._skeleton, title: true })}">${until(this.title, '')}</div>
+                <div class="${classMap({ title: true })}">${this._getTitle()}</div>
                 <div class="states">
-                ${repeat(this.states, (state) => state, (state) => html`
-                    <gv-state ?skeleton="${this._skeleton}" 
-                    ?major="${state.major === true}" 
-                    ?minor="${state.minor === true}">${state.value}</gv-state>
-                `)}
+                ${this._renderStates()}
                 </div>
             </div>
-            <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${until(this.version, '')}</span></div>  
+            <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${this._getVersion()}</span></div>  
         </div>
-        <div class="${classMap({ skeleton: this._skeleton, description: true })}">${until(truncate(this.description, this.limit), '')}</div>   
-        <div class="${classMap({ skeleton: this._skeleton, infos: true })}">
-           ${this._renderInfo(this.subscribers, 'communication:group', 'Subscribers')}
-           ${this._renderInfo(this.hits, 'general:cursor', 'Hits')}
-           ${this._renderInfo(this.health, 'general:heart', 'Health')}
-           ${this._renderInfoRating()}
-        </div>   
-        <div class="labels">
-           ${repeat(this.labels, (label) => label, ({ value, major, minor }) => html`
-                    <gv-tag ?skeleton="${this._skeleton}" 
-                    ?major="${major === true}" 
-                    ?minor="${minor === true}">${value}</gv-tag>
-                `)}
-        </div>
+        <div class="${classMap({ skeleton: this._skeleton, description: true })}">
+            ${truncate(this._error ? 'An error has occurred' : this._getDescription(), this.limit)}
+        </div>  
+        <span class="${classMap({ skeleton: this._skeleton })}">
+           <div class="infos">
+             ${this._renderMetrics()}
+             ${this._renderInfoRating()}
+          </div>   
+          <div class="labels">
+             ${this._renderLabels()}
+          </div>
+        </span> 
 </div>`;
   }
 

@@ -13,42 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
+import { css } from 'lit-element';
 import { html } from 'lit-html';
-import { until } from 'lit-html/directives/until';
 import { skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
-import _picture from '../../assets/images/promote-api.png';
-import { repeat } from 'lit-html/directives/repeat';
 import { card } from '../styles/card';
+import { ApiElement } from '../mixins/api-element';
 
 /**
  * Api Card component
  *
- * @attr {String} title - API title.
- * @attr {String} picture - Image source file.
- * @attr {String} altPicture - Image alternative text.
- * @attr {Array} states - Array of states (Show <gv-state> component)
- * @attr {String} version - API version
+ * @attr {Promise<Api>} api - An Api.
  *
  * @cssprop {String} --gv-card-api--bgc - set the background color.
  */
-export class GvCardApi extends LitElement {
-
-  static get properties () {
-    return {
-      title: { type: String },
-      picture: { type: String },
-      altPicture: { type: String },
-      states: { type: Array },
-      version: { type: String },
-      skeleton: { type: Boolean },
-      _skeleton: { type: Boolean, attribute: false },
-      _error: { type: Boolean, attribute: false },
-    };
-  }
+export class GvCardApi extends ApiElement {
 
   static get styles () {
     return [
@@ -133,44 +114,9 @@ export class GvCardApi extends LitElement {
     ];
   }
 
-  constructor () {
-    super();
-    this.picture = _picture;
-    this.altPicture = 'Card image';
-    this.states = [];
-    this._forceSkeleton = false;
-    this._skeleton = true;
-    this._image = new Promise((resolve) => (this.imageResolver = resolve));
-    this._error = false;
-  }
-
-  async performUpdate () {
-    Promise.all([this.title, this._image]).catch(() => {
-      this._error = true;
-    })
-      .finally(() => (this._skeleton = this._forceSkeleton));
-    super.performUpdate();
-  }
-
-  set skeleton (value) {
-    this._forceSkeleton = value;
-    this._skeleton = value;
-  }
-
-  _onImageLoaded () {
-    this.imageResolver();
-  }
-
-  _renderImage () {
-    if (this._error) {
-      return html`<gv-icon shape="design:image"></gv-icon>`;
-    }
-    return html`<gv-image ?skeleton="${this._skeleton}" src="${this.picture}" alt="${until(this.altPicture, '')}" @gv-image:loaded="${this._onImageLoaded()}"></gv-image>`;
-  }
-
   render () {
-    return html`<div class="card" title="${until(this.title, '')}"> 
-    <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${until(this.version, '')}</span>   
+    return html`<div class="card" title="${this._getTitle()}"> 
+    <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${this._getVersion()}</span>   
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
     
     <div class="content">
@@ -180,15 +126,10 @@ export class GvCardApi extends LitElement {
         </div>
         ` : html`
         <div class="${classMap({ skeleton: this._skeleton })}">
-            <span class="title">${until(this.title, '')}</span>
+            <span class="title">${this._getTitle()}</span>
         </div>
-        <div>
-           ${repeat(this.states, (state) => state, ({ value, major, minor }) => html`
-                 <gv-state ?skeleton="${this._skeleton}" 
-                    ?major="${major === true}" 
-                    ?minor="${minor === true}">${value}</gv-state> 
-        `)}
-        </div>`}
+        <div>${this._renderStates()}</div>`
+    }
     </div>
 </div>`;
   }

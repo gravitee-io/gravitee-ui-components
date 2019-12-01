@@ -37,7 +37,8 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input placeholder="Password icon" icon="general:shield-protected"></gv-input>
       <gv-input type="email" placeholder="Email"></gv-input>
       <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
-
+      <gv-input type="number" placeholder="Number" min="1" max="10"></gv-input>
+     
       <div class="title">Size</div>
       <gv-input placeholder="Medium (default)"></gv-input>
       <gv-input placeholder="Medium icon" icon="general:size"></gv-input>
@@ -53,6 +54,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input type="password" large placeholder="Large password" disabled icon="general:shield-disabled"></gv-input>
       <gv-input type="email" small label="Small email" disabled></gv-input>
       <gv-input type="email" small label="Small email" disabled icon="general:shield-disabled"></gv-input>
+      <gv-input type="number" placeholder="Number" min="1" max="10" disabled    ></gv-input>
 
       <div class="title">Required</div>
       <gv-input placeholder="Medium text" required></gv-input>
@@ -69,6 +71,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input placeholder="Large password" large skeleton icon="navigation:waiting"></gv-input>
       <gv-input small skeleton disabled required></gv-input>
       <gv-input label="Small required & disabled email" small skeleton disabled required icon="navigation:waiting"></gv-input>
+      <gv-input type="number" placeholder="Number" min="1" max="10" skeleton></gv-input>
 
       <div class="title">Loading</div>
       <gv-input placeholder="Medium text" loading icon="communication:shield-thunder"></gv-input>
@@ -77,6 +80,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input placeholder="Large password" large loading></gv-input>
       <gv-input small loading disabled required></gv-input>
       <gv-input label="Small required & disabled email" small loading disabled required></gv-input>
+      <gv-input type="number" placeholder="Number" min="1" max="10" loading disabled required></gv-input>
     `;
 
     const nodeList = container.querySelectorAll('gv-input');

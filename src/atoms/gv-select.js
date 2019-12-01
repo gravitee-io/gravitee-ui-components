@@ -76,8 +76,9 @@ export class GvSelect extends LitElement {
           div, input {
               user-select: none;
               cursor: pointer;
+              text-transform: capitalize;
           }
-
+          
           gv-icon {
               transform: rotate(180deg);
               --gv-icon--h: 19px;
@@ -127,7 +128,7 @@ export class GvSelect extends LitElement {
               display: flex;
               align-items: center;
               transition: all 0.5s ease;
-              text-transform: capitalize;
+             
               text-overflow: ellipsis;
               white-space: nowrap;
               overflow: hidden;

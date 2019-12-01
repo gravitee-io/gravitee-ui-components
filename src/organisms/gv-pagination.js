@@ -22,22 +22,20 @@ import '../atoms/gv-select';
  * A pagination
  *
  * @fires gv-pagination:paginate - Custom event with pagination link
- * @fires gv-pagination:size - Custom event with selected size
  *
- * @attr {Array<String>} sizes - definition of sizes
- * @attr {String} size - selected size
- * @attr {Object} data - Pagination information {first, last, total}
- * @attr {Object} links - Pagination links {first, prev, next, last}
- *
+ * @attr {Object} data - Pagination information {first, last, total, current_page}
+ * @attr {Boolean} hideEmpty - hide component if no page or no data. (default: false)
  */
 export class GvPagination extends LitElement {
 
   static get properties () {
     return {
-      sizes: { type: Array },
-      size: { type: String },
       data: { type: Object },
-      links: { type: Object },
+      hideEmpty: { type: Boolean },
+      _first: { type: Number },
+      _last: { type: Number },
+      _current: { type: Number },
+      _total: { type: Number },
     };
   }
 
@@ -46,19 +44,19 @@ export class GvPagination extends LitElement {
       // language=css
       css`
           .pagination {
-              font-size: 10px;
+              font-size: 12px;
+              --gv-button--fz: 12px;
               display: flex;
               align-items: center;
-              justify-content: flex-end;
-              margin: 0.2rem;
           }
 
           gv-button {
-              --gv-icon--h: 20px;
-              --gv-icon--w: 20px;
+              --gv-icon--h: 18px;
+              --gv-icon--w: 18px;
+              min-width: 29px;
           }
 
-          gv-select {
+          gv-input {
               width: 50px;
           }
       `,
@@ -67,61 +65,93 @@ export class GvPagination extends LitElement {
 
   constructor () {
     super();
+    this.hideEmpty = false;
+    this.hasInput = false;
+    this.max = 10;
+    this.center = this.max / 2 - 1;
     this.sizes = [];
-    this.data = {};
     this.links = {};
   }
 
-  _onSelectSize (e) {
-    dispatchCustomEvent(this, 'size', { size: e.target.value });
+  set data (data) {
+    if (data) {
+      this._last = parseInt(data.last, 10);
+      this._current = parseInt(data.current_page, 10);
+      this._pages = parseInt(data.total_pages, 10);
+      if (this._pages < this.max) {
+        this.max = this._pages;
+      }
+    }
   }
 
-  _toFirst () {
-    dispatchCustomEvent(this, 'paginate', { link: this.links.first });
+  _goToPage (page) {
+    this._current = page;
+    dispatchCustomEvent(this, 'paginate', { page: page });
   }
 
-  _toPrev () {
-    dispatchCustomEvent(this, 'paginate', { link: this.links.prev });
+  _onSubmit (e) {
+    const page = e.target.value;
+    this._goToPage(page);
   }
 
-  _toNext () {
-    dispatchCustomEvent(this, 'paginate', { link: this.links.next });
+  _onClickToSearch () {
+    const page = this.shadowRoot.querySelector('gv-input').value;
+    if (page) {
+      this._goToPage(page);
+    }
   }
 
-  _toLast () {
-    dispatchCustomEvent(this, 'paginate', { link: this.links.last });
+  _renderPagination () {
+    const pagination = [];
+    for (let i = 0; i < this._pages; i++) {
+      pagination.push(i + 1);
+    }
+    let left = pagination.slice(0, this._current - 1);
+    let right = pagination.slice(this._current);
+
+    if (pagination.length > this.max) {
+      const dL = left.length;
+      let removeL = dL - this.center - 1;
+      let addRight = this.max - this._current > this.center ? this.max - this._current : this.center;
+      if (removeL > 0) {
+        addRight = this.center;
+        const diff = this._last - this._current - addRight;
+        if (diff < 0) {
+          removeL += diff;
+        }
+        left = left.slice(removeL);
+      }
+      right = right.slice(0, addRight);
+    }
+    const leftP = left.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
+    const rightP = right.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
+
+    if (leftP.length > 0) {
+      leftP.unshift(html`<gv-button outlined @click="${this._goToPage.bind(this, this._current - 1)}">PREVIOUS</gv-button>`);
+    }
+    if (rightP.length > 0) {
+      rightP.push(html`<gv-button outlined @click="${this._goToPage.bind(this, this._current + 1)}">NEXT</gv-button>`);
+    }
+    return html`${leftP} ${html`<gv-button primary>${this._current}</gv-button>`} ${rightP}`;
   }
 
   _hasData () {
-    return this.data && this.data.first != null && this.data.last != null && this.data.total != null;
+    return this._pages && this._last && this._current;
   }
 
-  _hasSizes () {
-    return this.sizes && this.sizes.length > 0;
+  _hideEmpty () {
+    return this._hasData() && this.hideEmpty && this._pages < 2;
   }
 
   render () {
-    return html`
-     <div class="pagination">
-          ${this._hasSizes() ? html`<label>Rows per page</label>
-          <gv-select .options="${this.sizes}" .value="${this.size}" small @input="${this._onSelectSize}"></gv-select>` : ''}
-          ${this._hasData() ? html`<span> ${this.data.first} - ${this.data.last} of ${this.data.total} </span>` : ''}
-          <div>
-            <gv-button outlined icon="navigation:arrow-to-left" 
-                        @click="${this._toFirst}"
-                       .disabled="${!this.links.first}"></gv-button>
-            <gv-button outlined icon="navigation:arrow-left"
-                        @click="${this._toPrev}"
-                       .disabled="${!this.links.prev}"></gv-button>
-            <gv-button outlined icon="navigation:arrow-right"  
-                        @click="${this._toNext}"
-                       .disabled="${!this.links.next}"></gv-button>
-            <gv-button outlined icon="navigation:arrow-to-right" 
-                        @click="${this._toLast}"
-                       .disabled="${!this.links.last}"></gv-button>
-          </div>
-        </div>
-    `;
+    if (this._hasData() && !this._hideEmpty()) {
+      return html`<div class="pagination">
+          ${this.hasInput ? html`<gv-input class="goto" @gv-input:submit="${this._onSubmit}" type="number" min="1" max="${this._pages}" placeholder="Page" small></gv-input>
+          <gv-button outlined @click="${this._onClickToSearch}" icon="general:search"></gv-button>` : ''}
+          ${this._renderPagination()}
+        </div> `;
+    }
+    return html``;
   }
 
 }

@@ -17,7 +17,6 @@ import { LitElement, html, css } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
 import { skeleton } from '../styles';
 import '../atoms/gv-icon';
-import { classMap } from 'lit-html/directives/class-map';
 import { until } from 'lit-html/directives/until';
 
 /**
@@ -163,8 +162,7 @@ export class GvImage extends LitElement {
   }
 
   render () {
-
-    return html`<div class="${classMap({ skeleton: this._skeleton && this.src && this.alt })}">
+    return html`<div>
        ${this.src && this.alt
       ? html`<img src="${until(this.src, '')}" alt="${until(this.alt, '')}" @load="${this._onLoad}" @error="${this._onError}">`
       : html`<div class="placeholder"><gv-icon shape="design:image"></gv-icon></div>`}

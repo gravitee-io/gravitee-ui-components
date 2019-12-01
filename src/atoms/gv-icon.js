@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
+import { css, LitElement, TemplateResult } from 'lit-element';
 import { GvIcons } from '../icons/gv-icons';
 import { until } from 'lit-html/directives/until';
 import { html } from 'lit-html';
 import { skeleton } from '../styles';
+import { getCssVar } from '../lib/style';
 
 /**
  * An icon
@@ -55,8 +56,24 @@ export class GvIcon extends LitElement {
     this.size = 24;
   }
 
+  async _getIcon () {
+    let icon = await GvIcons._getIcon(this.shape);
+    if (icon) {
+      const color = getCssVar(this, 'gv-icon--c', '#000');
+      if (color) {
+        icon = icon.replace(/fill="[#a-zA-Z0-9]*"/g, `fill="${color}"`);
+      }
+      const width = getCssVar(this, 'gv-icon--w', 32);
+      const height = getCssVar(this, 'gv-icon--h', 32);
+      if (width && height) {
+        icon = icon.replace(/<svg/, `<svg width="${width}" height="${height}"`);
+      }
+    }
+    return new TemplateResult([icon], [], 'html');
+  }
+
   render () {
-    return html`${until(GvIcons.getIcon(this.shape, this), '')}`;
+    return html`${until(this._getIcon(), '')}`;
   }
 
 }

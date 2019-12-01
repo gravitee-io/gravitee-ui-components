@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getCssVar } from '../lib/style';
-import { TemplateResult } from 'lit-html';
 
 export class GvIcons {
 
@@ -33,23 +31,6 @@ export class GvIcons {
       console.error(`Cannot find shape "${shape}". Show Gravitee.io Components documentation.`);
     }
     return '?';
-  }
-
-  static async getIcon (name, element) {
-    let icon = await this._getIcon(name);
-    if (icon && element) {
-      const color = getCssVar(element, 'gv-icon--c', '#000');
-      if (color) {
-        icon = icon.replace(/fill="#000"/g, `fill="${color}"`);
-      }
-      const width = getCssVar(element, 'gv-icon--w', 32);
-      const height = getCssVar(element, 'gv-icon--h', 32);
-      if (width && height) {
-        icon = icon.replace(/<svg/, `<svg width="${width}" height="${height}"`);
-      }
-    }
-
-    return new TemplateResult([icon], [], 'html');
   }
 
 }

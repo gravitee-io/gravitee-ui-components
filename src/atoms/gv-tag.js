@@ -16,8 +16,7 @@
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles';
-import { GvIcons } from '../icons/gv-icons';
-import { until } from 'lit-html/directives/until';
+import '../atoms/gv-icon';
 
 /**
  * A Tag
@@ -100,9 +99,9 @@ export class GvTag extends LitElement {
               padding: 1px 8px;
           }
 
-          div.icon > * {
+          div > * {
               vertical-align: middle;
-              display: inline;
+              display: inline-flex;
           }
       `,
     ];
@@ -114,13 +113,12 @@ export class GvTag extends LitElement {
       default: !this.major && !this.minor,
       major: this.major,
       minor: this.minor && !this.major,
-      icon: !!this.icon,
       skeleton: this.skeleton,
     };
 
     return html`
       <div class=${classMap(modes)}>
-         ${this.icon ? until(GvIcons.getIcon(this.icon, this)) : ''}
+         ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
         <slot></slot>
       </div>
     `;

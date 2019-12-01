@@ -17,6 +17,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles';
 import '../atoms/gv-icon';
+import { ifDefined } from 'lit-html/directives/if-defined';
 
 /**
  * A button
@@ -36,12 +37,14 @@ import '../atoms/gv-icon';
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  * @attr {String} icon - display an icon on the button
+ * @attr {String} title - title of btn
  * @attr {Boolean} loading - true to display a loading icon
  *
  * @cssprop {String} --gv-button([-primary])--bgc - set the background color of button.
  * @cssprop {String} --gv-button--p - set the padding.
  * @cssprop {String} --gv-button--fz - set the font-size
  * @cssprop {String} --gv-icon--c - set the color of icon
+ * @cssprop {String} --gv-button--bdrs - set the border raduis
  */
 export class GvButton extends LitElement {
 
@@ -53,6 +56,7 @@ export class GvButton extends LitElement {
       skeleton: { type: Boolean },
       icon: { type: String },
       loading: { type: Boolean },
+      title: { type: String },
     };
   }
 
@@ -83,9 +87,9 @@ export class GvButton extends LitElement {
 
           /* BASE */
           button {
-              border-radius: 0.15rem;
+              border-radius: var(--gv-button--bdrs, 0.15rem);
               cursor: pointer;
-              min-height: 2rem;
+              min-height: 26px;
               padding: var(--gv-button--p, 0rem 0.5rem);
               text-transform: uppercase;
               -moz-user-select: none;
@@ -98,10 +102,12 @@ export class GvButton extends LitElement {
           /* COLORS */
           button.default {
               --c: var(--gv-button--bgc, #333);
+              --gv-icon--c: var(--gv-button-icon--c, #BFBFBF)
           }
 
           button.primary {
               --c: var(--gv-button-primary--bgc, #555);
+              --gv-icon--c: white;
           }
 
           /* MODES */
@@ -123,7 +129,7 @@ export class GvButton extends LitElement {
 
           /* STATES */
           button:enabled:focus {
-              box-shadow: 0 0 0 .2em rgba(50, 115, 220, .25);
+              box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
               outline: 0;
           }
 
@@ -184,10 +190,14 @@ export class GvButton extends LitElement {
 
           .loading gv-icon {
               animation: spinner 1.6s linear infinite;
+              --gv-icon--h: 20px;
+              --gv-icon--w: 20px;
           }
 
           @keyframes spinner {
-              to {transform: rotate(360deg);}
+              to {
+                  transform: rotate(360deg);
+              }
           }
       `,
     ];
@@ -197,6 +207,14 @@ export class GvButton extends LitElement {
     const form = this.closest('form');
     if (form) {
       form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    }
+  }
+
+  async performUpdate () {
+    super.performUpdate();
+    const icon = this.shadowRoot.querySelector('gv-icon');
+    if (icon) {
+      icon.performUpdate();
     }
   }
 
@@ -212,6 +230,7 @@ export class GvButton extends LitElement {
 
     return html`<button
         type="button"
+        .title="${ifDefined(this.title)}"
       class=${classMap(classes)}
       .disabled=${this.disabled || this.skeleton}
       @click="${this._onClick}">

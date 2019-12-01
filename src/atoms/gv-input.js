@@ -34,7 +34,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} title - title of the input
  * @attr {String} name - name of the input
  * @attr {String} placeholder - an example value to display in the input when empty
- * @attr {String} type - type of the input, can be text (Default), password, email or search
+ * @attr {String} type - type of the input, can be text (Default), password, email, search or number
  * @attr {Boolean} large - for a large input
  * @attr {Boolean} medium - for a medium input (Default)
  * @attr {Boolean} small - for a small input
@@ -63,6 +63,8 @@ export class GvInput extends LitElement {
       icon: { type: String },
       iconLeft: { type: String, attribute: 'icon-left' },
       loading: { type: Boolean },
+      min: { type: Number },
+      max: { type: Number },
     };
   }
 
@@ -117,7 +119,7 @@ export class GvInput extends LitElement {
     dispatchCustomEvent(this, 'input', this.value);
   }
 
-  _onKeyUp (e, a) {
+  _onKeyUp (e) {
     if (e.keyCode === 13) {
       const form = this.closest('form');
       if (form) {
@@ -128,7 +130,7 @@ export class GvInput extends LitElement {
   }
 
   set type (value) {
-    if (['text', 'password', 'email', 'search'].includes(value)) {
+    if (['text', 'password', 'email', 'search', 'number'].includes(value)) {
       this._type = value;
     }
 
@@ -263,6 +265,8 @@ ${this._renderRequired()}${this.label}
             ?disabled=${this.disabled || this.skeleton}
             .placeholder=${ifDefined(this.placeholder)}
             .value=${ifDefined(this.value)}
+            .min="${ifDefined(this.min)}"
+            .max="${ifDefined(this.max)}"
             class=${classMap(classes)}
             @input=${this._onInput}
             @keyup="${this._onKeyUp}">
