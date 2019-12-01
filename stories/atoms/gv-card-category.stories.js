@@ -17,45 +17,45 @@ import '../../src/atoms/gv-card-category.js';
 import notes from '../../.docs/gv-card-category.md';
 import { storiesOf } from '@storybook/html';
 import { color, number } from '@storybook/addon-knobs';
+import { delay } from '../lib/delay';
+
+const cards = [
+  {
+    name: 'Title',
+  },
+  {
+    name: 'Truncated description if > 4 lines (Default)',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
+  {
+    name: 'Title + description + description limit',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
+];
 
 storiesOf('1. Atoms|<gv-card-category>', module)
+  .addParameters({ notes })
   .add('Basics', () => {
-    const limit = number('Limit size for description', '');
-
-    const cards = [
-      {
-        title: 'Title',
-      },
-      {
-        title: 'Truncated description if > 4 lines (Default)',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      },
-      {
-        title: 'Title + description + description limit',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        limit: limit || 50,
-      },
-    ];
+    const limit = number('Limit size for description', '250');
 
     const container = document.createElement('div');
     container.innerHTML = `
-      <div class="title">Cards</div>
+      <div class="title">Basics</div>
       `;
 
-    cards.forEach((card) => {
+    cards.forEach((category) => {
       const gvCardCategory = document.createElement('gv-card-category');
-      gvCardCategory.title = card.title;
-      gvCardCategory.description = card.description;
-      gvCardCategory.limit = card.limit;
+      gvCardCategory.category = Promise.resolve(category);
+      gvCardCategory.limit = limit;
       container.appendChild(gvCardCategory);
     });
 
-    const cardCategoryBackgroundColor = color('--gv-card-category--bgc', '');
-    const cardCategoryFontColor = color('--gv-card-category--c', '');
+    const bgc = color('--gv-card-category--bgc', '');
+    const c = color('--gv-card-category--c', '');
 
     container.style = [
-      { value: cardCategoryBackgroundColor, prop: '--gv-card-category--bgc' },
-      { value: cardCategoryFontColor, prop: '--gv-card-category--c' },
+      { value: bgc, prop: '--gv-card-category--bgc' },
+      { value: c, prop: '--gv-card-category--c' },
     ]
       .filter(({ value }) => value)
       .map(({ value, prop }) => `${prop}:${value}`)
@@ -63,4 +63,25 @@ storiesOf('1. Atoms|<gv-card-category>', module)
 
     return container;
 
-  }, { notes });
+  })
+  .add('Skeleton & Delay', () => {
+    const container = document.createElement('div');
+    container.innerHTML = `
+      <div class="title">Skeleton & Delay</div>
+      <gv-card-category></gv-card-category>
+     <gv-card-category id="delay"></gv-card-category>
+      `;
+
+    container.querySelector('#delay').category = Promise.resolve(cards[2]).then(delay(2000));
+    return container;
+  })
+  .add('Errors', () => {
+    const container = document.createElement('div');
+    container.innerHTML = `
+      <div class="title">Reject promise</div>
+     <gv-card-category id="error"></gv-card-category>
+      `;
+
+    container.querySelector('#error').category = Promise.reject(new Error());
+    return container;
+  });

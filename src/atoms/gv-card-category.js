@@ -16,13 +16,13 @@
 import { LitElement, html, css } from 'lit-element';
 import { card } from '../styles/card';
 import { truncate } from '../lib/utils';
+import { classMap } from 'lit-html/directives/class-map';
+import { skeleton } from '../styles';
 
 /**
  * A card used to display a category
  *
- * @attr {String} src - src of the image.
- * @attr {String} title - title of the card.
- * @attr {String} description - description of the card.
+ * @attr {Promise<Object>} Category - A category object {title, description}
  * @attr {Number} limit - number of characters that can be display in the description. If _description_ is greater, it will be truncated.
  *
  * @cssprop {String} --gv-card-category--bgc - set the background color of card.
@@ -34,15 +34,17 @@ export class GvCardCategory extends LitElement {
 
   static get properties () {
     return {
-      src: { type: String },
-      title: { type: String },
-      description: { type: String },
+      category: { type: Object },
       limit: { type: Number },
+      _category: { type: Object, attribute: false },
+      _skeleton: { type: Boolean, attribute: false },
+      _error: { type: Boolean, attribute: false },
     };
   }
 
   static get styles () {
     return [
+      skeleton,
       card,
       // language=CSS
       css`
@@ -51,6 +53,8 @@ export class GvCardCategory extends LitElement {
               display: inline-block;
               margin: 0 24px 24px 0;
               vertical-align: middle;
+              min-width: 400px;
+              width: 444px;
           }
 
           .card {
@@ -60,7 +64,6 @@ export class GvCardCategory extends LitElement {
               flex-direction: column;
               height: 228px;
               justify-content: flex-end;
-              width: 364px;
               padding: 0 40px;
           }
 
@@ -88,15 +91,46 @@ export class GvCardCategory extends LitElement {
               -webkit-box-orient: vertical;
               overflow: hidden;
           }
+          .skeleton {
+              background-color: #aaa;
+              border-color: #777;
+              color: transparent;
+              transition: 0.5s;
+          }
       `,
     ];
   }
 
+  constructor () {
+    super();
+    this._skeleton = true;
+    this._error = false;
+  }
+
+  set category (category) {
+    Promise.resolve(category)
+      .then((category) => {
+        if (category) {
+          this._skeleton = false;
+          this._category = category;
+        }
+      }).catch(() => {
+        this._error = true;
+        this._skeleton = false;
+      });
+  }
+
+  _get (property) {
+    if (this._category) {
+      return this._category[property];
+    }
+    return '';
+  }
+
   render () {
-    return html`
-      <div class="card">
-        <div class="card__title">${this.title}</div>
-        <div class="card__description">${truncate(this.description, this.limit)}</div>
+    return html`<div class="${classMap({ card: true, skeleton: this._skeleton })}">
+        <div class="card__title">${this._get('name')}</div>
+        <div class="card__description">${truncate(this._get('description'), this.limit)}</div>
       </div>
     `;
   }

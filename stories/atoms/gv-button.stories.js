@@ -76,6 +76,7 @@ storiesOf('1. Atoms|<gv-button>', module)
     }
 
     const padding = text('--gv-button--p', '0rem 0.5rem');
+    const bdrs = text('--gv-button--bdrs', '0.15rem');
     const fz = text('--gv-button--fz', '14px');
     const btnColor = color('--gv-button--bgc', '');
     const btnPrimaryColor = color('--gv-button-primary--bgc', '');
@@ -83,6 +84,7 @@ storiesOf('1. Atoms|<gv-button>', module)
 
     container.style = [{ value: padding, prop: '--gv-button--p' },
       { value: fz, prop: '--gv-button--fz' },
+      { value: bdrs, prop: '--gv-button--bdrs' },
       { value: btnColor, prop: '--gv-button--bgc' },
       { value: btnPrimaryColor, prop: '--gv-button-primary--bgc' },
       { value: iconColor, prop: '--gv-icon--c' }]

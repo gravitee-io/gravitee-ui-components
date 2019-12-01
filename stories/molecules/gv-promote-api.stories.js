@@ -20,15 +20,15 @@ import { delay } from '../lib/delay';
 import { withActions } from '@storybook/addon-actions';
 import { color } from '@storybook/addon-knobs';
 import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
-import image from '../../assets/images/logo.png';
+import picture from '../../assets/images/logo.png';
 
 const eventNames = ['gv-promote-api:click'];
 
-const title = 'supernova cloud';
+const name = 'supernova cloud';
 const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 
-const rating = { average: 3.2, count: 345 };
+const ratingSummary = { average: 3.2, count: 345 };
 storiesOf('2. Molecules|<gv-promote-api>', module)
   .addParameters({ notes })
   .add('Basics', () => withActions(...eventNames)(() => {
@@ -36,17 +36,12 @@ storiesOf('2. Molecules|<gv-promote-api>', module)
     const container = document.createElement('div');
 
     container.innerHTML = `
-    <div class="title">Default picture</div>
-    <gv-promote-api title="${title}" description="${description}" path="/"> 
-</gv-promote-api>
-
-    <div class="title">With picture</div>
-    <gv-promote-api title="${title}" description="${description}" picture="${image}" path="/"> 
-</gv-promote-api>
-
-    <div class="title">With horizontal picture</div>
-        <gv-promote-api title="${title}" description="${description}" picture="${horizontalImage}" path="/"> 
-    </gv-promote-api>
+        <div class="title">Default picture</div>
+        <gv-promote-api id="defaultPicture"> </gv-promote-api>
+        <div class="title">With picture</div>
+        <gv-promote-api id="withPicture"></gv-promote-api>
+        <div class="title">With horizontal picture</div>
+        <gv-promote-api id="withHorizontalPicture"></gv-promote-api>
     `;
 
     const bgColor = color('--gv-promote-api--bgc', '');
@@ -61,35 +56,53 @@ storiesOf('2. Molecules|<gv-promote-api>', module)
       .map(({ value, prop }) => `${prop}:${value}`)
       .join(';');
 
-    container.querySelectorAll('gv-promote-api').forEach((card) => (card.rating = rating));
-
+    container.querySelector('#defaultPicture').api = Promise.resolve({
+      name,
+      description,
+      rating_summary: ratingSummary,
+    });
+    container.querySelector('#withPicture').api = Promise.resolve({
+      name,
+      description,
+      _links: { picture },
+    });
+    container.querySelector('#withHorizontalPicture').api = Promise.resolve({
+      name,
+      description,
+      rating_summary: ratingSummary,
+      _links: { picture: horizontalImage },
+    });
     return container;
   }))
-  .add('Skeleton / Delay', () => withActions(...eventNames)(() => {
-    const container = document.createElement('div');
+  .add('Skeleton / Delay', () => {
+    return withActions(...eventNames)(() => {
+      const container = document.createElement('div');
 
-    container.innerHTML = `
-        <div class="title">Skeleton</div>
-        <gv-promote-api picture="${image}" path="/" skeleton></gv-promote-api>
-        
-        <div class="title">Delay</div>
-        <gv-promote-api id="delay" path="/" picture="${image}"></gv-promote-api>
-    `;
-    const delayElement = container.querySelector('#delay');
-    delayElement.title = Promise.resolve(title).then(delay(1000));
-    delayElement.description = Promise.resolve(description).then(delay(2000));
+      container.innerHTML = `
+          <div class="title">Skeleton</div>
+          <gv-promote-api></gv-promote-api>
+          
+          <div class="title">Delay</div>
+          <gv-promote-api id="delay"></gv-promote-api>
+      `;
 
-    return container;
-  }))
+      container.querySelector('#delay').api = Promise.resolve({ name, description, _links: { picture } }).then(delay(2000));
+
+      return container;
+    });
+  })
   .add('Errors', () => withActions(...eventNames)(() => {
     const container = document.createElement('div');
 
     container.innerHTML = `
         <div class="title">Empty</div>
-        <gv-promote-api picture="" description=""></gv-promote-api>
+        <gv-promote-api id="empty"></gv-promote-api>
         
         <div class="title">Errors</div>
-        <gv-promote-api picture="/fakepath" description=""></gv-promote-api>
+        <gv-promote-api id="error"></gv-promote-api>
     `;
+
+    container.querySelector('#empty').api = Promise.resolve({});
+    container.querySelector('#error').api = Promise.reject(new Error());
     return container;
   }));

@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 import { storiesOf } from '@storybook/html';
-import notes from '../../.docs/gv-card-api-full.md';
-import '../../src/molecules/gv-card-api-full';
+import notes from '../../.docs/gv-row-api.md';
+import '../../src/molecules/gv-row-api';
 import { delay } from '../lib/delay';
 import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
 import picture from '../../assets/images/logo.png';
 import { withActions } from '@storybook/addon-actions';
 import { color } from '@storybook/addon-knobs';
 
-const eventNames = ['click gv-card-api-full'];
+const eventNames = ['click gv-row-api'];
 
 const name = 'Supernova';
+const version = 'v.1.1';
+const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];
+const owner = { display_name: 'Garry Marshall' };
 const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
-
-const version = 'v.1.1';
-
-const states = [{ value: 'beta' }, { value: 'running', major: true }];
-const ratingSummary = { average: 3.4, count: 124 };
-const labels = [{ value: 'APIDays', major: true }, { value: 'December', minor: true }, { value: 'Foobar' }];
-const metrics = { hits: '11M+', subscribers: '689', health: '95%' };
-const api = Promise.resolve({ name, description, version, states, labels, rating_summary: ratingSummary, metrics });
-storiesOf('2. Molecules|<gv-card-api-full>', module)
+const labels = [{ value: 'beta', minor: true }, { value: 'Custom', major: true }, { value: 'web' }];
+const api = { name: 'Long Supernova', picture: horizontalImage, version, states, owner, labels, description };
+storiesOf('2. Molecules|<gv-row-api>', module)
   .addParameters({ notes })
   .add('Basics', () => withActions(...eventNames)(() => {
 
@@ -43,58 +40,40 @@ storiesOf('2. Molecules|<gv-card-api-full>', module)
 
     container.innerHTML = `
     <div class="title">Basics</div>
-    <gv-card-api-full id="basic"></gv-card-api-full>
-    <gv-card-api-full id="horizontalImage"></gv-card-api-full>
+    <gv-row-api id="name"></gv-row-api>
+    <gv-row-api id="horizontalImage"></gv-row-api>
+    <gv-row-api id="image"></gv-row-api>
+    
+    <div class="title">Skeleton & Delay</div>
+    <gv-row-api></gv-row-api>
+    <gv-row-api id="delay"></gv-row-api>
     `;
 
-    const bgColor = color('--gv-card-api-full--bgc', '');
+    const bgColor = color('--gv-row-api--bgc', '');
 
     container.style = [
-      { value: bgColor, prop: '--gv-card-api-full--bgc' }]
+      { value: bgColor, prop: '--gv-row-api--bgc' }]
       .filter(({ value }) => value)
       .map(({ value, prop }) => `${prop}:${value}`)
       .join(';');
 
-    container.querySelector('#basic').api = api;
-    container.querySelector('#horizontalImage').api = Promise.resolve({
-      name: 'Long Supernova with empty description',
-      description,
-      version,
-      picture: horizontalImage,
-    });
-    return container;
-  })).add('Skeleton / Delay', () => withActions(...eventNames)(() => {
+    const delayElement = container.querySelector('#delay');
+    delayElement.title = Promise.resolve('Slow api').then(delay(2000));
 
-    const container = document.createElement('div');
-
-    container.innerHTML = `
-    <div class="title">Skeleton</div>
-    <gv-card-api-full></gv-card-api-full>
-    <div class="title">Delay</div>
-    <gv-card-api-full id="delay"></gv-card-api-full>
-    `;
-
-    container.querySelector('#delay').api = Promise.resolve({
-      name,
-      description,
-      version,
-      states,
-      labels,
-      rating_summary: ratingSummary,
-      metrics,
-      picture,
-    }).then(delay(2000));
-
+    container.querySelector('#name').api = Promise.resolve({ name, owner });
+    container.querySelector('#horizontalImage').api = Promise.resolve(api);
+    container.querySelector('#image').api = Promise.resolve({ name: 'Comet Api.', picture, version, states, owner, labels, description });
+    container.querySelector('#delay').api = Promise.resolve(api).then(delay(2000));
     return container;
   }))
-  .add('Empty / Errors', () => withActions(...eventNames)(() => {
+  .add('Errors', () => withActions(...eventNames)(() => {
     const container = document.createElement('div');
     container.innerHTML = `
       <div class="title">Empty</div>
-      <gv-card-api-full id="empty"></gv-card-api-full>
+      <gv-row-api id="empty"></gv-row-api>
     
       <div class="title">Error</div>
-      <gv-card-api-full id="error"></gv-card-api-full>
+      <gv-row-api id="error"></gv-row-api>
     `;
     container.querySelector('#empty').api = Promise.resolve({});
     container.querySelector('#error').api = Promise.reject(new Error());

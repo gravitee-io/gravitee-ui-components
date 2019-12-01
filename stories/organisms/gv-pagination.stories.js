@@ -20,42 +20,25 @@ import { withCustomEventActions } from '../lib/event-action.js';
 
 const withActions = withCustomEventActions('gv-pagination:paginate', 'gv-pagination:size');
 
+function gen (pages) {
+  const block = document.createElement('div');
+  block.innerHTML = `<div class="title">${pages} pages</div>`;
+  for (let i = 1; i <= pages; i++) {
+    const pagination = document.createElement('gv-pagination');
+    const data = { first: 1, last: 100, total: 100, current_page: i, total_pages: pages };
+    pagination.data = data;
+    block.appendChild(pagination);
+  }
+  return block;
+}
+
 storiesOf('3. Organisms|<gv-pagination>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
-
     const container = document.createElement('div');
-
-    container.innerHTML = `
-    <div class="title">Basics</div>
-    <gv-pagination id="basic"></gv-pagination>
-    
-    <div class="title">Empty</div>
-    <gv-pagination></gv-pagination>
-    
-    <div class="title">Without data</div>
-    <gv-pagination id="nodata"></gv-pagination>
-    
-    <div class="title">Without sizes</div>
-    <gv-pagination id="nosize"></gv-pagination>
-    
-    <div class="title">Without links</div>
-    <gv-pagination id="nolinks"></gv-pagination>
-    `;
-    const basic = container.querySelector('#basic');
-    basic.links = { first: '/first', prev: '/prev', next: '/next', last: '/last' };
-    basic.data = { first: 1, last: 10, total: 100 };
-    basic.sizes = ['5', '10', '15', '20'];
-
-    const nodata = container.querySelector('#nodata');
-    nodata.links = { first: '/first', prev: '/prev', next: '', last: '' };
-    nodata.sizes = ['5', '10', '15', '20'];
-
-    const nosize = container.querySelector('#nosize');
-    nosize.links = { first: '', prev: '', next: '/next', last: '/last' };
-
-    const nolinks = container.querySelector('#nolinks');
-    nolinks.sizes = ['5', '10', '15', '20'];
-    nolinks.data = { first: 1, last: 10, total: 100 };
+    const small = gen(7);
+    const large = gen(14);
+    container.appendChild(small);
+    container.appendChild(large);
     return container;
   }));

@@ -19,6 +19,8 @@ import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 import { color, text } from '@storybook/addon-knobs';
 import bigImage from '../../assets/images/gravitee-logo-darker.png';
+import avatarSrc from '../../assets/images/logo.png';
+
 const withActions = withCustomEventActions('gv-nav-link:click', 'click');
 const routes = [
   { path: '#', title: 'My account', icon: 'general:user' },
@@ -27,7 +29,6 @@ const routes = [
   { path: '#', title: Promise.resolve('logout'), icon: 'home:door-open', separator: true },
 ];
 
-const avatarSrc = 'http://picsum.photos/48';
 storiesOf('3. Organisms|<gv-user-menu>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
