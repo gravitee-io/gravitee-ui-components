@@ -16,3 +16,10 @@
 export function truncate (text, limit = 250, suffix = '...') {
   return text && text.length > limit ? `${text.substring(0, limit)}${suffix}` : text;
 }
+
+export function isSameRoutes (routes, futureRoutes) {
+  if (routes && futureRoutes) {
+    return JSON.stringify(routes.map((r) => r.path + r.active)) === JSON.stringify(futureRoutes.map((r) => r.path + r.active));
+  }
+  return false;
+}

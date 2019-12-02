@@ -32,7 +32,8 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} title - link title
  * @attr {String} help - help text left between parentheses
  *
- * @cssprop {String} --gv-nav-link-a--ph - set the horizontal padding for the inner <a> tag. (Default: 2rem)
+ * @cssprop {String} --gv-nav-link-a--pv - set the vertical padding for the inner <a> tag. (Default: 1rem)
+ * @cssprop {String} --gv-nav-link-a--ph - set the horizontal padding for the inner <a> tag. (Default: 1rem)
  * @cssprop {String} --gv-nav-link([-active]?)--c - set the color of link.
  * @cssprop {String} --gv-nav-link([-active]?)--bgc - set the background color of link.
  * @cssprop {String} --gv-nav-link-active--bdb - set the border bottom of active link. (Default: none)
@@ -49,6 +50,7 @@ export class GvNavLink extends LitElement {
       _title: { type: String, attribute: false },
       help: { type: String },
       skeleton: { type: Boolean },
+      small: { type: Boolean },
     };
   }
 
@@ -68,7 +70,7 @@ export class GvNavLink extends LitElement {
 
           a {
               opacity: 1;
-              padding: 1rem var(--gv-nav-link-a--ph, 1rem);
+              padding: var(--gv-nav-link-a--pv, 15px) var(--gv-nav-link-a--ph, 15px);
               color: var(--gv-nav-link--c, #333);
               background-color: var(--gv-nav-link--bgc, transparent);
               width: 100%;
@@ -98,6 +100,12 @@ export class GvNavLink extends LitElement {
               align-self: center;
               white-space: nowrap;
               margin: 0.3rem 0.5rem;
+          }
+          
+          a.small span {
+              margin: 0.3rem 0;
+              width: 0;
+              visibility: hidden;
           }
 
           .help {
@@ -145,7 +153,7 @@ export class GvNavLink extends LitElement {
 
   render () {
     const classes = {
-      active: this.active, link: true, skeleton: this.skeleton,
+      active: this.active, link: true, skeleton: this.skeleton, small: this.small,
     };
     const iconStyle = this.active ? { '--gv-icon--c': 'var(--gv-nav-link-active--c)' } : { '--gv-icon--c': 'var(--gv-nav-link--c)' };
     return html`

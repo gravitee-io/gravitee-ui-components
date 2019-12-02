@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit-element';
-import { card } from '../styles/card';
 import { truncate } from '../lib/utils';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles';
@@ -27,6 +26,7 @@ import { skeleton } from '../styles';
  *
  * @cssprop {String} --gv-card-category--bgc - set the background color of card.
  * @cssprop {String} --gv-card-category--c - set the color of text.
+ * @cssprop {String} --gv-card-category--h - set the height (default: 228px).
  *
  */
 
@@ -45,16 +45,16 @@ export class GvCardCategory extends LitElement {
   static get styles () {
     return [
       skeleton,
-      card,
       // language=CSS
       css`
           :host {
               box-sizing: border-box;
               display: inline-block;
-              margin: 0 24px 24px 0;
+              margin: 0.2rem;
               vertical-align: middle;
               min-width: 400px;
               width: 444px;
+              max-width: 460px;
           }
 
           .card {
@@ -62,9 +62,14 @@ export class GvCardCategory extends LitElement {
               border-radius: 4px;
               display: flex;
               flex-direction: column;
-              height: 228px;
+              height: var(--gv-card-category--h, 228px);
               justify-content: flex-end;
               padding: 0 40px;
+          }
+
+          .card:hover {
+              box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+              cursor: pointer;
           }
 
           .card__title {

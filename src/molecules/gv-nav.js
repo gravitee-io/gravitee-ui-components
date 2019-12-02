@@ -31,24 +31,29 @@ export class GvNav extends LitElement {
   static get properties () {
     return {
       routes: { type: Array },
+      _routes: { type: Array },
+      small: { type: Boolean },
     };
   }
 
-  async _onClick ({ detail: { title } }) {
-    Promise.all(this.routes).then((routes) => {
-      this.routes = routes.map(async (route) => {
-        route.title = await route.title;
-
-        if (route.title === title) {
-          route.active = true;
-        }
-        else {
-          delete route.active;
-        }
-        return route;
-      });
-    }).catch((e) => {
+  _onClick ({ detail: { title } }) {
+    this._routes = this._routes.map((route) => {
+      if (route.title === title) {
+        route.active = true;
+      }
+      else {
+        delete route.active;
+      }
+      return route;
     });
+  }
+
+  set routes (routes) {
+    if (routes) {
+      Promise.resolve(routes).then((_routes) => {
+        this._routes = _routes;
+      });
+    }
   }
 
   _getLink (route, index) {
@@ -59,17 +64,21 @@ export class GvNav extends LitElement {
             .active="${_route.active}"
             .icon="${_route.icon}"
             .path="${_route.path}"
+            ?small="${this.small}"
             .title="${_route.title}"
             .help="${until(_route.help, null)}"></gv-nav-link>`;
     }).catch(() => {
-      delete this.routes[index];
+      delete this._routes[index];
     });
   }
 
   render () {
-    return html`<nav>${repeat(this.routes, (route) => route, (route, index) =>
-      until(this._getLink(route, index), html`<gv-nav-link skeleton></gv-nav-link>`)
-    )}</nav>`;
+    if (this._routes) {
+      return html`<nav>${repeat(this._routes, (route) => route, (route, index) =>
+        until(this._getLink(route, index), html`<gv-nav-link skeleton></gv-nav-link>`)
+      )}</nav>`;
+    }
+    return html``;
   }
 
 }

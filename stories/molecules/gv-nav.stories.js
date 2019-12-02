@@ -29,7 +29,7 @@ storiesOf('2. Molecules|<gv-nav>', module)
     nav.routes = [
       { path: '', title: 'Dashboard' },
       { path: '', title: 'Catalogue', active: true },
-      { path: '', title: Promise.resolve('Mes applications') },
+      { path: '', title: 'Mes applications' },
     ];
     return nav;
   }))

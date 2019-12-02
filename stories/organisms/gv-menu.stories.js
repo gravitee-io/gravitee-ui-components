@@ -17,6 +17,7 @@ import '../../src/organisms/gv-menu.js';
 import notes from '../../.docs/gv-menu.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
+import { color, text } from '@storybook/addon-knobs';
 
 const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input', 'gv-input:submit');
 
@@ -27,8 +28,61 @@ storiesOf('3. Organisms|<gv-menu>', module)
     const menu = document.createElement('gv-menu');
     menu.routes = [
       { path: '#', title: 'All', active: true, icon: 'home:flower#2' },
-      { path: '#', title: Promise.resolve('Categories'), icon: 'layout:layout-arrange' },
+      { path: '#', title: 'Categories', icon: 'layout:layout-arrange' },
     ];
-    menu.searchTitle = 'Rechercher une API, une APP...';
+
+    const bgc = color('--gv-menu--bgc', '');
+    const c = color('--gv-menu--c', '');
+    const b = text('--gv-menu-link-active--bdb', '');
+    const pl = text('--gv-menu--pl', '');
+    const pr = text('--gv-menu--pr', '');
+
+    menu.style = [
+      { value: bgc, prop: '--gv-menu--bgc' },
+      { value: c, prop: '--gv-menu--c' },
+      { value: b, prop: '--gv-menu-link-active--bdb' },
+      { value: pl, prop: '--gv-menu--pl' },
+      { value: pr, prop: '--gv-menu--pr' },
+    ]
+      .filter(({ value }) => value)
+      .map(({ value, prop }) => `${prop}:${value}`)
+      .join(';');
+
+    return menu;
+  }))
+  .add('Empty', withActions(() => {
+    const menu = document.createElement('gv-menu');
+    return menu;
+  }))
+  .add('With search', withActions(() => {
+    const menu = document.createElement('gv-menu');
+
+    menu.routes = [
+      { path: '#', title: 'Categories', icon: 'layout:layout-arrange' },
+      { path: '#', title: 'Featured', active: true, icon: 'home:flower#2' },
+      { path: '#', title: 'Starred', icon: 'home:flower#1' },
+      { path: '#', title: 'Trendings', icon: 'appliances:fan' },
+    ];
+
+    menu.innerHTML = `
+        <p slot="right"><gv-input style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input></p>
+    `;
+
+    return menu;
+  }))
+  .add('Small', withActions(() => {
+    const menu = document.createElement('gv-menu');
+
+    menu.routes = [
+      { path: '#', title: 'Categories', icon: 'layout:layout-arrange' },
+      { path: '#', title: 'Featured', active: true, icon: 'home:flower#2' },
+      { path: '#', title: 'Starred', icon: 'home:flower#1' },
+      { path: '#', title: 'Trendings', icon: 'appliances:fan' },
+    ];
+    menu.small = true;
+    menu.innerHTML = `
+        <p slot="right"><gv-input style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input></p>
+    `;
+
     return menu;
   }));

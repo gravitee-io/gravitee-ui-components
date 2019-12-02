@@ -24,7 +24,6 @@ import '../molecules/gv-rating';
 import '../atoms/gv-state';
 import '../atoms/gv-tag';
 import picture from '../../assets/images/api-full.png';
-import { card } from '../styles/card';
 import { truncate } from '../lib/utils';
 import { ApiElement } from '../mixins/api-element';
 import { i18n } from '../lib/i18n';
@@ -41,7 +40,6 @@ export class GvCardApiFull extends ApiElement {
 
   static get styles () {
     return [
-      card,
       skeleton,
       // language=CSS
       css`
@@ -58,7 +56,7 @@ export class GvCardApiFull extends ApiElement {
               --gv-icon--c: #777;
               min-width: 400px;
               width: 444px;
-              max-width: 444px;
+              max-width: 460px;
               max-height: 281px;
               line-height: 22px;
               font-size: 14px;
@@ -73,6 +71,11 @@ export class GvCardApiFull extends ApiElement {
               color: #262626;
               padding: 16px;
               --gc-icon--c: red
+          }
+
+          .card:hover {
+              box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+              cursor: pointer;
           }
 
           .card > div {
