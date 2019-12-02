@@ -11,7 +11,8 @@
     "wc/gv-*.js"
   ],
   "scripts": {
-    "build": "npm run docs && build-storybook",
+    "build": "npm run docs && node tasks/check-i18n.js && build-storybook",
+    "check:i18n": "node tasks/check-i18n.js",
     "docs": "wca analyze src/** --format markdown --outDir .docs",
     "generate:dist": "node tasks/generate-dist.js",
     "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
@@ -46,8 +47,10 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "esm": "^3.2.25",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.4",
+    "i18n-extract": "^0.6.7",
     "node-static": "^0.7.11",
     "pascal-case": "^2.0.1",
     "svgo": "^1.3.0",

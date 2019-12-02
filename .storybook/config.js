@@ -4,11 +4,17 @@ import { withA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.css';
 import brandImage from '../assets/images/gravitee-logo-inline.png';
+import { i18nKnob } from '../stories/lib/i18n-knob';
 
 const req = require.context('../stories', true, /.stories.js$/);
 
 addDecorator(withKnobs);
 addDecorator(withA11y);
+
+addDecorator((storyFn) => {
+  i18nKnob();
+  return storyFn();
+});
 
 const graviteeTheme = create({
   base: 'light',

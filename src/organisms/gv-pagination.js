@@ -17,6 +17,7 @@ import { LitElement, html, css } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-button';
 import '../atoms/gv-select';
+import { i18n } from '../lib/i18n.js';
 
 /**
  * A pagination
@@ -127,10 +128,10 @@ export class GvPagination extends LitElement {
     const rightP = right.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
 
     if (leftP.length > 0) {
-      leftP.unshift(html`<gv-button outlined @click="${this._goToPage.bind(this, this._current - 1)}">PREVIOUS</gv-button>`);
+      leftP.unshift(html`<gv-button outlined @click="${this._goToPage.bind(this, this._current - 1)}">${i18n('gv-pagination.previous')}</gv-button>`);
     }
     if (rightP.length > 0) {
-      rightP.push(html`<gv-button outlined @click="${this._goToPage.bind(this, this._current + 1)}">NEXT</gv-button>`);
+      rightP.push(html`<gv-button outlined @click="${this._goToPage.bind(this, this._current + 1)}">${i18n('gv-pagination.next')}</gv-button>`);
     }
     return html`${leftP} ${html`<gv-button primary>${this._current}</gv-button>`} ${rightP}`;
   }
