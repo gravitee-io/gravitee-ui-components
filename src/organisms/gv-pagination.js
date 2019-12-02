@@ -76,9 +76,9 @@ export class GvPagination extends LitElement {
 
   set data (data) {
     if (data) {
-      this._last = parseInt(data.last, 10);
-      this._current = parseInt(data.current_page, 10);
-      this._pages = parseInt(data.total_pages, 10);
+      this._last = data.last;
+      this._current = data.current_page;
+      this._pages = data.total_pages;
       if (this._pages < this.max) {
         this.max = this._pages;
       }
