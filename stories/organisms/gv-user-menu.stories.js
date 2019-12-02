@@ -95,4 +95,29 @@ storiesOf('3. Organisms|<gv-user-menu>', module)
     container.querySelector('gv-user-menu').routes = routes;
 
     return container;
+  }))
+  .add('No connected', withActions(() => {
+
+    const container = document.createElement('div');
+    container.innerHTML = `
+        <div class="title">In Header</div>
+        
+        <div style="display: table; border: 1px solid; #262626">
+            <div style="display: table-cell; width: 10%">
+            </div>
+            <div style="display: table-cell; width: 60%">
+              <p> H E A D E R</p>
+            </div>
+            <div style="display: table-cell; width: 30%">
+               <gv-user-menu>
+                    <img src="${bigImage}" />
+               </gv-user-menu>
+            </div>
+         
+      </div>
+      `;
+
+    container.querySelector('gv-user-menu').routes = [{ path: '#', title: 'Log in' }];
+
+    return container;
   }));

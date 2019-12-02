@@ -19,7 +19,6 @@ import { skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
-import { card } from '../styles/card';
 import { ApiElement } from '../mixins/api-element';
 import { i18n } from '../lib/i18n.js';
 
@@ -34,7 +33,6 @@ export class GvCardApi extends ApiElement {
 
   static get styles () {
     return [
-      card,
       skeleton,
       // language=CSS
       css`
@@ -62,6 +60,11 @@ export class GvCardApi extends ApiElement {
               color: #262626;
           }
 
+          .card:hover {
+              box-shadow: 0 10px 20px -10px rgba(0,0,0,0.25);
+              cursor: pointer;
+          }
+          
           .content > div {
               display: flex;
               justify-content: center;

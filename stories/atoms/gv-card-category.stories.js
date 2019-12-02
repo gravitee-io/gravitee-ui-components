@@ -52,10 +52,12 @@ storiesOf('1. Atoms|<gv-card-category>', module)
 
     const bgc = color('--gv-card-category--bgc', '');
     const c = color('--gv-card-category--c', '');
+    const h = color('--gv-card-category--h', '');
 
     container.style = [
       { value: bgc, prop: '--gv-card-category--bgc' },
       { value: c, prop: '--gv-card-category--c' },
+      { value: h, prop: '--gv-card-category--h' },
     ]
       .filter(({ value }) => value)
       .map(({ value, prop }) => `${prop}:${value}`)

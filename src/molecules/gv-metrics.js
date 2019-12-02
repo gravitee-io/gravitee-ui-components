@@ -95,7 +95,7 @@ export class GvMetrics extends LitElement {
   _getHealth () {
     if (this._metrics) {
       return !isNaN(this._metrics.health)
-        ? Intl.NumberFormat.call(this, navigator.language, { style: 'percent', maximumFractionDigits: 2 }).format(this._metrics.health) 
+        ? Intl.NumberFormat.call(this, navigator.language, { style: 'percent', maximumFractionDigits: 2 }).format(this._metrics.health)
         : ''
       ;
     }

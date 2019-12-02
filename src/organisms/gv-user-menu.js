@@ -17,6 +17,7 @@ import { LitElement, html, css } from 'lit-element';
 import '../molecules/gv-nav';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
+import { isSameRoutes } from '../lib/utils';
 
 /**
  * A menu
@@ -36,7 +37,8 @@ export class GvUserMenu extends LitElement {
   static get properties () {
     return {
       avatar: { type: String },
-      routes: { type: Array, attribute: false },
+      routes: { type: Array },
+      _routes: { type: Array, attribute: false },
       _isClosed: { type: Boolean, attribute: false },
       username: { type: String },
     };
@@ -83,6 +85,15 @@ export class GvUserMenu extends LitElement {
               display: inline-block;
               vertical-align: middle;
               max-height: 40px;
+          }
+
+          .user-menu__title.no-user {
+              padding: 5px 24px;
+          }
+
+          .user-menu__title gv-nav-link {
+              --gv-nav-link-a--ph: 0;
+              --gv-nav-link-a--pv: 0;
           }
 
           .user-menu__title span {
@@ -169,34 +180,82 @@ export class GvUserMenu extends LitElement {
     this._isClosed = true;
   }
 
-  _onSelect (e) {
+  _onSelect () {
     this._isClosed = true;
+  }
+
+  _hasOneItem () {
+    return this.username == null && this._routes && this._routes.length === 1;
+  }
+
+  set routes (candidate) {
+    if (candidate) {
+      Promise.resolve(candidate).then((candidates) => {
+        if (candidates) {
+          Promise.all(candidates).then((futureRoutes) => {
+            if (!isSameRoutes(this._routes, futureRoutes)) {
+              this._routes = futureRoutes.filter((r) => r != null);
+            }
+          });
+        }
+        else {
+          this._routes = null;
+        }
+      });
+    }
+    else {
+      this._routes = null;
+    }
+  }
+
+  _renderFirstItem () {
+
+    if (this._routes) {
+      if (this.username) {
+        return html`<li class="user-menu__title" @click=${this._onClick} >
+            <div class="user-menu__avatar">
+               <slot></slot>
+            </div>
+            <span>${this.username}</span>
+            <gv-icon shape="design:triangle"></gv-icon>
+          </li>`;
+      }
+      else if (this._hasOneItem()) {
+        const firstItem = this._routes[0];
+        return html`<li class="user-menu__title no-user" @click=${this._onClick} >
+                <gv-nav-link 
+                        .icon="${firstItem.icon}"
+                        .path="${firstItem.path}"
+                        .title="${firstItem.title}"
+                         @click=${this._onSelect}
+                      ></gv-nav-link>
+          </li>`;
+      }
+    }
+    return html``;
   }
 
   render () {
     const classes = { closed: this._isClosed };
-
-    return html`
+    if (this._routes) {
+      return html`
       <nav class="${classMap(classes)}">
         <ul class="user-menu" @mouseleave=${this._onMouseLeave}>
-          <li class="user-menu__title" @click=${this._onClick} >
-            <div class="user-menu__avatar">
-               <slot></slot>
-            </div>
-         
-            <span>${this.username}</span>
-            <gv-icon shape="design:triangle"></gv-icon>
-          </li>
+          
+          ${this._renderFirstItem()}
+          
           <li class="user-menu__content">
             <ul class="user-menu__list">
-                ${repeat(this.routes, (route) => route, (route) => html`
-                    <li class="user-menu__list__item ${route.separator ? 'separator' : ''}">
+                ${repeat(this._routes, (route) => route, (route, index) => html`
+                    ${this._hasOneItem() ? html``
+        : html`<li class="user-menu__list__item ${route.separator ? 'separator' : ''}">
                       <gv-nav-link 
                         .icon="${route.icon}"
                         .path="${route.path}"
                         .title="${route.title}"
                          @click=${this._onSelect}
-                      ></gv-nav-link>
+                      ></gv-nav-link>`}
+                    
                     </li>
                 `)}
             </ul>
@@ -204,6 +263,8 @@ export class GvUserMenu extends LitElement {
         </ul>
       </nav>
     `;
+    }
+    return html``;
   }
 
 }

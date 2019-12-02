@@ -15,7 +15,8 @@
  */
 import { LitElement, html, css } from 'lit-element';
 import '../molecules/gv-nav';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { isSameRoutes } from '../lib/utils';
+import { classMap } from 'lit-html/directives/class-map';
 
 /**
  * A menu
@@ -30,7 +31,6 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @cssprop {String} --gv-menu-link-active--bdb - set the border of active link.
  * @cssprop {String} --gv-menu--pl - set the padding left
  * @cssprop {String} --gv-menu--pr - set the padding right
- * @cssprop {String} --gv-menu-input--w - input width
  */
 export class GvMenu extends LitElement {
 
@@ -38,7 +38,9 @@ export class GvMenu extends LitElement {
     return {
       routes: { type: Array },
       searchTitle: { type: String },
+      _small: { type: Boolean, attribute: false },
       _routes: { type: Array, attribute: false },
+      hasFocus: { type: Boolean, attribute: false },
     };
   }
 
@@ -52,6 +54,7 @@ export class GvMenu extends LitElement {
               --gv-nav-link--bgc: var(--gv-menu--bgc, #193E34);
               --gv-nav-link-active--bgc: var(--gv-menu--bgc, #193E34);
               --gv-nav-link-active--bdb: var(--gv-menu-link-active--bdb, 2px solid #D5FDCB);
+              --width: var(--gv-nav--w, 70%)
           }
 
           div {
@@ -59,47 +62,129 @@ export class GvMenu extends LitElement {
               color: var(--gv-menu--c, #FFF);
               display: table;
               width: 100%;
-              min-height: 90px;
-              height: 90px;
           }
 
-          gv-nav, gv-input {
+          gv-nav, slot[name="right"] {
               display: table-cell;
               line-height: 60px;
               vertical-align: middle;
           }
 
-          gv-nav {
-              padding-left: var(--gv-menu--pl, 4rem);
-              width: 70%;
+          @keyframes slide {
+              from {
+                  width: var(--width)
+              }
+
+              to {
+                  width: 50%;
+              }
           }
 
-          gv-input {
+          .hasFocus gv-nav {
+              animation: slide 0.5s;
+              width: 50%;
+          }
+
+          .small gv-nav {
+              width: 50%;
+          }
+
+          gv-nav {
+              padding-left: var(--gv-menu--pl, 4rem);
+              width: var(--width)
+          }
+
+
+          slot[name="right"] {
               padding-right: var(--gv-menu--pr, 4rem);
           }
+
       `,
     ];
   }
 
-  set routes (routes) {
-    Promise.all(routes).then((_routes) => {
-      this._routes = _routes;
-    });
+  set routes (candidate) {
+    if (candidate) {
+      Promise.resolve(candidate).then((candidates) => {
+        if (candidates) {
+          Promise.all(candidates).then((futureRoutes) => {
+            if (!isSameRoutes(this._routes, futureRoutes)) {
+              this._routes = futureRoutes;
+            }
+          });
+        }
+        else {
+          this._routes = null;
+        }
+      });
+    }
+    else {
+      this._routes = null;
+    }
+  }
+
+  set small (small) {
+    this._small = small;
+    this.hasFocus = false;
+    this._unbindInput();
+  }
+
+  _onClick (e) {
+    if (!this._small) {
+      if (this.input == null) {
+        if (e.target && e.target.tagName.toLowerCase() === 'gv-input') {
+          this._focusHandler = this._onFocusInput.bind(this);
+          this._blurHandler = this._onBlurInput.bind(this);
+          e.target.addEventListener('focus', this._focusHandler);
+          e.target.addEventListener('blur', this._blurHandler);
+          this.hasFocus = true;
+          this.input = e.target;
+        }
+      }
+      else {
+        this.hasFocus = true;
+      }
+    }
+  }
+
+  _onFocusInput () {
+    this.hasFocus = true;
+    this.isSubmit = false;
+  }
+
+  _onBlurInput () {
+    setTimeout(() => {
+      this.hasFocus = false;
+    }, 200);
+  }
+
+  _unbindInput () {
+    if (this.input) {
+      this.input.removeEventListener('focus', this._focusHandler);
+      this.input.removeEventListener('blur', this._blurHandler);
+      this.hasFocus = false;
+      this.input = null;
+    }
+  }
+
+  disconnectedCallback () {
+    this._unbindInput();
+    super.disconnectedCallback();
   }
 
   render () {
-    const mainNav = document.createElement('gv-nav');
-    mainNav.routes = this._routes;
-    return html`
-      <div>
+    if (this._routes) {
+      const mainNav = document.createElement('gv-nav');
+      mainNav.routes = this._routes;
+      mainNav.small = this._small || this.hasFocus;
+      return html`
+      <div class="${classMap({ small: this._small, hasFocus: this.hasFocus })}">
         ${mainNav}
-        <gv-input 
-        type="search" 
-        placeholder="${ifDefined(this.searchTitle)}" 
-        title="${ifDefined(this.searchTitle)}"
-        ></gv-input>
+        <slot name="right" @click="${this._onClick}"></slot>
       </div>
     `;
+    }
+    return html``;
   }
 
 }
