@@ -21,7 +21,6 @@
 export function i18n (key, data) {
   const translation = getTranslation(key);
   if (translation == null) {
-    console.warn(`Unknown translation [${i18n._lang}] "${key}"`);
     return 'unknown';
   }
   if (typeof translation === 'function') {
@@ -63,6 +62,7 @@ export function getLanguage () {
 /**
  * @param {string} lang - Translation language code
  * @param {object} translations - Translation values by key
+ * @param {object} label - Lang label
  */
 export function addTranslations (lang, translations, label) {
   i18n._translations[lang] = { ...{ LANGUAGE: label }, ...translations };

@@ -1,6 +1,22 @@
 {
+  "gv-card-api": {
+    "empty": "No information to display",
+    "error": "An error has occurred"
+  },
+  "gv-card-api-full": {
+    "empty": "No information to display",
+    "error": "An error has occurred"
+  },
   "gv-pagination": {
     "next": "Next",
     "previous": "Previous"
+  },
+  "gv-promote-api": {
+    "empty": "No information to display",
+    "error": "An error has occurred"
+  },
+  "gv-row-api": {
+    "empty": "No API to display here",
+    "error": "An error occurred while loading the API"
   }
 }

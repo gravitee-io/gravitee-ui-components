@@ -78,7 +78,7 @@ export class GvSelect extends LitElement {
               cursor: pointer;
               text-transform: capitalize;
           }
-          
+
           gv-icon {
               transform: rotate(180deg);
               --gv-icon--h: 19px;
@@ -128,7 +128,7 @@ export class GvSelect extends LitElement {
               display: flex;
               align-items: center;
               transition: all 0.5s ease;
-             
+
               text-overflow: ellipsis;
               white-space: nowrap;
               overflow: hidden;
@@ -225,7 +225,7 @@ export class GvSelect extends LitElement {
   set options (options) {
     if (options) {
       this._options = options.map((option) => {
-        if (typeof option === 'string') {
+        if (typeof option !== 'object') {
           return { value: option, label: option };
         }
         else if (!option.label) {
@@ -277,7 +277,7 @@ export class GvSelect extends LitElement {
           ${this._renderIcon()}
         <ul class="${classMap(Object.assign({ select__list: true }, inputClasses))}">
           ${this._options && repeat(this._options, (option) => option, (option) => html`
-            <li class="${classMap({ select__list__item: true, selected: this.value === option.value })}" 
+            <li class="${classMap({ select__list__item: true, selected: this.value === option.value })}"
             @click=${this._onSelect} data-value="${option.value}">${option.label}</li>
           `)}
         </ul>

@@ -26,6 +26,7 @@ export class ApiElement extends LitElement {
       _api: { type: Object, attribute: false },
       _skeleton: { type: Boolean, attribute: false },
       _error: { type: Boolean, attribute: false },
+      _empty: { type: Boolean, attribute: false },
       _picture: { type: String, attribute: false },
     };
   }
@@ -34,6 +35,7 @@ export class ApiElement extends LitElement {
     super();
     this._skeleton = true;
     this._error = false;
+    this._empty = false;
   }
 
   set api (api) {
@@ -49,6 +51,11 @@ export class ApiElement extends LitElement {
           else {
             this._picture = defaultPicture;
           }
+        }
+        else {
+          this._skeleton = true;
+          this._error = false;
+          this._empty = false;
         }
       }).catch(() => {
         this._error = true;
@@ -106,8 +113,8 @@ export class ApiElement extends LitElement {
     const labels = this._getLabels();
     if (labels) {
       return repeat(labels, (label) => label, ({ value, major, minor }) => html`
-                    <gv-tag ?skeleton="${this._skeleton}" 
-                    ?major="${major === true}" 
+                    <gv-tag ?skeleton="${this._skeleton}"
+                    ?major="${major === true}"
                     ?minor="${minor === true}">${value}</gv-tag>
                 `);
     }
@@ -118,9 +125,9 @@ export class ApiElement extends LitElement {
     const states = this._getStates();
     if (states) {
       return repeat(states, (state) => state, ({ value, major, minor }) => html`
-                 <gv-state ?skeleton="${this._skeleton}" 
-                    ?major="${major === true}" 
-                    ?minor="${minor === true}">${value}</gv-state> 
+                 <gv-state ?skeleton="${this._skeleton}"
+                    ?major="${major === true}"
+                    ?minor="${minor === true}">${value}</gv-state>
         `);
     }
     return '';

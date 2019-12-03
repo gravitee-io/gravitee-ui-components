@@ -22,6 +22,7 @@ import '../atoms/gv-button';
 import '../molecules/gv-rating';
 import { dispatchCustomEvent } from '../lib/events';
 import { ApiElement } from '../mixins/api-element';
+import { i18n } from '../lib/i18n.js';
 
 /**
  * Promote Api component
@@ -110,15 +111,15 @@ export class GvPromoteApi extends ApiElement {
   }
 
   render () {
-    return html`<div class="container"> 
+    return html`<div class="container">
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
     <div class="content">
-    ${this._error && !this._skeleton ? html`<p class="description">An error has occured.</p>` : html`
+    ${this._error && !this._skeleton ? html`<p class="description">${i18n('gv-promote-api.error')}</p>` : html`
+        ${this._empty ? html`<p class="description">${i18n('gv-promote-api.empty')}</p>` : html`
         <h2 class=${classMap({ skeleton: this._skeleton, title: true })}>
         ${this._getTitle()} ${this._renderInfoRating()}</h2>
-       
         <p class=${classMap({ skeleton: this._skeleton, description: true })}>${this._getDescription()}</p>
-        ${this._empty ? '' : html`<gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>VIEW API</gv-button>`}
+        <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>VIEW API</gv-button>`}
     `}
     </div>
 </div>`;
