@@ -96,6 +96,15 @@ export class GvPromoteApi extends ApiElement {
               flex-grow: 1;
           }
 
+          .infos {
+              padding: 8px;
+              margin: 8px;
+          }
+
+          .skeleton .infos {
+              border-bottom: none;
+          }
+
           .skeleton {
               background-color: #aaa;
               border-color: #777;
@@ -110,6 +119,14 @@ export class GvPromoteApi extends ApiElement {
     dispatchCustomEvent(this, 'click', { path: this.path });
   }
 
+  _renderMetrics () {
+    if (this.metrics) {
+      const container = document.createElement('gv-metrics');
+      container.metrics = this.metrics;
+      return container;
+    }
+  }
+
   render () {
     return html`<div class="container">
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
@@ -119,6 +136,9 @@ export class GvPromoteApi extends ApiElement {
         <h2 class=${classMap({ skeleton: this._skeleton, title: true })}>
         ${this._getTitle()} ${this._renderInfoRating()}</h2>
         <p class=${classMap({ skeleton: this._skeleton, description: true })}>${this._getDescription()}</p>
+        <div class="infos">
+            ${this._renderMetrics()}
+        </div>
         <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>VIEW API</gv-button>`}
     `}
     </div>

@@ -33,8 +33,8 @@ const version = 'v.1.1';
 const states = [{ value: 'beta' }, { value: 'running', major: true }];
 const ratingSummary = { average: 3.4, count: 124 };
 const labels = [{ value: 'APIDays', major: true }, { value: 'December', minor: true }, { value: 'Foobar' }];
-const metrics = { hits: '11M+', subscribers: '689', health: '95%' };
-const api = Promise.resolve({ name, description, version, states, labels, rating_summary: ratingSummary, metrics });
+const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
+const api = Promise.resolve({ name, description, version, states, labels, rating_summary: ratingSummary });
 storiesOf('2. Molecules|<gv-card-api-full>', module)
   .addParameters({ notes })
   .add('Basics', () => withActions(...eventNames)(() => {
@@ -45,6 +45,7 @@ storiesOf('2. Molecules|<gv-card-api-full>', module)
     <div class="title">Basics</div>
     <gv-card-api-full id="basic"></gv-card-api-full>
     <gv-card-api-full id="horizontalImage"></gv-card-api-full>
+    <gv-card-api-full id="withoutMetrics"></gv-card-api-full>
     `;
 
     const bgColor = color('--gv-card-api-full--bgc', '');
@@ -56,12 +57,15 @@ storiesOf('2. Molecules|<gv-card-api-full>', module)
       .join(';');
 
     container.querySelector('#basic').api = api;
+    container.querySelector('#basic').metrics = metrics;
     container.querySelector('#horizontalImage').api = Promise.resolve({
       name: 'Long Supernova with empty description',
       description,
       version,
       picture: horizontalImage,
     });
+    container.querySelector('#withoutMetrics').api = api;
+
     return container;
   })).add('Skeleton / Delay', () => withActions(...eventNames)(() => {
 
@@ -81,9 +85,10 @@ storiesOf('2. Molecules|<gv-card-api-full>', module)
       states,
       labels,
       rating_summary: ratingSummary,
-      metrics,
       picture,
     }).then(delay(2000));
+
+    container.querySelector('#delay').metrics = metrics.then(delay(3000));
 
     return container;
   }))
@@ -97,6 +102,9 @@ storiesOf('2. Molecules|<gv-card-api-full>', module)
       <gv-card-api-full id="error"></gv-card-api-full>
     `;
     container.querySelector('#empty').api = Promise.resolve({});
+    container.querySelector('#empty').metrics = Promise.resolve({});
+
     container.querySelector('#error').api = Promise.reject(new Error());
+    container.querySelector('#error').metrics = Promise.reject(new Error());
     return container;
   }));

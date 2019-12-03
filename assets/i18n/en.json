@@ -7,6 +7,11 @@
     "empty": "No information to display",
     "error": "An error has occurred"
   },
+  "gv-metrics": {
+    "subscribers": "Subscribers",
+    "hits": "Hits",
+    "health": "Health"
+  },
   "gv-pagination": {
     "next": "Next",
     "previous": "Previous"
@@ -14,6 +19,9 @@
   "gv-promote-api": {
     "empty": "No information to display",
     "error": "An error has occurred"
+  },
+  "gv-rating": {
+    "notes": "Notes"
   },
   "gv-row-api": {
     "empty": "No API to display here",
