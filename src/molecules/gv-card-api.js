@@ -21,6 +21,7 @@ import '../atoms/gv-image';
 import '../atoms/gv-button';
 import { card } from '../styles/card';
 import { ApiElement } from '../mixins/api-element';
+import { i18n } from '../lib/i18n.js';
 
 /**
  * Api Card component
@@ -115,21 +116,21 @@ export class GvCardApi extends ApiElement {
   }
 
   render () {
-    return html`<div class="card" title="${this._getTitle()}"> 
-    <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${this._getVersion()}</span>   
+    return html`<div class="card" title="${this._getTitle()}">
+    <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${this._getVersion()}</span>
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
-    
+
     <div class="content">
-        ${this._error ? html`  
+        ${(this._error || this._empty) ? html`
         <div class="${classMap({ skeleton: this._skeleton })}">
-            <span class="error">An error has occurred</span>
+            <span class="error">${this._error ? i18n('gv-card-api.error') : i18n('gv-card-api.empty')}</span>
         </div>
         ` : html`
         <div class="${classMap({ skeleton: this._skeleton })}">
             <span class="title">${this._getTitle()}</span>
         </div>
         <div>${this._renderStates()}</div>`
-    }
+        }
     </div>
 </div>`;
   }

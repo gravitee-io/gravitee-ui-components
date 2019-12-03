@@ -26,6 +26,7 @@ import picture from '../../assets/images/api-full.png';
 import { card } from '../styles/card';
 import { truncate } from '../lib/utils';
 import { ApiElement } from '../mixins/api-element';
+import { i18n } from '../lib/i18n';
 
 /**
  * Api Full Card component
@@ -204,7 +205,7 @@ export class GvCardApiFull extends ApiElement {
   }
 
   render () {
-    return html`<div class="${classMap({ error: this._error, card: true })}" title="${this._getTitle()}"> 
+    return html`<div class="${classMap({ error: this._error || this._empty, card: true })}" title="${this._getTitle()}">
         <div class="${classMap({ skeleton: this._skeleton })}">
             <div class="${classMap({ image: true })}">${this._renderImage()}</div>
             <div class="content">
@@ -213,20 +214,20 @@ export class GvCardApiFull extends ApiElement {
                 ${this._renderStates()}
                 </div>
             </div>
-            <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${this._getVersion()}</span></div>  
+            <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${this._getVersion()}</span></div>
         </div>
         <div class="${classMap({ skeleton: this._skeleton, description: true })}">
-            ${truncate(this._error ? 'An error has occurred' : this._getDescription(), this.limit)}
-        </div>  
+            ${truncate(this._error ? i18n('gv-card-api-full.error') : this._empty ? i18n('gv-card-api-full.empty') : this._getDescription(), this.limit)}
+        </div>
         <span class="${classMap({ skeleton: this._skeleton })}">
            <div class="infos">
              ${this._renderMetrics()}
              ${this._renderInfoRating()}
-          </div>   
+          </div>
           <div class="labels">
              ${this._renderLabels()}
           </div>
-        </span> 
+        </span>
 </div>`;
   }
 

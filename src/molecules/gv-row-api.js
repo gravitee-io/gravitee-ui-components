@@ -18,6 +18,7 @@ import { html } from 'lit-html';
 import { skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
 import { ApiElement } from '../mixins/api-element';
+import { i18n } from '../lib/i18n.js';
 
 /**
  * Api Row component
@@ -44,7 +45,7 @@ export class GvRowApi extends ApiElement {
               background-color: var(--hover-bgc);
           }
 
-          .row {
+          .row, .row.error:hover {
               display: flex;
               background-color: var(--gv-row-api--bgc, white);
               align-items: center;
@@ -71,7 +72,7 @@ export class GvRowApi extends ApiElement {
               max-width: 25px;
           }
 
-          .row  .description {
+          .row .description {
               background: #FAFAFA;
               border-radius: 2px;
               font-size: 14px;
@@ -79,7 +80,7 @@ export class GvRowApi extends ApiElement {
               flex: 6;
           }
 
-          .row  .meta {
+          .row .meta {
               display: flex;
               flex-direction: column;
           }
@@ -105,13 +106,27 @@ export class GvRowApi extends ApiElement {
               min-height: 35px;
           }
 
+          .error {
+            cursor: default;
+          }
+
+          gv-image {
+            --gv-image--h: 35px;
+            --gv-image--w: 35px;
+          }
       `,
     ];
   }
 
   render () {
+    const classes = {
+      row: true,
+      error: this._error || this._empty,
+    };
+
     return html`
-        <div class="row">
+        <div class=${classMap(classes)}>
+            ${(this._error || this._empty) ? html`<div class="${classMap({ description: true })}">${this._error ? i18n('gv-row-api.error') : i18n('gv-row-api.empty')}</div>` : html`
             <div class="${classMap({ picture: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
             <div class="${classMap({ name: true, skeleton: this._skeleton })}"><h4 class="title">${this._getTitle()}</h4></div>
             <div class="${classMap({ version: true, skeleton: this._skeleton })}">${this._getVersion()}</div>
@@ -123,6 +138,7 @@ export class GvRowApi extends ApiElement {
               <div class="meta__tags">${this._renderLabels()}</div>
             </div>
           </div>
+          `}
       </div>
     `;
   }

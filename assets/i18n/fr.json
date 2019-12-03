@@ -1,6 +1,22 @@
 {
+  "gv-card-api": {
+    "empty": "Aucune API à afficher ici",
+    "error": "Une erreur est survenue pendant de le chargement de l'API"
+  },
+  "gv-card-api-full": {
+    "empty": "Aucune API à afficher ici",
+    "error": "Une erreur est survenue pendant de le chargement de l'API"
+  },
   "gv-pagination": {
     "next": "Suivant",
     "previous": "Précédent"
+  },
+  "gv-promote-api": {
+    "empty": "Aucune API à afficher ici",
+    "error": "Une erreur est survenue pendant de le chargement de l'API"
+  },
+  "gv-row-api": {
+    "empty": "Aucune API à afficher ici",
+    "error": "Une erreur est survenue pendant de le chargement de l'API"
   }
 }
