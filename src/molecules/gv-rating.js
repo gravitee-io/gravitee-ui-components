@@ -20,6 +20,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-icon';
 import { skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
+import { i18n } from '../lib/i18n';
 
 const MAX_RATE = 5;
 
@@ -58,7 +59,6 @@ export class GvRating extends LitElement {
           }
 
           .content {
-              display: flex;
               justify-content: space-evenly;
               min-width: 110px;
               display: inline-flex;
@@ -134,7 +134,7 @@ export class GvRating extends LitElement {
       </div>
       <div>
         <div class="info-title">${this.count || this._getTitle()}</div>
-        <div class="info-subtitle">Notes</div>
+        <div class="info-subtitle">${i18n('gv-rating.notes')}</div>
       </div>
       </div>
 `;

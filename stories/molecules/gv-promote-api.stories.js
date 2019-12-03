@@ -29,6 +29,7 @@ const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret 
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 
 const ratingSummary = { average: 3.2, count: 345 };
+const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
 storiesOf('2. Molecules|<gv-promote-api>', module)
   .addParameters({ notes })
   .add('Basics', () => withActions(...eventNames)(() => {
@@ -61,11 +62,13 @@ storiesOf('2. Molecules|<gv-promote-api>', module)
       description,
       rating_summary: ratingSummary,
     });
+    container.querySelector('#defaultPicture').metrics = metrics;
     container.querySelector('#withPicture').api = Promise.resolve({
       name,
       description,
       _links: { picture },
     });
+    container.querySelector('#withPicture').metrics = metrics;
     container.querySelector('#withHorizontalPicture').api = Promise.resolve({
       name,
       description,
@@ -87,6 +90,7 @@ storiesOf('2. Molecules|<gv-promote-api>', module)
       `;
 
       container.querySelector('#delay').api = Promise.resolve({ name, description, _links: { picture } }).then(delay(2000));
+      container.querySelector('#delay').metrics = metrics.then(delay(3000));
 
       return container;
     });
@@ -103,6 +107,9 @@ storiesOf('2. Molecules|<gv-promote-api>', module)
     `;
 
     container.querySelector('#empty').api = Promise.resolve({});
+    container.querySelector('#empty').metrics = Promise.resolve({});
     container.querySelector('#error').api = Promise.reject(new Error());
+    container.querySelector('#error').metrics = Promise.reject(new Error());
+
     return container;
   }));

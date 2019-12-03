@@ -95,13 +95,6 @@ export class ApiElement extends LitElement {
     return null;
   }
 
-  _getMetrics () {
-    if (this._api) {
-      return this._api.metrics;
-    }
-    return null;
-  }
-
   _renderImage () {
     if (this._picture) {
       return html`<gv-image src="${this._picture}" alt="${this._getTitle()}" @load="${this._onImageLoaded}">`;

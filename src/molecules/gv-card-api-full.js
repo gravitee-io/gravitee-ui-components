@@ -19,6 +19,7 @@ import { skeleton } from '../styles';
 import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
+import '../molecules/gv-metrics';
 import '../molecules/gv-rating';
 import '../atoms/gv-state';
 import '../atoms/gv-tag';
@@ -32,6 +33,7 @@ import { i18n } from '../lib/i18n';
  * Api Full Card component
  *
  * @attr {Promise<Api>} api - An Api.
+ * @attr {Promise<ApiMetrics>} metrics - An Api.
  *
  * @cssprop {String} --gv-card-api-full--bgc - set the background color.
  */
@@ -118,6 +120,7 @@ export class GvCardApiFull extends ApiElement {
 
           .infos {
               display: flex;
+              justify-content: space-evenly;
               border-bottom: 1px solid #D9D9D9;
               padding: 8px;
               margin: 8px;
@@ -128,32 +131,10 @@ export class GvCardApiFull extends ApiElement {
           }
 
           .info {
-              flex: 1;
-              --gv-icon--w: 24px;
-              --gv-icon--h: 24px;
-              --gv-icon--c: var(--gv-theme-color);
-              display: flex;
-              justify-content: space-evenly;
+              flex: 1 1 0%;
           }
-
-          .icon {
-              align-self: center;
-          }
-
           .labels {
               padding: 0 16px;
-          }
-
-          .info-title {
-              font-size: 14px;
-              line-height: 16px;
-              align-self: center;
-          }
-
-          .info-subtitle {
-              font-size: 8px;
-              line-height: 10px;
-              opacity: 0.5;
           }
 
           .skeleton {
@@ -180,12 +161,6 @@ export class GvCardApiFull extends ApiElement {
     return picture;
   }
 
-  _renderInfo (data, icon, name) {
-    return html`<div class="info">
-                ${data ? html`<div class="icon"><gv-icon shape="${icon}"></gv-icon></div>
-                <div><div class="info-title">${data}</div><div class="info-subtitle">${name}</div></div>` : ''}`;
-  }
-
   _renderInfoRating () {
     const rating = this._getRating();
     if (rating) {
@@ -195,13 +170,15 @@ export class GvCardApiFull extends ApiElement {
   }
 
   _renderMetrics () {
-    const metrics = this._getMetrics();
-    if (metrics) {
-      return html`${this._renderInfo(metrics.subscribers, 'communication:group', 'Subscribers')}
-    ${this._renderInfo(metrics.hits, 'general:cursor', 'Hits')}
-    ${this._renderInfo(metrics.health, 'general:heart', 'Health')}`;
+    if (this.metrics) {
+      const container = document.createElement('gv-metrics');
+      container.metrics = this.metrics;
+      container.className = 'info';
+      return container;
     }
-    return '';
+    else {
+      return html`<div class="info"></div>`;
+    }
   }
 
   render () {
@@ -220,12 +197,12 @@ export class GvCardApiFull extends ApiElement {
             ${truncate(this._error ? i18n('gv-card-api-full.error') : this._empty ? i18n('gv-card-api-full.empty') : this._getDescription(), this.limit)}
         </div>
         <span class="${classMap({ skeleton: this._skeleton })}">
-           <div class="infos">
-             ${this._renderMetrics()}
-             ${this._renderInfoRating()}
+          <div class="infos">
+            ${this._renderMetrics()}
+            ${this._renderInfoRating()}
           </div>
           <div class="labels">
-             ${this._renderLabels()}
+            ${this._renderLabels()}
           </div>
         </span>
 </div>`;
