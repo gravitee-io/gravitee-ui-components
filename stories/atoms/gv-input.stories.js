@@ -38,7 +38,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input type="email" placeholder="Email"></gv-input>
       <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
       <gv-input type="number" placeholder="Number" min="1" max="10"></gv-input>
-     
+
       <div class="title">Size</div>
       <gv-input placeholder="Medium (default)"></gv-input>
       <gv-input placeholder="Medium icon" icon="general:size"></gv-input>
@@ -108,5 +108,10 @@ storiesOf('1. Atoms|<gv-input>', module)
   .add('Search', withActions(() => {
     return `<div class="title">Search input</div>
       <gv-input type="search" placeholder=""></gv-input>
+`;
+  }))
+  .add('Focus', withActions(() => {
+    return `<div class="title">Focus</div>
+      <gv-input autofocus></gv-input>
 `;
   }));
