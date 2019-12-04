@@ -31,32 +31,32 @@ storiesOf('1. Atoms|<gv-text>', module)
 
     const container = document.createElement('div');
     container.innerHTML = `
-      <div class="title">Default without options</div>
-      <gv-text></gv-text>
-      
+      <div class="title">Default without options focused</div>
+      <gv-text autofocus></gv-text>
+
       <div class="title">Default with label</div>
-      <gv-text 
-        label="Votre demande" 
+      <gv-text
+        label="Votre demande"
         placeholder="Expliquer votre demande...">
       </gv-text>
-      
+
       <div class="title">Required with label</div>
-      <gv-text 
-        label="Votre demande" 
+      <gv-text
+        label="Votre demande"
         placeholder="Expliquer votre demande..."
         required>
       </gv-text>
-      
+
       <div class="title">Disabled with label</div>
-      <gv-text 
-        label="Votre demande" 
+      <gv-text
+        label="Votre demande"
         placeholder="Expliquer votre demande..."
         disabled>
       </gv-text>
-      
+
       <div class="title">Sekeleton with label</div>
-      <gv-text 
-        label="Votre demande" 
+      <gv-text
+        label="Votre demande"
         placeholder="Expliquer votre demande..."
         skeleton>
       </gv-text>

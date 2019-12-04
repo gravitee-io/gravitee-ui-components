@@ -41,6 +41,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} icon - icon of the input
  * @attr {String} icon-left - icon of the input to display at left
  * @attr {Boolean} loading - true to display a loading icon
+ * @attr {Boolean} autofocus - true to put the focus on the input
  *
  */
 
@@ -65,6 +66,7 @@ export class GvInput extends LitElement {
       loading: { type: Boolean },
       min: { type: Number },
       max: { type: Number },
+      autofocus: { type: Boolean },
     };
   }
 
@@ -110,8 +112,10 @@ export class GvInput extends LitElement {
     this._showPassword = false;
   }
 
-  focus () {
-    this.shadowRoot.querySelector('input').focus();
+  firstUpdated (changedProperties) {
+    if (this.autofocus) {
+      this.shadowRoot.querySelector('input').focus();
+    }
   }
 
   _onInput (e) {

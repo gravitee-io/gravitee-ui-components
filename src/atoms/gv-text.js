@@ -33,6 +33,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} name - name of the text
  * @attr {String} placeholder - an example value to display in the text when empty
  * @attr {Number} rows - number of rows of the text element
+ * @attr {Boolean} autofocus - true to put the focus on the input
  *
  */
 
@@ -49,6 +50,7 @@ export class GvText extends LitElement {
       name: { type: String },
       placeholder: { type: String },
       rows: { type: Number },
+      autofocus: { type: Boolean },
     };
   }
 
@@ -61,7 +63,7 @@ export class GvText extends LitElement {
               position: relative;
               line-height: 0;
           }
-          
+
           /* BASE */
           textarea {
               border: 1px solid #D9D9D9;
@@ -101,13 +103,15 @@ export class GvText extends LitElement {
     ];
   }
 
-  focus () {
-    this.shadowRoot.querySelector('textarea').focus();
-  }
-
   constructor () {
     super();
     this._id = 'gv-id';
+  }
+
+  firstUpdated (changedProperties) {
+    if (this.autofocus) {
+      this.shadowRoot.querySelector('textarea').focus();
+    }
   }
 
   _renderRequired () {
