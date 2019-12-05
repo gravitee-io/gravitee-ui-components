@@ -12,6 +12,18 @@
     "error": "An error occurred while loading the API",
     "subscribe": "subscribe"
   },
+  "gv-info-api": {
+    "categories": "Categories",
+    "error": "An error occurred while loading API information",
+    "labels": "Labels",
+    "metrics": "Metrics",
+    "moreInfo": "More information",
+    "ratings": "Ratings",
+    "resources": "Resources"
+  },
+  "gv-list": {
+    "error": "An error occurred while loading list"
+  },
   "gv-metrics": {
     "health": "Health",
     "hits": "Hits",

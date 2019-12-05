@@ -31,6 +31,7 @@ import '../atoms/gv-icon';
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
  * @cssprop {String} --gv-tag--bdr - set the border radius.
+ * @cssprop {String} --gv-tag--bsw - set the box shadow.
  * @cssprop {String} --gv-tag([-major|-minor]?)--bgc - set the background color.
  * @cssprop {String} --gv-tag([-major|-minor]?)--bdc - set the border color.
  * @cssprop {String} --gv-tag([-major|-minor]?)--bds - set the border style.
@@ -67,7 +68,7 @@ export class GvTag extends LitElement {
               --bdc: var(--gv-tag--bdc, #D9D9D9);
               --bds: var(--gv-tag--bds, solid);
               --bdw: var(--gv-tag--bdw, 1px);
-              --c: var(--gv-tag--c, #595959)
+              --c: var(--gv-tag--c, #595959);
           }
 
           div.major {
@@ -92,6 +93,7 @@ export class GvTag extends LitElement {
               border-radius: var(--gv-tag--bdr, 4px);
               border-style: var(--bds);
               border-width: var(--bdw);
+              box-shadow: var(--gv-tag--bsw, none);
               color: var(--c);
 
               font-size: 12px;
