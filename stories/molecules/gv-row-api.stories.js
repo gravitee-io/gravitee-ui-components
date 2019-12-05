@@ -30,7 +30,7 @@ const states = [{ value: 'beta', minor: true }, { value: 'running', major: true 
 const owner = { display_name: 'Garry Marshall' };
 const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
-const labels = [{ value: 'beta', minor: true }, { value: 'Custom', major: true }, { value: 'web' }];
+const labels = ['brta', 'custom', 'web'];
 const api = { name: 'Long Supernova', picture: horizontalImage, version, states, owner, labels, description };
 storiesOf('2. Molecules|<gv-row-api>', module)
   .addParameters({ notes })

@@ -134,7 +134,7 @@ export class GvRating extends LitElement {
       </div>
       <div>
         <div class="info-title">${this.count || this._getTitle()}</div>
-        <div class="info-subtitle">${i18n('gv-rating.notes')}</div>
+        ${this.count ? html`<div class="info-subtitle">${i18n('gv-rating.notes')}</div>` : ''}
       </div>
       </div>
 `;

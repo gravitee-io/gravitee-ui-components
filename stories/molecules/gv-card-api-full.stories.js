@@ -32,7 +32,7 @@ const version = 'v.1.1';
 
 const states = [{ value: 'beta' }, { value: 'running', major: true }];
 const ratingSummary = { average: 3.4, count: 124 };
-const labels = [{ value: 'APIDays', major: true }, { value: 'December', minor: true }, { value: 'Foobar' }];
+const labels = ['APIDays', 'December', 'Foobar'];
 const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
 const api = Promise.resolve({ name, description, version, states, labels, rating_summary: ratingSummary });
 storiesOf('2. Molecules|<gv-card-api-full>', module)

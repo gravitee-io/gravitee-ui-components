@@ -15,6 +15,7 @@
  */
 import { LitElement } from 'lit-element';
 import defaultPicture from '../../assets/images/promote-api.png';
+import { dispatchCustomEvent } from '../lib/events';
 import { html } from 'lit-html';
 import { repeat } from 'lit-html/directives/repeat';
 
@@ -95,6 +96,13 @@ export class ApiElement extends LitElement {
     return null;
   }
 
+  _getViews () {
+    if (this._api) {
+      return this._api.views;
+    }
+    return null;
+  }
+
   _renderImage () {
     if (this._picture) {
       return html`<gv-image src="${this._picture}" alt="${this._getTitle()}" @load="${this._onImageLoaded}">`;
@@ -102,14 +110,14 @@ export class ApiElement extends LitElement {
     return ``;
   }
 
+  _onTagClick (tagValue, tagType) {
+    dispatchCustomEvent(this, 'click-' + tagType, { tagValue });
+  }
+
   _renderLabels () {
     const labels = this._getLabels();
     if (labels) {
-      return repeat(labels, (label) => label, ({ value, major, minor }) => html`
-                    <gv-tag ?skeleton="${this._skeleton}"
-                    ?major="${major === true}"
-                    ?minor="${minor === true}">${value}</gv-tag>
-                `);
+      return repeat(labels, (label) => label, (label) => html` <gv-tag @click="${this._onTagClick.bind(this, label, 'label')}" ?skeleton="${this._skeleton}" major>${label}</gv-tag>`);
     }
     return '';
   }
@@ -142,6 +150,14 @@ export class ApiElement extends LitElement {
     const rating = this._getRating();
     if (rating) {
       return html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`;
+    }
+    return '';
+  }
+
+  _renderViews () {
+    const views = this._getViews();
+    if (views) {
+      return repeat(views, (name) => name, (name) => html`<gv-tag @click="${this._onTagClick.bind(this, name, 'view')}" ?skeleton="${this._skeleton}">${name}</gv-tag>`);
     }
     return '';
   }
