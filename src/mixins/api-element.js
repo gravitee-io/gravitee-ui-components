@@ -126,6 +126,18 @@ export class ApiElement extends LitElement {
     return '';
   }
 
+  _renderMetricsWithRating () {
+    const rendered = [];
+    if (this.metrics) {
+      rendered.push(html`<gv-metrics .metrics="${this.metrics}">`);
+    }
+    const rating = this._getRating();
+    if (rating) {
+      rendered.push(html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`);
+    }
+    return rendered;
+  }
+
   _renderInfoRating () {
     const rating = this._getRating();
     if (rating) {

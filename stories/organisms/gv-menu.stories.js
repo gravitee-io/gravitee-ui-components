@@ -18,8 +18,9 @@ import notes from '../../.docs/gv-menu.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 import { color, text } from '@storybook/addon-knobs';
+import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
 
-const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input', 'gv-input:submit');
+const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header-api:subscribe', 'gv-header-api:support');
 
 storiesOf('3. Organisms|<gv-menu>', module)
   .addParameters({ notes })
@@ -54,6 +55,22 @@ storiesOf('3. Organisms|<gv-menu>', module)
     const menu = document.createElement('gv-menu');
     return menu;
   }))
+  .add('Small', withActions(() => {
+    const menu = document.createElement('gv-menu');
+
+    menu.routes = [
+      { path: '#', title: 'Categories', icon: 'layout:layout-arrange' },
+      { path: '#', title: 'Featured', active: true, icon: 'home:flower#2' },
+      { path: '#', title: 'Starred', icon: 'home:flower#1' },
+      { path: '#', title: 'Trendings', icon: 'appliances:fan' },
+    ];
+    menu.small = true;
+    menu.innerHTML = `
+        <p slot="right"><gv-input style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input></p>
+    `;
+
+    return menu;
+  }))
   .add('With search', withActions(() => {
     const menu = document.createElement('gv-menu');
 
@@ -70,7 +87,7 @@ storiesOf('3. Organisms|<gv-menu>', module)
 
     return menu;
   }))
-  .add('Small', withActions(() => {
+  .add('With header', withActions(() => {
     const menu = document.createElement('gv-menu');
 
     menu.routes = [
@@ -79,10 +96,22 @@ storiesOf('3. Organisms|<gv-menu>', module)
       { path: '#', title: 'Starred', icon: 'home:flower#1' },
       { path: '#', title: 'Trendings', icon: 'appliances:fan' },
     ];
-    menu.small = true;
-    menu.innerHTML = `
-        <p slot="right"><gv-input style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input></p>
-    `;
 
+    const breadcrumbs = [
+      { path: '#', title: 'Catalog' },
+      { path: '#', title: 'Categories' },
+      { path: '#', title: 'My API' },
+    ];
+
+    menu.innerHTML = `
+        <gv-header-api slot="header" can-subscribe></gv-header-api>
+        <gv-input slot="right" style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
+    `;
+    const version = 'v.1.1';
+    const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];
+    const api = { name: 'Long Supernova', picture: horizontalImage, version, states };
+    menu.querySelector('gv-header-api').api = api;
+    menu.querySelector('gv-header-api').breadcrumbs = breadcrumbs;
     return menu;
-  }));
+  }))
+;

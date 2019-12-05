@@ -41,6 +41,7 @@ export class GvMenu extends LitElement {
       _small: { type: Boolean, attribute: false },
       _routes: { type: Array, attribute: false },
       hasFocus: { type: Boolean, attribute: false },
+      _hasHeader: { type: Boolean, attribute: false },
     };
   }
 
@@ -66,13 +67,13 @@ export class GvMenu extends LitElement {
 
           gv-nav, slot[name="right"] {
               display: table-cell;
-              line-height: 60px;
+              line-height: 50px;
               vertical-align: middle;
           }
 
           @keyframes slide {
               from {
-                  width: var(--width)
+                  width: 70%
               }
 
               to {
@@ -80,13 +81,18 @@ export class GvMenu extends LitElement {
               }
           }
 
-          .hasFocus gv-nav {
+          .has-focus gv-nav {
               animation: slide 0.5s;
               width: 50%;
           }
 
           .small gv-nav {
               width: 50%;
+          }
+          
+          .has-header .nav-container {
+              padding-left: 10rem;
+              --gv-nav-link-a--pv: 0;
           }
 
           gv-nav {
@@ -174,13 +180,24 @@ export class GvMenu extends LitElement {
 
   render () {
     if (this._routes) {
+      this._hasHeader = false;
+      for (const child of this.childNodes) {
+        if (child.localName === 'gv-header-api') {
+          this._hasHeader = true;
+          break;
+        }
+      }
+
       const mainNav = document.createElement('gv-nav');
       mainNav.routes = this._routes;
       mainNav.small = this._small || this.hasFocus;
       return html`
-      <div class="${classMap({ small: this._small, hasFocus: this.hasFocus })}">
-        ${mainNav}
+      <div class="${classMap({ 'has-header': this._hasHeader })}">
+        <slot id="header" name="header"></slot>
+        <div class="${classMap({ small: this._small, 'has-focus': this.hasFocus })}">
+        <div class="nav-container">${mainNav}</div>
         <slot name="right" @click="${this._onClick}"></slot>
+        </div>
       </div>
     `;
     }

@@ -38,6 +38,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {String} --gv-nav-link([-active]?)--bgc - set the background color of link.
  * @cssprop {String} --gv-nav-link-active--bdb - set the border bottom of active link. (Default: none)
  * @cssprop {String} --gv-nav-link--ta - set the text align (Default: center)
+ * @cssprop {String} --gv-nav-link--td - set the text decoration (Default: none)
  */
 export class GvNavLink extends LitElement {
 
@@ -100,6 +101,7 @@ export class GvNavLink extends LitElement {
               align-self: center;
               white-space: nowrap;
               margin: 0.3rem 0.5rem;
+              text-decoration: var(--gv-nav-link--td, none);
           }
           
           a.small span {
