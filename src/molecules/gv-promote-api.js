@@ -55,6 +55,7 @@ export class GvPromoteApi extends ApiElement {
           .container {
               display: flex;
               min-height: 416px;
+              max-height: 416px;
           }
 
           .container > div {
@@ -73,10 +74,22 @@ export class GvPromoteApi extends ApiElement {
           }
 
           .title {
-              font-size: 24px;
               text-transform: capitalize;
               min-height: 32px;
+              display: flex;
+              align-items: center;
           }
+          
+          .title h2 {
+              font-size: 24px;
+              flex: 1;
+          }
+          
+          .title .version {
+              font-size: 12px;
+              color: #D9D9D9;
+          }
+          
 
           .content {
               flex: 1;
@@ -97,13 +110,12 @@ export class GvPromoteApi extends ApiElement {
           }
 
           .infos {
-              padding: 8px;
-              margin: 8px;
+              display: flex;
+              justify-content: flex-end;
+              padding: 8px 0;
+              margin: 8px 0;
           }
-
-          .skeleton .infos {
-              border-bottom: none;
-          }
+          
 
           .skeleton {
               background-color: #aaa;
@@ -119,25 +131,19 @@ export class GvPromoteApi extends ApiElement {
     dispatchCustomEvent(this, 'click', { path: this.path });
   }
 
-  _renderMetrics () {
-    if (this.metrics) {
-      const container = document.createElement('gv-metrics');
-      container.metrics = this.metrics;
-      return container;
-    }
-  }
-
   render () {
     return html`<div class="container">
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
     <div class="content">
     ${this._error && !this._skeleton ? html`<p class="description">${i18n('gv-promote-api.error')}</p>` : html`
         ${this._empty ? html`<p class="description">${i18n('gv-promote-api.empty')}</p>` : html`
-        <h2 class=${classMap({ skeleton: this._skeleton, title: true })}>
-        ${this._getTitle()} ${this._renderInfoRating()}</h2>
+        <div class=${classMap({ skeleton: this._skeleton, title: true })}>
+          <h2>${this._getTitle()}</h2>
+          <span class="version">${this._getVersion()}</span>
+        </div>
         <p class=${classMap({ skeleton: this._skeleton, description: true })}>${this._getDescription()}</p>
-        <div class="infos">
-            ${this._renderMetrics()}
+        <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
+            ${this._renderMetricsWithRating()}
         </div>
         <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>VIEW API</gv-button>`}
     `}

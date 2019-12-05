@@ -26,5 +26,11 @@
   "gv-row-api": {
     "empty": "No API to display here",
     "error": "An error occurred while loading the API"
+  },
+  "gv-header-api": {
+    "contact": "contact",
+    "empty": "No API to display here",
+    "error": "An error occurred while loading the API",
+    "subscribe": "subscribe"
   }
 }

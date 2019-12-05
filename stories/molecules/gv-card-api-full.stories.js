@@ -62,7 +62,7 @@ storiesOf('2. Molecules|<gv-card-api-full>', module)
       name: 'Long Supernova with empty description',
       description,
       version,
-      picture: horizontalImage,
+      _links: { picture: horizontalImage },
     });
     container.querySelector('#withoutMetrics').api = api;
 
@@ -85,7 +85,7 @@ storiesOf('2. Molecules|<gv-card-api-full>', module)
       states,
       labels,
       rating_summary: ratingSummary,
-      picture,
+      _links: { picture },
     }).then(delay(2000));
 
     container.querySelector('#delay').metrics = metrics.then(delay(3000));

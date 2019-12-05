@@ -48,6 +48,7 @@ export class GvMetric extends LitElement {
               --gv-icon--h: 24px;
               --gv-icon--c: var(--gv-theme-color);
               display: inline-flex;
+              min-width: 75px;
           }
 
           .icon {

@@ -45,7 +45,10 @@ export class GvMetrics extends LitElement {
       css`
           .metrics {
               display: flex;
-              justify-content: space-evenly;
+          }
+
+          .metrics > * {
+              flex: 1;
           }
 
           .skeleton {
@@ -54,6 +57,7 @@ export class GvMetrics extends LitElement {
               color: transparent;
               transition: 0.5s;
           }
+
       `,
     ];
   }
@@ -69,7 +73,6 @@ export class GvMetrics extends LitElement {
       .then((metrics) => {
         if (metrics) {
           this._skeleton = false;
-          this._empty = Object.keys(metrics).length === 0;
           this._metrics = metrics;
         }
       }).catch(() => {
@@ -110,7 +113,7 @@ export class GvMetrics extends LitElement {
 
   render () {
     const modes = {
-      skeleton: this.skeleton,
+      skeleton: this._skeleton,
       metrics: true,
     };
 
