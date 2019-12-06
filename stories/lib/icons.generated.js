@@ -37,6 +37,7 @@ export function generateIcons () {
 <div class="item" data-shape="clothers:tie"><gv-icon shape="clothers:tie" size="48"></gv-icon><span>clothers:tie</span></div>
 </div><div class="title" data-shape="code">code</div>
 <div class="collection"><div class="item" data-shape="code:backspace"><gv-icon shape="code:backspace" size="48"></gv-icon><span>code:backspace</span></div>
+<div class="item" data-shape="code:check"><gv-icon shape="code:check" size="48"></gv-icon><span>code:check</span></div>
 <div class="item" data-shape="code:cmd"><gv-icon shape="code:cmd" size="48"></gv-icon><span>code:cmd</span></div>
 <div class="item" data-shape="code:code"><gv-icon shape="code:code" size="48"></gv-icon><span>code:code</span></div>
 <div class="item" data-shape="code:commit"><gv-icon shape="code:commit" size="48"></gv-icon><span>code:commit</span></div>

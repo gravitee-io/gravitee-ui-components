@@ -1,16 +1,22 @@
 {
   "gv-card-api": {
     "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant de le chargement de l'API"
+    "error": "Une erreur est survenue pendant le chargement de l'API"
   },
   "gv-card-api-full": {
     "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant de le chargement de l'API"
+    "error": "Une erreur est survenue pendant le chargement de l'API"
+  },
+  "gv-header-api": {
+    "contact": "Contact",
+    "empty": "Aucune API à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement de l'API",
+    "subscribe": "Souscrire"
   },
   "gv-metrics": {
-    "subscribers": "Souscriptions",
+    "health": "Santé",
     "hits": "Appels",
-    "health": "Santé"
+    "subscribers": "Souscriptions"
   },
   "gv-pagination": {
     "next": "Suivant",
@@ -18,19 +24,16 @@
   },
   "gv-promote-api": {
     "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant de le chargement de l'API"
+    "error": "Une erreur est survenue pendant le chargement de l'API"
   },
   "gv-rating": {
     "notes": "Notes"
   },
   "gv-row-api": {
     "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant de le chargement de l'API"
+    "error": "Une erreur est survenue pendant le chargement de l'API"
   },
-  "gv-header-api": {
-    "contact": "Contact",
-    "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant de le chargement de l'API",
-    "subscribe": "Souscrire"
+  "gv-stepper" : {
+    "error": "Une erreur est survenue pendant le chargement de étapes"
   }
 }
