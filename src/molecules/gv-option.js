@@ -76,8 +76,8 @@ export class GvOption extends LitElement {
   }
 
   async performUpdate () {
-    super.performUpdate();
     this.shadowRoot.querySelectorAll('gv-button').forEach((btn) => btn.performUpdate());
+    return super.performUpdate();
   }
 
   render () {

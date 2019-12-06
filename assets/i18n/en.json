@@ -7,10 +7,16 @@
     "empty": "No information to display",
     "error": "An error has occurred"
   },
+  "gv-header-api": {
+    "contact": "contact",
+    "empty": "No API to display here",
+    "error": "An error occurred while loading the API",
+    "subscribe": "subscribe"
+  },
   "gv-metrics": {
-    "subscribers": "Subscribers",
+    "health": "Health",
     "hits": "Hits",
-    "health": "Health"
+    "subscribers": "Subscribers"
   },
   "gv-pagination": {
     "next": "Next",
@@ -27,10 +33,7 @@
     "empty": "No API to display here",
     "error": "An error occurred while loading the API"
   },
-  "gv-header-api": {
-    "contact": "contact",
-    "empty": "No API to display here",
-    "error": "An error occurred while loading the API",
-    "subscribe": "subscribe"
+  "gv-stepper" : {
+    "error": "An error occurred while loading the steps"
   }
 }
