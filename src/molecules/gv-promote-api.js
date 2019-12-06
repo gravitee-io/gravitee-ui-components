@@ -59,7 +59,8 @@ export class GvPromoteApi extends ApiElement {
           }
 
           .container > div {
-              width: 514px;
+              min-width: 400px;
+              max-width: 514px;
           }
 
           .image {
