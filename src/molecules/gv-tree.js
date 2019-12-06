@@ -70,7 +70,6 @@ export class GvTree extends LitElement {
 
           .tree {
             position: relative;
-            min-height: 500px;
             min-width: 300px;
             padding-top: 20px;
             box-shadow: 15px 0 15px -5px hsla(0,0%,78.4%,.3);
