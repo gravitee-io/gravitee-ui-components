@@ -52,9 +52,7 @@ export class GvCardCategory extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              min-width: 400px;
-              width: 444px;
-              max-width: 460px;
+              min-width: 415px;
           }
 
           .card {

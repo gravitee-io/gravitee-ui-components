@@ -54,9 +54,7 @@ export class GvCardApiFull extends ApiElement {
               --gv-icon--w: 65px;
               --gv-icon--h: 65px;
               --gv-icon--c: #777;
-              min-width: 400px;
-              width: 444px;
-              max-width: 460px;
+              min-width: 415px;
               max-height: 281px;
               line-height: 22px;
               font-size: 14px;
