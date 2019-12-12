@@ -25,7 +25,6 @@ const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input'
 storiesOf('3. Organisms|<gv-menu>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
-
     const menu = document.createElement('gv-menu');
     menu.routes = [
       { path: '#', title: 'All', active: true, icon: 'home:flower#2' },
@@ -66,7 +65,7 @@ storiesOf('3. Organisms|<gv-menu>', module)
     ];
     menu.small = true;
     menu.innerHTML = `
-        <p slot="right"><gv-input style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input></p>
+        <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
     `;
 
     return menu;
@@ -82,15 +81,13 @@ storiesOf('3. Organisms|<gv-menu>', module)
     ];
 
     menu.innerHTML = `
-        <p slot="right"><gv-input style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input></p>
+        <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
     `;
 
     return menu;
   }))
   .add('With header', withActions(() => {
-    const menu = document.createElement('gv-menu');
-
-    menu.routes = [
+    const routes = [
       { path: '#', title: 'Categories', icon: 'layout:layout-arrange' },
       { path: '#', title: 'Featured', active: true, icon: 'home:flower#2' },
       { path: '#', title: 'Starred', icon: 'home:flower#1' },
@@ -103,15 +100,65 @@ storiesOf('3. Organisms|<gv-menu>', module)
       { path: '#', title: 'My API' },
     ];
 
-    menu.innerHTML = `
-        <gv-header-api slot="header" can-subscribe></gv-header-api>
-        <gv-input slot="right" style="width: 100%" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
-    `;
     const version = 'v.1.1';
     const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];
     const api = { name: 'Long Supernova', picture: horizontalImage, version, states };
-    menu.querySelector('gv-header-api').api = api;
-    menu.querySelector('gv-header-api').breadcrumbs = breadcrumbs;
-    return menu;
+
+    const container = document.createElement('div');
+    container.innerHTML = `
+        <div class="title">Full screen</div>
+        <gv-menu>
+            <gv-header-api slot="header" can-subscribe></gv-header-api>
+            <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
+        </gv-menu>
+        
+        <div class="title">Width: 1280px</div>
+        <div style="width: 1280px;">
+          <gv-menu>
+              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
+          </gv-menu>
+        </div>
+        
+        <div class="title">Width: 1024px</div>
+        <div style="width: 1024px;">
+          <gv-menu>
+              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
+          </gv-menu>
+        </div>
+        
+        <div class="title">Width: 768px</div>
+        <div style="width: 768px;">
+          <gv-menu>
+              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
+          </gv-menu>
+        </div>
+
+        <div class="title">Width: 570px</div>
+        <div style="width: 570px;">
+          <gv-menu>
+              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
+          </gv-menu>
+        </div>
+                
+        <div class="title">Width: 375px</div>
+        <div style="width: 375px;">
+          <gv-menu>
+              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
+          </gv-menu>
+        </div>
+    `;
+
+    container.querySelectorAll('gv-menu').forEach((menu) => {
+      menu.routes = routes;
+      menu.querySelector('gv-header-api').api = api;
+      menu.querySelector('gv-header-api').breadcrumbs = breadcrumbs;
+    });
+
+    return container;
   }))
 ;

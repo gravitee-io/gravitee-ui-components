@@ -44,7 +44,7 @@ export class GvNavLink extends LitElement {
 
   static get properties () {
     return {
-      active: { type: Boolean },
+      active: { type: Boolean, reflect: true },
       icon: { type: String },
       path: { type: String },
       title: { type: String },

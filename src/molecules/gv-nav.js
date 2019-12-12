@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-nav-link';
 import { until } from 'lit-html/directives/until';
+import { isSameRoutes } from '../lib/utils';
 
 /**
  * A main nav
@@ -26,6 +27,8 @@ import { until } from 'lit-html/directives/until';
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>}]
  *
  */
+const delay = 250;
+
 export class GvNav extends LitElement {
 
   static get properties () {
@@ -36,22 +39,78 @@ export class GvNav extends LitElement {
     };
   }
 
+  static get styles () {
+    return [
+      // language=css
+      css`
+
+          nav {
+              position: relative;
+          }
+
+          #shadowLink {
+              position: absolute;
+              display: inline-flex;
+              opacity: 0.5;
+              transition: transform ${delay}ms ease-in, width ${delay}ms;
+              top: 0;
+              left: 0;
+          }
+
+      `];
+  }
+
   _onClick ({ detail: { title } }) {
-    this._routes = this._routes.map((route) => {
+    let nextIndex = 0;
+    this._routes.forEach((route, index) => {
       if (route.title === title) {
         route.active = true;
+        nextIndex = index;
       }
       else {
         delete route.active;
       }
       return route;
     });
+
+    const activeLink = this.shadowRoot.querySelector('gv-nav-link[active]');
+    const nextLink = this.shadowRoot.querySelectorAll('gv-nav-link')[nextIndex];
+    if (activeLink) {
+      const shadowLink = activeLink.cloneNode(true);
+      const { height, width } = activeLink.getBoundingClientRect();
+
+      shadowLink.id = 'shadowLink';
+      shadowLink.style.top = `${activeLink.offsetTop}px`;
+      shadowLink.style.left = `${activeLink.offsetLeft}px`;
+      shadowLink.style.width = `${width}px`;
+      shadowLink.style.height = `${height}px`;
+
+      activeLink.removeAttribute('active');
+      activeLink.style.height = `${height}px`;
+
+      this.shadowRoot.querySelector('nav').prepend(shadowLink);
+      const left = nextLink.offsetLeft - activeLink.offsetLeft;
+      const top = nextLink.offsetTop - activeLink.offsetTop;
+
+      shadowLink.style.transform = `translate(${left}px,${top}px)`;
+
+      setTimeout(() => {
+        nextLink.setAttribute('active', true);
+        this.shadowRoot.querySelector('nav').removeChild(shadowLink);
+      }, delay);
+    }
+    else {
+      nextLink.setAttribute('active', true);
+    }
+
   }
 
   set routes (routes) {
     if (routes) {
       Promise.resolve(routes).then((_routes) => {
-        this._routes = _routes;
+        if (!isSameRoutes(this._routes, _routes)) {
+          this._routes = _routes;
+        }
       });
     }
   }

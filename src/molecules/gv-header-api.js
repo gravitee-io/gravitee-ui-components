@@ -25,6 +25,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
+import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**
  * Api Header component
@@ -37,7 +38,7 @@ import { classMap } from 'lit-html/directives/class-map';
  * @cssprop {String} --gv-header-api--pl - set the padding left
  * @cssprop {String} --gv-header-api--pr - set the padding right
  */
-export class GvHeaderApi extends ApiElement {
+export class GvHeaderApi extends withResizeObserver(ApiElement) {
 
   static get properties () {
     return {
@@ -64,9 +65,49 @@ export class GvHeaderApi extends ApiElement {
               --gv-nav-link-a--ph: 5px;
               --gv-nav-link--td: underline;
               --bg: var(--gv-header-api--bgc, var(--gv-theme-color-light, #D5FDCB));
-              --c: var(--gv-theme-font-color, #212322)
+              --c: var(--gv-theme-font-color, #212322);
+              box-sizing: border-box;
+              display: block;
           }
 
+          :host([w-lt-768]) {
+              --gv-image--w: 64px;
+              --gv-image--h: 64px;
+              --gv-button--fz: 12px;
+          }
+
+          :host([w-lt-768]) .header__top nav {
+              margin-top: 0;
+          }
+          
+          :host([w-lt-580]) {
+              --gv-button--p: 3px 9px;
+              --gv-nav-link-a--ph: 0px;
+          }
+
+          :host([w-lt-580]) .header__top {
+              min-height: 0;
+          }
+
+          :host([w-lt-580]) .actions {
+              display: flex;
+              flex-direction: column;
+          }
+
+          :host([w-lt-580]) .version {
+              font-size: 11px;
+              line-height: 13px;
+          }
+
+          :host([w-lt-580]) .image gv-image {
+              top: -5px;
+          }
+          
+          :host([w-lt-580]) h1 {
+              font-size: 18px;
+              line-height: 21px;
+          }
+          
           .header {
               display: flex;
               max-height: 175px;
@@ -151,6 +192,10 @@ export class GvHeaderApi extends ApiElement {
 
   constructor () {
     super();
+    this.breakpoints = {
+      width: [580, 768],
+    };
+    this._breadcrumbs = [];
     this.canSubscribe = false;
   }
 
@@ -185,7 +230,6 @@ export class GvHeaderApi extends ApiElement {
             .active="${_route.active}"
             .icon="${_route.icon}"
             .path="${_route.path}"
-            ?small="${this.small}"
             .title="${title}"
             .help="${until(_route.help, null)}"></gv-nav-link>`;
     }).catch(() => {
@@ -194,12 +238,9 @@ export class GvHeaderApi extends ApiElement {
   }
 
   _renderBreadcrumbs () {
-    if (this._breadcrumbs) {
-      return html`<nav>${repeat(this._breadcrumbs, (route) => route, (route, index) =>
-        until(this._getLink(route, index), html`<gv-nav-link skeleton></gv-nav-link>`)
-      )}</nav>`;
-    }
-    return html``;
+    return html`<nav>${repeat(this._breadcrumbs, (route) => route, (route, index) =>
+      until(this._getLink(route, index), html`<gv-nav-link skeleton></gv-nav-link>`)
+    )}</nav>`;
   }
 
   _onSubscribe (e) {
