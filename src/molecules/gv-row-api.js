@@ -37,11 +37,12 @@ export class GvRowApi extends ApiElement {
       css`
           :host {
               box-sizing: border-box;
-              --hover-bgc: var(--gv-row-api-hover--bgc, #D5FDCB);
+              --hover-bgc: var(--gv-row-api-hover--bgc, #FAFAFA);
               cursor: pointer;
           }
 
           .row:hover {
+              transform: translateY(-2px);
               background-color: var(--hover-bgc);
           }
 
@@ -50,6 +51,7 @@ export class GvRowApi extends ApiElement {
               background-color: var(--gv-row-api--bgc, white);
               align-items: center;
               padding: 8px;
+              transition: all .3s;
           }
 
           .row > div {
@@ -66,14 +68,13 @@ export class GvRowApi extends ApiElement {
           .row  .name {
               min-width: 300px;
           }
-
+    
           .row .version {
               color: #D9D9D9;
-              max-width: 25px;
+              max-width: 50px;
           }
 
           .row .description {
-              background: #FAFAFA;
               border-radius: 2px;
               font-size: 14px;
               padding: 8px;

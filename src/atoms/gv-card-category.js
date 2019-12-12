@@ -63,9 +63,12 @@ export class GvCardCategory extends LitElement {
               height: var(--gv-card-category--h, 228px);
               justify-content: flex-end;
               padding: 0 40px;
+              box-shadow: 0 0 0 1px rgba(208, 216, 223, 1), 0 1px 3px rgba(0,0,0,.15);
+              transition: all .3s;
           }
 
           .card:hover {
+              transform: translateY(-4px);
               box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
               cursor: pointer;
           }

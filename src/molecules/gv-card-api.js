@@ -58,9 +58,12 @@ export class GvCardApi extends ApiElement {
               border-radius: 2px;
               background-color: var(--gv-card-api--bgc, white);
               color: #262626;
+              box-shadow: 0 0 0 1px rgba(208, 216, 223, 1), 0 1px 3px rgba(0,0,0,.15);
+              transition: all .3s;
           }
 
           .card:hover {
+              transform: translateY(-4px);
               box-shadow: 0 10px 20px -10px rgba(0,0,0,0.25);
               cursor: pointer;
           }

@@ -146,7 +146,7 @@ export class GvPromoteApi extends ApiElement {
         <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
             ${this._renderMetricsWithRating()}
         </div>
-        <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>VIEW API</gv-button>`}
+        <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote-api.view')}</gv-button>`}
     `}
     </div>
 </div>`;
