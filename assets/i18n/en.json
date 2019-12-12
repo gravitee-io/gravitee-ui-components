@@ -24,7 +24,8 @@
   },
   "gv-promote-api": {
     "empty": "No information to display",
-    "error": "An error has occurred"
+    "error": "An error has occurred",
+    "view": "View API"
   },
   "gv-rating": {
     "notes": "Notes"

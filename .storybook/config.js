@@ -8,7 +8,9 @@ import { i18nKnob } from '../stories/lib/i18n-knob';
 
 const req = require.context('../stories', true, /.stories.js$/);
 
-addDecorator(withKnobs);
+addDecorator(withKnobs({
+  escapeHTML: false,
+}));
 addDecorator(withA11y);
 
 addDecorator((storyFn) => {

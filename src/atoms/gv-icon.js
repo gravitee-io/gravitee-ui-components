@@ -20,20 +20,25 @@ import { html } from 'lit-html';
 import { skeleton } from '../styles';
 import { getCssVar } from '../lib/style';
 
+const CATEGORIES_WITH_FIXED_COLORS = ['thirdparty'];
+
 /**
  * An icon
- *
- * @attr {String} shape - name of shape
  *
  * @cssprop {String} --gv-icon--c - set the color of icon
  * @cssprop {String} --gv-icon--h - set the height of icon (crushes size property)
  * @cssprop {String} --gv-icon--W - set the width of icon (crushes size property)
  */
-
 export class GvIcon extends LitElement {
 
   static get properties () {
     return {
+      /**
+       * This is a shape, an concatenation of category name and icon name.
+       * @type {"{category}:{iconName}"}
+       * @attr
+       * @required
+       */
       shape: { type: String },
     };
   }
@@ -51,17 +56,15 @@ export class GvIcon extends LitElement {
       `];
   }
 
-  constructor () {
-    super();
-    this.size = 24;
-  }
-
   async _getIcon () {
     let icon = await GvIcons._getIcon(this.shape);
     if (icon) {
-      const color = getCssVar(this, 'gv-icon--c', '#000');
-      if (color) {
-        icon = icon.replace(/fill="[#a-zA-Z0-9]*"/g, `fill="${color}"`);
+      const [shape] = this.shape.split(':');
+      if (!CATEGORIES_WITH_FIXED_COLORS.includes(shape)) {
+        const color = getCssVar(this, 'gv-icon--c', '#000');
+        if (color) {
+          icon = icon.replace(/fill="[#a-zA-Z0-9]*"/g, `fill="${color}"`);
+        }
       }
       const width = getCssVar(this, 'gv-icon--w', 32);
       const height = getCssVar(this, 'gv-icon--h', 32);
