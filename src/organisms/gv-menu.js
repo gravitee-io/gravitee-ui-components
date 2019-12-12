@@ -17,6 +17,7 @@ import { LitElement, html, css } from 'lit-element';
 import '../molecules/gv-nav';
 import { isSameRoutes } from '../lib/utils';
 import { classMap } from 'lit-html/directives/class-map';
+import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**
  * A menu
@@ -24,7 +25,6 @@ import { classMap } from 'lit-html/directives/class-map';
  * @fires gv-nav-link:click - Custom event when nav link click
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
- * @attr {String} searchTitle - text use for title and placeholder of input
  *
  * @cssprop {String} --gv-menu--c - set the color.
  * @cssprop {String} --gv-menu--bgc - set the background color.
@@ -32,15 +32,14 @@ import { classMap } from 'lit-html/directives/class-map';
  * @cssprop {String} --gv-menu--pl - set the padding left
  * @cssprop {String} --gv-menu--pr - set the padding right
  */
-export class GvMenu extends LitElement {
+export class GvMenu extends withResizeObserver(LitElement) {
 
   static get properties () {
     return {
+      /** @required **/
       routes: { type: Array },
-      searchTitle: { type: String },
       _small: { type: Boolean, attribute: false },
       _routes: { type: Array, attribute: false },
-      hasFocus: { type: Boolean, attribute: false },
       _hasHeader: { type: Boolean, attribute: false },
     };
   }
@@ -52,61 +51,122 @@ export class GvMenu extends LitElement {
           :host {
               --gv-nav-link--c: var(--gv-menu--c, #FFF);
               --gv-nav-link-active--c: var(--gv-menu--c, #FFF);
-              --gv-nav-link--bgc: var(--gv-menu--bgc, #193E34);
-              --gv-nav-link-active--bgc: var(--gv-menu--bgc, #193E34);
-              --gv-nav-link-active--bdb: var(--gv-menu-link-active--bdb, 2px solid #D5FDCB);
-              --width: var(--gv-nav--w, 70%)
+              --gv-nav-link--bgc: transparent;
+              --gv-nav-link-active--bgc: transparent;
+              --gv-nav-link-active--bdb: var(--gv-menu-link-active--bdb, 3px solid #D5FDCB);
+              --pr: var(--gv-menu--pr, 4rem);
+              --pl: var(--gv-menu--pl, 4rem);
+              --gv-header-api--pr: var(--pr);
+              --gv-header-api--pl: var(--pl);
+              box-sizing: border-box;
+              display: block;
           }
 
-          div {
-              background-color: var(--gv-menu--bgc, #193E34);
-              color: var(--gv-menu--c, #FFF);
-              display: table;
+          :host([w-lt-1024]) {
+              --pr: 5px;
+              --pl: 5px;
+          }
+
+          :host([w-lt-768]) .nav-container {
+              width: 100%;
+              padding-left: var(--pl);
+              --gv-nav-link-a--pv: 0;
+          }
+
+          :host([w-lt-580]) .nav-container {
+              flex: auto;
+              padding-left: 0;
+          }
+          
+          :host([w-lt-580]) gv-nav {
+              flex: auto;
+          }
+
+          :host([w-lt-580]) .right {
+              flex: auto;
+          }
+          
+          :host([w-lt-380]) .nav-container {
+            display: flex;
+            flex-direction: column-reverse;
+          }
+
+          :host([w-lt-380]) gv-nav {
+              align-self: flex-start;
+              flex: 1;
+          }
+
+          :host([w-lt-380]) .right {
+              align-self: flex-end;
+              flex: 1;
               width: 100%;
           }
 
-          gv-nav, slot[name="right"] {
+          :host([w-lt-380]) slot[name="right"]  {
+              padding-right: 0;
+          }
+
+          :host > div {
+              background-color: var(--gv-menu--bgc, #193E34);
+              color: var(--gv-menu--c, #FFF);
+          }
+
+          gv-nav {
               display: table-cell;
               line-height: 50px;
               vertical-align: middle;
           }
 
-          @keyframes slide {
-              from {
-                  width: 70%
-              }
-
-              to {
-                  width: 50%;
-              }
+          .nav-container {
+              display: flex;
+              align-items: center;
           }
 
-          .has-focus gv-nav {
-              animation: slide 0.5s;
-              width: 50%;
-          }
-
-          .small gv-nav {
-              width: 50%;
-          }
-          
           .has-header .nav-container {
+              width: calc(100% - 10rem);
               padding-left: 10rem;
               --gv-nav-link-a--pv: 0;
           }
 
-          gv-nav {
-              padding-left: var(--gv-menu--pl, 4rem);
-              width: var(--width)
+          slot[name="right"] {
+              display: flex;
+              padding-right: var(--pr);
+              justify-content: flex-end;
           }
 
+          gv-nav {
+              padding-left: var(--pl);
+              flex: 4;
+          }
 
-          slot[name="right"] {
-              padding-right: var(--gv-menu--pr, 4rem);
+          .right {
+              flex: 3;
+          }
+
+          .right ::slotted(*) {
+              align-self: flex-end;
+              transition: width 0.5s ease;
+              width: 70%;
+          }
+
+          .right:focus-within ::slotted(*) {
+              animation: slide 0.5s;
+              transition: width 0.5s ease-in-out;
+              width: 100%;
           }
 
       `,
     ];
+  }
+
+  constructor () {
+    super();
+    /** @protected */
+    this._routes = [];
+    this.breakpoints = {
+      // ceiled width with 275px tiles and 1rem (16px) gap
+      width: [380, 580, 768, 1024],
+    };
   }
 
   set routes (candidate) {
@@ -120,88 +180,49 @@ export class GvMenu extends LitElement {
           });
         }
         else {
-          this._routes = null;
+          this._routes = [];
         }
       });
     }
     else {
-      this._routes = null;
+      this._routes = [];
     }
   }
 
-  set small (small) {
-    this._small = small;
-    this.hasFocus = false;
-    this._unbindInput();
-  }
-
-  _onClick (e) {
-    if (!this._small) {
-      if (this.input == null) {
-        if (e.target && e.target.tagName.toLowerCase() === 'gv-input') {
-          this._focusHandler = this._onFocusInput.bind(this);
-          this._blurHandler = this._onBlurInput.bind(this);
-          e.target.addEventListener('focus', this._focusHandler);
-          e.target.addEventListener('blur', this._blurHandler);
-          this.hasFocus = true;
-          this.input = e.target;
-        }
-      }
-      else {
-        this.hasFocus = true;
-      }
+  onResize ({ width }) {
+    if (width <= 1024) {
+      this._small = true;
     }
-  }
-
-  _onFocusInput () {
-    this.hasFocus = true;
-    this.isSubmit = false;
-  }
-
-  _onBlurInput () {
-    setTimeout(() => {
-      this.hasFocus = false;
-    }, 200);
-  }
-
-  _unbindInput () {
-    if (this.input) {
-      this.input.removeEventListener('focus', this._focusHandler);
-      this.input.removeEventListener('blur', this._blurHandler);
-      this.hasFocus = false;
-      this.input = null;
+    else {
+      this._small = false;
     }
-  }
-
-  disconnectedCallback () {
-    this._unbindInput();
-    super.disconnectedCallback();
   }
 
   render () {
-    if (this._routes) {
-      this._hasHeader = false;
-      for (const child of this.childNodes) {
-        if (child.localName === 'gv-header-api') {
-          this._hasHeader = true;
+    return html`
+      <div class="${classMap({ 'has-header': this._hasHeader })}">
+        <slot name="header"></slot>
+        <div class="nav-container">
+            <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
+            <div class="right"><slot name="right"></slot></div>
+        </div>
+      </div>    
+    `;
+  }
+
+  updated (changedProperties) {
+    super.updated(changedProperties);
+    let _header = false;
+    for (const node of this.childNodes) {
+      if (node.nodeType === 1) {
+        const child = node.nodeName.toLowerCase() === 'gv-header-api' ? node : node.querySelector('gv-header-api');
+        if (child) {
+          _header = true;
           break;
         }
       }
-
-      const mainNav = document.createElement('gv-nav');
-      mainNav.routes = this._routes;
-      mainNav.small = this._small || this.hasFocus;
-      return html`
-      <div class="${classMap({ 'has-header': this._hasHeader })}">
-        <slot id="header" name="header"></slot>
-        <div class="${classMap({ small: this._small, 'has-focus': this.hasFocus })}">
-        <div class="nav-container">${mainNav}</div>
-        <slot name="right" @click="${this._onClick}"></slot>
-        </div>
-      </div>
-    `;
     }
-    return html``;
+    this._hasHeader = _header;
   }
 
 }

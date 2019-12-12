@@ -38,6 +38,10 @@ storiesOf('2. Molecules|<gv-header-api>', module)
     <br/>
     <div class="title">With actions</div>
     <gv-header-api class="name" can-subscribe></gv-header-api>
+    
+    <br/>
+    <div class="title"> Width: 768px </div>
+    <div style="width: 768px;"> <gv-header-api class="name" can-subscribe></gv-header-api></div>
     `;
 
     const breadcrumbs = [
