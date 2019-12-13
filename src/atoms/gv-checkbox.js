@@ -31,7 +31,6 @@ import { skeleton } from '../styles/skeleton.js';
  * @attr {String} name - name of the checkbox
  *
  */
-
 export class GvCheckbox extends LitElement {
 
   static get properties () {

@@ -21,23 +21,23 @@ import { withCustomEventActions } from '../lib/event-action';
 
 const withActions = withCustomEventActions('gv-stepper:change');
 
-const description = 'This is description';
-const t1 = text('Step 1', 'Choix du plan');
-const d1 = text('Description 1', description);
-const t2 = text('Step 2', `Choix de l'application`);
-const d2 = text('Description 2', description);
-const t3 = text('Step 3', 'Validation');
-const d3 = text('Description 3', description);
-
-const _steps = [
-  { title: t1, description: d1 },
-  { title: t2, description: d2 },
-  { title: t3, description: d3 },
-];
-
 storiesOf('2. Molecules|<gv-stepper>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
+
+    const description = 'This is description';
+    const t1 = text('Step 1', 'Choix du plan');
+    const d1 = text('Description 1', description);
+    const t2 = text('Step 2', `Choix de l'application`);
+    const d2 = text('Description 2', description);
+    const t3 = text('Step 3', 'Validation');
+    const d3 = text('Description 3', description);
+
+    const _steps = [
+      { title: t1, description: d1 },
+      { title: t2, description: d2 },
+      { title: t3, description: d3 },
+    ];
 
     const container = document.createElement('div');
 
@@ -88,8 +88,21 @@ storiesOf('2. Molecules|<gv-stepper>', module)
     container.querySelector('#validate2').currenrt = Promise.resolve(3);
     return container;
   }))
-
   .add('Errors', withActions(() => {
+
+    const description = 'This is description';
+    const t1 = text('Step 1', 'Choix du plan');
+    const d1 = text('Description 1', description);
+    const t2 = text('Step 2', `Choix de l'application`);
+    const d2 = text('Description 2', description);
+    const t3 = text('Step 3', 'Validation');
+    const d3 = text('Description 3', description);
+
+    const _steps = [
+      { title: t1, description: d1 },
+      { title: t2, description: d2 },
+      { title: t3, description: d3 },
+    ];
 
     const container = document.createElement('div');
 

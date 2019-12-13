@@ -36,8 +36,12 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @attr {String} name - name of the select
  * @attr {String} placeholder - an example value to display in the select when empty
  *
+ * @cssprop {String} [--gv-select--bgc=#FFF] - set the background color.
+ * @cssprop {String} [--gv-select--bdc=lightgrey] - set the border color.
+ * @cssprop {String} [--gv-select--c=#262626] - set the color.
+ * @cssprop {String} [--gv-select-hover--bgc=#D5FDCB] - set the active background color.
+ * @cssprop {String} [--gv-select-selected--bgc=#FAFAFA] - set the hover background color.
  */
-
 export class GvSelect extends LitElement {
 
   static get properties () {
@@ -69,8 +73,8 @@ export class GvSelect extends LitElement {
               --bdc: var(--gv-select--bdc, lightgrey);
               --c: var(--gv-select--c, #262626);
               --bgc: var(--gv-select--bgc, #FFF);
-              --hover-bgc: var(--gv-select-hover--bgc, grey);
-              --selected-bgc: var(--gv-select-selected--bgc, grey);
+              --hover-bgc: var(--gv-select-hover--bgc, #D5FDCB);
+              --selected-bgc: var(--gv-select-selected--bgc, #FAFAFA);
           }
 
           div, input {
@@ -81,18 +85,15 @@ export class GvSelect extends LitElement {
 
           gv-icon {
               transform: rotate(180deg);
-              --gv-icon--h: 19px;
-              --gv-icon--w: 19px;
+              --gv-icon--s: 19px;
           }
 
           gv-icon.medium {
-              --gv-icon--h: 14px;
-              --gv-icon--w: 14px;
+              --gv-icon--s: 14px;
           }
 
           gv-icon.small {
-              --gv-icon--h: 11px;
-              --gv-icon--w: 11px;
+              --gv-icon--s: 11px;
           }
 
           .closed .select__list {

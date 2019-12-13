@@ -30,7 +30,7 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {Promise<Api>} api - An Api.
  * @attr {Promise<ApiMetrics>} metrics - An Api.
  *
- * @cssprop {String} --gv-info-api--bgc - set the background color.
+ * @cssprop {String} [--gv-info-api--bgc=white] - set the background color.
  */
 export class GvInfoApi extends ApiElement {
 

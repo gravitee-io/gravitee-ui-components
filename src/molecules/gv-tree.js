@@ -29,6 +29,11 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {Boolean} closed - allows to close the menu
  * @attr {Object} selectedItem - the item selected
  *
+ * @cssprop {String} [--gv-tree-menu--bgc=#FFF] - set the background color.
+ * @cssprop {String} [--gv-tree-menu--c=#262626] - set the color.
+ * @cssprop {String} [--gv-tree-menu-active--bd=#FFF] - set the active border.
+ * @cssprop {String} [--gv-tree-menu-active--bgc=#FAFAFA] - set the active background color.
+ * @cssprop {String} [--gv-tree-menu-hover--bgc=#FFF] - set the hover background color.
  */
 export class GvTree extends LitElement {
 
@@ -47,11 +52,10 @@ export class GvTree extends LitElement {
           :host {
             --c: var(--gv-tree-menu--c, #262626);
             --bgc: var(--gv-tree-menu--bgc, #FFF);
-            --active-bdl: var(--gv-tree-menu-active--bdl);
-            --active-bgc: var(--gv-tree-menu-active--bgc, lightgrey);
-            --hover-bgc: var(--gv-tree-menu-hover--bgc, grey);
-            --gv-icon--h: 20px;
-            --gv-icon--w: 20px;
+            --active-bd: var(--gv-tree-menu-active--bd, #FFF);
+            --active-bgc: var(--gv-tree-menu-active--bgc, #FAFAFA);
+            --hover-bgc: var(--gv-tree-menu-hover--bgc, #FFF);
+            --gv-icon--s: 20px;
             --gv-nav-link-a--ph: 0;
             --gv-nav-link--ta: left;
 
@@ -101,7 +105,7 @@ export class GvTree extends LitElement {
 
           .selected {
             background-color: var(--active-bgc);
-            border: var(--active-bdl);
+            border: var(--active-bd);
           }
 
           .page:hover {

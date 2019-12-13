@@ -34,7 +34,7 @@ import { i18n } from '../lib/i18n';
  * @attr {Promise<Api>} api - An Api.
  * @attr {Promise<ApiMetrics>} metrics - An Api.
  *
- * @cssprop {String} --gv-card-api-full--bgc - set the background color.
+ * @cssprop {String} [--gv-card-api-full--bgc=white] - set the background color.
  */
 export class GvCardApiFull extends ApiElement {
 
@@ -51,8 +51,7 @@ export class GvCardApiFull extends ApiElement {
               vertical-align: middle;
               --gv-image--w: 110px;
               --gv-image--h: 65px;
-              --gv-icon--w: 65px;
-              --gv-icon--h: 65px;
+              --gv-icon--s: 65px;
               --gv-icon--c: #777;
               min-width: 415px;
               max-height: 281px;

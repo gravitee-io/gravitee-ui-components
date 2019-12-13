@@ -57,6 +57,7 @@
             <exclude>wc/**</exclude>
             <exclude>src/icons/shapes/**</exclude>
             <exclude>stories/lib/icons.generated.js</exclude>
+            <exclude>assets/css/gv-variables.generated.css</exclude>
           </excludes>
         </configuration>
       </plugin>

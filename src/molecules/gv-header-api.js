@@ -34,9 +34,10 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {Promise<Array>} breadcrumbs - definition of routes in order [{ path: String, title: String }]
  * @attr {Boolean} canSubscribe - for display actions (default: false)
  *
- * @cssprop {String} --gv-header-api--bgc - set the background color.
- * @cssprop {String} --gv-header-api--pl - set the padding left
- * @cssprop {String} --gv-header-api--pr - set the padding right
+ * @cssprop {String} [--gv-header-api--bgc=#D5FDCB] - set the background color.
+ * @cssprop {String} [--gv-header-api--pl=4rem] - set the padding left
+ * @cssprop {String} [--gv-header-api--pr=4rem] - set the padding right
+ * @cssprop {String} [--gv-header-api--c=#262626] - set the color
  */
 export class GvHeaderApi extends withResizeObserver(ApiElement) {
 
@@ -60,12 +61,12 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
               --gv-button--p: 10px 24px;
               --gv-nav-link--bgc: transparent;
               --gv-nav-link-active-bgc: transparent;
-              --gv-nav-link--c: var(--gv-theme-font-color, #262626);
-              --gv-nav-link-active--c: var(--gv-theme-font-color, #262626);
+              --c: var(--gv-header-api--c, #262626);
+              --gv-nav-link--c: var(--c);
+              --gv-nav-link-active--c: var(--c);
               --gv-nav-link-a--ph: 5px;
               --gv-nav-link--td: underline;
-              --bg: var(--gv-header-api--bgc, var(--gv-theme-color-light, #D5FDCB));
-              --c: var(--gv-theme-font-color, #212322);
+              --bg: var(--gv-header-api--bgc, #D5FDCB);
               box-sizing: border-box;
               display: block;
           }

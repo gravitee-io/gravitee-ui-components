@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, css } from 'lit-element';
+import { html } from 'lit-html';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-nav-link';
 import { until } from 'lit-html/directives/until';
@@ -27,8 +28,6 @@ import { isSameRoutes } from '../lib/utils';
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>}]
  *
  */
-const delay = 250;
-
 export class GvNav extends LitElement {
 
   static get properties () {
@@ -40,10 +39,10 @@ export class GvNav extends LitElement {
   }
 
   static get styles () {
-    return [
-      // language=css
-      css`
 
+    return [
+      // language=CSS
+      css`
           nav {
               position: relative;
           }
@@ -52,11 +51,10 @@ export class GvNav extends LitElement {
               position: absolute;
               display: inline-flex;
               opacity: 0.5;
-              transition: transform ${delay}ms ease-in, width ${delay}ms;
               top: 0;
               left: 0;
+              transition: transform 250ms ease-in, width 250ms;
           }
-
       `];
   }
 
@@ -100,7 +98,7 @@ export class GvNav extends LitElement {
           nextLink.setAttribute('active', true);
           this.shadowRoot.querySelector('nav').removeChild(shadowLink);
           this._isLocked = false;
-        }, delay);
+        }, 250);
       }
       else {
         nextLink.setAttribute('active', true);

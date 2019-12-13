@@ -40,11 +40,12 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @attr {String} title - title of btn
  * @attr {Boolean} loading - true to display a loading icon
  *
- * @cssprop {String} --gv-button([-primary])--bgc - set the background color of button.
- * @cssprop {String} --gv-button--p - set the padding.
- * @cssprop {String} --gv-button--fz - set the font-size
- * @cssprop {String} --gv-icon--c - set the color of icon
- * @cssprop {String} --gv-button--bdrs - set the border raduis
+ * @cssprop {String} [--gv-button--bgc=#193E34] - set the background color of button.
+ * @cssprop {String} [--gv-button-primary--bgc=#009B5B] - set the background color of primary button.
+ * @cssprop {String} [--gv-button--p=0rem 0.5rem] - set the padding.
+ * @cssprop {String} [--gv-button--fz=14px] - set the font-size
+ * @cssprop {String} [--gv-button--bdrs=0.15rem] - set the border radius
+ * @cssprop {String} [--gv-button-icon--c=#BFBFBF] - set the color of icon
  */
 export class GvButton extends LitElement {
 
@@ -70,8 +71,7 @@ export class GvButton extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              --gv-icon--h: 24px;
-              --gv-icon--w: 24px;
+              --gv-icon--s: 24px;
           }
 
           /* RESET */
@@ -98,14 +98,14 @@ export class GvButton extends LitElement {
 
           /* COLORS */
           button.default {
-            --c: var(--gv-button--c, #333);
-            --bgc: var(--gv-button--bgc, #fff);
+            --c: var(--gv-button--bgc, #193E34);
+            --bgc: var(--gv-button--bgc, #193E34);
             --gv-icon--c: var(--gv-button-icon--c, #BFBFBF)
           }
 
           button.primary {
-            --c: var(--gv-button-primary--c, #555);
-            --bgc: var(--gv-button-primary--bgc, #555);
+            --c: var(--gv-button-primary--bgc, #009B5B);
+            --bgc: var(--gv-button-primary--bgc, #009B5B);
             --gv-icon--c: white;
           }
 
@@ -183,14 +183,12 @@ export class GvButton extends LitElement {
           }
 
           button.icon .fake-icon {
-              max-width: var(--gv-icon--w);
               width: 100%;
           }
 
           .loading gv-icon {
               animation: spinner 1.6s linear infinite;
-              --gv-icon--h: 20px;
-              --gv-icon--w: 20px;
+              --gv-icon--s: 20px;
           }
 
           @keyframes spinner {

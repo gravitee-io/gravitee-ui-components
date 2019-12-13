@@ -43,13 +43,11 @@ storiesOf('1. Atoms|<gv-icon>', module)
       });
     }
     const iconColor = color('--gv--icon-c', '');
-    const height = text('--gv-icon--h', '64px');
-    const width = text('--gv-icon--w', '64px');
+    const size = text('--gv-icon--s', '64px');
 
     container.style = [
       { value: iconColor, prop: '--gv-icon--c' },
-      { value: height, prop: '--gv-icon--h' },
-      { value: width, prop: '--gv-icon--w' },
+      { value: size, prop: '--gv-icon--s' },
     ]
       .filter(({ value }) => value)
       .map(({ value, prop }) => `${prop}:${value}`)

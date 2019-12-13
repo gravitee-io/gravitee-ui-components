@@ -97,20 +97,20 @@ storiesOf('1. Atoms|<gv-button>', module)
   .add('Customs', () => withActions(...eventNames)(() => {
     return `
       <div class="title">Github</div>
-      <gv-button icon="thirdparty:github" outlined class="github_outlined"><span>Sign in with GitHub</span></gv-button>
-      <gv-button icon="thirdparty:github" class="github">Sign in with GitHub</gv-button>
+      <gv-button icon="thirdparty:github" outlined class="github_outlined"><span>Continue with GitHub</span></gv-button>
+      <gv-button icon="thirdparty:github" class="github">Continue with GitHub</gv-button>
 
       <div class="title">Google</div>
-      <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
-      <gv-button icon="thirdparty:google" class="google">Sign in with Google</gv-button>
+      <gv-button icon="thirdparty:google" outlined class="google_outlined">Continue with Google</gv-button>
+      <gv-button icon="thirdparty:google" class="google">Continue with Google</gv-button>
       
       <div class="title">Oidc</div>
-      <gv-button icon="thirdparty:oidc" outlined class="oidc_outlined">Sign in with OIDC</gv-button>
-      <gv-button icon="thirdparty:oidc" class="oidc">Sign in with OIDC</gv-button>
+      <gv-button icon="thirdparty:oidc" outlined class="oidc_outlined">Continue with OpenID</gv-button>
+      <gv-button icon="thirdparty:oidc" class="oidc">Continue with OpenID</gv-button>
       
       <div class="title">Gravitee</div>
-      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined"><span>Gravitee.<bold style="color: var(--gv-theme-logo-grey)">IO</bold> AM</span></gv-button>
-      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am"><span>Gravitee.<bold style="color: var(--gv-theme-logo-grey)">IO</bold> AM</span></gv-button>
+      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Continue with Gravitee</gv-button>
+      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Continue with Gravitee</gv-button>
      `;
   }))
   .add('In column', () => withActions(...eventNames)(() => {

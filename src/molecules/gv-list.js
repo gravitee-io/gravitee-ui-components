@@ -28,7 +28,7 @@ import { i18n } from '../lib/i18n';
  * @attr {Promise<Array<{picture: string, name: string, description: string}>>} items - a list of item.
  * @attr {String} title - title of the list.
  *
- * @cssprop {String} --gv-list--bgc - set the background color.
+ * @cssprop {String} [--gv-list--bgc=white] - set the background color.
  *
  */
 export class GvList extends LitElement {
