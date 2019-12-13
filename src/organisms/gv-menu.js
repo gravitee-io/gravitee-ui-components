@@ -26,11 +26,11 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
  *
- * @cssprop {String} --gv-menu--c - set the color.
- * @cssprop {String} --gv-menu--bgc - set the background color.
- * @cssprop {String} --gv-menu-link-active--bdb - set the border of active link.
- * @cssprop {String} --gv-menu--pl - set the padding left
- * @cssprop {String} --gv-menu--pr - set the padding right
+ * @cssprop {String} [--gv-menu--c=#FFF] - set the color.
+ * @cssprop {String} [--gv-menu--bgc=#193E34] - set the background color.
+ * @cssprop {String} [--gv-menu-link-active--bdb=3px solid #D5FDCB] - set the border of active link.
+ * @cssprop {String} [--gv-menu--pl=4rem] - set the padding left
+ * @cssprop {String} [--gv-menu--pr=4rem] - set the padding right
  */
 export class GvMenu extends withResizeObserver(LitElement) {
 

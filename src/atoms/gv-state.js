@@ -27,9 +27,11 @@ import { skeleton } from '../styles';
  * @attr {Boolean} major - enable major mode
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} --gv-state--bdr - set the border radius.
- * @cssprop {String} --gv-state([-major]?)--bgc - set the background color.
- * @cssprop {String} --gv-state([-major]?)--c - set the color.
+ * @cssprop {String} [--gv-state--bdr=17px] - set the border radius.
+ * @cssprop {String} [--gv-state--bgc=#F0F5FF] - set the background color.
+ * @cssprop {String} [--gv-state--c=#597EF7] - set the color.
+ * @cssprop {String} [--gv-state-major--bgc=#D5FDCB] - set the background color.
+ * @cssprop {String} [--gv-state-major--c=#009B5B] - set the color.
  */
 export class GvState extends LitElement {
 
@@ -54,8 +56,8 @@ export class GvState extends LitElement {
           }
 
           div.default {
-              --bgc: var(--gv-tag--bgc, #F0F5FF);
-              --c: var(--gv-tag--c, #597EF7)
+              --bgc: var(--gv-state--bgc, #F0F5FF);
+              --c: var(--gv-state--c, #597EF7)
           }
 
           div.major {

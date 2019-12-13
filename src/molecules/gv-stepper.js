@@ -29,12 +29,12 @@ import { i18n } from '../lib/i18n';
  * @attr {Number} current - The current selected step
  * @attr {Array} steps - Array of step {title: string, description: string, validate: boolean}
  *
- * @cssprop {String} --gv-stepper-validate--bgc - set validate background color.
- * @cssprop {String} --gv-stepper-passed--bdc - set passed border color.
- * @cssprop {String} --gv-stepper--bgc - set background color.
- * @cssprop {String} --gv-stepper--bdc - set border color.
- * @cssprop {String} --gv-stepper--c - set color for text.
- * @cssprop {String} --gv-stepper-passed--c - set passed color for text.
+ * @cssprop {String} [--gv-stepper-validate--bgc=#009B5B] - set validate background color.
+ * @cssprop {String} [--gv-stepper-passed--bdc=#D5FDCB] - set passed border color.
+ * @cssprop {String} [--gv-stepper--bgc=#BFBFBF] - set background color.
+ * @cssprop {String} [--gv-stepper--bdc=#BFBFBF] - set border color.
+ * @cssprop {String} [--gv-stepper--c=#BFBFBF] - set color for text.
+ * @cssprop {String} [--gv-stepper-passed--c=#595959] - set passed color for text.
  */
 export class GvStepper extends LitElement {
 
@@ -75,10 +75,13 @@ export class GvStepper extends LitElement {
               display: flex;
               flex-direction: row;
               min-height: 22px;
+              min-width: 250px;
           }
 
           .round {
+              min-width: 6px;
               width: 6px;
+              min-height: 6px;
               height: 6px;
               border-radius: 50%;
               margin: 2px 7px 2px 7px;
@@ -86,18 +89,21 @@ export class GvStepper extends LitElement {
 
           .border {
               margin-top: 4px;
-              width: 100px;
+              min-width: 100px;
+              width: 100%;
               height: 2px;
               clear: both;
           }
 
           .round {
               background-color: var(--bgc);
+              transition: all 0.2s ease-in;
           }
 
           .border {
               background-color: var(--bdc);
               margin-bottom: 5px;
+              transition: all 0.2s ease-in;
           }
 
           .passed .round {
@@ -111,6 +117,8 @@ export class GvStepper extends LitElement {
           .passed .round {
               height: 10px;
               width: 10px;
+              min-height: 10px;
+              min-width: 10px;
               margin: 0 5px 0 5px;
           }
 
@@ -153,12 +161,21 @@ export class GvStepper extends LitElement {
               border: 1px solid var(--passed--bgc);
               margin-top: -12px;
               border-radius: 50%;
+              animation: validate 0.2s ease-in;
           }
 
           gv-icon {
               --gv-icon--c: var(--passed--bgc);
-              --gv-icon--w: 32px;
-              --gv-icon--h: 32px;
+              --gv-icon--s: 32px;
+          }
+
+          @keyframes validate {
+              from {
+                  opacity: 0;
+              }
+              to {
+                  opacity: 1;
+              }
           }
       `,
     ];

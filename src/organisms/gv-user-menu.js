@@ -28,10 +28,12 @@ import { isSameRoutes } from '../lib/utils';
  * @attr {String} username - name of the user
  * @attr {String} avatar - url of the user avatar
  *
- * @cssprop {String} --gv-user-menu([-hover]*)--c - set the color.
- * @cssprop {String} --gv-user-menu([-hover]*)--bgc - set the background color.
- * @cssprop {String} --gv-user-menu--bdc - set the border color.
- * @cssprop {String} --gv-nav-link--tsh - set the text shadow (Default: none)
+ * @cssprop {String} [--gv-user-menu--c=#262626] - set the color.
+ * @cssprop {String} [--gv-user-menu-hover--c=#193E34] - set the hover color.
+ * @cssprop {String} [--gv-user-menu--bgc=#FFF] - set the background color.
+ * @cssprop {String} [--gv-user-menu-hover--bgc=#D5FDCB] - set the hover background color.
+ * @cssprop {String} [--gv-user-menu--bdc=lightgrey] - set the border color.
+ * @cssprop {String} [--gv-user-menu--tsh=none] - set the text shadow.
  */
 export class GvUserMenu extends LitElement {
 
@@ -53,10 +55,9 @@ export class GvUserMenu extends LitElement {
               --bdc: var(--gv-user-menu--bdc, lightgrey);
               --c: var(--gv-user-menu--c, #262626);
               --bgc: var(--gv-user-menu--bgc, #FFF);
-              --hover-bgc: var(--gv-user-menu-hover--bgc, grey);
-              --gv-nav-link-active--c: var(--gv-user-menu-hover--c, white);
-              --gv-icon--h: 16px;
-              --gv-icon--w: 16px;
+              --hover-bgc: var(--gv-user-menu-hover--bgc, #D5FDCB);
+              --gv-nav-link-active--c: var(--gv-user-menu-hover--c, #193E34);
+              --gv-icon--s: 16px;
               --gv-nav-link-a--ph: 0;
               --gv-nav-link--ta: right;
           }
@@ -78,7 +79,7 @@ export class GvUserMenu extends LitElement {
             align-items: center;
             justify-content: space-between;
             min-width: 175px;
-            text-shadow: var(--gv-user-menu--tsh);
+            text-shadow: var(--gv-user-menu--tsh, none);
           }
 
           ::slotted(*) {

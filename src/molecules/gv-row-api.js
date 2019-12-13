@@ -25,8 +25,8 @@ import { i18n } from '../lib/i18n.js';
  *
  * @attr {Promise<Api>} api - An Api.
  *
- * @cssprop {String} --gv-row-api--bgc - set the background color.
- * @cssprop {String} --gv-row-api-hover--bgc - set the background color when hover.
+ * @cssprop {String} [--gv-row-api--bgc=white] - set the background color.
+ * @cssprop {String} [--gv-row-api-hover--bgc=#FAFAFA] - set the background color when hover.
  */
 export class GvRowApi extends ApiElement {
 
@@ -88,8 +88,7 @@ export class GvRowApi extends ApiElement {
 
           .row .meta__owner {
               --gv-icon--c: #D9D9D9;
-              --gv-icon--h: 14px;
-              --gv-icon--w: 13px;
+              --gv-icon--s: 14px;
               color: #D9D9D9;
           }
 

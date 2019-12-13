@@ -37,6 +37,7 @@ addParameters({
 });
 
 function loadStories () {
+  req('./welcome.stories.js');
   req.keys().forEach(filename => req(filename));
 }
 

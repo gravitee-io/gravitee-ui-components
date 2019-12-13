@@ -24,9 +24,9 @@ import { skeleton } from '../styles';
  * @attr {Promise<Object>} Category - A category object {title, description}
  * @attr {Number} limit - number of characters that can be display in the description. If _description_ is greater, it will be truncated.
  *
- * @cssprop {String} --gv-card-category--bgc - set the background color of card.
- * @cssprop {String} --gv-card-category--c - set the color of text.
- * @cssprop {String} --gv-card-category--h - set the height (default: 228px).
+ * @cssprop {String} [--gv-card-category--bgc=white] - set the background color of card.
+ * @cssprop {String} [--gv-card-category--c=#262626] - set the color of text.
+ * @cssprop {String} [--gv-card-category--h=228px] - set the height (default: 228px).
  *
  */
 
@@ -74,7 +74,7 @@ export class GvCardCategory extends LitElement {
           }
 
           .card__title {
-              color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
+              color: var(--gv-card-category--c, #262626);
               font-size: 30px;
               font-style: normal;
               font-weight: 600;
@@ -82,7 +82,7 @@ export class GvCardCategory extends LitElement {
           }
 
           .card__description {
-              color: var(--gv-card-category--c, var(--gv-theme-color-dark, black));
+              color: var(--gv-card-category--c, #262626);
               font-size: 16px;
               font-style: normal;
               font-weight: normal;

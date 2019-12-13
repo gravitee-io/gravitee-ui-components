@@ -31,8 +31,8 @@ import { i18n } from '../lib/i18n.js';
  *
  * @attr {Promise<Api>} api - an Api.
  *
- * @cssprop {String} --gv-promote-api-image--bgc - set the background color of image.
- * @cssprop {String} --gv-promote-api--bgc - set the background color.
+ * @cssprop {String} [--gv-promote-api-image--bgc=#D5FDCB] - set the background color of image.
+ * @cssprop {String} [--gv-promote-api--bgc=white] - set the background color.
  */
 export class GvPromoteApi extends ApiElement {
 

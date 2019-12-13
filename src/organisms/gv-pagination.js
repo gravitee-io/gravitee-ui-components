@@ -52,8 +52,7 @@ export class GvPagination extends LitElement {
           }
 
           gv-button {
-              --gv-icon--h: 18px;
-              --gv-icon--w: 18px;
+              --gv-icon--s: 18px;
               min-width: 29px;
           }
 

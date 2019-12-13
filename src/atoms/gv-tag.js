@@ -30,13 +30,28 @@ import '../atoms/gv-icon';
  * @attr {Boolean} minor - set tag UI as minor
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} --gv-tag--bdr - set the border radius.
- * @cssprop {String} --gv-tag--bsw - set the box shadow.
- * @cssprop {String} --gv-tag([-major|-minor]?)--bgc - set the background color.
- * @cssprop {String} --gv-tag([-major|-minor]?)--bdc - set the border color.
- * @cssprop {String} --gv-tag([-major|-minor]?)--bds - set the border style.
- * @cssprop {String} --gv-tag([-major|-minor]?)--bdw - set the border width.
- * @cssprop {String} --gv-tag([-major|-minor]?)--c - set the color.
+ * @cssprop {String} [--gv-tag--bdr=4px] - set the border radius.
+ * @cssprop {String} [--gv-tag--bsw=none] - set the box shadow.
+ *
+ * @cssprop {String} [--gv-tag--bgc=#F5F5F5] - set the background color.
+ * @cssprop {String} [--gv-tag-major--bgc=#009B5B] - set the background color.
+ * @cssprop {String} [--gv-tag-minor--bgc=#FFF] - set the background color.
+ *
+ * @cssprop {String} [--gv-tag--bdc=#D9D9D9] - set the border color.
+ * @cssprop {String} [--gv-tag-major--bdc=#009B5B] - set the border color.
+ * @cssprop {String} [--gv-tag-minor--bdc=#D9D9D9] - set the border color.
+
+ * @cssprop {String} [--gv-tag--bds=solid] - set the border style.
+ * @cssprop {String} [--gv-tag-major--bds=solid] - set the border style.
+ * @cssprop {String} [--gv-tag-minor--bds=dashed] - set the border style.
+ *
+ * @cssprop {String} [--gv-tag--bdw=1px] - set the border width.
+ * @cssprop {String} [--gv-tag-major--bdw=1px] - set the border width.
+ * @cssprop {String} [--gv-tag-minor--bdw=1px] - set the border width.
+ *
+ * @cssprop {String} [--gv-tag--c=#595959] - set the color.
+ * @cssprop {String} [--gv-tag-major--c=#FFF] - set the color.
+ * @cssprop {String} [--gv-tag-minor--c=#595959] - set the color.
  */
 export class GvTag extends LitElement {
 
@@ -59,8 +74,7 @@ export class GvTag extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              --gv-icon--h: 18px;
-              --gv-icon--w: 18px;
+              --gv-icon--s: 18px;
           }
 
           div.default {
@@ -72,7 +86,7 @@ export class GvTag extends LitElement {
           }
 
           div.major {
-              --bgc: var(--gv-tag-major--bg-color, #009B5B);
+              --bgc: var(--gv-tag-major--bgc, #009B5B);
               --bdc: var(--gv-tag-major--bdc, #009B5B);
               --bds: var(--gv-tag-major--bds, solid);
               --bdw: var(--gv-tag-major--bdw, 1px);
@@ -80,7 +94,7 @@ export class GvTag extends LitElement {
           }
 
           div.minor {
-              --bgc: var(--gv-tag-minor--bg-color, #FFF);
+              --bgc: var(--gv-tag-minor--bgc, #FFF);
               --bdc: var(--gv-tag-minor--bdc, #D9D9D9);
               --bds: var(--gv-tag-minor--bds, dashed);
               --bdw: var(--gv-tag-minor--bdw, 1px);

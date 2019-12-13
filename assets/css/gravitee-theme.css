@@ -17,7 +17,7 @@
   font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size:var(--gv-theme-font-size, 12px);
   color: var(--gv-theme-font-color);
-  font-color: var( --gv-theme-font-color);
+  font-color: var(--gv-theme-font-color);
 
   background-color: var(--gv-theme-color-grey-1);
   /** Variables */
@@ -47,54 +47,16 @@
   --github-color: #444;
   --google-color: #4285F4;
   --oidc-color: #000000;
-
-  /**  gv-button */
-  --gv-button--bgc: var(--gv-theme-color-dark);
-  --gv-button-primary--bgc: var(--gv-theme-color);
-
-  /**  gv-button */
-  --gv-icon--c: var(--gv-theme-font-color);
-
-  /** gv-nav-link */
-  --gv-nav-link--bgc: transparent;
-  --gv-nav-link--c: var(--gv-theme-font-color);
-  --gv-nav-link-active--bgc: var(--gv-theme-color-dark);
-  --gv-nav-link-active--c: var(--gv-theme-color-lighter);
-
-  /** gv-tree-menu */
-  --gv-tree-menu--bgc: #FFFFFF;
-  --gv-tree-menu--c: var(--gv-theme-font-color);
-  --gv-tree-menu-active--bdl: 1px dotted lightgrey;
-  --gv-tree-menu-active--bgc: var(--gv-theme-color-lighter);
-  --gv-tree-menu-hover--bgc: #FFFFFF;
-  --gv-tree-menu-hover--c: var(--gv-theme-color-dark);
-
-  /** gv-user-menu */
-  --gv-user-menu--bdl: 1px solid lightgrey;
-  --gv-user-menu--bgc:#FFFFFF;
-  --gv-user-menu--c:var(--gv-theme-font-color);
-  --gv-user-menu-hover--bgc: var(--gv-theme-color-light);
-  --gv-user-menu-hover--c: var(--gv-theme-color-dark);
-  --gv-user-menu-logout-hover--bgc: var(--gv-theme-color);
-  --gv-user-menu-logout-hover--c: var(--gv-theme-color-lighter);
-
-  /** gv-select */
-  --gv-select--bdl: 1px solid lightgrey;
-  --gv-select--bgc:#FFFFFF;
-  --gv-select--c:var(--gv-theme-font-color);
-  --gv-select-hover--bgc: var(--gv-theme-color-light);
-  --gv-select-hover--c: var(--gv-theme-color-dark);
-  --gv-select-selected--bgc: var(--gv-theme-color-lighter);
 }
 
 gv-button.github_outlined {
   --gv-button--bgc: var(--github-color);
-  --gv-icon--c: var(--github-color);
+  --gv-button-icon--c: var(--github-color);
 }
 
 gv-button.github {
   --gv-button--bgc: var(--github-color);
-  --gv-icon--c: #FFF;
+  --gv-button-icon--c: #FFF;
 }
 
 gv-button.google_outlined {
@@ -107,12 +69,12 @@ gv-button.google {
 
 gv-button.oidc_outlined {
   --gv-button--bgc: var(--oidc-color);
-  --gv-icon--c: var(--oidc-color);
+  --gv-button-icon--c: var(--oidc-color);
 }
 
 gv-button.oidc {
   --gv-button--bgc: var(--oidc-color);
-  --gv-icon--c: #fff;
+  --gv-button-icon--c: #fff;
 }
 
 gv-button.graviteeio_am_outlined {

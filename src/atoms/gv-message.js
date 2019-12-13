@@ -19,7 +19,6 @@ import { LitElement, html, css } from 'lit-element';
 /**
  * @attr {String} type - type of the message. Can be info (Default), success, error, warning or info.
 */
-
 export class GvMessage extends LitElement {
 
   static get properties () {

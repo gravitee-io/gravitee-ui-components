@@ -42,9 +42,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} icon-left - icon of the input to display at left
  * @attr {Boolean} loading - true to display a loading icon
  * @attr {Boolean} autofocus - true to put the focus on the input
- *
  */
-
 export class GvInput extends LitElement {
 
   static get properties () {
@@ -78,13 +76,11 @@ export class GvInput extends LitElement {
       css`
 
           gv-icon.medium {
-              --gv-icon--h: 25px;
-              --gv-icon--w: 25px;
+              --gv-icon--s: 25px;
           }
 
           gv-icon.small {
-              --gv-icon--h: 19px;
-              --gv-icon--w: 19px;
+              --gv-icon--s: 19px;
           }
           gv-icon.search {
               cursor: pointer;

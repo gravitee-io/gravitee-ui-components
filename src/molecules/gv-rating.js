@@ -31,8 +31,8 @@ const MAX_RATE = 5;
  * @attr {String} count - total count for the average
  * @attr {Boolean} skeleton - skeleton mode
  *
- * @cssprop {String} --gv-rating--c - set the icon color.
- * @cssprop {String} --gv-rating--s - set the icon size.
+ * @cssprop {String} [--gv-rating--c=#262626] - set the icon color.
+ * @cssprop {String} [--gv-rating--s=13px] - set the icon size.
  */
 export class GvRating extends LitElement {
 
@@ -51,9 +51,8 @@ export class GvRating extends LitElement {
       // language=CSS
       css`
           :host {
-              --gv-icon--c: var(--gv-rating--c, var(--gv-theme-color));
-              --gv-icon--w: var(--gv-rating--s, 13px);
-              --gv-icon--h: var(--gv-rating--s, 13px);
+              --gv-icon--c: var(--gv-rating--c, #262626);
+              --gv-icon--s: var(--gv-rating--s, 13px);
               font-size: 14px;
               cursor: pointer;
           }

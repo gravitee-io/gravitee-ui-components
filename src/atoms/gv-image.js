@@ -28,11 +28,11 @@ import { until } from 'lit-html/directives/until';
  * @attr {String} alt - Alternative text of img
  * @attr {Boolean} loaded - Indicate if img is loaded
  *
- * @cssprop {String} --gv-image--h - set the height of image
- * @cssprop {String} --gv-image--w - set the width of image
- * @cssprop {String} --gv-image--bd - set the border of image
- * @cssprop {String} --gv-image--bdrs - set the border radius of image
- * @cssprop {String} --gv-image--of - set the object-fit of image
+ * @cssprop {String} [--gv-image--h=128px] - set the height of image
+ * @cssprop {String} [--gv-image--w=128px] - set the width of image
+ * @cssprop {String} [--gv-image--bd=none] - set the border of image
+ * @cssprop {String} [--gv-image--bdrs=none] - set the border radius of image
+ * @cssprop {String} [--gv-image--of=contain] - set the object-fit of image
  */
 export class GvImage extends LitElement {
 
@@ -53,8 +53,8 @@ export class GvImage extends LitElement {
       // language=CSS
       css`
           :host {
-              --gv-icon--w: var(--gv-image--w,128px);
-              --gv-icon--h: var(--gv-image--h,128px);
+              --gv-icon--s: var(--gv-image--w, 128px);
+              --icon--s: var(--gv-image--w, 128px);
               --gv-icon--c: #777;
               box-sizing: border-box;
               margin: 0.2rem;
@@ -71,8 +71,8 @@ export class GvImage extends LitElement {
           }
 
           div {
-              width: var(--gv-image--w, var(--gv-image--w, 128px));
-              height: var(--gv-image--h, var(--gv-image--w, 128px));
+              width: var(--gv-image--w, 128px);
+              height: var(--gv-image--h, 128px);
               display: flex;
           }
 
@@ -83,8 +83,8 @@ export class GvImage extends LitElement {
           }
 
           .placeholder {
-              max-width: var(--gv-icon--w);
-              max-height: var(--gv-icon--h);
+              max-width: var(--icon--s);
+              max-height: var(--icon--s);
               align-self: center;
           }
           

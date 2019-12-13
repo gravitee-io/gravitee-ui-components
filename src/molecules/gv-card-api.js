@@ -27,7 +27,7 @@ import { i18n } from '../lib/i18n.js';
  *
  * @attr {Promise<Api>} api - An Api.
  *
- * @cssprop {String} --gv-card-api--bgc - set the background color.
+ * @cssprop {String} [--gv-card-api--bgc=white] - set the background color.
  */
 export class GvCardApi extends ApiElement {
 
@@ -43,8 +43,7 @@ export class GvCardApi extends ApiElement {
               vertical-align: middle;
               --gv-image--w: 110px;
               --gv-image--h: 65px;
-              --gv-icon--w: 65px;
-              --gv-icon--h: 65px;
+              --gv-icon--s: 65px;
               width: 144px;
               max-height: 144px;
           }

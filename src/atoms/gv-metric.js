@@ -26,6 +26,7 @@ import './gv-icon';
  * @attr {String} value - the value of the metric
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
+ * @cssprop {String} [--gv-metric--c=#262626] - set the color.
  */
 export class GvMetric extends LitElement {
 
@@ -44,9 +45,9 @@ export class GvMetric extends LitElement {
       // language=CSS
       css`
           .metric {
-              --gv-icon--w: 24px;
-              --gv-icon--h: 24px;
-              --gv-icon--c: var(--gv-theme-color);
+              --gv-icon--s: 24px;
+              --gv-icon--c: var(--gv-metric--c, #262626);
+              color: var(--gv-metric--c, #262626);
               display: inline-flex;
               min-width: 75px;
           }
