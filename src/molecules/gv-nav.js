@@ -61,48 +61,52 @@ export class GvNav extends LitElement {
   }
 
   _onClick ({ detail: { title } }) {
-    let nextIndex = 0;
-    this._routes.forEach((route, index) => {
-      if (route.title === title) {
-        route.active = true;
-        nextIndex = index;
+    if (!this._isLocked) {
+      this._isLocked = true;
+      let nextIndex = 0;
+      this._routes.forEach((route, index) => {
+        if (route.title === title) {
+          route.active = true;
+          nextIndex = index;
+        }
+        else {
+          delete route.active;
+        }
+        return route;
+      });
+
+      const activeLink = this.shadowRoot.querySelector('gv-nav-link[active]');
+      const nextLink = this.shadowRoot.querySelectorAll('gv-nav-link')[nextIndex];
+      if (activeLink) {
+        const shadowLink = activeLink.cloneNode(true);
+        const { height, width } = activeLink.getBoundingClientRect();
+
+        shadowLink.id = 'shadowLink';
+        shadowLink.style.top = `${activeLink.offsetTop}px`;
+        shadowLink.style.left = `${activeLink.offsetLeft}px`;
+        shadowLink.style.width = `${width}px`;
+        shadowLink.style.height = `${height}px`;
+
+        activeLink.removeAttribute('active');
+        activeLink.style.height = `${height}px`;
+
+        this.shadowRoot.querySelector('nav').prepend(shadowLink);
+        const left = nextLink.offsetLeft - activeLink.offsetLeft;
+        const top = nextLink.offsetTop - activeLink.offsetTop;
+
+        shadowLink.style.transform = `translate(${left}px,${top}px)`;
+
+        setTimeout(() => {
+          nextLink.setAttribute('active', true);
+          this.shadowRoot.querySelector('nav').removeChild(shadowLink);
+          this._isLocked = false;
+        }, delay);
       }
       else {
-        delete route.active;
-      }
-      return route;
-    });
-
-    const activeLink = this.shadowRoot.querySelector('gv-nav-link[active]');
-    const nextLink = this.shadowRoot.querySelectorAll('gv-nav-link')[nextIndex];
-    if (activeLink) {
-      const shadowLink = activeLink.cloneNode(true);
-      const { height, width } = activeLink.getBoundingClientRect();
-
-      shadowLink.id = 'shadowLink';
-      shadowLink.style.top = `${activeLink.offsetTop}px`;
-      shadowLink.style.left = `${activeLink.offsetLeft}px`;
-      shadowLink.style.width = `${width}px`;
-      shadowLink.style.height = `${height}px`;
-
-      activeLink.removeAttribute('active');
-      activeLink.style.height = `${height}px`;
-
-      this.shadowRoot.querySelector('nav').prepend(shadowLink);
-      const left = nextLink.offsetLeft - activeLink.offsetLeft;
-      const top = nextLink.offsetTop - activeLink.offsetTop;
-
-      shadowLink.style.transform = `translate(${left}px,${top}px)`;
-
-      setTimeout(() => {
         nextLink.setAttribute('active', true);
-        this.shadowRoot.querySelector('nav').removeChild(shadowLink);
-      }, delay);
+        this._isLocked = false;
+      }
     }
-    else {
-      nextLink.setAttribute('active', true);
-    }
-
   }
 
   set routes (routes) {
