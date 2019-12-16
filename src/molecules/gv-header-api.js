@@ -79,7 +79,7 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
           :host([w-lt-768]) .header__top nav {
               margin-top: 0;
           }
-          
+
           :host([w-lt-580]) {
               --gv-button--p: 3px 9px;
               --gv-nav-link-a--ph: 0px;
@@ -102,12 +102,12 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
           :host([w-lt-580]) .image gv-image {
               top: -5px;
           }
-          
+
           :host([w-lt-580]) h1 {
               font-size: 18px;
               line-height: 21px;
           }
-          
+
           .header {
               display: flex;
               max-height: 175px;
@@ -225,8 +225,8 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
       const title = index === this._breadcrumbs.length - 1 ? this._getTitle() : _route.title;
 
       return html`
-            <gv-nav-link 
-            @gv-nav-link:click=${this._onClick} 
+            <gv-nav-link
+            @gv-nav-link:click=${this._onClick}
             .active="${_route.active}"
             .icon="${_route.icon}"
             .path="${_route.path}"
@@ -248,11 +248,6 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
     dispatchCustomEvent(this, 'subscribe', this._api);
   }
 
-  _onContact (e) {
-    e.stopPropagation();
-    dispatchCustomEvent(this, 'contact', this._api);
-  }
-
   render () {
     return html`
       <div class="${classMap({ header: true, skeleton: this._skeleton })}">
@@ -267,7 +262,6 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
             </div>
             ${!(this._error || this._empty) && this.canSubscribe ? html`<div class="actions">
                 <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header-api.subscribe')}</gv-button>
-                <gv-button primary outlined @click="${this._onContact}">${i18n('gv-header-api.contact')}</gv-button>
             </div>` : ``}
         </div>
      </div>

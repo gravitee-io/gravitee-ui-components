@@ -8,7 +8,6 @@
     "error": "Une erreur est survenue pendant le chargement de l'API"
   },
   "gv-header-api": {
-    "contact": "Contact",
     "empty": "Aucune API à afficher ici",
     "error": "Une erreur est survenue pendant le chargement de l'API",
     "subscribe": "Souscrire"
