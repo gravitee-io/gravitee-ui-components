@@ -8,7 +8,6 @@
     "error": "An error has occurred"
   },
   "gv-header-api": {
-    "contact": "contact",
     "empty": "No API to display here",
     "error": "An error occurred while loading the API",
     "subscribe": "subscribe"
