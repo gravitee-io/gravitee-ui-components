@@ -39,6 +39,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {String} --gv-nav-link-active--bdb - set the border bottom of active link. (Default: none)
  * @cssprop {String} --gv-nav-link--ta - set the text align (Default: center)
  * @cssprop {String} --gv-nav-link--td - set the text decoration (Default: none)
+ * @cssprop {String} --gv-nav-link--tsh - set the text shadow (Default: none)
  */
 export class GvNavLink extends LitElement {
 
@@ -70,15 +71,15 @@ export class GvNavLink extends LitElement {
           }
 
           a {
-              opacity: 1;
-              padding: var(--gv-nav-link-a--pv, 15px) var(--gv-nav-link-a--ph, 15px);
-              color: var(--gv-nav-link--c, #333);
-              background-color: var(--gv-nav-link--bgc, transparent);
-              width: 100%;
-              display: inline-flex;
-              align-content: center;
-              text-align: var(--gv-nav-link--ta, center);
-              text-transform: capitalize;
+            opacity: 1;
+            padding: var(--gv-nav-link-a--pv, 15px) var(--gv-nav-link-a--ph, 15px);
+            color: var(--gv-nav-link--c, #333);
+            background-color: var(--gv-nav-link--bgc, transparent);
+            width: 100%;
+            display: inline-flex;
+            align-content: center;
+            text-align: var(--gv-nav-link--ta, center);
+            text-shadow: var(--gv-nav-link--tsh);
           }
 
           a > * {
@@ -103,7 +104,7 @@ export class GvNavLink extends LitElement {
               margin: 0.3rem 0.5rem;
               text-decoration: var(--gv-nav-link--td, none);
           }
-          
+
           a.small span {
               margin: 0.3rem 0;
               width: 0;
@@ -159,9 +160,9 @@ export class GvNavLink extends LitElement {
     };
     const iconStyle = this.active ? { '--gv-icon--c': 'var(--gv-nav-link-active--c)' } : { '--gv-icon--c': 'var(--gv-nav-link--c)' };
     return html`
-      <a @click=${this._onClick} 
-      class="${classMap(classes)}" 
-      ?href="${this.path}" 
+      <a @click=${this._onClick}
+      class="${classMap(classes)}"
+      ?href="${this.path}"
       ?title="${until(this._title, '')}">
         ${this.icon ? html`<gv-icon shape=${this.icon} style=${styleMap(iconStyle)}></gv-icon>` : ''}
         <span>${until(this._title, '')}${this.help ? html`<span class="help">${until(this.help, '')}</span>` : ''}</span>

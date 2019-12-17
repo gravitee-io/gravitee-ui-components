@@ -92,27 +92,26 @@ export class GvButton extends LitElement {
               min-height: 26px;
               padding: var(--gv-button--p, 0rem 0.5rem);
               text-transform: uppercase;
-              -moz-user-select: none;
-              -webkit-user-select: none;
-              -ms-user-select: none;
               user-select: none;
               width: 100%;
           }
 
           /* COLORS */
           button.default {
-              --c: var(--gv-button--bgc, #333);
-              --gv-icon--c: var(--gv-button-icon--c, #BFBFBF)
+            --c: var(--gv-button--c, #333);
+            --bgc: var(--gv-button--bgc, #fff);
+            --gv-icon--c: var(--gv-button-icon--c, #BFBFBF)
           }
 
           button.primary {
-              --c: var(--gv-button-primary--bgc, #555);
-              --gv-icon--c: white;
+            --c: var(--gv-button-primary--c, #555);
+            --bgc: var(--gv-button-primary--bgc, #555);
+            --gv-icon--c: white;
           }
 
           /* MODES */
           button {
-              background-color: var(--c);
+              background-color: var(--bgc);
               border-color: var(--c);
               color: #fff;
           }
