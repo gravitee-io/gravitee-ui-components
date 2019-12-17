@@ -31,6 +31,7 @@ import { isSameRoutes } from '../lib/utils';
  * @cssprop {String} --gv-user-menu([-hover]*)--c - set the color.
  * @cssprop {String} --gv-user-menu([-hover]*)--bgc - set the background color.
  * @cssprop {String} --gv-user-menu--bdc - set the border color.
+ * @cssprop {String} --gv-nav-link--tsh - set the text shadow (Default: none)
  */
 export class GvUserMenu extends LitElement {
 
@@ -69,16 +70,15 @@ export class GvUserMenu extends LitElement {
           }
 
           .user-menu__title {
-              background-color: var(--bgc);
-              color: var(--c);
-              border-left: 1px solid var(--bdc);
-              cursor: pointer;
-              line-height: 40px;
-              padding: 8px 24px;
-              display: inline-flex;
-              align-items: center;
-              justify-content: space-between;
-              min-width: 175px;
+            color: var(--c);
+            cursor: pointer;
+            line-height: 40px;
+            padding: 8px 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 175px;
+            text-shadow: var(--gv-user-menu--tsh);
           }
 
           ::slotted(*) {
@@ -223,7 +223,7 @@ export class GvUserMenu extends LitElement {
       else if (this._hasOneItem()) {
         const firstItem = this._routes[0];
         return html`<li class="user-menu__title no-user" @click=${this._onClick} >
-                <gv-nav-link 
+                <gv-nav-link
                         .icon="${firstItem.icon}"
                         .path="${firstItem.path}"
                         .title="${firstItem.title}"
@@ -241,21 +241,21 @@ export class GvUserMenu extends LitElement {
       return html`
       <nav class="${classMap(classes)}">
         <ul class="user-menu" @mouseleave=${this._onMouseLeave}>
-          
+
           ${this._renderFirstItem()}
-          
+
           <li class="user-menu__content">
             <ul class="user-menu__list">
                 ${repeat(this._routes, (route) => route, (route, index) => html`
                     ${this._hasOneItem() ? html``
         : html`<li class="user-menu__list__item ${route.separator ? 'separator' : ''}">
-                      <gv-nav-link 
+                      <gv-nav-link
                         .icon="${route.icon}"
                         .path="${route.path}"
                         .title="${route.title}"
                          @click=${this._onSelect}
                       ></gv-nav-link>`}
-                    
+
                     </li>
                 `)}
             </ul>
