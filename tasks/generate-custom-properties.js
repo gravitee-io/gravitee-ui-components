@@ -21,7 +21,7 @@ const rawGlob = require('glob');
 const util = require('util');
 const glob = util.promisify(rawGlob);
 const wca = require('web-component-analyzer');
-const filepath = 'CUSTOM-PROPERTIES.md';
+const filepath = '.docs/custom-properties.md';
 
 async function run () {
 
@@ -34,17 +34,13 @@ async function run () {
 
   await del(filepath);
 
-  const input = ['# Gravitee.io UI Components\n'];
-  input.push('## Custom Properties\n');
-  input.push('```css');
+  const input = [];
   for (const src of sourceFilepaths) {
     const code = await fs.readFile(src, 'utf8');
-    const { results, program } = wca.analyzeText(code);
-    const format = 'json';
-    const output = wca.transformAnalyzerResult(format, results, program);
+    const { results, program } = wca.analyzeText(code, { config: { features: ['cssproperty'] } });
+    const output = wca.transformAnalyzerResult('json', results, program);
     const tag = JSON.parse(output).tags[0];
     if (tag) {
-
       const cssProperties = tag.cssProperties;
       if (cssProperties) {
         const matches = code.match(/var\(--gv[a-zA-Z-, 0-9.#]*\)/g);
@@ -79,26 +75,16 @@ async function run () {
             }
           });
         }
-        input.push(`\n/*****************************`);
-        input.push(`/*     ${tag.name}`);
-        input.push(`******************************/`);
-
-        for (const prop of cssProperties) {
-          if (prop.default) {
-            input.push(`${prop.name}: ${prop.default}; /* ${prop.description} */`);
-          }
-          else {
-            input.push(`${prop.name}: none; /* ${prop.description} */`);
-          }
-        }
-
+        const doc = wca.transformAnalyzerResult('markdown', results, program);
+        const markdownProperties = doc.split('## CSS Custom Properties')[1];
+        input.push(`# ${tag.name}`);
+        input.push(markdownProperties);
       }
       else {
         console.warn(`warning: ${tag.name} doesn't have css properties ?`);
       }
     }
   }
-  input.push('```');
   await fs.appendFile(filepath, input.join('\n'));
 }
 

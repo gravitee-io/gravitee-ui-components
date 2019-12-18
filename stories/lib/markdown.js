@@ -49,7 +49,7 @@ export function markdownToDom (markdownText) {
 
   const element = document.createElement('div');
   element.style.width = '100%';
-  element.style.margin = '5rem auto';
+  element.style.margin = '2rem';
   element.classList.add('markdown-body');
   element.innerHTML = html;
 

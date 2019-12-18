@@ -25,7 +25,7 @@ const EXCLUDED_SHAPES = ['thirdparty:google', 'thirdparty:graviteeio_am'];
 /**
  * An icon
  *
- * @cssprop {String} [--gv-icon--c=#000] - set the color of icon
+ * @cssprop {String} [--gv-icon--c=#262626] - set the color of icon
  * @cssprop {String} [--gv-icon--s=32] - set the height and width of icon (crushes size property)
  */
 export class GvIcon extends LitElement {

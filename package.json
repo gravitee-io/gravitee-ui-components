@@ -11,9 +11,9 @@
     "wc/gv-*.js"
   ],
   "scripts": {
-    "build": "npm run generate:custom-properties && npm run docs && node tasks/check-i18n.js && build-storybook",
+    "build": "npm run docs && node tasks/check-i18n.js && build-storybook",
     "check:i18n": "node tasks/check-i18n.js",
-    "docs": "wca analyze src/** --format markdown --outDir .docs",
+    "docs": "wca analyze src/** --format markdown --outDir .docs && npm run generate:custom-properties",
     "generate:custom-properties": "node tasks/generate-custom-properties.js",
     "generate:dist": "node tasks/generate-dist.js",
     "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
