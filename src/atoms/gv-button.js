@@ -37,6 +37,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  * @attr {String} icon - display an icon on the button
+ * @attr {Boolean} icon-right - if icon should be at right
  * @attr {String} title - title of btn
  * @attr {Boolean} loading - true to display a loading icon
  *
@@ -56,6 +57,7 @@ export class GvButton extends LitElement {
       outlined: { type: Boolean },
       skeleton: { type: Boolean },
       icon: { type: String },
+      iconRight: { type: String, attribute: 'icon-right' },
       loading: { type: Boolean },
       title: { type: String },
     };
@@ -98,9 +100,9 @@ export class GvButton extends LitElement {
 
           /* COLORS */
           button.default {
-            --c: var(--gv-button--bgc, #193E34);
-            --bgc: var(--gv-button--bgc, #193E34);
-            --gv-icon--c: var(--gv-button-icon--c, #BFBFBF)
+              --c: var(--gv-button--bgc, #193E34);
+              --bgc: var(--gv-button--bgc, #193E34);
+              --gv-icon--c: var(--gv-button-icon--c, #BFBFBF)
           }
 
           button.primary {
@@ -117,8 +119,9 @@ export class GvButton extends LitElement {
           }
 
           button.outlined {
-              background-color: #fff;
-              color: var(--c);
+            background-color: #fff;
+            color: var(--c);
+            --gv-icon--c: var(--c);
           }
 
           /* special case: we want to keep simple buttons subtle */
@@ -182,10 +185,14 @@ export class GvButton extends LitElement {
               display: inline;
           }
 
-          button.icon .fake-icon {
-              width: 100%;
+          gv-icon::before, gv-icon::after {
+            content: ' ';
+            width: 1px;
           }
-
+          .loading gv-icon::before, .loading gv-icon::after {
+              width: 3px;
+          }
+          
           .loading gv-icon {
               animation: spinner 1.6s linear infinite;
               --gv-icon--s: 20px;
@@ -221,7 +228,7 @@ export class GvButton extends LitElement {
       skeleton: this.skeleton,
       default: !this.primary,
       outlined: this.outlined,
-      icon: !!this.icon || this.loading,
+      icon: !!this.icon || !!this.iconRight || this.loading,
       loading: this.loading,
     };
 
@@ -231,13 +238,31 @@ export class GvButton extends LitElement {
       class=${classMap(classes)}
       .disabled=${this.disabled || this.skeleton}
       @click="${this._onClick}">
-      ${this.loading ? html`<gv-icon shape="navigation:waiting"></gv-icon>` : ''}
-      ${(this.icon && !this.loading) ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
+      ${this._getIconLeft()}
       <slot></slot>
-      ${(this.icon || this.loading) ? html`<div class="fake-icon"></div>` : ''}
+      ${this._getIconRight()}
     </button>`;
   }
 
+  _getIconRight () {
+    if (this.loading && !this.icon && this.iconRight) {
+      return html`<gv-icon shape="navigation:waiting"></gv-icon>`;
+    }
+    if (this.iconRight) {
+      return html`<gv-icon shape="${this.iconRight}"></gv-icon>`;
+    }
+    return '';
+  }
+
+  _getIconLeft () {
+    if (this.loading && !this.iconRight) {
+      return html`<gv-icon shape="navigation:waiting"></gv-icon>`;
+    }
+    if (this.icon) {
+      return html`<gv-icon shape="${this.icon}"></gv-icon>`;
+    }
+    return '';
+  }
 }
 
 window.customElements.define('gv-button', GvButton);

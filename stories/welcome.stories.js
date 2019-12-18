@@ -1,4 +1,4 @@
-import customProperties from '../CUSTOM-PROPERTIES.md';
+import customProperties from '../.docs/custom-properties.md';
 import { markdownToDom } from './lib/markdown.js';
 import { storiesOf } from '@storybook/html';
 

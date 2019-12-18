@@ -35,6 +35,7 @@ storiesOf('1. Atoms|<gv-button>', module)
         <gv-button default>Simple</gv-button>
         <gv-button icon="cooking:dish" style="--gv-icon--c:white"></gv-button>
         <gv-button icon="cooking:dish" style="--gv-icon--c:white">Icon</gv-button>
+        <gv-button icon-right="cooking:dish">Icon</gv-button>
         <gv-button disabled>Disabled</gv-button>
         <gv-button icon="cooking:dish" style="--gv-icon--c:white" disabled></gv-button>
         <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
@@ -115,10 +116,12 @@ storiesOf('1. Atoms|<gv-button>', module)
   }))
   .add('In column', () => withActions(...eventNames)(() => {
     return `
-       <div class="title">Column with a fixed width </div>
-       <div style="display: flex; flex-direction: column; max-width: 30rem;">
+      <div class="title">Column with a fixed width </div>
+       <div style="display: flex; flex-direction: column; max-width: 20rem;">
         <gv-button default>Simple</gv-button>
-        <gv-button icon="cooking:dish" style="--gv-icon--c:white">Simple</gv-button>
+        <gv-button icon="cooking:dish">Simple</gv-button>
+        <gv-button icon-right="cooking:dish">Simple</gv-button>
+        <gv-button icon="cooking:dish" icon-right="cooking:dish">Simple</gv-button>
         <gv-button disabled>Disabled</gv-button>
         <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
         <gv-button outlined default>Outlined</gv-button>
@@ -129,4 +132,38 @@ storiesOf('1. Atoms|<gv-button>', module)
         <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
        </div>
      `;
+  }))
+  .add('Loading after click', () => withActions(...eventNames)(() => {
+
+    const container = document.createElement('div');
+
+    container.innerHTML = `
+       <div class="title">Loading after click</div>
+       <gv-button default>Simple</gv-button>
+        <gv-button icon="cooking:dish" style="--gv-icon--c:white"></gv-button>
+        <gv-button icon="cooking:dish" style="--gv-icon--c:white">Icon</gv-button>
+        <gv-button icon-right="cooking:dish">Icon</gv-button>
+        <gv-button disabled>Disabled</gv-button>
+        <gv-button icon="cooking:dish" style="--gv-icon--c:white" disabled></gv-button>
+        <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
+        <gv-button outlined default>Outlined</gv-button>
+        <gv-button outlined icon="cooking:dish"></gv-button>
+        <gv-button outlined icon="cooking:dish">Outlined icon</gv-button>
+        <gv-button outlined disabled>Outlined disabled</gv-button>
+        <gv-button outlined icon="cooking:dish" disabled></gv-button>
+        <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
+        <gv-button outlined loading>Loading</gv-button>
+        <gv-button loading style="--gv-icon--c:white">Loading</gv-button>
+     `;
+
+    container.querySelectorAll('gv-button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        btn.setAttribute('loading', true);
+        setTimeout(() => {
+          btn.removeAttribute('loading');
+        }, 2000);
+      });
+    });
+
+    return container;
   }));
