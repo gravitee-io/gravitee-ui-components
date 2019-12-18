@@ -54,7 +54,7 @@ export class GvUserMenu extends LitElement {
           :host {
               --bdc: var(--gv-user-menu--bdc, lightgrey);
               --c: var(--gv-user-menu--c, #262626);
-              --bgc: var(--gv-user-menu--bgc, #FFF);
+              --bgc: var(--gv-user-menu--bgc, transparent);
               --hover-bgc: var(--gv-user-menu-hover--bgc, #D5FDCB);
               --gv-nav-link-active--c: var(--gv-user-menu-hover--c, #193E34);
               --gv-icon--s: 16px;
@@ -71,6 +71,8 @@ export class GvUserMenu extends LitElement {
           }
 
           .user-menu__title {
+            background-color: var(--bgc);
+            border-left: 1px solid var(--bdc);
             color: var(--c);
             cursor: pointer;
             line-height: 40px;
@@ -109,7 +111,7 @@ export class GvUserMenu extends LitElement {
 
           .user-menu__list {
               position: absolute;
-              background-color: var(--bgc);
+              background-color: white;
               list-style: none;
               padding: 0;
               transition: all 0.3s ease 0s;
