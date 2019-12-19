@@ -30,7 +30,7 @@ import { isSameRoutes } from '../lib/utils';
  *
  * @cssprop {String} [--gv-user-menu--c=#262626] - set the color.
  * @cssprop {String} [--gv-user-menu-hover--c=#193E34] - set the hover color.
- * @cssprop {String} [--gv-user-menu--bgc=#FFF] - set the background color.
+ * @cssprop {String} [--gv-user-menu--bgc=transparent] - set the background color.
  * @cssprop {String} [--gv-user-menu-hover--bgc=#D5FDCB] - set the hover background color.
  * @cssprop {String} [--gv-user-menu--bdc=lightgrey] - set the border color.
  * @cssprop {String} [--gv-user-menu--tsh=none] - set the text shadow.
