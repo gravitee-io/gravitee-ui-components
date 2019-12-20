@@ -79,7 +79,8 @@ export class GvRating extends LitElement {
           .icon {
               display: inline-flex;
               align-self: center;
-          }
+              margin-right: calc(var(--gv-rating--s, 13px)/4);
+            }
 
           .skeleton {
               background-color: #aaa;
