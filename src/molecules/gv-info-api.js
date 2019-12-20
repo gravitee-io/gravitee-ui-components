@@ -34,6 +34,13 @@ import { classMap } from 'lit-html/directives/class-map';
  */
 export class GvInfoApi extends ApiElement {
 
+  static get properties () {
+    return {
+      metrics: { type: Object },
+      _metrics: { type: Object, attribute: false },
+    };
+  }
+
   static get styles () {
     return [
       link,
@@ -44,6 +51,7 @@ export class GvInfoApi extends ApiElement {
               box-sizing: border-box;
               display: inline-block;
               width: 280px;
+              --gv-rating--s: 24px;
           }
 
           .infos {
@@ -124,6 +132,14 @@ export class GvInfoApi extends ApiElement {
           this._metrics = metrics;
         }
       });
+  }
+
+  _renderInfoRating () {
+    const rating = this._getRating();
+    if (rating) {
+      return html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}"></gv-rating>`;
+    }
+    return '';
   }
 
   render () {
