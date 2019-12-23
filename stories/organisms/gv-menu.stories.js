@@ -20,7 +20,7 @@ import { withCustomEventActions } from '../lib/event-action.js';
 import { color, text } from '@storybook/addon-knobs';
 import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
 
-const withActions = withCustomEventActions('gv-nav-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header-api:subscribe', 'gv-header-api:support');
+const withActions = withCustomEventActions('gv-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header-api:subscribe', 'gv-header-api:support');
 
 storiesOf('3. Organisms|<gv-menu>', module)
   .addParameters({ notes })

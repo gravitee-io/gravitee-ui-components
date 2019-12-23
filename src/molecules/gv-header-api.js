@@ -59,13 +59,13 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
               --gv-image--h: 125px;
               --gv-button--fz: 16px;
               --gv-button--p: 10px 24px;
-              --gv-nav-link--bgc: transparent;
-              --gv-nav-link-active-bgc: transparent;
+              --gv-link--bgc: transparent;
+              --gv-link-active-bgc: transparent;
               --c: var(--gv-header-api--c, #262626);
-              --gv-nav-link--c: var(--c);
-              --gv-nav-link-active--c: var(--c);
-              --gv-nav-link-a--ph: 5px;
-              --gv-nav-link--td: underline;
+              --gv-link--c: var(--c);
+              --gv-link-active--c: var(--c);
+              --gv-link-a--ph: 5px;
+              --gv-link--td: underline;
               --bg: var(--gv-header-api--bgc, #D5FDCB);
               box-sizing: border-box;
               display: block;
@@ -83,7 +83,7 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
 
           :host([w-lt-580]) {
               --gv-button--p: 3px 9px;
-              --gv-nav-link-a--ph: 0px;
+              --gv-link-a--ph: 0px;
           }
 
           :host([w-lt-580]) .header__top {
@@ -140,17 +140,17 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
               position: relative;
           }
 
-          gv-nav-link:last-child {
-              --gv-nav-link--td: none;
+          gv-link:last-child {
+              --gv-link--td: none;
           }
 
-          gv-nav-link::after {
+          gv-link::after {
               content: '>';
               color: #000000;
               align-self: center;
           }
 
-          gv-nav-link:last-child::after {
+          gv-link:last-child::after {
               content: '';
           }
 
@@ -226,13 +226,13 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
       const title = index === this._breadcrumbs.length - 1 ? this._getTitle() : _route.title;
 
       return html`
-            <gv-nav-link
-            @gv-nav-link:click=${this._onClick}
+            <gv-link
+            @gv-link:click=${this._onClick}
             .active="${_route.active}"
             .icon="${_route.icon}"
             .path="${_route.path}"
             .title="${title}"
-            .help="${until(_route.help, null)}"></gv-nav-link>`;
+            .help="${until(_route.help, null)}"></gv-link>`;
     }).catch(() => {
       delete this._routes[index];
     });
@@ -240,7 +240,7 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
 
   _renderBreadcrumbs () {
     return html`<nav>${repeat(this._breadcrumbs, (route) => route, (route, index) =>
-      until(this._getLink(route, index), html`<gv-nav-link skeleton></gv-nav-link>`)
+      until(this._getLink(route, index), html`<gv-link skeleton></gv-link>`)
     )}</nav>`;
   }
 
