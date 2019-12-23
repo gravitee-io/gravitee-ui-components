@@ -21,7 +21,7 @@ import picture from '../../assets/images/logo.png';
 import { color } from '@storybook/addon-knobs';
 import { withCustomEventActions } from '../lib/event-action.js';
 
-const withActions = withCustomEventActions('gv-header-api:subscribe', 'gv-header-api:contact', 'gv-nav-link:click');
+const withActions = withCustomEventActions('gv-header-api:subscribe', 'gv-header-api:contact', 'gv-link:click');
 
 const version = 'v.1.1';
 const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];

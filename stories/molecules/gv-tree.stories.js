@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-tree.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 
-const withActions = withCustomEventActions('gv-tree:select', 'gv-nav-link:click');
+const withActions = withCustomEventActions('gv-tree:select', 'gv-link:click');
 const menuItems = [
   { name: 'page 1', value: 'p1' },
   { name: 'page 2', value: { id: 'an object', link: 'https://gravitee.io', logo: 'logo' } },

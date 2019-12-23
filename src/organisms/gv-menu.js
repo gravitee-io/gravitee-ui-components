@@ -22,7 +22,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
 /**
  * A menu
  *
- * @fires gv-nav-link:click - Custom event when nav link click
+ * @fires gv-link:click - Custom event when link click
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
  *
@@ -49,11 +49,11 @@ export class GvMenu extends withResizeObserver(LitElement) {
       // language=css
       css`
           :host {
-              --gv-nav-link--c: var(--gv-menu--c, #FFF);
-              --gv-nav-link-active--c: var(--gv-menu--c, #FFF);
-              --gv-nav-link--bgc: transparent;
-              --gv-nav-link-active--bgc: transparent;
-              --gv-nav-link-active--bdb: var(--gv-menu-link-active--bdb, 3px solid #D5FDCB);
+              --gv-link--c: var(--gv-menu--c, #FFF);
+              --gv-link-active--c: var(--gv-menu--c, #FFF);
+              --gv-link--bgc: transparent;
+              --gv-link-active--bgc: transparent;
+              --gv-link-active--bdb: var(--gv-menu-link-active--bdb, 3px solid #D5FDCB);
               --pr: var(--gv-menu--pr, 4rem);
               --pl: var(--gv-menu--pl, 4rem);
               --gv-header-api--pr: var(--pr);
@@ -70,7 +70,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
           :host([w-lt-768]) .nav-container {
               width: 100%;
               padding-left: var(--pl);
-              --gv-nav-link-a--pv: 0;
+              --gv-link-a--pv: 0;
           }
 
           :host([w-lt-580]) .nav-container {
@@ -125,7 +125,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
           .has-header .nav-container {
               width: calc(100% - 10rem);
               padding-left: 10rem;
-              --gv-nav-link-a--pv: 0;
+              --gv-link-a--pv: 0;
           }
 
           slot[name="right"] {

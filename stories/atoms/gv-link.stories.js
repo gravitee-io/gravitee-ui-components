@@ -13,31 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-nav-link.js';
-import notes from '../../.docs/gv-nav-link.md';
+import '../../src/atoms/gv-link.js';
+import notes from '../../.docs/gv-link.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 
-const withActions = withCustomEventActions('gv-nav-link:click');
+const withActions = withCustomEventActions('gv-link:click');
 
-storiesOf('1. Atoms | <gv-nav-link>', module)
+storiesOf('1. Atoms | <gv-link>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
 
     const container = document.createElement('div');
-    container.style = '--gv-nav-link-active--bdb: 8px solid #CCCCCC;'
-      + '--gv-nav-link-active--c: #F4F4F4;'
-      + '--gv-nav-link-active--bgc: #137752;'
-      + '--gv-nav-link--c: #137752;';
+    container.style = '--gv-link-active--bdb: 8px solid #CCCCCC;'
+      + '--gv-link-active--c: #F4F4F4;'
+      + '--gv-link-active--bgc: #137752;'
+      + '--gv-link--c: #137752;';
 
     container.innerHTML = `
-      <div class="title">Nav link</div>
-      <gv-nav-link id="bread" title="Bread" icon="food:french-bread"></gv-nav-link>
-      <gv-nav-link id="cheese" icon="food:cheese"></gv-nav-link>
-      <gv-nav-link id="wine" icon="food:wine" active></gv-nav-link>
-      <gv-nav-link id="empty"></gv-nav-link>
-      <gv-nav-link id="error"></gv-nav-link>
-      <gv-nav-link id="wine" icon="navigation:waiting" title="Waiting" skeleton active></gv-nav-link>
+      <div class="title">Link</div>
+      <gv-link id="bread" title="Bread" icon="food:french-bread"></gv-link>
+      <gv-link id="cheese" icon="food:cheese"></gv-link>
+      <gv-link id="wine" icon="food:wine" active></gv-link>
+      <gv-link id="empty"></gv-link>
+      <gv-link id="error"></gv-link>
+      <gv-link id="wine" icon="navigation:waiting" title="Waiting" skeleton active></gv-link>
     `;
 
     container.querySelector('#bread').title = Promise.resolve('Bread');

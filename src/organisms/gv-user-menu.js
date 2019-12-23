@@ -22,7 +22,7 @@ import { isSameRoutes } from '../lib/utils';
 /**
  * A menu
  *
- * @fires gv-nav-link:click - Custom event when nav link click
+ * @fires gv-link:click - Custom event when nav link click
  *
  * @attr {Array} routes - definition of user routes [{icon: String, path: String, title: Promise<String>]
  * @attr {String} username - name of the user
@@ -56,10 +56,10 @@ export class GvUserMenu extends LitElement {
               --c: var(--gv-user-menu--c, #262626);
               --bgc: var(--gv-user-menu--bgc, transparent);
               --hover-bgc: var(--gv-user-menu-hover--bgc, #D5FDCB);
-              --gv-nav-link-active--c: var(--gv-user-menu-hover--c, #193E34);
+              --gv-link-active--c: var(--gv-user-menu-hover--c, #193E34);
               --gv-icon--s: 16px;
-              --gv-nav-link-a--ph: 0;
-              --gv-nav-link--ta: right;
+              --gv-link-a--ph: 0;
+              --gv-link--ta: right;
           }
 
           .user-menu {
@@ -94,9 +94,9 @@ export class GvUserMenu extends LitElement {
               padding: 5px 24px;
           }
 
-          .user-menu__title gv-nav-link {
-              --gv-nav-link-a--ph: 0;
-              --gv-nav-link-a--pv: 0;
+          .user-menu__title gv-link {
+              --gv-link-a--ph: 0;
+              --gv-link-a--pv: 0;
           }
 
           .user-menu__title span {
@@ -132,7 +132,7 @@ export class GvUserMenu extends LitElement {
               font-weight: 500;
           }
 
-          gv-nav-link {
+          gv-link {
               margin: 0px;
               display: flex;
               width: 100%;
@@ -226,12 +226,12 @@ export class GvUserMenu extends LitElement {
       else if (this._hasOneItem()) {
         const firstItem = this._routes[0];
         return html`<li class="user-menu__title no-user" @click=${this._onClick} >
-                <gv-nav-link
+                <gv-link
                         .icon="${firstItem.icon}"
                         .path="${firstItem.path}"
                         .title="${firstItem.title}"
                          @click=${this._onSelect}
-                      ></gv-nav-link>
+                      ></gv-link>
           </li>`;
       }
     }
@@ -252,12 +252,12 @@ export class GvUserMenu extends LitElement {
                 ${repeat(this._routes, (route) => route, (route, index) => html`
                     ${this._hasOneItem() ? html``
         : html`<li class="user-menu__list__item ${route.separator ? 'separator' : ''}">
-                      <gv-nav-link
+                      <gv-link
                         .icon="${route.icon}"
                         .path="${route.path}"
                         .title="${route.title}"
                          @click=${this._onSelect}
-                      ></gv-nav-link>`}
+                      ></gv-link>`}
 
                     </li>
                 `)}

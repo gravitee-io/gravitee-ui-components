@@ -16,14 +16,14 @@
 import { LitElement, css } from 'lit-element';
 import { html } from 'lit-html';
 import { repeat } from 'lit-html/directives/repeat';
-import '../atoms/gv-nav-link';
+import '../atoms/gv-link';
 import { until } from 'lit-html/directives/until';
 import { isSameRoutes } from '../lib/utils';
 
 /**
  * A main nav
  *
- * @fires gv-nav-link:click - Custom event from child components
+ * @fires gv-link:click - Custom event from child components
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>}]
  *
@@ -73,8 +73,8 @@ export class GvNav extends LitElement {
         return route;
       });
 
-      const activeLink = this.shadowRoot.querySelector('gv-nav-link[active]');
-      const nextLink = this.shadowRoot.querySelectorAll('gv-nav-link')[nextIndex];
+      const activeLink = this.shadowRoot.querySelector('gv-link[active]');
+      const nextLink = this.shadowRoot.querySelectorAll('gv-link')[nextIndex];
       if (activeLink) {
         const shadowLink = activeLink.cloneNode(true);
         const { height, width } = activeLink.getBoundingClientRect();
@@ -120,14 +120,14 @@ export class GvNav extends LitElement {
   _getLink (route, index) {
     return Promise.resolve(route).then((_route) => {
       return html`
-            <gv-nav-link 
-            @gv-nav-link:click=${this._onClick} 
+            <gv-link 
+            @gv-link:click=${this._onClick} 
             .active="${_route.active}"
             .icon="${_route.icon}"
             .path="${_route.path}"
             ?small="${this.small}"
             .title="${_route.title}"
-            .help="${until(_route.help, null)}"></gv-nav-link>`;
+            .help="${until(_route.help, null)}"></gv-link>`;
     }).catch(() => {
       delete this._routes[index];
     });
@@ -136,7 +136,7 @@ export class GvNav extends LitElement {
   render () {
     if (this._routes) {
       return html`<nav>${repeat(this._routes, (route) => route, (route, index) =>
-        until(this._getLink(route, index), html`<gv-nav-link skeleton></gv-nav-link>`)
+        until(this._getLink(route, index), html`<gv-link skeleton></gv-link>`)
       )}</nav>`;
     }
     return html``;

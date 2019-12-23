@@ -19,7 +19,7 @@ import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action.js';
 import { delay } from '../lib/delay';
 
-const withActions = withCustomEventActions('gv-nav-link:click');
+const withActions = withCustomEventActions('gv-link:click');
 
 storiesOf('2. Molecules|<gv-nav>', module)
   .addParameters({ notes })

@@ -21,7 +21,7 @@ import { color, text } from '@storybook/addon-knobs';
 import bigImage from '../../assets/images/gravitee-logo-darker.png';
 import avatarSrc from '../../assets/images/logo.png';
 
-const withActions = withCustomEventActions('gv-nav-link:click', 'click');
+const withActions = withCustomEventActions('gv-link:click', 'click');
 const routes = [
   { path: '#', title: 'My account', icon: 'general:user' },
   { path: '#', title: 'My apis', icon: 'cooking:cooking-book' },

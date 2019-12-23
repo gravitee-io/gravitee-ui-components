@@ -21,9 +21,9 @@ import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
- * A nav link
+ * A link
  *
- * @fires gv-nav-link:click - Custom click event from inner link element
+ * @fires gv-link:click - Custom click event from inner link element
  *
  * @slot - The content of the link (text or HTML)
  *
@@ -32,18 +32,18 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} title - link title
  * @attr {String} help - help text left between parentheses
  *
- * @cssprop {String} [--gv-nav-link-a--pv=15px] - set the vertical padding for the inner <a> tag. (Default: 1rem)
- * @cssprop {String} [--gv-nav-link-a--ph=15px] - set the horizontal padding for the inner <a> tag. (Default: 1rem)
- * @cssprop {String} [--gv-nav-link--c=#262626] - set the color of link.
- * @cssprop {String} [--gv-nav-link-active--c=#FAFAFA] - set the color of active link.
- * @cssprop {String} [--gv-nav-link--bgc=transparent] - set the background color of link.
- * @cssprop {String} [--gv-nav-link-active--bgc=#193E34] - set the background color of active link.
- * @cssprop {String} [--gv-nav-link-active--bdb=none] - set the border bottom of active link. (Default: none)
- * @cssprop {String} [--gv-nav-link--ta=center] - set the text align (Default: center)
- * @cssprop {String} [--gv-nav-link--td=none] - set the text decoration (Default: none)
- * @cssprop {String} [--gv-nav-link--tsh=none]- set the text shadow (Default: none)
+ * @cssprop {String} [--gv-link-a--pv=15px] - set the vertical padding for the inner <a> tag. (Default: 1rem)
+ * @cssprop {String} [--gv-link-a--ph=15px] - set the horizontal padding for the inner <a> tag. (Default: 1rem)
+ * @cssprop {String} [--gv-link--c=#262626] - set the color of link.
+ * @cssprop {String} [--gv-link-active--c=#FAFAFA] - set the color of active link.
+ * @cssprop {String} [--gv-link--bgc=transparent] - set the background color of link.
+ * @cssprop {String} [--gv-link-active--bgc=#193E34] - set the background color of active link.
+ * @cssprop {String} [--gv-link-active--bdb=none] - set the border bottom of active link. (Default: none)
+ * @cssprop {String} [--gv-link--ta=center] - set the text align (Default: center)
+ * @cssprop {String} [--gv-link--td=none] - set the text decoration (Default: none)
+ * @cssprop {String} [--gv-link--tsh=none]- set the text shadow (Default: none)
  */
-export class GvNavLink extends LitElement {
+export class GvLink extends LitElement {
 
   static get properties () {
     return {
@@ -69,20 +69,20 @@ export class GvNavLink extends LitElement {
               display: inline-flex;
               vertical-align: middle;
               --gv-icon--s: 24px;
-              --nav-link-active--c: var(--gv-nav-link-active--c, #FAFAFA);
-              --nav-link--c: var(--gv-nav-link--c, #262626);
+              --link-active--c: var(--gv-link-active--c, #FAFAFA);
+              --link--c: var(--gv-link--c, #262626);
           }
 
           a {
             opacity: 1;
-            padding: var(--gv-nav-link-a--pv, 15px) var(--gv-nav-link-a--ph, 15px);
-            color: var(--nav-link--c);
-            background-color: var(--gv-nav-link--bgc, transparent);
+            padding: var(--gv-link-a--pv, 15px) var(--gv-link-a--ph, 15px);
+            color: var(--link--c);
+            background-color: var(--gv-link--bgc, transparent);
             width: 100%;
             display: inline-flex;
             align-content: center;
-            text-align: var(--gv-nav-link--ta, center);
-            text-shadow: var(--gv-nav-link--tsh, none);
+            text-align: var(--gv-link--ta, center);
+            text-shadow: var(--gv-link--tsh, none);
           }
 
           a > * {
@@ -91,9 +91,9 @@ export class GvNavLink extends LitElement {
           }
 
           .active {
-              color: var(--nav-link-active--c);
-              background-color: var(--gv-nav-link-active--bgc, #193E34);
-              border-bottom: var(--gv-nav-link-active--bdb, none);
+              color: var(--link-active--c);
+              background-color: var(--gv-link-active--bgc, #193E34);
+              border-bottom: var(--gv-link-active--bdb, none);
           }
 
           a span, a gv-icon {
@@ -105,7 +105,7 @@ export class GvNavLink extends LitElement {
               align-self: center;
               white-space: nowrap;
               margin: 0.3rem 0.5rem;
-              text-decoration: var(--gv-nav-link--td, none);
+              text-decoration: var(--gv-link--td, none);
           }
 
           a.small span {
@@ -161,7 +161,7 @@ export class GvNavLink extends LitElement {
     const classes = {
       active: this.active, link: true, skeleton: this.skeleton, small: this.small,
     };
-    const iconStyle = this.active ? { '--gv-icon--c': 'var(--nav-link-active--c)' } : { '--gv-icon--c': 'var(--nav-link--c)' };
+    const iconStyle = this.active ? { '--gv-icon--c': 'var(--link-active--c)' } : { '--gv-icon--c': 'var(--link--c)' };
     return html`
       <a @click=${this._onClick}
       class="${classMap(classes)}"
@@ -174,4 +174,4 @@ export class GvNavLink extends LitElement {
   }
 }
 
-window.customElements.define('gv-nav-link', GvNavLink);
+window.customElements.define('gv-link', GvLink);

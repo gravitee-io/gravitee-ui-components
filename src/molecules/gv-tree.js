@@ -17,7 +17,7 @@ import { LitElement, html, css } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-button';
 import '../atoms/gv-icon';
-import '../atoms/gv-nav-link';
+import '../atoms/gv-link';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 /**
@@ -56,8 +56,8 @@ export class GvTree extends LitElement {
             --active-bgc: var(--gv-tree-menu-active--bgc, #FAFAFA);
             --hover-bgc: var(--gv-tree-menu-hover--bgc, #FFF);
             --gv-icon--s: 20px;
-            --gv-nav-link-a--ph: 0;
-            --gv-nav-link--ta: left;
+            --gv-link-a--ph: 0;
+            --gv-link--ta: left;
 
             background-color: var(--bgc);
             color: var(--c);
@@ -120,7 +120,7 @@ export class GvTree extends LitElement {
             margin-left: 10px;
           }
 
-          .folder > gv-nav-link {
+          .folder > gv-link {
             font-weight: bold;
           }
 
@@ -146,7 +146,7 @@ export class GvTree extends LitElement {
             top: 10px;
           }
 
-          gv-nav-link {
+          gv-link {
             width: 100%;
           }
       `,
@@ -173,18 +173,18 @@ export class GvTree extends LitElement {
   }
 
   _getMenuItemPage (menuItem) {
-    return html`<gv-nav-link
+    return html`<gv-link
                 .title="${menuItem.name}"
-                @gv-nav-link:click=${this._onSelect.bind(this, menuItem)}>
-                </gv-nav-link>`;
+                @gv-link:click=${this._onSelect.bind(this, menuItem)}>
+                </gv-link>`;
   }
 
   _getMenuItemFolder (menuItem) {
     return html`
-        <gv-nav-link
+        <gv-link
         .title="${menuItem.name}"
-        @gv-nav-link:click=${this._onClick.bind(this, menuItem)}>
-        </gv-nav-link>
+        @gv-link:click=${this._onClick.bind(this, menuItem)}>
+        </gv-link>
         ${menuItem.expanded
           ? html`<gv-icon class="tree-arrow" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>${this._getMenu(menuItem.children)}`
           : html`<gv-icon class="tree-arrow closed" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>`
