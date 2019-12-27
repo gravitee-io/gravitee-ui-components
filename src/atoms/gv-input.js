@@ -18,9 +18,11 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 import { styleMap } from 'lit-html/directives/style-map';
 
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
-import { input } from '../styles/input.js';
+import { skeleton } from '../styles/skeleton';
+import { input } from '../styles/input';
 import { dispatchCustomEvent } from '../lib/events';
+import './gv-icon';
+import { i18n } from '../lib/i18n';
 
 /**
  *
@@ -34,14 +36,15 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} title - title of the input
  * @attr {String} name - name of the input
  * @attr {String} placeholder - an example value to display in the input when empty
- * @attr {String} type - type of the input, can be text (Default), password, email, search or number
+ * @attr {String} type - type of the input, can be text (Default), password, email, search, number or clipboard.
  * @attr {Boolean} large - for a large input
  * @attr {Boolean} medium - for a medium input (Default)
  * @attr {Boolean} small - for a small input
  * @attr {String} icon - icon of the input
  * @attr {String} icon-left - icon of the input to display at left
- * @attr {Boolean} loading - true to display a loading icon
- * @attr {Boolean} autofocus - true to put the focus on the input
+ * @attr {Boolean} [loading=false] - true to display a loading icon
+ * @attr {Boolean} [autofocus=false] - true to put the focus on the input
+ * @attr {Boolean} [readonly=false] - true if field is readonly mode
  */
 export class GvInput extends LitElement {
 
@@ -65,6 +68,7 @@ export class GvInput extends LitElement {
       min: { type: Number },
       max: { type: Number },
       autofocus: { type: Boolean },
+      readonly: { type: Boolean },
     };
   }
 
@@ -75,30 +79,49 @@ export class GvInput extends LitElement {
       // language=CSS
       css`
 
-          gv-icon.medium {
-              --gv-icon--s: 25px;
-          }
+        gv-icon.medium {
+          --gv-icon--s: 25px;
+        }
 
-          gv-icon.small {
-              --gv-icon--s: 19px;
-          }
-          gv-icon.search {
-              cursor: pointer;
-          }
+        gv-icon.small {
+          --gv-icon--s: 19px;
+        }
 
-          gv-icon.search:hover {
-              box-shadow: 0 1px 3px #888;
-          }
+        gv-icon.clickable {
+          cursor: pointer;
+        }
 
-          .loading {
-              animation: spinner 1.6s linear infinite;
-          }
+        gv-icon.clickable:hover {
+          box-shadow: 0 1px 3px #888;
+        }
 
-          @keyframes spinner {
-              to {transform: rotate(360deg);}
+        gv-icon.copied {
+          --gv-icon--c: #009B5B;
+        }
+
+        .loading {
+          animation: spinner 1.6s linear infinite;
+        }
+
+        @keyframes spinner {
+          to {
+            transform: rotate(360deg);
           }
+        }
       `,
     ];
+  }
+
+  static get shapeClipboard () {
+    return 'general:clipboard';
+  }
+
+  static get shapeCopied () {
+    return 'communication:clipboard-check';
+  }
+
+  static get shapeSearch () {
+    return 'general:search';
   }
 
   constructor () {
@@ -106,11 +129,20 @@ export class GvInput extends LitElement {
     this._id = 'gv-id';
     this._type = 'text';
     this._showPassword = false;
+    this.value = '';
   }
 
   firstUpdated (changedProperties) {
     if (this.autofocus) {
       this.shadowRoot.querySelector('input').focus();
+    }
+    const clickableIcon = this.shadowRoot.querySelector('.clickable');
+    if (clickableIcon) {
+      clickableIcon.addEventListener('click', this._onIconClick.bind(this));
+    }
+
+    if (this._hasClipboard) {
+      this.shadowRoot.querySelector('input').addEventListener('click', (e) => this.copy(this.value));
     }
   }
 
@@ -135,7 +167,24 @@ export class GvInput extends LitElement {
     }
 
     if (this._type === 'search' && this.icon == null) {
-      this.icon = 'general:search';
+      this.icon = GvInput.shapeSearch;
+    }
+
+    if (value === 'clipboard') {
+      import('clipboard-copy').then((mod) => (this.copy = () => {
+        const copy = mod.default;
+        copy(this.value);
+        this._copied = true;
+        this.icon = GvInput.shapeCopied;
+        setTimeout(() => {
+          this._copied = false;
+          this.icon = GvInput.shapeClipboard;
+        }, 1000);
+      }));
+      this.readonly = true;
+      this._hasClipboard = true;
+      this.icon = GvInput.shapeClipboard;
+      this._type = 'text';
     }
   }
 
@@ -165,6 +214,9 @@ ${this._renderRequired()}${this.label}
       }
       dispatchCustomEvent(this, 'submit', this.value);
     }
+    if (this._hasClipboard) {
+      this.copy(this.value);
+    }
   }
 
   _renderIcon () {
@@ -181,11 +233,18 @@ ${this._renderRequired()}${this.label}
     const classes = {
       small: this.small,
       medium: (this.medium || (!this.large && !this.small)),
-      search: this._type === 'search',
+      clickable: this._type === 'search' || this._hasClipboard,
+      copied: this._hasClipboard && this._copied,
     };
-
+    let title = null;
+    if (this._type === 'search') {
+      title = i18n('gv-input.search');
+    }
+    else if (this._hasClipboard) {
+      title = i18n('gv-input.copy');
+    }
     if (!this.loading && (this.icon || this.iconLeft)) {
-      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon || this.iconLeft}" @click="${this._onIconClick}"></gv-icon>`;
+      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon || this.iconLeft}" title="${title}"></gv-icon>`;
     }
     return '';
   }
@@ -259,7 +318,8 @@ ${this._renderRequired()}${this.label}
             .type=${this._type}
             .name=${ifDefined(this.name)}
             .title=${ifDefined(this.title || this.label)}
-            .required=${this.required}
+            ?required=${this.required}
+            ?readonly="${this.readonly}"
             aria-required=${!!this.required}
             .aria-label="${ifDefined(this.label)}"
             ?disabled=${this.disabled || this.skeleton}

@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css } from 'lit-element';
-import { html } from 'lit-html';
-import { skeleton } from '../styles';
+import { css, LitElement, html } from 'lit-element';
+import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
 import '../molecules/gv-rating';
 import { dispatchCustomEvent } from '../lib/events';
-import { ApiElement } from '../mixins/api-element';
-import { i18n } from '../lib/i18n.js';
+import { i18n } from '../lib/i18n';
+import { ApiResource } from '../mixins/api-resource';
 
 /**
  * Promote Api component
@@ -34,7 +33,7 @@ import { i18n } from '../lib/i18n.js';
  * @cssprop {String} [--gv-promote-api-image--bgc=#D5FDCB] - set the background color of image.
  * @cssprop {String} [--gv-promote-api--bgc=white] - set the background color.
  */
-export class GvPromoteApi extends ApiElement {
+export class GvPromoteApi extends ApiResource(LitElement) {
 
   static get styles () {
     return [
@@ -80,17 +79,17 @@ export class GvPromoteApi extends ApiElement {
               display: flex;
               align-items: center;
           }
-          
+
           .title h2 {
               font-size: 24px;
               flex: 1;
           }
-          
+
           .title .version {
               font-size: 12px;
               color: #D9D9D9;
           }
-          
+
 
           .content {
               flex: 1;
@@ -116,7 +115,7 @@ export class GvPromoteApi extends ApiElement {
               padding: 8px 0;
               margin: 8px 0;
           }
-          
+
 
           .skeleton {
               background-color: #aaa;

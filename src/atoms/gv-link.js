@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit-element';
-import { link, skeleton } from '../styles';
+import { skeleton } from '../styles/skeleton';
+import { link } from '../styles/link.js';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
-
+import './gv-icon';
 /**
  * A link
  *
@@ -94,6 +95,10 @@ export class GvLink extends LitElement {
               color: var(--link-active--c);
               background-color: var(--gv-link-active--bgc, #193E34);
               border-bottom: var(--gv-link-active--bdb, none);
+          }
+
+          .link.active:hover {
+            opacity: 1;
           }
 
           a span, a gv-icon {

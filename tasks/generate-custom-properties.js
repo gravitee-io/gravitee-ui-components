@@ -47,10 +47,11 @@ async function run () {
         let codeProperties = [];
         if (matches) {
           codeProperties = matches.map((match) => {
-            const [start, end] = match.split(',');
+            let [start, ...end] = match.split(',');
             if (end == null) {
               throw new Error(`Default value not found for ${start} in code of ${tag.name}  `);
             }
+            end = end.join(',');
             const name = start.replace('var(', '').trim();
             const value = `"${end.replace(/[);]*/g, '').trim()}"`;
             return { name, value };

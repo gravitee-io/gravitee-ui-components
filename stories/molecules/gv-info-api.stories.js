@@ -24,9 +24,21 @@ const views = ['Azure', 'Swiss', 'All', 'Magic'];
 const ratingSummary = { average: 3.4 };
 const labels = ['APIDays', 'December', 'Foobar'];
 const resources = ['Repository', 'Homepage', 'Licence', 'Changelog', 'Download Extension'];
-const miscellaneous = [{ key: 'Version:', value: 'v1' }, { key: 'Released:', value: '2019-12-25, 12:00PM' }, { key: 'Last Update:', value: '2019-12-25, 12:00PM' }, { key: 'Publisher:', value: 'Tichard T.' }];
+const miscellaneous = [{ key: 'Version:', value: 'v1' }, {
+  key: 'Released:',
+  value: '2019-12-25, 12:00PM',
+}, { key: 'Last Update:', value: '2019-12-25, 12:00PM' }, { key: 'Publisher:', value: 'Tichard T.' }];
 const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
-const api = { name: 'Long Supernova', views, rating_summary: ratingSummary, labels };
+const api = {
+  name: 'Long Supernova',
+  views,
+  rating_summary: ratingSummary,
+  labels,
+  version: 'v1',
+  description: 'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis '
+    + 'quo con perto Montius tunc. nc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus '
+    + 'mandaverat fidis quo con perto Montius tunc.',
+};
 
 const withActions = withCustomEventActions('gv-info-api:click-view', 'gv-info-api:click-label');
 
@@ -43,7 +55,7 @@ storiesOf('2. Molecules|<gv-info-api>', module)
         <gv-info-api id="basics"></gv-info-api>
       </div>
       <div style="margin: 10px;">
-        <div class="title">Skeleton </div>
+        <div class="title">Skeleton</div>
         <gv-info-api></gv-info-api>
       </div>
       <div style="margin: 10px;">
@@ -73,12 +85,43 @@ storiesOf('2. Molecules|<gv-info-api>', module)
 
     return container;
   }))
+  .add('With DublinCore', withActions(() => {
+    const container = document.createElement('div');
+
+    container.innerHTML = `
+    <div style="display:flex;">
+      <div style="margin: 10px;">
+        <div class="title">Basics</div>
+        <gv-info-api id="basics" with-dc></gv-info-api>
+      </div>
+      <div style="margin: 10px;">
+        <div class="title">Skeleton</div>
+        <gv-info-api with-dc></gv-info-api>
+      </div>
+      <div style="margin: 10px;">
+        <div class="title">Delay</div>
+        <gv-info-api id="delay" with-dc></gv-info-api>
+      </div>
+    </div>
+    `;
+
+    container.querySelector('#basics').api = Promise.resolve(api);
+    container.querySelector('#basics').resources = resources;
+    container.querySelector('#basics').miscellaneous = miscellaneous;
+    container.querySelector('#basics').metrics = metrics;
+
+    container.querySelector('#delay').api = Promise.resolve(api).then(delay(2000));
+    container.querySelector('#delay').metrics = metrics.then(delay(3000));
+    container.querySelector('#delay').resources = resources;
+    container.querySelector('#delay').miscellaneous = miscellaneous;
+    return container;
+  }))
   .add('Errors', () => {
     const container = document.createElement('div');
     container.innerHTML = `
       <div class="title">Empty</div>
       <gv-info-api id="empty"></gv-info-api>
-    
+
       <div class="title">Error</div>
       <gv-info-api id="error"></gv-info-api>
     `;

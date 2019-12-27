@@ -15,7 +15,7 @@
  */
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles';
+import { skeleton } from '../styles/skeleton';
 
 /**
  * A State

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-image.js';
+import '../../src/atoms/gv-image';
 import notes from '../../.docs/gv-image.md';
 import { storiesOf } from '@storybook/html';
 import { withCustomEventActions } from '../lib/event-action';

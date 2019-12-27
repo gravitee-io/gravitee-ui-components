@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, TemplateResult } from 'lit-element';
+import { css, html, LitElement, TemplateResult } from 'lit-element';
 import { GvIcons } from '../icons/gv-icons';
 import { until } from 'lit-html/directives/until';
-import { html } from 'lit-html';
-import { skeleton } from '../styles';
+import { skeleton } from '../styles/skeleton';
 import { getCssVar } from '../lib/style';
-
-const EXCLUDED_SHAPES = ['thirdparty:google', 'thirdparty:graviteeio_am'];
 
 /**
  * An icon
@@ -42,6 +39,10 @@ export class GvIcon extends LitElement {
     };
   }
 
+  static get excludedShapes () {
+    return ['thirdparty:google', 'thirdparty:graviteeio_am'];
+  }
+
   static get styles () {
     return [
       skeleton,
@@ -58,7 +59,7 @@ export class GvIcon extends LitElement {
   async _getIcon () {
     let icon = await GvIcons._getIcon(this.shape);
     if (icon) {
-      if (!EXCLUDED_SHAPES.includes(this.shape)) {
+      if (!GvIcon.excludedShapes.includes(this.shape)) {
         const color = getCssVar(this, 'gv-icon--c', '#262626');
         if (color) {
           icon = icon.replace(/fill="[#a-zA-Z0-9]*"/g, `fill="${color}"`);

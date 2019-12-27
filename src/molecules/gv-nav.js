@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, css } from 'lit-element';
-import { html } from 'lit-html';
+import { LitElement, html, css } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-link';
 import { until } from 'lit-html/directives/until';
@@ -44,18 +43,18 @@ export class GvNav extends LitElement {
     return [
       // language=CSS
       css`
-          nav {
-              position: relative;
-          }
+        nav {
+          position: relative;
+        }
 
-          #shadowLink {
-              position: absolute;
-              display: inline-flex;
-              opacity: 0.5;
-              top: 0;
-              left: 0;
-              transition: transform 250ms ease-in, width 250ms;
-          }
+        #shadowLink {
+          position: absolute;
+          display: inline-flex;
+          opacity: 0.5;
+          top: 0;
+          left: 0;
+          transition: transform 250ms ease-in, width 250ms;
+        }
       `];
   }
 
@@ -126,8 +125,8 @@ export class GvNav extends LitElement {
   _getLink (route, index) {
     return Promise.resolve(route).then((_route) => {
       return html`
-            <gv-link 
-            @gv-link:click=${this._onClick} 
+            <gv-link
+            @gv-link:click=${this._onClick}
             .active="${_route.active}"
             .icon="${_route.icon}"
             .path="${_route.path}"

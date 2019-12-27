@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { css, html, LitElement } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
-import { link } from '../styles';
+import { link } from '../styles/link';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
 
@@ -28,6 +27,7 @@ import { i18n } from '../lib/i18n';
  *
  * @attr {Number} current - The current selected step
  * @attr {Array} steps - Array of step {title: string, description: string, validate: boolean}
+ * @attr {Boolean} [disabled=false] - Indicate if stepper is disabled
  *
  * @cssprop {String} [--gv-stepper-validate--bgc=#009B5B] - set validate background color.
  * @cssprop {String} [--gv-stepper-passed--bdc=#D5FDCB] - set passed border color.
@@ -42,6 +42,7 @@ export class GvStepper extends LitElement {
     return {
       current: { type: Number, reflect: true },
       steps: { type: Array },
+      disabled: { type: Boolean },
       _error: { type: Boolean },
     };
   }
@@ -51,132 +52,137 @@ export class GvStepper extends LitElement {
       link,
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              --passed--bgc: var(--gv-stepper-validate--bgc, #009B5B);
-              --passed--bdc: var(--gv-stepper-passed--bdc, #D5FDCB);
-              --bdc: var(--gv-stepper--bdc, #BFBFBF);
-              --bgc: var(--gv-stepper--bgc, #BFBFBF);
-              --passed--c: var(--gv-stepper-passed--c, #595959);
-              --c: var(--gv-stepper--c, #BFBFBF);
-          }
+        :host {
+          box-sizing: border-box;
+          --passed--bgc: var(--gv-stepper-validate--bgc, #009B5B);
+          --passed--bdc: var(--gv-stepper-passed--bdc, #D5FDCB);
+          --bdc: var(--gv-stepper--bdc, #BFBFBF);
+          --bgc: var(--gv-stepper--bgc, #BFBFBF);
+          --passed--c: var(--gv-stepper-passed--c, #595959);
+          --c: var(--gv-stepper--c, #BFBFBF);
+        }
 
-          .stepper {
-              display: flex;
-          }
+        .stepper {
+          display: flex;
+          justify-content: center;
+        }
 
-          .step {
-              display: flex;
-              flex-direction: column;
-              cursor: pointer;
-          }
+        .disabled .step {
+          cursor: not-allowed;
+        }
 
-          .graph {
-              display: flex;
-              flex-direction: row;
-              min-height: 22px;
-              min-width: 250px;
-          }
+        .step {
+          display: flex;
+          flex-direction: column;
+          cursor: pointer;
+        }
 
-          .round {
-              min-width: 6px;
-              width: 6px;
-              min-height: 6px;
-              height: 6px;
-              border-radius: 50%;
-              margin: 2px 7px 2px 7px;
-          }
+        .graph {
+          display: flex;
+          flex-direction: row;
+          min-height: 22px;
+          min-width: 250px;
+        }
 
-          .border {
-              margin-top: 4px;
-              min-width: 100px;
-              width: 100%;
-              height: 2px;
-              clear: both;
-          }
+        .round {
+          min-width: 6px;
+          width: 6px;
+          min-height: 6px;
+          height: 6px;
+          border-radius: 50%;
+          margin: 2px 7px 2px 7px;
+        }
 
-          .round {
-              background-color: var(--bgc);
-              transition: all 0.2s ease-in;
-          }
+        .border {
+          margin-top: 4px;
+          min-width: 100px;
+          width: 100%;
+          height: 2px;
+          clear: both;
+        }
 
-          .border {
-              background-color: var(--bdc);
-              margin-bottom: 5px;
-              transition: all 0.2s ease-in;
-          }
+        .round {
+          background-color: var(--bgc);
+          transition: all 0.2s ease-in;
+        }
 
-          .passed .round {
-              background-color: var(--passed--bgc);
-          }
+        .border {
+          background-color: var(--bdc);
+          margin-bottom: 5px;
+          transition: all 0.2s ease-in;
+        }
 
-          .passed .border {
-              background-color: var(--passed--bdc);
-          }
+        .passed .round {
+          background-color: var(--passed--bgc);
+        }
 
-          .passed .round {
-              height: 10px;
-              width: 10px;
-              min-height: 10px;
-              min-width: 10px;
-              margin: 0 5px 0 5px;
-          }
+        .passed .border {
+          background-color: var(--passed--bdc);
+        }
 
-          .first .border:first-of-type {
-              visibility: hidden;
-          }
+        .passed .round {
+          height: 10px;
+          width: 10px;
+          min-height: 10px;
+          min-width: 10px;
+          margin: 0 5px 0 5px;
+        }
 
-          .end .border:last-of-type {
-              visibility: hidden;
-          }
+        .first .border:first-of-type {
+          visibility: hidden;
+        }
 
-          .content {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
+        .end .border:last-of-type {
+          visibility: hidden;
+        }
 
-              padding: 5px;
-              line-height: 24px;
-              font-size: 16px;
-              color: var(--c);
-          }
+        .content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
 
-          .passed .content {
-              color: var(--passed--c);
-          }
+          padding: 5px;
+          line-height: 24px;
+          font-size: 16px;
+          color: var(--c);
+        }
 
-          .title {
-              font-weight: bold;
-          }
+        .passed .content {
+          color: var(--passed--c);
+        }
 
-          .description {
-              font-size: 14px;
-          }
+        .title {
+          font-weight: bold;
+        }
 
-          .error {
-              text-align: center;
-          }
+        .description {
+          font-size: 14px;
+        }
 
-          .circle {
-              border: 1px solid var(--passed--bgc);
-              margin-top: -12px;
-              border-radius: 50%;
-              animation: validate 0.2s ease-in;
-          }
+        .error {
+          text-align: center;
+        }
 
-          gv-icon {
-              --gv-icon--c: var(--passed--bgc);
-              --gv-icon--s: 32px;
-          }
+        .circle {
+          border: 1px solid var(--passed--bgc);
+          margin-top: -12px;
+          border-radius: 50%;
+          animation: validate 0.2s ease-in;
+        }
 
-          @keyframes validate {
-              from {
-                  opacity: 0;
-              }
-              to {
-                  opacity: 1;
-              }
+        gv-icon {
+          --gv-icon--c: var(--passed--bgc);
+          --gv-icon--s: 32px;
+        }
+
+        @keyframes validate {
+          from {
+            opacity: 0;
           }
+          to {
+            opacity: 1;
+          }
+        }
       `,
     ];
   }
@@ -190,8 +196,10 @@ export class GvStepper extends LitElement {
   }
 
   _onClick (index) {
-    this.current = index + 1;
-    dispatchCustomEvent(this, 'change', { current: this.current });
+    if (this.disabled !== true) {
+      this.current = index + 1;
+      dispatchCustomEvent(this, 'change', { current: this.current });
+    }
   }
 
   async performUpdate () {
@@ -226,14 +234,19 @@ export class GvStepper extends LitElement {
       first: index === 0,
       end: index === this._steps.length - 1,
     };
+
+    const contentClasses = {
+      content: true,
+      link: !this.disabled,
+    };
     return html`
-      <div class="${classMap(classes)}" @click="${this._onClick.bind(this, index)}">
-        <div class="graph"> 
+      <div class="${classMap(classes)}" @click="${this._onClick.bind(this, index)}" title="${step.title}">
+        <div class="graph">
              <div class="border"></div>
              ${this._getIcon(step)}
              <div class="border"></div>
         </div>
-        <div class="content link">
+        <div class="${classMap(contentClasses)}">
              <div class="title">${step.title}</div>
              <div class="description">${step.description}</div>
         </div>
@@ -248,7 +261,8 @@ export class GvStepper extends LitElement {
     if (this._empty) {
       return html`<div></div>`;
     }
-    return html`<div class="stepper">
+    const classes = { stepper: true, disabled: this.disabled };
+    return html`<div class="${classMap(classes)}">
       ${repeat(this._steps, (step) => step, (step, index) =>
       this._getStep(step, index)
     )}

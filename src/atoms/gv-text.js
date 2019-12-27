@@ -15,9 +15,8 @@
  */
 import { classMap } from 'lit-html/directives/class-map';
 import { ifDefined } from 'lit-html/directives/if-defined';
-
-import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
+import { LitElement, css, html } from 'lit-element';
+import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
@@ -51,6 +50,8 @@ export class GvText extends LitElement {
       placeholder: { type: String },
       rows: { type: Number },
       autofocus: { type: Boolean },
+      minlength: { type: Number },
+      maxlength: { type: Number },
     };
   }
 
@@ -59,6 +60,12 @@ export class GvText extends LitElement {
       skeleton,
       // language=CSS
       css`
+
+          :host {
+            box-sizing: border-box;
+            margin: 0.2rem;
+            display: block;
+          }
           div {
               position: relative;
               line-height: 0;
@@ -82,10 +89,14 @@ export class GvText extends LitElement {
               opacity: .5;
           }
 
+          textarea:required {
+            box-shadow: none;
+          }
+
           label {
               display: block;
               line-height: 15px;
-              padding: 0.2rem 0;
+              padding: 0.2rem 0.4rem;
           }
 
           label.required {
@@ -143,12 +154,14 @@ export class GvText extends LitElement {
 
     return html`
       <div>
-        <label>${this._renderLabel()}</label>
+        ${this._renderLabel()}
         <textarea class="${classMap(classes)}"
             id=${this._id}
             .name=${ifDefined(this.name)}
             .title=${ifDefined(this.title || this.label)}
             .required=${this.required}
+            maxlength="${this.maxlength}"
+            minlength="${this.minlength}"
             aria-required=${!!this.required}
             ?disabled=${this.disabled || this.skeleton}
             .placeholder=${ifDefined(this.placeholder)}

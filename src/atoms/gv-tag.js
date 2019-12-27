@@ -15,8 +15,8 @@
  */
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles';
-import '../atoms/gv-icon';
+import { skeleton } from '../styles/skeleton';
+import './gv-icon';
 
 /**
  * A Tag

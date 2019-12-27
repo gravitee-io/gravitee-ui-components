@@ -7,12 +7,16 @@
     "empty": "No information to display",
     "error": "An error has occurred"
   },
+  "gv-code": {
+    "copy": "Copy to clipboard"
+  },
   "gv-header-api": {
     "empty": "No API to display here",
     "error": "An error occurred while loading the API",
     "subscribe": "subscribe"
   },
   "gv-info-api": {
+    "about": "About",
     "categories": "Categories",
     "error": "An error occurred while loading API information",
     "labels": "Labels",
@@ -21,8 +25,21 @@
     "ratings": "Ratings",
     "resources": "Resources"
   },
+  "gv-input": {
+    "copy": "Copy to clipboard",
+    "search": "Search"
+  },
   "gv-list": {
-    "error": "An error occurred while loading list"
+    "accepted": "Running",
+    "acceptedSubscription": "accepted subscription",
+    "acceptedSubscriptions": "accepted subscriptions",
+    "error": "An error occurred while loading list",
+    "paused": "Paused",
+    "pausedSubscription": "paused subscription",
+    "pausedSubscriptions": "paused subscriptions",
+    "pending": "Pending",
+    "pendingSubscription": "pending subscription",
+    "pendingSubscriptions": "pending subscriptions"
   },
   "gv-metrics": {
     "health": "Health",
@@ -32,6 +49,18 @@
   "gv-pagination": {
     "next": "Next",
     "previous": "Previous"
+  },
+  "gv-plans": {
+    "security": {
+      "apiKey": "API Key",
+      "jwt":  "Json Web Token",
+      "keyLess": "Without key",
+      "oauth2": "Oauth 2"
+    },
+    "validation": {
+      "auto": "Automatic validation",
+      "manual": "Manual validation"
+    }
   },
   "gv-promote-api": {
     "empty": "No information to display",

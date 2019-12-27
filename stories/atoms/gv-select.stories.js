@@ -41,43 +41,43 @@ storiesOf('1. Atoms|<gv-select>', module)
       <gv-select></gv-select>
       <gv-select small></gv-select>
       <gv-select large></gv-select>
-      
+
       <div class="title">Default with label</div>
-      <gv-select 
-        label="Associer une application" 
+      <gv-select
+        label="Associer une application"
         placeholder="Trouver une application"></gv-select>
-        <gv-select 
-        label="Associer une application" 
+        <gv-select
+        label="Associer une application"
         placeholder="Trouver une application" small></gv-select>
-        <gv-select 
-        label="Associer une application" 
+        <gv-select
+        label="Associer une application"
         placeholder="Trouver une application" large>
       </gv-select>
-      
+
       <div class="title">Required with label</div>
-      <gv-select 
-        label="Associer une application" 
+      <gv-select
+        label="Associer une application"
         placeholder="Trouver une application"
         required>
       </gv-select>
-      
+
       <div class="title">Disabled with label</div>
-      <gv-select 
-        label="Associer une application" 
+      <gv-select
+        label="Associer une application"
         placeholder="Trouver une application"
         disabled>
       </gv-select>
-      
+
       <div class="title">Sekeleton with label</div>
-      <gv-select 
-        label="Associer une application" 
+      <gv-select
+        label="Associer une application"
         placeholder="Trouver une application"
         skeleton>
       </gv-select>
-      
+
       <div class="title">Hundred values</div>
-      <gv-select 
-        label="Associer une application" 
+      <gv-select
+        label="Associer une application"
         placeholder="Trouver une application">
       </gv-select>
     `;
@@ -108,14 +108,14 @@ storiesOf('1. Atoms|<gv-select>', module)
     const container = document.createElement('div');
     container.innerHTML = `<div class="title">Column with a fixed width </div>
     <div style ="display: flex; flex-direction: column; max-width: 30rem;">
-       <gv-select 
-        label="Associer une application" 
+       <gv-select
+        label="Associer une application"
         placeholder="Trouver une application"></gv-select>
     </div>`;
 
     container.querySelector('gv-select').options = [
       { label: 'Iam aliis imaginarius nec praestituto quid exsertantis defensi agenda aulaeum.', value: '1' },
-      { label: 'Application 2', value: '2' },
+      { label: 'Application 2', value: '2', disabled: true },
       { label: 'Application 3', value: '3' },
     ];
 
