@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit-element';
-import { dispatchCustomEvent } from '../lib/events';
+import { dispatchCustomEvent } from '../lib/events.js';
 import '../atoms/gv-button';
 import '../atoms/gv-select';
-import { i18n } from '../lib/i18n.js';
+import { i18n } from '../lib/i18n';
 
 /**
  * A pagination

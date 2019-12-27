@@ -16,7 +16,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { truncate } from '../lib/utils';
 import { classMap } from 'lit-html/directives/class-map';
-import { skeleton } from '../styles';
+import { skeleton } from '../styles/skeleton';
 
 /**
  * A card used to display a category

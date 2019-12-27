@@ -17,10 +17,11 @@ import { classMap } from 'lit-html/directives/class-map';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
-import { input } from '../styles/input.js';
+import { skeleton } from '../styles/skeleton';
+import { input } from '../styles/input';
 import { repeat } from 'lit-html/directives/repeat';
 import { styleMap } from 'lit-html/directives/style-map';
+import './gv-icon';
 
 /**
  *
@@ -69,94 +70,105 @@ export class GvSelect extends LitElement {
       input,
       // language=CSS
       css`
-          :host {
-              --bdc: var(--gv-select--bdc, lightgrey);
-              --c: var(--gv-select--c, #262626);
-              --bgc: var(--gv-select--bgc, #FFF);
-              --hover-bgc: var(--gv-select-hover--bgc, #D5FDCB);
-              --selected-bgc: var(--gv-select-selected--bgc, #FAFAFA);
-          }
+        :host {
+          --bdc: var(--gv-select--bdc, lightgrey);
+          --c: var(--gv-select--c, #262626);
+          --bgc: var(--gv-select--bgc, #FFF);
+          --hover-bgc: var(--gv-select-hover--bgc, #D5FDCB);
+          --selected-bgc: var(--gv-select-selected--bgc, #FAFAFA);
+        }
 
-          div, input {
-              user-select: none;
-              cursor: pointer;
-              text-transform: capitalize;
-          }
+        div, input {
+          user-select: none;
+          cursor: pointer;
+          text-transform: capitalize;
+        }
 
-          gv-icon {
-              transform: rotate(180deg);
-              --gv-icon--s: 19px;
-          }
+        input:read-only:hover {
+          cursor: pointer;
+        }
 
-          gv-icon.medium {
-              --gv-icon--s: 14px;
-          }
+        gv-icon {
+          transform: rotate(180deg);
+          --gv-icon--s: 19px;
+        }
 
-          gv-icon.small {
-              --gv-icon--s: 11px;
-          }
+        gv-icon.medium {
+          --gv-icon--s: 14px;
+        }
 
-          .closed .select__list {
-              display: none;
-              opacity: 0;
-              transform: translateY(-2em);
-              z-index: -1;
-          }
+        gv-icon.small {
+          --gv-icon--s: 11px;
+        }
 
-          .select__list {
-              list-style: none;
-              position: absolute;
-              background-color: var(--bgc);
-              list-style: none;
-              padding: 0;
-              transition: all 0.3s ease 0s;
-              margin: 0;
-              width: 100%;
-              cursor: pointer;
-              z-index: 100;
-              box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-              border-radius: 4px;
-              max-height: 340px;
-              overflow: auto;
-          }
+        .closed .select__list {
+          display: none;
+          opacity: 0;
+          transform: translateY(-2em);
+          z-index: -1;
+        }
 
-          .select__list .selected {
-              background-color: var(--selected-bgc);
-          }
+        .select__list {
+          list-style: none;
+          position: absolute;
+          background-color: var(--bgc);
+          list-style: none;
+          padding: 0;
+          transition: all 0.3s ease 0s;
+          margin: 0;
+          width: 100%;
+          cursor: pointer;
+          z-index: 100;
+          box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+          border-radius: 4px;
+          max-height: 340px;
+          overflow: auto;
+        }
 
-          .select__list__item {
-              border-left: 1px solid var(--bdc);
-              display: flex;
-              align-items: center;
-              transition: all 0.5s ease;
+        .select__list .selected {
+          background-color: var(--selected-bgc);
+        }
 
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              overflow: hidden;
-          }
+        .select__list__item {
+          border-left: 1px solid var(--bdc);
+          display: flex;
+          align-items: center;
+          transition: all 0.5s ease;
 
-          .large .select__list__item {
-              padding: var(--input-large--p);
-              font-size: var(--input-large--fz);
-              height: var(--input-large--h);
-          }
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
 
-          .medium .select__list__item {
-              padding: var(--input-medium--p);
-              font-size: var(--input-medium--fz);
-              height: var(--input-medium--h);
-          }
+        .select__list__item.disabled {
+          opacity: .5;
+        }
+        .select__list__item.disabled:hover {
+          cursor: not-allowed;
+        }
 
-          .small .select__list__item {
-              padding: var(--input-small--p);
-              font-size: var(--input-small--fz);
-              height: var(--input-small--h);
-          }
+        .large .select__list__item {
+          padding: var(--input-large--p);
+          font-size: var(--input-large--fz);
+          height: var(--input-large--h);
+        }
 
-          .select__list__item:hover {
-              background-color: var(--hover-bgc);
-              border-left: 1px dotted var(--bdc);
-          }
+        .medium .select__list__item {
+          padding: var(--input-medium--p);
+          font-size: var(--input-medium--fz);
+          height: var(--input-medium--h);
+        }
+
+        .small .select__list__item {
+          padding: var(--input-small--p);
+          font-size: var(--input-small--fz);
+          height: var(--input-small--h);
+        }
+
+        .select__list__item:hover {
+          background-color: var(--hover-bgc);
+          border-left: 1px dotted var(--bdc);
+        }
       `,
     ];
   }
@@ -166,7 +178,7 @@ export class GvSelect extends LitElement {
     this._id = 'gv-id';
     this._type = 'text';
     this._isClosed = true;
-    this._options = [{ label: '', value: '' }];
+    this._options = [{ label: '', value: '', disabled: false, title: null }];
 
     window.addEventListener('click', (e) => {
       this._isClosed = true;
@@ -184,11 +196,13 @@ export class GvSelect extends LitElement {
     }
   }
 
-  _onSelect (e) {
+  _onSelect (option, e) {
     e.stopPropagation();
-    this.value = e.target.dataset.value;
-    this._isClosed = !this._isClosed;
-    this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+    if (option.disabled !== true) {
+      this.value = e.target.dataset.value;
+      this._isClosed = !this._isClosed;
+      this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+    }
   }
 
   _renderRequired () {
@@ -278,8 +292,12 @@ export class GvSelect extends LitElement {
           ${this._renderIcon()}
         <ul class="${classMap(Object.assign({ select__list: true }, inputClasses))}">
           ${this._options && repeat(this._options, (option) => option, (option) => html`
-            <li class="${classMap({ select__list__item: true, selected: this.value === option.value })}"
-            @click=${this._onSelect} data-value="${option.value}">${option.label}</li>
+            <li class="${classMap({
+      select__list__item: true,
+      selected: this.value === option.value,
+      disabled: option.disabled,
+    })}"
+            @click=${this._onSelect.bind(this, option)} data-value="${option.value}" .title="${ifDefined(option.title)}">${option.label}</li>
           `)}
         </ul>
       </div>

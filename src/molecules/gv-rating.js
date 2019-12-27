@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import { css, LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { css, LitElement, html } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-icon';
-import { skeleton } from '../styles';
+import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
 
@@ -31,8 +30,8 @@ const MAX_RATE = 5;
  * @attr {String} count - total count for the average
  * @attr {Boolean} skeleton - skeleton mode
  *
- * @cssprop {String} [--gv-rating--c=#262626] - set the icon color.
- * @cssprop {String} [--gv-rating--s=13px] - set the icon size.
+ * @cssprop {Color} [--gv-rating--c=#009B5B] - set the icon color.
+ * @cssprop {Length} [--gv-rating--s=13px] - set the icon size.
  */
 export class GvRating extends LitElement {
 
@@ -51,7 +50,7 @@ export class GvRating extends LitElement {
       // language=CSS
       css`
           :host {
-              --gv-icon--c: var(--gv-rating--c, #262626);
+              --gv-icon--c: var(--gv-rating--c, #009B5B);
               --gv-icon--s: var(--gv-rating--s, 13px);
               font-size: 14px;
               cursor: pointer;
@@ -63,7 +62,7 @@ export class GvRating extends LitElement {
               display: inline-flex;
               align-items: center;
           }
-          
+
           .info-title{
               font-size: 14px;
               line-height: 16px;
@@ -129,7 +128,7 @@ export class GvRating extends LitElement {
       <div class="icon" title="${this._getTitle()}">
         ${repeat(stars, (star) => star, (star) => html`
           <gv-icon shape="general:${star}"></gv-icon>
-          
+
         `)}
       </div>
       <div>

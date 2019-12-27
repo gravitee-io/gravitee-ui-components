@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css } from 'lit-element';
-import { html } from 'lit-html';
-import { skeleton } from '../styles';
+import { css, LitElement, html } from 'lit-element';
+import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
-import { ApiElement } from '../mixins/api-element';
-import { i18n } from '../lib/i18n.js';
+import { i18n } from '../lib/i18n';
+import { ApiResource } from '../mixins/api-resource';
 
 /**
  * Api Card component
@@ -29,7 +28,7 @@ import { i18n } from '../lib/i18n.js';
  *
  * @cssprop {String} [--gv-card-api--bgc=white] - set the background color.
  */
-export class GvCardApi extends ApiElement {
+export class GvCardApi extends ApiResource(LitElement) {
 
   static get styles () {
     return [
@@ -66,7 +65,7 @@ export class GvCardApi extends ApiElement {
               box-shadow: 0 10px 20px -10px rgba(0,0,0,0.25);
               cursor: pointer;
           }
-          
+
           .content > div {
               display: flex;
               justify-content: center;

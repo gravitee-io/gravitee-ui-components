@@ -77,7 +77,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
               flex: auto;
               padding-left: 0;
           }
-          
+
           :host([w-lt-580]) gv-nav {
               flex: auto;
           }
@@ -85,7 +85,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
           :host([w-lt-580]) .right {
               flex: auto;
           }
-          
+
           :host([w-lt-380]) .nav-container {
             display: flex;
             flex-direction: column-reverse;
@@ -206,7 +206,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
             <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
             <div class="right"><slot name="right"></slot></div>
         </div>
-      </div>    
+      </div>
     `;
   }
 

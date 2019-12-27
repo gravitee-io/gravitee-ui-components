@@ -114,4 +114,9 @@ storiesOf('1. Atoms|<gv-input>', module)
     return `<div class="title">Focus</div>
       <gv-input autofocus></gv-input>
 `;
+  }))
+  .add('Clipboard', withActions(() => {
+    return `<div class="title">Clipboard</div>
+      <gv-input type="clipboard" value="Ola amigo"></gv-input>
+`;
   }));

@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css } from 'lit-element';
-import { html } from 'lit-html';
-import { skeleton } from '../styles';
+import { css, html, LitElement } from 'lit-element';
+import { skeleton } from '../styles/skeleton';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
-import { ApiElement } from '../mixins/api-element';
-import { i18n } from '../lib/i18n.js';
+import '../atoms/gv-tag';
+import { i18n } from '../lib/i18n';
 import { isSameRoutes } from '../lib/utils';
 import { repeat } from 'lit-html/directives/repeat';
 import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
+import { ApiResource } from '../mixins/api-resource';
 
 /**
  * Api Header component
@@ -39,7 +39,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @cssprop {String} [--gv-header-api--pr=4rem] - set the padding right
  * @cssprop {String} [--gv-header-api--c=#262626] - set the color
  */
-export class GvHeaderApi extends withResizeObserver(ApiElement) {
+export class GvHeaderApi extends withResizeObserver(ApiResource(LitElement)) {
 
   static get properties () {
     return {
@@ -54,139 +54,137 @@ export class GvHeaderApi extends withResizeObserver(ApiElement) {
       skeleton,
       // language=CSS
       css`
-          :host {
-              --gv-image--w: 125px;
-              --gv-image--h: 125px;
-              --gv-button--fz: 16px;
-              --gv-button--p: 10px 24px;
-              --gv-link--bgc: transparent;
-              --gv-link-active-bgc: transparent;
-              --c: var(--gv-header-api--c, #262626);
-              --gv-link--c: var(--c);
-              --gv-link-active--c: var(--c);
-              --gv-link-a--ph: 5px;
-              --gv-link--td: underline;
-              --bg: var(--gv-header-api--bgc, #D5FDCB);
-              box-sizing: border-box;
-              display: block;
-          }
+        :host {
+          --gv-image--w: 125px;
+          --gv-image--h: 125px;
+          --gv-button--fz: 16px;
+          --gv-button--p: 10px 24px;
+          --gv-link--bgc: transparent;
+          --gv-link-active-bgc: transparent;
+          --c: var(--gv-header-api--c, #262626);
+          --gv-link--c: var(--c);
+          --gv-link-active--c: var(--c);
+          --gv-link-a--ph: 5px;
+          --gv-link--td: underline;
+          --bgc: var(--gv-header-api--bgc, #D5FDCB);
+          box-sizing: border-box;
+          display: block;
+        }
 
-          :host([w-lt-768]) {
-              --gv-image--w: 64px;
-              --gv-image--h: 64px;
-              --gv-button--fz: 12px;
-          }
+        :host([w-lt-768]) {
+          --gv-image--w: 64px;
+          --gv-image--h: 64px;
+          --gv-button--fz: 12px;
+        }
 
-          :host([w-lt-768]) .header__top nav {
-              margin-top: 0;
-          }
+        :host([w-lt-768]) .header__top nav {
+          margin-top: 0;
+        }
 
-          :host([w-lt-580]) {
-              --gv-button--p: 3px 9px;
-              --gv-link-a--ph: 0px;
-          }
+        :host([w-lt-580]) {
+          --gv-button--p: 3px 9px;
+          --gv-link-a--ph: 0px;
+        }
 
-          :host([w-lt-580]) .header__top {
-              min-height: 0;
-          }
+        :host([w-lt-580]) .header__top {
+          min-height: 0;
+        }
 
-          :host([w-lt-580]) .actions {
-              display: flex;
-              flex-direction: column;
-          }
+        :host([w-lt-580]) .actions {
+          display: flex;
+          flex-direction: column;
+        }
 
-          :host([w-lt-580]) .version {
-              font-size: 11px;
-              line-height: 13px;
-          }
+        :host([w-lt-580]) .version {
+          font-size: 11px;
+          line-height: 13px;
+        }
 
-          :host([w-lt-580]) .image gv-image {
-              top: -5px;
-          }
+        :host([w-lt-580]) .image gv-image {
+          top: -5px;
+        }
 
-          :host([w-lt-580]) h1 {
-              font-size: 18px;
-              line-height: 21px;
-          }
+        :host([w-lt-580]) h1 {
+          font-size: 18px;
+          line-height: 21px;
+        }
 
-          .header {
-              display: flex;
-              max-height: 175px;
-              background-color: var(--bg);
-              flex-direction: column;
-              padding-left: var(--gv-header-api--pl, 4rem);
-              padding-right: var(--gv-header-api--pr, 4rem);
-              color: var(--c)
-          }
+        .header {
+          display: flex;
+          height: 150px;
+          background-color: var(--bgc);
+          flex-direction: column;
+          padding-left: var(--gv-header-api--pl, 4rem);
+          padding-right: var(--gv-header-api--pr, 4rem);
+          color: var(--c);
+          transition: height 1s ease;
+        }
 
-          .header__top {
-              min-height: 100px;
-          }
+        .header__top {
+          min-height: 80px;
+          display: flex;
+        }
 
-          .header__top nav {
-              margin-top: 10px;
-          }
+        .header__top nav {
+          margin-top: 10px;
+          flex: 1;
+        }
 
-          .header__bottom {
-              display: flex;
-          }
+        .header__bottom {
+          display: flex;
+        }
 
-          .title {
-              flex: 1;
-              margin-left: 1rem;
-          }
+        .title {
+          flex: 1;
+          margin-left: 1rem;
+        }
 
-          .image {
-              position: relative;
-          }
+        .image {
+          position: relative;
+        }
 
-          gv-link:last-child {
-              --gv-link--td: none;
-          }
+        gv-link:last-child {
+          --gv-link--td: none;
+        }
 
-          gv-link::after {
-              content: '>';
-              color: #000000;
-              align-self: center;
-          }
+        gv-link::after {
+          content: '>';
+          color: #000000;
+          align-self: center;
+        }
 
-          gv-link:last-child::after {
-              content: '';
-          }
+        gv-link:last-child::after {
+          content: '';
+        }
 
-          .image gv-image {
-              top: -15px;
-          }
+        .image gv-image {
+          top: -15px;
+        }
 
-          .error {
-              text-align: center;
-              margin-right: 125px;
-          }
+        .error {
+          text-align: center;
+          margin-right: 125px;
+        }
 
-          .version {
-              letter-spacing: 0.05em;
-              opacity: 0.5;
-              font-size: 16px;
-              line-height: 21px;
-              font-weight: 500;
-          }
+        .version {
+          letter-spacing: 0.05em;
+          opacity: 0.5;
+          font-size: 16px;
+          line-height: 21px;
+          font-weight: 500;
+        }
 
-          h1 {
-              margin: 0;
-              font-size: 26px;
-              font-weight: 500;
-              line-height: 34px;
-              letter-spacing: 0.05em;
-          }
+        h1 {
+          margin: 0;
+          font-size: 26px;
+          font-weight: 500;
+          line-height: 34px;
+          letter-spacing: 0.05em;
+        }
 
-          .header.skeleton {
-              min-height: 200px;
-          }
-
-          .skeleton gv-button {
-              visibility: hidden;
-          }
-
+        .skeleton gv-button {
+          visibility: hidden;
+        }
       `,
     ];
   }

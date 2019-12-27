@@ -15,7 +15,7 @@
  */
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles';
+import { skeleton } from '../styles/skeleton';
 import './gv-icon';
 
 /**
@@ -24,9 +24,9 @@ import './gv-icon';
  * @attr {String} icon - name of shape
  * @attr {String} name - the name of the metric
  * @attr {String} value - the value of the metric
- * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
+ * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} [--gv-metric--c=#262626] - set the color.
+ * @cssprop {Color} [--gv-metric--c=#009B5B] - set the icon color.
  */
 export class GvMetric extends LitElement {
 
@@ -46,8 +46,7 @@ export class GvMetric extends LitElement {
       css`
           .metric {
               --gv-icon--s: 24px;
-              --gv-icon--c: var(--gv-metric--c, #262626);
-              color: var(--gv-metric--c, #262626);
+              --gv-icon--c: var(--gv-metric--c, #009B5B);
               display: inline-flex;
               min-width: 75px;
           }
@@ -60,7 +59,7 @@ export class GvMetric extends LitElement {
           div {
               display: block;
           }
-          
+
           .metric-value {
               font-size: 14px;
               line-height: 16px;

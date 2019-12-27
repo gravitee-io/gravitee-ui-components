@@ -15,7 +15,7 @@
  */
 import { classMap } from 'lit-html/directives/class-map.js';
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles';
+import { skeleton } from '../styles/skeleton';
 import '../atoms/gv-icon';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
@@ -33,6 +33,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @slot - The content of the button (text or HTML)
  *
  * @attr {Boolean} primary - set button UI mode to primary
+ * @attr {Boolean} secondary - set button UI mode to secondary
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
@@ -41,12 +42,15 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @attr {String} title - title of btn
  * @attr {Boolean} loading - true to display a loading icon
  *
- * @cssprop {String} [--gv-button--bgc=#193E34] - set the background color of button.
- * @cssprop {String} [--gv-button-primary--bgc=#009B5B] - set the background color of primary button.
+ * @cssprop {Color} [--gv-button--bgc=#193E34] - set the background color of button.
+ * @cssprop {Color} [--gv-button--c=#FFFFFF] - set the color of button.
+ * @cssprop {Color} [--gv-button-primary--c=#FFFFFF] - set the color of primary button.
+ * @cssprop {Color} [--gv-button-primary--bgc=#009B5B] - set the background color of primary button.
+ * @cssprop {Color} [--gv-button-secondary--bgc=#EEEEEE] - set the background color of secondary button.
+ * @cssprop {Color} [--gv-button-secondary--c=#555555] - set the color of secondary button.
  * @cssprop {String} [--gv-button--p=0rem 0.5rem] - set the padding.
  * @cssprop {String} [--gv-button--fz=14px] - set the font-size
  * @cssprop {String} [--gv-button--bdrs=0.15rem] - set the border radius
- * @cssprop {String} [--gv-button-icon--c=#BFBFBF] - set the color of icon
  */
 export class GvButton extends LitElement {
 
@@ -54,12 +58,13 @@ export class GvButton extends LitElement {
     return {
       disabled: { type: Boolean },
       primary: { type: Boolean },
+      secondary: { type: Boolean },
       outlined: { type: Boolean },
       skeleton: { type: Boolean },
       icon: { type: String },
       iconRight: { type: String, attribute: 'icon-right' },
       loading: { type: Boolean },
-      title: { type: String },
+      title: { type: String, reflect: true },
     };
   }
 
@@ -68,141 +73,151 @@ export class GvButton extends LitElement {
       skeleton,
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              margin: 0.2rem;
-              vertical-align: middle;
-              --gv-icon--s: 24px;
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-block;
+          margin: 0.2rem;
+          vertical-align: middle;
+          --gv-icon--s: 24px;
+        }
 
-          /* RESET */
-          button {
-              background: #fff;
-              border: 1px solid #000;
-              display: block;
-              font-size: var(--gv-button--fz, 14px);
-              font-family: inherit;
-              margin: 0;
-              padding: 0;
-          }
+        /* RESET */
+        button {
+          background: #fff;
+          border: 1px solid #000;
+          display: block;
+          font-size: var(--gv-button--fz, 14px);
+          margin: 0;
+          padding: 0;
+        }
 
-          /* BASE */
-          button {
-              border-radius: var(--gv-button--bdrs, 0.15rem);
-              cursor: pointer;
-              min-height: 26px;
-              padding: var(--gv-button--p, 0rem 0.5rem);
-              text-transform: uppercase;
-              user-select: none;
-              width: 100%;
-          }
+        /* BASE */
+        button {
+          border-radius: var(--gv-button--bdrs, 0.15rem);
+          cursor: pointer;
+          min-height: 26px;
+          padding: var(--gv-button--p, 0rem 0.5rem);
+          text-transform: uppercase;
+          user-select: none;
+          width: 100%;
+        }
 
-          /* COLORS */
-          button.default {
-              --c: var(--gv-button--bgc, #193E34);
-              --bgc: var(--gv-button--bgc, #193E34);
-              --gv-icon--c: var(--gv-button-icon--c, #BFBFBF)
-          }
+        /* COLORS */
+        button.default {
+          --c: var(--gv-button--c, #FFFFFF);
+          --bgc: var(--gv-button--bgc, #193E34);
+          --gv-icon--c: var(--gv-button--c, #FFFFFF)
+        }
 
-          button.primary {
-            --c: var(--gv-button-primary--bgc, #009B5B);
-            --bgc: var(--gv-button-primary--bgc, #009B5B);
-            --gv-icon--c: white;
-          }
+        button.primary {
+          --c: var(--gv-button-primary--c, #FFFFFF);
+          --bgc: var(--gv-button-primary--bgc, #009B5B);
+          --gv-icon--c: var(--gv-button-primary--c, #FFFFFF);
+        }
 
-          /* MODES */
-          button {
-              background-color: var(--bgc);
-              border-color: var(--c);
-              color: #fff;
-          }
+        button.secondary {
+          --c: var(--gv-button-secondary--c, #555555);
+          --bgc: var(--gv-button-secondary--bgc, #EEEEEE);
+          --gv-icon--c: var(--gv-button-secondary--c, #555555);
+        }
 
-          button.outlined {
-            background-color: #fff;
-            color: var(--c);
-            --gv-icon--c: var(--c);
-          }
+        /* MODES */
+        button {
+          background-color: var(--bgc);
+          border-color: var(--bgc);
+          color: var(--c);
+        }
+
+        button.outlined {
+          background-color: var(--c);
+          color: var(--bgc);
+          --gv-icon--c: var(--bgc);
+        }
+
+        button.secondary.outlined {
+          border-color: var(--c);
+        }
 
           /* special case: we want to keep simple buttons subtle */
-          button.simple {
-              border-color: #aaa;
-          }
+        button.simple {
+          border-color: #aaa;
+        }
 
-          /* STATES */
-          button:enabled:focus {
-              box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
-              outline: 0;
-          }
+        /* STATES */
+        button:enabled:focus {
+          box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
+          outline: 0;
+        }
 
-          button:enabled:hover {
-              box-shadow: 0 1px 3px #888;
-          }
+        button:enabled:hover {
+          box-shadow: 0 1px 3px #888;
+        }
 
-          button:enabled:active {
-              box-shadow: none;
-              outline: 0;
-          }
+        button:enabled:active {
+          box-shadow: none;
+          outline: 0;
+        }
 
-          button:disabled {
-              cursor: default;
-              opacity: .5;
-          }
+        button:disabled {
+          cursor: default;
+          opacity: .5;
+        }
 
-          button.skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
-          }
+        button.skeleton {
+          background-color: #aaa;
+          border-color: #777;
+          color: transparent;
+        }
 
-          button.skeleton > gv-icon {
-              opacity: 0;
-          }
+        button.skeleton > gv-icon {
+          opacity: 0;
+        }
 
-          /* TRANSITIONS */
-          button {
-              box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-              transition: all 75ms ease-in-out;
-          }
+        /* TRANSITIONS */
+        button {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+          transition: all 75ms ease-in-out;
+        }
 
-          /* We can do this because we set a visible focus state */
-          button::-moz-focus-inner {
-              border: 0;
-          }
+        /* We can do this because we set a visible focus state */
+        button::-moz-focus-inner {
+          border: 0;
+        }
 
-          button.icon > * {
-              vertical-align: middle;
-          }
+        button.icon > * {
+          vertical-align: middle;
+        }
 
-          button.icon {
-              display: flex;
-              align-items: center;
-          }
+        button.icon {
+          display: flex;
+          align-items: center;
+        }
 
-          button slot {
-              flex: 1;
-              white-space: nowrap;
-              display: inline;
-          }
+        button slot {
+          flex: 1;
+          white-space: nowrap;
+          display: inline;
+        }
 
-          gv-icon::before, gv-icon::after {
-            content: ' ';
-            width: 1px;
-          }
-          .loading gv-icon::before, .loading gv-icon::after {
-              width: 3px;
-          }
-          
-          .loading gv-icon {
-              animation: spinner 1.6s linear infinite;
-              --gv-icon--s: 20px;
-          }
+        gv-icon::before, gv-icon::after {
+          content: ' ';
+          width: 1px;
+        }
 
-          @keyframes spinner {
-              to {
-                  transform: rotate(360deg);
-              }
+        .loading gv-icon::before, .loading gv-icon::after {
+          width: 3px;
+        }
+
+        .loading gv-icon {
+          animation: spinner 1.6s linear infinite;
+          --gv-icon--s: 20px;
+        }
+
+        @keyframes spinner {
+          to {
+            transform: rotate(360deg);
           }
+        }
       `,
     ];
   }
@@ -225,8 +240,9 @@ export class GvButton extends LitElement {
   render () {
     const classes = {
       primary: this.primary,
+      secondary: !this.primary && this.secondary,
       skeleton: this.skeleton,
-      default: !this.primary,
+      default: !this.primary && !this.secondary,
       outlined: this.outlined,
       icon: !!this.icon || !!this.iconRight || this.loading,
       loading: this.loading,
@@ -246,22 +262,35 @@ export class GvButton extends LitElement {
 
   _getIconRight () {
     if (this.loading && !this.icon && this.iconRight) {
-      return html`<gv-icon shape="navigation:waiting"></gv-icon>`;
+      return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
     if (this.iconRight) {
-      return html`<gv-icon shape="${this.iconRight}"></gv-icon>`;
+      return html`<gv-icon shape="${this.iconRight}" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
     return '';
   }
 
   _getIconLeft () {
     if (this.loading && !this.iconRight) {
-      return html`<gv-icon shape="navigation:waiting"></gv-icon>`;
+      return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
     if (this.icon) {
-      return html`<gv-icon shape="${this.icon}"></gv-icon>`;
+      return html`<gv-icon shape="${this.icon}" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
     return '';
+  }
+
+  firstUpdated (changedProperties) {
+
+    if (this.title == null) {
+      const contents = [];
+      for (const node of this.childNodes) {
+        const content = node.textContent;
+        contents.push(content);
+      }
+      this.title = contents.join(' ');
+    }
+
   }
 }
 

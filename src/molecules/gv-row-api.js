@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css } from 'lit-element';
-import { html } from 'lit-html';
-import { skeleton } from '../styles';
+import { css, html, LitElement } from 'lit-element';
+import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
-import { ApiElement } from '../mixins/api-element';
-import { i18n } from '../lib/i18n.js';
+import { i18n } from '../lib/i18n';
+import { ApiResource } from '../mixins/api-resource';
 
 /**
  * Api Row component
@@ -28,7 +27,7 @@ import { i18n } from '../lib/i18n.js';
  * @cssprop {String} [--gv-row-api--bgc=white] - set the background color.
  * @cssprop {String} [--gv-row-api-hover--bgc=#FAFAFA] - set the background color when hover.
  */
-export class GvRowApi extends ApiElement {
+export class GvRowApi extends ApiResource(LitElement) {
 
   static get styles () {
     return [
@@ -68,7 +67,7 @@ export class GvRowApi extends ApiElement {
           .row  .name {
               min-width: 300px;
           }
-    
+
           .row .version {
               color: #D9D9D9;
               max-width: 50px;

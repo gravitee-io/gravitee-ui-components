@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
-import { html } from 'lit-html';
-import { skeleton } from '../styles';
+import { css, LitElement, html } from 'lit-element';
+import { skeleton } from '../styles/skeleton';
 import '../atoms/gv-metric';
 import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
@@ -25,7 +24,6 @@ import { i18n } from '../lib/i18n';
  *
  * @attr {Promise<ApiMetrics>} metrics - Metrics of an API.
  * @attr {RatingSummary} rating - Ratings of an API.
-
  */
 export class GvMetrics extends LitElement {
 

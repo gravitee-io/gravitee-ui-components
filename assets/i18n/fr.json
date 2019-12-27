@@ -7,12 +7,16 @@
     "empty": "Aucune API à afficher ici",
     "error": "Une erreur est survenue pendant le chargement de l'API"
   },
+  "gv-code": {
+    "copy": "Copier dans le presse papier"
+  },
   "gv-header-api": {
     "empty": "Aucune API à afficher ici",
     "error": "Une erreur est survenue pendant le chargement de l'API",
     "subscribe": "Souscrire"
   },
   "gv-info-api": {
+    "about": "À propos",
     "categories": "Catégories",
     "error": "Une erreur est survenue pendant le chargement des informations de l'API",
     "labels": "Tags",
@@ -21,8 +25,21 @@
     "ratings": "Notes",
     "resources": "Ressources"
   },
+  "gv-input": {
+    "copy": "Copier dans le presse papier",
+    "search": "Rechercher"
+  },
   "gv-list": {
-    "error": "Une erreur est survenue pendant de le chargement de la liste"
+    "accepted": "En cours",
+    "acceptedSubscription": "souscription acceptée",
+    "acceptedSubscriptions": "souscriptions acceptées",
+    "error": "Une erreur est survenue pendant de le chargement de la liste",
+    "paused": "En pause",
+    "pausedSubscription": "souscription en pause",
+    "pausedSubscriptions": "souscriptions en pause",
+    "pending": "En attente",
+    "pendingSubscription": "souscription en attente",
+    "pendingSubscriptions": "souscriptions en attente"
   },
   "gv-metrics": {
     "health": "Santé",
@@ -32,6 +49,18 @@
   "gv-pagination": {
     "next": "Suivant",
     "previous": "Précédent"
+  },
+  "gv-plans": {
+    "security": {
+      "apiKey": "Clé d'API personnelle",
+      "jwt":  "Json Web Token",
+      "keyLess": "Accès sans clé",
+      "oauth2": "Oauth 2"
+    },
+    "validation": {
+      "auto": "Validation automatique",
+      "manual": "Validation manuelle"
+    }
   },
   "gv-promote-api": {
     "empty": "Aucune API à afficher ici",

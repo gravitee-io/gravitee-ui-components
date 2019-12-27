@@ -88,7 +88,6 @@ async function run () {
   });
 
   for (const { src, sourceMapFilename, dst, sourceMapUrl } of filepaths) {
-    console.log(`Minifying ${src} ...`);
     await fs.readFile(src, 'utf8')
       .then((code) => minifyHtmlCss(code, sourceMapFilename))
       .then(({ code }) => minifyJs(code, sourceMapUrl))
@@ -96,7 +95,6 @@ async function run () {
         await fs.outputFile(dst, code);
         await fs.outputFile(dst + '.map', map);
       });
-    console.log(`   DONE! ${dst}`);
   }
 
   const componentPaths = await glob('./src/**/gv-*.js');
@@ -112,6 +110,4 @@ async function run () {
 
 }
 
-run()
-  .then(console.log)
-  .catch(console.error);
+run().catch(console.error);

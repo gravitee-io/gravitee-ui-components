@@ -20,6 +20,7 @@ import '../atoms/gv-icon';
 import '../atoms/gv-link';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
+
 /**
  * A tree menu
  *
@@ -49,106 +50,106 @@ export class GvTree extends LitElement {
     return [
       // language=css
       css`
-          :host {
-            --c: var(--gv-tree-menu--c, #262626);
-            --bgc: var(--gv-tree-menu--bgc, #FFF);
-            --active-bd: var(--gv-tree-menu-active--bd, #FFF);
-            --active-bgc: var(--gv-tree-menu-active--bgc, #FAFAFA);
-            --hover-bgc: var(--gv-tree-menu-hover--bgc, #FFF);
-            --gv-icon--s: 20px;
-            --gv-link-a--ph: 0;
-            --gv-link--ta: left;
+        :host {
+          --c: var(--gv-tree-menu--c, #262626);
+          --bgc: var(--gv-tree-menu--bgc, #FFF);
+          --active-bd: var(--gv-tree-menu-active--bd, #FFF);
+          --active-bgc: var(--gv-tree-menu-active--bgc, #FAFAFA);
+          --hover-bgc: var(--gv-tree-menu-hover--bgc, #FFF);
+          --gv-icon--s: 20px;
+          --gv-link-a--ph: 0;
+          --gv-link--ta: left;
 
-            background-color: var(--bgc);
-            color: var(--c);
-            display: flex;
-            flex-direction: row;
-            margin: 0 50px;
-            border-radius: 5px;
-            height: 100%;
-          }
+          background-color: var(--bgc);
+          color: var(--c);
+          display: flex;
+          flex-direction: row;
+          margin: 0 50px;
+          border-radius: 5px;
+          height: 100%;
+        }
 
-          .switch {
-            max-width: 40px;
-          }
+        .switch {
+          max-width: 40px;
+        }
 
-          .tree {
-            position: relative;
-            min-width: 300px;
-            padding-top: 20px;
-            box-shadow: 15px 0 15px -5px hsla(0,0%,78.4%,.3);
-            overflow: scroll;
-          }
+        .tree {
+          position: relative;
+          min-width: 300px;
+          padding-top: 20px;
+          box-shadow: 15px 0 15px -5px hsla(0, 0%, 78.4%, .3);
+          overflow: scroll;
+        }
 
-          .tree.closed {
-            min-width: 42px;
-          }
+        .tree.closed {
+          min-width: 42px;
+        }
 
-          .main-tree-menu {
-            flex: 1;
-            user-select: none;
-          }
+        .main-tree-menu {
+          flex: 1;
+          user-select: none;
+        }
 
-          .tree-menu {
-            list-style: none;
-            padding-left: 10px;
-          }
+        .tree-menu {
+          list-style: none;
+          padding-left: 10px;
+        }
 
-          .tree-menu.closed {
-            display: none;
-          }
+        .tree-menu.closed {
+          display: none;
+        }
 
-          .tree-menu__item {
-            margin: 2px;
-            position: relative;
-          }
+        .tree-menu__item {
+          margin: 2px;
+          position: relative;
+        }
 
-          .selected {
-            background-color: var(--active-bgc);
-            border: var(--active-bd);
-          }
+        .selected {
+          background-color: var(--active-bgc);
+          border: var(--active-bd);
+        }
 
-          .page:hover {
-            background-color: var(--hover-bgc);
-          }
+        .page:hover {
+          background-color: var(--hover-bgc);
+        }
 
-          .folder {
-            margin-top: 10px;
-          }
+        .folder {
+          margin-top: 10px;
+        }
 
-          .folder > ul{
-            margin-left: 10px;
-          }
+        .folder > ul {
+          margin-left: 10px;
+        }
 
-          .folder > gv-link {
-            font-weight: bold;
-          }
+        .folder > gv-link {
+          font-weight: bold;
+        }
 
-          .tree-arrow {
-            transform: rotate(90deg);
-            position: absolute;
-            right: 10px;
-            top: 15px;
-            opacity: 0.5;
-            cursor: pointer;
-          }
+        .tree-arrow {
+          transform: rotate(90deg);
+          position: absolute;
+          right: 10px;
+          top: 15px;
+          opacity: 0.5;
+          cursor: pointer;
+        }
 
-          .closed {
-            transform: rotate(0deg);
-            transition: all 1s ease-in-out;
-          }
+        .closed {
+          transform: rotate(0deg);
+          transition: all 1s ease-in-out;
+        }
 
-          .switch {
-            cursor: pointer;
-            opacity: 0.5;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-          }
+        .switch {
+          cursor: pointer;
+          opacity: 0.5;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+        }
 
-          gv-link {
-            width: 100%;
-          }
+        gv-link {
+          width: 100%;
+        }
       `,
     ];
   }
@@ -186,22 +187,25 @@ export class GvTree extends LitElement {
         @gv-link:click=${this._onClick.bind(this, menuItem)}>
         </gv-link>
         ${menuItem.expanded
-          ? html`<gv-icon class="tree-arrow" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>${this._getMenu(menuItem.children)}`
-          : html`<gv-icon class="tree-arrow closed" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>`
-        }
+      ? html`<gv-icon class="tree-arrow" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>${this._getMenu(menuItem.children)}`
+      : html`<gv-icon class="tree-arrow closed" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>`
+    }
     `;
   }
 
   _getMenu (menuItems) {
-    return html`<ul class="${classMap({ 'tree-menu': true, closed: this.closed })}">${repeat(menuItems, (item) => this._getMenuItem(item))}</ul>`;
+    return html`<ul class="${classMap({
+      'tree-menu': true,
+      closed: this.closed,
+    })}">${repeat(menuItems, (item) => this._getMenuItem(item))}</ul>`;
   }
 
   _getMenuItem (menuItem) {
     return html`
           ${(menuItem.children && menuItem.children.length > 0)
-            ? html`<li class="tree-menu__item folder">${this._getMenuItemFolder(menuItem)}</li>`
-            : html`<li class="tree-menu__item page ${menuItem === this.selectedItem ? 'selected' : ''}">${this._getMenuItemPage(menuItem)}</li>`
-          }`;
+      ? html`<li class="tree-menu__item folder">${this._getMenuItemFolder(menuItem)}</li>`
+      : html`<li class="tree-menu__item page ${menuItem === this.selectedItem ? 'selected' : ''}">${this._getMenuItemPage(menuItem)}</li>`
+    }`;
   }
 
   _toggleMenu () {

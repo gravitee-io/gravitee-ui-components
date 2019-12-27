@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { css, LitElement, html } from 'lit-element';
 import '../atoms/gv-button';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
@@ -84,7 +83,7 @@ export class GvOption extends LitElement {
     if (this.options) {
       return html`<div>${repeat(this.options, (option) => option, (option, index) =>
         html`<gv-button icon=${option.icon} .title="${ifDefined(option.title)}" style=""
-.primary="${option.active}" 
+.primary="${option.active}"
 @click="${this._onClick}"
 class="${classMap({ active: option.active, entry: index === 0, exit: (index === this.options.length - 1) })}"
 data-id="${option.id}"></gv-button>`

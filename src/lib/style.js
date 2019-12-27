@@ -19,7 +19,7 @@ function getPropertyValue (element, propertyName, defaultValue) {
   return value || defaultValue;
 }
 
-export function getCssVar (element, variableName, defaultValue) {
+export const getCssVar = function getCssVar (element, variableName, defaultValue) {
   if (element) {
     if (variableName.startsWith('--')) {
       return getPropertyValue(element, variableName, defaultValue);
@@ -27,4 +27,4 @@ export function getCssVar (element, variableName, defaultValue) {
     return getPropertyValue(element, `--${variableName}`, defaultValue);
   }
   return defaultValue;
-}
+};

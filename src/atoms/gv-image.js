@@ -15,8 +15,8 @@
  */
 import { LitElement, html, css } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
-import { skeleton } from '../styles';
-import '../atoms/gv-icon';
+import { skeleton } from '../styles/skeleton';
+import './gv-icon';
 import { until } from 'lit-html/directives/until';
 
 /**
@@ -87,7 +87,7 @@ export class GvImage extends LitElement {
               max-height: var(--icon--s);
               align-self: center;
           }
-          
+
           gv-icon {
               align-self: center;
           }

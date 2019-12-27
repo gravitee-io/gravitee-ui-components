@@ -48,12 +48,12 @@ storiesOf('1. Atoms|<gv-button>', module)
         <gv-button outlined loading>Loading</gv-button>
         <gv-button loading style="--gv-icon--c:white">Loading</gv-button>
       </div>
-      
+
       <div class="generated-zone">
       </div>
     `;
 
-    const variants = [['skeleton'], ['primary'], ['primary', 'skeleton']];
+    const variants = [['skeleton'], ['primary'], ['primary', 'skeleton'], ['secondary'], ['secondary', 'skeleton']];
     const generatedZone = container.querySelector('.generated-zone');
     const elements = container.querySelectorAll('.group gv-button');
 
@@ -104,11 +104,11 @@ storiesOf('1. Atoms|<gv-button>', module)
       <div class="title">Google</div>
       <gv-button icon="thirdparty:google" outlined class="google_outlined">Continue with Google</gv-button>
       <gv-button icon="thirdparty:google" class="google">Continue with Google</gv-button>
-      
+
       <div class="title">Oidc</div>
       <gv-button icon="thirdparty:oidc" outlined class="oidc_outlined">Continue with OpenID</gv-button>
       <gv-button icon="thirdparty:oidc" class="oidc">Continue with OpenID</gv-button>
-      
+
       <div class="title">Gravitee</div>
       <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Continue with Gravitee</gv-button>
       <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Continue with Gravitee</gv-button>
