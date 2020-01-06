@@ -40,7 +40,7 @@ export class GvMessage extends LitElement {
               font-style: normal;
               font-weight: normal;
               line-height: normal;
-              padding: 12px 8px;
+              padding: 12px 0px;
               position: absolute;
               text-align: center;
               width: 100%;
