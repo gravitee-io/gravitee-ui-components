@@ -15,6 +15,7 @@
  */
 import { css, html, LitElement } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
+import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
 import { link } from '../styles/link';
@@ -43,6 +44,7 @@ export class GvInfo extends ItemResource(LitElement) {
 
   static get properties () {
     return {
+      resources: { type: Object },
       metrics: { type: Object },
       _metrics: { type: Object, attribute: false },
       withDublinCore: { type: Boolean, attribute: 'with-dc' },
@@ -202,6 +204,15 @@ export class GvInfo extends ItemResource(LitElement) {
     return '';
   }
 
+  async _onClick (resourceItem, e) {
+    e.preventDefault();
+    dispatchCustomEvent(this, 'click-resource', {
+      path: resourceItem.path,
+      title: resourceItem.title,
+      target: resourceItem.target,
+    });
+  }
+
   _renderDescription () {
     if (this._getDescription()) {
       return html`<div class="description">
@@ -293,9 +304,11 @@ export class GvInfo extends ItemResource(LitElement) {
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
                 <h4>${i18n('gv-info.resources')}</h4>
                 <span>
-                  ${repeat(this.resources, (item) => item, (item) =>
-        html`<div class="info__resources"><a class="link" href="#">${item}</a></div>`
-      )}
+                  ${repeat(this.resources, (item) => item, (item) => html`
+                    <div class="info__resources">
+                      <a class="link" href="${item.path}" target="${item.target}" @click=${this._onClick.bind(this, item)}>${item.title}</a>
+                    </div>`
+                  )}
                 </span>
               </div>
             `

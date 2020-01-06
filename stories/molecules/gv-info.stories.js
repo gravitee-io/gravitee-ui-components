@@ -23,11 +23,20 @@ import { withCustomEventActions } from '../lib/event-action';
 const views = ['Azure', 'Swiss', 'All', 'Magic'];
 const ratingSummary = { average: 3.4 };
 const labels = ['APIDays', 'December', 'Foobar'];
-const resources = ['Repository', 'Homepage', 'Licence', 'Changelog', 'Download Extension'];
-const miscellaneous = [{ key: 'Version:', value: 'v1' }, {
-  key: 'Released:',
-  value: '2019-12-25, 12:00PM',
-}, { key: 'Last Update:', value: '2019-12-25, 12:00PM' }, { key: 'Publisher:', value: 'Tichard T.' }];
+const resources = [
+  { title: 'Homepage', link: '#' },
+  { title: 'Repository', link: '#' },
+  { title: 'Licence', link: '#' },
+  { title: 'Changelog', link: '#', target: '_self' },
+  { title: 'Download Extension', link: '#', target: '_blank' },
+];
+
+const miscellaneous = [
+  { key: 'Version:', value: 'v1' },
+  { key: 'Released:', value: '2019-12-25, 12:00PM' },
+  { key: 'Last Update:', value: '2019-12-25, 12:00PM' },
+  { key: 'Publisher:', value: 'Richard T.' },
+];
 const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
 const api = {
   name: 'Long Supernova',
@@ -40,7 +49,7 @@ const api = {
     + 'mandaverat fidis quo con perto Montius tunc.',
 };
 
-const withActions = withCustomEventActions('gv-info:click-view', 'gv-info:click-label');
+const withActions = withCustomEventActions('gv-info:click-view', 'gv-info:click-label', 'gv-info:click-resource');
 
 storiesOf('2. Molecules|<gv-info>', module)
   .addParameters({ notes })

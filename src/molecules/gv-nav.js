@@ -25,7 +25,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @fires gv-nav:click - Custom event when nav item is clicked
  *
- * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>}]
+ * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>, target: String}]
  *
  */
 export class GvNav extends LitElement {
@@ -61,53 +61,58 @@ export class GvNav extends LitElement {
   _onClick (event) {
     event.stopPropagation();
     const { detail } = event;
-    const { title } = detail;
-    if (!this._isLocked) {
-      this._isLocked = true;
-      let nextIndex = 0;
-      this._routes.forEach((route, index) => {
-        if (route.title === title) {
-          route.active = true;
-          nextIndex = index;
+    const { title, target } = detail;
+    if (target === '_blank') {
+      dispatchCustomEvent(this, 'click', detail);
+    }
+    else {
+      if (!this._isLocked) {
+        this._isLocked = true;
+        let nextIndex = 0;
+        this._routes.forEach((route, index) => {
+          if (route.title === title) {
+            route.active = true;
+            nextIndex = index;
+          }
+          else {
+            delete route.active;
+          }
+          return route;
+        });
+
+        const activeLink = this.shadowRoot.querySelector('gv-link[active]');
+        const nextLink = this.shadowRoot.querySelectorAll('gv-link')[nextIndex];
+        if (activeLink) {
+          const shadowLink = activeLink.cloneNode(true);
+          const { height, width } = activeLink.getBoundingClientRect();
+
+          shadowLink.id = 'shadowLink';
+          shadowLink.style.top = `${activeLink.offsetTop}px`;
+          shadowLink.style.left = `${activeLink.offsetLeft}px`;
+          shadowLink.style.width = `${width}px`;
+          shadowLink.style.height = `${height}px`;
+
+          activeLink.removeAttribute('active');
+          activeLink.style.height = `${height}px`;
+
+          this.shadowRoot.querySelector('nav').prepend(shadowLink);
+          const left = nextLink.offsetLeft - activeLink.offsetLeft;
+          const top = nextLink.offsetTop - activeLink.offsetTop;
+
+          shadowLink.style.transform = `translate(${left}px,${top}px)`;
+
+          setTimeout(() => {
+            nextLink.setAttribute('active', true);
+            this.shadowRoot.querySelector('nav').removeChild(shadowLink);
+            this._isLocked = false;
+            dispatchCustomEvent(this, 'click', detail);
+          }, 250);
         }
         else {
-          delete route.active;
-        }
-        return route;
-      });
-
-      const activeLink = this.shadowRoot.querySelector('gv-link[active]');
-      const nextLink = this.shadowRoot.querySelectorAll('gv-link')[nextIndex];
-      if (activeLink) {
-        const shadowLink = activeLink.cloneNode(true);
-        const { height, width } = activeLink.getBoundingClientRect();
-
-        shadowLink.id = 'shadowLink';
-        shadowLink.style.top = `${activeLink.offsetTop}px`;
-        shadowLink.style.left = `${activeLink.offsetLeft}px`;
-        shadowLink.style.width = `${width}px`;
-        shadowLink.style.height = `${height}px`;
-
-        activeLink.removeAttribute('active');
-        activeLink.style.height = `${height}px`;
-
-        this.shadowRoot.querySelector('nav').prepend(shadowLink);
-        const left = nextLink.offsetLeft - activeLink.offsetLeft;
-        const top = nextLink.offsetTop - activeLink.offsetTop;
-
-        shadowLink.style.transform = `translate(${left}px,${top}px)`;
-
-        setTimeout(() => {
           nextLink.setAttribute('active', true);
-          this.shadowRoot.querySelector('nav').removeChild(shadowLink);
           this._isLocked = false;
           dispatchCustomEvent(this, 'click', detail);
-        }, 250);
-      }
-      else {
-        nextLink.setAttribute('active', true);
-        this._isLocked = false;
-        dispatchCustomEvent(this, 'click', detail);
+        }
       }
     }
   }
@@ -130,6 +135,7 @@ export class GvNav extends LitElement {
             .active="${_route.active}"
             .icon="${_route.icon}"
             .path="${_route.path}"
+            .target="${_route.target}"
             ?small="${this.small}"
             .title="${_route.title}"
             .help="${until(_route.help, null)}"></gv-link>`;

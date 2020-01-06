@@ -21,6 +21,8 @@ import { styleMap } from 'lit-html/directives/style-map';
 import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 import './gv-icon';
+import { ifDefined } from 'lit-html/directives/if-defined';
+
 /**
  * A link
  *
@@ -31,6 +33,7 @@ import './gv-icon';
  * @attr {Boolean} active - set if link is active
  * @attr {String} path - link path
  * @attr {String} title - link title
+ * @attr {String} target - link target
  * @attr {String} help - help text left between parentheses
  *
  * @cssprop {String} [--gv-link-a--pv=15px] - set the vertical padding for the inner <a> tag. (Default: 1rem)
@@ -52,6 +55,7 @@ export class GvLink extends LitElement {
       icon: { type: String },
       path: { type: String },
       title: { type: String },
+      target: { type: String },
       _title: { type: String, attribute: false },
       help: { type: String },
       skeleton: { type: Boolean },
@@ -153,6 +157,7 @@ export class GvLink extends LitElement {
       icon: this.icon,
       path: this.path,
       title: this._title,
+      target: this.target,
     });
   }
 
@@ -170,7 +175,8 @@ export class GvLink extends LitElement {
     return html`
       <a @click=${this._onClick}
       class="${classMap(classes)}"
-      ?href="${this.path}"
+      .href="${ifDefined(this.path)}"
+      .target="${ifDefined(this.target)}"
       ?title="${until(this._title, '')}">
         ${this.icon ? html`<gv-icon shape=${this.icon} style=${styleMap(iconStyle)}></gv-icon>` : ''}
         <span>${until(this._title, '')}${this.help ? html`<span class="help">${until(this.help, '')}</span>` : ''}</span>
