@@ -19,11 +19,12 @@ import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-link';
 import { until } from 'lit-html/directives/until';
 import { isSameRoutes } from '../lib/utils';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  * A main nav
  *
- * @fires gv-link:click - Custom event from child components
+ * @fires gv-nav:click - Custom event when nav item is clicked
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>}]
  *
@@ -58,7 +59,10 @@ export class GvNav extends LitElement {
       `];
   }
 
-  _onClick ({ detail: { title } }) {
+  _onClick (event) {
+    event.stopPropagation();
+    const { detail } = event;
+    const { title } = detail;
     if (!this._isLocked) {
       this._isLocked = true;
       let nextIndex = 0;
@@ -98,11 +102,13 @@ export class GvNav extends LitElement {
           nextLink.setAttribute('active', true);
           this.shadowRoot.querySelector('nav').removeChild(shadowLink);
           this._isLocked = false;
+          dispatchCustomEvent(this, 'click', detail);
         }, 250);
       }
       else {
         nextLink.setAttribute('active', true);
         this._isLocked = false;
+        dispatchCustomEvent(this, 'click', detail);
       }
     }
   }

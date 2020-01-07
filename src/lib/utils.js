@@ -19,13 +19,7 @@ export function truncate (text, limit = 250, suffix = '...') {
 
 export function isSameRoutes (routes, futureRoutes) {
   if (routes && futureRoutes) {
-    const same = JSON.stringify(routes.map((r) => r.path)) === JSON.stringify(futureRoutes.map((r) => r.path));
-    if (same) {
-      const future = futureRoutes.filter((r) => r.active);
-      const current = routes.filter((r) => r.active);
-      return future.length === current.length;
-    }
-    return same;
+    return JSON.stringify(routes.map((r) => r.path + r.active)) === JSON.stringify(futureRoutes.map((r) => r.path + r.active));
   }
   return false;
 }
