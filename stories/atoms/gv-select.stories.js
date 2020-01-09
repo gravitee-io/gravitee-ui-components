@@ -90,7 +90,7 @@ storiesOf('1. Atoms|<gv-select>', module)
     const selectListWithData = Array.prototype.slice.call(selectList, 3);
 
     selectListWithData.forEach((e, i) => {
-      if (i === selectListWithData.length) {
+      if (i === selectListWithData.length - 1) {
         const opts = [];
         for (let j = 0; j < 100; j++) {
           opts[j] = { label: `Application ${j}`, value: `${j}` };

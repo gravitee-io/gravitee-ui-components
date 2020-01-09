@@ -16,12 +16,13 @@
 import { html } from 'lit-html';
 import { dispatchCustomEvent } from '../lib/events.js';
 import { repeat } from 'lit-html/directives/repeat';
+import {classMap} from "lit-html/directives/class-map";
 
 /**
- * This is a mixin for ApiResource
+ * This is a mixin for ItemResource
  * @mixinFunction
  */
-export function ApiResource (ParentClass) {
+export function ItemResource (ParentClass) {
 
   /**
    * @mixinClass
@@ -31,8 +32,8 @@ export function ApiResource (ParentClass) {
     static get properties () {
       return {
         /** @required */
-        api: { type: Object },
-        _api: { type: Object, attribute: false },
+        item: { type: Object },
+        _item: { type: Object, attribute: false },
         _skeleton: { type: Boolean, attribute: false },
         _error: { type: Boolean, attribute: false },
         _empty: { type: Boolean, attribute: false },
@@ -47,15 +48,15 @@ export function ApiResource (ParentClass) {
       this._empty = false;
     }
 
-    set api (api) {
-      Promise.resolve(api)
-        .then((api) => {
-          if (api) {
+    set item (item) {
+      Promise.resolve(item)
+        .then((item) => {
+          if (item) {
             this._skeleton = false;
-            this._empty = Object.keys(api).length === 0;
-            this._api = api;
-            if (api._links && api._links.picture) {
-              this._picture = api._links.picture;
+            this._empty = Object.keys(item).length === 0;
+            this._item = item;
+            if (item._links && item._links.picture) {
+              this._picture = item._links.picture;
             }
             else {
               this._loadDefaultPicture();
@@ -78,35 +79,56 @@ export function ApiResource (ParentClass) {
     }
 
     _getVersion () {
-      if (this._api) {
-        return this._api.version;
+      if (this._item) {
+        if (this._item.version) {
+          return this._item.version;
+        }
+        else {
+          let icon;
+          switch (this._item.applicationType.toLowerCase()) {
+            case 'browser':
+            case 'web':
+              icon = 'devices:laptop';
+              break;
+            case 'native':
+              icon = 'devices:android';
+              break;
+            case 'backend_to_backend':
+              icon = 'devices:server';
+              break;
+            default:
+              icon = 'layout:layout-top-panel-2';
+              break;
+          }
+          return html`<gv-icon shape="${icon}"></gv-icon>`;
+        }
       }
       return null;
     }
 
     _onImageLoaded () {
-      if (this._api) {
+      if (this._item) {
         this._skeleton = false;
       }
     }
 
     _getStates () {
-      if (this._api) {
-        return this._api.states;
+      if (this._item) {
+        return this._item.states;
       }
       return null;
     }
 
     _getLabels () {
-      if (this._api) {
-        return this._api.labels;
+      if (this._item) {
+        return this._item.labels;
       }
       return null;
     }
 
     _getViews () {
-      if (this._api) {
-        return this._api.views;
+      if (this._item) {
+        return this._item.views;
       }
       return null;
     }
@@ -171,29 +193,29 @@ export function ApiResource (ParentClass) {
     }
 
     _getRating () {
-      if (this._api) {
-        return this._api.rating_summary;
+      if (this._item) {
+        return this._item.rating_summary;
       }
       return null;
     }
 
     _getDescription () {
-      if (this._api) {
-        return this._api.description;
+      if (this._item) {
+        return this._item.description;
       }
       return '';
     }
 
     _getTitle () {
-      if (this._api) {
-        return this._api.name;
+      if (this._item) {
+        return this._item.name;
       }
       return '';
     }
 
     _getOwner () {
-      if (this._api && this._api.owner) {
-        return this._api.owner.display_name;
+      if (this._item && this._item.owner) {
+        return this._item.owner.display_name;
       }
       return '';
     }

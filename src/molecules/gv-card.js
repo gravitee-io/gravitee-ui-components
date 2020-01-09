@@ -19,16 +19,16 @@ import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
 import { i18n } from '../lib/i18n';
-import { ApiResource } from '../mixins/api-resource';
+import { ItemResource } from '../mixins/item-resource';
 
 /**
- * Api Card component
+ * Card component
  *
- * @attr {Promise<Api>} api - An Api.
+ * @attr {Promise<any>} item - An item.
  *
- * @cssprop {String} [--gv-card-api--bgc=white] - set the background color.
+ * @cssprop {String} [--gv-card--bgc=white] - set the background color.
  */
-export class GvCardApi extends ApiResource(LitElement) {
+export class GvCard extends ItemResource(LitElement) {
 
   static get styles () {
     return [
@@ -54,7 +54,7 @@ export class GvCardApi extends ApiResource(LitElement) {
               max-width: 144px;
               min-height: 144px;
               border-radius: 2px;
-              background-color: var(--gv-card-api--bgc, white);
+              background-color: var(--gv-card--bgc, white);
               color: #262626;
               box-shadow: 0 0 0 1px rgba(208, 216, 223, 1), 0 1px 3px rgba(0,0,0,.15);
               transition: all .3s;
@@ -127,7 +127,7 @@ export class GvCardApi extends ApiResource(LitElement) {
     <div class="content">
         ${(this._error || this._empty) ? html`
         <div class="${classMap({ skeleton: this._skeleton })}">
-            <span class="error">${this._error ? i18n('gv-card-api.error') : i18n('gv-card-api.empty')}</span>
+            <span class="error">${this._error ? i18n('gv-card.error') : i18n('gv-card.empty')}</span>
         </div>
         ` : html`
         <div class="${classMap({ skeleton: this._skeleton })}">
@@ -141,4 +141,4 @@ export class GvCardApi extends ApiResource(LitElement) {
 
 }
 
-window.customElements.define('gv-card-api', GvCardApi);
+window.customElements.define('gv-card', GvCard);

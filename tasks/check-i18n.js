@@ -59,7 +59,8 @@ async function run () {
 
     Object.entries(translationsByLang).forEach(([lang, translations]) => {
       const missingKeys = usedKeysByFile[src]
-        .filter((key) => key.split('.').reduce((prev, curr) => prev && prev[curr], translations) == null);
+        .filter((key) => key.split('.').reduce((prev, curr) => prev && prev[curr], translations) == null)
+        .filter((key) => key !== '*');
 
       if (missingKeys.length !== 0) {
         errors = true;
