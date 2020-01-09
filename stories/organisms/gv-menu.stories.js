@@ -20,7 +20,7 @@ import { withCustomEventActions } from '../lib/event-action.js';
 import { color, text } from '@storybook/addon-knobs';
 import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
 
-const withActions = withCustomEventActions('gv-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header-api:subscribe', 'gv-header-api:support');
+const withActions = withCustomEventActions('gv-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header:subscribe', 'gv-header:support');
 
 storiesOf('3. Organisms|<gv-menu>', module)
   .addParameters({ notes })
@@ -108,30 +108,30 @@ storiesOf('3. Organisms|<gv-menu>', module)
     container.innerHTML = `
         <div class="title">Full screen</div>
         <gv-menu>
-            <gv-header-api slot="header" can-subscribe></gv-header-api>
+            <gv-header slot="header" can-subscribe></gv-header>
             <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
         </gv-menu>
-        
+
         <div class="title">Width: 1280px</div>
         <div style="width: 1280px;">
           <gv-menu>
-              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-header slot="header" can-subscribe></gv-header>
               <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
           </gv-menu>
         </div>
-        
+
         <div class="title">Width: 1024px</div>
         <div style="width: 1024px;">
           <gv-menu>
-              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-header slot="header" can-subscribe></gv-header>
               <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
           </gv-menu>
         </div>
-        
+
         <div class="title">Width: 768px</div>
         <div style="width: 768px;">
           <gv-menu>
-              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-header slot="header" can-subscribe></gv-header>
               <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
           </gv-menu>
         </div>
@@ -139,15 +139,15 @@ storiesOf('3. Organisms|<gv-menu>', module)
         <div class="title">Width: 570px</div>
         <div style="width: 570px;">
           <gv-menu>
-              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-header slot="header" can-subscribe></gv-header>
               <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
           </gv-menu>
         </div>
-                
+
         <div class="title">Width: 375px</div>
         <div style="width: 375px;">
           <gv-menu>
-              <gv-header-api slot="header" can-subscribe></gv-header-api>
+              <gv-header slot="header" can-subscribe></gv-header>
               <gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>
           </gv-menu>
         </div>
@@ -155,8 +155,8 @@ storiesOf('3. Organisms|<gv-menu>', module)
 
     container.querySelectorAll('gv-menu').forEach((menu) => {
       menu.routes = routes;
-      menu.querySelector('gv-header-api').api = api;
-      menu.querySelector('gv-header-api').breadcrumbs = breadcrumbs;
+      menu.querySelector('gv-header').item = api;
+      menu.querySelector('gv-header').breadcrumbs = breadcrumbs;
     });
 
     return container;

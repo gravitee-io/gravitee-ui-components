@@ -81,7 +81,6 @@ export class GvSelect extends LitElement {
         div, input {
           user-select: none;
           cursor: pointer;
-          text-transform: capitalize;
         }
 
         input:read-only:hover {

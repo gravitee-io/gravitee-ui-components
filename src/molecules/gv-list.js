@@ -54,6 +54,7 @@ export class GvList extends LitElement {
           background-color: var(--gv-list--bgc, white);
           --gv-image--w: 40px;
           --gv-image--h: 40px;
+          --gv-icon--s: 20px;
         }
 
         .list {
@@ -100,10 +101,6 @@ export class GvList extends LitElement {
           opacity: 0.5;
         }
 
-        .item__description gv-tag {
-          opacity: 1;
-        }
-
         .skeleton {
           background-color: #aaa;
           border-color: #777;
@@ -111,8 +108,9 @@ export class GvList extends LitElement {
           transition: 0.5s;
         }
 
-        gv-tag {
-          text-transform: uppercase;
+        .scrollable-container {
+          max-height: 400px;
+          overflow: auto;
         }
       `,
     ];
@@ -148,49 +146,33 @@ export class GvList extends LitElement {
     return import('../../assets/images/promote-api.png').then((picture) => picture.default);
   }
 
+  _onImageError (e) {
+    const img = e.target;
+    this.getDefaultPicture().then((picture) => (img.src = picture));
+
+  }
+
   _renderImage (picture, name) {
     if (picture) {
-      return html`<gv-image src="${picture}" alt="${name}">`;
+      return html`<gv-image src="${picture}" alt="${name}" @error="${this._onImageError}">`;
     }
     else {
       return html`<gv-image src="${until(this.getDefaultPicture())}" alt="${name}">`;
     }
   }
 
-  _renderAccepted (subscriptions) {
-    const accepted = subscriptions.filter((sub) => sub.status.toUpperCase() === 'ACCEPTED');
-
-    if (accepted.length > 0) {
-      const title = accepted.length === 1 ? i18n('gv-list.acceptedSubscription') : i18n('gv-list.acceptedSubscriptions');
-      return html`
-        <gv-tag title="${accepted.length} ${title}" icon="general:thunder-move">
-         ${i18n('gv-list.accepted')}
-        </gv-tag>`;
-    }
-    return '';
-  }
-
-  _renderPaused (subscriptions) {
-    const paused = subscriptions.filter((sub) => sub.status.toUpperCase() === 'PAUSED');
-
-    if (paused.length > 0) {
-      const title = paused.length === 1 ? i18n('gv-list.pausedSubscription') : i18n('gv-list.pausedSubscriptions');
-      return html`
-        <gv-tag title="${paused.length} ${title}" icon="media:pause">
-         ${i18n('gv-list.paused')}
-        </gv-tag>`;
-    }
-    return '';
-  }
-
-  _renderPending (subscriptions) {
-    const pending = subscriptions.filter((sub) => sub.status.toUpperCase() === 'PENDING');
-    if (pending.length > 0) {
-      const title = pending.length === 1 ? i18n('gv-list.pendingSubscription') : i18n('gv-list.pendingSubscriptions');
-      return html`
-        <gv-tag title="${pending.length} ${title}" minor icon="home:timer">
-          ${i18n('gv-list.pending')}
-        </gv-tag>`;
+  _renderStatus (subscriptions) {
+    if (subscriptions) {
+      const paused = subscriptions.filter((sub) => sub.status.toUpperCase() === 'PAUSED');
+      if (paused.length > 0) {
+        return html`
+        <gv-icon title="${i18n('gv-list.paused')}" shape="media:pause"></gv-icon>`;
+      }
+      const pending = subscriptions.filter((sub) => sub.status.toUpperCase() === 'PENDING');
+      if (pending.length > 0) {
+        return html`
+        <gv-icon title="${i18n('gv-list.pending')}" shape="home:timer"></gv-icon>`;
+      }
     }
     return '';
   }
@@ -199,15 +181,8 @@ export class GvList extends LitElement {
     return html`
       <div class="item__image">${this._renderImage(picture, name)}</div>
       <div class="item__content">
-        <h4 class="item__title">${name}</h4>
+        <h4 class="item__title">${this._renderStatus(subscriptions)}${name}</h4>
         <div class="item__description">${description}</div>
-        ${(subscriptions && subscriptions.length > 0) ? html`
-            <span class="subscriptions">
-                ${this._renderAccepted(subscriptions)}
-                ${this._renderPending(subscriptions)}
-                ${this._renderPaused(subscriptions)}
-            </span>
-        ` : ``}
       </div>
       `;
   }
@@ -224,7 +199,9 @@ export class GvList extends LitElement {
     }
           ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}
         </h4>
+        <div class="scrollable-container">
         ${this._items ? repeat(this._items, (item) => item, (item) => html`<li class="item">${this._renderItem(item)}</li>`) : ''}
+        </div>
       </ul>
     `;
   }
@@ -232,12 +209,7 @@ export class GvList extends LitElement {
   render () {
     return html`
       <div>
-        ${this._error
-      ? html`<ul class="list"><h4>${i18n('gv-list.error')}</h4></ul>`
-      : this._empty
-        ? ''
-        : this._renderItems()
-    }
+        ${this._error ? html`<ul class="list"><h4>${i18n('gv-list.error')}</h4></ul>` : this._empty ? '' : this._renderItems()}
       </div>
       `;
   }

@@ -30,16 +30,9 @@
     "search": "Search"
   },
   "gv-list": {
-    "accepted": "Running",
-    "acceptedSubscription": "accepted subscription",
-    "acceptedSubscriptions": "accepted subscriptions",
     "error": "An error occurred while loading list",
     "paused": "Paused",
-    "pausedSubscription": "paused subscription",
-    "pausedSubscriptions": "paused subscriptions",
-    "pending": "Pending",
-    "pendingSubscription": "pending subscription",
-    "pendingSubscriptions": "pending subscriptions"
+    "pending": "Pending"
   },
   "gv-metrics": {
     "health": "Health",

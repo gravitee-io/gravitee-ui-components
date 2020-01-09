@@ -30,16 +30,9 @@
     "search": "Rechercher"
   },
   "gv-list": {
-    "accepted": "En cours",
-    "acceptedSubscription": "souscription acceptée",
-    "acceptedSubscriptions": "souscriptions acceptées",
     "error": "Une erreur est survenue pendant de le chargement de la liste",
     "paused": "En pause",
-    "pausedSubscription": "souscription en pause",
-    "pausedSubscriptions": "souscriptions en pause",
-    "pending": "En attente",
-    "pendingSubscription": "souscription en attente",
-    "pendingSubscriptions": "souscriptions en attente"
+    "pending": "En attente"
   },
   "gv-metrics": {
     "health": "Santé",
