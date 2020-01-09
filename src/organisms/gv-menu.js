@@ -56,8 +56,8 @@ export class GvMenu extends withResizeObserver(LitElement) {
               --gv-link-active--bdb: var(--gv-menu-link-active--bdb, 3px solid #D5FDCB);
               --pr: var(--gv-menu--pr, 4rem);
               --pl: var(--gv-menu--pl, 4rem);
-              --gv-header-api--pr: var(--pr);
-              --gv-header-api--pl: var(--pl);
+              --gv-header--pr: var(--pr);
+              --gv-header--pl: var(--pl);
               box-sizing: border-box;
               display: block;
           }
@@ -215,7 +215,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
     let _header = false;
     for (const node of this.childNodes) {
       if (node.nodeType === 1) {
-        const child = node.nodeName.toLowerCase() === 'gv-header-api' ? node : node.querySelector('gv-header-api');
+        const child = node.nodeName.toLowerCase() === 'gv-header' ? node : node.querySelector('gv-header');
         if (child) {
           _header = true;
           break;
