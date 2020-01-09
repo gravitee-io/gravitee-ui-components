@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 import { storiesOf } from '@storybook/html';
-import notes from '../../.docs/gv-header-api.md';
-import '../../src/molecules/gv-header-api';
+import notes from '../../.docs/gv-header.md';
+import '../../src/molecules/gv-header';
 import { delay } from '../lib/delay';
 import picture from '../../assets/images/logo.png';
 import { color } from '@storybook/addon-knobs';
 import { withCustomEventActions } from '../lib/event-action.js';
 
-const withActions = withCustomEventActions('gv-header-api:subscribe', 'gv-header-api:contact', 'gv-link:click');
+const withActions = withCustomEventActions('gv-header:subscribe', 'gv-header:contact', 'gv-link:click');
 
 const version = 'v.1.1';
 const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];
 const api = { name: 'Long Supernova', _links: { picture }, version, states };
-storiesOf('2. Molecules|<gv-header-api>', module)
+storiesOf('2. Molecules|<gv-header>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
 
@@ -34,14 +34,14 @@ storiesOf('2. Molecules|<gv-header-api>', module)
 
     container.innerHTML = `
     <div class="title">Basics</div>
-    <gv-header-api class="name"></gv-header-api>
+    <gv-header class="name"></gv-header>
     <br/>
     <div class="title">With actions</div>
-    <gv-header-api class="name" can-subscribe></gv-header-api>
-    
+    <gv-header class="name" can-subscribe></gv-header>
+
     <br/>
     <div class="title"> Width: 768px </div>
-    <div style="width: 768px;"> <gv-header-api class="name" can-subscribe></gv-header-api></div>
+    <div style="width: 768px;"> <gv-header class="name" can-subscribe></gv-header></div>
     `;
 
     const breadcrumbs = [
@@ -50,16 +50,16 @@ storiesOf('2. Molecules|<gv-header-api>', module)
       { path: '#', title: 'My API' },
     ];
 
-    const bgColor = color('--gv-header-api--bgc', '');
+    const bgColor = color('--gv-header--bgc', '');
 
     container.style = [
-      { value: bgColor, prop: '--gv-header-api--bgc' }]
+      { value: bgColor, prop: '--gv-header--bgc' }]
       .filter(({ value }) => value)
       .map(({ value, prop }) => `${prop}:${value}`)
       .join(';');
 
     container.querySelectorAll('.name').forEach((element) => {
-      element.api = Promise.resolve(api);
+      element.item = Promise.resolve(api);
       element.breadcrumbs = Promise.resolve(breadcrumbs);
     });
 
@@ -70,10 +70,10 @@ storiesOf('2. Molecules|<gv-header-api>', module)
 
     container.innerHTML = `
     <div class="title">Delay</div>
-    <gv-header-api class="name" can-subscribe></gv-header-api>
+    <gv-header class="name" can-subscribe></gv-header>
     <br/>
     <div class="title">Skeleton</div>
-    <gv-header-api></gv-header-api>
+    <gv-header></gv-header>
     `;
 
     const breadcrumbs = [
@@ -83,7 +83,7 @@ storiesOf('2. Molecules|<gv-header-api>', module)
     ];
 
     container.querySelectorAll('.name').forEach((element) => {
-      element.api = Promise.resolve(api).then(delay(3000));
+      element.item = Promise.resolve(api).then(delay(3000));
       element.breadcrumbs = Promise.resolve(breadcrumbs).then(delay(2000));
     });
 
@@ -93,12 +93,12 @@ storiesOf('2. Molecules|<gv-header-api>', module)
     const container = document.createElement('div');
     container.innerHTML = `
       <div class="title">Empty</div>
-      <gv-header-api id="empty"></gv-header-api>
-    
+      <gv-header id="empty"></gv-header>
+
       <div class="title">Error</div>
-      <gv-header-api id="error"></gv-header-api>
+      <gv-header id="error"></gv-header>
     `;
-    container.querySelector('#empty').api = Promise.resolve({});
-    container.querySelector('#error').api = Promise.reject(new Error());
+    container.querySelector('#empty').item = Promise.resolve({});
+    container.querySelector('#error').item = Promise.reject(new Error());
     return container;
   }));

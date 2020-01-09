@@ -1,24 +1,24 @@
 {
-  "gv-card-api": {
-    "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant le chargement de l'API"
+  "gv-card": {
+    "empty": "Aucune donnée à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement"
   },
-  "gv-card-api-full": {
-    "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant le chargement de l'API"
+  "gv-card-full": {
+    "empty": "Aucune donnée à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement"
   },
   "gv-code": {
     "copy": "Copier dans le presse papier"
   },
-  "gv-header-api": {
-    "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant le chargement de l'API",
+  "gv-header": {
+    "empty": "Aucun élément à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement",
     "subscribe": "Souscrire"
   },
-  "gv-info-api": {
+  "gv-info": {
     "about": "À propos",
     "categories": "Catégories",
-    "error": "Une erreur est survenue pendant le chargement des informations de l'API",
+    "error": "Une erreur est survenue pendant le chargement des informations",
     "labels": "Tags",
     "metrics": "Statistiques",
     "moreInfo": "Informations supplémentaires",
@@ -62,19 +62,22 @@
       "manual": "Validation manuelle"
     }
   },
-  "gv-promote-api": {
-    "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant le chargement de l'API",
-    "view": "Voir l'API"
+  "gv-promote": {
+    "empty": "Aucun élément à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement",
+    "view": "Voir"
   },
   "gv-rating": {
     "notes": "Notes"
   },
-  "gv-row-api": {
-    "empty": "Aucune API à afficher ici",
-    "error": "Une erreur est survenue pendant le chargement de l'API"
+  "gv-row": {
+    "empty": "Aucun élément à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement"
   },
   "gv-stepper" : {
     "error": "Une erreur est survenue pendant le chargement de étapes"
+  },
+  "gv-table": {
+    "empty": "Aucune donnée à afficher ici"
   }
 }

@@ -24,17 +24,17 @@ import '../atoms/gv-state.js';
 import '../atoms/gv-tag.js';
 import { truncate } from '../lib/utils.js';
 import { i18n } from '../lib/i18n.js';
-import { ApiResource } from '../mixins/api-resource.js';
+import { ItemResource } from '../mixins/item-resource.js';
 
 /**
- * Api Full Card component
+ * Full Card component
  *
- * @attr {Promise<Api>} api - An Api.
- * @attr {Promise<ApiMetrics>} metrics - An ApiMetrics.
+ * @attr {Promise<Object>} item - An item.
+ * @attr {Promise<Metrics>} metrics - A Metrics.
  *
- * @cssprop {String} [--gv-card-api-full--bgc=white] - set the background color.
+ * @cssprop {String} [--gv-card-full--bgc=white] - set the background color.
  */
-export class GvCardApiFull extends ApiResource(LitElement) {
+export class GvCardFull extends ItemResource(LitElement) {
 
   static get properties () {
     return {
@@ -68,7 +68,7 @@ export class GvCardApiFull extends ApiResource(LitElement) {
           flex-direction: column;
           height: 250px;
           border-radius: 4px;
-          background-color: var(--gv-card-api-full--bgc, white);
+          background-color: var(--gv-card-full--bgc, white);
           color: #262626;
           padding: 16px;
           --gc-icon--c: red
@@ -202,7 +202,7 @@ export class GvCardApiFull extends ApiResource(LitElement) {
             <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${this._getVersion()}</span></div>
         </div>
         <div class="${classMap({ skeleton: this._skeleton, description: true })}">
-            ${truncate(this._error ? i18n('gv-card-api-full.error') : this._empty ? i18n('gv-card-api-full.empty') : this._getDescription(), this.limit)}
+            ${truncate(this._error ? i18n('gv-card-full.error') : this._empty ? i18n('gv-card-full.empty') : this._getDescription(), this.limit)}
         </div>
         <span class="${classMap({ skeleton: this._skeleton })}">
           <div class="infos">
@@ -218,4 +218,4 @@ export class GvCardApiFull extends ApiResource(LitElement) {
 
 }
 
-window.customElements.define('gv-card-api-full', GvCardApiFull);
+window.customElements.define('gv-card-full', GvCardFull);

@@ -21,23 +21,25 @@ import { link } from '../styles/link';
 import { i18n } from '../lib/i18n';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
-import { ApiResource } from '../mixins/api-resource';
+import { ItemResource } from '../mixins/item-resource';
 
 /**
- * Api Info component
+ * Info component
  *
  * ## Types
- * * Api:  https://github.com/gravitee-io/gravitee-clients-sdk/blob/master/model/api.ts
+ * * Item:
+ *  - https://github.com/gravitee-io/gravitee-clients-sdk/blob/master/model/api.ts
+ *  - https://github.com/gravitee-io/gravitee-clients-sdk/blob/master/model/application.ts
  * * ApiMetrics:  https://github.com/gravitee-io/gravitee-clients-sdk/blob/master/model/apiMetrics.ts
  *
- * @attr {Api} api - An Api
+ * @attr {any} item - An item
  * @attr {ApiMetrics} metrics - An ApiMetrics.
- * @attr {Boolean} withDublinCore - If you want display title, description & image of an API.
- * @cssprop {Color} [--gv-info-api--bgc=white] - set the background color.
+ * @attr {Boolean} withDublinCore - If you want display title, description & image of an item.
+ * @cssprop {Color} [--gv-info--bgc=white] - set the background color.
  *
  * @appliesMixin ApiResource
  */
-export class GvInfoApi extends ApiResource(LitElement) {
+export class GvInfo extends ItemResource(LitElement) {
 
   static get properties () {
     return {
@@ -69,7 +71,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
           display: flex;
           flex-direction: column;
           border-radius: 4px;
-          background-color: var(--gv-info-api--bgc, white);
+          background-color: var(--gv-info--bgc, white);
           padding: 12px 0;
         }
 
@@ -203,7 +205,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
   _renderDescription () {
     if (this._getDescription()) {
       return html`<div class="description">
-                    <h4>${i18n('gv-info-api.about')}</h4>
+                    <h4>${i18n('gv-info.about')}</h4>
                     ${this._getDescription()}
                   </div>`;
     }
@@ -225,7 +227,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
       return html`
         <div class="infos">
           <div class="info">
-            <h4>${i18n('gv-info-api.error')}</h4>
+            <h4>${i18n('gv-info.error')}</h4>
           </div>
         </div>
       `;
@@ -253,7 +255,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
         ${this._skeleton || (views && views.length > 0)
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
-                <h4>${i18n('gv-info-api.categories')}</h4>
+                <h4>${i18n('gv-info.categories')}</h4>
                 <span>${this._renderViews()}</span>
               </div>
             `
@@ -262,7 +264,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
         ${this._skeleton || (labels && labels.length > 0)
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
-                <h4>${i18n('gv-info-api.labels')}</h4>
+                <h4>${i18n('gv-info.labels')}</h4>
                 <span>${this._renderLabels()}</span>
               </div>
             `
@@ -271,7 +273,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
         ${this._skeleton || this._getRating()
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
-                <h4>${i18n('gv-info-api.ratings')}</h4>
+                <h4>${i18n('gv-info.ratings')}</h4>
                 <span class="figures">${this._renderInfoRating()}</span>
               </div>
             `
@@ -280,7 +282,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
         ${this._metrics && (this._metrics.subscribers || this._metrics.health || this._metrics.hits)
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
-                <h4>${i18n('gv-info-api.metrics')}</h4>
+                <h4>${i18n('gv-info.metrics')}</h4>
                 <gv-metrics .metrics="${this._metrics}"></gv-metrics>
               </div>
             `
@@ -289,7 +291,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
         ${this.resources && this.resources.length > 0
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
-                <h4>${i18n('gv-info-api.resources')}</h4>
+                <h4>${i18n('gv-info.resources')}</h4>
                 <span>
                   ${repeat(this.resources, (item) => item, (item) =>
         html`<div class="info__resources"><a class="link" href="#">${item}</a></div>`
@@ -302,7 +304,7 @@ export class GvInfoApi extends ApiResource(LitElement) {
         ${this.miscellaneous && this.miscellaneous.length > 0
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
-                <h4>${i18n('gv-info-api.moreInfo')}</h4>
+                <h4>${i18n('gv-info.moreInfo')}</h4>
                 <span>
                   <ul class="info__miscellaneous">
                     ${repeat(this.miscellaneous, (item) =>
@@ -320,4 +322,4 @@ export class GvInfoApi extends ApiResource(LitElement) {
 
 }
 
-window.customElements.define('gv-info-api', GvInfoApi);
+window.customElements.define('gv-info', GvInfo);

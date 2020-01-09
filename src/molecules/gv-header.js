@@ -25,21 +25,21 @@ import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
-import { ApiResource } from '../mixins/api-resource';
+import { ItemResource } from '../mixins/item-resource';
 
 /**
- * Api Header component
+ * Header component
  *
- * @attr {Promise<Api>} api - An Api.
+ * @attr {Promise<any>} item - An item.
  * @attr {Promise<Array>} breadcrumbs - definition of routes in order [{ path: String, title: String }]
  * @attr {Boolean} canSubscribe - for display actions (default: false)
  *
- * @cssprop {String} [--gv-header-api--bgc=#D5FDCB] - set the background color.
- * @cssprop {String} [--gv-header-api--pl=4rem] - set the padding left
- * @cssprop {String} [--gv-header-api--pr=4rem] - set the padding right
- * @cssprop {String} [--gv-header-api--c=#262626] - set the color
+ * @cssprop {String} [--gv-header--bgc=#D5FDCB] - set the background color.
+ * @cssprop {String} [--gv-header--pl=4rem] - set the padding left
+ * @cssprop {String} [--gv-header--pr=4rem] - set the padding right
+ * @cssprop {String} [--gv-header--c=#262626] - set the color
  */
-export class GvHeaderApi extends withResizeObserver(ApiResource(LitElement)) {
+export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
 
   static get properties () {
     return {
@@ -61,12 +61,12 @@ export class GvHeaderApi extends withResizeObserver(ApiResource(LitElement)) {
           --gv-button--p: 10px 24px;
           --gv-link--bgc: transparent;
           --gv-link-active-bgc: transparent;
-          --c: var(--gv-header-api--c, #262626);
+          --c: var(--gv-header--c, #262626);
           --gv-link--c: var(--c);
           --gv-link-active--c: var(--c);
           --gv-link-a--ph: 5px;
           --gv-link--td: underline;
-          --bgc: var(--gv-header-api--bgc, #D5FDCB);
+          --bgc: var(--gv-header--bgc, #D5FDCB);
           box-sizing: border-box;
           display: block;
         }
@@ -114,8 +114,8 @@ export class GvHeaderApi extends withResizeObserver(ApiResource(LitElement)) {
           height: 150px;
           background-color: var(--bgc);
           flex-direction: column;
-          padding-left: var(--gv-header-api--pl, 4rem);
-          padding-right: var(--gv-header-api--pr, 4rem);
+          padding-left: var(--gv-header--pl, 4rem);
+          padding-right: var(--gv-header--pr, 4rem);
           color: var(--c);
           transition: height 1s ease;
         }
@@ -256,11 +256,11 @@ export class GvHeaderApi extends withResizeObserver(ApiResource(LitElement)) {
             <div class="title">
                 ${(!(this._error || this._empty)) ? html`<div class="version">${this._getVersion()}</div>` : ''}
                 ${(this._error || this._empty) ? html`
-                    <div><div class="error">${this._error ? i18n('gv-header-api.error') : i18n('gv-header-api.empty')}</div>
+                    <div><div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>
                  </div>` : html`<h1>${this._getTitle()}</h1>`}
             </div>
             ${!(this._error || this._empty) && this.canSubscribe ? html`<div class="actions">
-                <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header-api.subscribe')}</gv-button>
+                <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header.subscribe')}</gv-button>
             </div>` : ``}
         </div>
      </div>
@@ -269,4 +269,4 @@ export class GvHeaderApi extends withResizeObserver(ApiResource(LitElement)) {
 
 }
 
-window.customElements.define('gv-header-api', GvHeaderApi);
+window.customElements.define('gv-header', GvHeader);

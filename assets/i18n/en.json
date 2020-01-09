@@ -1,24 +1,24 @@
 {
-  "gv-card-api": {
+  "gv-card": {
     "empty": "No information to display",
     "error": "An error has occurred"
   },
-  "gv-card-api-full": {
+  "gv-card-full": {
     "empty": "No information to display",
     "error": "An error has occurred"
   },
   "gv-code": {
     "copy": "Copy to clipboard"
   },
-  "gv-header-api": {
-    "empty": "No API to display here",
-    "error": "An error occurred while loading the API",
+  "gv-header": {
+    "empty": "No data to display here",
+    "error": "An error occurred while loading",
     "subscribe": "subscribe"
   },
-  "gv-info-api": {
+  "gv-info": {
     "about": "About",
     "categories": "Categories",
-    "error": "An error occurred while loading API information",
+    "error": "An error occurred while loading information",
     "labels": "Labels",
     "metrics": "Metrics",
     "moreInfo": "More information",
@@ -62,19 +62,22 @@
       "manual": "Manual validation"
     }
   },
-  "gv-promote-api": {
+  "gv-promote": {
     "empty": "No information to display",
     "error": "An error has occurred",
-    "view": "View API"
+    "view": "View"
   },
   "gv-rating": {
     "notes": "Notes"
   },
-  "gv-row-api": {
-    "empty": "No API to display here",
-    "error": "An error occurred while loading the API"
+  "gv-row": {
+    "empty": "No data to display here",
+    "error": "An error occurred while loading"
   },
-  "gv-stepper" : {
+  "gv-stepper": {
     "error": "An error occurred while loading the steps"
+  },
+  "gv-table": {
+    "empty": "No data to display here"
   }
 }

@@ -17,17 +17,17 @@ import { css, html, LitElement } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
-import { ApiResource } from '../mixins/api-resource';
+import { ItemResource } from '../mixins/item-resource';
 
 /**
- * Api Row component
+ * Row component
  *
- * @attr {Promise<Api>} api - An Api.
+ * @attr {Promise<any>} item - An item.
  *
- * @cssprop {String} [--gv-row-api--bgc=white] - set the background color.
- * @cssprop {String} [--gv-row-api-hover--bgc=#FAFAFA] - set the background color when hover.
+ * @cssprop {String} [--gv-row--bgc=white] - set the background color.
+ * @cssprop {String} [--gv-row-hover--bgc=#FAFAFA] - set the background color when hover.
  */
-export class GvRowApi extends ApiResource(LitElement) {
+export class GvRow extends ItemResource(LitElement) {
 
   static get styles () {
     return [
@@ -36,7 +36,7 @@ export class GvRowApi extends ApiResource(LitElement) {
       css`
           :host {
               box-sizing: border-box;
-              --hover-bgc: var(--gv-row-api-hover--bgc, #FAFAFA);
+              --hover-bgc: var(--gv-row-hover--bgc, #FAFAFA);
               cursor: pointer;
           }
 
@@ -47,7 +47,7 @@ export class GvRowApi extends ApiResource(LitElement) {
 
           .row, .row.error:hover {
               display: flex;
-              background-color: var(--gv-row-api--bgc, white);
+              background-color: var(--gv-row--bgc, white);
               align-items: center;
               padding: 8px;
               transition: all .3s;
@@ -65,7 +65,7 @@ export class GvRowApi extends ApiResource(LitElement) {
           }
 
           .row  .name {
-              min-width: 300px;
+              min-width: 100px;
           }
 
           .row .version {
@@ -125,7 +125,7 @@ export class GvRowApi extends ApiResource(LitElement) {
 
     return html`
         <div class=${classMap(classes)}>
-            ${(this._error || this._empty) ? html`<div class="${classMap({ description: true })}">${this._error ? i18n('gv-row-api.error') : i18n('gv-row-api.empty')}</div>` : html`
+            ${(this._error || this._empty) ? html`<div class="${classMap({ description: true })}">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>` : html`
             <div class="${classMap({ picture: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
             <div class="${classMap({ name: true, skeleton: this._skeleton })}"><h4 class="title">${this._getTitle()}</h4></div>
             <div class="${classMap({ version: true, skeleton: this._skeleton })}">${this._getVersion()}</div>
@@ -144,4 +144,4 @@ export class GvRowApi extends ApiResource(LitElement) {
 
 }
 
-window.customElements.define('gv-row-api', GvRowApi);
+window.customElements.define('gv-row', GvRow);

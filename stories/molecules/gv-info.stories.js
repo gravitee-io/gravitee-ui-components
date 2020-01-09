@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import { storiesOf } from '@storybook/html';
-import notes from '../../.docs/gv-info-api.md';
-import '../../src/molecules/gv-info-api';
+import notes from '../../.docs/gv-info.md';
+import '../../src/molecules/gv-info';
 import { delay } from '../lib/delay';
 import { color } from '@storybook/addon-knobs';
 import { withCustomEventActions } from '../lib/event-action';
@@ -40,9 +40,9 @@ const api = {
     + 'mandaverat fidis quo con perto Montius tunc.',
 };
 
-const withActions = withCustomEventActions('gv-info-api:click-view', 'gv-info-api:click-label');
+const withActions = withCustomEventActions('gv-info:click-view', 'gv-info:click-label');
 
-storiesOf('2. Molecules|<gv-info-api>', module)
+storiesOf('2. Molecules|<gv-info>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
 
@@ -52,33 +52,33 @@ storiesOf('2. Molecules|<gv-info-api>', module)
     <div style="display:flex;">
       <div style="margin: 10px;">
         <div class="title">Basics</div>
-        <gv-info-api id="basics"></gv-info-api>
+        <gv-info id="basics"></gv-info>
       </div>
       <div style="margin: 10px;">
         <div class="title">Skeleton</div>
-        <gv-info-api></gv-info-api>
+        <gv-info></gv-info>
       </div>
       <div style="margin: 10px;">
         <div class="title">Delay</div>
-        <gv-info-api id="delay"></gv-info-api>
+        <gv-info id="delay"></gv-info>
       </div>
     </div>
     `;
 
-    const bgColor = color('--gv-info-api--bgc', '');
+    const bgColor = color('--gv-info--bgc', '');
 
     container.style = [
-      { value: bgColor, prop: '--gv-info-api--bgc' }]
+      { value: bgColor, prop: '--gv-info--bgc' }]
       .filter(({ value }) => value)
       .map(({ value, prop }) => `${prop}:${value}`)
       .join(';');
 
-    container.querySelector('#basics').api = Promise.resolve(api);
+    container.querySelector('#basics').item = Promise.resolve(api);
     container.querySelector('#basics').resources = resources;
     container.querySelector('#basics').miscellaneous = miscellaneous;
     container.querySelector('#basics').metrics = metrics;
 
-    container.querySelector('#delay').api = Promise.resolve(api).then(delay(2000));
+    container.querySelector('#delay').item = Promise.resolve(api).then(delay(2000));
     container.querySelector('#delay').metrics = metrics.then(delay(3000));
     container.querySelector('#delay').resources = resources;
     container.querySelector('#delay').miscellaneous = miscellaneous;
@@ -92,25 +92,25 @@ storiesOf('2. Molecules|<gv-info-api>', module)
     <div style="display:flex;">
       <div style="margin: 10px;">
         <div class="title">Basics</div>
-        <gv-info-api id="basics" with-dc></gv-info-api>
+        <gv-info id="basics" with-dc></gv-info>
       </div>
       <div style="margin: 10px;">
         <div class="title">Skeleton</div>
-        <gv-info-api with-dc></gv-info-api>
+        <gv-info with-dc></gv-info>
       </div>
       <div style="margin: 10px;">
         <div class="title">Delay</div>
-        <gv-info-api id="delay" with-dc></gv-info-api>
+        <gv-info id="delay" with-dc></gv-info>
       </div>
     </div>
     `;
 
-    container.querySelector('#basics').api = Promise.resolve(api);
+    container.querySelector('#basics').item = Promise.resolve(api);
     container.querySelector('#basics').resources = resources;
     container.querySelector('#basics').miscellaneous = miscellaneous;
     container.querySelector('#basics').metrics = metrics;
 
-    container.querySelector('#delay').api = Promise.resolve(api).then(delay(2000));
+    container.querySelector('#delay').item = Promise.resolve(api).then(delay(2000));
     container.querySelector('#delay').metrics = metrics.then(delay(3000));
     container.querySelector('#delay').resources = resources;
     container.querySelector('#delay').miscellaneous = miscellaneous;
@@ -120,12 +120,12 @@ storiesOf('2. Molecules|<gv-info-api>', module)
     const container = document.createElement('div');
     container.innerHTML = `
       <div class="title">Empty</div>
-      <gv-info-api id="empty"></gv-info-api>
+      <gv-info id="empty"></gv-info>
 
       <div class="title">Error</div>
-      <gv-info-api id="error"></gv-info-api>
+      <gv-info id="error"></gv-info>
     `;
-    container.querySelector('#empty').api = Promise.resolve({});
-    container.querySelector('#error').api = Promise.reject(new Error());
+    container.querySelector('#empty').item = Promise.resolve({});
+    container.querySelector('#error').item = Promise.reject(new Error());
     return container;
   });

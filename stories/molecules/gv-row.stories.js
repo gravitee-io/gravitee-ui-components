@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 import { storiesOf } from '@storybook/html';
-import notes from '../../.docs/gv-card-api.md';
-import '../../src/molecules/gv-card-api';
+import notes from '../../.docs/gv-row.md';
+import '../../src/molecules/gv-row';
 import { delay } from '../lib/delay';
 import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
 import picture from '../../assets/images/logo.png';
 import { withActions } from '@storybook/addon-actions';
 import { color } from '@storybook/addon-knobs';
 
-const eventNames = ['click gv-card-api'];
+const eventNames = ['click gv-row'];
 
 const name = 'Supernova';
 const version = 'v.1.1';
 const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];
-const api = { name: 'Long Supernova', picture: horizontalImage, version, states };
-storiesOf('2. Molecules|<gv-card-api>', module)
+const owner = { display_name: 'Garry Marshall' };
+const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
+  + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
+const labels = ['brta', 'custom', 'web'];
+const api = { name: 'Long Supernova', picture: horizontalImage, version, states, owner, labels, description };
+storiesOf('2. Molecules|<gv-row>', module)
   .addParameters({ notes })
   .add('Basics', () => withActions(...eventNames)(() => {
 
@@ -36,19 +40,19 @@ storiesOf('2. Molecules|<gv-card-api>', module)
 
     container.innerHTML = `
     <div class="title">Basics</div>
-    <gv-card-api id="name"></gv-card-api>
-    <gv-card-api id="horizontalImage"></gv-card-api>
-    <gv-card-api id="image"></gv-card-api>
-    
+    <gv-row id="name"></gv-row>
+    <gv-row id="horizontalImage"></gv-row>
+    <gv-row id="image"></gv-row>
+
     <div class="title">Skeleton & Delay</div>
-    <gv-card-api></gv-card-api>
-    <gv-card-api id="delay"></gv-card-api>
+    <gv-row></gv-row>
+    <gv-row id="delay"></gv-row>
     `;
 
-    const bgColor = color('--gv-card-api--bgc', '');
+    const bgColor = color('--gv-row--bgc', '');
 
     container.style = [
-      { value: bgColor, prop: '--gv-card-api--bgc' }]
+      { value: bgColor, prop: '--gv-row--bgc' }]
       .filter(({ value }) => value)
       .map(({ value, prop }) => `${prop}:${value}`)
       .join(';');
@@ -56,22 +60,22 @@ storiesOf('2. Molecules|<gv-card-api>', module)
     const delayElement = container.querySelector('#delay');
     delayElement.title = Promise.resolve('Slow api').then(delay(2000));
 
-    container.querySelector('#name').api = Promise.resolve({ name });
-    container.querySelector('#horizontalImage').api = Promise.resolve(api);
-    container.querySelector('#image').api = Promise.resolve({ name: 'Comet Api.', picture, version, states });
-    container.querySelector('#delay').api = Promise.resolve(api).then(delay(2000));
+    container.querySelector('#name').item = Promise.resolve({ name, owner });
+    container.querySelector('#horizontalImage').item = Promise.resolve(api);
+    container.querySelector('#image').item = Promise.resolve({ name: 'Comet Api.', picture, version, states, owner, labels, description });
+    container.querySelector('#delay').item = Promise.resolve(api).then(delay(2000));
     return container;
   }))
   .add('Errors', () => withActions(...eventNames)(() => {
     const container = document.createElement('div');
     container.innerHTML = `
       <div class="title">Empty</div>
-      <gv-card-api id="empty"></gv-card-api>
-    
+      <gv-row id="empty"></gv-row>
+
       <div class="title">Error</div>
-      <gv-card-api id="error"></gv-card-api>
+      <gv-row id="error"></gv-row>
     `;
-    container.querySelector('#empty').api = Promise.resolve({});
-    container.querySelector('#error').api = Promise.reject(new Error());
+    container.querySelector('#empty').item = Promise.resolve({});
+    container.querySelector('#error').item = Promise.reject(new Error());
     return container;
   }));

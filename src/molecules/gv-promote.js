@@ -21,19 +21,19 @@ import '../atoms/gv-button';
 import '../molecules/gv-rating';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
-import { ApiResource } from '../mixins/api-resource';
+import { ItemResource } from '../mixins/item-resource';
 
 /**
- * Promote Api component
+ * Promote component
  *
- * @fires gv-promote-api:click - When click on button for view API
+ * @fires gv-promote:click - When click on button for view item
  *
- * @attr {Promise<Api>} api - an Api.
+ * @attr {Promise<any>} item - an item.
  *
- * @cssprop {String} [--gv-promote-api-image--bgc=#D5FDCB] - set the background color of image.
- * @cssprop {String} [--gv-promote-api--bgc=white] - set the background color.
+ * @cssprop {String} [--gv-promote-image--bgc=#D5FDCB] - set the background color of image.
+ * @cssprop {String} [--gv-promote--bgc=white] - set the background color.
  */
-export class GvPromoteApi extends ApiResource(LitElement) {
+export class GvPromote extends ItemResource(LitElement) {
 
   static get styles () {
     return [
@@ -63,7 +63,7 @@ export class GvPromoteApi extends ApiResource(LitElement) {
           }
 
           .image {
-              background-color: var(--gv-promote-api-image--bgc, #D5FDCB);
+              background-color: var(--gv-promote-image--bgc, #D5FDCB);
               min-height: 0;
               min-width: 0;
               display: flex;
@@ -94,7 +94,7 @@ export class GvPromoteApi extends ApiResource(LitElement) {
           .content {
               flex: 1;
               padding: 50px 70px;
-              background-color: var(--gv-promote-api--bgc, white);
+              background-color: var(--gv-promote--bgc, white);
               color: #262626;
               font-size: 16px;
               line-height: 24px;
@@ -135,8 +135,8 @@ export class GvPromoteApi extends ApiResource(LitElement) {
     return html`<div class="container">
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
     <div class="content">
-    ${this._error && !this._skeleton ? html`<p class="description">${i18n('gv-promote-api.error')}</p>` : html`
-        ${this._empty ? html`<p class="description">${i18n('gv-promote-api.empty')}</p>` : html`
+    ${this._error && !this._skeleton ? html`<p class="description">${i18n('gv-promote.error')}</p>` : html`
+        ${this._empty ? html`<p class="description">${i18n('gv-promote.empty')}</p>` : html`
         <div class=${classMap({ skeleton: this._skeleton, title: true })}>
           <h2>${this._getTitle()}</h2>
           <span class="version">${this._getVersion()}</span>
@@ -145,7 +145,7 @@ export class GvPromoteApi extends ApiResource(LitElement) {
         <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
             ${this._renderMetricsWithRating()}
         </div>
-        <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote-api.view')}</gv-button>`}
+        <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote.view')}</gv-button>`}
     `}
     </div>
 </div>`;
@@ -153,4 +153,4 @@ export class GvPromoteApi extends ApiResource(LitElement) {
 
 }
 
-window.customElements.define('gv-promote-api', GvPromoteApi);
+window.customElements.define('gv-promote', GvPromote);
