@@ -28,8 +28,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@github/time-elements": "^3.1.0",
     "clipboard-copy": "^3.1.0",
     "highlight.js": "^9.17.1",
+    "jdenticon": "^2.2.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
     "resize-observer-polyfill": "^1.5.1"

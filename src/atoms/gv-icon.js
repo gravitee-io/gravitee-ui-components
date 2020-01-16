@@ -59,7 +59,7 @@ export class GvIcon extends LitElement {
           width: var(--size);
         }
 
-        svg:not(.no-color) > path {
+        svg:not(.no-color) * {
           fill: var(--color);
         }
 

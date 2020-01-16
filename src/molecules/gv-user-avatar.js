@@ -1,0 +1,87 @@
+/*
+ * Copyright (C) 2015 The Gravitee team (http://gravitee.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { LitElement } from 'lit-element';
+import { html } from 'lit-html';
+import jdenticon from 'jdenticon';
+
+/**
+ * User avatar component
+ *
+ * @attr {Object<{display_name, avatar}>} user - a user
+ * @attr {Number} size - size of image
+ *
+ */
+export class GvUserAvatar extends LitElement {
+
+  static get properties () {
+    return {
+      user: { type: Object },
+      size: { type: Number },
+      _error: { type: Boolean, attribute: false },
+    };
+  }
+
+  constructor () {
+    super();
+    this.size = 40;
+  }
+
+  _onError () {
+    this._error = true;
+    this.performUpdate();
+  }
+
+  getDisplayName () {
+    if (this.user) {
+      return this.user.display_name;
+    }
+    return '';
+  }
+
+  getUserPicture () {
+    if (this.user) {
+      return this.user._links ? this.user._links.avatar : this.user.avatar;
+    }
+    return null;
+  }
+
+  getDefaultPicture () {
+    return jdenticon.toSvg(this.getDisplayName(), this.size);
+  }
+
+  render () {
+    if (this.user) {
+      if (this._error) {
+        const container = document.createElement('div');
+        container.title = this.getDisplayName();
+        container.innerHTML = this.getDefaultPicture();
+        return html`${container}`;
+      }
+
+      const style = `--gv-image--w:${this.size}px; --gv-image--h:${this.size}px;--gv-image--of: cover; --gv-image--bdrs: 50%;`;
+
+      return html`
+    <gv-image src="${this.getUserPicture()}"
+            alt="${this.getDisplayName()}"
+            title="${this.getDisplayName()}"
+            style="${style}" @error="${this._onError}"></gv-image>
+    `;
+    }
+  }
+
+}
+
+window.customElements.define('gv-user-avatar', GvUserAvatar);

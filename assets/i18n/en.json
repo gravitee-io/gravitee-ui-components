@@ -10,6 +10,10 @@
   "gv-code": {
     "copy": "Copy to clipboard"
   },
+  "gv-confirm": {
+    "cancel": "No",
+    "ok": "Yes"
+  },
   "gv-header": {
     "empty": "No data to display here",
     "error": "An error occurred while loading",
@@ -17,6 +21,7 @@
   },
   "gv-info": {
     "about": "About",
+    "beFirstToRate": "Be the first to rate",
     "categories": "Categories",
     "error": "An error occurred while loading information",
     "labels": "Labels",
@@ -61,7 +66,23 @@
     "view": "View"
   },
   "gv-rating": {
+    "description-1": "I hate",
+    "description-2": "I don't like",
+    "description-3": "I like",
+    "description-4": "I love",
+    "description-5": "It's perfect",
+    "note": "Note",
     "notes": "Notes"
+  },
+  "gv-rating-list": {
+    "answerLabel": "Bring your answer",
+    "cancel": "Cancel",
+    "confirmAnswerDelete": "Are you sure you delete the answer ?",
+    "confirmRatingDelete": "Are you sure you delete the rating ?",
+    "deleteAnswer": "Delete answer",
+    "deleteRating": "Delete rating",
+    "reply": "Reply",
+    "send": "Send"
   },
   "gv-row": {
     "empty": "No data to display here",

@@ -171,8 +171,8 @@ export class GvCardFull extends ItemResource(LitElement) {
 
   _renderInfoRating () {
     const rating = this._getRating();
-    if (rating) {
-      return html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`;
+    if (rating && rating.count) {
+      return html`<gv-rating readonly .skeleton="${this._skeleton}" .value="${rating.average}" .count="${rating.count}"></gv-rating>`;
     }
     return html`<div class="info"></div>`;
   }

@@ -20,7 +20,7 @@ import { text } from '@storybook/addon-knobs';
 import { updateTextAttributes } from '../lib/update-attributes';
 import { withCustomEventActions } from '../lib/event-action';
 
-const withActions = withCustomEventActions('gv-text:text');
+const withActions = withCustomEventActions('gv-text:input');
 
 storiesOf('1. Atoms|<gv-text>', module)
   .addParameters({ notes })
