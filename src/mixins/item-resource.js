@@ -170,7 +170,7 @@ export function ItemResource (ParentClass) {
       }
       const rating = this._getRating();
       if (rating) {
-        rendered.push(html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`);
+        rendered.push(html`<gv-rating readonly .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`);
       }
       return rendered;
     }
@@ -178,7 +178,7 @@ export function ItemResource (ParentClass) {
     _renderInfoRating () {
       const rating = this._getRating();
       if (rating) {
-        return html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`;
+        return html`<gv-rating readonly .skeleton="${this._skeleton}" .average="${rating.average}" .count="${rating.count}"></gv-rating>`;
       }
       return '';
     }

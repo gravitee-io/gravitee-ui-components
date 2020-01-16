@@ -10,6 +10,10 @@
   "gv-code": {
     "copy": "Copier dans le presse papier"
   },
+  "gv-confirm": {
+    "cancel": "Non",
+    "ok": "Oui"
+  },
   "gv-header": {
     "empty": "Aucun élément à afficher ici",
     "error": "Une erreur est survenue pendant le chargement",
@@ -17,6 +21,7 @@
   },
   "gv-info": {
     "about": "À propos",
+    "beFirstToRate": "Soyez le premier à noter",
     "categories": "Catégories",
     "error": "Une erreur est survenue pendant le chargement des informations",
     "labels": "Tags",
@@ -61,7 +66,23 @@
     "view": "Voir"
   },
   "gv-rating": {
+    "description-1": "Je déteste",
+    "description-2": "Je n'aime pas",
+    "description-3": "J'aime",
+    "description-4": "J'adore",
+    "description-5": "C'est parfait",
+    "note": "Note",
     "notes": "Notes"
+  },
+  "gv-rating-list": {
+    "answerLabel": "Apportez votre réponse",
+    "cancel": "Annuler",
+    "confirmAnswerDelete": "Êtes-vous certains de vouloir supprimer la réponse ?",
+    "confirmRatingDelete": "Êtes-vous certains de vouloir supprimer l'évaluation ?",
+    "deleteAnswer": "Supprimer la réponse",
+    "deleteRating": "Supprimer l'évaluation",
+    "reply": "Répondre",
+    "send": "Envoyer"
   },
   "gv-row": {
     "empty": "Aucun élément à afficher ici",

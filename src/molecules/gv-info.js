@@ -33,12 +33,13 @@ import { ItemResource } from '../mixins/item-resource';
  *  - https://github.com/gravitee-io/gravitee-clients-sdk/blob/master/model/application.ts
  * * ApiMetrics:  https://github.com/gravitee-io/gravitee-clients-sdk/blob/master/model/apiMetrics.ts
  *
+ * @fires gv-info:rating - When user click to readonly rating
  * @attr {any} item - An item
  * @attr {ApiMetrics} metrics - An ApiMetrics.
  * @attr {Boolean} withDublinCore - If you want display title, description & image of an item.
  * @cssprop {Color} [--gv-info--bgc=white] - set the background color.
  *
- * @appliesMixin ApiResource
+ * @appliesMixin ItemResource
  */
 export class GvInfo extends ItemResource(LitElement) {
 
@@ -178,6 +179,10 @@ export class GvInfo extends ItemResource(LitElement) {
           padding: 16px;
         }
 
+        gv-rating {
+          cursor: pointer;
+        }
+
       `,
     ];
   }
@@ -196,10 +201,19 @@ export class GvInfo extends ItemResource(LitElement) {
       });
   }
 
+  _onClickRating () {
+    dispatchCustomEvent(this, 'rating');
+  }
+
   _renderInfoRating () {
     const rating = this._getRating();
     if (rating) {
-      return html`<gv-rating .skeleton="${this._skeleton}" .average="${rating.average}"></gv-rating>`;
+      return html`
+    ${rating.count ? '' : html`<span>${i18n('gv-info.beFirstToRate')}</span>`}
+<gv-rating @click="${this._onClickRating}" readonly
+.skeleton="${this._skeleton}"
+.count="${rating.count}"
+.value="${rating.average}"></gv-rating>`;
     }
     return '';
   }

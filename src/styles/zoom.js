@@ -13,5 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { link } from './link';
-export { skeleton } from './skeleton';
+import { css } from 'lit-element';
+
+// language=CSS
+export const zoom = css`
+    @keyframes zoomIn {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes zoomOut {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+    }
+`;

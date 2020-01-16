@@ -77,7 +77,7 @@ export class GvText extends LitElement {
               box-sizing: border-box;
               border-radius: 4px;
               outline: none;
-              padding: 10px;
+              padding: 10px 5px;
               width: 100%;
               resize: none;
               font-size: 14px;
@@ -117,6 +117,7 @@ export class GvText extends LitElement {
   constructor () {
     super();
     this._id = 'gv-id';
+    this.rows = 10;
   }
 
   firstUpdated (changedProperties) {
@@ -144,7 +145,7 @@ export class GvText extends LitElement {
 
   _onInput (e) {
     this.value = e.target.value;
-    dispatchCustomEvent(this, 'text', this.value);
+    dispatchCustomEvent(this, 'input', this.value);
   }
 
   render () {
@@ -166,7 +167,7 @@ export class GvText extends LitElement {
             ?disabled=${this.disabled || this.skeleton}
             .placeholder=${ifDefined(this.placeholder)}
             .value=${ifDefined(this.value)}
-            rows="${this.rows || 10}"
+            rows="${this.rows}"
             @input=${this._onInput}></textarea>
       </div>
     `;

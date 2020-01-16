@@ -1,0 +1,1 @@
+import '../src/molecules/gv-user-avatar';

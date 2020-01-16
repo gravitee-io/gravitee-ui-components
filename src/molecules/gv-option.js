@@ -26,7 +26,6 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @attr {Array} options - An array of {title, icon, id, active}.
  *
  * @cssprop {String} [--gv-option--bgc=#E8E8E8] - set the background color. (default: #E8E8E8)
- * @cssprop {String} [--gv-option-icon--c=#BFBFBF] - set the background color. (default: #BFBFBF)
  */
 export class GvOption extends LitElement {
 
@@ -49,7 +48,6 @@ export class GvOption extends LitElement {
               margin: 0;
               --gv-button--m: 0;
               --gv-button--bgc: var(--gv-option--bgc, #E8E8E8);
-              --gv-button-icon--c: var(--gv-option-icon--c, #BFBFBF);
               --gv-button--bdrs: 0;
           }
 
