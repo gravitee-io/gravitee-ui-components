@@ -34,6 +34,7 @@ import { isSameRoutes } from '../lib/utils';
  * @cssprop {String} [--gv-user-menu-hover--bgc=#D5FDCB] - set the hover background color.
  * @cssprop {String} [--gv-user-menu--bdc=lightgrey] - set the border color.
  * @cssprop {String} [--gv-user-menu--tsh=none] - set the text shadow.
+ * @cssprop {String} [--gv-user-menu-icon--c=black] - set the icon color.
  */
 export class GvUserMenu extends LitElement {
 
@@ -57,6 +58,7 @@ export class GvUserMenu extends LitElement {
               --bgc: var(--gv-user-menu--bgc, transparent);
               --hover-bgc: var(--gv-user-menu-hover--bgc, #D5FDCB);
               --gv-link-active--c: var(--gv-user-menu-hover--c, #193E34);
+              --gv-icon--c: var(--gv-user-menu-icon--c, black);
               --gv-icon--s: 16px;
               --gv-link-a--ph: 0;
               --gv-link--ta: right;
@@ -212,7 +214,6 @@ export class GvUserMenu extends LitElement {
   }
 
   _renderFirstItem () {
-
     if (this._routes) {
       if (this.username) {
         return html`<li class="user-menu__title" @click=${this._onClick} >
