@@ -116,6 +116,9 @@ export class GvPromote extends ItemResource(LitElement) {
               margin: 8px 0;
           }
 
+          .labels {
+            text-align: right;
+          }
 
           .skeleton {
               background-color: #aaa;
@@ -144,6 +147,9 @@ export class GvPromote extends ItemResource(LitElement) {
         <p class=${classMap({ skeleton: this._skeleton, description: true })}>${this._getDescription()}</p>
         <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
             ${this._renderMetricsWithRating()}
+        </div>
+        <div class="labels">
+          ${this._renderLabels()}
         </div>
         <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote.view')}</gv-button>`}
     `}
