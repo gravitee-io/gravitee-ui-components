@@ -31,6 +31,7 @@ const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret 
 const ratingSummary = { average: 3.2, count: 345 };
 const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
 const version = 'v1.1';
+const labels = ['APIDays', 'December', 'Foobar'];
 storiesOf('2. Molecules|<gv-promote>', module)
   .addParameters({ notes })
   .add('Basics', () => withActions(...eventNames)(() => {
@@ -44,6 +45,8 @@ storiesOf('2. Molecules|<gv-promote>', module)
         <gv-promote id="withPicture"></gv-promote>
         <div class="title">With horizontal picture</div>
         <gv-promote id="withHorizontalPicture"></gv-promote>
+        <div class="title">With labels</div>
+        <gv-promote id="withLabels"></gv-promote>
     `;
 
     const bgColor = color('--gv-promote--bgc', '');
@@ -76,6 +79,14 @@ storiesOf('2. Molecules|<gv-promote>', module)
       rating_summary: ratingSummary,
       _links: { picture: horizontalImage },
       version,
+    });
+    container.querySelector('#withLabels').item = Promise.resolve({
+      name,
+      description,
+      rating_summary: ratingSummary,
+      _links: { picture: horizontalImage },
+      version,
+      labels,
     });
     return container;
   }))
