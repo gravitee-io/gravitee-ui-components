@@ -45,6 +45,7 @@ import { i18n } from '../lib/i18n';
  * @attr {Boolean} [loading=false] - true to display a loading icon
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
+ * @attr {String} [autocomplete='off'] - standard autocomplete attribute
  */
 export class GvInput extends LitElement {
 
@@ -69,6 +70,7 @@ export class GvInput extends LitElement {
       max: { type: Number },
       autofocus: { type: Boolean },
       readonly: { type: Boolean },
+      autocomplete: { type: String },
     };
   }
 
@@ -130,6 +132,7 @@ export class GvInput extends LitElement {
     this._type = 'text';
     this._showPassword = false;
     this.value = '';
+    this.autocomplete = 'off';
   }
 
   firstUpdated (changedProperties) {
@@ -315,6 +318,7 @@ ${this._renderRequired()}${this.label}
           ${this._renderLabel()}
           <input
             id=${this._id}
+            .autocomplete="${this.autocomplete}"
             .type=${this._type}
             .name=${ifDefined(this.name)}
             .title=${ifDefined(this.title || this.label)}

@@ -99,7 +99,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input type="password" placeholder="Password"></gv-input>
       <gv-input type="password" placeholder="Password icon" icon="general:shield-protected"></gv-input>
       <gv-input type="password" placeholder="Password icon left" icon-left="general:shield-protected"></gv-input>
-      <gv-input type="email" placeholder="Email"></gv-input>
+      <gv-input type="email" placeholder="Email" autocomplete="on" name="email"></gv-input>
       <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
       <gv-input placeholder="Email icon left" icon-left="communication:mail-@"></gv-input>
     </div>
