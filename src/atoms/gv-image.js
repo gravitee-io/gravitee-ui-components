@@ -166,10 +166,8 @@ export class GvImage extends LitElement {
        ${this.src && this.alt
       ? html`<img src="${until(this.src, '')}" alt="${until(this.alt, '')}" @load="${this._onLoad}" @error="${this._onError}">`
       : html`<div class="placeholder"><gv-icon shape="design:image"></gv-icon></div>`}
-</div>`;
-
+    </div>`;
   }
-
 }
 
 window.customElements.define('gv-image', GvImage);
