@@ -21,7 +21,7 @@ const SVGO = require('svgo');
 const pascalCase = require('pascal-case');
 
 const glob = util.promisify(rawGlob);
-const svgo = new SVGO({ plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill:none'] } }] });
+const svgo = new SVGO({ plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill:none', 'path:fill:none'] } }] });
 // {attrs: 'fill:none|stroke|fill-rule|clip-rule|width|height'}
 const iconsByShape = {};
 
@@ -31,18 +31,23 @@ async function run () {
   for (const src of svgFilepaths) {
     const relativePath = src.replace('assets/icons/', '');
     const [category, filename] = relativePath.split('/');
+
     console.log(`Parse ${src}`);
     iconsByShape[category] = iconsByShape[category] || {};
     const id = filename.replace('.svg', '').toLowerCase();
     const code = await fs.readFile(src, 'utf8');
     iconsByShape[category][id] = await svgo.optimize(code).then((optimizeCode) => optimizeCode.data.replace('<svg>', '').replace('</svg>', ''));
   }
+
+  iconsByShape.thirdparty.google = iconsByShape.thirdparty.google.replace('svg', 'svg class="no-color"');
+  iconsByShape.thirdparty.graviteeio_am = iconsByShape.thirdparty.graviteeio_am.replace('svg', 'svg class="no-color"');
+
   const filepath = 'stories/lib/icons.generated.js';
   await del('src/icons/shapes');
   await fs.mkdir('src/icons/shapes', { recursive: true });
   await fs.writeFile(filepath, `import '../../src/atoms/gv-icon.js';
 
-export function generateIcons() {  
+export function generateIcons() {
     return \``);
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
     const shapeName = pascalCase(`${shapeId}Shapes`);

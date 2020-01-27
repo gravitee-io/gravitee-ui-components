@@ -26,7 +26,6 @@ export { GvSelect } from './atoms/gv-select';
 export { GvState } from './atoms/gv-state';
 export { GvTag } from './atoms/gv-tag';
 export { GvText } from './atoms/gv-text';
-export { GvIcons } from './icons/gv-icons';
 export { GvCardFull } from './molecules/gv-card-full';
 export { GvCard } from './molecules/gv-card';
 export { GvCode } from './molecules/gv-code';

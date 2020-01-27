@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 import { css, html, LitElement, TemplateResult } from 'lit-element';
-import { GvIcons } from '../icons/gv-icons';
 import { until } from 'lit-html/directives/until';
 import { skeleton } from '../styles/skeleton';
-import { getCssVar } from '../lib/style';
 
 /**
  * An icon
  *
  * @cssprop {String} [--gv-icon--c=#262626] - set the color of icon
- * @cssprop {String} [--gv-icon--s=32] - set the height and width of icon (crushes size property)
+ * @cssprop {String} [--gv-icon--s=32px] - set the height and width of icon (crushes size property)
  */
 export class GvIcon extends LitElement {
 
@@ -48,33 +46,45 @@ export class GvIcon extends LitElement {
       skeleton,
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-flex;
-              vertical-align: middle;
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-flex;
+          vertical-align: middle;
+          --color: var(--gv-icon--c, #262626);
+          --size: var(--gv-icon--s, 32px);
+        }
+
+        svg {
+          height: var(--size);
+          width: var(--size);
+        }
+
+        svg:not(.no-color) > path {
+          fill: var(--color);
+        }
+
       `];
   }
 
-  async _getIcon () {
-    let icon = await GvIcons._getIcon(this.shape);
-    if (icon) {
-      if (!GvIcon.excludedShapes.includes(this.shape)) {
-        const color = getCssVar(this, 'gv-icon--c', '#262626');
-        if (color) {
-          icon = icon.replace(/fill="[#a-zA-Z0-9]*"/g, `fill="${color}"`);
-        }
-      }
-      const size = getCssVar(this, 'gv-icon--s', 32);
-      if (size) {
-        icon = icon.replace(/<svg/, `<svg width="${size}" height="${size}"`);
-      }
+  static async _getIcon (name) {
+    const [shape, icon] = name.split(':');
+    if (window.GvIcons == null) {
+      window.GvIcons = {};
     }
-    return new TemplateResult([icon], [], 'html');
+    if (shape && window.GvIcons[shape] == null) {
+      await import(`../icons/shapes/${shape}.js`);
+    }
+    if (shape && window.GvIcons[shape]) {
+      return new TemplateResult([window.GvIcons[shape][icon]], [], 'html');
+    }
+    else {
+      console.error(`Cannot find shape "${shape}". Show Gravitee.io Components documentation.`);
+    }
+    return '?';
   }
 
   render () {
-    return html`${until(this._getIcon(), '')}`;
+    return html`${until(GvIcon._getIcon(this.shape), '')}`;
   }
 
 }
