@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-checkbox.js';
-import notes from '../../.docs/gv-checkbox.md';
+import '../../src/atoms/gv-switch.js';
+import notes from '../../.docs/gv-switch.md';
 import { storiesOf } from '@storybook/html';
 import { text } from '@storybook/addon-knobs';
 import { updateTextAttributes } from '../lib/update-attributes';
 import { withCustomEventActions } from '../lib/event-action';
 
-const withActions = withCustomEventActions('gv-checkbox:input');
+const withActions = withCustomEventActions('gv-switch:input');
 
-storiesOf('1. Atoms|<gv-checkbox>', module)
+storiesOf('1. Atoms|<gv-switch>', module)
   .addParameters({ notes })
   .add('Basics', withActions(() => {
 
@@ -31,27 +31,19 @@ storiesOf('1. Atoms|<gv-checkbox>', module)
     const container = document.createElement('div');
     container.innerHTML = `
       <div class="title">Default without options</div>
-      <gv-checkbox></gv-checkbox>
+      <gv-switch></gv-switch>
 
       <div class="title">Default with label</div>
-      <gv-checkbox
-        label="Recevoir une copie par e-mail">
-      </gv-checkbox>
+      <gv-switch label="Subscription Resumed" description="Triggered when a Subscription is created."></gv-switch>
 
       <div class="title">Disabled with label</div>
-      <gv-checkbox
-        label="Recevoir une copie par e-mail"
-        disabled>
-      </gv-checkbox>
+      <gv-switch label="Subscription Resumed" description="Triggered when a Subscription is created." disabled></gv-switch>
 
       <div class="title">Sekeleton with label</div>
-      <gv-checkbox
-        label="Recevoir une copie par e-mail"
-        skeleton>
-      </gv-checkbox>
+      <gv-switch label="Subscription Resumed" description="Triggered when a Subscription is created." skeleton></gv-switch>
     `;
 
-    const nodeSelect = container.querySelectorAll('gv-checkbox');
+    const nodeSelect = container.querySelectorAll('gv-switch');
     if (label) {
       updateTextAttributes(nodeSelect, 'label', label);
     }

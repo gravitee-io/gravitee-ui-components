@@ -20,6 +20,7 @@ import jdenticon from 'jdenticon';
 /**
  * User avatar component
  *
+ * @attr {String} avatar - the avatar (if not defined the user avatar is loaded)
  * @attr {Object<{display_name, avatar}>} user - a user
  * @attr {Number} size - size of image
  *
@@ -29,6 +30,7 @@ export class GvUserAvatar extends LitElement {
   static get properties () {
     return {
       user: { type: Object },
+      avatar: { type: String },
       size: { type: Number },
       _error: { type: Boolean, attribute: false },
     };
@@ -53,7 +55,7 @@ export class GvUserAvatar extends LitElement {
 
   getUserPicture () {
     if (this.user) {
-      return this.user._links ? this.user._links.avatar : this.user.avatar;
+      return this.avatar ? this.avatar : (this.user._links ? this.user._links.avatar : null);
     }
     return null;
   }
@@ -74,14 +76,13 @@ export class GvUserAvatar extends LitElement {
       const style = `--gv-image--w:${this.size}px; --gv-image--h:${this.size}px;--gv-image--of: cover; --gv-image--bdrs: 50%;`;
 
       return html`
-    <gv-image src="${this.getUserPicture()}"
-            alt="${this.getDisplayName()}"
-            title="${this.getDisplayName()}"
-            style="${style}" @error="${this._onError}"></gv-image>
-    `;
+        <gv-image src="${this.getUserPicture()}"
+          alt="${this.getDisplayName()}"
+          title="${this.getDisplayName()}"
+          style="${style}" @error="${this._onError}"></gv-image>
+      `;
     }
   }
-
 }
 
 window.customElements.define('gv-user-avatar', GvUserAvatar);
