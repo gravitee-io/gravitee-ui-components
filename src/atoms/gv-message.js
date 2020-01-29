@@ -30,7 +30,7 @@ export class GvMessage extends LitElement {
   static get styles () {
     return [
       // language=CSS
-      css`        
+      css`
           :host {
             display: block;
             vertical-align: middle;
@@ -71,7 +71,6 @@ export class GvMessage extends LitElement {
   }
 
   render () {
-
     const modes = {
       info: (!this.type || (this.type !== 'success' && this.type !== 'error' && this.type !== 'warning')),
       warning: (this.type === 'warning'),
@@ -85,7 +84,6 @@ export class GvMessage extends LitElement {
       </div>
     `;
   }
-
 }
 
 window.customElements.define('gv-message', GvMessage);

@@ -21,7 +21,7 @@ storiesOf('2. Molecules|<gv-user-avatar>', module)
   .addParameters({ notes })
   .add('Basics', () => {
 
-    const user = { display_name: 'Gravatar', avatar };
+    const user = { display_name: 'Gravatar', _links: { avatar } };
     const container = document.createElement('div');
     container.innerHTML = `
       <div class="title">When picture is defined</div>

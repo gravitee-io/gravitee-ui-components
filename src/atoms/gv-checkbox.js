@@ -18,17 +18,19 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  *
  * A wrapper of a <checkbox> component.
+ *
+ * @fires gv-checkbox:input - mirrors native input events with the `value` on `detail`
  *
  * @attr {Boolean} disabled - same as native checkbox element `disabled` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  * @attr {Boolean} value - true if the checkbox is checked, false otherwise
  * @attr {String} label - label of the checkbox
  * @attr {String} title - title of the checkbox
- * @attr {String} name - name of the checkbox
  *
  */
 export class GvCheckbox extends LitElement {
@@ -40,7 +42,6 @@ export class GvCheckbox extends LitElement {
       value: { type: Boolean },
       label: { type: String },
       title: { type: String },
-      name: { type: String },
     };
   }
 
@@ -53,7 +54,7 @@ export class GvCheckbox extends LitElement {
               position: relative;
               line-height: 0;
           }
-          
+
           /* BASE */
           input {
               border: 1px solid #D9D9D9;
@@ -110,12 +111,8 @@ export class GvCheckbox extends LitElement {
   _onInput () {
     if (!(this.disabled || this.skeleton)) {
       this.value = !this.value;
+      dispatchCustomEvent(this, 'input', this.value);
     }
-  }
-
-  _onClick () {
-    this._onInput();
-    this.dispatchEvent(new Event('input', {}));
   }
 
   render () {
@@ -128,14 +125,13 @@ export class GvCheckbox extends LitElement {
       <div>
         <input
           id=${this._id}
-          .type=${this._type}
-          .name=${ifDefined(this.name)}
+          type="checkbox"
           .title=${ifDefined(this.title || this.label)}
           ?disabled=${this.disabled || this.skeleton}
           .checked=${this.value}
           value=${this.value}
           @input=${this._onInput}>
-          <label class=${classMap(classes)} for="${this._id}" @click=${this._onClick}>
+          <label class=${classMap(classes)} for="${this._id}" @click=${this._onInput}>
           ${this._renderLabel()}
         </label>
       </div>
