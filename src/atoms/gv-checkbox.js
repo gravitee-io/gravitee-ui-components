@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { classMap } from 'lit-html/directives/class-map';
-import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton.js';
@@ -25,6 +24,8 @@ import { dispatchCustomEvent } from '../lib/events';
  * A wrapper of a <checkbox> component.
  *
  * @fires gv-checkbox:input - mirrors native input events with the `value` on `detail`
+ *
+ * @cssprop {String} [--gv-checkbox--bgc=#009B5B] - set the background color of the checked checkbox
  *
  * @attr {Boolean} disabled - same as native checkbox element `disabled` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
@@ -50,57 +51,85 @@ export class GvCheckbox extends LitElement {
       skeleton,
       // language=CSS
       css`
-          div {
-              position: relative;
-              line-height: 0;
-          }
+        :host {
+          --gv-icon--c: #D9D9D9;
+          --gv-icon--s: 30px;
+          cursor: pointer;
+        }
 
-          /* BASE */
-          input {
-              border: 1px solid #D9D9D9;
-              box-sizing: border-box;
-              border-radius: 4px;
-              outline: none;
-              padding: 10px;
-              cursor: pointer;
-          }
+        div {
+          position: relative;
+          height: 30px;
+        }
 
-          input:disabled {
-              cursor: default;
-              opacity: .5;
-          }
+        /* BASE */
+        input {
+          border: 1px solid #D9D9D9;
+          box-sizing: border-box;
+          border-radius: 4px;
+          outline: none;
+          padding: 10px;
+          cursor: pointer;
+        }
 
-          label {
-              line-height: 15px;
-              padding: 0.2rem 0;
-              cursor: pointer;
-          }
+        input:disabled {
+          cursor: default;
+          opacity: .5;
+        }
 
-          label.disabled, label.skeleton {
-              cursor: default;
-          }
+        label {
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 29px;
+          padding-left: 15px;
+        }
 
-          label abbr {
-              position: absolute;
-              left: 0;
-              color: red;
-              font-variant: none;
-              checkbox-decoration: none;
-          }
+        gv-icon {
+          position: fixed;
+        }
+
+        gv-icon.checked {
+          --gv-icon--s: 20px;
+          background-color: var(--gv-checkbox--bgc, #009B5B);
+          display: inherit !important;
+          margin: 5px;
+          border-radius: 4px;
+          height: 20px;
+        }
+
+        gv-icon:disabled {
+          cursor: default;
+          opacity: .5;
+        }
+
+        .disabled, .skeleton {
+          cursor: default;
+        }
+
+        label abbr {
+          position: absolute;
+          left: 0;
+          color: red;
+          font-variant: none;
+        }
       `,
     ];
   }
 
   constructor () {
     super();
-    this._id = 'gv-id';
     this._type = 'checkbox';
     this.value = false;
   }
 
   _renderLabel () {
     if (this.label) {
-      return html`<label for=${this.id} class="${classMap({ disabled: this.disabled, skeleton: this.skeleton })}" title="${this.label}">
+      return html`<label class="${classMap({
+        disabled: this.disabled,
+        skeleton: this.skeleton,
+        'checkbox-label': true,
+      })}" title="${this.label}">
         ${this.label}
         </label>
         `;
@@ -120,20 +149,12 @@ export class GvCheckbox extends LitElement {
       skeleton: this.skeleton,
       disabled: this.disabled,
     };
-
     return html`
-      <div>
-        <input
-          id=${this._id}
-          type="checkbox"
-          .title=${ifDefined(this.title || this.label)}
-          ?disabled=${this.disabled || this.skeleton}
-          .checked=${this.value}
-          value=${this.value}
-          @input=${this._onInput}>
-          <label class=${classMap(classes)} for="${this._id}" @click=${this._onInput}>
-          ${this._renderLabel()}
-        </label>
+      <div class=${classMap(classes)}>
+        <gv-icon shape="design:border" @click=${this._onInput}></gv-icon>
+        <gv-icon style="display: none;" @click=${this._onInput}
+            class=${classMap({ checked: this.value })} shape="code:check"></gv-icon>
+        <label @click=${this._onInput}>${this._renderLabel()}</label>
       </div>
     `;
   }
