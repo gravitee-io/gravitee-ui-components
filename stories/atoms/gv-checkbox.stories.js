@@ -16,7 +16,7 @@
 import '../../src/atoms/gv-checkbox.js';
 import notes from '../../.docs/gv-checkbox.md';
 import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
+import { color, text } from '@storybook/addon-knobs';
 import { updateTextAttributes } from '../lib/update-attributes';
 import { withCustomEventActions } from '../lib/event-action';
 
@@ -55,6 +55,17 @@ storiesOf('1. Atoms|<gv-checkbox>', module)
     if (label) {
       updateTextAttributes(nodeSelect, 'label', label);
     }
+
+    const iconColor = color('Color', '#009B5B');
+
+    nodeSelect.forEach((node) => {
+      node.style = [
+        { value: iconColor, prop: '--gv-checkbox--bgc' },
+      ]
+        .filter(({ value }) => value)
+        .map(({ value, prop }) => `${prop}:${value}`)
+        .join(';');
+    });
 
     return container;
   }));
