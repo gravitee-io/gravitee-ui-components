@@ -66,7 +66,7 @@ export class GvUserAvatar extends LitElement {
 
   render () {
     if (this.user) {
-      if (this._error) {
+      if (this._error && !this.avatar) {
         const container = document.createElement('div');
         container.title = this.getDisplayName();
         container.innerHTML = this.getDefaultPicture();
