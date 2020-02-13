@@ -19,7 +19,7 @@ import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
 import { link } from '../styles/link';
-import { i18n } from '../lib/i18n';
+import { i18n, getLanguage } from '../lib/i18n';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
 import { ItemResource } from '../mixins/item-resource';
@@ -36,6 +36,7 @@ import { ItemResource } from '../mixins/item-resource';
  * @fires gv-info:rating - When user click to readonly rating
  * @attr {any} item - An item
  * @attr {ApiMetrics} metrics - An ApiMetrics.
+ * @attr {any} miscellaneous - Miscellaneous data with a key, value and date (optional: short, long, relative).
  * @attr {Boolean} withDublinCore - If you want display title, description & image of an item.
  * @cssprop {Color} [--gv-info--bgc=white] - set the background color.
  *
@@ -48,6 +49,7 @@ export class GvInfo extends ItemResource(LitElement) {
       resources: { type: Object },
       metrics: { type: Object },
       _metrics: { type: Object, attribute: false },
+      miscellaneous: { type: Object },
       withDublinCore: { type: Boolean, attribute: 'with-dc' },
     };
   }
@@ -335,8 +337,13 @@ export class GvInfo extends ItemResource(LitElement) {
                 <span>
                   <ul class="info__miscellaneous">
                     ${repeat(this.miscellaneous, (item) =>
-        html`<li class="info__miscellaneous_item"><span>${item.key}</span>${item.value}</li>`
-      )}
+                      html`<li class="info__miscellaneous_item">
+                            <span>${item.key}</span>
+                            ${!item.date ? item.value : ''}
+                            ${item.date ? item.date === 'relative' ? html`<relative-time datetime="${item.value}"></relative-time>`
+                            : (item.date === 'short' ? item.value.toLocaleDateString(getLanguage()) : item.value.toLocaleString(getLanguage())) : ''}
+                        </li>`
+                    )}
                   </ul>
                 </span>
               </div>

@@ -23,7 +23,7 @@ import '../molecules/gv-rating.js';
 import '../atoms/gv-state.js';
 import '../atoms/gv-tag.js';
 import { truncate } from '../lib/utils.js';
-import { i18n } from '../lib/i18n.js';
+import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource.js';
 
 /**

@@ -33,6 +33,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} placeholder - an example value to display in the text when empty
  * @attr {Number} rows - number of rows of the text element
  * @attr {Boolean} autofocus - true to put the focus on the input
+ * @attr {Boolean} [readonly=false] - true if field is readonly mode
  *
  */
 
@@ -52,6 +53,7 @@ export class GvText extends LitElement {
       autofocus: { type: Boolean },
       minlength: { type: Number },
       maxlength: { type: Number },
+      readonly: { type: Boolean },
     };
   }
 
@@ -127,7 +129,7 @@ export class GvText extends LitElement {
   }
 
   _renderRequired () {
-    if (this.required) {
+    if (this.required && !this.readonly) {
       return html`<abbr title="(required)" aria-hidden="true">*</abbr>`;
     }
     return '';
@@ -135,7 +137,7 @@ export class GvText extends LitElement {
 
   _renderLabel () {
     if (this.label) {
-      return html`<label for=${this.id} class="${classMap({ required: this.required })}" title="${this.label}">
+      return html`<label for=${this.id} class="${classMap({ required: this.required && !this.readonly })}" title="${this.label}">
         ${this._renderRequired()}${this.label}
         </label>
         `;
@@ -161,6 +163,7 @@ export class GvText extends LitElement {
             .name=${ifDefined(this.name)}
             .title=${ifDefined(this.title || this.label)}
             .required=${this.required}
+            ?readonly="${this.readonly}"
             maxlength="${this.maxlength}"
             minlength="${this.minlength}"
             aria-required=${!!this.required}

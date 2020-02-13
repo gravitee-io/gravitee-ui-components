@@ -60,6 +60,13 @@ storiesOf('1. Atoms|<gv-text>', module)
         placeholder="Expliquer votre demande..."
         skeleton>
       </gv-text>
+
+      <div class="title">Readonly with label</div>
+      <gv-text
+        label="Votre demande"
+        placeholder="Expliquer votre demande..."
+        readonly>
+      </gv-text>
     `;
 
     const nodeSelect = container.querySelectorAll('gv-text');
