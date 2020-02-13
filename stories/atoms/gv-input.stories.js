@@ -54,7 +54,7 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input type="password" large placeholder="Large password" disabled icon="general:shield-disabled"></gv-input>
       <gv-input type="email" small label="Small email" disabled></gv-input>
       <gv-input type="email" small label="Small email" disabled icon="general:shield-disabled"></gv-input>
-      <gv-input type="number" placeholder="Number" min="1" max="10" disabled    ></gv-input>
+      <gv-input type="number" placeholder="Number" min="1" max="10" disabled></gv-input>
 
       <div class="title">Required</div>
       <gv-input placeholder="Medium text" required></gv-input>
@@ -81,6 +81,15 @@ storiesOf('1. Atoms|<gv-input>', module)
       <gv-input small loading disabled required></gv-input>
       <gv-input label="Small required & disabled email" small loading disabled required></gv-input>
       <gv-input type="number" placeholder="Number" min="1" max="10" loading disabled required></gv-input>
+
+      <div class="title">Readonly</div>
+      <gv-input placeholder="Medium" value="Test" readonly></gv-input>
+      <gv-input placeholder="Medium icon" value="Test" readonly icon="general:shield-disabled"></gv-input>
+      <gv-input type="password" value="Test" large placeholder="Large password" readonly></gv-input>
+      <gv-input type="password" value="Test" large placeholder="Large password" readonly icon="general:shield-disabled"></gv-input>
+      <gv-input type="email" value="test@test.com" small label="Small email" readonly></gv-input>
+      <gv-input type="email" value="test@test.com" small label="Small email" readonly icon="general:shield-disabled"></gv-input>
+      <gv-input type="number" value="10" placeholder="Number" min="1" max="10" readonly></gv-input>
     `;
 
     const nodeList = container.querySelectorAll('gv-input');

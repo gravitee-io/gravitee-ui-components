@@ -61,13 +61,13 @@ export class GvImage extends LitElement {
               vertical-align: middle;
               position: relative;
               display: block;
-              max-width: var(--gv-image--w, 100%);
-              max-height: var(--gv-image--h, 100%);
+              max-width: var(--gv-image--w, 128px);
+              max-height: var(--gv-image--h, 128px);
           }
 
           :host([loaded]) div {
-              width: var(--gv-image--w, 100%);
-              height: var(--gv-image--h, 100%);
+              width: var(--gv-image--w, 128px);
+              height: var(--gv-image--h, 128px);
           }
 
           div {
@@ -78,8 +78,8 @@ export class GvImage extends LitElement {
 
           img {
               overflow: hidden;
-              width: var(--gv-image--w, 100%);
-              height: var(--gv-image--h, 100%);
+              width: var(--gv-image--w, 128px);
+              height: var(--gv-image--h, 128px);
           }
 
           .placeholder {

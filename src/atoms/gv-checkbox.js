@@ -86,7 +86,7 @@ export class GvCheckbox extends LitElement {
         }
 
         gv-icon {
-          position: fixed;
+          position: absolute;
         }
 
         gv-icon.checked {

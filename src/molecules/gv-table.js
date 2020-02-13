@@ -19,7 +19,7 @@ import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
 import { repeat } from 'lit-html/directives/repeat';
 import { dispatchCustomEvent } from '../lib/events';
-import { i18n, getLanguage } from '../lib/i18n.js';
+import { i18n, getLanguage } from '../lib/i18n';
 import { until } from 'lit-html/directives/until';
 
 /**

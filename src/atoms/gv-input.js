@@ -192,7 +192,7 @@ export class GvInput extends LitElement {
   }
 
   _renderRequired () {
-    if (this.required) {
+    if (this.required && !this.readonly) {
       return html`<abbr title="(required)" aria-hidden="true">*</abbr>`;
     }
     return '';
@@ -200,10 +200,10 @@ export class GvInput extends LitElement {
 
   _renderLabel () {
     if (this.label) {
-      return html`<label for=${this.id} class="${classMap({ required: this.required })}" title="${this.label}">
-${this._renderRequired()}${this.label}
-</label>
-`;
+      return html`<label for=${this.id} class="${classMap({ required: this.required && !this.readonly })}" title="${this.label}">
+        ${this._renderRequired()}${this.label}
+      </label>
+      `;
     }
     return '';
   }

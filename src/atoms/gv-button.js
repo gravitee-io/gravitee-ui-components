@@ -32,6 +32,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  *
  * @slot - The content of the button (text or HTML)
  *
+ * @attr {String} type - the type of the button
  * @attr {Boolean} primary - set button UI mode to primary
  * @attr {Boolean} secondary - set button UI mode to secondary
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
@@ -56,6 +57,7 @@ export class GvButton extends LitElement {
 
   static get properties () {
     return {
+      type: { type: String },
       disabled: { type: Boolean },
       primary: { type: Boolean },
       secondary: { type: Boolean },
@@ -224,7 +226,7 @@ export class GvButton extends LitElement {
 
   _onClick () {
     const form = this.closest('form');
-    if (form) {
+    if (form && this.type === 'submit') {
       form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     }
   }
@@ -249,7 +251,7 @@ export class GvButton extends LitElement {
     };
 
     return html`<button
-        type="button"
+        type=${this.type || 'button'}
         .title="${ifDefined(this.title)}"
       class=${classMap(classes)}
       .disabled=${this.disabled || this.skeleton}
