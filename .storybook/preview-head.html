@@ -1,6 +1,7 @@
 <style>
     body {
       margin: 1rem;
+      font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     .title {
@@ -16,28 +17,11 @@
         text-transform: capitalize;
     }
 
-    .item {
-        margin: 18px 2px;
-        padding: 0 18px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: 11px;
-        word-break: keep-all;
+    .inverse-color span {
+      filter: invert(1) grayscale(1) contrast(200);
+      color: transparent;
+      background: inherit;
+      background-clip: text;
     }
 
-    .colors .item {
-        border: solid 1px var(--gv-theme-color-darker);
-        min-width: 100px;
-    }
-
-    .collection {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .hide {
-      display: none;
-    }
 </style>

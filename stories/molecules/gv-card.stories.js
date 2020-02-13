@@ -13,65 +13,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { storiesOf } from '@storybook/html';
 import notes from '../../.docs/gv-card.md';
 import '../../src/molecules/gv-card';
-import { delay } from '../lib/delay';
-import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
+import horizontalImage from '../../assets/images/gravitee-logo.png';
 import picture from '../../assets/images/logo.png';
-import { withActions } from '@storybook/addon-actions';
-import { color } from '@storybook/addon-knobs';
+import { makeStory, storyWait } from '../lib/make-story';
+import logo from '../../assets/icons/gravitee/graviteeio.svg';
 
-const eventNames = ['click gv-card'];
+export default {
+  title: 'Molecules|gv-card',
+  component: 'gv-card',
+  parameters: {
+    notes,
+  },
+};
+
+const conf = {
+  component: 'gv-card',
+};
 
 const name = 'Supernova';
 const version = 'v.1.1';
-const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];
-const api = { name: 'Long Supernova', picture: horizontalImage, version, states };
-storiesOf('2. Molecules|<gv-card>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
+const states = [
+  { value: 'beta', minor: true },
+  { value: 'running', major: true },
+];
 
-    const container = document.createElement('div');
+const item = { name: 'Long Supernova', picture: horizontalImage, version, states };
 
-    container.innerHTML = `
-    <div class="title">Basics</div>
-    <gv-card id="name"></gv-card>
-    <gv-card id="horizontalImage"></gv-card>
-    <gv-card id="image"></gv-card>
+const items = [
+  { item: { name } },
+  { item },
+  { item: { name: 'Comet Api.', picture, version, states } },
+  { item: { name: 'Comet Api.', picture: logo, version, states } },
+];
 
-    <div class="title">Skeleton & Delay</div>
-    <gv-card></gv-card>
-    <gv-card id="delay"></gv-card>
-    `;
+export const basics = makeStory(conf, {
+  items,
+});
 
-    const bgColor = color('--gv-card--bgc', '');
+export const empty = makeStory(conf, {
+  items: [{}],
+});
 
-    container.style = [
-      { value: bgColor, prop: '--gv-card--bgc' }]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
+export const loading = makeStory(conf, {
+  items: [{ item: new Promise(() => ({})) }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = item;
+    }),
+  ],
+});
 
-    const delayElement = container.querySelector('#delay');
-    delayElement.title = Promise.resolve('Slow api').then(delay(2000));
-
-    container.querySelector('#name').item = Promise.resolve({ name });
-    container.querySelector('#horizontalImage').item = Promise.resolve(api);
-    container.querySelector('#image').item = Promise.resolve({ name: 'Comet Api.', picture, version, states });
-    container.querySelector('#delay').item = Promise.resolve(api).then(delay(2000));
-    return container;
-  }))
-  .add('Errors', () => withActions(...eventNames)(() => {
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Empty</div>
-      <gv-card id="empty"></gv-card>
-
-      <div class="title">Error</div>
-      <gv-card id="error"></gv-card>
-    `;
-    container.querySelector('#empty').item = Promise.resolve({});
-    container.querySelector('#error').item = Promise.reject(new Error());
-    return container;
-  }));
+export const loadingAndError = makeStory(conf, {
+  items: [{ item: new Promise(() => ({})) }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = Promise.reject(new Error());
+    }),
+  ],
+});

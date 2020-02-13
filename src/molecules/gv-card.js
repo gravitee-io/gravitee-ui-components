@@ -26,13 +26,14 @@ import { ItemResource } from '../mixins/item-resource';
  *
  * @attr {Promise<any>} item - An item.
  *
- * @cssprop {String} [--gv-card--bgc=white] - set the background color.
+ * @cssprop {Color} [--gv-card--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Length} [--gv-card-image--h=65px] - Image height
+ * @cssprop {Length} [--gv-card-image--w=110px] - Image width
  */
 export class GvCard extends ItemResource(LitElement) {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
           :host {
@@ -40,11 +41,14 @@ export class GvCard extends ItemResource(LitElement) {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              --gv-image--w: 110px;
-              --gv-image--h: 65px;
-              --gv-icon--s: 65px;
               width: 144px;
               max-height: 144px;
+          }
+
+          gv-image {
+            height:  var(--gv-card-image--h, 65px);
+            width:  var(--gv-card-image--w, 110px);
+            --gv-image--of: contain;
           }
 
           .card {
@@ -54,15 +58,15 @@ export class GvCard extends ItemResource(LitElement) {
               max-width: 144px;
               min-height: 144px;
               border-radius: 2px;
-              background-color: var(--gv-card--bgc, white);
-              color: #262626;
-              box-shadow: 0 0 0 1px rgba(208, 216, 223, 1), 0 1px 3px rgba(0,0,0,.15);
+              background-color: var(--gv-card--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+              color: var(--gv-theme-font-color-dark, #262626);
+              box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #E5E5E5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
               transition: all .3s;
           }
 
           .card:hover {
               transform: translateY(-4px);
-              box-shadow: 0 10px 20px -10px rgba(0,0,0,0.25);
+              box-shadow: 0 10px 20px -10px var(--gv-theme-neutral-color-dark, #BFBFBF);
               cursor: pointer;
           }
 
@@ -85,7 +89,7 @@ export class GvCard extends ItemResource(LitElement) {
 
           .title {
               line-height: 22px;
-              font-size: 12px;
+              font-size: var(--gv-theme-font-size-s, 12px);
               text-transform: capitalize;
               font-weight: bold;
               white-space: nowrap;
@@ -98,31 +102,26 @@ export class GvCard extends ItemResource(LitElement) {
           }
 
           .version {
-              color: #D9D9D9;
+              color: var(--gv-theme-neutral-color-dark, #D9D9D9);
               top: 0.4rem;
               right: 0.4rem;
               position: absolute;
           }
 
-          .skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
-              transition: 0.5s;
-          }
-
           .error {
               text-align: center;
-              font-size: 10px;
+              font-size: var(--gv-theme-font-size-xs, 10px);
           }
       `,
+      skeleton,
     ];
   }
 
   render () {
+
     return html`<div class="card" title="${this._getTitle()}">
     <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${this._getVersion()}</span>
-    <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
+    <div class="${classMap({ image: true })}">${this._renderImage()}</div>
 
     <div class="content">
         ${(this._error || this._empty) ? html`

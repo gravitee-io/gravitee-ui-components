@@ -25,13 +25,14 @@ import { dispatchCustomEvent } from '../lib/events';
  * Confirm component
  * @extends GvPopover
  *
- * @attr {String} event - the event that triggers the opening.
- * @attr {String} okLabel - the label of ok btn.
- * @attr {String} cancelLabel - the label of cancel btn.
- * @attr {String} icon - the icon before message.
- * @attr {String} message - the message.
- * @cssprop {Color} [--gv-confirm--bgc=#FAFAFA] - set the background color.
- * @cssprop {Number} [--gv-confirm--maw=250px] - set max-width
+ * @attr {String} event - the event that triggers the opening
+ * @attr {String} okLabel - the label of ok btn
+ * @attr {String} cancelLabel - the label of cancel btn
+ * @attr {String} icon - the icon before message
+ * @attr {String} message - the message
+ *
+ * @cssprop {Color} [--gv-confirm--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
+ * @cssprop {Length} [--gv-confirm--maw=250px] - Max width
  */
 export class GvConfirm extends GvPopover {
 
@@ -58,9 +59,9 @@ export class GvConfirm extends GvPopover {
           :host {
               --gv-icon--s: 24px;
           }
-          
+
           .popover {
-              --bgc: var(--gv-confirm--bgc, #FAFAFA);
+              --bgc: var(--gv-confirm--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
               --maw: var(--gv-confirm--maw, 250px);
           }
           .message {
@@ -68,7 +69,7 @@ export class GvConfirm extends GvPopover {
               align-items: center;
               margin: 1rem 0.5rem;
           }
-          
+
           .message gv-icon {
               margin-right: 0.5rem;
           }
@@ -106,7 +107,7 @@ export class GvConfirm extends GvPopover {
     return html`
           <div class="message">${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<div class="text">${this.message}</div></div>
           <div class="actions">
-          <gv-button primary outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>  
+          <gv-button primary outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>
           <gv-button primary @click="${this._onOk}">${this.okLabel}</gv-button>
        `;
   }

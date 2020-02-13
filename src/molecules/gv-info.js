@@ -37,8 +37,12 @@ import { ItemResource } from '../mixins/item-resource';
  * @attr {any} item - An item
  * @attr {ApiMetrics} metrics - An ApiMetrics.
  * @attr {any} miscellaneous - Miscellaneous data with a key, value and date (optional: short, long, relative).
- * @attr {Boolean} withDublinCore - If you want display title, description & image of an item.
- * @cssprop {Color} [--gv-info--bgc=white] - set the background color.
+ * @attr {Boolean} withDublinCore - If you want display title, description & image of an item
+ *
+ * @cssprop {Color} [--gv-info--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Length} [--gv-info-rating--s=24px] - Height and rating width
+ * @cssprop {Length} [--gv-info-image--h=32px] - Image height
+ * @cssprop {Length} [--gv-info-image--w=32px] - Image width
  *
  * @appliesMixin ItemResource
  */
@@ -57,7 +61,6 @@ export class GvInfo extends ItemResource(LitElement) {
   static get styles () {
     return [
       link,
-      skeleton,
       // language=CSS
       css`
         :host {
@@ -65,18 +68,20 @@ export class GvInfo extends ItemResource(LitElement) {
           display: inline-block;
           width: 280px;
           max-width: 280px;
-          --gv-image--w: 32px;
-          --gv-image--h: 32px;
-          --gv-rating--s: 24px;
-          font-size: 14px;
+          --gv-rating--s: var(--gv-info-rating--s, 24px);
+          font-size: var(--gv-theme-font-size-m, 14px);
           line-height: 22px;
         }
 
+        gv-image {
+          height: var(--gv-info-image--h, 32px);
+          width: var(--gv-info-image--w, 32px);
+        }
         .infos {
           display: flex;
           flex-direction: column;
           border-radius: 4px;
-          background-color: var(--gv-info--bgc, white);
+          background-color: var(--gv-info--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
           padding: 12px 0;
         }
 
@@ -105,7 +110,8 @@ export class GvInfo extends ItemResource(LitElement) {
 
         .info__miscellaneous_item span {
           padding: 1px 5px 1px 0;
-          color: #8C8C8C;
+          color: var(--gv-theme-neutral-color-dark, #BFBFBF);
+          filter: contrast(0);
         }
 
         .skeleton .info__miscellaneous_item span {
@@ -113,10 +119,6 @@ export class GvInfo extends ItemResource(LitElement) {
         }
 
         .skeleton {
-          background-color: #aaa;
-          border-color: #777;
-          color: transparent;
-          transition: 0.5s;
           display: block;
           padding: 15px;
         }
@@ -140,7 +142,7 @@ export class GvInfo extends ItemResource(LitElement) {
 
         gv-tag, gv-label {
           cursor: pointer;
-          font-size: 12px;
+          font-size: var(--gv-theme-font-size-s, 12px);
         }
 
         gv-metrics {
@@ -148,7 +150,7 @@ export class GvInfo extends ItemResource(LitElement) {
         }
 
         gv-tag:hover {
-          --gv-tag--bsw: 0 1px 3px #888;
+          --gv-tag--bsw: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
         }
 
         gv-tag:active {
@@ -170,13 +172,13 @@ export class GvInfo extends ItemResource(LitElement) {
         }
 
         .title .version {
-          font-size: 12px;
+          font-size: var(--gv-theme-font-size-s, 12px);
           line-height: 20px;
-          color: #D9D9D9;
+          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
         }
 
         .description {
-          background-color: #FAFAFA;
+          background-color: var(--gv-theme-neutral-color-lighter, #FAFAFA);
           border-radius: 2px;
           padding: 16px;
         }
@@ -184,8 +186,8 @@ export class GvInfo extends ItemResource(LitElement) {
         gv-rating {
           cursor: pointer;
         }
-
       `,
+      skeleton,
     ];
   }
 
@@ -324,7 +326,7 @@ export class GvInfo extends ItemResource(LitElement) {
                     <div class="info__resources">
                       <a class="link" href="${item.path}" target="${item.target}" @click=${this._onClick.bind(this, item)}>${item.title}</a>
                     </div>`
-                  )}
+      )}
                 </span>
               </div>
             `

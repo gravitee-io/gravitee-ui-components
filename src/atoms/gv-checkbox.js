@@ -16,16 +16,13 @@
 import { classMap } from 'lit-html/directives/class-map';
 
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
+import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
- *
  * A wrapper of a <checkbox> component.
  *
  * @fires gv-checkbox:input - mirrors native input events with the `value` on `detail`
- *
- * @cssprop {String} [--gv-checkbox--bgc=#009B5B] - set the background color of the checked checkbox
  *
  * @attr {Boolean} disabled - same as native checkbox element `disabled` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
@@ -33,6 +30,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} label - label of the checkbox
  * @attr {String} title - title of the checkbox
  *
+ * @cssprop {Color} [--gv-checkbox--bgc=var(--gv-theme-color, #009B5B)] - Checked background color
  */
 export class GvCheckbox extends LitElement {
 
@@ -52,19 +50,19 @@ export class GvCheckbox extends LitElement {
       // language=CSS
       css`
         :host {
-          --gv-icon--c: #D9D9D9;
-          --gv-icon--s: 30px;
           cursor: pointer;
+          --gv-icon--c: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          --gv-icon--s: 30px;
         }
 
-        div {
+        .container {
           position: relative;
           height: 30px;
         }
 
         /* BASE */
         input {
-          border: 1px solid #D9D9D9;
+          border: 1px solid var(--gv-theme-neutral-color-dark, #D9D9D9);
           box-sizing: border-box;
           border-radius: 4px;
           outline: none;
@@ -80,7 +78,7 @@ export class GvCheckbox extends LitElement {
         label {
           cursor: pointer;
           font-weight: 600;
-          font-size: 14px;
+          font-size: var(--gv-theme-font-size-m, 14px);
           line-height: 29px;
           padding-left: 15px;
         }
@@ -91,7 +89,7 @@ export class GvCheckbox extends LitElement {
 
         gv-icon.checked {
           --gv-icon--s: 20px;
-          background-color: var(--gv-checkbox--bgc, #009B5B);
+          background-color: var(--gv-checkbox--bgc, var(--gv-theme-color, #009B5B));
           display: inherit !important;
           margin: 5px;
           border-radius: 4px;
@@ -148,6 +146,7 @@ export class GvCheckbox extends LitElement {
     const classes = {
       skeleton: this.skeleton,
       disabled: this.disabled,
+      container: true,
     };
     return html`
       <div class=${classMap(classes)}>

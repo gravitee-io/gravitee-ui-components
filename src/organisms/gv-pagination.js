@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit-element';
-import { dispatchCustomEvent } from '../lib/events.js';
+import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-button';
 import '../atoms/gv-select';
 import { i18n } from '../lib/i18n';
@@ -25,7 +25,10 @@ import { i18n } from '../lib/i18n';
  * @fires gv-pagination:paginate - Custom event with pagination link
  *
  * @attr {Object} data - Pagination information {first, last, total, current_page}
- * @attr {Boolean} hideEmpty - hide component if no page or no data. (default: false)
+ * @attr {Boolean} hideEmpty - hide component if no page or no data.
+ *
+ * @cssprop {Length} [--gv-pagination--fz=var(--gv-theme-font-size-s, 12px)] - Font size
+ * @cssprop {Length} [--gv-pagination-icon--s=18px] - Height and icon width
  */
 export class GvPagination extends LitElement {
 
@@ -45,14 +48,15 @@ export class GvPagination extends LitElement {
       // language=css
       css`
           .pagination {
-              font-size: 12px;
-              --gv-button--fz: 12px;
+              --font-size: var(--gv-pagination--fz, var(--gv-theme-font-size-s, 12px));
+              font-size: var(--fz);
+              --gv-button--fz: var(--fz);
               display: flex;
               align-items: center;
           }
 
           gv-button {
-              --gv-icon--s: 18px;
+              --gv-icon--s: var(--gv-pagination-icon--s, 18px);
               min-width: 29px;
           }
 

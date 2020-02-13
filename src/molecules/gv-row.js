@@ -24,19 +24,22 @@ import { ItemResource } from '../mixins/item-resource';
  *
  * @attr {Promise<any>} item - An item.
  *
- * @cssprop {String} [--gv-row--bgc=white] - set the background color.
- * @cssprop {String} [--gv-row-hover--bgc=#FAFAFA] - set the background color when hover.
+ * @cssprop {Color} [--gv-row--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-row-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color when hover
+ * @cssprop {Length} [--gv-row-icon--s=14px] - Height and icon width
+ * @cssprop {Length} [--gv-row-image--h=35px] - Image height
+ * @cssprop {Length} [--gv-row-image--w=35px] - Image width
+ *
  */
 export class GvRow extends ItemResource(LitElement) {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
           :host {
               box-sizing: border-box;
-              --hover-bgc: var(--gv-row-hover--bgc, #FAFAFA);
+              --hover-bgc: var(--gv-row-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
               cursor: pointer;
           }
 
@@ -47,7 +50,7 @@ export class GvRow extends ItemResource(LitElement) {
 
           .row, .row.error:hover {
               display: flex;
-              background-color: var(--gv-row--bgc, white);
+              background-color: var(--gv-row--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
               align-items: center;
               padding: 8px;
               transition: all .3s;
@@ -69,13 +72,13 @@ export class GvRow extends ItemResource(LitElement) {
           }
 
           .row .version {
-              color: #D9D9D9;
+              color: var(--gv-theme-neutral-color-dark, #D9D9D9);
               max-width: 50px;
           }
 
           .row .description {
               border-radius: 2px;
-              font-size: 14px;
+              font-size: var(--gv-theme-font-size-m, 14px);
               padding: 8px;
               flex: 6;
           }
@@ -86,9 +89,9 @@ export class GvRow extends ItemResource(LitElement) {
           }
 
           .row .meta__owner {
-              --gv-icon--c: #D9D9D9;
-              --gv-icon--s: 14px;
-              color: #D9D9D9;
+              --gv-icon--c: var(--gv-theme-neutral-color-dark, #D9D9D9);
+              --gv-icon--s: var(--gv-row-icon--s, 14px);
+              color: var(--gv-theme-neutral-color-dark, #D9D9D9);
           }
 
           .row  .meta__tags {
@@ -98,9 +101,6 @@ export class GvRow extends ItemResource(LitElement) {
           }
 
           .skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
               transition: 0.5s;
               min-height: 35px;
           }
@@ -110,22 +110,24 @@ export class GvRow extends ItemResource(LitElement) {
           }
 
           gv-image {
-            --gv-image--h: 35px;
-            --gv-image--w: 35px;
+            height: var(--gv-row-image--h, 35px);
+            width: var(--gv-row-image--w, 35px);
+            --gv-image--of: contain;
           }
       `,
+      skeleton,
     ];
   }
 
   render () {
     const classes = {
       row: true,
-      error: this._error || this._empty,
+      error: !this._skeleton && (this._error || this._empty),
     };
 
     return html`
         <div class=${classMap(classes)}>
-            ${(this._error || this._empty) ? html`<div class="${classMap({ description: true })}">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>` : html`
+            ${(!this._skeleton && (this._error || this._empty)) ? html`<div class="${classMap({ description: true })}">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>` : html`
             <div class="${classMap({ picture: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
             <div class="${classMap({ name: true, skeleton: this._skeleton })}"><h4 class="title">${this._getTitle()}</h4></div>
             <div class="${classMap({ version: true, skeleton: this._skeleton })}">${this._getVersion()}</div>

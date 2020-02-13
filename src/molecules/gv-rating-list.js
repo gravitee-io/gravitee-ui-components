@@ -38,6 +38,11 @@ import '@github/time-elements';
  * @attr {Promise<Array>} ratings - ratings
  * @attr {id, avatar, display_name} user - a current user
  * @attr {Object<{RATING:['C','R','U','D'],RATING_ANSWER: ['C','R','U','D']}>} permissions - The permissions
+ *
+ * @cssprop {Color} [--gv-rating-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-rating-list-answer--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Answer background color
+ * @cssprop {Color} [--gv-rating-list--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
+ * @cssprop {Length} [--gv-rating-list--s=18px] - Height and star width
  */
 export class GvRatingList extends LitElement {
 
@@ -58,19 +63,19 @@ export class GvRatingList extends LitElement {
       css`
 
         :host {
-          --gv-icon--s: 18px;
-          --gv-rating--s: 18px;
+          --s: var(--gv-rating-list--s, 18px);
+          --gv-icon--s: var(--s);
+          --gv-rating--s: var(--s);
           margin: 0.2rem;
           box-sizing: border-box;
-
         }
 
         .rating-list {
-          background-color: white;
+          background-color: var(--gv-rating-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
         }
 
         .rating.parent {
-          border-bottom: 1px solid #E8E8E8;
+          border-bottom: 1px solid var(--gv-rating-list--bdc, var(--gv-theme-neutral-color, #E5E5E5));
         }
 
         .rating {
@@ -115,12 +120,12 @@ export class GvRatingList extends LitElement {
 
         .link-answer gv-icon {
           margin-right: 0.2rem;
-          --gv-icon--s: 16px;
+          --gv-icon--s: var(--s);
         }
 
         .delete-rating, .delete-answer, .fake-icon {
-          --gv-icon--s: 16px;
-          min-width: 16px;
+          --gv-icon--s: var(--s);
+          min-width: var(--s);
         }
 
         .delete-rating {
@@ -130,7 +135,7 @@ export class GvRatingList extends LitElement {
         .answer {
           padding: 1rem;
           margin-top: 1rem;
-          background-color: #FAFAFA;
+          background-color: var(--gv-rating-list-answer--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
         }
 
         .answer-form {
@@ -166,10 +171,8 @@ export class GvRatingList extends LitElement {
         }
         else {
           this._skeleton = true;
-          this._error = false;
         }
       }).catch(() => {
-        this._error = true;
         this._skeleton = false;
       });
   }

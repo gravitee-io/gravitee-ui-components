@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-code.js';
+import '../../src/molecules/gv-code';
 import notes from '../../.docs/gv-code.md';
-import { storiesOf } from '@storybook/html';
+import { makeStory } from '../lib/make-story';
 
-const htmlCode = `<p>A simple example of the live sample system in action.</p><div><div>Hello world! Welcome to Gravitee</div></div>`;
+const htmlCode = `<span>A simple example of the live sample system in action.</span><div><div>Hello world! Welcome to Gravitee</div></div>`;
 const bashCode = `curl -X POST "https://api-market-place.ai.ovh.net/sound-spleeter/process" -H "accept: application/zip" -H "X-OVH-Api-Key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" -H "Content-Type: application/json" -d '{"url": "https://github.com/deezer/spleeter/raw/master/audio_example.mp3", "nb_stems": 5}' -o splitted_output.zip`;
 const pythonCode = `@requires_authorization
 def somefunc(param1='', param2=0):
@@ -31,23 +31,27 @@ class SomeClass:
 
 >>> message = '''interpreter
 ... prompt'''`;
-storiesOf('2. Molecules|<gv-code>', module)
-  .addParameters({ notes })
-  .add('Basics', () => {
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">HTML</div>
-      <gv-code>${htmlCode}</gv-code>
+export default {
+  title: 'Molecules|gv-code',
+  component: 'gv-code',
+  parameters: {
+    notes,
+  },
+};
 
-      <div class="title">Bash</div>
-      <gv-code lang="bash">${bashCode}</gv-code>
+const conf = {
+  component: 'gv-code',
+};
 
-      <div class="title">Shell</div>
-      <gv-code lang="shell">$ ${bashCode}</gv-code>
+export const bash = makeStory(conf, {
+  items: [{ innerHTML: bashCode, lang: 'bash' }],
+});
 
-      <div class="title">Python</div>
-      <gv-code lang="python">${pythonCode}</gv-code>
-    `;
-    return container;
-  });
+export const html = makeStory(conf, {
+  items: [{ innerHTML: htmlCode }],
+});
+
+export const python = makeStory(conf, {
+  items: [{ innerHTML: pythonCode, lang: 'python' }],
+});

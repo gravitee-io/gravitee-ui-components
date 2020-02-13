@@ -17,7 +17,7 @@ import { classMap } from 'lit-html/directives/class-map';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
+import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
@@ -32,6 +32,9 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} label - label of the switch
  * @attr {String} description - description of the switch
  *
+ * @cssprop {Color} [--gv-switch-on--bgc=var(--gv-theme-color, #009B5B)] - On background color
+ * @cssprop {Color} [--gv-switch-off--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Off background color
+ * @cssprop {Color} [--gv-switch--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Switch background color
  */
 export class GvSwitch extends LitElement {
 
@@ -50,6 +53,11 @@ export class GvSwitch extends LitElement {
       skeleton,
       // language=CSS
       css`
+        :host {
+          --off-bgc: var(--gv-switch-off--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
+          --on-bgc: var(--gv-switch-on--bgc, var(--gv-theme-color, #009B5B));
+        }
+
         .container {
           display: flex;
           height: 30px;
@@ -62,10 +70,11 @@ export class GvSwitch extends LitElement {
 
         .switch-title {
           font-weight: 600;
+
         }
 
         .switch-description {
-          color: #8C8C8C;
+          opacity: 0.6;
         }
 
         .switch-container {
@@ -76,7 +85,10 @@ export class GvSwitch extends LitElement {
         .switch {
           position: relative;
           width: 40px;
-          -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          border-radius: 16px;
         }
 
         .switch input {
@@ -92,7 +104,7 @@ export class GvSwitch extends LitElement {
           line-height: 16px;
           border: 2px solid transparent;
           border-radius: 16px;
-          background-color: #BFBFBF;
+          background-color: var(--off-bgc);
           transition: background-color 0.3s ease-in;
         }
 
@@ -101,22 +113,22 @@ export class GvSwitch extends LitElement {
           display: block;
           width: 16px;
           margin: 0;
-          background: #FFFFFF;
+          background: var(--gv-switch--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
           position: absolute;
           top: 0;
           bottom: 0;
           right: 20px;
-          border: 2px solid #BFBFBF;
+          border: 2px solid var(--off-bgc);
           border-radius: 16px;
           transition: all 0.3s ease-in 0s;
         }
 
         .switch input:checked + .switch-label {
-          background-color: #009B5B;
+          background-color: var(--on-bgc);
         }
 
         .switch input:checked + .switch-label, .switch input:checked + .switch-label:before {
-          border-color: #009B5B;
+          border-color: var(--on-bgc);
         }
 
         .switch input:checked + .switch-label:before {
@@ -128,6 +140,7 @@ export class GvSwitch extends LitElement {
           opacity: .5;
         }
       `,
+
     ];
   }
 

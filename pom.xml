@@ -56,8 +56,7 @@
             <exclude>storybook-static/**</exclude>
             <exclude>wc/**</exclude>
             <exclude>src/icons/shapes/**</exclude>
-            <exclude>stories/lib/icons.generated.js</exclude>
-            <exclude>assets/css/gv-variables.generated.css</exclude>
+            <exclude>**/*.generated.*</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -114,16 +113,6 @@
             <phase>generate-resources</phase>
             <configuration>
               <arguments>run lint</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate dist with npm</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <phase>process-resources</phase>
-            <configuration>
-              <arguments>run generate:dist</arguments>
             </configuration>
           </execution>
           <execution>

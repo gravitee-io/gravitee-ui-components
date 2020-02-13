@@ -24,17 +24,20 @@ import { classMap } from 'lit-html/directives/class-map';
 /**
  * A tree menu
  *
- * @fires gv-tree-menu:select - Custom event from child components
+ * @fires gv-tree:select - Custom event from child components
  *
  * @attr {Array} items - list of items and subitems to be displayed in the menu MenuItem: {name: String, value: any, children: Array<MenuItem>}
  * @attr {Boolean} closed - allows to close the menu
  * @attr {Object} selectedItem - the item selected
  *
- * @cssprop {String} [--gv-tree-menu--bgc=#FFF] - set the background color.
- * @cssprop {String} [--gv-tree-menu--c=#262626] - set the color.
- * @cssprop {String} [--gv-tree-menu-active--bd=#FFF] - set the active border.
- * @cssprop {String} [--gv-tree-menu-active--bgc=#FAFAFA] - set the active background color.
- * @cssprop {String} [--gv-tree-menu-hover--bgc=#FFF] - set the hover background color.
+ * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Color} [--gv-tree-active--bd=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Active border
+ * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Active background color
+ * @cssprop {Color} [--gv-tree-hover--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Hover background color
+ * @cssprop {Length} [--gv-tree-link-a--ph=0] - Link horizontal padding
+ * @cssprop {String} [--gv-tree-link--ta=left] - Text align
+ * @cssprop {Length} [--gv-tree-icon--s=20px] - Height and icon width
  */
 export class GvTree extends LitElement {
 
@@ -51,14 +54,14 @@ export class GvTree extends LitElement {
       // language=css
       css`
         :host {
-          --c: var(--gv-tree-menu--c, #262626);
-          --bgc: var(--gv-tree-menu--bgc, #FFF);
-          --active-bd: var(--gv-tree-menu-active--bd, #FFF);
-          --active-bgc: var(--gv-tree-menu-active--bgc, #FAFAFA);
-          --hover-bgc: var(--gv-tree-menu-hover--bgc, #FFF);
-          --gv-icon--s: 20px;
-          --gv-link-a--ph: 0;
-          --gv-link--ta: left;
+          --c: var(--gv-tree--c, var(--gv-theme-font-color-dark, #262626));
+          --bgc: var(--gv-tree--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --active-bd: var(--gv-tree-active--bd, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --hover-bgc: var(--gv-tree-hover--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --gv-icon--s:  var(--gv-tree-icon--s, 20px);
+          --gv-link-a--ph: var(--gv-tree-link-a--ph, 0);
+          --gv-link--ta: var(--gv-tree-link--ta, left);
 
           background-color: var(--bgc);
           color: var(--c);
@@ -77,7 +80,7 @@ export class GvTree extends LitElement {
           position: relative;
           min-width: 300px;
           padding-top: 20px;
-          box-shadow: 15px 0 15px -5px hsla(0, 0%, 78.4%, .3);
+          box-shadow: 15px 0 15px -5px var(--gv-theme-neutral-color, #E5E5E5);
           overflow: scroll;
         }
 

@@ -25,16 +25,17 @@ import { i18n } from '../lib/i18n';
  *
  * @fires gv-stepper:change - when step change
  *
- * @attr {Number} current - The current selected step
+ * @attr {Length} current - The current selected step
  * @attr {Array} steps - Array of step {title: string, description: string, validate: boolean}
  * @attr {Boolean} [disabled=false] - Indicate if stepper is disabled
  *
- * @cssprop {String} [--gv-stepper-validate--bgc=#009B5B] - set validate background color.
- * @cssprop {String} [--gv-stepper-passed--bdc=#D5FDCB] - set passed border color.
- * @cssprop {String} [--gv-stepper--bgc=#BFBFBF] - set background color.
- * @cssprop {String} [--gv-stepper--bdc=#BFBFBF] - set border color.
- * @cssprop {String} [--gv-stepper--c=#BFBFBF] - set color for text.
- * @cssprop {String} [--gv-stepper-passed--c=#595959] - set passed color for text.
+ * @cssprop {Color} [--gv-stepper-validate--bgc=var(--gv-theme-color, #009B5B)] - Validate background color
+ * @cssprop {Color} [--gv-stepper-passed--bdc=var(--gv-theme-color-light,#D5FDCB)] - Passed border color
+ * @cssprop {Color} [--gv-stepper--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Background color
+ * @cssprop {Color} [--gv-stepper--bdc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Border color
+ * @cssprop {Color} [--gv-stepper--c=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Color
+ * @cssprop {Color} [--gv-stepper-passed--c=#595959] - Passed color
+ * @cssprop {Length} [--gv-stepper-icon--s=32px] - Height and icon width
  */
 export class GvStepper extends LitElement {
 
@@ -54,12 +55,12 @@ export class GvStepper extends LitElement {
       css`
         :host {
           box-sizing: border-box;
-          --passed--bgc: var(--gv-stepper-validate--bgc, #009B5B);
-          --passed--bdc: var(--gv-stepper-passed--bdc, #D5FDCB);
-          --bdc: var(--gv-stepper--bdc, #BFBFBF);
-          --bgc: var(--gv-stepper--bgc, #BFBFBF);
+          --passed--bgc: var(--gv-stepper-validate--bgc, var(--gv-theme-color, #009B5B));
+          --passed--bdc: var(--gv-stepper-passed--bdc, var(--gv-theme-color-light,#D5FDCB));
+          --bdc: var(--gv-stepper--bdc, var(--gv-theme-neutral-color-dark, #BFBFBF));
+          --bgc: var(--gv-stepper--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
           --passed--c: var(--gv-stepper-passed--c, #595959);
-          --c: var(--gv-stepper--c, #BFBFBF);
+          --c: var(--gv-stepper--c, var(--gv-theme-neutral-color-dark, #BFBFBF));
         }
 
         .stepper {
@@ -143,7 +144,7 @@ export class GvStepper extends LitElement {
 
           padding: 5px;
           line-height: 24px;
-          font-size: 16px;
+          font-size: var(--gv-theme-font-size-l, 16px);
           color: var(--c);
         }
 
@@ -156,7 +157,7 @@ export class GvStepper extends LitElement {
         }
 
         .description {
-          font-size: 14px;
+          font-size: var(--gv-theme-font-size-m, 14px);
         }
 
         .error {
@@ -172,7 +173,7 @@ export class GvStepper extends LitElement {
 
         gv-icon {
           --gv-icon--c: var(--passed--bgc);
-          --gv-icon--s: 32px;
+          --gv-icon--s: var(--gv-stepper-icon--s, 32px);
         }
 
         @keyframes validate {

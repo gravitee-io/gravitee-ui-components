@@ -15,105 +15,63 @@
  */
 import '../../src/atoms/gv-image';
 import notes from '../../.docs/gv-image.md';
-import { storiesOf } from '@storybook/html';
-import { withCustomEventActions } from '../lib/event-action';
 import '../../src/atoms/gv-icon';
-import { radios, text } from '@storybook/addon-knobs';
-
 import logo from '../../assets/icons/gravitee/graviteeio.svg';
 import logoImage from '../../assets/images/gravitee-logo-inline.png';
-import { delay } from '../lib/delay';
+import { makeStory, storyWait } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-image:loaded');
+const items = [
+  { src: logoImage, alt: 'Gravitee', class: 'horizontal' },
+  { src: logo, alt: 'Gravitee', skeleton: true },
+];
 
-storiesOf('1. Atoms|<gv-image>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+export default {
+  title: 'Atoms|gv-image',
+  component: 'gv-image',
+  parameters: { notes },
+};
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-<div class="title">Basics</div>
-<gv-image src="${logoImage}" alt="Gravitee.io"></gv-image>
-<gv-image src="${logo}" alt="Gravitee.io"></gv-image>
-`;
+const conf = {
+  component: 'gv-image',
+  css: `
+    gv-image {
+      height: 75px;
+      margin-right: 1rem;
+      width: 75px
+    }
 
-    const height = text('--gv-image--h', '275px');
-    const width = text('--gv-image--w', '275px');
-    const border = text('--gv-image--bd', '');
-    const of = radios('--gv-image--of', ['fill', 'cover', 'contain', 'none', 'scale-down'], '');
-    const borderRadius = text('--gv-image--bdrs', '');
+    .horizontal {
+      width: 450px;
+    }
+  `,
+};
 
-    container.style = [
-      { value: height, prop: '--gv-image--h' },
-      { value: width, prop: '--gv-image--w' },
-      { value: border, prop: '--gv-image--bd' },
-      { value: of, prop: '--gv-image--of' },
-      { value: borderRadius, prop: '--gv-image--bdrs' },
-    ]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
+export const Simple = makeStory(conf, {
+  items,
+});
 
-    return container;
-  }))
-  .add('Rounded', withActions(() => {
+export const empty = makeStory(conf, {
+  items: [{ alt: 'Gravitee' }],
+});
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-<div class="title">Basics</div>
-<gv-image src="${logoImage}" alt="Gravitee.io"></gv-image>
-<gv-image src="${logo}" alt="Gravitee.io"></gv-image>
-`;
+export const errors = makeStory(conf, {
+  items: [{ src: 'http://localhost/fake', alt: 'Gravitee' }],
+});
 
-    const height = text('--gv-image--h', '275px');
-    const width = text('--gv-image--w', '275px');
-    const border = text('--gv-image--bd', '');
-    const of = radios('--gv-image--of', ['fill', 'contain', 'cover', 'none', 'scale-down'], 'fill');
-    const borderRadius = text('--gv-image--bdrs', '50%');
+export const loading = makeStory(conf, {
+  items: [{ alt: 'Gravitee', skeleton: true }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.src = logo;
+    }),
+  ],
+});
 
-    container.style = [
-      { value: height, prop: '--gv-image--h' },
-      { value: width, prop: '--gv-image--w' },
-      { value: border, prop: '--gv-image--bd' },
-      { value: of, prop: '--gv-image--of' },
-      { value: borderRadius, prop: '--gv-image--bdrs' },
-    ]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
-
-    return container;
-  }))
-  .add('Skeleton / Delay', withActions(() => {
-
-    const container = document.createElement('div');
-    container.innerHTML = `
-
-<div class="title">Skeleton</div>
-<gv-image src="${logoImage}" alt="Gravitee.io" style="--gv-image--w: 175px;" skeleton></gv-image>
-<gv-image src="${logo}" alt="Gravitee.io"  style="--gv-image--w: 175px;" skeleton></gv-image>
-
-<div class="title">Delay</div>
-<gv-image id="imgDelay" alt="Gravitee.io" style="--gv-image--w: 175px;--gv-image--h: 175px;"</gv-image>
-
-`;
-    const imgDelay = container.querySelector('#imgDelay');
-    imgDelay.src = Promise.resolve(logo).then(delay(2500));
-    return container;
-  }))
-  .add('Errors', withActions(() => {
-
-    const container = document.createElement('div');
-    container.innerHTML = `
-
-<div class="title">Empty</div>
-<gv-image></gv-image>
-<gv-image src=""></gv-image>
-<gv-image src="${logo}" style="--gv-image--w: 175px;--gv-image--h: 175px;"></gv-image>
-
-<div class="title">Errors</div>
-<gv-image src="/fakepath" alt="Gravitee.io"</gv-image>
-
-`;
-    return container;
-  }));
+export const loadingAndError = makeStory(conf, {
+  items: [{ alt: 'Gravitee', skeleton: true }],
+  simulations: [
+    storyWait(3000, ([component]) => {
+      component.src = 'http://localhost/fake';
+    }),
+  ],
+});

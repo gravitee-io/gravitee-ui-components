@@ -15,7 +15,7 @@
  */
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
-import { link } from '../styles/link.js';
+import { link } from '../styles/link';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 import { until } from 'lit-html/directives/until';
@@ -36,16 +36,19 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @attr {String} target - link target
  * @attr {String} help - help text left between parentheses
  *
- * @cssprop {String} [--gv-link-a--pv=15px] - set the vertical padding for the inner <a> tag. (Default: 1rem)
- * @cssprop {String} [--gv-link-a--ph=15px] - set the horizontal padding for the inner <a> tag. (Default: 1rem)
- * @cssprop {String} [--gv-link--c=#262626] - set the color of link.
- * @cssprop {String} [--gv-link-active--c=#FAFAFA] - set the color of active link.
- * @cssprop {String} [--gv-link--bgc=transparent] - set the background color of link.
- * @cssprop {String} [--gv-link-active--bgc=#193E34] - set the background color of active link.
- * @cssprop {String} [--gv-link-active--bdb=none] - set the border bottom of active link. (Default: none)
- * @cssprop {String} [--gv-link--ta=center] - set the text align (Default: center)
- * @cssprop {String} [--gv-link--td=none] - set the text decoration (Default: none)
- * @cssprop {String} [--gv-link--tsh=none]- set the text shadow (Default: none)
+ * @cssprop {Length} [--gv-link-a--pv=15px] - Vertical padding for the inner <a> tag
+ * @cssprop {Length} [--gv-link-a--ph=15px] - Horizontal padding for the inner <a> tag
+ * @cssprop {Color} [--gv-link--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Color} [--gv-link-active--c=var(--gv-theme-font-color-light, #FFFFFF)] - Active color
+ * @cssprop {Color} [--gv-link--bgc=transparent] - Background color
+ * @cssprop {Color} [--gv-link-active--bgc=var(--gv-theme-color-dark, #193E34)] - Active background color
+ * @cssprop {Color} [--gv-link-active--bdbc=none] - Active border bottom color
+ * @cssprop {String} [--gv-link-active--bdbs=none] - Active border bottom style
+ * @cssprop {Length} [--gv-link-active--bdbw=none] - Active border bottom width
+ * @cssprop {String} [--gv-link--ta=center] - Text align
+ * @cssprop {String} [--gv-link--td=none] - Text decoration
+ * @cssprop {String} [--gv-link--tsh=none]- Text shadow
+ * @cssprop {Length} [--gv-link-icon--s=24px] - Height and icon width
  */
 export class GvLink extends LitElement {
 
@@ -65,7 +68,6 @@ export class GvLink extends LitElement {
 
   static get styles () {
     return [
-      skeleton,
       link,
       // language=css
       css`
@@ -73,14 +75,16 @@ export class GvLink extends LitElement {
               box-sizing: border-box;
               display: inline-flex;
               vertical-align: middle;
-              --gv-icon--s: 24px;
-              --link-active--c: var(--gv-link-active--c, #FAFAFA);
-              --link--c: var(--gv-link--c, #262626);
+              --gv-icon--s: var(--gv-link-icon--s, 24px);
+              --link-active--c: var(--gv-link-active--c, var(--gv-theme-font-color-light, #FFFFFF));
+              --link--c: var(--gv-link--c, var(--gv-theme-font-color-dark, #262626));
+              --pv: var(--gv-link-a--pv, 15px);
+              --ph: var(--gv-link-a--ph, 15px);
           }
 
           a {
             opacity: 1;
-            padding: var(--gv-link-a--pv, 15px) var(--gv-link-a--ph, 15px);
+            padding: var(--pv) var(--ph);
             color: var(--link--c);
             background-color: var(--gv-link--bgc, transparent);
             width: 100%;
@@ -97,8 +101,10 @@ export class GvLink extends LitElement {
 
           .active {
               color: var(--link-active--c);
-              background-color: var(--gv-link-active--bgc, #193E34);
-              border-bottom: var(--gv-link-active--bdb, none);
+              background-color: var(--gv-link-active--bgc, var(--gv-theme-color-dark, #193E34));
+              border-bottom-color: var(--gv-link-active--bdbc, none);
+              border-bottom-style: var(--gv-link-active--bdbs, none);
+              border-bottom-width: var(--gv-link-active--bdbw, none);
           }
 
           .link.active:hover {
@@ -126,7 +132,7 @@ export class GvLink extends LitElement {
           .help {
               margin: 0 0.2rem;
               opacity: 0.5;
-              font-size: 10px;
+              font-size: var(--gv-theme-font-size-xs, 10px);
           }
 
           .help::before {
@@ -138,15 +144,12 @@ export class GvLink extends LitElement {
           }
 
           .skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
-              transition: 0.5s;
               min-width: 100px;
               margin: 0 0.2rem;
               opacity: 0.5;
           }
       `,
+      skeleton,
     ];
   }
 

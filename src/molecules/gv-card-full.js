@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
+import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
-import '../atoms/gv-image.js';
-import '../atoms/gv-button.js';
-import '../molecules/gv-metrics.js';
-import '../molecules/gv-rating.js';
-import '../atoms/gv-state.js';
-import '../atoms/gv-tag.js';
-import { truncate } from '../lib/utils.js';
+import '../atoms/gv-image';
+import '../atoms/gv-button';
+import '../molecules/gv-metrics';
+import '../molecules/gv-rating';
+import '../atoms/gv-state';
+import '../atoms/gv-tag';
+import { truncate } from '../lib/utils';
 import { i18n } from '../lib/i18n';
-import { ItemResource } from '../mixins/item-resource.js';
+import { ItemResource } from '../mixins/item-resource';
 
 /**
  * Full Card component
@@ -32,7 +32,9 @@ import { ItemResource } from '../mixins/item-resource.js';
  * @attr {Promise<Object>} item - An item.
  * @attr {Promise<Metrics>} metrics - A Metrics.
  *
- * @cssprop {String} [--gv-card-full--bgc=white] - set the background color.
+ * @cssprop {Color} [--gv-card-full--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Length} [--gv-card-full-image--h=65px] - Image height
+ * @cssprop {Length} [--gv-card-full-image--w=110px] - Image width
  */
 export class GvCardFull extends ItemResource(LitElement) {
 
@@ -44,7 +46,6 @@ export class GvCardFull extends ItemResource(LitElement) {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
         :host {
@@ -53,14 +54,16 @@ export class GvCardFull extends ItemResource(LitElement) {
           margin: 0.2rem;
 
           vertical-align: middle;
-          --gv-image--w: 110px;
-          --gv-image--h: 65px;
-          --gv-icon--s: 65px;
-          --gv-icon--c: #777;
           min-width: 415px;
           max-height: 281px;
           line-height: 22px;
-          font-size: 14px;
+          font-size: var(--gv-theme-font-size-m, 14px);
+        }
+
+        gv-image {
+          height: var(--gv-card-full-image--h, 65px);
+          width: var(--gv-card-full-image--w, 110px);
+          --gv-image--of: contain;
         }
 
         .card {
@@ -68,17 +71,16 @@ export class GvCardFull extends ItemResource(LitElement) {
           flex-direction: column;
           height: 250px;
           border-radius: 4px;
-          background-color: var(--gv-card-full--bgc, white);
-          color: #262626;
+          background-color: var(--gv-card-full--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          color: var(--gv-theme-font-color-dark, #262626);
           padding: 16px;
-          --gc-icon--c: red
-          box-shadow: 0 0 0 1px rgba(208, 216, 223, 1), 0 1px 3px rgba(0, 0, 0, .15);
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #E5E5E5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           transition: all .3s;
         }
 
         .card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 20px 40px -14px var(--gv-theme-neutral-color-dark, #BFBFBF);
           cursor: pointer;
         }
 
@@ -95,7 +97,7 @@ export class GvCardFull extends ItemResource(LitElement) {
 
         .title {
           line-height: 22px;
-          font-size: 16px;
+          font-size: var(--gv-theme-font-size-l, 16px);
           text-transform: capitalize;
           font-weight: bold;
         }
@@ -106,9 +108,9 @@ export class GvCardFull extends ItemResource(LitElement) {
         }
 
         .version {
-          color: #D9D9D9;
+          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
           padding: 10px 8px;
-          font-size: 12px;
+          font-size: var(--gv-theme-font-size-s, 12px);
         }
 
         .description {
@@ -128,7 +130,7 @@ export class GvCardFull extends ItemResource(LitElement) {
         .infos {
           display: flex;
           justify-content: space-evenly;
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid var(--gv-theme-neutral-color-dark, #D9D9D9);
           padding: 8px;
           margin: 8px;
         }
@@ -145,18 +147,12 @@ export class GvCardFull extends ItemResource(LitElement) {
           padding: 0 16px;
         }
 
-        .skeleton {
-          background-color: #aaa;
-          border-color: #777;
-          color: transparent;
-          transition: 0.5s;
-        }
-
         .error .labels, .error .infos, .error .states {
           visibility: hidden;
         }
 
       `,
+      skeleton,
     ];
   }
 

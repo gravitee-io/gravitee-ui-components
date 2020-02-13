@@ -38,35 +38,27 @@ export class GvMetrics extends LitElement {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
-          .metrics {
-              display: flex;
-          }
+        .metrics {
+          display: flex;
+        }
 
-          .metrics > * {
-              flex: 1;
-          }
-
-          .skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
-              transition: 0.5s;
-          }
-
+        .metrics > * {
+          flex: 1;
+        }
       `,
+      skeleton,
     ];
   }
 
   constructor () {
     super();
-    this._skeleton = true;
     this._error = false;
   }
 
   set metrics (metrics) {
+    this._skeleton = true;
     Promise.resolve(metrics)
       .then((metrics) => {
         if (metrics) {
@@ -96,7 +88,10 @@ export class GvMetrics extends LitElement {
   _getHealth () {
     if (this._metrics) {
       return !isNaN(this._metrics.health)
-        ? Intl.NumberFormat.call(this, navigator.language, { style: 'percent', maximumFractionDigits: 2 }).format(this._metrics.health)
+        ? Intl.NumberFormat.call(this, navigator.language, {
+          style: 'percent',
+          maximumFractionDigits: 2,
+        }).format(this._metrics.health)
         : ''
       ;
     }

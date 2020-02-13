@@ -15,8 +15,12 @@
  */
 import 'github-markdown-css/github-markdown.css';
 import 'highlight.js/styles/vs.css';
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/highlight';
 import MarkdownIt from 'markdown-it';
+import { Parser as HtmlToReactParser } from 'html-to-react';
+import asciidoctor from 'asciidoctor';
+
+const htmlToReactParser = new HtmlToReactParser();
 
 const md = new MarkdownIt({
   // Enable HTML tags in source
@@ -71,4 +75,28 @@ export function markdownToDom (markdownText) {
   const title = element.querySelector('h1').textContent;
 
   return { title, element };
+}
+
+export function toDom (text, type) {
+  let innerHTML = '';
+  if (type === 'adoc') {
+    innerHTML = asciidoctor().convert(text, { attributes: { showtitle: true } });
+  }
+  else {
+    innerHTML = md.render(text);
+  }
+
+  const element = document.createElement('div');
+  element.innerHTML = innerHTML;
+  element.style.width = '100%';
+  element.style.maxWidth = '1000px';
+  element.style.margin = '0 auto';
+  element.classList.add('markdown-body');
+  const title = element.querySelector('h1').textContent;
+
+  return { title, element };
+}
+
+export function domToReact (element) {
+  return htmlToReactParser.parse(element.outerHTML);
 }

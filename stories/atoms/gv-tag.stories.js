@@ -13,37 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-tag.js';
+import '../../src/atoms/gv-tag';
 import notes from '../../.docs/gv-tag.md';
-import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
-import { withActions } from '@storybook/addon-actions';
+import { makeStory } from '../lib/make-story';
 
-const eventNames = ['click gv-tag'];
+export default {
+  title: 'Atoms|gv-tag',
+  component: 'gv-tag',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('1. Atoms |<gv-tag>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
+const conf = {
+  component: 'gv-tag',
+};
 
-    const label = text('Tag label', '');
+const items = [
+  { innerHTML: 'User Experience' },
+  { innerHTML: 'Add user', icon: 'communication:add-user' },
+  { innerHTML: 'User Experience', minor: true },
+  { innerHTML: 'Add user', icon: 'communication:add-user', minor: true },
+  { innerHTML: 'User Experience', major: true },
+  { innerHTML: 'Add user', icon: 'communication:add-user', major: true },
+];
 
-    return `
-      <div class="title">Default</div>
-      <gv-tag>${label || 'Productivity'}</gv-tag>
-      <gv-tag>${label || 'User Experience'}</gv-tag>
-      <gv-tag skeleton>${label || 'UX'}</gv-tag>
-      <gv-tag icon="communication:add-user">${label || 'Add user'}</gv-tag>
-      
-      <div class="title">Major</div>
-      <gv-tag major minor>${label || 'Design System'}</gv-tag>
-      <gv-tag major>${label || 'UX'}</gv-tag>
-      <gv-tag major skeleton>${label || 'UX'}</gv-tag>
-      <gv-tag major icon="communication:shield-user"  style="--gv-icon:#fff">${label || 'Administrator'}</gv-tag>
-      
-      <div class="title">Minor</div>
-      <gv-tag minor>${label || 'UI'}</gv-tag>
-      <gv-tag minor>${label || 'Awesome'}</gv-tag>
-      <gv-tag minor skeleton>${label || 'UX'}</gv-tag>
-      <gv-tag minor icon="communication:thumbtack">${label || 'Pin'}</gv-tag>
-    `;
-  }));
+export const Basics = makeStory(conf, {
+  items,
+});
+
+export const Skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

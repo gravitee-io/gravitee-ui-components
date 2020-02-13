@@ -14,28 +14,14 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { skeleton } from '../styles/skeleton.js';
-import { until } from 'lit-html/directives/until';
 
 /**
  * Spinner component
- *
- * @attr {String} src - Source of spinner img
- *
- * @cssprop {String} [--gv-spinner--h=auto] - set the height of image
- * @cssprop {String} [--gv-spinner--w=auto] - set the width of image
  */
 export class GvSpinner extends LitElement {
 
-  static get properties () {
-    return {
-      src: { type: String },
-    };
-  }
-
   static get styles () {
     return [
-      skeleton,
       // language=css
       css`
         :host {
@@ -46,20 +32,23 @@ export class GvSpinner extends LitElement {
           top: 0;
         }
 
-        img {
+        .spinner {
           display: flex;
           margin: 0 auto;
           position: relative;
-          top: 40%;
-          height: var(--gv-spinner--h, auto);
-          width: var(--gv-spinner--w, auto);
+          height: 100%;
+          width: 100%;
+          background-image: var(--gv-theme-loader, url('/images/gravitee-loader.gif'));
+          background-size: auto;
+          background-repeat: no-repeat;
+          background-position: center center;
         }
       `,
     ];
   }
 
   render () {
-    return this.src ? html`<img src="${until(this.src, '')}">` : '';
+    return html`<div class="spinner"></div>`;
   }
 }
 

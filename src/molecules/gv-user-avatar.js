@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement } from 'lit-element';
+import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import jdenticon from 'jdenticon';
+import { skeleton } from '../styles/skeleton';
 
 /**
  * User avatar component
  *
  * @attr {String} avatar - the avatar (if not defined the user avatar is loaded)
  * @attr {Object<{display_name, avatar}>} user - a user
- * @attr {Number} size - size of image
+ * @attr {Length} size - Size of image
  *
  */
 export class GvUserAvatar extends LitElement {
@@ -34,6 +35,18 @@ export class GvUserAvatar extends LitElement {
       size: { type: Number },
       _error: { type: Boolean, attribute: false },
     };
+  }
+
+  static get styles () {
+    return [
+      skeleton,
+      // language=CSS
+      css`
+          div {
+            display: inline-block;
+          }
+      `,
+    ];
   }
 
   constructor () {
@@ -73,7 +86,7 @@ export class GvUserAvatar extends LitElement {
         return html`${container}`;
       }
 
-      const style = `--gv-image--w:${this.size}px; --gv-image--h:${this.size}px;--gv-image--of: cover; --gv-image--bdrs: 50%;`;
+      const style = `width:${this.size}px; height:${this.size}px; border-radius: 50%; --gv-image--of: contain;`;
 
       return html`
         <gv-image src="${this.getUserPicture()}"

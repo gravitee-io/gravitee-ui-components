@@ -13,19 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { storiesOf } from '@storybook/html';
 import notes from '../../.docs/gv-card-full.md';
 import '../../src/molecules/gv-card-full';
-import { delay } from '../lib/delay';
-import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
-import picture from '../../assets/images/logo.png';
-import { withActions } from '@storybook/addon-actions';
-import { color } from '@storybook/addon-knobs';
-
-const eventNames = ['click gv-card-full'];
+import horizontalImage from '../../assets/images/gravitee-logo.png';
+import { makeStory, storyWait } from '../lib/make-story';
 
 const name = 'Supernova';
-const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
+const description
+  = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 
 const version = 'v.1.1';
@@ -33,110 +28,74 @@ const version = 'v.1.1';
 const states = [{ value: 'beta' }, { value: 'running', major: true }];
 const ratingSummary = { average: 3.4, count: 124 };
 const labels = ['APIDays', 'December', 'Foobar'];
-const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
+const apiMetrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
 const applicationMetrics = Promise.resolve({ subscribers: '3' });
-const api = Promise.resolve({ name, description, version, states, labels, rating_summary: ratingSummary });
+const api = Promise.resolve({
+  name,
+  description,
+  version,
+  states,
+  labels,
+  rating_summary: ratingSummary,
+});
 const application = Promise.resolve({ name, description, applicationType: 'Web' });
-storiesOf('2. Molecules|<gv-card-full>', module)
-  .addParameters({ notes })
-  .add('APIs', () => withActions(...eventNames)(() => {
 
-    const container = document.createElement('div');
+export default {
+  title: 'Molecules|gv-card-full',
+  component: 'gv-card-full',
+  parameters: {
+    notes,
+  },
+};
 
-    container.innerHTML = `
-    <div class="title">Basics</div>
-    <gv-card-full id="basic"></gv-card-full>
-    <gv-card-full id="horizontalImage"></gv-card-full>
-    <gv-card-full id="withoutMetrics"></gv-card-full>
-    `;
+const conf = {
+  component: 'gv-card-full',
+};
 
-    const bgColor = color('--gv-card-full--bgc', '');
-
-    container.style = [
-      { value: bgColor, prop: '--gv-card-full--bgc' }]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
-
-    container.querySelector('#basic').item = api;
-    container.querySelector('#basic').metrics = metrics;
-    container.querySelector('#horizontalImage').item = Promise.resolve({
+const apiItems = [
+  { item: api },
+  { item: api, metrics: apiMetrics },
+  {
+    item: {
       name: 'Long Supernova with empty description',
-      description,
       version,
       _links: { picture: horizontalImage },
-    });
-    container.querySelector('#withoutMetrics').item = api;
+    },
+  },
+];
 
-    return container;
-  }))
-  .add('Applications', () => withActions(...eventNames)(() => {
+const appItems = [
+  { item: application },
+  { item: application, metrics: applicationMetrics },
+];
 
-    const container = document.createElement('div');
+export const Api = makeStory(conf, {
+  items: apiItems,
+});
 
-    container.innerHTML = `
-    <div class="title">Basics</div>
-    <gv-card-full id="basic"></gv-card-full>
-    <gv-card-full id="horizontalImage"></gv-card-full>
-    <gv-card-full id="withoutMetrics"></gv-card-full>
-    `;
+export const Applications = makeStory(conf, {
+  items: appItems,
+});
 
-    const bgColor = color('--gv-card-full--bgc', '');
+export const empty = makeStory(conf, {
+  items: [{}],
+});
 
-    container.style = [
-      { value: bgColor, prop: '--gv-card-full--bgc' }]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
+export const loading = makeStory(conf, {
+  items: [{ item: new Promise(() => ({})), metrics: new Promise(() => ({})) }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = api;
+      component.metrics = apiMetrics;
+    }),
+  ],
+});
 
-    container.querySelector('#basic').item = application;
-    container.querySelector('#basic').metrics = applicationMetrics;
-    container.querySelector('#horizontalImage').item = Promise.resolve({
-      name: 'Long Supernova with empty description',
-      description,
-      _links: { picture: horizontalImage },
-    });
-    container.querySelector('#withoutMetrics').item = application;
-
-    return container;
-  })).add('Skeleton / Delay', () => withActions(...eventNames)(() => {
-
-    const container = document.createElement('div');
-
-    container.innerHTML = `
-    <div class="title">Skeleton</div>
-    <gv-card-full></gv-card-full>
-    <div class="title">Delay</div>
-    <gv-card-full id="delay"></gv-card-full>
-    `;
-
-    container.querySelector('#delay').item = Promise.resolve({
-      name,
-      description,
-      version,
-      states,
-      labels,
-      rating_summary: ratingSummary,
-      _links: { picture },
-    }).then(delay(2000));
-
-    container.querySelector('#delay').metrics = metrics.then(delay(3000));
-
-    return container;
-  }))
-  .add('Empty / Errors', () => withActions(...eventNames)(() => {
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Empty</div>
-      <gv-card-full id="empty"></gv-card-full>
-
-      <div class="title">Error</div>
-      <gv-card-full id="error"></gv-card-full>
-    `;
-    container.querySelector('#empty').item = Promise.resolve({});
-    container.querySelector('#empty').metrics = Promise.resolve({});
-
-    container.querySelector('#error').item = Promise.reject(new Error());
-    container.querySelector('#error').metrics = Promise.reject(new Error());
-    return container;
-  }));
+export const loadingAndError = makeStory(conf, {
+  items: [{ item: new Promise(() => ({})) }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = Promise.reject(new Error());
+    }),
+  ],
+});

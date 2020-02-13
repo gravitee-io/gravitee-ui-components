@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit-html/directives/class-map.js';
+import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import '../atoms/gv-icon';
 import { ifDefined } from 'lit-html/directives/if-defined';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  * A button
@@ -28,13 +29,12 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * * You can only set one mode at a time.
  * * When you don't use any of these values, the mode defaults to `default`.
  *
- * @fires click - Native click event from inner button element
+ * @fires gv-button:click - Click event from inner button element
  *
  * @slot - The content of the button (text or HTML)
  *
  * @attr {String} type - the type of the button
  * @attr {Boolean} primary - set button UI mode to primary
- * @attr {Boolean} secondary - set button UI mode to secondary
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
@@ -42,16 +42,15 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @attr {Boolean} icon-right - if icon should be at right
  * @attr {String} title - title of btn
  * @attr {Boolean} loading - true to display a loading icon
+ * @attr {String} provider - Provider name (github, oidc, graviteeio_am, google)
  *
- * @cssprop {Color} [--gv-button--bgc=#193E34] - set the background color of button.
- * @cssprop {Color} [--gv-button--c=#FFFFFF] - set the color of button.
- * @cssprop {Color} [--gv-button-primary--c=#FFFFFF] - set the color of primary button.
- * @cssprop {Color} [--gv-button-primary--bgc=#009B5B] - set the background color of primary button.
- * @cssprop {Color} [--gv-button-secondary--bgc=#EEEEEE] - set the background color of secondary button.
- * @cssprop {Color} [--gv-button-secondary--c=#555555] - set the color of secondary button.
- * @cssprop {String} [--gv-button--p=0rem 0.5rem] - set the padding.
- * @cssprop {String} [--gv-button--fz=14px] - set the font-size
- * @cssprop {String} [--gv-button--bdrs=0.15rem] - set the border radius
+ * @cssprop {Color} [--gv-button--bgc=var(--gv-theme-color-dark, #193E34)] - Background color
+ * @cssprop {Color} [--gv-button--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
+ * @cssprop {Color} [--gv-button-primary--c=var(--gv-theme-font-color-light, #FFFFFF)] - Primary color
+ * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #009B5B)] - Primary background color
+ * @cssprop {Length} [--gv-button--p=0rem 0.5rem] - Padding
+ * @cssprop {Length} [--gv-button--fz=var(--gv-theme-font-size-m, 14px)] - Font size
+ * @cssprop {Length} [--gv-button--bdrs=0.15rem] - Border radius
  */
 export class GvButton extends LitElement {
 
@@ -60,19 +59,18 @@ export class GvButton extends LitElement {
       type: { type: String },
       disabled: { type: Boolean },
       primary: { type: Boolean },
-      secondary: { type: Boolean },
       outlined: { type: Boolean },
       skeleton: { type: Boolean },
       icon: { type: String },
       iconRight: { type: String, attribute: 'icon-right' },
       loading: { type: Boolean },
       title: { type: String, reflect: true },
+      provider: { type: String },
     };
   }
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
         :host {
@@ -81,6 +79,31 @@ export class GvButton extends LitElement {
           margin: 0.2rem;
           vertical-align: middle;
           --gv-icon--s: 24px;
+          --github--c: #444;
+          --google--c: #4285F4;
+          --oidc--c: #000000;
+          --gravitee--c: #32ABDF;
+        }
+
+        .github {
+          --gv-button--bgc: var(--github--c);
+        }
+
+        .google {
+          --gv-button--bgc: var(--google--c);
+        }
+
+        .oidc {
+          --gv-button--bgc: var(--oidc--c);
+          --gv-button-icon--c: #fff;
+        }
+
+        .oidc.outlined {
+          --gv-button-icon--c: var(--oidc--c);
+        }
+
+        .graviteeio_am {
+          --gv-button--bgc: var(--gravitee--c);
         }
 
         /* RESET */
@@ -88,7 +111,7 @@ export class GvButton extends LitElement {
           background: #fff;
           border: 1px solid #000;
           display: block;
-          font-size: var(--gv-button--fz, 14px);
+          font-size: var(--gv-button--fz, var(--gv-theme-font-size-m, 14px));
           margin: 0;
           padding: 0;
         }
@@ -105,22 +128,16 @@ export class GvButton extends LitElement {
         }
 
         /* COLORS */
-        button.default {
-          --c: var(--gv-button--c, #FFFFFF);
-          --bgc: var(--gv-button--bgc, #193E34);
-          --gv-icon--c: var(--gv-button--c, #FFFFFF)
+        .default {
+          --c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --bgc: var(--gv-button--bgc, var(--gv-theme-color-dark, #193E34));
+          --gv-icon--c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF))
         }
 
-        button.primary {
-          --c: var(--gv-button-primary--c, #FFFFFF);
-          --bgc: var(--gv-button-primary--bgc, #009B5B);
-          --gv-icon--c: var(--gv-button-primary--c, #FFFFFF);
-        }
-
-        button.secondary {
-          --c: var(--gv-button-secondary--c, #555555);
-          --bgc: var(--gv-button-secondary--bgc, #EEEEEE);
-          --gv-icon--c: var(--gv-button-secondary--c, #555555);
+        .primary {
+          --c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --bgc: var(--gv-button-primary--bgc, var(--gv-theme-color, #009B5B));
+          --gv-icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
         }
 
         /* MODES */
@@ -130,19 +147,10 @@ export class GvButton extends LitElement {
           color: var(--c);
         }
 
-        button.outlined {
+        .outlined {
           background-color: var(--c);
           color: var(--bgc);
           --gv-icon--c: var(--bgc);
-        }
-
-        button.secondary.outlined {
-          border-color: var(--c);
-        }
-
-          /* special case: we want to keep simple buttons subtle */
-        button.simple {
-          border-color: #aaa;
         }
 
         /* STATES */
@@ -152,7 +160,7 @@ export class GvButton extends LitElement {
         }
 
         button:enabled:hover {
-          box-shadow: 0 1px 3px #888;
+          box-shadow: 0 1px 3px var(--gv-theme-color-darker, #1D3730);
         }
 
         button:enabled:active {
@@ -163,12 +171,6 @@ export class GvButton extends LitElement {
         button:disabled {
           cursor: default;
           opacity: .5;
-        }
-
-        button.skeleton {
-          background-color: #aaa;
-          border-color: #777;
-          color: transparent;
         }
 
         button.skeleton > gv-icon {
@@ -221,6 +223,7 @@ export class GvButton extends LitElement {
           }
         }
       `,
+      skeleton,
     ];
   }
 
@@ -229,6 +232,7 @@ export class GvButton extends LitElement {
     if (form && this.type === 'submit') {
       form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     }
+    dispatchCustomEvent(this, 'click');
   }
 
   async performUpdate () {
@@ -242,13 +246,17 @@ export class GvButton extends LitElement {
   render () {
     const classes = {
       primary: this.primary,
-      secondary: !this.primary && this.secondary,
       skeleton: this.skeleton,
-      default: !this.primary && !this.secondary,
+      default: !this.primary,
       outlined: this.outlined,
       icon: !!this.icon || !!this.iconRight || this.loading,
       loading: this.loading,
     };
+
+    if (this.provider) {
+      classes[this.provider] = true;
+      this.icon = `thirdparty:${this.provider}`;
+    }
 
     return html`<button
         type=${this.type || 'button'}

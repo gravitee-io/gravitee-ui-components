@@ -1,0 +1,26 @@
+:root{
+  --gv-theme-color-darker: #1D3730;
+  --gv-theme-color-dark: #193E34;
+  --gv-theme-color: #009B5B;
+  --gv-theme-color-light: #D5FDCB;
+  --gv-theme-neutral-color-darkest: #000000;
+  --gv-theme-neutral-color-darker: #BFBFBF;
+  --gv-theme-neutral-color-dark: #D9D9D9;
+  --gv-theme-neutral-color: #E5E5E5;
+  --gv-theme-neutral-color-light: #EFEFEF;
+  --gv-theme-neutral-color-lighter: #FAFAFA;
+  --gv-theme-neutral-color-lightest: #FFFFFF;
+  --gv-theme-font-color-dark: #262626;
+  --gv-theme-font-color-light: #FFFFFF;
+  --gv-theme-font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --gv-theme-font-size-xs: 10px;
+  --gv-theme-font-size-s: 12px;
+  --gv-theme-font-size-m: 14px;
+  --gv-theme-font-size-l: 16px;
+  --gv-theme-font-size-xl: 26px;
+  --gv-theme-font-size-xxl: 30px;
+  --gv-theme-skeleton-color: #BFBFBF;
+  --gv-theme-background-image: url('/images/gravitee-bgi.jpg');
+  --gv-theme-logo: url('/images/gravitee-logo.png');
+  --gv-theme-optional-logo: url('/images/gravitee-logo-light.png');
+}

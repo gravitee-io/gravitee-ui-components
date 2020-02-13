@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit-html/directives/class-map.js';
+import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 
 /**
  * @attr {String} type - type of the message. Can be info (Default), success, error, warning or info.
+ *
+ * @cssprop {Color} [--gv-message-success--bgc=var(--gv-theme-color-light, #D5FDCB)] - Success background color
+ * @cssprop {Color} [--gv-message-success--c=var(--gv-theme-color-darker, #1D3730)] - Success color
+ * @cssprop {Color} [--gv-message-info--c=#00529B] - Info color
+ * @cssprop {Color} [--gv-message-info--bgc=#BDE5F8] - Info background color
+ * @cssprop {Color} [--gv-message-warn--c=#9F6000] - Warning color
+ * @cssprop {Color} [--gv-message-warn--bgc=#FEEFB3] - Warning background color
+ * @cssprop {Color} [--gv-message-error--c=#820014] - Error color
+ * @cssprop {Color} [--gv-message-error--bgc=#FFCCC7] - Error background color
 */
 export class GvMessage extends LitElement {
 
@@ -35,7 +44,7 @@ export class GvMessage extends LitElement {
             display: block;
             vertical-align: middle;
           }
-          /* BASE */
+
           div {
               font-style: normal;
               font-weight: normal;
@@ -46,25 +55,24 @@ export class GvMessage extends LitElement {
               width: 100%;
           }
 
-          /* COLOR */
           div.info {
-            background-color: #BDE5F8;
-            color: #00529B;
+            background-color: var(--gv-message-info--bgc, #BDE5F8);
+            color: var(--gv-message-info--c, #00529B);
           }
 
           div.success {
-            background-color: #D5FDCB;
-            color: #193E34;
+            background-color: var(--gv-message-success--bgc, var(--gv-theme-color-light, #D5FDCB));
+            color: var(--gv-message-success--c, var(--gv-theme-color-darker, #1D3730));
           }
 
           div.warning {
-            background-color: #FEEFB3;
-            color: #9F6000;
+            background-color: var(--gv-message-warn--bgc, #FEEFB3);
+            color: var(--gv-message-warn--c, #9F6000);
           }
 
           div.error {
-            background-color: #FFCCC7;
-            color: #820014;
+            background-color: var(--gv-message-error--bgc, #FFCCC7);
+            color: var(--gv-message-error--c, #820014);
           }
       `,
     ];

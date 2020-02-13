@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit-html/directives/class-map.js';
+import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import './gv-icon';
@@ -30,28 +30,29 @@ import './gv-icon';
  * @attr {Boolean} minor - set tag UI as minor
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} [--gv-tag--bdr=4px] - set the border radius.
- * @cssprop {String} [--gv-tag--bsw=none] - set the box shadow.
+ * @cssprop {Length} [--gv-tag--bdr=4px] - Border radius
+ * @cssprop {String} [--gv-tag--bsw=none] - Box shadow
  *
- * @cssprop {String} [--gv-tag--bgc=#F5F5F5] - set the background color.
- * @cssprop {String} [--gv-tag-major--bgc=#009B5B] - set the background color.
- * @cssprop {String} [--gv-tag-minor--bgc=#FFF] - set the background color.
+ * @cssprop {Color} [--gv-tag--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
+ * @cssprop {Color} [--gv-tag-major--bgc=var(--gv-theme-color, #009B5B)] - Major background color
+ * @cssprop {Color} [--gv-tag-minor--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Minor background color
  *
- * @cssprop {String} [--gv-tag--bdc=#D9D9D9] - set the border color.
- * @cssprop {String} [--gv-tag-major--bdc=#009B5B] - set the border color.
- * @cssprop {String} [--gv-tag-minor--bdc=#D9D9D9] - set the border color.
+ * @cssprop {Color} [--gv-tag--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
+ * @cssprop {Color} [--gv-tag-major--bdc=var(--gv-theme-color, #009B5B)] - Major border color
+ * @cssprop {Color} [--gv-tag-minor--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Minor border color
 
- * @cssprop {String} [--gv-tag--bds=solid] - set the border style.
- * @cssprop {String} [--gv-tag-major--bds=solid] - set the border style.
- * @cssprop {String} [--gv-tag-minor--bds=dashed] - set the border style.
+ * @cssprop {String} [--gv-tag--bds=solid] - Border style
+ * @cssprop {String} [--gv-tag-major--bds=solid] - Major border style
+ * @cssprop {String} [--gv-tag-minor--bds=dashed] - Minor border style
  *
- * @cssprop {String} [--gv-tag--bdw=1px] - set the border width.
- * @cssprop {String} [--gv-tag-major--bdw=1px] - set the border width.
- * @cssprop {String} [--gv-tag-minor--bdw=1px] - set the border width.
+ * @cssprop {Length} [--gv-tag--bdw=1px] - Border width
+ * @cssprop {Length} [--gv-tag-major--bdw=1px] - Major border width
+ * @cssprop {Length} [--gv-tag-minor--bdw=1px] - Minor border width
  *
- * @cssprop {String} [--gv-tag--c=#595959] - set the color.
- * @cssprop {String} [--gv-tag-major--c=#FFF] - set the color.
- * @cssprop {String} [--gv-tag-minor--c=#595959] - set the color.
+ * @cssprop {Color} [--gv-tag--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Color} [--gv-tag-major--c=var(--gv-theme-font-color-light, #FFFFFF)] - Major color
+ * @cssprop {Color} [--gv-tag-minor--c=var(--gv-theme-font-color-dark, #262626)] - Minor color
+ * @cssprop {Length} [--gv-tag-icon--s=18px] - Height and icon width
  */
 export class GvTag extends LitElement {
 
@@ -74,31 +75,31 @@ export class GvTag extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              --gv-icon--s: 18px;
+              --gv-icon--s: var(--gv-tag-icon--s, 18px);
           }
 
           div.default {
-              --bgc: var(--gv-tag--bgc, #F5F5F5);
-              --bdc: var(--gv-tag--bdc, #D9D9D9);
+              --bgc: var(--gv-tag--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+              --bdc: var(--gv-tag--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
               --bds: var(--gv-tag--bds, solid);
               --bdw: var(--gv-tag--bdw, 1px);
-              --c: var(--gv-tag--c, #595959);
+              --c: var(--gv-tag--c, var(--gv-theme-font-color-dark, #262626));
           }
 
           div.major {
-              --bgc: var(--gv-tag-major--bgc, #009B5B);
-              --bdc: var(--gv-tag-major--bdc, #009B5B);
+              --bgc: var(--gv-tag-major--bgc, var(--gv-theme-color, #009B5B));
+              --bdc: var(--gv-tag-major--bdc, var(--gv-theme-color, #009B5B));
               --bds: var(--gv-tag-major--bds, solid);
               --bdw: var(--gv-tag-major--bdw, 1px);
-              --c: var(--gv-tag-major--c, #FFF);
+              --c: var(--gv-tag-major--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 
           div.minor {
-              --bgc: var(--gv-tag-minor--bgc, #FFF);
-              --bdc: var(--gv-tag-minor--bdc, #D9D9D9);
+              --bgc: var(--gv-tag-minor--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+              --bdc: var(--gv-tag-minor--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
               --bds: var(--gv-tag-minor--bds, dashed);
               --bdw: var(--gv-tag-minor--bdw, 1px);
-              --c: var(--gv-tag-minor--c, #595959)
+              --c: var(--gv-tag-minor--c, var(--gv-theme-font-color-dark, #262626))
           }
 
           div {
@@ -110,7 +111,7 @@ export class GvTag extends LitElement {
               box-shadow: var(--gv-tag--bsw, none);
               color: var(--c);
 
-              font-size: 12px;
+              font-size: var(--gv-theme-font-size-s, 12px);
               line-height: 20px;
               padding: 1px 8px;
           }

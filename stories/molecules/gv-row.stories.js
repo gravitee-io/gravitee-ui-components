@@ -13,69 +13,83 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { storiesOf } from '@storybook/html';
 import notes from '../../.docs/gv-row.md';
 import '../../src/molecules/gv-row';
-import { delay } from '../lib/delay';
-import horizontalImage from '../../assets/images/gravitee-logo-darker.png';
+import horizontalImage from '../../assets/images/gravitee-logo.png';
 import picture from '../../assets/images/logo.png';
-import { withActions } from '@storybook/addon-actions';
-import { color } from '@storybook/addon-knobs';
-
-const eventNames = ['click gv-row'];
+import { makeStory, storyWait } from '../lib/make-story';
 
 const name = 'Supernova';
 const version = 'v.1.1';
-const states = [{ value: 'beta', minor: true }, { value: 'running', major: true }];
+const states = [
+  { value: 'beta', minor: true },
+  { value: 'running', major: true },
+];
 const owner = { display_name: 'Garry Marshall' };
-const description = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
+const description
+  = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 const labels = ['brta', 'custom', 'web'];
-const api = { name: 'Long Supernova', picture: horizontalImage, version, states, owner, labels, description };
-storiesOf('2. Molecules|<gv-row>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
+const api = {
+  name: 'Long Supernova',
+  picture: horizontalImage,
+  version,
+  states,
+  owner,
+  labels,
+  description,
+};
 
-    const container = document.createElement('div');
+export default {
+  title: 'Molecules|gv-row',
+  component: 'gv-row',
+  parameters: {
+    notes,
+  },
+};
 
-    container.innerHTML = `
-    <div class="title">Basics</div>
-    <gv-row id="name"></gv-row>
-    <gv-row id="horizontalImage"></gv-row>
-    <gv-row id="image"></gv-row>
+const conf = {
+  component: 'gv-row',
+};
 
-    <div class="title">Skeleton & Delay</div>
-    <gv-row></gv-row>
-    <gv-row id="delay"></gv-row>
-    `;
+const items = [
+  { item: { name, owner } },
+  { item: api },
+  {
+    item: {
+      name: 'Comet Api.',
+      picture,
+      version,
+      states,
+      owner,
+      labels,
+      description,
+    },
+  },
+];
 
-    const bgColor = color('--gv-row--bgc', '');
+export const Basics = makeStory(conf, {
+  items,
+});
 
-    container.style = [
-      { value: bgColor, prop: '--gv-row--bgc' }]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
+export const empty = makeStory(conf, {
+  items: [{}],
+});
 
-    const delayElement = container.querySelector('#delay');
-    delayElement.title = Promise.resolve('Slow api').then(delay(2000));
+export const loading = makeStory(conf, {
+  items: [{ item: new Promise(() => ({})) }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = api;
+    }),
+  ],
+});
 
-    container.querySelector('#name').item = Promise.resolve({ name, owner });
-    container.querySelector('#horizontalImage').item = Promise.resolve(api);
-    container.querySelector('#image').item = Promise.resolve({ name: 'Comet Api.', picture, version, states, owner, labels, description });
-    container.querySelector('#delay').item = Promise.resolve(api).then(delay(2000));
-    return container;
-  }))
-  .add('Errors', () => withActions(...eventNames)(() => {
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Empty</div>
-      <gv-row id="empty"></gv-row>
-
-      <div class="title">Error</div>
-      <gv-row id="error"></gv-row>
-    `;
-    container.querySelector('#empty').item = Promise.resolve({});
-    container.querySelector('#error').item = Promise.reject(new Error());
-    return container;
-  }));
+export const loadingAndError = makeStory(conf, {
+  items: [{ item: new Promise(() => ({})) }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = Promise.reject(new Error());
+    }),
+  ],
+});

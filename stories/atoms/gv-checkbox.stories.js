@@ -13,59 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-checkbox.js';
+import '../../src/atoms/gv-checkbox';
 import notes from '../../.docs/gv-checkbox.md';
-import { storiesOf } from '@storybook/html';
-import { color, text } from '@storybook/addon-knobs';
-import { updateTextAttributes } from '../lib/update-attributes';
-import { withCustomEventActions } from '../lib/event-action';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-checkbox:input');
+const items = [
+  { innerHTML: 'Default' },
+  { innerHTML: 'With label', label: 'Default with label' },
+];
 
-storiesOf('1. Atoms|<gv-checkbox>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+export default {
+  title: 'Atoms|gv-checkbox',
+  component: 'gv-checkbox',
+  parameters: { notes },
+};
 
-    const label = text('Label', '');
+const conf = { component: 'gv-checkbox' };
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Default without options</div>
-      <gv-checkbox></gv-checkbox>
+export const basics = makeStory(conf, {
+  items,
+});
 
-      <div class="title">Default with label</div>
-      <gv-checkbox
-        label="Recevoir une copie par e-mail">
-      </gv-checkbox>
+export const disabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true })),
+});
 
-      <div class="title">Disabled with label</div>
-      <gv-checkbox
-        label="Recevoir une copie par e-mail"
-        disabled>
-      </gv-checkbox>
-
-      <div class="title">Sekeleton with label</div>
-      <gv-checkbox
-        label="Recevoir une copie par e-mail"
-        skeleton>
-      </gv-checkbox>
-    `;
-
-    const nodeSelect = container.querySelectorAll('gv-checkbox');
-    if (label) {
-      updateTextAttributes(nodeSelect, 'label', label);
-    }
-
-    const iconColor = color('Color', '#009B5B');
-
-    nodeSelect.forEach((node) => {
-      node.style = [
-        { value: iconColor, prop: '--gv-checkbox--bgc' },
-      ]
-        .filter(({ value }) => value)
-        .map(({ value, prop }) => `${prop}:${value}`)
-        .join(';');
-    });
-
-    return container;
-  }));
+export const skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

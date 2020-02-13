@@ -30,14 +30,19 @@ import { ItemResource } from '../mixins/item-resource';
 /**
  * Header component
  *
- * @attr {Promise<any>} item - An item.
- * @attr {Promise<Array>} breadcrumbs - definition of routes in order [{ path: String, title: String }]
+ * @attr {Promise<any>} item - An item
+ * @attr {Promise<Array<{ path: String, title: String }>>} breadcrumbs - definition of routes in order
  * @attr {Boolean} canSubscribe - for display actions (default: false)
  *
- * @cssprop {String} [--gv-header--bgc=#D5FDCB] - set the background color.
- * @cssprop {String} [--gv-header--pl=4rem] - set the padding left
- * @cssprop {String} [--gv-header--pr=4rem] - set the padding right
- * @cssprop {String} [--gv-header--c=#262626] - set the color
+ * @cssprop {Color} [--gv-header--bgc=var(--gv-theme-color-light, #D5FDCB)] - Background color.
+ * @cssprop {Color} [--gv-header--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Length} [--gv-header-image--h=125px] - Image height
+ * @cssprop {Length} [--gv-header-image--w=125px] - Image width
+ * @cssprop {Length} [--gv-header--h=150px] - Height
+ *
+ * @cssprop {Length} [--gv-header-button--p=10px 24px] - Button adding
+ * @cssprop {Length} [--gv-header-button--fz=var(--gv-theme-font-size-l, 16px)] - Button font size
+ *
  */
 export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
 
@@ -55,26 +60,34 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
       // language=CSS
       css`
         :host {
-          --gv-image--w: 125px;
-          --gv-image--h: 125px;
-          --gv-button--fz: 16px;
-          --gv-button--p: 10px 24px;
+          --img-w: var(--gv-header-image--w, 125px);
+          --img-h: var(--gv-header-image--h, 125px);
+          --gv-button--fz: var(--gv-header-button--fz, var(--gv-theme-font-size-l, 16px));
+          --gv-button--p: var(--gv-header-button--p, 10px 24px);
           --gv-link--bgc: transparent;
           --gv-link-active-bgc: transparent;
-          --c: var(--gv-header--c, #262626);
+          --c: var(--gv-header--c, var(--gv-theme-font-color-dark, #262626));
           --gv-link--c: var(--c);
           --gv-link-active--c: var(--c);
           --gv-link-a--ph: 5px;
           --gv-link--td: underline;
-          --bgc: var(--gv-header--bgc, #D5FDCB);
+          --bgc: var(--gv-header--bgc, var(--gv-theme-color-light, #D5FDCB));
+          --h: var(--gv-header--h, 150px);
           box-sizing: border-box;
           display: block;
         }
 
+        gv-image {
+          height: var(--img-h);
+          width: var(--img-w);
+          --gv-image--of: contain;
+        }
+
         :host([w-lt-768]) {
-          --gv-image--w: 64px;
-          --gv-image--h: 64px;
-          --gv-button--fz: 12px;
+          --img--w: calc(var(--img-w) / 2);
+          --img--h: calc(var(--img-h) / 2);
+          --gv-button--fz: var(--gv-theme-font-size-s, 12px);
+          font-size: var(--gv-theme-font-size-s, 12px);
         }
 
         :host([w-lt-768]) .header__top nav {
@@ -84,6 +97,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
         :host([w-lt-580]) {
           --gv-button--p: 3px 9px;
           --gv-link-a--ph: 0px;
+          --h: 115px;
         }
 
         :host([w-lt-580]) .header__top {
@@ -96,8 +110,8 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
         }
 
         :host([w-lt-580]) .version {
-          font-size: 11px;
-          line-height: 13px;
+          font-size: var(--gv-theme-font-size-s, 12px);
+          line-height: var(--gv-theme-font-size-s, 12px);
         }
 
         :host([w-lt-580]) .image gv-image {
@@ -105,17 +119,21 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
         }
 
         :host([w-lt-580]) h1 {
-          font-size: 18px;
-          line-height: 21px;
+          font-size: calc(var(--gv-theme-font-size-xl, 26px) - 4px);
+          line-height: calc(var(--gv-theme-font-size-xl, 26px) - 4px);
+        }
+
+        :host([w-lt-400]) h1 {
+          font-size: calc(var(--gv-theme-font-size-xl, 26px) - 8px);
         }
 
         .header {
           display: flex;
-          height: 150px;
+          height: var(--h);
           background-color: var(--bgc);
           flex-direction: column;
-          padding-left: var(--gv-header--pl, 4rem);
-          padding-right: var(--gv-header--pr, 4rem);
+          padding-left: var(--gv-theme-layout--pl, 4rem);
+          padding-right: var(--gv-theme-layout--pr, 4rem);
           color: var(--c);
           transition: height 1s ease;
         }
@@ -136,7 +154,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
 
         .title {
           flex: 1;
-          margin-left: 1rem;
+          margin: 0.5rem 0 0 1rem;
         }
 
         .image {
@@ -149,7 +167,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
 
         gv-link::after {
           content: '>';
-          color: #000000;
+          color: var(--gv-theme-font-color-dark, #262626);
           align-self: center;
         }
 
@@ -169,16 +187,16 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
         .version {
           letter-spacing: 0.05em;
           opacity: 0.5;
-          font-size: 16px;
-          line-height: 21px;
+          font-size: var(--gv-theme-font-size-l, 16px);
+          line-height: var(--gv-theme-font-size-l, 16px);
           font-weight: 500;
         }
 
         h1 {
           margin: 0;
-          font-size: 26px;
+          font-size: var(--gv-theme-font-size-xl, 26px);
           font-weight: 500;
-          line-height: 34px;
+          line-height: var(--gv-theme-font-size-xl, 26px);
           letter-spacing: 0.05em;
         }
 
@@ -192,7 +210,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
   constructor () {
     super();
     this.breakpoints = {
-      width: [580, 768],
+      width: [400, 580, 768],
     };
     this._breadcrumbs = [];
     this.canSubscribe = false;
@@ -244,13 +262,13 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
 
   _onSubscribe (e) {
     e.stopPropagation();
-    dispatchCustomEvent(this, 'subscribe', this._api);
+    dispatchCustomEvent(this, 'subscribe', this._item);
   }
 
   render () {
     return html`
       <div class="${classMap({ header: true, skeleton: this._skeleton })}">
-        <div class="header__top">${this._renderBreadcrumbs()}</div>
+        <div class="header__top">${(!(this._error || this._empty)) ? this._renderBreadcrumbs() : ''}</div>
         <div class="header__bottom">
             <div class="image">${this._renderImage()}</div>
             <div class="title">

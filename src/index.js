@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 export { GvButton } from './atoms/gv-button';
-export { GvCardCategory } from './atoms/gv-card-category';
 export { GvCheckbox } from './atoms/gv-checkbox';
 export { GvIcon } from './atoms/gv-icon';
 export { GvImage } from './atoms/gv-image';
@@ -30,9 +29,10 @@ export { GvTag } from './atoms/gv-tag';
 export { GvText } from './atoms/gv-text';
 export { GvCard } from './molecules/gv-card';
 export { GvCardFull } from './molecules/gv-card-full';
+export { GvCategory } from './molecules/gv-category';
+export { GvCategoryList } from './molecules/gv-category-list';
 export { GvConfirm } from './molecules/gv-confirm';
 export { GvCode } from './molecules/gv-code';
-export { GvHeader } from './molecules/gv-header';
 export { GvInfo } from './molecules/gv-info';
 export { GvList } from './molecules/gv-list';
 export { GvMetrics } from './molecules/gv-metrics';
@@ -47,6 +47,8 @@ export { GvRow } from './molecules/gv-row';
 export { GvStepper } from './molecules/gv-stepper';
 export { GvTree } from './molecules/gv-tree';
 export { GvUserAvatar } from './molecules/gv-user-avatar';
+export { GvHeader } from './organisms/gv-header';
 export { GvMenu } from './organisms/gv-menu';
 export { GvPagination } from './organisms/gv-pagination';
 export { GvUserMenu } from './organisms/gv-user-menu';
+export { GvTheme } from './theme/gv-theme';

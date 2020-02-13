@@ -7,6 +7,13 @@
     "empty": "No information to display",
     "error": "An error has occurred"
   },
+  "gv-category": {
+    "empty": "No information to display",
+    "error": "An error has occurred"
+  },
+  "gv-category-list": {
+    "error": "An error has occurred"
+  },
   "gv-code": {
     "copy": "Copy to clipboard"
   },
@@ -51,7 +58,7 @@
   "gv-plans": {
     "security": {
       "apiKey": "API Key",
-      "jwt":  "Json Web Token",
+      "jwt": "Json Web Token",
       "keyLess": "Without key",
       "oauth2": "Oauth 2"
     },

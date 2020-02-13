@@ -13,34 +13,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-plans.js';
+import '../../src/molecules/gv-plans';
 import notes from '../../.docs/gv-plans.md';
-import { storiesOf } from '@storybook/html';
-import { withCustomEventActions } from '../lib/event-action.js';
+import { makeStory, storyWait } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-plans:click');
+export default {
+  title: 'Molecules|gv-plans',
+  component: 'gv-plans',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('2. Molecules|<gv-plans>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+const plans = [
+  {
+    name: 'Standard (9,90€/mois)',
+    description: 'Idéal pour les petites organisations. (10 à 30 API)',
+    characteristics: [
+      '100 000 appels / mois',
+      'Accès en lecture seule',
+      'SLA Garanti',
+      'API key nécessaire',
+    ],
+  },
+  {
+    name: 'Premium (21,90€/mois)',
+    description: 'Une offre pour les grandes organisations. (31 à 500 API)',
+    characteristics: [
+      '500 000 appels / mois',
+      'Accès complet',
+      'SLA Garanti',
+      'API key nécessaire',
+    ],
+  },
+];
 
-    const plans = document.createElement('gv-plans');
-    plans.plans = [
-      {
-        name: 'Standard (9,90€/mois)',
-        description: 'Idéal pour les petites organisations. (10 à 30 API)',
-        characteristics: ['100 000 appels / mois', 'Accès en lecture seule', 'SLA Garanti', 'API key nécessaire'],
-      },
-      {
-        name: 'Premium (21,90€/mois)',
-        description: 'Une offre pour les grandes organisations. (31 à 500 API)',
-        characteristics: ['500 000 appels / mois', 'Accès complet', 'SLA Garanti', 'API key nécessaire'],
-      },
-    ];
-    return plans;
-  }))
-  .add('Skeleton', withActions(() => {
+const conf = {
+  component: 'gv-plans',
+};
 
-    const plans = document.createElement('gv-plans');
-    return plans;
-  }));
+export const basics = makeStory(conf, {
+  items: [{ plans: plans }],
+});
+
+export const empty = makeStory(conf, {
+  items: [{}],
+});
+
+export const loading = makeStory(conf, {
+  items: [{
+    plans: new Promise(() => ({})),
+  }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.plans = plans;
+    }),
+  ],
+});
+
+export const loadingAndError = makeStory(conf, {
+  items: [{
+    plans: new Promise(() => ({})),
+  }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.plans = Promise.reject(new Error());
+    }),
+  ],
+});

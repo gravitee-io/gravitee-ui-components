@@ -13,45 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-icon.js';
+import '../../src/atoms/gv-icon';
 import notes from '../../.docs/gv-icon.md';
-import { storiesOf } from '@storybook/html';
-import { generateIcons } from '../lib/icons.generated';
+import { icons } from '../../.docs/icons.json';
+import { makeStory } from '../lib/make-story';
 
-import { select, text, color } from '@storybook/addon-knobs';
-
-storiesOf('1. Atoms|<gv-icon>', module)
-  .addParameters({ notes })
-  .add('Basics', () => {
-
-    const container = document.createElement('div');
-    container.innerHTML = generateIcons();
-    const categories = ['All'];
-    container.querySelectorAll('.title').forEach((title) => categories.push(title.innerText));
-
-    const category = select('Category', categories, categories[0]);
-    const icon = text('Icon', '');
-
-    if (category || icon) {
-      container.querySelectorAll('[data-shape]').forEach((e) => {
-        const { dataset: { shape } } = e;
-        const hasCategory = (category !== categories[0] && !shape.startsWith(category));
-        const hasIcon = icon && !shape.includes(icon);
-        if (hasCategory || hasIcon) {
-          e.classList.add('hide');
-        }
-      });
-    }
-    const iconColor = color('--gv--icon-c', '');
-    const size = text('--gv-icon--s', '64px');
-
-    container.style = [
-      { value: iconColor, prop: '--gv-icon--c' },
-      { value: size, prop: '--gv-icon--s' },
-    ]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
-
-    return container;
-  });
+export default {
+  title: 'Atoms|gv-icon',
+  component: 'gv-icon',
+  parameters: {
+    notes,
+  },
+};
+const conf = { component: 'gv-icon' };
+const items = icons.map((shape) => ({ shape, title: shape }));
+export const all = makeStory(conf, {
+  items,
+});

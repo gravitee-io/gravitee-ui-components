@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-rating-list.js';
+import '../../src/molecules/gv-rating-list';
 import notes from '../../.docs/gv-rating-list.md';
-import { storiesOf } from '@storybook/html';
-import { withActions } from '@storybook/addon-actions';
+import { makeStory } from '../lib/make-story';
 
-const eventNames = ['gv-rating-list:answer', 'gv-rating-list:delete', 'gv-rating-list:delete-answer', 'gv-rating-list:update'];
 const title = 'Top API !';
-const comment = 'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis quo con perto Montius tunc Hinc ille commotus ut iniusta perferens et indigna pra custodiam.';
+const comment
+  = 'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis quo con perto Montius tunc Hinc ille commotus ut iniusta perferens et indigna pra custodiam.';
 const author = { id: 1, display_name: 'Jean Christophe' };
 const date = new Date();
-const answers = [{ author, comment: 'Awesome !', date }, { author, comment, date }];
+const answers = [
+  { author, comment: 'Awesome !', date },
+  { author, comment, date },
+];
 
 const ratings = [
   { author, value: '4', comment, date, title },
@@ -33,44 +35,26 @@ const ratings = [
   { author, value: '5', comment, date, title },
 ];
 
-storiesOf('2. Molecules|<gv-rating-list>', module)
-  .addParameters({ notes })
-  .add('Read', () => withActions(...eventNames)(() => {
+export default {
+  title: 'Molecules|gv-rating-list',
+  component: 'gv-rating-list',
+  parameters: {
+    notes,
+  },
+};
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">permissions = {}</div>
-      <gv-rating-list></gv-rating-list>
-    `;
-    container.querySelectorAll('gv-rating-list').forEach((element) => {
-      element.ratings = ratings;
-      element.user = author;
-    });
-    return container;
-  }))
-  .add('Edit', () => withActions(...eventNames)(() => {
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">permissions = {RATING = ['U', 'D']}</div>
-      <gv-rating-list></gv-rating-list>
-    `;
-    container.querySelectorAll('gv-rating-list').forEach((element) => {
-      element.ratings = ratings;
-      element.user = author;
-      element.permissions = { RATING: ['U', 'D'] };
-    });
-    return container;
-  }))
-  .add('Answer', () => withActions(...eventNames)(() => {
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">permissions = {RATING_ANSWER = ['C']}</div>
-      <gv-rating-list></gv-rating-list>
-    `;
-    container.querySelectorAll('gv-rating-list').forEach((element) => {
-      element.ratings = ratings;
-      element.user = author;
-      element.permissions = { RATING_ANSWER: ['C', 'D'] };
-    });
-    return container;
-  }));
+const conf = {
+  component: 'gv-rating-list',
+};
+
+export const Reader = makeStory(conf, {
+  items: [{ ratings, user: author }],
+});
+
+export const Edit = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { RATING: ['U', 'D'] } }],
+});
+
+export const Answer = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { RATING_ANSWER: ['C', 'D'] } }],
+});

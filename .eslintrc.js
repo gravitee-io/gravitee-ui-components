@@ -9,6 +9,7 @@ module.exports = {
     'padded-blocks': 'off',
     'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
     'semi': ['error', 'always'],
+    'import/extensions': ['error', 'always', {'js': 'never'}]
   },
   globals: {
     "Event": "readonly"

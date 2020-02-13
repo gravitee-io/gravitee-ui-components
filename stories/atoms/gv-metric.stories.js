@@ -13,17 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-metric.js';
+import '../../src/atoms/gv-metric';
 import notes from '../../.docs/gv-metric.md';
-import { storiesOf } from '@storybook/html';
+import { makeStory } from '../lib/make-story';
 
-storiesOf('1. Atoms |<gv-metric>', module)
-  .addParameters({ notes })
-  .add('Basics', () => {
-    return `
-      <div class="title">Default</div>
-      <gv-metric icon="general:cursor" name="Hits" value="15000"></gv-metric>
-      <gv-metric skeleton icon="general:cursor" name="Hits" value="15000"></gv-metric>
-      
-    `;
-  });
+export default {
+  title: 'Atoms|gv-metric',
+  component: 'gv-metric',
+  parameters: {
+    notes,
+  },
+};
+
+const conf = {
+  component: 'gv-metric',
+};
+
+const items = [
+  { icon: 'general:cursor', name: 'Hits', value: '15000' },
+];
+
+export const Simple = makeStory(conf, {
+  items,
+});
+
+export const Skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

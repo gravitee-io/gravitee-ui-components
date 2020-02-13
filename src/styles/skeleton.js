@@ -36,10 +36,12 @@ export const skeleton = css`
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    background-color: var(--gv-theme-skeleton-color, #BFBFBF);
+    border-color: var(--gv-theme-skeleton-color, #BFBFBF);
+    transition: 0.5s;
   }
-  
+
   .skeleton svg, .skeleton gv-icon{
       visibility: hidden;
   }
-
 `;

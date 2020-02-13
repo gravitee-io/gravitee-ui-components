@@ -13,32 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/organisms/gv-pagination.js';
+import '../../src/organisms/gv-pagination';
 import notes from '../../.docs/gv-pagination.md';
-import { storiesOf } from '@storybook/html';
-import { withCustomEventActions } from '../lib/event-action.js';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-pagination:paginate', 'gv-pagination:size');
+export default {
+  title: 'Organisms|gv-pagination',
+  component: 'gv-pagination',
+  parameters: {
+    notes,
+  },
+};
 
-function gen (pages) {
-  const block = document.createElement('div');
-  block.innerHTML = `<div class="title">${pages} pages</div>`;
-  for (let i = 1; i <= pages; i++) {
-    const pagination = document.createElement('gv-pagination');
-    const data = { first: 1, last: 100, total: 100, current_page: i, total_pages: pages };
-    pagination.data = data;
-    block.appendChild(pagination);
-  }
-  return block;
-}
+const conf = {
+  component: 'gv-pagination',
+};
 
-storiesOf('3. Organisms|<gv-pagination>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
-    const container = document.createElement('div');
-    const small = gen(7);
-    const large = gen(14);
-    container.appendChild(small);
-    container.appendChild(large);
-    return container;
-  }));
+export const Basics = makeStory(conf, {
+  items: [{
+    data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 10 },
+  }],
+});
+
+export const Large = makeStory(conf, {
+  items: [{
+    data: { first: 1, last: 100, total: 100, current_page: 59, total_pages: 70 },
+  }],
+});
+
+export const Empty = makeStory(conf, {
+  items: [{}],
+});

@@ -13,38 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-link.js';
+import '../../src/atoms/gv-link';
 import notes from '../../.docs/gv-link.md';
-import { storiesOf } from '@storybook/html';
-import { withCustomEventActions } from '../lib/event-action.js';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-link:click');
+export default {
+  title: 'Atoms|gv-link',
+  component: 'gv-link',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('1. Atoms | <gv-link>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+const conf = {
+  component: 'gv-link',
+};
 
-    const container = document.createElement('div');
-    container.style = '--gv-link-active--bdb: 8px solid #CCCCCC;'
-      + '--gv-link-active--c: #F4F4F4;'
-      + '--gv-link-active--bgc: #137752;'
-      + '--gv-link--c: #137752;';
+const items = [
+  { title: 'Simple', icon: 'food:french-bread', help: 'baguette', path: 'baguette' },
+  { title: 'Active', icon: 'food:wine', active: true, target: '_blank' },
+];
 
-    container.innerHTML = `
-      <div class="title">Link</div>
-      <gv-link id="bread" title="Bread" icon="food:french-bread"></gv-link>
-      <gv-link id="cheese" icon="food:cheese"></gv-link>
-      <gv-link id="wine" icon="food:wine" active></gv-link>
-      <gv-link id="empty"></gv-link>
-      <gv-link id="error"></gv-link>
-      <gv-link id="wine" icon="navigation:waiting" title="Waiting" skeleton active></gv-link>
-    `;
+export const Basic = makeStory(conf, {
+  items,
+});
 
-    container.querySelector('#bread').title = Promise.resolve('Bread');
-    container.querySelector('#wine').title = Promise.resolve('Wine')
-      .then((value) => new Promise((resolve) => setTimeout(() => {
-        resolve(value);
-      }, 1000)));
-    return container;
+export const Small = makeStory(conf, {
+  items: items.map((p) => ({ ...p, small: true })),
+});
+export const Empty = makeStory(conf, {
+  items: [{}, {}],
+});
 
-  }));
+export const Skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

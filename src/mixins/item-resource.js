@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { html } from 'lit-html';
-import { dispatchCustomEvent } from '../lib/events.js';
+import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
 
 /**
@@ -42,19 +42,24 @@ export function ItemResource (ParentClass) {
 
     constructor () {
       super();
-      this._skeleton = true;
+      this._skeleton = false;
       this._error = false;
-      this._empty = false;
+      this._empty = true;
     }
 
     set item (item) {
+      this._skeleton = true;
       Promise.resolve(item)
         .then((item) => {
           if (item) {
             this._skeleton = false;
             this._empty = Object.keys(item).length === 0;
             this._item = item;
-            if (item._links && item._links.picture) {
+            this._empty = false;
+            if (item.picture) {
+              this._picture = item.picture;
+            }
+            else if (item._links && item._links.picture) {
               this._picture = item._links.picture;
             }
             else {
@@ -66,7 +71,8 @@ export function ItemResource (ParentClass) {
             this._error = false;
             this._empty = false;
           }
-        }).catch(() => {
+        })
+        .catch(() => {
           this._loadDefaultPicture();
           this._error = true;
           this._skeleton = false;
@@ -82,7 +88,7 @@ export function ItemResource (ParentClass) {
         if (this._item.version) {
           return this._item.version;
         }
-        else {
+        else if (this._item.applicationType) {
           let icon;
           switch (this._item.applicationType.toLowerCase()) {
             case 'browser':
@@ -133,10 +139,7 @@ export function ItemResource (ParentClass) {
     }
 
     _renderImage () {
-      if (this._picture) {
-        return html`<gv-image src="${this._picture}" alt="${this._getTitle()}" @load="${this._onImageLoaded}">`;
-      }
-      return ``;
+      return html`<gv-image src="${this._picture}" alt="${this._getTitle()}" @load="${this._onImageLoaded}" skeleton="${this._skeleton}">`;
     }
 
     _onTagClick (tagValue, tagType) {
