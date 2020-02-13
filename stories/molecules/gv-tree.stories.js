@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-tree.js';
+import '../../src/molecules/gv-tree';
 import notes from '../../.docs/gv-tree.md';
-import { storiesOf } from '@storybook/html';
-import { withCustomEventActions } from '../lib/event-action.js';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-tree:select', 'gv-link:click');
 const menuItems = [
   { name: 'page 1', value: 'p1' },
   { name: 'page 2', value: { id: 'an object', link: 'https://gravitee.io', logo: 'logo' } },
@@ -49,32 +47,22 @@ const menuItems = [
   },
 ];
 
-storiesOf('2. Molecules|<gv-tree>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
-    const treeMenu = document.createElement('gv-tree');
-    treeMenu.items = menuItems;
-    return treeMenu;
-  }))
-  .add('In documentation', withActions(() => {
-    const container = document.createElement('div');
-    container.innerHTML = `
-        <div class="title">In Documentation</div>
+export default {
+  title: 'Molecules|gv-tree',
+  component: 'gv-tree',
+  parameters: {
+    notes,
+  },
+};
 
-        <div style="display:flex; flex-direction: row;">
-          <div>
-            <gv-tree></gv-tree>
-          </div>
-          <div id="content">
+const conf = {
+  component: 'gv-tree',
+};
 
-          </div>
-        </div>
+export const Basics = makeStory(conf, {
+  items: [{ items: menuItems }],
+});
 
-      `;
-
-    container.querySelector('gv-tree').items = menuItems;
-    container.addEventListener('gv-tree:select', (e) => {
-      container.querySelector('#content').innerHTML = '<h1>Selected Page : ' + e.detail.name.toString() + '</h1>';
-    });
-    return container;
-  }));
+export const Empty = makeStory(conf, {
+  items: [{ }],
+});

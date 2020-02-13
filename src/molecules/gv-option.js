@@ -25,7 +25,9 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  *
  * @attr {Array} options - An array of {title, icon, id, active}.
  *
- * @cssprop {String} [--gv-option--bgc=#E8E8E8] - set the background color. (default: #E8E8E8)
+ * @cssprop {Color} [--gv-option--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Background color
+ * @cssprop {Length} [--gv-option--bdrs=0.15rem] - Border radius
+ * @cssprop {Length} [--gv-option-button--p=5px] - Button padding
  */
 export class GvOption extends LitElement {
 
@@ -40,23 +42,23 @@ export class GvOption extends LitElement {
           :host {
               box-sizing: border-box;
               display: inline-block;
-              --gv-button--p: 5px;
+              --gv-button--p: var(--gv-option-button--p, 5px);
               margin: 0.2rem;
+             --bdrs: var(--gv-option--bdrs, 0.15rem);
           }
 
           gv-button {
               margin: 0;
-              --gv-button--m: 0;
-              --gv-button--bgc: var(--gv-option--bgc, #E8E8E8);
+              --gv-button--bgc: var(--gv-option--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
               --gv-button--bdrs: 0;
           }
 
           gv-button.entry {
-              --gv-button--bdrs: 0.15rem 0 0 0.15rem;
+              --gv-button--bdrs: var(--bdrs) 0 0 var(--bdrs);
           }
 
           gv-button.exit {
-              --gv-button--bdrs: 0 0.15rem 0.15rem 0;
+              --gv-button--bdrs: 0 var(--bdrs) var(--bdrs) 0;
           }
       `,
     ];

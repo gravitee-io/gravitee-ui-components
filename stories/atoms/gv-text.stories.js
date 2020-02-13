@@ -13,69 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-text.js';
+import '../../src/atoms/gv-text';
 import notes from '../../.docs/gv-text.md';
-import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
-import { updateTextAttributes } from '../lib/update-attributes';
-import { withCustomEventActions } from '../lib/event-action';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-text:input');
+export default {
+  title: 'Atoms|gv-text',
+  component: 'gv-text',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('1. Atoms|<gv-text>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+const conf = {
+  component: 'gv-text',
+};
 
-    const label = text('Label', '');
-    const rows = text('Rows', '');
+const items = [
+  { rows: 3 },
+  { label: 'Your request', placeholder: 'Explain your request...', rows: 3 },
+];
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Default without options focused</div>
-      <gv-text autofocus></gv-text>
+export const basics = makeStory(conf, {
+  items,
+});
 
-      <div class="title">Default with label</div>
-      <gv-text
-        label="Votre demande"
-        placeholder="Expliquer votre demande...">
-      </gv-text>
+export const required = makeStory(conf, {
+  items: items.map((p) => ({ ...p, required: true })),
+});
 
-      <div class="title">Required with label</div>
-      <gv-text
-        label="Votre demande"
-        placeholder="Expliquer votre demande..."
-        required>
-      </gv-text>
+export const disabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true })),
+});
 
-      <div class="title">Disabled with label</div>
-      <gv-text
-        label="Votre demande"
-        placeholder="Expliquer votre demande..."
-        disabled>
-      </gv-text>
+export const requiredAndDisabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true, required })),
+});
 
-      <div class="title">Sekeleton with label</div>
-      <gv-text
-        label="Votre demande"
-        placeholder="Expliquer votre demande..."
-        skeleton>
-      </gv-text>
+export const autofocus = makeStory(conf, {
+  docs: `
+  All fields have the autofocus attribute, so it's the last one in the dom that gets it.
+`,
+  items: items.map((p) => ({ ...p, autofocus: true })),
+});
 
-      <div class="title">Readonly with label</div>
-      <gv-text
-        label="Votre demande"
-        placeholder="Expliquer votre demande..."
-        readonly>
-      </gv-text>
-    `;
-
-    const nodeSelect = container.querySelectorAll('gv-text');
-    if (label) {
-      updateTextAttributes(nodeSelect, 'label', label);
-    }
-    if (rows) {
-      updateTextAttributes(nodeSelect, 'rows', rows);
-    }
-
-    return container;
-  }));
+export const skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

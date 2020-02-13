@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit-html/directives/class-map.js';
+import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 
@@ -27,11 +27,11 @@ import { skeleton } from '../styles/skeleton';
  * @attr {Boolean} major - enable major mode
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} [--gv-state--bdr=17px] - set the border radius.
- * @cssprop {String} [--gv-state--bgc=#F0F5FF] - set the background color.
- * @cssprop {String} [--gv-state--c=#597EF7] - set the color.
- * @cssprop {String} [--gv-state-major--bgc=#D5FDCB] - set the background color.
- * @cssprop {String} [--gv-state-major--c=#009B5B] - set the color.
+ * @cssprop {Length} [--gv-state--bdr=17px] - Border radius
+ * @cssprop {Color} [--gv-state--bgc=#F0F5FF] - Background color
+ * @cssprop {Color} [--gv-state--c=#597EF7] - Color
+ * @cssprop {Color} [--gv-state-major--bgc=var(--gv-theme-color-light, #D5FDCB)] - Major background color
+ * @cssprop {Color} [--gv-state-major--c=var(--gv-theme-color, #009B5B)] - Major color
  */
 export class GvState extends LitElement {
 
@@ -61,8 +61,8 @@ export class GvState extends LitElement {
           }
 
           div.major {
-              --bgc: var(--gv-state-major--bgc, #D5FDCB);
-              --c: var(--gv-state-major--c, #009B5B);
+              --bgc: var(--gv-state-major--bgc, var(--gv-theme-color-light, #D5FDCB));
+              --c: var(--gv-state-major--c, var(--gv-theme-color, #009B5B));
           }
 
           div {
@@ -70,7 +70,7 @@ export class GvState extends LitElement {
               border-radius: var(--gv-state--bdr, 17px);
               color: var(--c);
 
-              font-size: 10px;
+              font-size: var(--gv-theme-font-size-xs, 10px);
               font-weight: bold;
               text-transform: uppercase;
               line-height: 20px;

@@ -13,157 +13,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-button.js';
+import '../../src/atoms/gv-button';
 import notes from '../../.docs/gv-button.md';
-import { storiesOf } from '@storybook/html';
-import { color, text } from '@storybook/addon-knobs';
-import { withActions } from '@storybook/addon-actions';
-import { updateInnerText } from '../lib/update-attributes';
+import { makeStory } from '../lib/make-story';
 
-const eventNames = ['click gv-button'];
+const items = [
+  { innerHTML: 'Default' },
+  { innerHTML: 'Primary', primary: true },
+  { innerHTML: 'Default', icon: 'cooking:dish' },
+  { innerHTML: 'Primary', primary: true, icon: 'cooking:dish' },
+  { innerHTML: 'Default', iconRight: 'cooking:dish' },
+  { innerHTML: 'Primary', primary: true, iconRight: 'cooking:dish' },
+  { innerHTML: 'Github', provider: 'github' },
+  { innerHTML: 'Oidc', provider: 'oidc' },
+  { innerHTML: 'Gravitee', provider: 'graviteeio_am' },
+  { innerHTML: 'Google', provider: 'google' },
+];
 
-storiesOf('1. Atoms|<gv-button>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
+export default {
+  title: 'Atoms|gv-button',
+  component: 'gv-button',
+  parameters: { notes },
+};
 
-    const label = text('Button label', '');
+const conf = { component: 'gv-button' };
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Default</div>
-      <div class="group">
-        <gv-button default>Simple</gv-button>
-        <gv-button icon="cooking:dish" style="--gv-icon--c:white"></gv-button>
-        <gv-button icon="cooking:dish" style="--gv-icon--c:white">Icon</gv-button>
-        <gv-button icon-right="cooking:dish">Icon</gv-button>
-        <gv-button disabled>Disabled</gv-button>
-        <gv-button icon="cooking:dish" style="--gv-icon--c:white" disabled></gv-button>
-        <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
-        <gv-button outlined default>Outlined</gv-button>
-        <gv-button outlined icon="cooking:dish"></gv-button>
-        <gv-button outlined icon="cooking:dish">Outlined icon</gv-button>
-        <gv-button outlined disabled>Outlined disabled</gv-button>
-        <gv-button outlined icon="cooking:dish" disabled></gv-button>
-        <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
-        <gv-button outlined loading>Loading</gv-button>
-        <gv-button loading style="--gv-icon--c:white">Loading</gv-button>
-      </div>
+export const modes = makeStory(conf, {
+  items,
+});
 
-      <div class="generated-zone">
-      </div>
-    `;
+export const outlined = makeStory(conf, {
+  items: items.map((p) => ({ ...p, outlined: true })),
+});
 
-    const variants = [['skeleton'], ['primary'], ['primary', 'skeleton'], ['secondary'], ['secondary', 'skeleton']];
-    const generatedZone = container.querySelector('.generated-zone');
-    const elements = container.querySelectorAll('.group gv-button');
+export const disabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true })),
+});
 
-    variants.forEach((variant) => {
+export const outlinedAndDisabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, outlined: true, disabled: true })),
+});
 
-      const title = document.createElement('div');
-      title.className = 'title';
-      title.innerText = variant.join(' ');
-      generatedZone.appendChild(title);
-      elements.forEach((e) => {
-        const n = e.cloneNode();
-        n.innerText = e.innerText;
-        variant.forEach((attr) => n.setAttribute(attr, ''));
-        generatedZone.appendChild(n);
-      });
-    });
+export const loading = makeStory(conf, {
+  items: items.map((p) => ({ ...p, loading: true })),
+});
 
-    const nodeList = container.querySelectorAll('gv-button');
-    if (label) {
-      updateInnerText(nodeList, label);
-    }
+export const outlinedAndLoading = makeStory(conf, {
+  items: items.map((p) => ({ ...p, outlined: true, loading: true })),
+});
 
-    const padding = text('--gv-button--p', '0rem 0.5rem');
-    const bdrs = text('--gv-button--bdrs', '0.15rem');
-    const fz = text('--gv-button--fz', '14px');
-    const btnColor = color('--gv-button--bgc', '');
-    const btnPrimaryColor = color('--gv-button-primary--bgc', '');
-    const iconColor = color('--gv-icon--c', '');
-
-    container.style = [{ value: padding, prop: '--gv-button--p' },
-      { value: fz, prop: '--gv-button--fz' },
-      { value: bdrs, prop: '--gv-button--bdrs' },
-      { value: btnColor, prop: '--gv-button--bgc' },
-      { value: btnPrimaryColor, prop: '--gv-button-primary--bgc' },
-      { value: iconColor, prop: '--gv-icon--c' }]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
-
-    return container;
-  }))
-  .add('Customs', () => withActions(...eventNames)(() => {
-    return `
-      <div class="title">Github</div>
-      <gv-button icon="thirdparty:github" outlined class="github_outlined"><span>Continue with GitHub</span></gv-button>
-      <gv-button icon="thirdparty:github" class="github">Continue with GitHub</gv-button>
-
-      <div class="title">Google</div>
-      <gv-button icon="thirdparty:google" outlined class="google_outlined">Continue with Google</gv-button>
-      <gv-button icon="thirdparty:google" class="google">Continue with Google</gv-button>
-
-      <div class="title">Oidc</div>
-      <gv-button icon="thirdparty:oidc" outlined class="oidc_outlined">Continue with OpenID</gv-button>
-      <gv-button icon="thirdparty:oidc" class="oidc">Continue with OpenID</gv-button>
-
-      <div class="title">Gravitee</div>
-      <gv-button icon="thirdparty:graviteeio_am" outlined class="graviteeio_am_outlined">Continue with Gravitee</gv-button>
-      <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am">Continue with Gravitee</gv-button>
-     `;
-  }))
-  .add('In column', () => withActions(...eventNames)(() => {
-    return `
-      <div class="title">Column with a fixed width </div>
-       <div style="display: flex; flex-direction: column; max-width: 20rem;">
-        <gv-button default>Simple</gv-button>
-        <gv-button icon="cooking:dish">Simple</gv-button>
-        <gv-button icon-right="cooking:dish">Simple</gv-button>
-        <gv-button icon="cooking:dish" icon-right="cooking:dish">Simple</gv-button>
-        <gv-button disabled>Disabled</gv-button>
-        <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
-        <gv-button outlined default>Outlined</gv-button>
-        <gv-button outlined icon="cooking:dish">Outlined icon</gv-button>
-        <gv-button outlined disabled>Outlined disabled</gv-button>
-        <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
-        <gv-button icon="thirdparty:graviteeio_am" class="graviteeio_am"><span>Gravitee<span>.io<span> AM</span></gv-button>
-        <gv-button icon="thirdparty:google" outlined class="google_outlined">Sign in with Google</gv-button>
-       </div>
-     `;
-  }))
-  .add('Loading after click', () => withActions(...eventNames)(() => {
-
-    const container = document.createElement('div');
-
-    container.innerHTML = `
-       <div class="title">Loading after click</div>
-       <gv-button default>Simple</gv-button>
-        <gv-button icon="cooking:dish" style="--gv-icon--c:white"></gv-button>
-        <gv-button icon="cooking:dish" style="--gv-icon--c:white">Icon</gv-button>
-        <gv-button icon-right="cooking:dish">Icon</gv-button>
-        <gv-button disabled>Disabled</gv-button>
-        <gv-button icon="cooking:dish" style="--gv-icon--c:white" disabled></gv-button>
-        <gv-button disabled icon="cooking:dish" style="--gv-icon--c:white">Disabled icon</gv-button>
-        <gv-button outlined default>Outlined</gv-button>
-        <gv-button outlined icon="cooking:dish"></gv-button>
-        <gv-button outlined icon="cooking:dish">Outlined icon</gv-button>
-        <gv-button outlined disabled>Outlined disabled</gv-button>
-        <gv-button outlined icon="cooking:dish" disabled></gv-button>
-        <gv-button outlined disabled icon="cooking:dish">Outlined disabled icon</gv-button>
-        <gv-button outlined loading>Loading</gv-button>
-        <gv-button loading style="--gv-icon--c:white">Loading</gv-button>
-     `;
-
-    container.querySelectorAll('gv-button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        btn.setAttribute('loading', true);
-        setTimeout(() => {
-          btn.removeAttribute('loading');
-        }, 2000);
-      });
-    });
-
-    return container;
-  }));
+export const skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

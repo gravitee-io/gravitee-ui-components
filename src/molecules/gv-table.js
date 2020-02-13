@@ -21,6 +21,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n, getLanguage } from '../lib/i18n';
 import { until } from 'lit-html/directives/until';
+import { styleMap } from 'lit-html/directives/style-map';
 
 /**
  * Table component
@@ -29,18 +30,20 @@ import { until } from 'lit-html/directives/until';
  * @fires gv-table:mouseenter - when the pointer is entering on a table row
  * @fires gv-table:mouseleave - when the pointer is leaving a table row
  *
- * @attr {Array<any>} items - A list of items to display.
- * @attr {String} title - A title to display.
- * @attr {String} order - If defined, the table will be ordered by the field. Start with '-' to sort in desc.
- * @attr {Array<any>} options - The list of options to display.
- * @attr {Boolean} noheader - Used to hide the table header.
- * @attr {Boolean} nosort - Used to disable the click on header to sort.
- * @attr {String} rowsheight - The height of the table rows.
- * @attr {String} emptykey - The i18n key of the empty state.
- * @attr {String} format - A function to format table headers.
+ * @attr {Array<any>} items - A list of items to display
+ * @attr {String} title - A title to display
+ * @attr {String} order - If defined, the table will be ordered by the field. Start with '-' to sort in desc
+ * @attr {Array<any>} options - The list of options to display
+ * @attr {Boolean} noheader - Used to hide the table header
+ * @attr {Boolean} nosort - Used to disable the click on header to sort
+ * @attr {String} rowsheight - The height of the table rows
+ * @attr {String} emptykey - The i18n key of the empty state
+ * @attr {String} format - A function to format table headers
  *
- * @cssprop {Color} [--gv-table-selected--bgc=#009B5B] - set selected background color.
- * @cssprop {Color} [--gv-row-hover--bgc=#FAFAFA] - set row background color on hover.
+ * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
+ * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
+ * @cssprop {Color} [--gv-table--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
  *
  */
 export class GvTable extends LitElement {
@@ -67,12 +70,14 @@ export class GvTable extends LitElement {
       // language=CSS
       css`
           :host {
-            --selected--bgc: var(--gv-table-selected--bgc, #009B5B);
-            --hover-bgc: var(--gv-row-hover--bgc, #FAFAFA);
+            --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #009B5B));
+            --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+            --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+            --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
           }
 
           .table {
-            background-color: white;
+            background-color: var(--bgc);
           }
 
           .rows {
@@ -106,7 +111,7 @@ export class GvTable extends LitElement {
           }
 
           .row:not(:last-child) {
-            box-shadow: 0 24px 3px -24px #E8E8E8;
+            box-shadow: 0 24px 3px -24px var(--bdc);
           }
 
           .row:hover, .row.selected {
@@ -119,14 +124,14 @@ export class GvTable extends LitElement {
           }
 
           .header {
-            border-bottom: 1px solid #E8E8E8;
+            border-bottom: 1px solid var(--bdc);
             padding: 30px;
           }
 
           .header span {
-            color: #BFBFBF;
+            color: var(--gv-theme-neutral-color-dark, #BFBFBF);
             font-weight: 600;
-            font-size: 12px;
+            font-size: var(--gv-theme-font-size-s, 12px);
             line-height: 20px;
             margin-left: 8px;
           }
@@ -141,8 +146,9 @@ export class GvTable extends LitElement {
           }
 
           gv-image {
-            --gv-image--h: 35px;
-            --gv-image--w: 35px;
+            height: 35px;
+            width: 35px;
+            --gv-image--of: contain;
             padding-left: 20px;
           }
 
@@ -159,9 +165,9 @@ export class GvTable extends LitElement {
           align-items: center;
           display: grid;
           font-weight: 600;
-          font-size: 25px;
+          font-size: var(--gv-theme-font-size-xl, 26px);
           text-align: center;
-          color: #193E34;
+          color: var(--gv-theme-color-dark, #193E34);
           opacity: 0.5;
           padding: 41px;
         }
@@ -315,11 +321,16 @@ export class GvTable extends LitElement {
       skeleton: this._skeleton,
     };
     const hasData = this._items && this._items.length;
+
+    const emptyStyle = {
+      height: this.rowsheight ? this.rowsheight : '',
+    };
+
     return html`
       <div class=${classMap(classes)}>
         <div class="header"><h2>${this.title} ${hasData ? html`<span>(${this.items.length})</span>` : ''}</h2></div>
         ${hasData ? this._renderItems() : html`
-            <div class="empty" style="${this.rowsheight ? 'height: ' + this.rowsheight : ''}">
+            <div class="empty" style="${styleMap(emptyStyle)}">
                 ${this.emptykey ? i18n(this.emptykey) : i18n('gv-table.empty')}
             </div>`}
       </div>

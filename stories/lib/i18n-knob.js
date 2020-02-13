@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as en from '../../assets/i18n/en';
-import * as fr from '../../assets/i18n/fr';
-import { addTranslations, getAvailableLanguages, getLanguage, setLanguage } from '../../src/lib/i18n.js';
+import * as en from '../../assets/i18n/en.json';
+import * as fr from '../../assets/i18n/fr.json';
+import { addTranslations, getAvailableLanguages, getLanguage, setLanguage } from '../../src/lib/i18n';
 import { color, select } from '@storybook/addon-knobs';
 import { forceReRender } from '@storybook/html';
 

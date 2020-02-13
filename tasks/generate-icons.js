@@ -31,7 +31,6 @@ async function run () {
   for (const src of svgFilepaths) {
     const relativePath = src.replace('assets/icons/', '');
     const [category, filename] = relativePath.split('/');
-
     console.log(`Parse ${src}`);
     iconsByShape[category] = iconsByShape[category] || {};
     const id = filename.replace('.svg', '').toLowerCase();
@@ -42,13 +41,10 @@ async function run () {
   iconsByShape.thirdparty.google = iconsByShape.thirdparty.google.replace('svg', 'svg class="no-color"');
   iconsByShape.thirdparty.graviteeio_am = iconsByShape.thirdparty.graviteeio_am.replace('svg', 'svg class="no-color"');
 
-  const filepath = 'stories/lib/icons.generated.js';
   await del('src/icons/shapes');
   await fs.mkdir('src/icons/shapes', { recursive: true });
-  await fs.writeFile(filepath, `import '../../src/atoms/gv-icon.js';
 
-export function generateIcons() {
-    return \``);
+  // Generate shapes
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
     const shapeName = pascalCase(`${shapeId}Shapes`);
     console.log(`Generate ${shapeName}`);
@@ -57,16 +53,14 @@ export function generateIcons() {
 window.GvIcons = window.GvIcons || {};
 window.GvIcons['${shapeId}'] = ${shapeName};
 `);
-
-    // Generate tmp file for stories
-    await fs.appendFile(filepath, `<div class="title" data-shape="${shapeId}">${shapeId}</div>\n<div class="collection">`);
-    for (const icon of Object.keys(icons)) {
-      await fs.appendFile(filepath,
-        `<div class="item" data-shape="${shapeId}:${icon}"><gv-icon shape="${shapeId}:${icon}" size="48"></gv-icon><span>${shapeId}:${icon}</span></div>\n`);
-    }
-    await fs.appendFile(filepath, `</div>`);
   }
-  await fs.appendFile(filepath, `\`\n};`);
+
+  // Generate icons.json
+  const icons = Object.entries(iconsByShape)
+    .sort(([shapeId]) => shapeId === 'general' ? -1 : 0)
+    .map(([shapeId, iconsByShape]) => (Object.keys(iconsByShape).map((icon) => (`${shapeId}:${icon}`))));
+
+  await fs.writeFile('.docs/icons.json', JSON.stringify({ icons: [].concat(...icons) }));
 }
 
 run()

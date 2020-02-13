@@ -30,14 +30,17 @@ import { ItemResource } from '../mixins/item-resource';
  *
  * @attr {Promise<any>} item - an item.
  *
- * @cssprop {String} [--gv-promote-image--bgc=#D5FDCB] - set the background color of image.
- * @cssprop {String} [--gv-promote--bgc=white] - set the background color.
+ * @cssprop {Color} [--gv-promote-image--bgc=var(--gv-theme-color-light,#D5FDCB)] - Image background color
+ * @cssprop {Color} [--gv-promote--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Length} [--gv-promote-image--h=300px] - Image height
+ * @cssprop {Length} [--gv-promote-image--w=300px] - Image width
+ * @cssprop {Length} [--gv-promote-button--p=19px 80px] - Button padding
+ * @cssprop {Length} [--gv-promote-button--fz=var(--gv-theme-font-size-l, 16px)] - Button font size
  */
 export class GvPromote extends ItemResource(LitElement) {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
           :host {
@@ -45,10 +48,15 @@ export class GvPromote extends ItemResource(LitElement) {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              --gv-image--w: 300px;
-              --gv-image--h: 300px;
-              --gv-button--p: 19px 80px;
-              --gv-button--fz: 16px;
+              --gv-button--p: var(--gv-promote-button--p, 19px 80px);
+              --gv-button--fz: var(--gv-promote-button--fz, var(--gv-theme-font-size-l, 16px));
+              --gv-preview-button: 'none';
+          }
+
+          gv-image {
+            height: var(--gv-promote-image--h, 300px);
+            width: var(--gv-promote-image--w, 300px);
+            --gv-image--of: contain;
           }
 
           .container {
@@ -63,7 +71,7 @@ export class GvPromote extends ItemResource(LitElement) {
           }
 
           .image {
-              background-color: var(--gv-promote-image--bgc, #D5FDCB);
+              background-color: var(--gv-promote-image--bgc, var(--gv-theme-color-light,#D5FDCB));
               min-height: 0;
               min-width: 0;
               display: flex;
@@ -81,22 +89,21 @@ export class GvPromote extends ItemResource(LitElement) {
           }
 
           .title h2 {
-              font-size: 24px;
+              font-size: var(--gv-theme-font-size-xl, 26px);
               flex: 1;
           }
 
           .title .version {
-              font-size: 12px;
-              color: #D9D9D9;
+              font-size: var(--gv-theme-font-size-s, 12px);
+              color: var(--gv-theme-neutral-color-dark, #D9D9D9);
           }
-
 
           .content {
               flex: 1;
               padding: 50px 70px;
-              background-color: var(--gv-promote--bgc, white);
-              color: #262626;
-              font-size: 16px;
+              background-color: var(--gv-promote--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+              color: var(--gv-theme-font-color-dark,  #262626);
+              font-size: var(--gv-theme-font-size-l, 16px);
               line-height: 24px;
               border-radius: 0 4px 4px 0;
               display: flex;
@@ -119,14 +126,8 @@ export class GvPromote extends ItemResource(LitElement) {
           .labels {
             text-align: right;
           }
-
-          .skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
-              transition: 0.5s;
-          }
       `,
+      skeleton,
     ];
   }
 
@@ -139,7 +140,7 @@ export class GvPromote extends ItemResource(LitElement) {
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
     <div class="content">
     ${this._error && !this._skeleton ? html`<p class="description">${i18n('gv-promote.error')}</p>` : html`
-        ${this._empty ? html`<p class="description">${i18n('gv-promote.empty')}</p>` : html`
+        ${this._empty && !this._skeleton ? html`<p class="description">${i18n('gv-promote.empty')}</p>` : html`
         <div class=${classMap({ skeleton: this._skeleton, title: true })}>
           <h2>${this._getTitle()}</h2>
           <span class="version">${this._getVersion()}</span>

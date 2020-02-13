@@ -16,9 +16,27 @@
 import { repeat } from 'lit-html/directives/repeat';
 import { css, LitElement, html } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
-import { skeleton } from '../styles/skeleton.js';
+import { skeleton } from '../styles/skeleton';
 import { i18n } from '../lib/i18n';
+import { styleMap } from 'lit-html/directives/style-map';
+import { getCssVar, hexToRGB } from '../lib/style';
 
+/**
+ * Plans
+ *
+ * @fires input - Native input event when plan change
+ *
+ * @attr {Array} plans - Plans list
+ * @attr {Number} current - The current plan index
+ * @attr {String} value - The current plan id
+ * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
+ *
+ * @cssprop {Color} [--gv-plans--bgc=var(--gv-theme-color, #009B5B)] - Background color
+ * @cssprop {Color} [--gv-plans-font--c=var(--gv-theme-font-color-light, #FFFFFF)] - Font color
+ * @cssprop {Color} [--gv-plans-characteristic--bgc=var(--gv-theme-color-light, #D5FDCB)] - Characteristic background color
+ * @cssprop {Color} [--gv-plans-characteristics--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Characteristics border color
+ * @cssprop {Length} [--gv-plans-icon--s=24px] - Height and icon width
+ */
 export class GvPlans extends LitElement {
 
   static get properties () {
@@ -33,27 +51,27 @@ export class GvPlans extends LitElement {
       current: { type: Number },
       value: { type: String, reflect: true },
       skeleton: { type: Boolean },
+      _empty: { type: Boolean },
       _plans: { type: Array },
     };
   }
 
   static get styles () {
     return [
-      skeleton,
       // language=css
       css`
         :host {
           display: block;
           box-sizing: border-box;
           margin: 0.2rem;
+          --bgc: var(--gv-plans--bgc, var(--gv-theme-color, #009B5B));
+          --fc: var(--gv-plans-font--c, var(--gv-theme-font-color-light, #FFFFFF));
         }
 
         .plans {
           display: flex;
           list-style-type: none;
           border-radius: 2px;
-          background-color: var(--gv-plans--bgc, rgba(0, 155, 91, 0.1));
-          color: var(--gv-plans--bgc, rgba(0, 155, 91, 0.5));
           padding: 0;
           margin: 0;
         }
@@ -66,18 +84,18 @@ export class GvPlans extends LitElement {
         }
 
         .plan.active {
-          background-color: var(--gv-plans--bgc, rgba(0, 155, 91));
-          color: white;
+          background-color: var(--bgc);
+          color: var(--fc);
           transition: all 0.2s ease-in;
         }
 
         .name {
-          font-size: 16px;
+          font-size: var(--gv-theme-font-size-l, 16px);
           font-weight: bold;
         }
 
         .description {
-          font-size: 12px;
+          font-size: var(--gv-theme-font-size-s, 12px);
         }
 
         .selectors {
@@ -96,12 +114,12 @@ export class GvPlans extends LitElement {
           height: 0;
           border-left: 7px solid transparent;
           border-right: 7px solid transparent;
-          border-top: 9px solid var(--gv-plans--bgc, rgba(0, 155, 91));
+          border-top: 9px solid var(--bgc);
         }
 
         .characteristics {
           margin-top: 34px;
-          border: 1px solid #E8E8E8;
+          border: 1px solid var(--gv-plans-characteristics--bdc, var(--gv-theme-neutral-color, #E5E5E5));
           border-radius: 4px;
           display: flex;
           padding: 34px;
@@ -110,7 +128,7 @@ export class GvPlans extends LitElement {
         }
 
         .characteristic {
-          font-size: 14px;
+          font-size: var(--gv-theme-font-size-m, 14px);
           line-height: 22px;
           font-weight: bold;
           flex: 1;
@@ -121,7 +139,7 @@ export class GvPlans extends LitElement {
         }
 
         .circle {
-          background-color: #D5FDCB;
+          background-color: var(--gv-plans-characteristic--bgc, var(--gv-theme-color-light, #D5FDCB));
           border-radius: 50%;
           width: 32px;
           height: 32px;
@@ -132,20 +150,16 @@ export class GvPlans extends LitElement {
         }
 
         gv-icon {
-          --gv-icon--w: 24px;
-          --gv-icon--h: 24px;
+          --gv-icon--s: var(--gv-plans-icon--s, 24px);
         }
 
         .skeleton {
-          background-color: #aaa;
-          border-color: #777;
-          color: transparent;
-          transition: 0.5s;
           min-height: 400px;
           margin: 0 0.2rem;
           opacity: 0.5;
         }
       `,
+      skeleton,
     ];
   }
 
@@ -153,7 +167,7 @@ export class GvPlans extends LitElement {
     super();
     this.current = 1;
     this._plans = [];
-    this.skeleton = true;
+    this._empty = true;
   }
 
   get _characteristics () {
@@ -196,16 +210,21 @@ export class GvPlans extends LitElement {
   }
 
   set plans (plans) {
+    this.skeleton = true;
     Promise.resolve(plans)
       .then((plans) => {
         if (plans) {
           this._empty = Object.keys(plans).length === 0;
           this._plans = plans;
           this.value = this._plans[this.current].id;
+          this.skeleton = false;
         }
-      }).catch(() => {
+      })
+      .catch(() => {
         this._error = true;
-      }).finally(() => (this.skeleton = false));
+        this._plans = [];
+        this.skeleton = false;
+      });
   }
 
   _onClick (index) {
@@ -223,9 +242,15 @@ export class GvPlans extends LitElement {
   }
 
   render () {
+    const bgc = getCssVar(this, '--gv-plans--bgc', '#009B5B');
+    const { r, g, b } = hexToRGB(bgc);
+    const style = {
+      backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,
+      color: `rgba(${r}, ${g}, ${b}, 0.5)`,
+    };
     const classes = { skeleton: this.skeleton };
     return html`<div class="${classMap(classes)}">
-        <ul class="plans">
+        <ul class="plans" style="${styleMap(style)}">
             ${repeat(this._plans, (plan) => plan, (plan, index) =>
       html`<li @click="${this._onClick.bind(this, index)}" title="${this._getPlanTitle(plan)}" class="${classMap({
         plan: true,

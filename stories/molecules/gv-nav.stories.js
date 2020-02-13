@@ -13,33 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-nav.js';
+import '../../src/molecules/gv-nav';
 import notes from '../../.docs/gv-nav.md';
-import { storiesOf } from '@storybook/html';
-import { withCustomEventActions } from '../lib/event-action.js';
-import { delay } from '../lib/delay';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-nav:click');
+export default {
+  title: 'Molecules|gv-nav',
+  component: 'gv-nav',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('2. Molecules|<gv-nav>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+const conf = {
+  component: 'gv-nav',
+};
 
-    const nav = document.createElement('gv-nav');
-    nav.routes = [
-      { path: '', title: 'Dashboard' },
-      { path: '', title: 'Catalogue', active: true },
-      { path: '', title: 'Mes applications' },
-    ];
-    return nav;
-  }))
-  .add('Delay', withActions(() => {
+const items = [{
+  routes: [
+    { path: '', title: 'Dashboard' },
+    { path: '', title: 'Catalogue', active: true },
+    { path: '', title: 'Mes applications' },
+  ],
+}];
 
-    const nav = document.createElement('gv-nav');
-    nav.routes = [
-      Promise.resolve({ path: '', title: 'Dashboard' }).then(delay(4000)),
-      Promise.resolve({ path: '', title: 'Catalogue', active: true }).then(delay(2000)),
-      Promise.resolve({ path: '', title: 'Mes applications' }),
-    ];
-    return nav;
-  }));
+export const basics = makeStory(conf, {
+  items,
+});

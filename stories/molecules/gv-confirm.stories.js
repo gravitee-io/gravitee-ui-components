@@ -16,30 +16,44 @@
 import '../../src/atoms/gv-button';
 import '../../src/molecules/gv-confirm';
 import notes from '../../.docs/gv-confirm.md';
-import { storiesOf } from '@storybook/html';
-import { withActions } from '@storybook/addon-actions';
+import { makeStory } from '../lib/make-story';
 
-const eventNames = ['gv-confirm:cancel', 'gv-confirm:ok'];
+export default {
+  title: 'Molecules|gv-confirm',
+  component: 'gv-confirm',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('2. Molecules|<gv-confirm>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
+const conf = {
+  component: 'gv-confirm',
+  css: `
+    gv-confirm {
+      height:20px;
+    }
+  `,
+};
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Basics</div>
-      <gv-confirm message="Are you sure ?">
-        <gv-button>Simple</gv-button>
-      </gv-confirm>
-      
-      <gv-confirm message="Are you agree to delete this comment ?" okLabel="I agree" cancelLabel="Not agree">
-        <gv-button outlined>Custom labels</gv-button>
-      </gv-confirm>
-      
-      <gv-confirm icon="food:pizza" message="Are we going to eat pizza tomorrow?" okLabel="Awesome" cancelLabel="Sorry, I prefer the pasta">
-        <gv-button outlined>Custom icon</gv-button>
-      </gv-confirm>
-    `;
+export const Basic = makeStory(conf, {
+  items: [{ message: 'Are you sure ?', innerHTML: '<gv-button>Ask confirmation</gv-button>' }],
+});
 
-    return container;
-  }));
+export const CustomLabels = makeStory(conf, {
+  items: [{
+    message: 'Are you agree to delete this comment ?',
+    innerHTML: '<gv-button outlined>Ask confirmation</gv-button>',
+    okLabel: 'I agree',
+    cancelLabel: 'Not agree',
+  }],
+});
+
+export const CustomIcon = makeStory(conf, {
+  items: [{
+    message: 'Are we going to eat pizza tomorrow?',
+    innerHTML: '<gv-button outlined>Ask confirmation</gv-button>',
+    okLabel: 'Awesome',
+    cancelLabel: 'Sorry, I prefer the pasta',
+    icon: 'food:pizza',
+  }],
+});

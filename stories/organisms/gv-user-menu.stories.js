@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/organisms/gv-user-menu.js';
+import '../../src/organisms/gv-user-menu';
 import notes from '../../.docs/gv-user-menu.md';
-import { storiesOf } from '@storybook/html';
-import { withCustomEventActions } from '../lib/event-action.js';
-import { color, text } from '@storybook/addon-knobs';
-import bigImage from '../../assets/images/gravitee-logo-darker.png';
+import bigImage from '../../assets/images/gravitee-logo.png';
 import avatarSrc from '../../assets/images/logo.png';
+import { makeStory, storyWait } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-link:click', 'click');
 const routes = [
   { path: '#', title: 'My account', icon: 'general:user' },
   { path: '#', title: 'My apis', icon: 'cooking:cooking-book' },
@@ -29,95 +26,59 @@ const routes = [
   { path: '#', title: Promise.resolve('logout'), icon: 'home:door-open', separator: true },
 ];
 
-storiesOf('3. Organisms|<gv-user-menu>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+export default {
+  title: 'Organisms|gv-user-menu',
+  component: 'gv-user-menu',
+  parameters: {
+    notes,
+  },
+};
 
-    const username = text('username', 'Richard T.');
-    const backgroundColor = color('--gv-user-menu--bgc', '');
-    const hoverBackgroundColor = color('--gv-user-menu-hover--bgc', '');
-    const fontColor = color('--gv-user-menu--c', '');
-    const hoverFontColor = color('--gv-user-menu-hover--c', '');
-    const borderColor = color('--gv-user-menu--bdc', '');
+const conf = {
+  component: 'gv-user-menu',
+  css: `
+    :host {
+      height: 300px;
+    }
+  `,
+};
 
-    const container = document.createElement('div');
+const username = 'Richard T.';
+export const Basics = makeStory(conf, {
+  items: [
+    { routes, username, innerHTML: '<gv-user-avatar></gv-user-avatar>' },
+  ],
+  simulations: [
+    storyWait(0, ([component]) => {
+      component.firstElementChild.user = { display_name: username };
+    }),
+  ],
+});
 
-    const themeMenuTitle = document.createElement('div');
-    themeMenuTitle.className = 'title';
-    themeMenuTitle.innerHTML = 'Theme menu';
+export const withPicture = makeStory(conf, {
+  items: [
+    { routes, username, innerHTML: '<gv-user-avatar></gv-user-avatar>' },
+  ],
+  simulations: [
+    storyWait(0, ([component]) => {
+      console.log(component.firstElementChild);
+      component.firstElementChild.user = { display_name: 'Gravatar', _links: { avatar: avatarSrc } };
+    }),
+  ],
+});
 
-    const themeMenu = document.createElement('gv-user-menu');
-    themeMenu.routes = routes;
-    themeMenu.username = username;
+export const withLargePicture = makeStory(conf, {
+  items: [
+    { routes, username, innerHTML: '<gv-user-avatar></gv-user-avatar>' },
+  ],
+  simulations: [
+    storyWait(0, ([component]) => {
+      console.log(component.firstElementChild);
+      component.firstElementChild.user = { display_name: 'Gravatar', _links: { avatar: bigImage } };
+    }),
+  ],
+});
 
-    const themeMenuAvatar = document.createElement('img');
-    themeMenuAvatar.alt = username;
-    themeMenuAvatar.src = avatarSrc;
-    themeMenu.appendChild(themeMenuAvatar);
-
-    themeMenu.style = [
-      { value: backgroundColor, prop: '--gv-user-menu--bgc' },
-      { value: hoverBackgroundColor, prop: '--gv-user-menu-hover--bgc' },
-      { value: fontColor, prop: '--gv-user-menu--c' },
-      { value: hoverFontColor, prop: '--gv-user-menu-hover--c' },
-      { value: borderColor, prop: '--gv-user-menu--bdc' },
-    ]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
-
-    container.appendChild(themeMenuTitle);
-    container.appendChild(themeMenu);
-
-    return container;
-  }))
-  .add('In header', withActions(() => {
-
-    const container = document.createElement('div');
-    container.innerHTML = `
-        <div class="title">In Header</div>
-        
-        <div style="display: table; border: 1px solid; #262626">
-            <div style="display: table-cell; width: 10%">
-            </div>
-            <div style="display: table-cell; width: 60%">
-              <p> H E A D E R</p>
-            </div>
-            <div style="display: table-cell; width: 30%">
-               <gv-user-menu username="Jean C.">
-                    <img src="${bigImage}" />
-               </gv-user-menu>
-            </div>
-         
-      </div>
-      `;
-
-    container.querySelector('gv-user-menu').routes = routes;
-
-    return container;
-  }))
-  .add('No connected', withActions(() => {
-
-    const container = document.createElement('div');
-    container.innerHTML = `
-        <div class="title">In Header</div>
-        
-        <div style="display: table; border: 1px solid; #262626">
-            <div style="display: table-cell; width: 10%">
-            </div>
-            <div style="display: table-cell; width: 60%">
-              <p> H E A D E R</p>
-            </div>
-            <div style="display: table-cell; width: 30%">
-               <gv-user-menu>
-                    <img src="${bigImage}" />
-               </gv-user-menu>
-            </div>
-         
-      </div>
-      `;
-
-    container.querySelector('gv-user-menu').routes = [{ path: '#', title: 'Log in' }];
-
-    return container;
-  }));
+export const withoutUser = makeStory(conf, {
+  items: [{ routes: [{ path: '#', title: 'Log in' }] }],
+});

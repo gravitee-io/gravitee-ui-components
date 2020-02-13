@@ -23,6 +23,8 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * A wrapper of a <text> component.
  *
+ * @fires gv-text:input - mirrors native textarea events with the `value` on `detail`
+ *
  * @attr {Boolean} disabled - same as native text element `disabled` attribute
  * @attr {Boolean} required - same as native text element `required` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
@@ -31,10 +33,11 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} title - title of the text
  * @attr {String} name - name of the text
  * @attr {String} placeholder - an example value to display in the text when empty
- * @attr {Number} rows - number of rows of the text element
+ * @attr {Length} rows - number of rows of the text element
  * @attr {Boolean} autofocus - true to put the focus on the input
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  *
+ * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
  */
 
 export class GvText extends LitElement {
@@ -62,56 +65,62 @@ export class GvText extends LitElement {
       skeleton,
       // language=CSS
       css`
+        :host {
+          box-sizing: border-box;
+          margin: 0.2rem;
+          display: block;
+        }
 
-          :host {
-            box-sizing: border-box;
-            margin: 0.2rem;
-            display: block;
-          }
-          div {
-              position: relative;
-              line-height: 0;
-          }
+        div {
+          position: relative;
+          line-height: 0;
+        }
 
-          /* BASE */
-          textarea {
-              border: 1px solid #D9D9D9;
-              box-sizing: border-box;
-              border-radius: 4px;
-              outline: none;
-              padding: 10px 5px;
-              width: 100%;
-              resize: none;
-              font-size: 14px;
-              line-height: 17px;
-          }
+        /* BASE */
+        textarea {
+          border: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          box-sizing: border-box;
+          border-radius: 4px;
+          outline: none;
+          padding: 10px 5px;
+          width: 100%;
+          resize: none;
+          font-size: var(--gv-theme-font-size-m, 14px);
+          line-height: 17px;
+        }
 
-          textarea:disabled {
-              cursor: default;
-              opacity: .5;
-          }
+        textarea:disabled {
+          cursor: default;
+          opacity: .5;
+        }
 
-          textarea:required {
-            box-shadow: none;
-          }
+        textarea:required {
+          box-shadow: none;
+        }
 
-          label {
-              display: block;
-              line-height: 15px;
-              padding: 0.2rem 0.4rem;
-          }
+        label {
+          display: block;
+          line-height: 15px;
+          padding: 0.2rem 0.4rem;
+        }
 
-          label.required {
-              padding-left: 0.6rem;
-          }
+        label.required {
+          padding-left: 0.6rem;
+        }
 
-          label abbr {
-              position: absolute;
-              left: 0;
-              color: red;
-              font-variant: none;
-              text-decoration: none;
-          }
+        label abbr {
+          position: absolute;
+          left: 0;
+          color: red;
+          font-variant: none;
+          text-decoration: none;
+        }
+
+        /* Hack for FF */
+        textarea {
+          font-family: inherit;
+          font-size: inherit;
+        }
       `,
     ];
   }

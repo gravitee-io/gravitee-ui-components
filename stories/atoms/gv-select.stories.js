@@ -13,111 +13,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-select.js';
+import '../../src/atoms/gv-select';
 import notes from '../../.docs/gv-select.md';
-import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
-import { updateTextAttributes } from '../lib/update-attributes';
-import { withActions } from '@storybook/addon-actions';
+import { makeStory } from '../lib/make-story';
 
-const eventNames = ['input gv-select'];
+export default {
+  title: 'Atoms|gv-select',
+  component: 'gv-select',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('1. Atoms|<gv-select>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
-
-    const label = text('Label', '');
-
-    const container = document.createElement('div');
-    const options = [
-      { label: 'Application 1', value: '1' },
-      { label: 'Application 2', value: '2' },
-      { label: 'Application 3', value: '3' },
-      { value: '4' },
-      'Application 5',
-    ];
-    container.innerHTML = `
-      <div class="title">Default without options</div>
-      <gv-select></gv-select>
-      <gv-select small></gv-select>
-      <gv-select large></gv-select>
-
-      <div class="title">Default with label</div>
-      <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application"></gv-select>
-        <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application" small></gv-select>
-        <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application" large>
-      </gv-select>
-
-      <div class="title">Required with label</div>
-      <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application"
-        required>
-      </gv-select>
-
-      <div class="title">Disabled with label</div>
-      <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application"
-        disabled>
-      </gv-select>
-
-      <div class="title">Sekeleton with label</div>
-      <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application"
-        skeleton>
-      </gv-select>
-
-      <div class="title">Hundred values</div>
-      <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application">
-      </gv-select>
-    `;
-
-    const selectList = container.querySelectorAll('gv-select');
-    if (label) {
-      updateTextAttributes(selectList, 'label', label);
+const conf = {
+  component: 'gv-select',
+  css: `
+    :host {
+      height: 250px;
     }
+  `,
+};
 
-    const selectListWithData = Array.prototype.slice.call(selectList, 3);
+const options = [
+  { label: 'Application 1', value: '1' },
+  { label: 'Application 2', value: '2' },
+  { label: 'Application 3', value: '3' },
+  { value: '4' },
+  'Application 5',
+];
 
-    selectListWithData.forEach((e, i) => {
-      if (i === selectListWithData.length - 1) {
-        const opts = [];
-        for (let j = 0; j < 100; j++) {
-          opts[j] = { label: `Application ${j}`, value: `${j}` };
-        }
-        e.options = opts;
-      }
-      else {
-        e.options = options;
-      }
-    });
+const items = [
+  { options },
+  { label: 'Associer une application', placeholder: 'Trouver une application', options },
+];
 
-    return container;
-  }))
-  .add('In column', () => withActions(...eventNames)(() => {
-    const container = document.createElement('div');
-    container.innerHTML = `<div class="title">Column with a fixed width </div>
-    <div style ="display: flex; flex-direction: column; max-width: 30rem;">
-       <gv-select
-        label="Associer une application"
-        placeholder="Trouver une application"></gv-select>
-    </div>`;
+export const Simple = makeStory(conf, {
+  items,
+});
 
-    container.querySelector('gv-select').options = [
-      { label: 'Iam aliis imaginarius nec praestituto quid exsertantis defensi agenda aulaeum.', value: '1' },
-      { label: 'Application 2', value: '2', disabled: true },
-      { label: 'Application 3', value: '3' },
-    ];
+export const Small = makeStory(conf, {
+  items: items.map((p) => ({ ...p, small: true })),
+});
 
-    return container;
-  }));
+export const Large = makeStory(conf, {
+  items: items.map((p) => ({ ...p, large: true })),
+});
+
+export const Required = makeStory(conf, {
+  items: items.map((p) => ({ ...p, required: true })),
+});
+
+export const Disabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true })),
+});
+
+export const DisabledAndRequired = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true, required: true })),
+});
+
+export const Skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});
+
+const hundredOptions = Array.from(Array(100), (x, index) => index + 1).map((i) => {
+  return { label: `Application ${i}`, value: `${i}` };
+});
+
+export const HundredOptions = makeStory(conf, {
+  items: items.map((p) => ({ ...p, options: hundredOptions })),
+});

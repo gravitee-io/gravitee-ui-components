@@ -26,14 +26,17 @@ import { i18n } from '../lib/i18n';
  * @attr {Promise<Array<{picture: string, name: string, description: string}>>} items - a list of item.
  * @attr {String} title - title of the list.
  *
- * @cssprop {String} [--gv-list--bgc=white] - set the background color.
- *
+ * @cssprop {Color} [--gv-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Length} [--gv-list-icon--s=20px] - Height and icon width
+ * @cssprop {Length} [--gv-list-image--h=40px] - Image height
+ * @cssprop {Length} [--gv-list-image--w=40px] - Image width
  */
 export class GvList extends LitElement {
 
   static get properties () {
     return {
       items: { type: Object },
+      title: { type: String },
       _items: { type: Object, attribute: false },
       _skeleton: { type: Boolean, attribute: false },
       _error: { type: Boolean, attribute: false },
@@ -43,7 +46,6 @@ export class GvList extends LitElement {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
         :host {
@@ -51,10 +53,13 @@ export class GvList extends LitElement {
           display: inline-block;
           width: 280px;
           border-radius: 4px;
-          background-color: var(--gv-list--bgc, white);
-          --gv-image--w: 40px;
-          --gv-image--h: 40px;
-          --gv-icon--s: 20px;
+          background-color: var(--gv-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --gv-icon--s: var(--gv-list-icon--s, 20px);
+        }
+
+        gv-image {
+          width: var(--gv-list-image--w, 40px);
+          height: var(--gv-list-image--h, 40px);
         }
 
         .list {
@@ -68,9 +73,9 @@ export class GvList extends LitElement {
         }
 
         .list h4 span {
-          color: #BFBFBF;
+          color: var(--gv-theme-neutral-color-dark, #BFBFBF);
           font-weight: 600;
-          font-size: 12px;
+          font-size: var(--gv-theme-font-size-s, 12px);
           line-height: 20px;
           margin-left: 8px;
         }
@@ -96,7 +101,7 @@ export class GvList extends LitElement {
         }
 
         .item__description {
-          font-size: 14px;
+          font-size: var(--gv-theme-font-size-m, 14px);
           line-height: 22px;
           opacity: 0.5;
 
@@ -108,35 +113,30 @@ export class GvList extends LitElement {
           text-overflow: ellipsis;
         }
 
-        .skeleton {
-          background-color: #aaa;
-          border-color: #777;
-          color: transparent;
-          transition: 0.5s;
-        }
-
         .scrollable-container {
           max-height: 400px;
           overflow: auto;
         }
       `,
+      skeleton,
     ];
   }
 
   constructor () {
     super();
-    this._skeleton = true;
+    this._skeleton = false;
     this._error = false;
-    this._empty = false;
+    this._empty = true;
   }
 
   set items (items) {
+    this._skeleton = true;
     Promise.resolve(items)
       .then((items) => {
-        if (items) {
+        this._items = items;
+        if (items && Object.keys(items).length > 0) {
           this._skeleton = false;
           this._empty = Object.keys(items).length === 0;
-          this._items = items;
         }
         else {
           this._skeleton = true;
@@ -184,30 +184,29 @@ export class GvList extends LitElement {
     return '';
   }
 
-  _renderItem ({ picture, name, description, subscriptions }) {
-    return html`
-      <div class="item__image">${this._renderImage(picture, name)}</div>
+  _renderItem (item) {
+    if (item) {
+      return html`
+      <div class="item__image">${this._renderImage(item.picture, item.name)}</div>
       <div class="item__content">
-        <h4 class="item__title">${this._renderStatus(subscriptions)}${name}</h4>
-        <div class="item__description">${description}</div>
+        <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.name}</h4>
+        <div class="item__description">${item.description}</div>
       </div>
       `;
+    }
+    return html`<p>xxxx-xxxx-xxxx-xxxx</p>`;
   }
 
   _renderItems () {
     return html`
       <ul class="list">
         <h4 class="${classMap({ skeleton: this._skeleton })}">
-          ${this.title
-      ? this.title
-      : this._skeleton
-        ? 'skeleton'
-        : ''
-    }
+          ${this.title ? this.title : ''}
           ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}
         </h4>
         <div class="scrollable-container">
-        ${this._items ? repeat(this._items, (item) => item, (item) => html`<li class="item">${this._renderItem(item)}</li>`) : ''}
+        ${this._items ? repeat(this._items, (item) => item, (item) =>
+      html`<li class="${classMap({ item: true, skeleton: this._skeleton })}">${this._renderItem(item)}</li>`) : ''}
         </div>
       </ul>
     `;

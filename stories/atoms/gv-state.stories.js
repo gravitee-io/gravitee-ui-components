@@ -13,27 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-state.js';
+import '../../src/atoms/gv-state';
 import notes from '../../.docs/gv-state.md';
-import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
-import { withActions } from '@storybook/addon-actions';
+import { makeStory } from '../lib/make-story';
 
-const eventNames = ['click gv-state'];
+export default {
+  title: 'Atoms|gv-state',
+  component: 'gv-state',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('1. Atoms|<gv-state>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
+const conf = {
+  component: 'gv-state',
+};
 
-    const label = text('State label', '');
+const items = [
+  { innerHTML: 'beta' },
+  { innerHTML: 'running', major: true },
+];
 
-    return `
-      <div class="title">Default</div>
-      <gv-state>${label || 'beta'}</gv-state>
-      <gv-state skeleton>${label || 'Beta'}</gv-state>
-      
-      <div class="title">Major</div>
-      <gv-state major>${label || 'Running'}</gv-state>
-      <gv-state major skeleton>${label || 'Running'}</gv-state>
-    `;
-  }));
+export const Basics = makeStory(conf, {
+  items,
+});
+
+export const empty = makeStory(conf, {
+  items: [{}, {}],
+});
+
+export const skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

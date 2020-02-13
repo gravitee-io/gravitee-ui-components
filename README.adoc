@@ -20,12 +20,6 @@ If you wanna generate docs :
 npm run docs
 ```
 
-If you wanna check and extract css variables from each components:
-```
-npm run generate:css-variables
-// assets/css/gv-variables.generated.css
-```
-
 If you wanna build storybook:
 ```
 npm run build
@@ -54,4 +48,9 @@ npm run lint
 If you wanna fix lint :
 ```
 npm run lint:fix
+```
+
+If you wanna generate theme :
+```
+npm run generate:theme
 ```

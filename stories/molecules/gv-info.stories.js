@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { storiesOf } from '@storybook/html';
 import notes from '../../.docs/gv-info.md';
 import '../../src/molecules/gv-info';
-import { delay } from '../lib/delay';
-import { color } from '@storybook/addon-knobs';
-import { withCustomEventActions } from '../lib/event-action';
+import logo from '../../assets/icons/gravitee/graviteeio.svg';
+import { makeStory, storyWait } from '../lib/make-story';
 
 const views = ['Azure', 'Swiss', 'All', 'Magic'];
 const ratingSummary = { average: 3.4 };
@@ -44,97 +42,73 @@ const api = {
   rating_summary: ratingSummary,
   labels,
   version: 'v1',
-  description: 'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis '
+  description:
+    'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis '
     + 'quo con perto Montius tunc. nc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus '
     + 'mandaverat fidis quo con perto Montius tunc.',
+  _links: {
+    picture: logo,
+  },
+};
+//
+// const withActions = withCustomEventActions(
+//   'gv-info:click-view',
+//   'gv-info:click-label',
+//   'gv-info:click-resource'
+// );
+
+export default {
+  title: 'Molecules|gv-info',
+  component: 'gv-info',
+  parameters: {
+    notes,
+  },
 };
 
-const withActions = withCustomEventActions('gv-info:click-view', 'gv-info:click-label', 'gv-info:click-resource');
+const conf = {
+  component: 'gv-info',
+};
 
-storiesOf('2. Molecules|<gv-info>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+export const simple = makeStory(conf, {
+  items: [{ item: api }],
+});
 
-    const container = document.createElement('div');
+export const withResources = makeStory(conf, {
+  items: [{ item: api, resources }],
+});
 
-    container.innerHTML = `
-    <div style="display:flex;">
-      <div style="margin: 10px;">
-        <div class="title">Basics</div>
-        <gv-info id="basics"></gv-info>
-      </div>
-      <div style="margin: 10px;">
-        <div class="title">Skeleton</div>
-        <gv-info></gv-info>
-      </div>
-      <div style="margin: 10px;">
-        <div class="title">Delay</div>
-        <gv-info id="delay"></gv-info>
-      </div>
-    </div>
-    `;
+export const withMiscellaneous = makeStory(conf, {
+  items: [{ item: api, resources, miscellaneous }],
+});
 
-    const bgColor = color('--gv-info--bgc', '');
+export const withMetrics = makeStory(conf, {
+  items: [{ item: api, resources, miscellaneous, metrics }],
+});
 
-    container.style = [
-      { value: bgColor, prop: '--gv-info--bgc' }]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
+export const withTitleAndPicture = makeStory(conf, {
+  items: [{ item: api, resources, miscellaneous, metrics, 'with-dc': true }],
+});
 
-    container.querySelector('#basics').item = Promise.resolve(api);
-    container.querySelector('#basics').resources = resources;
-    container.querySelector('#basics').miscellaneous = miscellaneous;
-    container.querySelector('#basics').metrics = metrics;
+export const empty = makeStory(conf, {
+  items: [{}],
+});
 
-    container.querySelector('#delay').item = Promise.resolve(api).then(delay(2000));
-    container.querySelector('#delay').metrics = metrics.then(delay(3000));
-    container.querySelector('#delay').resources = resources;
-    container.querySelector('#delay').miscellaneous = miscellaneous;
+export const loading = makeStory(conf, {
+  items: [{ item: {}, resources: {}, 'with-dc': true }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = api;
+      component.resources = resources;
+      component.miscellaneous = miscellaneous;
+    }),
+  ],
+});
 
-    return container;
-  }))
-  .add('With DublinCore', withActions(() => {
-    const container = document.createElement('div');
-
-    container.innerHTML = `
-    <div style="display:flex;">
-      <div style="margin: 10px;">
-        <div class="title">Basics</div>
-        <gv-info id="basics" with-dc></gv-info>
-      </div>
-      <div style="margin: 10px;">
-        <div class="title">Skeleton</div>
-        <gv-info with-dc></gv-info>
-      </div>
-      <div style="margin: 10px;">
-        <div class="title">Delay</div>
-        <gv-info id="delay" with-dc></gv-info>
-      </div>
-    </div>
-    `;
-
-    container.querySelector('#basics').item = Promise.resolve(api);
-    container.querySelector('#basics').resources = resources;
-    container.querySelector('#basics').miscellaneous = miscellaneous;
-    container.querySelector('#basics').metrics = metrics;
-
-    container.querySelector('#delay').item = Promise.resolve(api).then(delay(2000));
-    container.querySelector('#delay').metrics = metrics.then(delay(3000));
-    container.querySelector('#delay').resources = resources;
-    container.querySelector('#delay').miscellaneous = miscellaneous;
-    return container;
-  }))
-  .add('Errors', () => {
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Empty</div>
-      <gv-info id="empty"></gv-info>
-
-      <div class="title">Error</div>
-      <gv-info id="error"></gv-info>
-    `;
-    container.querySelector('#empty').item = Promise.resolve({});
-    container.querySelector('#error').item = Promise.reject(new Error());
-    return container;
-  });
+export const loadingAndError = makeStory(conf, {
+  items: [{ item: {}, resources: {}, 'with-dc': true }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.item = Promise.reject(new Error());
+    }),
+  ],
+});

@@ -43,7 +43,7 @@ export const input = css`
 
   /* BASE */
   input {
-    border: 1px solid #D9D9D9;
+    border: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
     box-sizing: border-box;
     border-radius: 4px;
     font-style: normal;
@@ -51,7 +51,6 @@ export const input = css`
     outline: none;
     width: 100%;
     height: 100%;
-    border-left: var(--gv-input--bdl, 1px solid #D9D9D9);
   }
 
   /* SIZE */

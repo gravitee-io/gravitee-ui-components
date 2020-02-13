@@ -15,9 +15,9 @@
  */
 import { LitElement, html, css } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
+import { classMap } from 'lit-html/directives/class-map';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { skeleton } from '../styles/skeleton';
-import './gv-icon';
-import { until } from 'lit-html/directives/until';
 
 /**
  * An image
@@ -26,148 +26,126 @@ import { until } from 'lit-html/directives/until';
  *
  * @attr {String} src - Source of img
  * @attr {String} alt - Alternative text of img
- * @attr {Boolean} loaded - Indicate if img is loaded
+ * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {String} [--gv-image--h=128px] - set the height of image
- * @cssprop {String} [--gv-image--w=128px] - set the width of image
- * @cssprop {String} [--gv-image--bd=none] - set the border of image
- * @cssprop {String} [--gv-image--bdrs=none] - set the border radius of image
- * @cssprop {String} [--gv-image--of=contain] - set the object-fit of image
+ * @cssprop {String} [--gv-image--of=cover] - set the object-fit of image
  */
 export class GvImage extends LitElement {
 
   static get properties () {
     return {
       src: { type: String },
+      skeleton: { type: Boolean, reflect: true },
       alt: { type: String },
-      loaded: { type: Boolean, reflect: true },
-      skeleton: { type: Boolean },
-      _skeleton: { type: Boolean, attribute: false },
+      _loaded: { type: Boolean, reflect: true },
       _error: { type: Boolean },
     };
   }
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
           :host {
-              --gv-icon--s: var(--gv-image--w, 128px);
-              --icon--s: var(--gv-image--w, 128px);
-              --gv-icon--c: #777;
-              box-sizing: border-box;
-              margin: 0.2rem;
-              vertical-align: middle;
-              position: relative;
-              display: block;
-              max-width: var(--gv-image--w, 128px);
-              max-height: var(--gv-image--h, 128px);
+            display: inline-block;
+            overflow: hidden;
           }
 
-          :host([loaded]) div {
-              width: var(--gv-image--w, 128px);
-              height: var(--gv-image--h, 128px);
+          .wrapper,
+          img {
+            height: 100%;
+            width: 100%;
+            transition: opacity 0.3s ease-in-out;
           }
 
-          div {
-              width: var(--gv-image--w, 128px);
-              height: var(--gv-image--h, 128px);
-              display: flex;
+          .wrapper {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            position: relative;
+          }
+
+          .wrapper.skeleton {
+          }
+
+          .wrapper.text:not('.skeleton') {
+            background-color: var(--gv-theme-neutral-color);
           }
 
           img {
-              overflow: hidden;
-              width: var(--gv-image--w, 128px);
-              height: var(--gv-image--h, 128px);
+            display: block;
+            object-fit: var(--gv-image--of, cover);
+            object-position: center center;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            transition: opacity 150ms ease-in-out;
+            left: 0;
           }
 
-          .placeholder {
-              max-width: var(--icon--s);
-              max-height: var(--icon--s);
-              align-self: center;
+          .wrapper.loaded img {
+            opacity: 1;
           }
 
-          gv-icon {
-              align-self: center;
+          .error-msg {
+            font-size: 0.9rem;
+            overflow: hidden;
+            padding: 0.25rem;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
-
-          img, .placeholder {
-              transition: opacity 0.3s ease-in-out;
-              object-fit: var(--gv-image--of, contain);
-              border: var(--gv-image--bd, none);
-              border-radius: var(--gv-image--bdrs, none);
-          }
-
-          .placeholder, :host([loaded]) img {
-              opacity: 1;
-          }
-
-          img, :host([loaded]) .placeholder {
-              opacity: 0;
-          }
-
-          :host([loaded]) .placeholder {
-              visibility: hidden;
-          }
-
-          .skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
-              transition: 0.5s;
-              opacity: 0.5;
-          }
-
-          .skeleton img {
-              visibility: hidden;
-          }
-
 
       `,
+      skeleton,
     ];
   }
 
   constructor () {
     super();
-    this._forceSkeleton = false;
-    this._skeleton = true;
-    this._image = new Promise((resolve) => (this.imageResolver = resolve));
+    this.skeleton = false;
+    this._error = false;
+    this._loaded = false;
   }
 
-  async performUpdate () {
-    Promise.all([this.alt, this.src, this._image])
-      .catch(() => (this._error = true))
-      .finally(() => {
-        this._skeleton = this._forceSkeleton;
-      });
-    super.performUpdate();
+  set src (newVal) {
+    const oldVal = this._src;
+    this._src = newVal;
+    this.requestUpdate('src', oldVal);
+    this._error = false;
+    this._loaded = false;
   }
 
-  set skeleton (value) {
-    this._forceSkeleton = value;
-    this._skeleton = value;
+  get src () {
+    return this._src;
   }
 
-  _onError (e) {
-    this.loaded = true;
-    this.imageResolver();
-    this.dispatchEvent(new Event('error'), e);
-  }
-
-  _onLoad () {
-    this.loaded = true;
-    this.imageResolver();
+  _onLoad (e) {
+    this._loaded = true;
+    this.skeleton = false;
     dispatchCustomEvent(this, 'loaded', { src: this.src, alt: this.alt });
   }
 
-  render () {
-    return html`<div>
-       ${this.src && this.alt
-      ? html`<img src="${until(this.src, '')}" alt="${until(this.alt, '')}" @load="${this._onLoad}" @error="${this._onError}">`
-      : html`<div class="placeholder"><gv-icon shape="design:image"></gv-icon></div>`}
-    </div>`;
+  _onError (e) {
+    this._error = true;
+    this.skeleton = false;
+    this.dispatchEvent(new Event('error'), e);
   }
+
+  render () {
+    const isLoading = (this.src != null && !this._loaded && !this._error);
+    const isSkeleton = (this.skeleton || isLoading);
+    const displayText = (this.src == null || this._error);
+    return html`
+      <div class="wrapper ${classMap({ skeleton: isSkeleton, loaded: this._loaded, text: displayText })}">
+        <img src=${ifDefined(this.src)} @load=${this._onLoad} @error=${this._onError} alt="">
+        ${displayText ? html`
+          <div class="error-msg">${this.alt}</div>
+        ` : ''}
+      </div>
+    `;
+  }
+
 }
 
 window.customElements.define('gv-image', GvImage);

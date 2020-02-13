@@ -13,32 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-user-avatar.js';
-import { storiesOf } from '@storybook/html';
+import '../../src/molecules/gv-user-avatar';
 import notes from '../../.docs/gv-user-avatar.md';
 import avatar from '../../assets/images/logo.png';
-storiesOf('2. Molecules|<gv-user-avatar>', module)
-  .addParameters({ notes })
-  .add('Basics', () => {
+import { makeStory } from '../lib/make-story';
 
-    const user = { display_name: 'Gravatar', _links: { avatar } };
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">When picture is defined</div>
-      <gv-user-avatar class="simple"></gv-user-avatar>
+export default {
+  title: 'Molecules|gv-user-avatar',
+  component: 'gv-user-avatar',
+  parameters: {
+    notes,
+  },
+};
 
-      <div class="title">When picture is undefined</div>
-      <gv-user-avatar class="generated"></gv-user-avatar>
+const conf = {
+  component: 'gv-user-avatar',
+};
 
-       <div class="title">Custom size</div>
-       <gv-user-avatar class="simple" size="150"></gv-user-avatar>
-        <gv-user-avatar class="generated" size="150"></gv-user-avatar>
+const user = { display_name: 'Gravatar', _links: { avatar } };
 
-    `;
+export const withPicture = makeStory(conf, {
+  items: [{ user }, { user, size: 150 }],
+});
 
-    container.querySelectorAll('.simple')
-      .forEach((avatar, index) => (avatar.user = user));
-    container.querySelectorAll('.generated')
-      .forEach((avatar, index) => (avatar.user = { display_name: `Jean ${index} ` }));
-    return container;
-  });
+export const withoutPicture = makeStory(conf, {
+  items: [{ user: { display_name: `Jean Jean` } }, { user: { display_name: `Jean Jean` }, size: 150 }],
+});
+
+export const Empty = makeStory(conf, {
+  items: [{ }],
+});

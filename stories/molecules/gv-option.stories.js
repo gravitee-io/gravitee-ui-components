@@ -13,37 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { storiesOf } from '@storybook/html';
 import notes from '../../.docs/gv-option.md';
 import '../../src/molecules/gv-option';
-import { withActions } from '@storybook/addon-actions';
-import { color } from '@storybook/addon-knobs';
+import { makeStory } from '../lib/make-story';
 
-const eventNames = ['gv-option:select'];
+export default {
+  title: 'Molecules|gv-option',
+  component: 'gv-option',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('2. Molecules|<gv-option>', module)
-  .addParameters({ notes })
-  .add('Basics', () => withActions(...eventNames)(() => {
+const conf = {
+  component: 'gv-option',
+};
 
-    const container = document.createElement('div');
-
-    container.innerHTML = `
-    <div class="title">Basics</div>
-    <gv-option></gv-option>
-    `;
-    container.querySelector('gv-option').options = [
+const items = [
+  {
+    options: [
       { id: 'sun', title: 'Sun glasses', icon: 'clothers:sun-glasses' },
-      { id: 'cap', title: 'Cap', icon: 'clothers:cap' },
-      { id: 'shorts', title: 'Shorts', icon: 'clothers:shorts' },
-    ];
+      { id: 'cap', title: 'Cap', icon: 'clothers:cap', active: true },
+      { id: 'shorts', title: 'Shorts', icon: 'clothers:shorts' }],
+  }];
 
-    const bgColor = color('--gv-option--bgc', '');
-
-    container.style = [
-      { value: bgColor, prop: '--gv-option--bgc' }]
-      .filter(({ value }) => value)
-      .map(({ value, prop }) => `${prop}:${value}`)
-      .join(';');
-
-    return container;
-  }));
+export const basics = makeStory(conf, {
+  items,
+});

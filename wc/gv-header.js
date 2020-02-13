@@ -1,1 +1,1 @@
-import '../src/molecules/gv-header';
+import '../src/organisms/gv-header';

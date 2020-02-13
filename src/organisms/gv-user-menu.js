@@ -20,7 +20,6 @@ import { classMap } from 'lit-html/directives/class-map';
 import { isSameRoutes } from '../lib/utils';
 
 /**
- * A menu
  *
  * @fires gv-link:click - Custom event when nav link click
  *
@@ -28,13 +27,17 @@ import { isSameRoutes } from '../lib/utils';
  * @attr {String} username - name of the user
  * @attr {String} avatar - url of the user avatar
  *
- * @cssprop {String} [--gv-user-menu--c=#262626] - set the color.
- * @cssprop {String} [--gv-user-menu-hover--c=#193E34] - set the hover color.
- * @cssprop {String} [--gv-user-menu--bgc=transparent] - set the background color.
- * @cssprop {String} [--gv-user-menu-hover--bgc=#D5FDCB] - set the hover background color.
- * @cssprop {String} [--gv-user-menu--bdc=lightgrey] - set the border color.
- * @cssprop {String} [--gv-user-menu--tsh=none] - set the text shadow.
- * @cssprop {String} [--gv-user-menu-icon--c=black] - set the icon color.
+ * @cssprop {Color} [--gv-user-menu--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Color} [--gv-user-menu-hover--c=var(--gv-theme-color-dark, #193E34)] - Hover color
+ * @cssprop {Color} [--gv-user-menu--bgc=transparent] - Background color
+ * @cssprop {Color} [--gv-user-menu-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - List background color
+ * @cssprop {Color} [--gv-user-menu-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
+ * @cssprop {Color} [--gv-user-menu--bdc=lightgrey] - Border color
+ * @cssprop {String} [--gv-user-menu--tsh=none] - Text shadow
+ * @cssprop {Color} [--gv-user-menu-icon--c=var(--gv-theme-neutral-color-darkest, #000000)] - Icon color
+ * @cssprop {Length} [--gv-user-menu-icon--s=16px] - Height and icon width
+ * @cssprop {Length} [--gv-user-menu-link-a--ph=0] - Link horizontal padding
+ * @cssprop {String} [--gv-user-menu-link--ta=right] - Text align
  */
 export class GvUserMenu extends LitElement {
 
@@ -52,121 +55,122 @@ export class GvUserMenu extends LitElement {
     return [
       // language=css
       css`
-          :host {
-              --bdc: var(--gv-user-menu--bdc, lightgrey);
-              --c: var(--gv-user-menu--c, #262626);
-              --bgc: var(--gv-user-menu--bgc, transparent);
-              --hover-bgc: var(--gv-user-menu-hover--bgc, #D5FDCB);
-              --gv-link-active--c: var(--gv-user-menu-hover--c, #193E34);
-              --gv-icon--c: var(--gv-user-menu-icon--c, black);
-              --gv-icon--s: 16px;
-              --gv-link-a--ph: 0;
-              --gv-link--ta: right;
-          }
+        :host {
+          --bdc: var(--gv-user-menu--bdc, lightgrey);
+          --c: var(--gv-user-menu--c, var(--gv-theme-font-color-dark, #262626));
+          --bgc: var(--gv-user-menu--bgc, transparent);
+          --list-bgc: var(--gv-user-menu-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --hover-bgc: var(--gv-user-menu-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+          --gv-link-active--c: var(--gv-user-menu-hover--c, var(--gv-theme-color-dark, #193E34));
+          --gv-icon--c: var(--gv-user-menu-icon--c, var(--gv-theme-neutral-color-darkest, #000000));
+          --gv-icon--s: var(--gv-user-menu-icon--s, 16px);
+          --gv-link-a--ph: var(--gv-user-menu-link-a--ph, 0);
+          --gv-link--ta: var(--gv-user-menu-link--ta, right);
+        }
 
-          .user-menu {
-              list-style: none;
-              margin: 0;
-              padding: 0;
-              display: inline-block;
-              position: relative;
-          }
+        .user-menu {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: inline-block;
+          position: relative;
+        }
 
-          .user-menu__title {
-            background-color: var(--bgc);
-            border-left: 1px solid var(--bdc);
-            color: var(--c);
-            cursor: pointer;
-            line-height: 40px;
-            padding: 8px 24px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 175px;
-            text-shadow: var(--gv-user-menu--tsh, none);
-          }
+        .user-menu__title {
+          background-color: var(--bgc);
+          border-left: 1px solid var(--bdc);
+          color: var(--c);
+          cursor: pointer;
+          line-height: 40px;
+          padding: 8px 24px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: space-between;
+          min-width: 175px;
+          text-shadow: var(--gv-user-menu--tsh, none);
+        }
 
-          ::slotted(*) {
-              display: inline-block;
-              vertical-align: middle;
-              max-height: 40px;
-          }
+        ::slotted(*) {
+          display: inline-block;
+          vertical-align: middle;
+          max-height: 40px;
+        }
 
-          .user-menu__title.no-user {
-              padding: 5px 24px;
-          }
+        .user-menu__title.no-user {
+          padding: 5px 24px;
+        }
 
-          .user-menu__title gv-link {
-              --gv-link-a--ph: 0;
-              --gv-link-a--pv: 0;
-          }
+        .user-menu__title gv-link {
+          --gv-link-a--ph: 0;
+          --gv-link-a--pv: 0;
+        }
 
-          .user-menu__title span {
-              flex: 1;
-              text-align: center;
-              margin: 0 0.4rem;
-          }
+        .user-menu__title span {
+          flex: 1;
+          text-align: center;
+          margin: 0 0.4rem;
+        }
 
-          .user-menu__title > gv-icon {
-              transition: all 0.3s ease 0s;
-          }
+        .user-menu__title > gv-icon {
+          transition: all 0.3s ease 0s;
+        }
 
-          .user-menu__list {
-              position: absolute;
-              background-color: white;
-              list-style: none;
-              padding: 0;
-              transition: all 0.3s ease 0s;
-              width: 100%;
-          }
+        .user-menu__list {
+          position: absolute;
+          background-color: var(--list-bgc);
+          list-style: none;
+          padding: 0;
+          transition: all 0.3s ease 0s;
+          width: 100%;
+        }
 
-          .user-menu__list__item {
-              border-left: 1px solid var(--bdc);
-              display: flex;
-              align-items: center;
-              transition: all 0.5s ease;
-              padding: 2px 30px;
-          }
+        .user-menu__list__item {
+          border-left: 1px solid var(--bdc);
+          display: flex;
+          align-items: center;
+          transition: all 0.5s ease;
+          padding: 2px 30px;
+        }
 
-          .user-menu__list__item:hover {
-              background-color: var(--hover-bgc);
-              border-left: 1px dotted var(--bdc);
-              font-weight: 500;
-          }
+        .user-menu__list__item:hover {
+          background-color: var(--hover-bgc);
+          border-left: 1px dotted var(--bdc);
+          font-weight: 500;
+        }
 
-          gv-link {
-              margin: 0px;
-              display: flex;
-              width: 100%;
-          }
+        gv-link {
+          margin: 0px;
+          display: flex;
+          width: 100%;
+        }
 
-          .separator {
-              border-top: 1px solid var(--bdc);
-          }
+        .separator {
+          border-top: 1px solid var(--bdc);
+        }
 
-          /** for animations */
-          .user-menu__list {
-              visibility: visible;
-              opacity: 1;
-              transform: translateY(0%);
-              z-index: 100;
-              transition-delay: 0s, 0s, 0.2s;
-          }
+        /** for animations */
+        .user-menu__list {
+          visibility: visible;
+          opacity: 1;
+          transform: translateY(0%);
+          z-index: 100;
+          transition-delay: 0s, 0s, 0.2s;
+        }
 
-          .closed .user-menu__list {
-              visibility: hidden;
-              opacity: 0;
-              transform: translateY(-2em);
-              z-index: -1;
-          }
+        .closed .user-menu__list {
+          visibility: hidden;
+          opacity: 0;
+          transform: translateY(-2em);
+          z-index: -1;
+        }
 
-          gv-icon {
-              transform: rotate(0deg);
-          }
+        gv-icon {
+          transform: rotate(0deg);
+        }
 
-          .closed gv-icon {
-              transform: rotate(-180deg);
-          }
+        .closed gv-icon {
+          transform: rotate(-180deg);
+        }
       `,
     ];
   }

@@ -26,11 +26,14 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
  *
- * @cssprop {String} [--gv-menu--c=#FFF] - set the color.
- * @cssprop {String} [--gv-menu--bgc=#193E34] - set the background color.
- * @cssprop {String} [--gv-menu-link-active--bdb=3px solid #D5FDCB] - set the border of active link.
- * @cssprop {String} [--gv-menu--pl=4rem] - set the padding left
- * @cssprop {String} [--gv-menu--pr=4rem] - set the padding right
+ * @cssprop {Color} [--gv-menu--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
+ * @cssprop {Color} [--gv-menu--bgc=var(--gv-theme-color-dark, #193E34)] - Background color.
+ * @cssprop {Color} [--gv-menu-link-active--bdbc=var(--gv-theme-color-light, #D5FDCB)] - Border bottom color of active link.
+ * @cssprop {String} [--gv-menu-link-active--bdbs=solid] - Border bottom style of active link.
+ * @cssprop {Length} [--gv-menu-link-active--bdbw=3px] - Border bottom width of active link.
+ * @cssprop {Color} [--gv-menu-link-active--bgc=transparent] - Active background color
+ * @cssprop {Color} [--gv-menu-link--bgc=transparent] - Background color
+ * @cssprop {Length} [--gv-menu-link-a--pv=0] - Link vertical padding
  */
 export class GvMenu extends withResizeObserver(LitElement) {
 
@@ -49,15 +52,15 @@ export class GvMenu extends withResizeObserver(LitElement) {
       // language=css
       css`
           :host {
-              --gv-link--c: var(--gv-menu--c, #FFF);
-              --gv-link-active--c: var(--gv-menu--c, #FFF);
-              --gv-link--bgc: transparent;
-              --gv-link-active--bgc: transparent;
-              --gv-link-active--bdb: var(--gv-menu-link-active--bdb, 3px solid #D5FDCB);
-              --pr: var(--gv-menu--pr, 4rem);
-              --pl: var(--gv-menu--pl, 4rem);
-              --gv-header--pr: var(--pr);
-              --gv-header--pl: var(--pl);
+              --gv-link--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
+              --gv-link-active--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
+              --gv-link--bgc: var(--gv-menu-link--bgc, transparent);
+              --gv-link-active--bgc: var(--gv-menu-link-active--bgc, transparent);
+              --gv-link-active--bdbc: var(--gv-menu-link-active--bdbc, var(--gv-theme-color-light, #D5FDCB));
+              --gv-link-active--bdbs: var(--gv-menu-link-active--bdbs, solid);
+              --gv-link-active--bdbw: var(--gv-menu-link-active--bdbw, 3px);
+              --pr: var(--gv-theme-layout--pr, 4rem);
+              --pl: var(--gv-theme-layout--pl, 4rem);
               box-sizing: border-box;
               display: block;
           }
@@ -70,7 +73,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
           :host([w-lt-768]) .nav-container {
               width: 100%;
               padding-left: var(--pl);
-              --gv-link-a--pv: 0;
+              --gv-link-a--pv: var(--gv-menu-link-a--pv, 0);
           }
 
           :host([w-lt-580]) .nav-container {
@@ -107,8 +110,8 @@ export class GvMenu extends withResizeObserver(LitElement) {
           }
 
           :host > div {
-              background-color: var(--gv-menu--bgc, #193E34);
-              color: var(--gv-menu--c, #FFF);
+              background-color: var(--gv-menu--bgc, var(--gv-theme-color-dark, #193E34));
+              color: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 
           gv-nav {

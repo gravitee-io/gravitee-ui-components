@@ -20,8 +20,8 @@ import { skeleton } from '../styles/skeleton';
 /**
  * An icon
  *
- * @cssprop {String} [--gv-icon--c=#262626] - set the color of icon
- * @cssprop {String} [--gv-icon--s=32px] - set the height and width of icon (crushes size property)
+ * @cssprop {Color} [--gv-icon--c=var(--gv-theme-font-color-dark,  #262626)] - Color
+ * @cssprop {Length} [--gv-icon--s=32px] - Height and width
  */
 export class GvIcon extends LitElement {
 
@@ -50,7 +50,7 @@ export class GvIcon extends LitElement {
           box-sizing: border-box;
           display: inline-flex;
           vertical-align: middle;
-          --color: var(--gv-icon--c, #262626);
+          --color: var(--gv-icon--c, var(--gv-theme-font-color-dark,  #262626));
           --size: var(--gv-icon--s, 32px);
         }
 

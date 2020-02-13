@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit-html/directives/class-map.js';
+import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import './gv-icon';
@@ -26,7 +26,8 @@ import './gv-icon';
  * @attr {String} value - the value of the metric
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {Color} [--gv-metric--c=#009B5B] - set the icon color.
+ * @cssprop {Color} [--gv-metric--c=var(--gv-theme-color, #009B5B)] - Color
+ * @cssprop {Length} [--gv-metric-icon--s=24px] - Height and icon width
  */
 export class GvMetric extends LitElement {
 
@@ -41,12 +42,11 @@ export class GvMetric extends LitElement {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
           .metric {
-              --gv-icon--s: 24px;
-              --gv-icon--c: var(--gv-metric--c, #009B5B);
+              --gv-icon--s: var(--gv-metric-icon--s, 24px);
+              --gv-icon--c: var(--gv-metric--c, var(--gv-theme-color, #009B5B));
               display: inline-flex;
               min-width: 75px;
           }
@@ -61,24 +61,18 @@ export class GvMetric extends LitElement {
           }
 
           .metric-value {
-              font-size: 14px;
-              line-height: 16px;
+              font-size: var(--gv-theme-font-size-m, 14px);
+              line-height: var(--gv-theme-font-size-m, 14px);
               align-self: center;
           }
 
           .metric-name {
-              font-size: 8px;
-              line-height: 10px;
+              font-size: var(--gv-theme-font-size-xs, 10px);
+              line-height: var(--gv-theme-font-size-xs, 10px);
               opacity: 0.5;
           }
-
-          .skeleton {
-              background-color: #aaa;
-              border-color: #777;
-              color: transparent;
-              transition: 0.5s;
-          }
       `,
+      skeleton,
     ];
   }
 

@@ -22,8 +22,9 @@ import { zoom } from '../styles/zoom';
  * Popover component
  *
  * @attr {String} event - the event that triggers the opening.
- * @cssprop {Color} [--gv-popover--bgc=#FAFAFA] - set the background color.
- * @cssprop {Number} [--gv-popover--maw=350px] - set max-width
+ * @cssprop {Color} [--gv-popover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
+ * @cssprop {Color} [--gv-popover--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
+ * @cssprop {Length} [--gv-popover--maw=350px] - Max width
  */
 export class GvPopover extends LitElement {
 
@@ -46,7 +47,7 @@ export class GvPopover extends LitElement {
         }
 
         .popover {
-          --bgc: var(--gv-popover--bgc, #FAFAFA);
+          --bgc: var(--gv-popover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
           --maw: var(--gv-popover--maw, 350px);
           position: absolute;
           top: 0;
@@ -54,7 +55,7 @@ export class GvPopover extends LitElement {
           background-color: var(--bgc);
           padding: 1rem;
           border-radius: 4px;
-          box-shadow: 0 0 0 1px rgba(208, 216, 223, 1), 0 1px 3px rgba(0, 0, 0, .15);
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #E5E5E5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           z-index: 100;
           display: none;
           max-width: var(--maw);
@@ -92,7 +93,7 @@ export class GvPopover extends LitElement {
           transform: rotate(45deg);
           top: 19px;
           left: 6px;
-          border: 1px rgba(208, 216, 223, 1) solid;
+          border: 1px solid var(--gv-popover--bdc, var(--gv-theme-neutral-color, #E5E5E5));
         }
       `,
     ];

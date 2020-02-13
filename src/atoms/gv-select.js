@@ -37,11 +37,11 @@ import './gv-icon';
  * @attr {String} name - name of the select
  * @attr {String} placeholder - an example value to display in the select when empty
  *
- * @cssprop {String} [--gv-select--bgc=#FFF] - set the background color.
- * @cssprop {String} [--gv-select--bdc=lightgrey] - set the border color.
- * @cssprop {String} [--gv-select--c=#262626] - set the color.
- * @cssprop {String} [--gv-select-hover--bgc=#D5FDCB] - set the active background color.
- * @cssprop {String} [--gv-select-selected--bgc=#FAFAFA] - set the hover background color.
+ * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
+ * @cssprop {Color} [--gv-select--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Active background color
+ * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hover background color
  */
 export class GvSelect extends LitElement {
 
@@ -71,11 +71,11 @@ export class GvSelect extends LitElement {
       // language=CSS
       css`
         :host {
-          --bdc: var(--gv-select--bdc, lightgrey);
-          --c: var(--gv-select--c, #262626);
-          --bgc: var(--gv-select--bgc, #FFF);
-          --hover-bgc: var(--gv-select-hover--bgc, #D5FDCB);
-          --selected-bgc: var(--gv-select-selected--bgc, #FAFAFA);
+          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #E5E5E5));
+          --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
+          --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+          --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
         }
 
         div, input {
@@ -262,7 +262,6 @@ export class GvSelect extends LitElement {
 
   render () {
     const classes = {
-      skeleton: this.skeleton,
       closed: this._isClosed,
     };
 
@@ -271,6 +270,7 @@ export class GvSelect extends LitElement {
       medium: (this.medium || (!this.large && !this.small)),
       small: this.small,
       icon: true,
+      skeleton: this.skeleton,
     };
     return html`
       <div class="${classMap(classes)}">

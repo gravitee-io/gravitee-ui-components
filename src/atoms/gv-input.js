@@ -46,6 +46,8 @@ import { i18n } from '../lib/i18n';
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  * @attr {String} [autocomplete='off'] - standard autocomplete attribute
+ *
+ * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
  */
 export class GvInput extends LitElement {
 
@@ -81,6 +83,10 @@ export class GvInput extends LitElement {
       // language=CSS
       css`
 
+        gv-icon {
+          background-color: var(--gv-input--bdc, var(--gv-theme-neutral-color, #E5E5E5));
+        }
+
         gv-icon.medium {
           --gv-icon--s: 25px;
         }
@@ -94,15 +100,19 @@ export class GvInput extends LitElement {
         }
 
         gv-icon.clickable:hover {
-          box-shadow: 0 1px 3px #888;
+          box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
         }
 
         gv-icon.copied {
-          --gv-icon--c: #009B5B;
+          --gv-icon--c: var(--gv-theme-color, #009B5B);
         }
 
         .loading {
           animation: spinner 1.6s linear infinite;
+        }
+
+        gv-icon.loading {
+            background-color: transparent;
         }
 
         @keyframes spinner {
@@ -230,7 +240,6 @@ export class GvInput extends LitElement {
       right: this.iconLeft ? 'default' : '1px',
       padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
       borderRadius: '0 3px 3px 0',
-      backgroundColor: 'rgba(25, 62, 52, 0.1)',
     };
 
     const classes = {

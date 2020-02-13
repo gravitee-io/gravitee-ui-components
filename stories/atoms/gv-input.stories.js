@@ -13,119 +13,75 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-input.js';
+import '../../src/atoms/gv-input';
 import notes from '../../.docs/gv-input.md';
-import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
-import { updateTextAttributes } from '../lib/update-attributes';
-import { withCustomEventActions } from '../lib/event-action';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-input:input', 'gv-input:submit');
+export default {
+  title: 'Atoms|gv-input',
+  component: 'gv-input',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('1. Atoms|<gv-input>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
+const conf = {
+  component: 'gv-input',
+};
 
-    const label = text('Label', '');
+const items = [
+  { placeholder: 'Text...', label: 'Text label' },
+  { placeholder: 'Password...', type: 'password', label: 'Password label' },
+  { placeholder: 'Email...', type: 'email', label: 'Email label' },
+  { placeholder: 'Number...', type: 'number', min: '1', max: '10', label: 'Number label' },
+  { placeholder: 'Search...', type: 'search', label: 'Search label' },
+  { placeholder: 'Clipboard...', type: 'clipboard', label: 'Clipboard label' },
+  { placeholder: 'No Label...' },
+];
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Type</div>
-      <gv-input placeholder="Text (default)"></gv-input>
-      <gv-input placeholder="Text" icon="general:search"></gv-input>
-      <gv-input type="password" placeholder="Password"></gv-input>
-      <gv-input placeholder="Password icon" icon="general:shield-protected"></gv-input>
-      <gv-input type="email" placeholder="Email"></gv-input>
-      <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
-      <gv-input type="number" placeholder="Number" min="1" max="10"></gv-input>
+export const Types = makeStory(conf, {
+  items,
+});
 
-      <div class="title">Size</div>
-      <gv-input placeholder="Medium (default)"></gv-input>
-      <gv-input placeholder="Medium icon" icon="general:size"></gv-input>
-      <gv-input large placeholder="Large"></gv-input>
-      <gv-input large placeholder="Large icon" icon="general:size"></gv-input>
-      <gv-input small placeholder="Small" ></gv-input>
-      <gv-input small placeholder="Small icon" icon="general:size"></gv-input>
+export const Small = makeStory(conf, {
+  items: items.map((p) => ({ ...p, small: true })),
+});
 
-      <div class="title">Disabled</div>
-      <gv-input placeholder="Medium" disabled></gv-input>
-      <gv-input placeholder="Medium icon" disabled icon="general:shield-disabled"></gv-input>
-      <gv-input type="password" large placeholder="Large password" disabled></gv-input>
-      <gv-input type="password" large placeholder="Large password" disabled icon="general:shield-disabled"></gv-input>
-      <gv-input type="email" small label="Small email" disabled></gv-input>
-      <gv-input type="email" small label="Small email" disabled icon="general:shield-disabled"></gv-input>
-      <gv-input type="number" placeholder="Number" min="1" max="10" disabled></gv-input>
+export const Large = makeStory(conf, {
+  items: items.map((p) => ({ ...p, large: true })),
+});
 
-      <div class="title">Required</div>
-      <gv-input placeholder="Medium text" required></gv-input>
-      <gv-input placeholder="Medium text" required icon="communication:shield-thunder"></gv-input>
-      <gv-input placeholder="Large password" type="password" large required></gv-input>
-      <gv-input placeholder="Large password" type="password" large required icon="communication:shield-thunder"></gv-input>
-      <gv-input type="email" label="Small email" small required title="Add your email"></gv-input>
-      <gv-input type="email" label="Small email" small required icon="communication:shield-thunder"></gv-input>
+export const Disabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true })),
+});
 
-      <div class="title">Skeleton</div>
-      <gv-input placeholder="Medium text" skeleton></gv-input>
-      <gv-input label="Medium text" placeholder="Medium text" skeleton icon="code:loading"></gv-input>
-      <gv-input label="Large password" placeholder="Large password" large skeleton></gv-input>
-      <gv-input placeholder="Large password" large skeleton icon="navigation:waiting"></gv-input>
-      <gv-input small skeleton disabled required></gv-input>
-      <gv-input label="Small required & disabled email" small skeleton disabled required icon="navigation:waiting"></gv-input>
-      <gv-input type="number" placeholder="Number" min="1" max="10" skeleton></gv-input>
+export const Readonly = makeStory(conf, {
+  items: items.map((p) => ({ ...p, readonly: true })),
+});
 
-      <div class="title">Loading</div>
-      <gv-input placeholder="Medium text" loading icon="communication:shield-thunder"></gv-input>
-      <gv-input label="Medium text left" placeholder="Medium text left" icon-left="communication:shield-thunder" loading></gv-input>
-      <gv-input label="Large password" placeholder="Large password" large loading></gv-input>
-      <gv-input placeholder="Large password" large loading></gv-input>
-      <gv-input small loading disabled required></gv-input>
-      <gv-input label="Small required & disabled email" small loading disabled required></gv-input>
-      <gv-input type="number" placeholder="Number" min="1" max="10" loading disabled required></gv-input>
+export const Required = makeStory(conf, {
+  items: items.map((p) => ({ ...p, required: true })),
+});
 
-      <div class="title">Readonly</div>
-      <gv-input placeholder="Medium" value="Test" readonly></gv-input>
-      <gv-input placeholder="Medium icon" value="Test" readonly icon="general:shield-disabled"></gv-input>
-      <gv-input type="password" value="Test" large placeholder="Large password" readonly></gv-input>
-      <gv-input type="password" value="Test" large placeholder="Large password" readonly icon="general:shield-disabled"></gv-input>
-      <gv-input type="email" value="test@test.com" small label="Small email" readonly></gv-input>
-      <gv-input type="email" value="test@test.com" small label="Small email" readonly icon="general:shield-disabled"></gv-input>
-      <gv-input type="number" value="10" placeholder="Number" min="1" max="10" readonly></gv-input>
-    `;
+export const DisabledAndRequired = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true, required: true })),
+});
 
-    const nodeList = container.querySelectorAll('gv-input');
-    if (label) {
-      updateTextAttributes(nodeList, 'label', label);
-    }
+export const Loading = makeStory(conf, {
+  items: items.map((p) => ({ ...p, loading: true })),
+});
 
-    return container;
-  }))
-  .add('In column', withActions(() => {
-    return `<div class="title">Column with a fixed width </div>
-    <div style ="display: flex; flex-direction: column; max-width: 30rem;">
-      <gv-input placeholder="Text (default)"></gv-input>
-      <gv-input placeholder="Text" icon="general:search"></gv-input>
-      <gv-input placeholder="Text left" icon-left="general:search"></gv-input>
-      <gv-input type="password" placeholder="Password"></gv-input>
-      <gv-input type="password" placeholder="Password icon" icon="general:shield-protected"></gv-input>
-      <gv-input type="password" placeholder="Password icon left" icon-left="general:shield-protected"></gv-input>
-      <gv-input type="email" placeholder="Email" autocomplete="on" name="email"></gv-input>
-      <gv-input placeholder="Email icon" icon="communication:mail-@"></gv-input>
-      <gv-input placeholder="Email icon left" icon-left="communication:mail-@"></gv-input>
-    </div>
-`;
-  }))
-  .add('Search', withActions(() => {
-    return `<div class="title">Search input</div>
-      <gv-input type="search" placeholder=""></gv-input>
-`;
-  }))
-  .add('Focus', withActions(() => {
-    return `<div class="title">Focus</div>
-      <gv-input autofocus></gv-input>
-`;
-  }))
-  .add('Clipboard', withActions(() => {
-    return `<div class="title">Clipboard</div>
-      <gv-input type="clipboard" value="Ola amigo"></gv-input>
-`;
-  }));
+export const LoadingAndRequired = makeStory(conf, {
+  items: items.map((p) => ({ ...p, loading: true, required: true })),
+});
+
+export const Autofocus = makeStory(conf, {
+  docs: `
+  All fields have the autofocus attribute, so it's the last one in the dom that gets it.
+`,
+  items: items.map((p) => ({ ...p, autofocus: true })),
+});
+
+export const Skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

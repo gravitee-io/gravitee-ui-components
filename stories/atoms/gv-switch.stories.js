@@ -13,40 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-switch.js';
+import '../../src/atoms/gv-switch';
 import notes from '../../.docs/gv-switch.md';
-import { storiesOf } from '@storybook/html';
-import { text } from '@storybook/addon-knobs';
-import { updateTextAttributes } from '../lib/update-attributes';
-import { withCustomEventActions } from '../lib/event-action';
+import { makeStory } from '../lib/make-story';
 
-const withActions = withCustomEventActions('gv-switch:input');
+export default {
+  title: 'Atoms|gv-switch',
+  component: 'gv-switch',
+  parameters: {
+    notes,
+  },
+};
 
-storiesOf('1. Atoms|<gv-switch>', module)
-  .addParameters({ notes })
-  .add('Basics', withActions(() => {
-
-    const label = text('Label', '');
-
-    const container = document.createElement('div');
-    container.innerHTML = `
-      <div class="title">Default without options</div>
-      <gv-switch></gv-switch>
-
-      <div class="title">Default with label</div>
-      <gv-switch label="Subscription Resumed" description="Triggered when a Subscription is created."></gv-switch>
-
-      <div class="title">Disabled with label</div>
-      <gv-switch label="Subscription Resumed" description="Triggered when a Subscription is created." disabled></gv-switch>
-
-      <div class="title">Sekeleton with label</div>
-      <gv-switch label="Subscription Resumed" description="Triggered when a Subscription is created." skeleton></gv-switch>
-    `;
-
-    const nodeSelect = container.querySelectorAll('gv-switch');
-    if (label) {
-      updateTextAttributes(nodeSelect, 'label', label);
+const conf = {
+  component: 'gv-switch',
+  css: `
+    :host {
+      display: flex;
     }
+    gv-switch {
+      flex: 1;
+    }
+  `,
+};
 
-    return container;
-  }));
+const items = [
+  {},
+  { label: 'Subscription Resumed', description: 'Triggered when a Subscription is created.' },
+];
+
+export const basics = makeStory(conf, {
+  items,
+});
+
+export const disabled = makeStory(conf, {
+  items: items.map((p) => ({ ...p, disabled: true })),
+});
+
+export const skeleton = makeStory(conf, {
+  items: items.map((p) => ({ ...p, skeleton: true })),
+});

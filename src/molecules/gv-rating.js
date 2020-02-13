@@ -26,14 +26,14 @@ const MAX_RATE = 5;
 /**
  * Rating component
  *
- * @attr {Number} value - average of ratings between 1 and 5
+ * @attr {Length} value - average of ratings between 1 and 5
  * @attr {String} count - total count for the average
  * @attr {Boolean} skeleton - skeleton mode
  * @attr {Boolean} readonly - readonly mode
  * @attr {Boolean} with-description - if true, show rate description on hover
  *
- * @cssprop {Color} [--gv-rating--c=#009B5B] - set the icon color.
- * @cssprop {Length} [--gv-rating--s=13px] - set the icon size.
+ * @cssprop {Color} [--gv-rating--c=var(--gv-theme-color, #009B5B)] - Color
+ * @cssprop {Length} [--gv-rating--s=13px] - Size
  */
 export class GvRating extends LitElement {
 
@@ -50,14 +50,14 @@ export class GvRating extends LitElement {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
         :host {
-          --gv-icon--c: var(--gv-rating--c, #009B5B);
-          --gv-icon--s: var(--gv-rating--s, 13px);
+          --gv-icon--c: var(--gv-rating--c, var(--gv-theme-color, #009B5B));
+          --size: var(--gv-rating--s, 13px);
+          --gv-icon--s: var(--size);
 
-          font-size: 14px;
+          font-size: var(--gv-theme-font-size-m, 14px);
           cursor: default;
         }
 
@@ -65,10 +65,11 @@ export class GvRating extends LitElement {
           justify-content: space-evenly;
           display: inline-flex;
           align-items: center;
+          vertical-align: middle;
         }
 
         .info-title {
-          font-size: 14px;
+          font-size: var(--gv-theme-font-size-m, 14px);
           line-height: 16px;
           align-self: center;
           min-width: 35px;
@@ -76,7 +77,7 @@ export class GvRating extends LitElement {
         }
 
         .info-subtitle {
-          font-size: 8px;
+          font-size: var(--gv-theme-font-size-xs, 10px);
           line-height: 10px;
           opacity: 0.5;
           text-align: center;
@@ -85,14 +86,8 @@ export class GvRating extends LitElement {
         .icon {
           display: inline-flex;
           align-self: center;
-          margin-right: calc(var(--gv-rating--s, 13px) / 4);
-        }
-
-        .skeleton {
-          background-color: #aaa;
-          border-color: #777;
-          color: transparent;
-          transition: 0.5s;
+          margin-right: calc(var(--size) / 4);
+          align-items: center;
         }
 
         .edit {
@@ -113,11 +108,11 @@ export class GvRating extends LitElement {
 
         .description {
           min-width: 100px;
-          line-height: calc(var(--gv-rating--s, 13px) + 4px);
+          line-height: calc(var(--size) + 4px);
           margin: auto 4px;
         }
-
       `,
+      skeleton,
     ];
   }
 

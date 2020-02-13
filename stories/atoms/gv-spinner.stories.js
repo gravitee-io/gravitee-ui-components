@@ -15,19 +15,31 @@
  */
 import '../../src/atoms/gv-spinner';
 import notes from '../../.docs/gv-spinner.md';
-import { storiesOf } from '@storybook/html';
 import '../../src/atoms/gv-image';
-import logo from '../../assets/images/gravitee_logo_anim.gif';
+import { makeStory } from '../lib/make-story';
 
-storiesOf('1. Atoms|<gv-spinner>', module)
-  .addParameters({ notes })
-  .add('Basics', () => {
+export default {
+  title: 'Atoms|gv-spinner',
+  component: 'gv-spinner',
+  parameters: {
+    notes,
+  },
+};
 
-    const container = document.createElement('div');
-    container.innerHTML = `
-    <div class="title">Basics</div>
-    <gv-spinner src="${logo}"></gv-spinner>
-    `;
+const conf = {
+  component: 'gv-spinner',
+  css: `
+    :host {
+      width: 200px;
+      height: 200px;
+    }
+  `,
+};
 
-    return container;
-  });
+const items = [
+  {},
+];
+
+export const basic = makeStory(conf, {
+  items,
+});

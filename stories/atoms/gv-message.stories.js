@@ -13,31 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-message.js';
+import '../../src/atoms/gv-message';
 import notes from '../../.docs/gv-message.md';
-import { storiesOf } from '@storybook/html';
+import { makeStory } from '../lib/make-story';
 
-storiesOf('1. Atoms|<gv-message>', module)
-  .add('Basics', () => {
-    return `
-      <div class="title">Info</div>
-      <div style="height: 20px">
-          <gv-message type="info">The cake is a lie</gv-message>
-      </div>
-      
-      <div class="title">Success</div>
-      <div style="height: 20px">
-        <gv-message type="success">Yeah, piece of cake!</gv-message>
-      </div>
-      
-      <div class="title">Warning</div>
-      <div style="height: 20px">
-        <gv-message type="warning">Attention please</gv-message>
-      </div>
-      
-      <div class="title">Error</div>
-      <div style="height: 20px">
-        <gv-message type="error">Never gonna give you up</gv-message>
-      </div>
-    `;
-  }, { notes });
+export default {
+  title: 'Atoms|gv-message',
+  component: 'gv-message',
+  parameters: {
+    notes,
+  },
+};
+
+const conf = {
+  component: 'gv-message',
+  css: `
+    :host {
+      height: 50px;
+    }
+  `,
+};
+
+const items = [
+  { innerHTML: 'The cake is a lie' },
+];
+
+export const Info = makeStory(conf, {
+  items: items.map((p) => ({ ...p, type: 'info' })),
+});
+
+export const Success = makeStory(conf, {
+  items: items.map((p) => ({ ...p, type: 'success' })),
+});
+
+export const Warning = makeStory(conf, {
+  items: items.map((p) => ({ ...p, type: 'warning' })),
+});
+
+export const Error = makeStory(conf, {
+  items: items.map((p) => ({ ...p, type: 'error' })),
+});

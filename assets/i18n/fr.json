@@ -7,6 +7,13 @@
     "empty": "Aucune donnée à afficher ici",
     "error": "Une erreur est survenue pendant le chargement"
   },
+  "gv-category": {
+    "empty": "Aucune donnée à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement"
+  },
+  "gv-category-list": {
+    "error": "Une erreur est survenue pendant le chargement"
+  },
   "gv-code": {
     "copy": "Copier dans le presse papier"
   },
