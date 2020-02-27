@@ -69,7 +69,7 @@ const conf = {
 };
 
 export const basics = makeStory(conf, {
-  items: [{ categories }],
+  items: [{ items: categories }],
 });
 
 export const empty = makeStory(conf, {
@@ -77,55 +77,19 @@ export const empty = makeStory(conf, {
 });
 
 export const loading = makeStory(conf, {
-  items: [{ categories: new Array(categories.length) }],
+  items: [{ items: new Array(categories.length) }],
   simulations: [
     storyWait(2000, ([component]) => {
-      component.categories = categories;
+      component.items = categories;
     }),
   ],
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ categories: new Array(categories.length) }],
+  items: [{ items: new Array(categories.length) }],
   simulations: [
     storyWait(2000, ([component]) => {
-      component.categories = Promise.reject(new Error());
+      component.items = Promise.reject(new Error());
     }),
   ],
 });
-
-//
-// export const Basics = () =>
-//   withActions(...eventNames)(() => {
-//     const container = document.createElement('div');
-//     container.innerHTML = `<gv-category-list></gv-category-list>`;
-//     container.querySelector('gv-category-list').categories = Promise.resolve(cards);
-//
-//     return container;
-//   });
-//
-// export const SkeletonDelay = () =>
-//   withActions(...eventNames)(() => {
-//     const container = document.createElement('div');
-//     container.innerHTML = `<gv-category-list></gv-category-list>`;
-//     container.querySelector('gv-category-list').categories = Promise.resolve(cards).then(
-//       delay(2000)
-//     );
-//     return container;
-//   });
-//
-// SkeletonDelay.story = {
-//   name: 'Skeleton & Delay',
-// };
-//
-// export const Errors = () =>
-//   withActions(...eventNames)(() => {
-//     const container = document.createElement('div');
-//     container.innerHTML = `
-//       <div class="title">Reject promise</div>
-//       <gv-category-list></gv-category-list>
-//       `;
-//
-//     container.querySelector('gv-category-list').categories = Promise.reject(new Error());
-//     return container;
-//   });

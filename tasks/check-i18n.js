@@ -55,6 +55,7 @@ async function run () {
 
   // MISSING KEYS
   sourceFilepaths.forEach((src) => {
+    // eslint-disable-next-line no-console
     console.log(`Inspecting translations for ${src}`);
 
     Object.entries(translationsByLang).forEach(([lang, translations]) => {
@@ -67,7 +68,7 @@ async function run () {
         const formattedLog = missingKeys
           .map((k) => `  MISSING (${lang}): ${k}`)
           .join('\n');
-        console.log(formattedLog);
+        console.warn(formattedLog);
       }
     });
   });
@@ -87,7 +88,7 @@ async function run () {
       const formattedLog = unusedKeys
         .map((k) => `  UNUSED (${lang}): ${k}`)
         .join('\n');
-      console.log(formattedLog);
+      console.warn(formattedLog);
     }
   });
 

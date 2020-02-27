@@ -30,11 +30,10 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {Boolean} closed - allows to close the menu
  * @attr {Object} selectedItem - the item selected
  *
- * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
- * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-tree-active--bd=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Active border
- * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Active background color
- * @cssprop {Color} [--gv-tree-hover--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Hover background color
+ * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-color-dark, #1D3730)] - Background color
+ * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
+ * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color-light, #D5FDCB)] - Active border
+ * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-color-dark, #1D3730)] - Active background color
  * @cssprop {Length} [--gv-tree-link-a--ph=0] - Link horizontal padding
  * @cssprop {String} [--gv-tree-link--ta=left] - Text align
  * @cssprop {Length} [--gv-tree-icon--s=20px] - Height and icon width
@@ -54,20 +53,19 @@ export class GvTree extends LitElement {
       // language=css
       css`
         :host {
-          --c: var(--gv-tree--c, var(--gv-theme-font-color-dark, #262626));
-          --bgc: var(--gv-tree--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          --active-bd: var(--gv-tree-active--bd, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-          --hover-bgc: var(--gv-tree-hover--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          --gv-icon--s:  var(--gv-tree-icon--s, 20px);
+          --c: var(--gv-tree--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --bgc: var(--gv-tree--bgc, var(--gv-theme-color-dark, #1D3730));
+          --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color-light, #D5FDCB));
+          --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-color-dark, #1D3730));
+          --gv-icon--s: var(--gv-tree-icon--s, 20px);
           --gv-link-a--ph: var(--gv-tree-link-a--ph, 0);
           --gv-link--ta: var(--gv-tree-link--ta, left);
-
+          --gv-link--c: var(--c);
+          --gv-icon--c: var(--c);
           background-color: var(--bgc);
           color: var(--c);
           display: flex;
           flex-direction: row;
-          margin: 0 50px;
           border-radius: 5px;
           height: 100%;
         }
@@ -78,14 +76,14 @@ export class GvTree extends LitElement {
 
         .tree {
           position: relative;
-          min-width: 300px;
+          width: 300px;
           padding-top: 20px;
-          box-shadow: 15px 0 15px -5px var(--gv-theme-neutral-color, #E5E5E5);
           overflow: scroll;
+          transition: all 350ms ease-in-out;
         }
 
         .tree.closed {
-          min-width: 42px;
+          width: 42px;
         }
 
         .main-tree-menu {
@@ -96,10 +94,7 @@ export class GvTree extends LitElement {
         .tree-menu {
           list-style: none;
           padding-left: 10px;
-        }
-
-        .tree-menu.closed {
-          display: none;
+          max-height: 100%;
         }
 
         .tree-menu__item {
@@ -109,7 +104,9 @@ export class GvTree extends LitElement {
 
         .selected {
           background-color: var(--active-bgc);
-          border: var(--active-bd);
+          border-right-width: 3px;
+          border-right-style: solid;
+          border-right-color: var(--active-bdc);
         }
 
         .page:hover {
@@ -137,9 +134,14 @@ export class GvTree extends LitElement {
           cursor: pointer;
         }
 
-        .closed {
+        .closed .tree-arrow {
           transform: rotate(0deg);
-          transition: all 1s ease-in-out;
+        }
+
+        .closed .tree-menu {
+          height: 0;
+          transition: height 0.8s;
+          display: none;
         }
 
         .switch {
@@ -189,18 +191,19 @@ export class GvTree extends LitElement {
         .title="${menuItem.name}"
         @gv-link:click=${this._onClick.bind(this, menuItem)}>
         </gv-link>
-        ${menuItem.expanded
-      ? html`<gv-icon class="tree-arrow" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>${this._getMenu(menuItem.children)}`
-      : html`<gv-icon class="tree-arrow closed" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>`
-    }
-    `;
+        <span class="${classMap({ closed: !menuItem.expanded })}">
+         <gv-icon class="tree-arrow" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>${this._getMenu(menuItem.children)}
+        </span>`;
   }
 
   _getMenu (menuItems) {
-    return html`<ul class="${classMap({
-      'tree-menu': true,
-      closed: this.closed,
-    })}">${repeat(menuItems, (item) => this._getMenuItem(item))}</ul>`;
+    if (menuItems) {
+      return html`<ul class="${classMap({
+        'tree-menu': true,
+        closed: this.closed,
+      })}">${repeat(menuItems, (item) => this._getMenuItem(item))}</ul>`;
+    }
+    return '';
   }
 
   _getMenuItem (menuItem) {

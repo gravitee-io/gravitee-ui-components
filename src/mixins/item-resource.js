@@ -52,10 +52,7 @@ export function ItemResource (ParentClass) {
       Promise.resolve(item)
         .then((item) => {
           if (item) {
-            this._skeleton = false;
-            this._empty = Object.keys(item).length === 0;
             this._item = item;
-            this._empty = false;
             if (item.picture) {
               this._picture = item.picture;
             }
@@ -65,12 +62,14 @@ export function ItemResource (ParentClass) {
             else {
               this._loadDefaultPicture();
             }
+            this._empty = false;
+            this._skeleton = false;
           }
           else {
             this._skeleton = true;
-            this._error = false;
-            this._empty = false;
           }
+          this._empty = item == null || Object.keys(item).length === 0;
+          this._error = false;
         })
         .catch(() => {
           this._loadDefaultPicture();
@@ -139,7 +138,10 @@ export function ItemResource (ParentClass) {
     }
 
     _renderImage () {
-      return html`<gv-image src="${this._picture}" alt="${this._getTitle()}" @load="${this._onImageLoaded}" skeleton="${this._skeleton}">`;
+      if (!this._empty) {
+        return html`<gv-image src="${this._picture}" alt="${this._getTitle()}" @load="${this._onImageLoaded}">`;
+      }
+      return '';
     }
 
     _onTagClick (tagValue, tagType) {

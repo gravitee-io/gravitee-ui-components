@@ -39,5 +39,6 @@ async function run () {
 }
 
 run()
+  // eslint-disable-next-line no-console
   .then(console.log)
   .catch(console.error);

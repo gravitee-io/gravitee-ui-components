@@ -16,7 +16,7 @@
 import '../../src/atoms/gv-icon';
 import notes from '../../.docs/gv-icon.md';
 import { icons } from '../../.docs/icons.json';
-import { makeStory } from '../lib/make-story';
+import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
   title: 'Atoms|gv-icon',
@@ -25,8 +25,43 @@ export default {
     notes,
   },
 };
-const conf = { component: 'gv-icon' };
+const conf = {
+  component: 'gv-icon',
+  css: `
+    :host {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .item {
+      text-align: center;
+      padding: 0.5rem;
+      min-width: 175px;
+      font-size: 11px;
+    }
+
+    .item gv-icon {
+      display: block;
+    }
+    gv-icon {
+      display:none;
+    }
+  `,
+};
 const items = icons.map((shape) => ({ shape, title: shape }));
 export const all = makeStory(conf, {
   items,
+  simulations: [
+    storyWait(0, (components) => {
+      components.forEach((component) => {
+        const item = document.createElement('div');
+        item.className = 'item';
+        component.parentNode.insertBefore(item, component);
+        item.appendChild(component);
+        const title = document.createElement('div');
+        title.innerHTML = component.shape;
+        item.appendChild(title);
+      });
+    }),
+  ],
 });

@@ -46,55 +46,52 @@ export class GvImage extends LitElement {
     return [
       // language=CSS
       css`
-          :host {
-            display: inline-block;
-            overflow: hidden;
-          }
+        :host {
+          display: inline-block;
+          overflow: hidden;
+        }
 
-          .wrapper,
-          img {
-            height: 100%;
-            width: 100%;
-            transition: opacity 0.3s ease-in-out;
-          }
+        .wrapper,
+        img {
+          height: 100%;
+          width: 100%;
+          transition: opacity 0.3s ease-in-out;
+        }
 
-          .wrapper {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: relative;
-          }
+        .wrapper {
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          position: relative;
+        }
 
-          .wrapper.skeleton {
-          }
+        .wrapper.text:not('.skeleton') {
+          background-color: var(--gv-theme-neutral-color);
+        }
 
-          .wrapper.text:not('.skeleton') {
-            background-color: var(--gv-theme-neutral-color);
-          }
+        img {
+          display: block;
+          object-fit: var(--gv-image--of, cover);
+          object-position: center center;
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          transition: opacity 150ms ease-in-out;
+          left: 0;
+        }
 
-          img {
-            display: block;
-            object-fit: var(--gv-image--of, cover);
-            object-position: center center;
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            transition: opacity 150ms ease-in-out;
-            left: 0;
-          }
+        .wrapper.loaded img {
+          opacity: 1;
+        }
 
-          .wrapper.loaded img {
-            opacity: 1;
-          }
-
-          .error-msg {
-            font-size: 0.9rem;
-            overflow: hidden;
-            padding: 0.25rem;
-            text-align: center;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
+        .error-msg {
+          font-size: 0.9rem;
+          overflow: hidden;
+          padding: 0.25rem;
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
 
       `,
       skeleton,
@@ -133,11 +130,9 @@ export class GvImage extends LitElement {
   }
 
   render () {
-    const isLoading = (this.src != null && !this._loaded && !this._error);
-    const isSkeleton = (this.skeleton || isLoading);
     const displayText = (this.src == null || this._error);
     return html`
-      <div class="wrapper ${classMap({ skeleton: isSkeleton, loaded: this._loaded, text: displayText })}">
+      <div class="wrapper ${classMap({ skeleton: this.skeleton, loaded: this._loaded, text: displayText })}">
         <img src=${ifDefined(this.src)} @load=${this._onLoad} @error=${this._onError} alt="">
         ${displayText ? html`
           <div class="error-msg">${this.alt}</div>

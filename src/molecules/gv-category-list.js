@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
+import { css } from 'lit-element';
 import { html } from 'lit-html';
-import { repeat } from 'lit-html/directives/repeat';
-import { withResizeObserver } from '../mixins/with-resize-observer';
 import './gv-category';
-import { classMap } from 'lit-html/directives/class-map';
-import { i18n } from '../lib/i18n';
+import { GvCardList } from './gv-card-list';
 
 /**
  * List of categories
@@ -31,30 +28,10 @@ import { i18n } from '../lib/i18n';
  * @cssprop {Color} [--gv-category-list--bgc-5=#D4FCCD] - Category background color 5
  * @cssprop {Color} [--gv-category-list--bgc-6=#E0C8B2] - Category background color 6
  */
-export class GvCategoryList extends withResizeObserver(LitElement) {
-
-  static get properties () {
-    return {
-      categories: { type: Array },
-      _categories: { type: Array, attribute: false },
-      _skeleton: { type: Boolean, attribute: false },
-      _error: { type: Boolean, attribute: false },
-    };
-  }
-
-  constructor () {
-    super();
-    this.breakpoints = {
-      width: [845, 1270],
-    };
-    this._categories = [];
-    this._skeleton = false;
-    this._error = false;
-    this._empty = true;
-  }
+export class GvCategoryList extends GvCardList {
 
   static get styles () {
-    return [
+    return [...GvCardList.styles, ...[
       // language=CSS
       css`
         :host {
@@ -64,63 +41,13 @@ export class GvCategoryList extends withResizeObserver(LitElement) {
           --bgc-4: var(--gv-category-list--bgc-4, #F9C15E);
           --bgc-5: var(--gv-category-list--bgc-5, #D4FCCD);
           --bgc-6: var(--gv-category-list--bgc-6, #E0C8B2);
-          box-sizing: border-box;
-          display: block;
         }
-
-        .container {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          grid-gap: 0.5rem;
-        }
-
-        .container.error {
-            display: block;
-            text-align: center;
-        }
-
-        :host([w-lt-1270]) .container {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        :host([w-lt-845]) .container {
-          display: flex;
-          flex-direction: column;
-        }
-
-        :host([w-lt-845]) .container > gv-category {
-          flex: 0 1 auto;
-        }
-
       `,
-    ];
+    ]];
   }
 
-  set categories (value) {
-    Promise.resolve(value)
-      .then((value) => {
-        if (value) {
-          this._skeleton = false;
-          this._categories = value;
-        }
-        else {
-          this._skeleton = true;
-        }
-      })
-      .catch(() => {
-        this._skeleton = false;
-        this._error = true;
-      });
-  }
-
-  render () {
-    return html`<div class="${classMap({ container: true, error: this._error })}">
-                 ${this._error ? html`<div>${i18n('gv-category-list.error')}</div>`
-      : repeat(this._categories, (category) => category, (category, index) =>
-        html`<gv-category .category="${category}" style="${this._getCategoryBackgroundColor(index)}"> </gv-category>`
-      )}
-               </div>
-        `;
+  renderItem (item, index) {
+    return html`<gv-category class="item" .category="${item}" style="${this._getCategoryBackgroundColor(index)}"> </gv-category>`;
   }
 
   _getCategoryBackgroundColor (index) {

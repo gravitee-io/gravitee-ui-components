@@ -120,10 +120,13 @@ export class GvCategory extends LitElement {
     this._skeleton = true;
     Promise.resolve(category)
       .then((category) => {
-        if (category && Object.keys(category).length > 0) {
-          this._empty = false;
+        if (category) {
+          this._empty = Object.keys(category).length === 0;
           this._skeleton = false;
           this._category = category;
+        }
+        else {
+          this._skeleton = true;
         }
       }).catch(() => {
         this._error = true;

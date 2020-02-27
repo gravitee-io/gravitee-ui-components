@@ -121,7 +121,7 @@ export class GvCard extends ItemResource(LitElement) {
 
     return html`<div class="card" title="${this._getTitle()}">
     <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${this._getVersion()}</span>
-    <div class="${classMap({ image: true })}">${this._renderImage()}</div>
+    <div class="${classMap({ image: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
 
     <div class="content">
         ${(this._error || this._empty) ? html`

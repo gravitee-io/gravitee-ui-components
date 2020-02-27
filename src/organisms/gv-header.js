@@ -15,7 +15,6 @@
  */
 import { css, html, LitElement } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
-import '../atoms/gv-image';
 import '../atoms/gv-button';
 import '../atoms/gv-tag';
 import { i18n } from '../lib/i18n';
@@ -200,7 +199,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
           letter-spacing: 0.05em;
         }
 
-        .skeleton gv-button {
+        .skeleton gv-button, .skeleton .error {
           visibility: hidden;
         }
       `,
