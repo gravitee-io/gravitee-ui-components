@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-card-full.md';
-import '../../src/molecules/gv-card-full';
-import horizontalImage from '../../assets/images/gravitee-logo.png';
+import '../../src/molecules/gv-category-list';
+import notes from '../../.docs/gv-category-list.md';
 import { makeStory, storyWait } from '../lib/make-story';
+import horizontalImage from '../../assets/images/gravitee-logo.png';
 
 const name = 'Supernova';
 const description
@@ -29,7 +29,6 @@ const states = [{ value: 'beta' }, { value: 'running', major: true }];
 const ratingSummary = { average: 3.4, count: 124 };
 const labels = ['APIDays', 'December', 'Foobar'];
 const apiMetrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
-const applicationMetrics = Promise.resolve({ subscribers: '3' });
 const api = Promise.resolve({
   name,
   description,
@@ -38,24 +37,6 @@ const api = Promise.resolve({
   labels,
   rating_summary: ratingSummary,
 });
-const application = Promise.resolve({ name, description, applicationType: 'Web' });
-
-export default {
-  title: 'Molecules|gv-card-full',
-  component: 'gv-card-full',
-  parameters: {
-    notes,
-  },
-};
-
-const conf = {
-  component: 'gv-card-full',
-  css: `
-      gv-card-full {
-        max-width: 500px;
-      }
-    `,
-};
 
 const apiItems = [
   { item: api },
@@ -69,17 +50,21 @@ const apiItems = [
   },
 ];
 
-const appItems = [
-  { item: application },
-  { item: application, metrics: applicationMetrics },
-];
+export default {
+  title: 'Molecules|gv-card-list',
+  component: 'gv-card-list',
+  parameters: {
+    notes,
+  },
+};
 
-export const Api = makeStory(conf, {
-  items: apiItems,
-});
+const conf = {
+  component: 'gv-card-list',
+  events: ['gv-card:click'],
+};
 
-export const Applications = makeStory(conf, {
-  items: appItems,
+export const basics = makeStory(conf, {
+  items: [{ items: apiItems }],
 });
 
 export const empty = makeStory(conf, {
@@ -87,20 +72,19 @@ export const empty = makeStory(conf, {
 });
 
 export const loading = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})), metrics: new Promise(() => ({})) }],
+  items: [{ items: new Array(apiItems.length) }],
   simulations: [
     storyWait(2000, ([component]) => {
-      component.item = api;
-      component.metrics = apiMetrics;
+      component.items = apiItems;
     }),
   ],
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})) }],
+  items: [{ items: new Array(apiItems.length) }],
   simulations: [
     storyWait(2000, ([component]) => {
-      component.item = Promise.reject(new Error());
+      component.items = Promise.reject(new Error());
     }),
   ],
 });

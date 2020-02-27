@@ -37,7 +37,14 @@ export default {
   },
 };
 
-const conf = { component: 'gv-promote' };
+const conf = {
+  component: 'gv-promote',
+  css: `
+      gv-promote {
+        max-width: 1000px;
+      }
+    `,
+};
 
 export const withDefaultImage = makeStory(conf, {
   items: [{ item: { name, description, version } }],

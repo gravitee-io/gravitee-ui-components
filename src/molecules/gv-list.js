@@ -133,8 +133,8 @@ export class GvList extends LitElement {
     this._skeleton = true;
     Promise.resolve(items)
       .then((items) => {
-        this._items = items;
-        if (items && Object.keys(items).length > 0) {
+        if (items) {
+          this._items = items;
           this._skeleton = false;
           this._empty = Object.keys(items).length === 0;
         }
@@ -156,7 +156,6 @@ export class GvList extends LitElement {
   _onImageError (e) {
     const img = e.target;
     this.getDefaultPicture().then((picture) => (img.src = picture));
-
   }
 
   _renderImage (picture, name) {
@@ -198,15 +197,29 @@ export class GvList extends LitElement {
   }
 
   _renderItems () {
+    if (this._empty && !this._skeleton) {
+      return '';
+    }
+    if (this._skeleton) {
+      return html`
+      <ul class="list">
+        <h4 class="skeleton">xxxx-xxxx-xxxx-xxxx</h4>
+        <div class="scrollable-container">
+            <li class="item skeleton">${this._renderItem()}</li>
+            <li class="item skeleton">${this._renderItem()}</li>
+        </div>
+      </ul>
+    `;
+    }
     return html`
       <ul class="list">
-        <h4 class="${classMap({ skeleton: this._skeleton })}">
+        <h4>
           ${this.title ? this.title : ''}
           ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}
         </h4>
         <div class="scrollable-container">
         ${this._items ? repeat(this._items, (item) => item, (item) =>
-      html`<li class="${classMap({ item: true, skeleton: this._skeleton })}">${this._renderItem(item)}</li>`) : ''}
+      html`<li class="${classMap({ item: true })}">${this._renderItem(item)}</li>`) : ''}
         </div>
       </ul>
     `;
@@ -215,7 +228,7 @@ export class GvList extends LitElement {
   render () {
     return html`
       <div>
-        ${this._error ? html`<ul class="list"><h4>${i18n('gv-list.error')}</h4></ul>` : this._empty ? '' : this._renderItems()}
+        ${this._error ? html`<ul class="list"><h4>${i18n('gv-list.error')}</h4></ul>` : this._renderItems()}
       </div>
       `;
   }

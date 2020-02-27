@@ -1,0 +1,134 @@
+/*
+ * Copyright (C) 2015 The Gravitee team (http://gravitee.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { getLanguage, getAvailableLanguages } from '../lib/i18n';
+import { LitElement } from 'lit-element';
+import { until } from 'lit-html/directives/until';
+import { html } from 'lit-html';
+
+const options = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  timeZoneName: 'short',
+};
+
+const UNITS = [
+  { unit: 'year', duration: 1000 * 60 * 60 * 24 * (365.25) },
+  { unit: 'month', duration: 1000 * 60 * 60 * 24 * (365.25 / 12) },
+  { unit: 'week', duration: 1000 * 60 * 60 * 24 * 7 },
+  { unit: 'day', duration: 1000 * 60 * 60 * 24 },
+  { unit: 'hour', duration: 1000 * 60 * 60 },
+  { unit: 'minute', duration: 1000 * 60 },
+  { unit: 'second', duration: 1000 },
+];
+
+/**
+ * Component to display a localized humanized relative date (ex: "two minutes ago").
+ *
+ * @prop {String|Number} datetime - Date as ISO string or timestamp.
+ */
+export class GvRelativeTime extends LitElement {
+
+  static get properties () {
+    return {
+      datetime: { type: String },
+      title: { type: String, reflect: true },
+      _relativeTime: { type: String, attribute: false },
+      _updateIntervalId: { type: String, attribute: false },
+    };
+  }
+
+  constructor () {
+    super();
+    this._formatter = null;
+  }
+
+  getFormatter () {
+    return new Promise((resolve, reject) => {
+      if (this._formatter == null) {
+        if ('RelativeTimeFormat' in Intl) {
+          this._formatter = Intl.RelativeTimeFormat;
+          resolve(this._formatter);
+        }
+        else {
+          Promise.all([
+            import('@formatjs/intl-relativetimeformat/polyfill'),
+            ...Object.values(getAvailableLanguages()).map((_lang) => {
+              return import(`@formatjs/intl-relativetimeformat/dist/locale-data/${_lang}`);
+            }),
+          ])
+            .then(() => {
+              this._formatter = Intl.RelativeTimeFormat;
+              resolve(this._formatter);
+            })
+            .catch((err) => {
+              console.error(err);
+              reject(new Error('Cannot load @formatjs/intl-relativetimeformat/polyfill'));
+            });
+        }
+      }
+      else {
+        resolve(this._formatter);
+      }
+    });
+
+  }
+
+  set datetime (value) {
+    const dtf = new Intl.DateTimeFormat(getLanguage(), options);
+    this.title = dtf.format(new Date(value));
+    this._datetime = value;
+  }
+
+  async _format (dateStr, lang) {
+    const Formatter = await this.getFormatter();
+    const format = (value, unit) => new Formatter(lang, { numeric: 'auto' }).format(-value, unit);
+    const now = new Date().getTime();
+    const diff = now - new Date(dateStr).getTime();
+
+    for (const { unit, duration } of UNITS) {
+      const value = diff / duration;
+      const roundedValue = Math.round(value);
+      if (value >= 1) {
+        return format(roundedValue, unit);
+      }
+    }
+    return format(Math.round(diff / 1000), 'second');
+  }
+
+  connectedCallback () {
+    if (this.updateIntervalId == null) {
+      this.performUpdate();
+      this.updateIntervalId = setInterval(() => {
+        this.performUpdate();
+      }, 10 * 1000);
+    }
+  }
+
+  disconnectedCallback () {
+    clearInterval(this.updateIntervalId);
+    this.updateIntervalId = null;
+  }
+
+  render () {
+    return html`<span title="${this.title}">${until(this._format(this._datetime, getLanguage()))}</span>`;
+  }
+
+}
+
+window.customElements.define('gv-relative-time', GvRelativeTime);

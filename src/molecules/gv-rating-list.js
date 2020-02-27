@@ -16,6 +16,7 @@
 import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import { repeat } from 'lit-html/directives/repeat';
+import './../atoms/gv-relative-time';
 import './gv-user-avatar';
 import './gv-rating';
 import './gv-confirm';
@@ -24,8 +25,6 @@ import { link } from '../styles/link';
 import { i18n } from '../lib/i18n';
 import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
-
-import '@github/time-elements';
 
 /**
  * Rating list component
@@ -274,7 +273,7 @@ export class GvRatingList extends LitElement {
         <div class="rating-content">
             <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canEdit(data)}"
 @input="${this._onUpdateRating.bind(this, data)}" value="${data.value}"></gv-rating>`}${this._renderActions(data, parent)}</div>
-            <div class="sub-title">${this._getDisplayName(data)}<relative-time datetime="${data.date}"></relative-time></div>
+            <div class="sub-title">${this._getDisplayName(data)}<gv-relative-time datetime="${data.date}"></gv-relative-time></div>
             <p class="comment">${data.comment}</p>
             ${parent ? '' : this._renderAnswers(data)}
         </div>

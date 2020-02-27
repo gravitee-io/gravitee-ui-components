@@ -119,7 +119,6 @@ export class GvText extends LitElement {
         /* Hack for FF */
         textarea {
           font-family: inherit;
-          font-size: inherit;
         }
       `,
     ];

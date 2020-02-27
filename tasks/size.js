@@ -182,6 +182,7 @@ async function run () {
     ...components,
   ];
 
+  // eslint-disable-next-line no-console
   console.log(table(displayTable, { align: ['r', 'l', 'r', 'r', 'r', 'r'] }));
 }
 

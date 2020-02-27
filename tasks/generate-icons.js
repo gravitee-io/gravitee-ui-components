@@ -31,6 +31,7 @@ async function run () {
   for (const src of svgFilepaths) {
     const relativePath = src.replace('assets/icons/', '');
     const [category, filename] = relativePath.split('/');
+    // eslint-disable-next-line no-console
     console.log(`Parse ${src}`);
     iconsByShape[category] = iconsByShape[category] || {};
     const id = filename.replace('.svg', '').toLowerCase();
@@ -47,6 +48,7 @@ async function run () {
   // Generate shapes
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
     const shapeName = pascalCase(`${shapeId}Shapes`);
+    // eslint-disable-next-line no-console
     console.log(`Generate ${shapeName}`);
     await fs.writeFile(`src/icons/shapes/${shapeId}.js`,
       `export const ${shapeName} = ${JSON.stringify(icons)};
@@ -64,5 +66,6 @@ window.GvIcons['${shapeId}'] = ${shapeName};
 }
 
 run()
+  // eslint-disable-next-line no-console
   .then(console.log)
   .catch(console.error);

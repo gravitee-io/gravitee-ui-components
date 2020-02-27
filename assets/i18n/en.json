@@ -3,15 +3,15 @@
     "empty": "No information to display",
     "error": "An error has occurred"
   },
+  "gv-card-list": {
+    "error": "An error has occurred"
+  },
   "gv-card-full": {
     "empty": "No information to display",
     "error": "An error has occurred"
   },
   "gv-category": {
     "empty": "No information to display",
-    "error": "An error has occurred"
-  },
-  "gv-category-list": {
     "error": "An error has occurred"
   },
   "gv-code": {

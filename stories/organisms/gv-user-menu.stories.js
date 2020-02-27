@@ -61,7 +61,6 @@ export const withPicture = makeStory(conf, {
   ],
   simulations: [
     storyWait(0, ([component]) => {
-      console.log(component.firstElementChild);
       component.firstElementChild.user = { display_name: 'Gravatar', _links: { avatar: avatarSrc } };
     }),
   ],
@@ -73,7 +72,6 @@ export const withLargePicture = makeStory(conf, {
   ],
   simulations: [
     storyWait(0, ([component]) => {
-      console.log(component.firstElementChild);
       component.firstElementChild.user = { display_name: 'Gravatar', _links: { avatar: bigImage } };
     }),
   ],

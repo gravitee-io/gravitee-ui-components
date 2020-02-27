@@ -22,7 +22,7 @@ import { makeStory, storyWait } from '../lib/make-story';
 
 const items = [
   { src: logoImage, alt: 'Gravitee', class: 'horizontal' },
-  { src: logo, alt: 'Gravitee', skeleton: true },
+  { src: logo, alt: 'Gravitee' },
 ];
 
 export default {
@@ -58,7 +58,7 @@ export const errors = makeStory(conf, {
   items: [{ src: 'http://localhost/fake', alt: 'Gravitee' }],
 });
 
-export const loading = makeStory(conf, {
+export const skeleton = makeStory(conf, {
   items: [{ alt: 'Gravitee', skeleton: true }],
   simulations: [
     storyWait(2000, ([component]) => {
@@ -67,7 +67,7 @@ export const loading = makeStory(conf, {
   ],
 });
 
-export const loadingAndError = makeStory(conf, {
+export const skeletonAndError = makeStory(conf, {
   items: [{ alt: 'Gravitee', skeleton: true }],
   simulations: [
     storyWait(3000, ([component]) => {

@@ -124,7 +124,6 @@ export class GvRow extends ItemResource(LitElement) {
       row: true,
       error: !this._skeleton && (this._error || this._empty),
     };
-
     return html`
         <div class=${classMap(classes)}>
             ${(!this._skeleton && (this._error || this._empty)) ? html`<div class="${classMap({ description: true })}">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>` : html`

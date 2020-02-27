@@ -25,9 +25,12 @@ import '../atoms/gv-tag';
 import { truncate } from '../lib/utils';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  * Full Card component
+ *
+ * @fires gv-card-full:click - Custom click event
  *
  * @attr {Promise<Object>} item - An item.
  * @attr {Promise<Metrics>} metrics - A Metrics.
@@ -54,7 +57,7 @@ export class GvCardFull extends ItemResource(LitElement) {
           margin: 0.2rem;
 
           vertical-align: middle;
-          min-width: 415px;
+          width: 100%;
           max-height: 281px;
           line-height: 22px;
           font-size: var(--gv-theme-font-size-m, 14px);
@@ -185,8 +188,15 @@ export class GvCardFull extends ItemResource(LitElement) {
     }
   }
 
+  _onClick () {
+    if (!this._empty && !this._error && !this._skeleton) {
+      dispatchCustomEvent(this, 'click', this._item);
+    }
+  }
+
   render () {
-    return html`<div class="${classMap({ error: this._error || this._empty, card: true })}" title="${this._getTitle()}">
+    const classes = { error: this._error || this._empty, card: true };
+    return html`<div class="${classMap(classes)}" title="${this._getTitle()}" @click="${this._onClick}">
         <div class="${classMap({ skeleton: this._skeleton })}">
             <div class="${classMap({ image: true })}">${this._renderImage()}</div>
             <div class="content">

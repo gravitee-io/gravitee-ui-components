@@ -30,7 +30,7 @@ import { ItemResource } from '../mixins/item-resource';
  *
  * @attr {Promise<any>} item - an item.
  *
- * @cssprop {Color} [--gv-promote-image--bgc=var(--gv-theme-color-light,#D5FDCB)] - Image background color
+ * @cssprop {Color} [--gv-promote-image--bgc=var(--gv-theme-color-light, #D5FDCB)] - Image background color
  * @cssprop {Color} [--gv-promote--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Length} [--gv-promote-image--h=300px] - Image height
  * @cssprop {Length} [--gv-promote-image--w=300px] - Image width
@@ -43,89 +43,85 @@ export class GvPromote extends ItemResource(LitElement) {
     return [
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              margin: 0.2rem;
-              vertical-align: middle;
-              --gv-button--p: var(--gv-promote-button--p, 19px 80px);
-              --gv-button--fz: var(--gv-promote-button--fz, var(--gv-theme-font-size-l, 16px));
-              --gv-preview-button: 'none';
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-block;
+          margin: 0.2rem;
+          vertical-align: middle;
+          --gv-button--p: var(--gv-promote-button--p, 19px 80px);
+          --gv-button--fz: var(--gv-promote-button--fz, var(--gv-theme-font-size-l, 16px));
+          --gv-preview-button: 'none';
+          width: 100%;
+        }
 
-          gv-image {
-            height: var(--gv-promote-image--h, 300px);
-            width: var(--gv-promote-image--w, 300px);
-            --gv-image--of: contain;
-          }
+        gv-image {
+          height: var(--gv-promote-image--h, 300px);
+          width: var(--gv-promote-image--w, 300px);
+          --gv-image--of: contain;
+        }
 
-          .container {
-              display: flex;
-              min-height: 416px;
-              max-height: 416px;
-          }
+        .container {
+          display: flex;
+          min-height: 420px;
+          max-height: 420px;
+        }
 
-          .container > div {
-              min-width: 400px;
-              max-width: 514px;
-          }
+        .image {
+          background-color: var(--gv-promote-image--bgc, var(--gv-theme-color-light, #D5FDCB));
+          min-height: 0;
+          min-width: 0;
+          width: 480px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px 0 0 4px;
+        }
 
-          .image {
-              background-color: var(--gv-promote-image--bgc, var(--gv-theme-color-light,#D5FDCB));
-              min-height: 0;
-              min-width: 0;
-              display: flex;
-              flex: 1;
-              align-items: center;
-              justify-content: center;
-              border-radius: 4px 0 0 4px;
-          }
+        .title {
+          text-transform: capitalize;
+          min-height: 32px;
+          display: flex;
+          align-items: center;
+        }
 
-          .title {
-              text-transform: capitalize;
-              min-height: 32px;
-              display: flex;
-              align-items: center;
-          }
+        .title h2 {
+          font-size: var(--gv-theme-font-size-xl, 26px);
+          flex: 1;
+        }
 
-          .title h2 {
-              font-size: var(--gv-theme-font-size-xl, 26px);
-              flex: 1;
-          }
+        .title .version {
+          font-size: var(--gv-theme-font-size-s, 12px);
+          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+        }
 
-          .title .version {
-              font-size: var(--gv-theme-font-size-s, 12px);
-              color: var(--gv-theme-neutral-color-dark, #D9D9D9);
-          }
 
-          .content {
-              flex: 1;
-              padding: 50px 70px;
-              background-color: var(--gv-promote--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-              color: var(--gv-theme-font-color-dark,  #262626);
-              font-size: var(--gv-theme-font-size-l, 16px);
-              line-height: 24px;
-              border-radius: 0 4px 4px 0;
-              display: flex;
-              flex-direction: column;
-              max-width: 374px;
-          }
+        .content {
+          flex: 1;
+          padding: 50px 70px;
+          background-color: var(--gv-promote--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          color: var(--gv-theme-font-color-dark, #262626);
+          font-size: var(--gv-theme-font-size-l, 16px);
+          line-height: 24px;
+          border-radius: 0 4px 4px 0;
+          display: flex;
+          flex-direction: column;
+        }
 
-          .description {
-              margin: 24px 0px;
-              flex-grow: 1;
-          }
+        .description {
+          margin: 24px 0px;
+          flex-grow: 1;
+        }
 
-          .infos {
-              display: flex;
-              justify-content: flex-end;
-              padding: 8px 0;
-              margin: 8px 0;
-          }
+        .infos {
+          display: flex;
+          justify-content: flex-end;
+          padding: 8px 0;
+          margin: 8px 0;
+        }
 
-          .labels {
-            text-align: right;
-          }
+        .labels {
+          text-align: right;
+        }
       `,
       skeleton,
     ];
