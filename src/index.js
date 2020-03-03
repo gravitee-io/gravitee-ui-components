@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export { GvAutocomplete } from './atoms/gv-autocomplete';
 export { GvButton } from './atoms/gv-button';
 export { GvCheckbox } from './atoms/gv-checkbox';
 export { GvIcon } from './atoms/gv-icon';

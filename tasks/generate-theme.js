@@ -143,49 +143,8 @@ async function run () {
   gvTheme.css = gvThemeProperties.filter((cssProperty) => cssProperty.type.toLowerCase() !== 'image');
   delete gvTheme.cssProperties;
 
-  await fs.appendFile(themeFilepath, JSON.stringify({ data: [gvTheme].concat(gvComponents) }));
+  await fs.appendFile(themeFilepath, JSON.stringify({ data: [gvTheme].concat(gvComponents) }, null, 2));
   await fs.appendFile(filepath, input.join('\n'));
-
-  // /** Generate Colors Story **/
-  // const colors = gvTheme.css
-  //   .filter((cssProperty) => cssProperty.type.toLowerCase() === 'color')
-  //   .map((colorProperty) => {
-  //     return `
-  //       <div class="item">
-  //        <div class="item-color" style="background-color: ${colorProperty.value};">
-  //           <span>${colorProperty.name}: ${colorProperty.value}<span>
-  //       </div>
-  //       </div>
-  //     `;
-  //   });
-  //
-  //   await fs.appendFile(colorsFilepath, `import {storiesOf} from '@storybook/html';
-  //
-  // storiesOf('Welcome|Theme', module).addParameters({options: {showPanel: false,},})
-  //   .add('Colors', () => {
-  //     return \`<div class="title">Colors</div><div class="colors">${colors.join('')}</div>\`;
-  //   });
-  //   `);
-
-  //   /** Generate Font Story **/
-  //   const fontSize = gvTheme.css
-  //     .filter((cssProperty) => cssProperty.name.startsWith('--gv-theme-font-size'))
-  //     .map((fontSizeProperty) => {
-  //       return `
-  //          <div class="title">${fontSizeProperty.description}</div>
-  //          <div>(${fontSizeProperty.name}: ${fontSizeProperty.value})</div>
-  //          <div class="item item-size"><div style="font-size: ${fontSizeProperty.value}">${loremIpsum}</div></div>
-  //       `;
-  //     });
-  //
-  //   await fs.appendFile(fontsFilepath, `import {storiesOf} from '@storybook/html';
-  //
-  // storiesOf('Welcome|Theme', module).addParameters({options: {showPanel: false,},})
-  //   .add('Fonts', () => {
-  //     return \`${fontSize.join('')}\`;
-  //   });
-  //   `);
-
 }
 
 run().catch(console.error);
