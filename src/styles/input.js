@@ -25,15 +25,18 @@ export const input = css`
     background-color: transparent;
     --input-small--p: 4px 4px;
     --input-small--fz: 12px;
-    --input-small--h: 15px;
+    --input-small--lh: 15px;
+    --input-small--h: calc(15px + 4px + 4px + 2px);
 
     --input-medium--p: 10px 5px;
     --input-medium--fz: 14px;
-    --input-medium--h: 17px;
-
+    --input-medium--lh: 17px;
+    --input-medium--h: calc(17px + 10px + 10px + 2px);
+      
     --input-large--p: 12px 8px;
     --input-large--fz: 16px;
-    --input-large--h: 18px;
+    --input-large--lh: 18px;
+    --input-large--h: calc(18px + 12px + 12px + 2px);
   }
 
   div {
@@ -51,25 +54,33 @@ export const input = css`
     outline: none;
     width: 100%;
     height: 100%;
+    -webkit-appearance: none;
   }
 
+  input::-webkit-search-decoration {
+      -webkit-appearance: none;
+  }
+  
   /* SIZE */
   input.large {
     padding: var(--input-large--p);
     font-size: var(--input-large--fz);
-    line-height: var(--input-large--h);
+    line-height: var(--input-large--lh);
+    height: var(--input-large--h);
   }
 
   input.medium {
     padding: var(--input-medium--p);
     font-size: var(--input-medium--fz);
-    line-height: var(--input-medium--h);
+    line-height: var(--input-medium--lh);
+    height: var(--input-medium--h);
   }
 
   input.small {
     padding: var(--input-small--p);
     font-size: var(--input-small--fz);
-    line-height: var(--input-small--h);
+    line-height: var(--input-small--lh);
+    height: var(--input-small--h);
   }
 
   input.large.icon {

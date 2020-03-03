@@ -172,8 +172,16 @@ function assignPropsToElement (element, props = {}) {
     if (name === 'children') {
       value().forEach((child) => element.appendChild(child));
     }
-    else {
+    if (name === 'innerHTML') {
+      element.innerHTML = value;
+    }
+    else if (typeof value === 'function') {
       element[name] = value;
+    }
+    else if (typeof value === 'object') {
+      element[name] = value;
+    }
+    else {
       element.setAttribute(name, value);
     }
 
