@@ -56,6 +56,14 @@
     "previous": "Précédent"
   },
   "gv-plans": {
+    "characteristics": {
+      "empty": "Aucune information sur ce plan"
+    },
+    "empty": {
+      "redirect": "Je souhaite contacter le propriétaire pour en savoir plus",
+      "title": "L'API n'a pas de plan disponible pour le moment."
+    },
+    "error": "Une erreur inattendue est survenue",
     "security": {
       "apiKey": "Clé d'API personnelle",
       "jwt":  "Json Web Token",
