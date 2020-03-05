@@ -27,14 +27,14 @@ export default {
 
 const plans = [
   {
+    name: 'Free',
+    description: 'Une offre sans caractéristique',
+  },
+  {
     name: 'Standard (9,90€/mois)',
-    description: 'Idéal pour les petites organisations. (10 à 30 API)',
-    characteristics: [
-      '100 000 appels / mois',
-      'Accès en lecture seule',
-      'SLA Garanti',
-      'API key nécessaire',
-    ],
+    description: 'Un offre avec des caractéristiques générées',
+    validation: 'auto',
+    security: 'jwt',
   },
   {
     name: 'Premium (21,90€/mois)',
@@ -52,8 +52,23 @@ const conf = {
   component: 'gv-plans',
 };
 
-export const basics = makeStory(conf, {
+export const basicUsage = makeStory(conf, {
   items: [{ plans: plans }],
+});
+
+export const onePlan = makeStory(conf, {
+  items: [{
+    plans: [{
+      name: 'Free',
+      description: 'Free plan',
+      characteristics: [
+        '500 000 appels / mois',
+        'Accès complet',
+        'SLA Garanti',
+        'API key nécessaire',
+      ],
+    }],
+  }],
 });
 
 export const empty = makeStory(conf, {

@@ -17,14 +17,17 @@ import { repeat } from 'lit-html/directives/repeat';
 import { css, LitElement, html } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';
+import { link } from '../styles/link';
 import { i18n } from '../lib/i18n';
 import { styleMap } from 'lit-html/directives/style-map';
 import { getCssVar, hexToRGB } from '../lib/style';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  * Plans
  *
  * @fires input - Native input event when plan change
+ * @fires gv-plans:redirect - Event when user click to redirect link when plans are empty
  *
  * @attr {Array} plans - Plans list
  * @attr {Number} current - The current plan index
@@ -58,106 +61,122 @@ export class GvPlans extends LitElement {
 
   static get styles () {
     return [
+      link,
       // language=css
       css`
-        :host {
-          display: block;
-          box-sizing: border-box;
-          margin: 0.2rem;
-          --bgc: var(--gv-plans--bgc, var(--gv-theme-color, #009B5B));
-          --fc: var(--gv-plans-font--c, var(--gv-theme-font-color-light, #FFFFFF));
-        }
+          :host {
+              display: block;
+              box-sizing: border-box;
+              margin: 0.2rem;
+              --bgc: var(--gv-plans--bgc, var(--gv-theme-color, #009B5B));
+              --fc: var(--gv-plans-font--c, var(--gv-theme-font-color-light, #FFFFFF));
+          }
 
-        .plans {
-          display: flex;
-          list-style-type: none;
-          border-radius: 2px;
-          padding: 0;
-          margin: 0;
-        }
+          .plans {
+              display: flex;
+              list-style-type: none;
+              border-radius: 2px;
+              padding: 0;
+              margin: 0;
+          }
 
-        .plan {
-          flex: 1;
-          padding: 16px;
-          line-height: 24px;
-          cursor: pointer;
-        }
+          .plan {
+              flex: 1;
+              padding: 16px;
+              line-height: 24px;
+              cursor: pointer;
+          }
 
-        .plan.active {
-          background-color: var(--bgc);
-          color: var(--fc);
-          transition: all 0.2s ease-in;
-        }
+          .plan.active {
+              background-color: var(--bgc);
+              color: var(--fc);
+              transition: all 0.2s ease-in;
+          }
 
-        .name {
-          font-size: var(--gv-theme-font-size-l, 16px);
-          font-weight: bold;
-        }
+          .name {
+              font-size: var(--gv-theme-font-size-l, 16px);
+              font-weight: bold;
+          }
 
-        .description {
-          font-size: var(--gv-theme-font-size-s, 12px);
-        }
+          .description {
+              font-size: var(--gv-theme-font-size-s, 12px);
+          }
 
-        .selectors {
-          display: flex;
-        }
+          .selectors {
+              display: flex;
+          }
 
-        .selector {
-          position: relative;
-          flex: 1;
-          display: flex;
-          justify-content: center;
-        }
+          .selector {
+              position: relative;
+              flex: 1;
+              display: flex;
+              justify-content: center;
+          }
 
-        .active .triangle {
-          width: 0;
-          height: 0;
-          border-left: 7px solid transparent;
-          border-right: 7px solid transparent;
-          border-top: 9px solid var(--bgc);
-        }
+          .active .triangle {
+              width: 0;
+              height: 0;
+              border-left: 7px solid transparent;
+              border-right: 7px solid transparent;
+              border-top: 9px solid var(--bgc);
+          }
 
-        .characteristics {
-          margin-top: 34px;
-          border: 1px solid var(--gv-plans-characteristics--bdc, var(--gv-theme-neutral-color, #E5E5E5));
-          border-radius: 4px;
-          display: flex;
-          padding: 34px;
-          text-align: center;
-          justify-content: center;
-        }
+          .characteristics {
+              margin-top: 34px;
+              border: 1px solid var(--gv-plans-characteristics--bdc, var(--gv-theme-neutral-color, #E5E5E5));
+              border-radius: 4px;
+              display: flex;
+              padding: 34px;
+              text-align: center;
+              justify-content: center;
+          }
 
-        .characteristic {
-          font-size: var(--gv-theme-font-size-m, 14px);
-          line-height: 22px;
-          font-weight: bold;
-          flex: 1;
-          margin: 20px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
+          .characteristic {
+              font-size: var(--gv-theme-font-size-m, 14px);
+              line-height: 22px;
+              font-weight: bold;
+              flex: 1;
+              margin: 20px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+          }
 
-        .circle {
-          background-color: var(--gv-plans-characteristic--bgc, var(--gv-theme-color-light, #D5FDCB));
-          border-radius: 50%;
-          width: 32px;
-          height: 32px;
-          margin: 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
+          .circle {
+              background-color: var(--gv-plans-characteristic--bgc, var(--gv-theme-color-light, #D5FDCB));
+              border-radius: 50%;
+              width: 32px;
+              height: 32px;
+              margin: 10px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
 
-        gv-icon {
-          --gv-icon--s: var(--gv-plans-icon--s, 24px);
-        }
+          gv-icon {
+              --gv-icon--s: var(--gv-plans-icon--s, 24px);
+          }
 
-        .skeleton {
-          min-height: 400px;
-          margin: 0 0.2rem;
-          opacity: 0.5;
-        }
+          .skeleton {
+              min-height: 400px;
+              margin: 0 0.2rem;
+              opacity: 0.5;
+          }
+
+          .message {
+              padding: 2rem;
+              text-align: center;
+              border-radius: 2px;
+              background-color: var(--gv-theme-neutral-color-lighter);
+              font-size: var(--gv-theme-font-size-m);
+              line-height: 22px;
+              margin-bottom: 16px;
+          }
+
+          .link {
+              text-decoration: underline;
+          }
+
       `,
       skeleton,
     ];
@@ -173,35 +192,43 @@ export class GvPlans extends LitElement {
   get _characteristics () {
     if (this._plans.length >= this.current) {
       const plan = this._plans[this.current - 1];
-      if (plan.characteristics.length > 0) {
+      if (plan.characteristics && plan.characteristics.length > 0) {
         return plan.characteristics;
       }
 
       let characteristics = [];
 
-      switch (plan.validation.toUpperCase()) {
-        case 'AUTO':
-          characteristics.push(i18n('gv-plans.validation.auto'));
-          break;
-        case 'MANUAL':
-          characteristics.push(i18n('gv-plans.validation.manual'));
-          break;
+      if (plan.validation) {
+        switch (plan.validation.toUpperCase()) {
+          case 'AUTO':
+            characteristics.push(i18n('gv-plans.validation.auto'));
+            break;
+          case 'MANUAL':
+            characteristics.push(i18n('gv-plans.validation.manual'));
+            break;
+        }
       }
 
-      switch (plan.security.toUpperCase()) {
-        case 'API_KEY':
-          characteristics.push(i18n('gv-plans.security.apiKey'));
-          break;
-        case 'JWT':
-          characteristics.push(i18n('gv-plans.security.jwt'));
-          break;
-        case 'OAUTH2':
-          characteristics.push(i18n('gv-plans.security.oauth2'));
-          break;
-        case 'KEY_LESS':
-          characteristics = [];
-          characteristics.push(i18n('gv-plans.security.keyLess'));
-          break;
+      if (plan.security) {
+        switch (plan.security.toUpperCase()) {
+          case 'API_KEY':
+            characteristics.push(i18n('gv-plans.security.apiKey'));
+            break;
+          case 'JWT':
+            characteristics.push(i18n('gv-plans.security.jwt'));
+            break;
+          case 'OAUTH2':
+            characteristics.push(i18n('gv-plans.security.oauth2'));
+            break;
+          case 'KEY_LESS':
+            characteristics = [];
+            characteristics.push(i18n('gv-plans.security.keyLess'));
+            break;
+        }
+      }
+
+      if (characteristics.length === 0) {
+        characteristics.push(i18n('gv-plans.characteristics.empty'));
       }
 
       return characteristics;
@@ -214,13 +241,15 @@ export class GvPlans extends LitElement {
     Promise.resolve(plans)
       .then((plans) => {
         if (plans) {
-          this._empty = Object.keys(plans).length === 0;
+          this._empty = plans.length === 0;
           this._plans = plans;
-          this.value = this._plans[this.current].id;
+          if (!this._empty) {
+            this.value = this._plans[this.current - 1].id;
+          }
           this.skeleton = false;
         }
       })
-      .catch(() => {
+      .catch((e) => {
         this._error = true;
         this._plans = [];
         this.skeleton = false;
@@ -241,6 +270,10 @@ export class GvPlans extends LitElement {
     return title;
   }
 
+  _onRedirect () {
+    dispatchCustomEvent(this, 'redirect');
+  }
+
   render () {
     const bgc = getCssVar(this, '--gv-plans--bgc', '#009B5B');
     const { r, g, b } = hexToRGB(bgc);
@@ -248,6 +281,22 @@ export class GvPlans extends LitElement {
       backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,
       color: `rgba(${r}, ${g}, ${b}, 0.5)`,
     };
+
+    if (!this.skeleton) {
+      if (this._error) {
+        return html`<div class="message error">
+          <p> ${i18n('gv-plans.error')}</p>
+        </div>`;
+      }
+      else if (this._empty) {
+        return html`
+      <div class="message">
+         <p> ${i18n('gv-plans.empty.title')}</p>
+         <a  class="link" @click="${this._onRedirect}">${i18n('gv-plans.empty.redirect')}</a>
+      </div>`;
+      }
+    }
+
     const classes = { skeleton: this.skeleton };
     return html`<div class="${classMap(classes)}">
         <ul class="plans" style="${styleMap(style)}">

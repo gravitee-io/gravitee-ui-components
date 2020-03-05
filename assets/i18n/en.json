@@ -56,6 +56,14 @@
     "previous": "Previous"
   },
   "gv-plans": {
+    "characteristics": {
+      "empty": "No information about this plan"
+    },
+    "empty": {
+      "redirect": "I wish to contact the owner to find out more",
+      "title": "API has no plan available at this time"
+    },
+    "error": "An unexpected error was occurred",
     "security": {
       "apiKey": "API Key",
       "jwt": "Json Web Token",
