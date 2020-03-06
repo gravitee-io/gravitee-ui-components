@@ -45,16 +45,38 @@ export default {
 
 const conf = {
   component: 'gv-rating-list',
+  css: `
+    gv-rating-list {
+        display: inline-block;
+       max-width: 80%;
+    }
+  `,
 };
 
-export const Reader = makeStory(conf, {
+export const JustRead = makeStory(conf, {
   items: [{ ratings, user: author }],
 });
 
-export const Edit = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { RATING: ['U', 'D'] } }],
+export const Empty = makeStory(conf, {
+  items: [{ ratings: [], user: author }],
 });
 
-export const Answer = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { RATING_ANSWER: ['C', 'D'] } }],
+export const CanUpdate = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { update: true } }],
+});
+
+export const CanDelete = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { delete: true } }],
+});
+
+export const CanAddAnswer = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { addAnswer: true } }],
+});
+
+export const CanDeleteAnswer = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { deleteAnswer: true } }],
+});
+
+export const CanAll = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { update: true, delete: true, addAnswer: true, deleteAnswer: true } }],
 });
