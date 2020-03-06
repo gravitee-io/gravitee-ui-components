@@ -29,20 +29,21 @@ import { dispatchCustomEvent } from '../lib/events';
 /**
  * Rating list component
  *
- * @fires gv-rating-list:answer - When user submit answer
+ * @fires gv-rating-list:add-answer - When user submit answer
  * @fires gv-rating-list:delete - When user delete rating
  * @fires gv-rating-list:delete-answer - When user delete answer
  * @fires gv-rating-list:update - When user update rating
  *
  * @attr {Promise<Array>} ratings - ratings
  * @attr {id, avatar, display_name} user - a current user
- * @attr {Object<{RATING:['C','R','U','D'],RATING_ANSWER: ['C','R','U','D']}>} permissions - The permissions
+ * @attr {Object<{update, delete, addAnswer, deleteAnswer}>} permissions - The permissions
  *
  * @cssprop {Color} [--gv-rating-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-rating-list-answer--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Answer background color
  * @cssprop {Color} [--gv-rating-list--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
  * @cssprop {Length} [--gv-rating-list--s=18px] - Height and star width
  */
+
 export class GvRatingList extends LitElement {
 
   static get properties () {
@@ -50,6 +51,7 @@ export class GvRatingList extends LitElement {
       ratings: { type: Array },
       user: { type: Object },
       permissions: { type: Object },
+      _permissions: { type: Object, attribute: false },
       _ratings: { type: Array, attribute: false },
     };
   }
@@ -61,95 +63,96 @@ export class GvRatingList extends LitElement {
       // language=CSS
       css`
 
-        :host {
-          --s: var(--gv-rating-list--s, 18px);
-          --gv-icon--s: var(--s);
-          --gv-rating--s: var(--s);
-          margin: 0.2rem;
-          box-sizing: border-box;
-        }
+          :host {
+              --s: var(--gv-rating-list--s, 18px);
+              --gv-icon--s: var(--s);
+              --gv-rating--s: var(--s);
+              margin: 0.2rem;
+              box-sizing: border-box;
+          }
 
-        .rating-list {
-          background-color: var(--gv-rating-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-        }
+          .rating-list {
+              background-color: var(--gv-rating-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          }
 
-        .rating.parent {
-          border-bottom: 1px solid var(--gv-rating-list--bdc, var(--gv-theme-neutral-color, #E5E5E5));
-        }
+          .rating.parent {
+              border-bottom: 1px solid var(--gv-rating-list--bdc, var(--gv-theme-neutral-color, #E5E5E5));
+          }
 
-        .rating {
-          display: flex;
-          padding: 1rem 0;
-        }
+          .rating {
+              display: flex;
+              padding: 1rem 0;
+          }
 
-        .answer .rating {
-          padding: 1rem 0 0 0;
-        }
+          .answer .rating {
+              padding: 1rem 0 0 0;
+          }
 
-        .sub-title {
-          color: grey;
-          display: flex;
-          line-height: 20px;
-        }
+          .sub-title {
+              color: grey;
+              display: flex;
+              line-height: 20px;
+          }
 
-        .sub-title gv-confirm {
-        }
+          gv-confirm {
+              align-self: center;
+          }
 
-        .sub-title a.link {
-          text-decoration: underline;
-        }
+          .sub-title a.link {
+              text-decoration: underline;
+          }
 
-        gv-user-avatar {
-          margin: 0 1rem;
-        }
+          gv-user-avatar {
+              margin: 0 1rem;
+          }
 
-        .title {
-          display: flex;
-          line-height: 20px;
-        }
+          .title {
+              display: flex;
+              line-height: 20px;
+          }
 
-        .title b, .rating-content {
-          flex: 1;
-        }
+          .title b, .rating-content {
+              flex: 1;
+          }
 
-        .link-answer {
-          display: inline-block;
-          padding: 1rem 0;
-        }
+          .link-answer {
+              display: inline-block;
+              padding: 1rem 0;
+          }
 
-        .link-answer gv-icon {
-          margin-right: 0.2rem;
-          --gv-icon--s: var(--s);
-        }
+          .link-answer gv-icon {
+              margin-right: 0.2rem;
+              --gv-icon--s: var(--s);
+          }
 
-        .delete-rating, .delete-answer, .fake-icon {
-          --gv-icon--s: var(--s);
-          min-width: var(--s);
-        }
+          .delete-rating, .delete-answer, .fake-icon {
+              --gv-icon--s: var(--s);
+              min-width: var(--s);
+          }
 
-        .delete-rating {
-          padding-right: 1rem;
-        }
+          .delete-rating {
+              padding-right: 1rem;
+          }
 
-        .answer {
-          padding: 1rem;
-          margin-top: 1rem;
-          background-color: var(--gv-rating-list-answer--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-        }
+          .answer {
+              padding: 1rem;
+              margin-top: 1rem;
+              background-color: var(--gv-rating-list-answer--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          }
 
-        .answer-form {
-          display: flex;
-          flex-direction: column;
-        }
+          .answer-form {
+              display: flex;
+              flex-direction: column;
+          }
 
-        .display-name:after {
-          content: '|';
-          margin: 2px;
-        }
+          .display-name:after {
+              content: '|';
+              margin: 2px;
+          }
 
-        .actions {
-          text-align: right;
-        }
+          .actions {
+              text-align: right;
+          }
 
       `,
     ];
@@ -158,7 +161,12 @@ export class GvRatingList extends LitElement {
   constructor () {
     super();
     this._ratings = [];
-    this.permissions = {};
+    this._permissions = {
+      update: false,
+      delete: false,
+      addAnswer: false,
+      deleteAnswer: false,
+    };
   }
 
   set ratings (value) {
@@ -174,6 +182,12 @@ export class GvRatingList extends LitElement {
       }).catch(() => {
         this._skeleton = false;
       });
+  }
+
+  set permissions (permissions) {
+    if (permissions && typeof permissions === 'object') {
+      this._permissions = Object.assign({}, this._permissions, permissions);
+    }
   }
 
   render () {
@@ -193,7 +207,7 @@ export class GvRatingList extends LitElement {
 
   _onAnswer (rating) {
     const answer = this.shadowRoot.querySelector('gv-text').value;
-    dispatchCustomEvent(this, 'answer', { rating, answer });
+    dispatchCustomEvent(this, 'add-answer', { rating, answer });
   }
 
   _onClose (rating) {
@@ -208,7 +222,7 @@ export class GvRatingList extends LitElement {
   _renderAnswers (rating) {
     return html`
        ${rating.answers ? html`
-       ${this._canCreateAnswer() ? html`<a class="link link-answer" @click="${this._editAnswer.bind(this, rating)}">
+       ${this._canAddAnswer() ? html`<a class="link link-answer" @click="${this._editAnswer.bind(this, rating)}">
         <gv-icon class="link" shape="communication:chat#5"></gv-icon> ${i18n('gv-rating-list.reply')}</a>` : ''}
         ${rating._edit ? html`
         <div class="answer answer-form">
@@ -233,9 +247,8 @@ export class GvRatingList extends LitElement {
   }
 
   _renderActions (data, parent) {
-    if (this.user && this.user.id === data.author.id) {
-      if (parent) {
-        return html`
+    if (parent) {
+      return html`
         ${this._canDeleteAnswer() ? html`<gv-confirm
                                             icon="home:trash"
                                             @gv-confirm:ok="${this._onDeleteAnswer.bind(this, parent, data)}"
@@ -245,9 +258,9 @@ export class GvRatingList extends LitElement {
                                                     class="link delete-answer" shape="home:trash"></gv-icon>
                                          </gv-confirm>` : ''}
       `;
-      }
-      else {
-        return html`
+    }
+    else {
+      return html`
         ${this._canDelete() ? html`<gv-confirm
                                        icon="home:trash"
                                        @gv-confirm:ok="${this._onDelete.bind(this, data)}"
@@ -258,9 +271,7 @@ export class GvRatingList extends LitElement {
                                           shape="home:trash"></gv-icon>
                                     </gv-confirm>` : html`<div class="fake-icon"></div>`}
       `;
-      }
     }
-    return html`<div class="fake-icon"></div>`;
   }
 
   _render (data, parent) {
@@ -271,7 +282,7 @@ export class GvRatingList extends LitElement {
       <div class="${classMap(classes)}">
         <gv-user-avatar .user="${data.author}"></gv-user-avatar>
         <div class="rating-content">
-            <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canEdit(data)}"
+            <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canUpdate()}"
 @input="${this._onUpdateRating.bind(this, data)}" value="${data.value}"></gv-rating>`}${this._renderActions(data, parent)}</div>
             <div class="sub-title">${this._getDisplayName(data)}<gv-relative-time datetime="${data.date}"></gv-relative-time></div>
             <p class="comment">${data.comment}</p>
@@ -286,20 +297,20 @@ export class GvRatingList extends LitElement {
     dispatchCustomEvent(this, 'update', { rating });
   }
 
-  _canCreateAnswer () {
-    return this.permissions.RATING_ANSWER && this.permissions.RATING_ANSWER.includes('C');
+  _canAddAnswer () {
+    return this._permissions.addAnswer;
   }
 
   _canDeleteAnswer () {
-    return this.permissions.RATING_ANSWER && this.permissions.RATING_ANSWER.includes('D');
+    return this._permissions.deleteAnswer;
   }
 
-  _canEdit (data) {
-    return this.permissions.RATING && this.permissions.RATING.includes('U') && this.user && this.user.id === data.author.id;
+  _canUpdate () {
+    return this._permissions.update;
   }
 
   _canDelete () {
-    return this.permissions.RATING && this.permissions.RATING.includes('D');
+    return this._permissions.delete;
   }
 
   _getDisplayName (data) {
