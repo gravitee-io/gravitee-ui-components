@@ -103,9 +103,6 @@ export class GvMenu extends withResizeObserver(LitElement) {
               align-self: flex-end;
               flex: 1;
               width: 100%;
-          }
-
-          :host([w-lt-380]) slot[name="right"]  {
               padding-right: 0;
           }
 
@@ -131,10 +128,11 @@ export class GvMenu extends withResizeObserver(LitElement) {
               --gv-link-a--pv: 0;
           }
 
-          slot[name="right"] {
+          .right {
               display: flex;
               padding-right: var(--pr);
               justify-content: flex-end;
+              flex: 3;
           }
 
           gv-nav {
@@ -142,20 +140,24 @@ export class GvMenu extends withResizeObserver(LitElement) {
               flex: 4;
           }
 
-          .right {
-              flex: 3;
-          }
-
           .right ::slotted(*) {
               align-self: flex-end;
+          }
+
+          .right ::slotted([slot="input"]) {
               transition: width 0.5s ease;
               width: 70%;
           }
 
-          .right:focus-within ::slotted(*) {
+          .right:focus-within ::slotted([slot="input"]) {
               animation: slide 0.5s;
               transition: width 0.5s ease-in-out;
               width: 100%;
+          }
+
+          .right ::slotted([slot="button"]) {
+              --gv-button--p: 7px 16px;
+              --gv-button--fz: 15px;
           }
 
       `,
@@ -207,7 +209,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
         <slot name="header"></slot>
         <div class="nav-container">
             <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
-            <div class="right"><slot name="right"></slot></div>
+            <div class="right"><slot name="input"></slot><slot name="button"></slot></div>
         </div>
       </div>
     `;

@@ -25,7 +25,7 @@ export const link = css`
     }
 
     .link:hover {
-        opacity: .5;
+        opacity: .7;
         transition: opacity .15s ease-in;
     }
 `;

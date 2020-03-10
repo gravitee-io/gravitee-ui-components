@@ -47,7 +47,7 @@ import { i18n } from '../lib/i18n';
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  * @attr {String} [autocomplete='off'] - standard autocomplete attribute
  *
- * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
+ * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
  */
 export class GvInput extends LitElement {
 
@@ -81,45 +81,44 @@ export class GvInput extends LitElement {
       skeleton,
       input,
       // language=CSS
-      css`
-
-        gv-icon {
-          background-color: var(--gv-input--bdc, var(--gv-theme-neutral-color, #E5E5E5));
-        }
-
-        gv-icon.medium {
-          --gv-icon--s: 25px;
-        }
-
-        gv-icon.small {
-          --gv-icon--s: 19px;
-        }
-
-        gv-icon.clickable {
-          cursor: pointer;
-        }
-
-        gv-icon.clickable:hover {
-          box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-        }
-
-        gv-icon.copied {
-          --gv-icon--c: var(--gv-theme-color, #009B5B);
-        }
-
-        .loading {
-          animation: spinner 1.6s linear infinite;
-        }
-
-        gv-icon.loading {
-            background-color: transparent;
-        }
-
-        @keyframes spinner {
-          to {
-            transform: rotate(360deg);
+      css`        
+          gv-icon {
+              background-color: var(--gv-input--bdc, var(--gv-theme-neutral-color, #F5F5F5));
           }
-        }
+
+          gv-icon.medium {
+              --gv-icon--s: 25px;
+          }
+
+          gv-icon.small {
+              --gv-icon--s: 19px;
+          }
+
+          gv-icon.clickable {
+              cursor: pointer;
+          }
+
+          gv-icon.clickable:hover {
+              box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+          }
+
+          gv-icon.copied {
+              --gv-icon--c: var(--gv-theme-color, #009B5B);
+          }
+
+          .loading {
+              animation: spinner 1.6s linear infinite;
+          }
+
+          gv-icon.loading {
+              background-color: transparent;
+          }
+
+          @keyframes spinner {
+              to {
+                  transform: rotate(360deg);
+              }
+          }
       `,
     ];
   }
@@ -143,6 +142,11 @@ export class GvInput extends LitElement {
     this._showPassword = false;
     this.value = '';
     this.autocomplete = 'off';
+  }
+
+  reset () {
+    this.value = '';
+    this.shadowRoot.querySelector('input').blur();
   }
 
   firstUpdated (changedProperties) {
@@ -179,7 +183,7 @@ export class GvInput extends LitElement {
       this._type = value;
     }
 
-    if (this._type === 'search' && this.icon == null) {
+    if (this._type === 'search' && this.icon == null && this.iconLeft == null) {
       this.icon = GvInput.shapeSearch;
     }
 

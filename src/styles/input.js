@@ -88,7 +88,7 @@ export const input = css`
   }
 
   input.medium.icon {
-    padding-right: 49px;
+    padding-right: 40px;
   }
 
   input.small.icon {
@@ -100,7 +100,7 @@ export const input = css`
   }
 
   input.medium.icon-left {
-    padding-left: 49px;
+    padding-left: 40px;
   }
 
   input.small.icon-left {

@@ -33,7 +33,7 @@ import { applyTheme } from '../lib/theme';
  * @cssprop {Color} [--gv-theme-neutral-color-darkest=#000000] - Neutral darkest color
  * @cssprop {Color} [--gv-theme-neutral-color-darker=#BFBFBF] - Neutral darker color
  * @cssprop {Color} [--gv-theme-neutral-color-dark=#D9D9D9] - Neutral dark color
- * @cssprop {Color} [--gv-theme-neutral-color=#E5E5E5] - Neutral color
+ * @cssprop {Color} [--gv-theme-neutral-color=#F5F5F5] - Neutral color
  * @cssprop {Color} [--gv-theme-neutral-color-light=#EFEFEF] - Neutral light color
  * @cssprop {Color} [--gv-theme-neutral-color-lighter=#FAFAFA] - Neutral light color
  * @cssprop {Color} [--gv-theme-neutral-color-lightest=#FFFFFF] - Neutral lightest color
@@ -78,7 +78,7 @@ export class GvTheme extends LitElement {
           --gv-theme-neutral-color-darkest: var(--gv-theme-neutral-color-darkest, #000000);
           --gv-theme-neutral-color-darker: var(--gv-theme-neutral-color-darker, #BFBFBF);
           --gv-theme-neutral-color-dark: var(--gv-theme-neutral-color-dark, #D9D9D9);
-          --gv-theme-neutral-color: var(--gv-theme-neutral-color, #E5E5E5);
+          --gv-theme-neutral-color: var(--gv-theme-neutral-color, #F5F5F5);
           --gv-theme-neutral-color-light: var(--gv-theme-neutral-color-light, #EFEFEF);
           --gv-theme-neutral-color-lighter: var(--gv-theme-neutral-color-lighter, #FAFAFA);
           --gv-theme-neutral-color-lightest: var(--gv-theme-neutral-color-lightest, #FFFFFF);

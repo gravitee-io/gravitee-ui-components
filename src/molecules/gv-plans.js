@@ -37,7 +37,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Color} [--gv-plans--bgc=var(--gv-theme-color, #009B5B)] - Background color
  * @cssprop {Color} [--gv-plans-font--c=var(--gv-theme-font-color-light, #FFFFFF)] - Font color
  * @cssprop {Color} [--gv-plans-characteristic--bgc=var(--gv-theme-color-light, #D5FDCB)] - Characteristic background color
- * @cssprop {Color} [--gv-plans-characteristics--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Characteristics border color
+ * @cssprop {Color} [--gv-plans-characteristics--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Characteristics border color
  * @cssprop {Length} [--gv-plans-icon--s=24px] - Height and icon width
  */
 export class GvPlans extends LitElement {
@@ -123,7 +123,7 @@ export class GvPlans extends LitElement {
 
           .characteristics {
               margin-top: 34px;
-              border: 1px solid var(--gv-plans-characteristics--bdc, var(--gv-theme-neutral-color, #E5E5E5));
+              border: 1px solid var(--gv-plans-characteristics--bdc, var(--gv-theme-neutral-color, #F5F5F5));
               border-radius: 4px;
               display: flex;
               padding: 34px;

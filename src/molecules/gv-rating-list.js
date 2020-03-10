@@ -40,7 +40,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @cssprop {Color} [--gv-rating-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-rating-list-answer--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Answer background color
- * @cssprop {Color} [--gv-rating-list--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
+ * @cssprop {Color} [--gv-rating-list--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
  * @cssprop {Length} [--gv-rating-list--s=18px] - Height and star width
  */
 
@@ -76,7 +76,7 @@ export class GvRatingList extends LitElement {
           }
 
           .rating.parent {
-              border-bottom: 1px solid var(--gv-rating-list--bdc, var(--gv-theme-neutral-color, #E5E5E5));
+              border-bottom: 1px solid var(--gv-rating-list--bdc, var(--gv-theme-neutral-color, #F5F5F5));
           }
 
           .rating {

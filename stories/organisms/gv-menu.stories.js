@@ -50,26 +50,51 @@ export const Basics = makeStory(conf, { items });
 
 export const Empty = makeStory(conf, { items: [{}] });
 
-export const WithSearch = makeStory(conf, {
+export const ButtonSlot = makeStory(conf, {
   items: [{
     routes: routes,
-    small: true,
-    innerHTML: '<gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
+    innerHTML: '<gv-button slot="button" primary icon="code:plus">Create an app</gv-button>',
   }],
 });
 
-export const SmallWithSearch = makeStory(conf, {
+export const HeaderSlot = makeStory(conf, {
   items: [{
     routes: routes,
-    small: true,
-    innerHTML: '<gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
+    innerHTML: '<gv-header slot="header" can-subscribe></gv-header>',
+  }],
+  simulations: [
+    storyWait(0, ([component]) => {
+      component.firstElementChild.item = {
+        name: 'Long Supernova',
+        picture: horizontalImage,
+        version: 'v.1.1',
+        states: [
+          { value: 'beta', minor: true },
+          { value: 'running', major: true },
+        ],
+      };
+
+      component.firstElementChild.breadcrumbs = [
+        { path: '#', title: 'Catalog' },
+        { path: '#', title: 'Categories' },
+        { path: '#', title: 'My API' },
+      ];
+    }),
+  ],
+});
+
+export const InputSlot = makeStory(conf, {
+  items: [{
+    routes: routes,
+    innerHTML: '<gv-input slot="input" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
   }],
 });
 
-export const WithHeader = makeStory(conf, {
+export const HeaderAndInputSlots = makeStory(conf, {
   items: [{
     routes: routes,
-    innerHTML: '<gv-header slot="header" can-subscribe></gv-header><gv-input slot="right" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
+    innerHTML: '<gv-header slot="header" can-subscribe></gv-header>'
+      + '<gv-input slot="input" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
   }],
   simulations: [
     storyWait(0, ([component]) => {

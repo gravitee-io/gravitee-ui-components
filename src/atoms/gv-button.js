@@ -78,7 +78,7 @@ export class GvButton extends LitElement {
           display: inline-block;
           margin: 0.2rem;
           vertical-align: middle;
-          --gv-icon--s: 24px;
+          --gv-icon--s: 23px;
           --github--c: #444;
           --google--c: #4285F4;
           --oidc--c: #000000;
