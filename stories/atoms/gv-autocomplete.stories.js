@@ -36,7 +36,7 @@ const conf = {
   component: 'gv-autocomplete',
   css: `
     :host {
-      height: 200px;
+      height: 175px;
     }
     gv-autocomplete {
       width: 350px;
@@ -45,7 +45,7 @@ const conf = {
 };
 
 export const BasicUsage = makeStory(conf, {
-  items: [{ innerHTML: '<gv-input label="Play with dynamic data" placeholder="Play with dynamic data"></gv-input>' }],
+  items: [{ innerHTML: '<gv-input placeholder="Type something..."></gv-input>' }],
   simulations: [
     storyWait(0, ([component]) => {
       component.addEventListener('gv-autocomplete:search', ({ detail }) => {
@@ -55,7 +55,7 @@ export const BasicUsage = makeStory(conf, {
   ],
 });
 
-export const Search = makeStory(conf, {
+export const CustomInput = makeStory(conf, {
   items: [{ innerHTML: '<gv-input type="search" placeholder="Type text to start the search..."></gv-input>' }],
   simulations: [
     storyWait(0, ([component]) => {
@@ -70,7 +70,7 @@ export const Search = makeStory(conf, {
 });
 
 const options = [{ value: 'Good Morning' }, { value: 'Hello' }, { value: 'Good Bye' }];
-export const Autofocus = makeStory(conf, {
+export const DisplayChoices = makeStory(conf, {
   items: [{
     innerHTML: '<gv-input label="Play with dynamic data" placeholder="Play with dynamic data" autofocus></gv-input>',
     options,
@@ -90,7 +90,7 @@ export const Autofocus = makeStory(conf, {
     }),
   ],
   docs: `
-    If you want the choices to be displayed on the first load, you must initialize the data and set the option \`minChars = 0\`
+    If you want displayed choices on the first load, you must initialize the data and set the option \`minChars = 0\`
   `,
 });
 
@@ -106,8 +106,8 @@ const renderApi = ({ title }) => {
   `;
 };
 
-// language=CSS
 const style = `
+    <style>
     .api {
         display: inline-flex;
         font-size: 11px;
@@ -126,32 +126,32 @@ const style = `
         height: 25px;
         width: 25px;
     }
+  </style>
 `;
 
-export const Filter = makeStory(conf, {
+export const DefaultFilter = makeStory(conf, {
   items: [{
     innerHTML: '<gv-input placeholder="try to type `g`" autofocus></gv-input>',
     options: [{ value: 'Good Morning' }, { value: 'Hello' }, { value: 'Good Bye' }],
     filter: true,
   }],
   docs: `
-    If you want the choices to be displayed on the first load, you must initialize the data and set the option \`minChars = 0\`
+    If you want to use default case sensitive filter, set option \`filter=true\`
   `,
 });
 
-const nonCaseSensitive = (value, option) => {
-  return option.value.toUpperCase().indexOf(value.toUpperCase()) !== -1;
-};
-
-export const NonCaseSensitiveFilter = makeStory(conf, {
+export const CustomFilter = makeStory(conf, {
   items: [{
     innerHTML: '<gv-input placeholder="try to type `g`" autofocus></gv-input>',
     options: [{ value: 'Good Morning' }, { value: 'Hello' }, { value: 'Good Bye' }],
-    filter: nonCaseSensitive,
+    filter: (value, option) => option.value.toUpperCase().indexOf(value.toUpperCase()) !== -1,
   }],
+  docs: `
+      If you want to use custom filter, set function to \`filter\` option
+    `,
 });
 
-export const CustomOptions = makeStory(conf, {
+export const CustomHTML = makeStory(conf, {
   items: [{ innerHTML: `<gv-input></gv-input>`, style }],
   simulations: [
     storyWait(0, ([component, a]) => {
@@ -164,4 +164,38 @@ export const CustomOptions = makeStory(conf, {
       });
     }),
   ],
+  docs: `
+      If you want to customize option rendering, you must use option object with value and innerHTML property's
+    `,
+});
+
+const renderApiElement = ({ title }) => {
+  const api = document.createElement('div');
+  api.className = 'api';
+  api.innerHTML = `
+        <gv-image src="${picture}"></gv-image>
+        <div class="title">
+            <strong>${title}</strong>
+            <div>A simple description</div>
+        </div>
+  `;
+  return api;
+};
+
+export const CustomElement = makeStory(conf, {
+  items: [{ innerHTML: `<gv-input></gv-input>`, style }],
+  simulations: [
+    storyWait(0, ([component, a]) => {
+      component.addEventListener('gv-autocomplete:search', ({ detail }) => {
+        component.options = [
+          { value: mockVal(detail).value, element: renderApiElement({ title: mockVal(detail).value }) },
+          { value: mockVal(detail, 2).value, element: renderApiElement({ title: mockVal(detail, 2).value }) },
+          { value: mockVal(detail, 3).value, element: renderApiElement({ title: mockVal(detail, 3).value }) },
+        ];
+      });
+    }),
+  ],
+  docs: `
+      If you want to customize option rendering, you must use option object with value and innerHTML property's
+    `,
 });

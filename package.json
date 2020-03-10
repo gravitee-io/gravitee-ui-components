@@ -53,7 +53,7 @@
     "asciidoctor": "^2.1.1",
     "asciidoc-loader": "^0.2.0",
     "babel-loader": "^8.0.6",
-    "babel-plugin-template-html-minifier": "^3.1.0",
+    "babel-plugin-template-html-minifier": "4.0.0",
     "bundle-phobia-cli": "^0.14.1",
     "del": "^5.1.0",
     "eslint": "^6.5.1",

@@ -23,7 +23,7 @@ const items = [
   { innerHTML: 'Default', icon: 'cooking:dish' },
   { innerHTML: 'Primary', primary: true, icon: 'cooking:dish' },
   { innerHTML: 'Default', iconRight: 'cooking:dish' },
-  { innerHTML: 'Primary', primary: true, iconRight: 'cooking:dish' },
+  { innerHTML: 'Primary', primary: true, iconRight: 'code:plus' },
   { innerHTML: 'Github', provider: 'github' },
   { innerHTML: 'Oidc', provider: 'oidc' },
   { innerHTML: 'Gravitee', provider: 'graviteeio_am' },

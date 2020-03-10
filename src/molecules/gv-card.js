@@ -60,7 +60,7 @@ export class GvCard extends ItemResource(LitElement) {
               border-radius: 2px;
               background-color: var(--gv-card--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
               color: var(--gv-theme-font-color-dark, #262626);
-              box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #E5E5E5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+              box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
               transition: all .3s;
           }
 

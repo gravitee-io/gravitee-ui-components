@@ -65,7 +65,7 @@ export class GvCategory extends LitElement {
           height: var(--gv-category--h, 228px);
           justify-content: flex-end;
           padding: 0 40px;
-          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color-dark, #E5E5E5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color-dark, #BFBFBF), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           transition: all .3s;
         }
 
@@ -76,7 +76,7 @@ export class GvCategory extends LitElement {
 
         .card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 20px 40px -14px var(--gv-theme-neutral-color, #E5E5E5),;
+          box-shadow: 0 20px 40px -14px var(--gv-theme-neutral-color, #F5F5F5);
           cursor: pointer;
         }
 

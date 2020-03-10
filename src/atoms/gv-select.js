@@ -38,7 +38,7 @@ import './gv-icon';
  * @attr {String} placeholder - an example value to display in the select when empty
  *
  * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
- * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color, #E5E5E5)] - Border color
+ * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
  * @cssprop {Color} [--gv-select--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Active background color
  * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hover background color
@@ -71,7 +71,7 @@ export class GvSelect extends LitElement {
       // language=CSS
       css`
         :host {
-          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #E5E5E5));
+          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
           --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
           --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
           --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
@@ -119,7 +119,6 @@ export class GvSelect extends LitElement {
           cursor: pointer;
           z-index: 100;
           box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-          border-radius: 4px;
           max-height: 340px;
           overflow: auto;
         }
@@ -153,7 +152,7 @@ export class GvSelect extends LitElement {
         }
 
         .medium .select__list__item {
-          padding: var(--input-medium--p);
+          padding: 0 5px;
           font-size: var(--input-medium--fz);
           height: var(--input-medium--h);
         }
@@ -167,6 +166,10 @@ export class GvSelect extends LitElement {
         .select__list__item:hover {
           background-color: var(--hover-bgc);
           border-left: 1px dotted var(--bdc);
+        }
+
+        input.medium.icon, input.large.icon, input.small.icon {
+            padding-right: 0px;
         }
       `,
     ];
