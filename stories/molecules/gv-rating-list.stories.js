@@ -16,10 +16,12 @@
 import '../../src/molecules/gv-rating-list';
 import notes from '../../.docs/gv-rating-list.md';
 import { makeStory } from '../lib/make-story';
+import avatar from '../../assets/images/logo.png';
 
 const title = 'Top API !';
 const comment
   = 'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis quo con perto Montius tunc Hinc ille commotus ut iniusta perferens et indigna pra custodiam.';
+const admin = { id: 0, display_name: 'Administrator', _links: { avatar } };
 const author = { id: 1, display_name: 'Jean Christophe' };
 const date = new Date();
 const answers = [
@@ -28,11 +30,11 @@ const answers = [
 ];
 
 const ratings = [
-  { author, value: '4', comment, date, title },
-  { author, value: '2', comment, date, title, answers },
-  { author, value: '3', comment, date, title },
-  { author, value: '5', comment, date, title },
-  { author, value: '5', comment, date, title },
+  { id: 1, author: admin, value: '4', comment, date, title },
+  { id: 2, author, value: '2', comment, date, title, answers },
+  { id: 3, author: admin, value: '3', comment, date, title },
+  { id: 4, author, value: '5', comment, date, title },
+  { id: 5, author, value: '5', comment, date, title },
 ];
 
 export default {
@@ -53,7 +55,7 @@ const conf = {
   `,
 };
 
-export const JustRead = makeStory(conf, {
+export const Readonly = makeStory(conf, {
   items: [{ ratings, user: author }],
 });
 
@@ -61,22 +63,30 @@ export const Empty = makeStory(conf, {
   items: [{ ratings: [], user: author }],
 });
 
-export const CanUpdate = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { update: true } }],
+export const UpdateRating = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { update: [1, 3, 5] } }],
+  docs: `
+    \`permissions.update\` properties supports booleans or arrays of rating identifier
+    In this case, \`update = [1, 3, 5]\`, we cannot update the rating of the second and fourth element.
+  `,
 });
 
-export const CanDelete = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { delete: true } }],
+export const DeleteRating = makeStory(conf, {
+  items: [{ ratings, user: author, permissions: { delete: [2, 3, 4] } }],
+  docs: `
+    \`permissions.update\` properties supports booleans or arrays of rating identifier
+    In this case, \`update = [2, 3, 4]\`, we cannot delete the rating of the first and last element.
+  `,
 });
 
-export const CanAddAnswer = makeStory(conf, {
+export const AddAnswer = makeStory(conf, {
   items: [{ ratings, user: author, permissions: { addAnswer: true } }],
 });
 
-export const CanDeleteAnswer = makeStory(conf, {
+export const DeleteAnswer = makeStory(conf, {
   items: [{ ratings, user: author, permissions: { deleteAnswer: true } }],
 });
 
-export const CanAll = makeStory(conf, {
+export const Everything = makeStory(conf, {
   items: [{ ratings, user: author, permissions: { update: true, delete: true, addAnswer: true, deleteAnswer: true } }],
 });

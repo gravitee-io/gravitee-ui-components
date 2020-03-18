@@ -56,21 +56,23 @@ export class GvSwitch extends LitElement {
         :host {
           --off-bgc: var(--gv-switch-off--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
           --on-bgc: var(--gv-switch-on--bgc, var(--gv-theme-color, #009B5B));
+            box-sizing: border-box;
+            margin: 0.2rem;
         }
 
         .container {
           display: flex;
-          height: 30px;
         }
 
         .labels {
-          display: grid;
-          margin-right: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;  
         }
 
         .switch-title {
           font-weight: 600;
-
         }
 
         .switch-description {
@@ -166,10 +168,11 @@ export class GvSwitch extends LitElement {
 
     return html`
     <div class="container">
-      <div class=${classMap({ labels: this.label && this.description })}>
-        <label class="switch-title">${this.label}</label>
-        <label class="switch-description">${this.description}</label>
-      </div>
+    
+    ${this.label ? html`<div class="labels">
+        ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
+         ${this.description ? html`<label class="switch-description">${this.description}</label>` : ''} 
+      </div>` : ''}
       <div class="switch-container">
         <div class=${classMap(classes)}>
           <input

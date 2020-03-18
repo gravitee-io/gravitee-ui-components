@@ -134,15 +134,4 @@ export const input = css`
     font-variant: none;
     text-decoration: none;
   }
-  input:read-only {
-    cursor: copy;
-  }
-
-  input:-moz-read-only  {
-    cursor: copy;
-  }
-
-  input:read-only:hover {
-    cursor: not-allowed;
-  }
 `;

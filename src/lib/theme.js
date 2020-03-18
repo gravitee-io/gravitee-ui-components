@@ -35,3 +35,17 @@ export function updateImage (name, value, defaultValue) {
     document.documentElement.style.setProperty(name, propertyValue);
   }, 0);
 }
+
+export function getApplicationTypeIcon (type) {
+  switch (type.toLowerCase()) {
+    case 'browser':
+    case 'web':
+      return 'devices:laptop';
+    case 'native':
+      return 'devices:android';
+    case 'backend_to_backend':
+      return 'devices:server';
+    default:
+      return 'layout:layout-top-panel-2';
+  }
+}

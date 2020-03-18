@@ -29,14 +29,60 @@ const conf = {
   component: 'gv-option',
 };
 
-const items = [
-  {
-    options: [
-      { id: 'sun', title: 'Sun glasses', icon: 'clothers:sun-glasses' },
-      { id: 'cap', title: 'Cap', icon: 'clothers:cap', active: true },
-      { id: 'shorts', title: 'Shorts', icon: 'clothers:shorts' }],
-  }];
-
+const options = [
+  { id: 'sun', title: 'Sun glasses', icon: 'clothers:sun-glasses' },
+  { id: 'cap', title: 'Cap', icon: 'clothers:cap', active: true },
+  { id: 'shorts', title: 'Shorts', icon: 'clothers:shorts' },
+];
 export const basics = makeStory(conf, {
-  items,
+  items: [{ options }],
+});
+
+const description
+  = `<p><div>A hands-free application.</div>Using this type, you will be able to define the client_id by your own.</p>`;
+
+export const Description = makeStory(conf, {
+  items: [{ options: options.map((p, i) => (Promise.resolve({ ...p, description: i % 2 === 0 ? description : '' }))) }],
+});
+
+export const Multiple = makeStory(conf, {
+  items: [{
+    options: options.map((p, i) => (Promise.resolve({ ...p, description: description, active: i % 2 === 0 })),),
+    multiple: true,
+  }],
+});
+
+const withoutIconOptions = [
+  { id: 'sun', title: 'Sun glasses' },
+  { id: 'cap', title: 'Cap', active: true },
+  { id: 'shorts', title: 'Shorts' },
+];
+
+export const NoIcon = makeStory(conf, {
+  items: [{ options: withoutIconOptions.map((p) => (Promise.resolve({ ...p, description: description }))) }],
+});
+
+const times = [
+  { id: '1', title: '5', description: 'Minutes' },
+  { id: '2', title: '30', description: 'Minutes' },
+  { id: '3', title: '1', description: 'Hours' },
+  { id: '4', title: '3', description: 'Hours' },
+  { id: '5', title: '6', description: 'Hours' },
+  { id: '6', title: '12', description: 'Hours' },
+  { id: '7', title: '1', description: 'Day' },
+  { id: '8', title: '3', description: 'Days' },
+  { id: '9', title: '7', description: 'Days' },
+  { id: '10', title: '14', description: 'Days' },
+  { id: '11', title: '30', description: 'Days' },
+  { id: '12', title: '60', description: 'Days' },
+];
+
+export const Times = makeStory(conf, {
+  css: `
+    gv-option {
+      --gv-option-button--maw: 75px;
+      width: 100%;
+    }
+  `,
+  items: [{ options: times, reverse: true }],
 });

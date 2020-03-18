@@ -63,6 +63,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
               --pl: var(--gv-theme-layout--pl, 4rem);
               box-sizing: border-box;
               display: block;
+              font-size: var(--gv-theme-font-size-s, 12px);
           }
 
           :host([w-lt-1024]) {

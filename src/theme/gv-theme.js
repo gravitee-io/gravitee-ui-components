@@ -42,8 +42,8 @@ import { applyTheme } from '../lib/theme';
  * @cssprop {Color} [--gv-theme-font-color-light=#FFFFFF] - Light Font color
  * @cssprop {String} [--gv-theme-font-family='IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif] - Family
  * @cssprop {Length} [--gv-theme-font-size-xs=10px] - Extra small
- * @cssprop {Length} [--gv-theme-font-size-s=12px] - Small (Default)
- * @cssprop {Length} [--gv-theme-font-size-m=14px] - Medium
+ * @cssprop {Length} [--gv-theme-font-size-s=12px] - Small
+ * @cssprop {Length} [--gv-theme-font-size-m=14px] - Medium (Default)
  * @cssprop {Length} [--gv-theme-font-size-l=16px] - Large
  * @cssprop {Length} [--gv-theme-font-size-xl=26px] - Extra large
  * @cssprop {Length} [--gv-theme-font-size-xxl=30px] - Extra extra large

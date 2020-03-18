@@ -16,6 +16,7 @@
 import { html } from 'lit-html';
 import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
+import { getApplicationTypeIcon } from '../lib/theme';
 
 /**
  * This is a mixin for ItemResource
@@ -88,22 +89,7 @@ export function ItemResource (ParentClass) {
           return this._item.version;
         }
         else if (this._item.applicationType) {
-          let icon;
-          switch (this._item.applicationType.toLowerCase()) {
-            case 'browser':
-            case 'web':
-              icon = 'devices:laptop';
-              break;
-            case 'native':
-              icon = 'devices:android';
-              break;
-            case 'backend_to_backend':
-              icon = 'devices:server';
-              break;
-            default:
-              icon = 'layout:layout-top-panel-2';
-              break;
-          }
+          const icon = getApplicationTypeIcon(this._item.applicationType);
           return html`<gv-icon shape="${icon}"></gv-icon>`;
         }
       }

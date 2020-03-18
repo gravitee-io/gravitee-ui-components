@@ -86,7 +86,7 @@ const apiOptions = {
 };
 
 export const Apis = makeStory(conf, {
-  items: [{ items: apiItems, options: apiOptions, title: 'APIs' }],
+  items: [{ items: apiItems, options: apiOptions, title: 'APIs', order: 'name' }],
 });
 
 const appItems = [application, application, application];
@@ -103,47 +103,6 @@ const appOptions = {
 
 export const Applications = makeStory(conf, {
   items: [{ items: appItems, options: appOptions, title: 'Applications' }],
-});
-
-const appWithoutHeaderOptions = {
-  selectable: false,
-  data: [
-    { field: 'picture', type: 'image', alt: 'name' },
-    { field: 'name', label: 'Name', tag: 'type' },
-    { field: 'owner.display_name', label: 'Owner' },
-    { field: 'created_at', type: 'date', label: 'Creation' },
-  ],
-};
-
-export const applicationsWithoutHeader = makeStory(conf, {
-  items: [{ items: appItems, options: appWithoutHeaderOptions, noheader: true, title: 'No header' }],
-});
-
-const multipleSelectionOptions = {
-  selectable: 'multi',
-  data: [
-    { field: 'name', label: 'Name' },
-    { field: 'hits', label: 'Hits' },
-  ],
-};
-
-const simpleAppItems = [application, { name: 'Amazing app', hits: 1900 }, { name: 'Simple app', hits: 200 }];
-
-export const multipleSelection = makeStory(conf, {
-  items: [{ items: simpleAppItems, options: multipleSelectionOptions, noheader: true }],
-});
-
-export const empty = makeStory(conf, {
-  items: [{ items: [] }],
-});
-
-export const LoadingAndError = makeStory(conf, {
-  items: [{ items: new Promise(() => ({})), apiItems }],
-  simulations: [
-    storyWait(2000, ([component]) => {
-      component.items = Promise.reject(new Error());
-    }),
-  ],
 });
 
 const data = {
@@ -172,4 +131,45 @@ const testOptions = {
 
 export const Analytics = makeStory(conf, {
   items: [{ items: data, options: testOptions }],
+});
+
+const appWithoutHeaderOptions = {
+  selectable: false,
+  data: [
+    { field: 'picture', type: 'image', alt: 'name' },
+    { field: 'name', label: 'Name', tag: 'type' },
+    { field: 'owner.display_name', label: 'Owner' },
+    { field: 'created_at', type: 'date', label: 'Creation' },
+  ],
+};
+
+export const NoHeader = makeStory(conf, {
+  items: [{ items: appItems, options: appWithoutHeaderOptions, noheader: true, title: 'No header' }],
+});
+
+const multipleSelectionOptions = {
+  selectable: 'multi',
+  data: [
+    { field: 'name', label: 'Name' },
+    { field: 'hits', label: 'Hits' },
+  ],
+};
+
+const simpleAppItems = [application, { name: 'Amazing app', hits: 1900 }, { name: 'Simple app', hits: 200 }];
+
+export const multipleSelection = makeStory(conf, {
+  items: [{ items: simpleAppItems, options: multipleSelectionOptions, noheader: true }],
+});
+
+export const empty = makeStory(conf, {
+  items: [{ items: [] }],
+});
+
+export const LoadingAndError = makeStory(conf, {
+  items: [{ items: new Promise(() => ({})), apiItems }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.items = Promise.reject(new Error());
+    }),
+  ],
 });

@@ -68,7 +68,8 @@ export class GvUserAvatar extends LitElement {
 
   getUserPicture () {
     if (this.user) {
-      return this.avatar ? this.avatar : (this.user._links ? this.user._links.avatar : null);
+      const avatar = this.avatar ? this.avatar : (this.user._links ? this.user._links.avatar : (this.user.avatar ? this.user.avatar : null));
+      return avatar;
     }
     return null;
   }

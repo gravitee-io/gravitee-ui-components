@@ -16,6 +16,7 @@
 export { GvAutocomplete } from './atoms/gv-autocomplete';
 export { GvButton } from './atoms/gv-button';
 export { GvCheckbox } from './atoms/gv-checkbox';
+export { GvFileUpload } from './atoms/gv-file-upload';
 export { GvIcon } from './atoms/gv-icon';
 export { GvImage } from './atoms/gv-image';
 export { GvInput } from './atoms/gv-input';

@@ -13,44 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-switch';
-import notes from '../../.docs/gv-switch.md';
+import '../../src/atoms/gv-file-upload';
+import notes from '../../.docs/gv-file-upload.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-switch',
-  component: 'gv-switch',
+  title: 'Atoms|gv-file-upload',
+  component: 'gv-file-upload',
   parameters: {
     notes,
   },
 };
 
 const conf = {
-  component: 'gv-switch',
+  component: 'gv-file-upload',
   css: `
-    :host {
-      display: flex;
-    }
-    gv-switch {
-      flex: 1;
-    }
   `,
 };
 
-const items = [
-  {},
-  { label: 'Subscription Resumed' },
-  { label: 'Subscription Resumed', description: 'Triggered when a Subscription is created.' },
-];
-
-export const basics = makeStory(conf, {
-  items,
+export const BasicUsage = makeStory(conf, {
+  items: [{ label: 'Image de l\'application' }],
 });
 
-export const disabled = makeStory(conf, {
-  items: items.map((p) => ({ ...p, disabled: true })),
+export const MimeTypesConstraint = makeStory(conf, {
+  items: [{ label: 'Image de l\'application', accept: 'image/*', except: '.svg' }],
 });
 
-export const skeleton = makeStory(conf, {
-  items: items.map((p) => ({ ...p, skeleton: true })),
+export const SizeLimit = makeStory(conf, {
+  items: [{ label: 'Image de l\'application', accept: 'image/*', limit: 500000 }],
 });

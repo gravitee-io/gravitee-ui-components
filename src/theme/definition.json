@@ -110,14 +110,14 @@
         },
         {
           "name": "--gv-theme-font-size-s",
-          "description": "Small (Default)",
+          "description": "Small",
           "type": "length",
           "default": "12px",
           "value": "12px"
         },
         {
           "name": "--gv-theme-font-size-m",
-          "description": "Medium",
+          "description": "Medium (Default)",
           "type": "length",
           "default": "14px",
           "value": "14px"
@@ -730,6 +730,20 @@
           "type": "length",
           "default": "5px",
           "value": "5px"
+        },
+        {
+          "name": "--gv-option-button--maw",
+          "description": "Button max width",
+          "type": "length",
+          "default": "200px",
+          "value": "200px"
+        },
+        {
+          "name": "--gv-option--fxw",
+          "description": "Flex wrap",
+          "type": "length",
+          "default": "none",
+          "value": "none"
         }
       ]
     },

@@ -25,6 +25,15 @@
     "cancel": "Non",
     "ok": "Oui"
   },
+  "gv-file-upload": {
+    "chooseAnotherFile": "Choisir un autre fichier",
+    "chooseFile": "Choisir un fichier",
+    "error": {
+      "maxSize": "La taille du fichier dépasse la limite autorisée",
+      "typeNotAllowed": "Ce type de fichier n'est pas autorisé"
+    },
+    "orDragIt": "ou déposez-le ici."
+  },
   "gv-header": {
     "empty": "Aucun élément à afficher ici",
     "error": "Une erreur est survenue pendant le chargement",
@@ -112,7 +121,7 @@
     "error": "Une erreur est survenue pendant le chargement"
   },
   "gv-stepper" : {
-    "error": "Une erreur est survenue pendant le chargement de étapes"
+    "error": "Une erreur est survenue pendant le chargement des étapes"
   },
   "gv-table": {
     "empty": "Aucune donnée à afficher ici",
