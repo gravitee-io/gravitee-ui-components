@@ -54,6 +54,7 @@ export class GvPlans extends LitElement {
       current: { type: Number },
       value: { type: String, reflect: true },
       skeleton: { type: Boolean },
+      size: { type: Number },
       _empty: { type: Boolean },
       _plans: { type: Array },
     };
@@ -70,6 +71,7 @@ export class GvPlans extends LitElement {
               margin: 0.2rem;
               --bgc: var(--gv-plans--bgc, var(--gv-theme-color, #009B5B));
               --fc: var(--gv-plans-font--c, var(--gv-theme-font-color-light, #FFFFFF));
+              --gv-icon--c: var(--bgc);
           }
 
           .plans {
@@ -78,6 +80,7 @@ export class GvPlans extends LitElement {
               border-radius: 2px;
               padding: 0;
               margin: 0;
+              height: 80px;
           }
 
           .plan {
@@ -100,6 +103,11 @@ export class GvPlans extends LitElement {
 
           .description {
               font-size: var(--gv-theme-font-size-s, 12px);
+              --lh: var(--gv-theme-font-size-s, 12px);
+              line-height: var(--lh);
+              --max-lines: 2;
+              max-height: calc(var(--lh) * var(--max-lines));
+              overflow: hidden;
           }
 
           .selectors {
@@ -177,6 +185,10 @@ export class GvPlans extends LitElement {
               text-decoration: underline;
           }
 
+          .pagination {
+              display: flex;
+              height: 0;
+          }
       `,
       skeleton,
     ];
@@ -185,6 +197,7 @@ export class GvPlans extends LitElement {
   constructor () {
     super();
     this.current = 1;
+    this.size = 4;
     this._plans = [];
     this._empty = true;
   }
@@ -244,7 +257,14 @@ export class GvPlans extends LitElement {
           this._empty = plans.length === 0;
           this._plans = plans;
           if (!this._empty) {
-            this.value = this._plans[this.current - 1].id;
+            const activePlan = this._plans.find((p) => p.active);
+            if (activePlan == null) {
+              this._plans[0].active = true;
+              this.value = this._plans[0].id;
+            }
+            else {
+              this.value = activePlan.id;
+            }
           }
           this.skeleton = false;
         }
@@ -256,9 +276,19 @@ export class GvPlans extends LitElement {
       });
   }
 
-  _onClick (index) {
-    this.current = index + 1;
-    this.value = this._plans[index].id;
+  to (plan) {
+    this.value = plan.id;
+    this._plans = this._plans.map((p, index) => {
+      if (JSON.stringify(p) === JSON.stringify(plan)) {
+        p.active = true;
+        this.current = index + 1;
+      }
+      else {
+        p.active = false;
+      }
+      return p;
+    });
+
     this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
   }
 
@@ -272,6 +302,62 @@ export class GvPlans extends LitElement {
 
   _onRedirect () {
     dispatchCustomEvent(this, 'redirect');
+  }
+
+  get hasPagination () {
+    return this.size < this._plans.length;
+  }
+
+  get hasLeft () {
+    return this.hasPagination && (this.current > 1);
+  }
+
+  get hasRight () {
+    return this.hasPagination && (this.current - 1 <= this._plans.length);
+  };
+
+  get plans () {
+    if (this.hasPagination) {
+      const left = this._plans.slice(0, this.current);
+      const right = this._plans.slice(this.current);
+      const plans = [left.pop()];
+
+      new Array(this.size - 1).fill('').forEach((e, i) => {
+        if ((i % 2 === 0 && left.length > 0) || right.length === 0) {
+          const a = left.pop();
+          plans.unshift(a);
+        }
+        else if (right.length > 0) {
+          const b = right.shift();
+          plans.push(b);
+        }
+      });
+      return plans;
+    }
+    return this._plans;
+  }
+
+  _renderHeader (plans) {
+    return plans
+      .map((plan, index) => {
+        return html`<li @click="${this.to.bind(this, plan)}" title="${this._getPlanTitle(plan)}" class="${classMap({
+          plan: true,
+          active: plan.active,
+        })}">
+<div class="name">${plan.name}</div>
+<div class="description">${plan.description}</div>
+</li>`;
+      });
+  }
+
+  _renderTriangles (plans) {
+    return plans
+      .map((plan, index) => {
+        return html`<div class="${classMap({
+          selector: true,
+          active: plan.active,
+        })}"><div class="triangle"></div></div>`;
+      });
   }
 
   render () {
@@ -298,22 +384,18 @@ export class GvPlans extends LitElement {
     }
 
     const classes = { skeleton: this.skeleton };
+    const currentPlans = this.plans;
     return html`<div class="${classMap(classes)}">
         <ul class="plans" style="${styleMap(style)}">
-            ${repeat(this._plans, (plan) => plan, (plan, index) =>
-      html`<li @click="${this._onClick.bind(this, index)}" title="${this._getPlanTitle(plan)}" class="${classMap({
-        plan: true,
-        active: index + 1 === this.current,
-      })}">
-                <div class="name">${plan.name}</div>
-                <div class="description">${plan.description}</div>
-              </li>`
-    )}
+            ${this._renderHeader(currentPlans)}
         </ul>
         <div class="selectors">
-         ${repeat(this._plans, (plan) => plan, (plan, index) =>
-      html`<div class="${classMap({ selector: true, active: index + 1 === this.current })}"><div class="triangle"></div></div>
-         `)}
+            ${this._renderTriangles(currentPlans)}
+         </div>
+         <div class="pagination">
+            ${this.hasLeft ? html`<gv-icon @click="${this.toLeft}" shape="navigation:angle-left" class="link"></gv-icon>` : ''}
+            <div style="flex: 1;"></div>
+            ${this.hasRight ? html`<gv-icon @click="${this.toRight}" shape="navigation:angle-right" class="link"</gv-icon>` : ''}
          </div>
          ${!this.skeleton
       ? html`<div class="characteristics">
@@ -322,6 +404,14 @@ export class GvPlans extends LitElement {
         </div>` : ''}
         </div>
     `;
+  }
+
+  toLeft () {
+    this.to(this._plans[this.current - 2]);
+  }
+
+  toRight () {
+    this.to(this._plans[this.current]);
   }
 
 }

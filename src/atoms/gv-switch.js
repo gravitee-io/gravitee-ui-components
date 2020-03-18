@@ -42,7 +42,7 @@ export class GvSwitch extends LitElement {
     return {
       disabled: { type: Boolean },
       skeleton: { type: Boolean },
-      value: { type: Boolean },
+      value: { type: String, reflect: true },
       label: { type: String },
       description: { type: String },
     };

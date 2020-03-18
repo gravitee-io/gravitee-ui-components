@@ -23,6 +23,7 @@ import { input } from '../styles/input';
 import { dispatchCustomEvent } from '../lib/events';
 import './gv-icon';
 import { i18n } from '../lib/i18n';
+import { InputElement } from '../mixins/input-element';
 
 /**
  *
@@ -36,7 +37,7 @@ import { i18n } from '../lib/i18n';
  * @attr {String} title - title of the input
  * @attr {String} name - name of the input
  * @attr {String} placeholder - an example value to display in the input when empty
- * @attr {String} type - type of the input, can be text (Default), password, email, search, number or clipboard.
+ * @attr {String} type - type of the input, can be text (Default), password, email, search, number, url or clipboard.
  * @attr {Boolean} large - for a large input
  * @attr {Boolean} medium - for a medium input (Default)
  * @attr {Boolean} small - for a small input
@@ -47,21 +48,14 @@ import { i18n } from '../lib/i18n';
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  * @attr {String} [autocomplete='off'] - standard autocomplete attribute
  * @attr {Boolean} [clickable=false] - If true, icon has link style
+ * @attr {String} [pattern=null] - Pattern for input validation. If type is url, default pattern is ^(http|https)://
  *
  * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
  */
-export class GvInput extends LitElement {
+export class GvInput extends InputElement(LitElement) {
 
   static get properties () {
     return {
-      disabled: { type: Boolean },
-      required: { type: Boolean },
-      skeleton: { type: Boolean },
-      value: { type: String },
-      label: { type: String },
-      title: { type: String },
-      name: { type: String },
-      placeholder: { type: String },
       type: { type: String },
       large: { type: Boolean },
       medium: { type: Boolean },
@@ -71,15 +65,16 @@ export class GvInput extends LitElement {
       loading: { type: Boolean },
       min: { type: Number },
       max: { type: Number },
-      autofocus: { type: Boolean },
-      readonly: { type: Boolean },
       autocomplete: { type: String },
       clickable: { type: Boolean },
+      pattern: { type: String },
+      _pattern: { type: String, attribute: false },
     };
   }
 
   static get styles () {
     return [
+      ...super.styles,
       skeleton,
       input,
       // language=CSS
@@ -126,15 +121,15 @@ export class GvInput extends LitElement {
               cursor: copy;
           }
 
-          input.clipboard:-moz-read-only  {
+          input.clipboard:-moz-read-only {
               cursor: copy;
           }
 
           input.clipboard:read-only:hover {
               cursor: not-allowed;
           }
-        
-          
+
+
       `,
     ];
   }
@@ -153,7 +148,6 @@ export class GvInput extends LitElement {
 
   constructor () {
     super();
-    this._id = 'gv-id';
     this._type = 'text';
     this._showPassword = false;
     this.value = '';
@@ -162,34 +156,51 @@ export class GvInput extends LitElement {
 
   reset () {
     this.value = '';
-    this.shadowRoot.querySelector('input').blur();
+    this.getInputElement().blur();
   }
 
   focus () {
-    this.shadowRoot.querySelector('input').focus();
+    this.getInputElement().focus();
   }
 
   firstUpdated (changedProperties) {
-    if (this.autofocus) {
-      this.shadowRoot.querySelector('input').focus();
-    }
+    super.firstUpdated(changedProperties);
     const clickableIcon = this.shadowRoot.querySelector('.clickable');
     if (clickableIcon) {
       clickableIcon.addEventListener('click', this._onIconClick.bind(this));
     }
-
     if (this._hasClipboard) {
-      this.shadowRoot.querySelector('input').addEventListener('click', (e) => this.copy(this.value));
+      this.getInputElement().addEventListener('click', (e) => this.copy(this.value));
     }
+  }
+
+  updateState () {
+    clearTimeout(this._stateTimer);
+    this._stateTimer = setTimeout(() => {
+      super.updateState();
+      if (this._regexPattern) {
+        if (this.value != null && this.value.trim() !== '') {
+          const valid = this.value.match(this._regexPattern);
+          this.invalid = !valid;
+          this.valid = valid;
+        }
+        else if (!this.required) {
+          this.invalid = false;
+          this.valid = false;
+        }
+      }
+    }, 200);
   }
 
   _onInput (e) {
     this.value = e.target.value;
     dispatchCustomEvent(this, 'input', this.value);
+    this.updateState();
   }
 
   _onKeyUp (e) {
     if (e.keyCode === 13) {
+      // this.updateState();
       const form = this.closest('form');
       if (form) {
         form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
@@ -199,8 +210,11 @@ export class GvInput extends LitElement {
   }
 
   set type (value) {
-    if (['text', 'password', 'email', 'search', 'number'].includes(value)) {
+    if (['text', 'password', 'email', 'search', 'number', 'url'].includes(value)) {
       this._type = value;
+    }
+    if (this._type === 'url') {
+      this.pattern = '^(http|https)://';
     }
 
     if (this._type === 'search' && this.icon == null && this.iconLeft == null) {
@@ -223,23 +237,6 @@ export class GvInput extends LitElement {
       this.icon = GvInput.shapeClipboard;
       this._type = 'text';
     }
-  }
-
-  _renderRequired () {
-    if (this.required && !this.readonly) {
-      return html`<abbr title="(required)" aria-hidden="true">*</abbr>`;
-    }
-    return '';
-  }
-
-  _renderLabel () {
-    if (this.label) {
-      return html`<label for=${this.id} class="${classMap({ required: this.required && !this.readonly })}" title="${this.label}">
-        ${this._renderRequired()}${this.label}
-      </label>
-      `;
-    }
-    return '';
   }
 
   _onIconClick () {
@@ -342,6 +339,17 @@ export class GvInput extends LitElement {
     this.requestUpdate();
   }
 
+  set pattern (value) {
+    if (value) {
+      this._regexPattern = new RegExp(value);
+      this._pattern = value;
+    }
+    else {
+      this._regexPattern = null;
+      this._pattern = null;
+    }
+  }
+
   render () {
     const classes = {
       skeleton: this.skeleton,
@@ -351,11 +359,12 @@ export class GvInput extends LitElement {
       icon: !!this.icon,
       'icon-left': !!this.iconLeft,
       clipboard: this._hasClipboard,
+      required: this.required,
     };
 
     return html`
       <div>
-          ${this._renderLabel()}
+          ${this.renderLabel()}
           <input
             id=${this._id}
             .autocomplete="${this.autocomplete}"
@@ -366,6 +375,7 @@ export class GvInput extends LitElement {
             ?readonly="${this.readonly}"
             aria-required=${!!this.required}
             .aria-label="${ifDefined(this.label)}"
+            .pattern="${ifDefined(this._pattern)}"
             ?disabled=${this.disabled || this.skeleton}
             .placeholder=${ifDefined(this.placeholder)}
             .value=${ifDefined(this.value)}

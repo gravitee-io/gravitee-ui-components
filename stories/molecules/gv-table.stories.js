@@ -161,6 +161,18 @@ export const multipleSelection = makeStory(conf, {
   items: [{ items: simpleAppItems, options: multipleSelectionOptions, noheader: true }],
 });
 
+export const components = makeStory(conf, {
+  items: [{
+    items: [{ name: 'input', value: 'Value' }],
+    options: {
+      data: [
+        { field: 'name', label: 'Name' },
+        { field: 'value', label: 'Component', type: 'gv-input' },
+      ],
+    },
+  }],
+});
+
 export const empty = makeStory(conf, {
   items: [{ items: [] }],
 });

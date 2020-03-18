@@ -37,6 +37,7 @@ const ESCAPE_KEY_CODE = 27;
  * @attr {String} value - selected value
  * @attr {String} style - css if you want custom options rendered
  * @attr {Number} minChars - minimum of characters for launch search and show results
+ * @attr {Number} size - results size to show before user must scroll
  * @attr {Boolean|Function(value,option)} filter - If true, filter options by input, if function, filter options against it. The function will
  * receive two arguments, inputValue and option, if the function returns true, the option will be included
  * in the filtered set; Otherwise, it will be excluded.
@@ -55,6 +56,7 @@ export class GvAutocomplete extends LitElement {
       style: { type: String },
       minChars: { type: Number },
       filter: { type: Boolean | Function },
+      size: { type: Number },
       _options: { type: Array, attribute: false },
       _forceOpen: { type: Boolean },
     };
@@ -107,6 +109,7 @@ export class GvAutocomplete extends LitElement {
               -moz-transition: all 150ms ease-in-out;
               -ms-transition: all 150ms ease-in-out;
               -o-transition: all 150ms ease-in-out;
+              overflow: auto;
           }
 
           .option {
@@ -138,6 +141,7 @@ export class GvAutocomplete extends LitElement {
     this.value = '';
     this.style = '';
     this.filter = false;
+    this.size = 5;
   }
 
   set options (options) {
@@ -256,6 +260,12 @@ export class GvAutocomplete extends LitElement {
       this.shadowRoot.firstElementChild.classList.add('keyboard');
       const candidate = this.shadowRoot.querySelectorAll('.option')[this._candidateIndex];
       if (candidate) {
+        const options = this.shadowRoot.querySelector('.options');
+        const { top, left } = candidate.getBoundingClientRect();
+        const container = options.getBoundingClientRect();
+        const scrollLeft = left - container.left;
+        const scrollTop = top - container.top;
+        options.scrollTo(scrollLeft, scrollTop);
         candidate.classList.add('hover');
       }
     }
@@ -328,6 +338,18 @@ export class GvAutocomplete extends LitElement {
       }
     }
     return this.firstElementChild;
+  }
+
+  updated () {
+    setTimeout(() => {
+      const firstOption = this.shadowRoot.querySelector('.option');
+      if (firstOption) {
+        const maxHeight = firstOption.clientHeight * parseInt(this.size, 10);
+        const options = this.shadowRoot.querySelector('.options');
+        options.style.maxHeight = `${maxHeight}px`;
+        options.scrollTo(0, 0);
+      }
+    }, 0);
   }
 
   firstUpdated () {

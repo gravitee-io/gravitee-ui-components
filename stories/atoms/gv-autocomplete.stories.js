@@ -132,7 +132,7 @@ const style = `
 export const DefaultFilter = makeStory(conf, {
   items: [{
     innerHTML: '<gv-input placeholder="try to type `g`" autofocus></gv-input>',
-    options: [{ value: 'Good Morning' }, { value: 'Hello' }, { value: 'Good Bye' }],
+    options: [{ value: 'Good Morning' }, { value: 'Hello' }, { value: 'Good Bye' }, { value: 'Morning' }, { value: 'Bonjour' }, { value: 'Bye Bye' }],
     filter: true,
   }],
   docs: `
@@ -160,6 +160,10 @@ export const CustomHTML = makeStory(conf, {
           { value: mockVal(detail).value, innerHTML: renderApi({ title: mockVal(detail).value }) },
           { value: mockVal(detail, 2).value, innerHTML: renderApi({ title: mockVal(detail, 2).value }) },
           { value: mockVal(detail, 3).value, innerHTML: renderApi({ title: mockVal(detail, 3).value }) },
+          { value: mockVal(detail, 4).value, innerHTML: renderApi({ title: mockVal(detail, 4).value }) },
+          { value: mockVal(detail, 5).value, innerHTML: renderApi({ title: mockVal(detail, 5).value }) },
+          { value: mockVal(detail, 6).value, innerHTML: renderApi({ title: mockVal(detail, 6).value }) },
+          { value: mockVal(detail, 7).value, innerHTML: renderApi({ title: mockVal(detail, 7).value }) },
         ];
       });
     }),

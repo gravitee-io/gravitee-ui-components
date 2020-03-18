@@ -57,7 +57,6 @@ export class GvFileUpload extends LitElement {
               box-sizing: border-box;
               display: block;
               width: 100%;
-              height: 100%;
               color: var(--gv-theme-color-dark, #193E34);
           }
 
@@ -68,10 +67,10 @@ export class GvFileUpload extends LitElement {
               padding: 2rem;
               text-align: center;
               display: block;
-              z-index: 10;
               border: 1px dashed #193E34;
               border-radius: 4px;
               transition: outline-offset .15s ease-in-out, background-color .15s linear;
+              height: 100%;
           }
 
           .box .box__icon {
@@ -133,13 +132,19 @@ export class GvFileUpload extends LitElement {
 
           gv-image {
               position: absolute;
-              left: calc(50% - 150px / 2);
-              width: 150px;
-              height: 150px;
           }
 
           .preview {
               transition: all 300ms ease-in-out;
+          }
+
+          .box__input {
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              height: 100%;
+              z-index: 10;
           }
 
           .preview .box__input {
@@ -263,7 +268,6 @@ export class GvFileUpload extends LitElement {
   }
 
   render () {
-
     const label = this._errors.length > 0 || this._files.length > 0
       ? i18n('gv-file-upload.chooseAnotherFile') : i18n('gv-file-upload.chooseFile');
 
@@ -307,6 +311,18 @@ export class GvFileUpload extends LitElement {
         </div>
         ` : ''}
 `;
+  }
+
+  updated () {
+    const preview = this.shadowRoot.querySelector('.preview');
+    if (preview) {
+      const { width, height } = preview.getBoundingClientRect();
+      const img = this.shadowRoot.querySelector('gv-image');
+      img.style.width = width - 20 + 'px';
+      img.style.height = height - 20 + 'px';
+      img.style.left = '10px';
+      img.style.top = '10px';
+    }
   }
 
 }

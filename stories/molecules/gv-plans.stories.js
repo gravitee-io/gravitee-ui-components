@@ -71,6 +71,58 @@ export const onePlan = makeStory(conf, {
   }],
 });
 
+const multiPlan = [
+  {
+    name: 'Free',
+    description: 'Une offre sans caractéristique',
+  },
+  {
+    name: 'Bronze',
+    description: 'On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de '
+      + 'distractions, et empêche de se concentrer sur la mise en page elle-même. L\'avantage du Lorem Ipsum sur un '
+      + 'texte générique comme \'Du texte. Du texte. Du texte.\' est qu\'il possède une distribution de lettres plus '
+      + 'ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles '
+      + 'de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche '
+      + 'pour \'Lorem Ipsum\' vous conduira vers de nombreux sites qui n\'en sont encore qu\'à leur phase de construction. '
+      + 'Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement (histoire d\'y '
+      + 'rajouter de petits clins d\'oeil, voire des phrases embarassantes)',
+  },
+  {
+    name: 'Standard (9,90€/mois)',
+    description: 'Un offre avec des caractéristiques générées',
+    validation: 'auto',
+    security: 'jwt',
+  },
+  {
+    name: 'Silver',
+    description: 'Une offre sans caractéristique',
+  },
+  {
+    name: 'Premium (21,90€/mois)',
+    description: 'Une offre pour les grandes organisations. (31 à 500 API)',
+    characteristics: [
+      '500 000 appels / mois',
+      'Accès complet',
+      'SLA Garanti',
+      'API key nécessaire',
+    ],
+  },
+  {
+    name: 'Gold',
+    description: 'Une offre pour les grandes organisations. (31 à 500 API)',
+    characteristics: [
+      '500 000 appels / mois',
+      'Accès complet',
+      'SLA Garanti',
+      'API key nécessaire',
+    ],
+  },
+];
+
+export const Pagination = makeStory(conf, {
+  items: [{ plans: multiPlan, size: 3 }],
+});
+
 export const empty = makeStory(conf, {
   items: [{}],
 });
