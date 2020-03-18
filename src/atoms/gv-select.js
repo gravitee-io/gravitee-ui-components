@@ -23,6 +23,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import { styleMap } from 'lit-html/directives/style-map';
 import './gv-icon';
 import { dispatchCustomEvent } from '../lib/events';
+import { InputElement } from '../mixins/input-element';
 
 /**
  *
@@ -46,149 +47,154 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Active background color
  * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hover background color
  */
-export class GvSelect extends LitElement {
+export class GvSelect extends InputElement(LitElement) {
 
   static get properties () {
     return {
-      disabled: { type: Boolean },
-      required: { type: Boolean },
-      skeleton: { type: Boolean },
       options: { type: Array },
       _options: { type: Array, attribute: false },
-      value: { type: String },
-      label: { type: String },
-      title: { type: String },
-      name: { type: String },
       large: { type: Boolean },
       medium: { type: Boolean },
       small: { type: Boolean },
-      placeholder: { type: String },
       _isClosed: { type: Boolean, attribute: false },
     };
   }
 
   static get styles () {
     return [
+      ...super.styles,
       skeleton,
       input,
       // language=CSS
       css`
-        :host {
-          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
-          --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
-          --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
-          --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-        }
+          :host {
+              --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
+              --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
+              --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+              --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+              --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+              color: var(--c);
+          }
 
-        div, input {
-          user-select: none;
-          cursor: pointer;
-        }
+          div, input {
+              user-select: none;
+              cursor: pointer;
+          }
 
-        input:read-only:hover {
-          cursor: pointer;
-        }
+          input:read-only:hover {
+              cursor: pointer;
+          }
 
-        gv-icon {
-          transform: rotate(180deg);
-          --gv-icon--s: 19px;
-        }
+          gv-icon {
+              transform: rotate(180deg);
+              --gv-icon--s: 19px;
+          }
 
-        gv-icon.medium {
-          --gv-icon--s: 14px;
-        }
+          gv-icon.medium {
+              --gv-icon--s: 14px;
+          }
 
-        gv-icon.small {
-          --gv-icon--s: 11px;
-        }
+          gv-icon.small {
+              --gv-icon--s: 11px;
+          }
 
-        .closed .select__list {
-          display: none;
-          opacity: 0;
-          transform: translateY(-2em);
-          z-index: -1;
-        }
+          .closed .select__list {
+              display: none;
+              opacity: 0;
+              transform: translateY(-2em);
+              z-index: -1;
+          }
 
-        .select__list {
-          list-style: none;
-          position: absolute;
-          background-color: var(--bgc);
-          list-style: none;
-          padding: 0;
-          transition: all 0.3s ease 0s;
-          margin: 0;
-          width: 100%;
-          cursor: pointer;
-          z-index: 100;
-          box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-          max-height: 340px;
-          overflow: auto;
-        }
+          .select__list {
+              list-style: none;
+              position: absolute;
+              background-color: var(--bgc);
+              list-style: none;
+              padding: 0;
+              transition: all 0.3s ease 0s;
+              margin: 0;
+              width: 100%;
+              cursor: pointer;
+              z-index: 100;
+              box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+              max-height: 340px;
+              overflow: auto;
+          }
 
-        .select__list .selected {
-          background-color: var(--selected-bgc);
-        }
+          .select__list .selected {
+              background-color: var(--selected-bgc);
+          }
 
-        .select__list__item {
-          border-left: 1px solid var(--bdc);
-          display: flex;
-          align-items: center;
-          transition: all 0.5s ease;
+          .select__list__item {
+              border-left: 1px solid var(--bdc);
+              display: flex;
+              align-items: center;
+              transition: all 0.5s ease;
 
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-        }
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+          }
 
-        .select__list__item.disabled {
-          opacity: .5;
-        }
-        .select__list__item.disabled:hover {
-          cursor: not-allowed;
-        }
+          .select__list__item.disabled {
+              opacity: .5;
+          }
 
-        .large .select__list__item {
-          padding: var(--input-large--p);
-          font-size: var(--input-large--fz);
-          height: var(--input-large--h);
-        }
+          .select__list__item.disabled:hover {
+              cursor: not-allowed;
+          }
 
-        .medium .select__list__item {
-          padding: 0 5px;
-          font-size: var(--input-medium--fz);
-          height: var(--input-medium--h);
-        }
+          .large .select__list__item {
+              padding: var(--input-large--p);
+              font-size: var(--input-large--fz);
+              height: var(--input-large--h);
+          }
 
-        .small .select__list__item {
-          padding: var(--input-small--p);
-          font-size: var(--input-small--fz);
-          height: var(--input-small--h);
-        }
+          .medium .select__list__item {
+              padding: 0 5px;
+              font-size: var(--input-medium--fz);
+              height: var(--input-medium--h);
+          }
 
-        .select__list__item:hover {
-          background-color: var(--hover-bgc);
-          border-left: 1px dotted var(--bdc);
-        }
+          .small .select__list__item {
+              padding: var(--input-small--p);
+              font-size: var(--input-small--fz);
+              height: var(--input-small--h);
+          }
 
-        input.medium.icon, input.large.icon, input.small.icon {
-            padding-right: 0px;
-        }
+          .select__list__item:hover {
+              background-color: var(--hover-bgc);
+              border-left: 1px dotted var(--bdc);
+          }
+
+          input.medium.icon, input.large.icon, input.small.icon {
+              padding-right: 0px;
+          }
       `,
     ];
   }
 
   constructor () {
     super();
-    this._id = 'gv-id';
     this._type = 'text';
     this._isClosed = true;
     this._options = [{ label: '', value: '', disabled: false, title: null }];
-
-    window.addEventListener('click', (e) => {
-      this._isClosed = true;
-    });
+    this.handleDocumentClick = this._onDocumentClick.bind(this);
   }
+
+  connectedCallback () {
+    super.connectedCallback();
+    window.addEventListener('click', this.handleDocumentClick);
+  }
+
+  disconnectedCallback () {
+    window.removeEventListener('click', this.handleDocumentClick);
+    super.disconnectedCallback();
+  }
+
+  _onDocumentClick () {
+    this._isClosed = true;
+  };
 
   _onClick (e) {
     if (!this.disabled && !this.skeleton) {
@@ -205,27 +211,11 @@ export class GvSelect extends LitElement {
     e.stopPropagation();
     if (option.disabled !== true) {
       this.value = e.target.dataset.value;
+      this.updateState();
       this._isClosed = !this._isClosed;
       this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
       dispatchCustomEvent(this, 'select', { id: this.value });
     }
-  }
-
-  _renderRequired () {
-    if (this.required) {
-      return html`<abbr title="(required)" aria-hidden="true">*</abbr>`;
-    }
-    return '';
-  }
-
-  _renderLabel () {
-    if (this.label) {
-      return html`<label for=${this.id} class="${classMap({ required: this.required })}" title="${this.label}">
-        ${this._renderRequired()}${this.label}
-        </label>
-        `;
-    }
-    return '';
   }
 
   _renderIcon () {
@@ -278,10 +268,11 @@ export class GvSelect extends LitElement {
       small: this.small,
       icon: true,
       skeleton: this.skeleton,
+      required: this.required,
     };
     return html`
       <div class="${classMap(classes)}">
-        ${this._renderLabel()}
+        ${this.renderLabel()}
         <input
           id=${this._id}
           class="${classMap(inputClasses)}"

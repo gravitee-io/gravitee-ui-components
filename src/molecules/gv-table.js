@@ -16,6 +16,7 @@
 import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import { skeleton } from '../styles/skeleton';
+import { link } from '../styles/link';
 import { classMap } from 'lit-html/directives/class-map';
 import { repeat } from 'lit-html/directives/repeat';
 import { dispatchCustomEvent } from '../lib/events';
@@ -23,6 +24,8 @@ import { getLanguage, i18n } from '../lib/i18n';
 import { until } from 'lit-html/directives/until';
 import { styleMap } from 'lit-html/directives/style-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
+import { ifDefined } from 'lit-html/directives/if-defined';
+import '../atoms/gv-image';
 
 /**
  * Table component
@@ -46,7 +49,8 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
  * @cssprop {Color} [--gv-table--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
- *
+ * @cssprop {String} [--gv-table-header--fz=var(--gv-theme-font-size-xl, 26px)] - Title font size
+ * @cssprop {Length} [--gv-table-header--p=30px] - Title padding
  */
 export class GvTable extends withResizeObserver(LitElement) {
 
@@ -75,6 +79,7 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   static get styles () {
     return [
+      link,
       skeleton,
       // language=CSS
       css`
@@ -85,6 +90,7 @@ export class GvTable extends withResizeObserver(LitElement) {
               --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
               display: block;
               height: 100%;
+              margin: 0.2rem;
           }
 
           .table {
@@ -166,7 +172,7 @@ export class GvTable extends withResizeObserver(LitElement) {
 
           .header {
               border-bottom: 1px solid var(--bdc);
-              padding: 30px;
+              padding: var(--gv-table-header--p, 30px);
           }
 
           .header span {
@@ -180,10 +186,8 @@ export class GvTable extends withResizeObserver(LitElement) {
           .header h2 {
               margin: 0;
               text-transform: uppercase;
-          }
-
-          .image {
-              width: 50px;
+              font-size: var(--gv-table-header--fz, var(--gv-theme-font-size-xl, 26px));
+              line-height: 20px;
           }
 
           gv-image {
@@ -215,6 +219,10 @@ export class GvTable extends withResizeObserver(LitElement) {
 
           gv-pagination {
               align-self: flex-end;
+          }
+
+          .cell > *:not(gv-tag):not(gv-image) {
+              width: 100%;
           }
       `,
     ];
@@ -370,10 +378,71 @@ export class GvTable extends withResizeObserver(LitElement) {
     }
   }
 
+  _renderIcon (item, itemIndex, option) {
+
+    const icon = typeof option.icon === 'function' ? option.icon(item) : option.icon;
+    const style = typeof option.style === 'function' ? option.style(item) : option.style;
+
+    return html` <gv-icon shape="${icon}" style="${ifDefined(style)}"></gv-icon>`;
+  }
+
+  _renderComponent (item, itemIndex, option, value) {
+    const element = document.createElement(option.type);
+    element.value = value;
+    if (option.attributes) {
+      Object.keys(option.attributes).forEach((attribute) => {
+        if (attribute.startsWith('on')) {
+          const event = attribute.replace('on', '').toLowerCase();
+          if (event === 'click') {
+            element.classList.add('link');
+          }
+          element.addEventListener(event, () => {
+            option.attributes[attribute](item);
+          });
+        }
+        else if (typeof option.attributes[attribute] === 'function') {
+          element[attribute] = option.attributes[attribute](item);
+        }
+        else {
+          element[attribute] = option.attributes[attribute];
+        }
+      });
+    }
+    element.addEventListener('input', (event) => {
+      this._items[itemIndex][option.field] = event.target.value;
+    });
+    return element;
+  }
+
+  _renderCell (option, item, itemIndex) {
+    let value = option.field ? this._getDataFromField(item, option.field) : '';
+    if (option.type === 'date' && value) {
+      value = new Date(value).toLocaleString(getLanguage());
+    }
+    if (option.format) {
+      value = option.format('gv-table.' + value);
+    }
+    if (option.type) {
+      if (option.type === 'image') {
+        const alt = option.alt ? this._getDataFromField(item, option.alt) : '';
+        return this._renderImage(value, alt);
+      }
+      else if (option.type === 'icon') {
+        return this._renderIcon(item, itemIndex, option);
+      }
+      else if (option.type.startsWith('gv-')) {
+        return this._renderComponent(item, itemIndex, option, value);
+      }
+    }
+    else {
+      return until(value);
+    }
+  }
+
   _renderRows (styleGridColumns) {
     return html`
       <div class="rows" style="${this.rowsheight ? 'height: ' + this.rowsheight : ''}" @mouseleave="${this._onMouseLeave.bind(this)}">
-        ${(this._items && this._items.length) ? repeat(this._items, (item) => item, (item) => {
+        ${(this._items && this._items.length) ? repeat(this._items, (item) => item, (item, itemIndex) => {
       return html`
           <div class=${classMap({
         row: true,
@@ -381,26 +450,10 @@ export class GvTable extends withResizeObserver(LitElement) {
         skeleton: this._skeleton,
         selected: this._selectedItem && this._selectedItem.includes(JSON.stringify(item)),
       })} style="${styleGridColumns}"
-            @click="${this._onSelect.bind(this, item)}" @mouseenter="${this._onMouseEnter.bind(this, item)}">
+            @click="${this._onSelect.bind(this, item)}" 
+            @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
-        let value = option.field ? this._getDataFromField(item, option.field) : '';
-        if (option.type === 'date' && value) {
-          value = new Date(value).toLocaleString(getLanguage());
-        }
-        if (option.format) {
-          value = option.format('gv-table.' + value);
-        }
-        const alt = option.alt ? this._getDataFromField(item, option.alt) : '';
-        const tag = option.tag ? this._getDataFromField(item, option.tag) : '';
-        const image = option.type === 'image';
-        return html`
-                  <div class=${classMap({ image })}>
-                    ${option.icon && option.icon(item) ? html`
-                      <gv-icon shape="${option.icon(item)}" style="${option.style ? option.style(item) : ''}">
-                      </gv-icon>` : ''}
-                    ${image ? this._renderImage(until(value), alt) : until(value)}
-                    ${tag ? this._renderTag(tag) : ''}
-                  </div>
+        return html`<div class="cell">${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}</div>
               `;
       }) : ''}
           </div>
@@ -410,7 +463,20 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _renderItems () {
-    const styleGridColumns = `grid-template-columns: repeat(${(this.options && this.options.data && this.options.data.length) || 1}, 1fr)`;
+    const widthTemplate = this.options.data.map((o) => {
+      if (o.width) {
+        return o.width;
+      }
+      else if (o.type === 'image') {
+        return '80px';
+      }
+      else if (o.icon) {
+        return '40px';
+      }
+      return '1fr';
+    });
+
+    const styleGridColumns = `grid-template-columns: ${widthTemplate.join(' ')}`;
     return html`
       ${this._renderHeader(styleGridColumns)}
       ${this._renderRows(styleGridColumns)}
@@ -432,11 +498,22 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _getDataFromField (item, field) {
-    return field.split('.').reduce((p, c) => p && p[c], item);
+    if (typeof field === 'function') {
+      return field(item);
+    }
+    else {
+      return field.split('.').reduce((p, c) => p && p[c], item);
+    }
   }
 
-  _renderTag (tag) {
-    return html` <gv-tag ?skeleton="${this._skeleton}">${tag}</gv-tag>`;
+  _renderTag (option, item) {
+    if (option.tag) {
+      const tag = option.tag ? this._getDataFromField(item, option.tag) : '';
+      if (tag) {
+        return html` <gv-tag ?skeleton="${this._skeleton}">${tag}</gv-tag>`;
+      }
+    }
+    return '';
   }
 
   _onImageLoaded () {

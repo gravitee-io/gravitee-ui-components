@@ -24,8 +24,11 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  *
  * @fires gv-link:click - Custom event when link click
  *
- * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
+ * @slot top - The content on top of menu
+ * @slot right - The content at right
+ * @slot right-transition - The content at right with transition
  *
+ * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
  * @cssprop {Color} [--gv-menu--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
  * @cssprop {Color} [--gv-menu--bgc=var(--gv-theme-color-dark, #193E34)] - Background color.
  * @cssprop {Color} [--gv-menu-link-active--bdbc=var(--gv-theme-color-light, #D5FDCB)] - Border bottom color of active link.
@@ -145,18 +148,18 @@ export class GvMenu extends withResizeObserver(LitElement) {
               align-self: flex-end;
           }
 
-          .right ::slotted([slot="input"]) {
+          .right ::slotted([slot="right-transition"]) {
               transition: width 0.5s ease;
               width: 70%;
           }
 
-          .right:focus-within ::slotted([slot="input"]) {
+          .right:focus-within ::slotted([slot="right-transition"]) {
               animation: slide 0.5s;
               transition: width 0.5s ease-in-out;
               width: 100%;
           }
 
-          .right ::slotted([slot="button"]) {
+          .right ::slotted([slot="right"]) {
               --gv-button--p: 7px 16px;
               --gv-button--fz: 15px;
           }
@@ -207,10 +210,10 @@ export class GvMenu extends withResizeObserver(LitElement) {
   render () {
     return html`
       <div class="${classMap({ 'has-header': this._hasHeader })}">
-        <slot name="header"></slot>
+        <slot name="top"></slot>
         <div class="nav-container">
             <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
-            <div class="right"><slot name="input"></slot><slot name="button"></slot></div>
+            <div class="right"><slot name="right-transition"></slot><slot name="right"></slot></div>
         </div>
       </div>
     `;

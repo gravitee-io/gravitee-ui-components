@@ -81,7 +81,6 @@ export class GvTag extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               vertical-align: middle;
-              --gv-icon--s: var(--gv-tag-icon--s, 18px);
           }
 
           div.default {
@@ -120,6 +119,8 @@ export class GvTag extends LitElement {
               font-size: var(--gv-theme-font-size-s, 12px);
               line-height: 20px;
               padding: 1px 8px;
+              --gv-icon--s: var(--gv-tag-icon--s, 18px);
+              --gv-icon--c: var(--c);
           }
 
           div > * {

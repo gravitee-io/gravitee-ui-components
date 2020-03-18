@@ -36,6 +36,7 @@ const items = [
   { placeholder: 'Number...', type: 'number', min: '1', max: '10', label: 'Number label' },
   { placeholder: 'Search...', type: 'search', label: 'Search label' },
   { placeholder: 'Clipboard...', type: 'clipboard', label: 'Clipboard label' },
+  { placeholder: 'Url...', type: 'url', label: 'Url label' },
   { placeholder: 'No Label...' },
 ];
 

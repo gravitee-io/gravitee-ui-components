@@ -120,18 +120,6 @@ export const input = css`
   label {
     display: block;
     line-height: 15px;
-    padding: 0.2rem 0.4rem;
-  }
-
-  label.required {
-    padding-left: 0.6rem;
-  }
-
-  label abbr {
-    position: absolute;
-    left: 0;
-    color: red;
-    font-variant: none;
-    text-decoration: none;
+    padding: 0 0 0.2rem 0;
   }
 `;
