@@ -46,6 +46,10 @@ export const outlined = makeStory(conf, {
   items: items.map((p) => ({ ...p, outlined: true })),
 });
 
+export const link = makeStory(conf, {
+  items: items.map((p) => ({ ...p, link: true })),
+});
+
 export const disabled = makeStory(conf, {
   items: items.map((p) => ({ ...p, disabled: true })),
 });

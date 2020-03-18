@@ -14,6 +14,10 @@
     "empty": "Aucune donnée à afficher ici",
     "error": "Une erreur est survenue pendant le chargement"
   },
+  "gv-chart": {
+    "empty": "Aucune donnée à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement"
+  },
   "gv-code": {
     "copy": "Copier dans le presse papier"
   },
@@ -103,10 +107,15 @@
     "empty": "Aucun élément à afficher ici",
     "error": "Une erreur est survenue pendant le chargement"
   },
+  "gv-stats": {
+    "empty": "Aucune donnée à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement"
+  },
   "gv-stepper" : {
     "error": "Une erreur est survenue pendant le chargement de étapes"
   },
   "gv-table": {
-    "empty": "Aucune donnée à afficher ici"
+    "empty": "Aucune donnée à afficher ici",
+    "error": "Une erreur est survenue pendant le chargement"
   }
 }

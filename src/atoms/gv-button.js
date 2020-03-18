@@ -37,6 +37,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} primary - set button UI mode to primary
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
+ * @attr {Boolean} link - set button UI mode to link
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  * @attr {String} icon - display an icon on the button
  * @attr {Boolean} icon-right - if icon should be at right
@@ -60,6 +61,7 @@ export class GvButton extends LitElement {
       disabled: { type: Boolean },
       primary: { type: Boolean },
       outlined: { type: Boolean },
+      link: { type: Boolean },
       skeleton: { type: Boolean },
       icon: { type: String },
       iconRight: { type: String, attribute: 'icon-right' },
@@ -117,7 +119,7 @@ export class GvButton extends LitElement {
         }
 
         /* BASE */
-        button {
+        .btn {
           border-radius: var(--gv-button--bdrs, 0.15rem);
           cursor: pointer;
           min-height: 26px;
@@ -154,12 +156,12 @@ export class GvButton extends LitElement {
         }
 
         /* STATES */
-        button:enabled:focus {
+        .btn:enabled:focus {
           box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
           outline: 0;
         }
 
-        button:enabled:hover {
+        .btn:enabled:hover {
           box-shadow: 0 1px 3px var(--gv-theme-color-darker, #1D3730);
         }
 
@@ -222,6 +224,13 @@ export class GvButton extends LitElement {
             transform: rotate(360deg);
           }
         }
+
+        .link {
+          border: 0;
+          cursor: pointer;
+          text-decoration: underline;
+          outline: 0;
+        }
       `,
       skeleton,
     ];
@@ -245,12 +254,14 @@ export class GvButton extends LitElement {
 
   render () {
     const classes = {
-      primary: this.primary,
-      skeleton: this.skeleton,
-      default: !this.primary,
-      outlined: this.outlined,
+      primary: this.primary && !this.link,
+      skeleton: this.skeleton && !this.link,
+      default: !this.primary && !this.link,
+      outlined: this.outlined && !this.link,
       icon: !!this.icon || !!this.iconRight || this.loading,
       loading: this.loading,
+      btn: !this.link,
+      link: this.link,
     };
 
     if (this.provider) {

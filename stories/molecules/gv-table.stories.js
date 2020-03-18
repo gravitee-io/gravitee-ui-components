@@ -17,7 +17,7 @@ import notes from '../../.docs/gv-table.md';
 import '../../src/molecules/gv-table';
 import horizontalImage from '../../assets/images/gravitee-logo.png';
 import picture from '../../assets/images/logo.png';
-import { makeStory } from '../lib/make-story';
+import { makeStory, storyWait } from '../lib/make-story';
 
 const name = 'Supernova';
 const version = 'v.1.1';
@@ -42,13 +42,14 @@ const api = {
   public: true,
 };
 const application = {
-  name: 'Echo Stock',
+  name: 'My app',
   picture: horizontalImage,
   version,
   owner,
   description,
   created_at: 'Jul 22, 2019',
   type: 'WEB',
+  hits: 1220,
 };
 
 export default {
@@ -69,17 +70,20 @@ const apiItems = [
   { name: 'Comet Api.', picture, version, states, owner, labels, description, running: true },
 ];
 
-const apiOptions = [
-  { data: 'picture', type: 'image', alt: 'name' },
-  { data: 'name', label: 'Name', tag: 'version' },
-  { data: 'description', label: 'Description' },
-  { data: 'owner.display_name', label: 'Owner' },
-  { icon: (item) => (item.public ? '' : 'general:lock') },
-  {
-    icon: (item) => (item.running ? 'design:circle' : ''),
-    style: (item) => (item.running ? '--gv-icon--c: #009B5B' : '--gv-icon--c: #FF7875'),
-  },
-];
+const apiOptions = {
+  selectable: true,
+  data: [
+    { field: 'picture', type: 'image', alt: 'name' },
+    { field: 'name', label: 'Name', tag: 'version' },
+    { field: 'description', label: 'Description' },
+    { field: 'owner.display_name', label: 'Owner' },
+    { icon: (item) => (item.public ? '' : 'general:lock') },
+    {
+      icon: (item) => (item.running ? 'design:circle' : ''),
+      style: (item) => (item.running ? '--gv-icon--c: #009B5B' : '--gv-icon--c: #FF7875'),
+    },
+  ],
+};
 
 export const Apis = makeStory(conf, {
   items: [{ items: apiItems, options: apiOptions, title: 'APIs' }],
@@ -87,28 +91,85 @@ export const Apis = makeStory(conf, {
 
 const appItems = [application, application, application];
 
-const appOptions = [
-  { data: 'picture', type: 'image', alt: 'name' },
-  { data: 'name', label: 'Name', tag: 'type' },
-  { data: 'owner.display_name', label: 'Owner' },
-  { data: 'created_at', type: 'date', label: 'Creation' },
-];
+const appOptions = {
+  selectable: false,
+  data: [
+    { field: 'picture', type: 'image', alt: 'name' },
+    { field: 'name', label: 'Name', tag: 'type' },
+    { field: 'owner.display_name', label: 'Owner' },
+    { field: 'created_at', type: 'date', label: 'Creation' },
+  ],
+};
 
 export const Applications = makeStory(conf, {
   items: [{ items: appItems, options: appOptions, title: 'Applications' }],
 });
 
-const appWithoutHeaderOptions = [
-  { data: 'picture', type: 'image', alt: 'name' },
-  { data: 'name', label: 'Name', tag: 'type' },
-  { data: 'owner.display_name', label: 'Owner' },
-  { data: 'created_at', type: 'date', label: 'Creation' },
-];
+const appWithoutHeaderOptions = {
+  selectable: false,
+  data: [
+    { field: 'picture', type: 'image', alt: 'name' },
+    { field: 'name', label: 'Name', tag: 'type' },
+    { field: 'owner.display_name', label: 'Owner' },
+    { field: 'created_at', type: 'date', label: 'Creation' },
+  ],
+};
 
 export const applicationsWithoutHeader = makeStory(conf, {
-  items: [{ items: appItems, options: appWithoutHeaderOptions, noheader: true, title: 'Applications without header' }],
+  items: [{ items: appItems, options: appWithoutHeaderOptions, noheader: true, title: 'No header' }],
+});
+
+const multipleSelectionOptions = {
+  selectable: 'multi',
+  data: [
+    { field: 'name', label: 'Name' },
+    { field: 'hits', label: 'Hits' },
+  ],
+};
+
+const simpleAppItems = [application, { name: 'Amazing app', hits: 1900 }, { name: 'Simple app', hits: 200 }];
+
+export const multipleSelection = makeStory(conf, {
+  items: [{ items: simpleAppItems, options: multipleSelectionOptions, noheader: true }],
 });
 
 export const empty = makeStory(conf, {
   items: [{ items: [] }],
+});
+
+export const LoadingAndError = makeStory(conf, {
+  items: [{ items: new Promise(() => ({})), apiItems }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.items = Promise.reject(new Error());
+    }),
+  ],
+});
+
+const data = {
+  values: {
+    '/': 40000,
+    1: 4000,
+    2: 10000,
+    3: 12333,
+  },
+  metadata: {
+    '/': { name: '/' },
+    1: { name: 'Test' },
+    2: { name: 'Test2' },
+    3: { name: 'Test3' },
+  },
+};
+
+const testOptions = {
+  selectable: 'multi',
+  paging: 2,
+  data: [
+    { label: 'Path' },
+    { label: 'Nb hits' },
+  ],
+};
+
+export const Analytics = makeStory(conf, {
+  items: [{ items: data, options: testOptions }],
 });

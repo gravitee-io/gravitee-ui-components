@@ -55,3 +55,7 @@ export { GvMenu } from './organisms/gv-menu';
 export { GvPagination } from './organisms/gv-pagination';
 export { GvUserMenu } from './organisms/gv-user-menu';
 export { GvTheme } from './theme/gv-theme';
+export { GvStats } from './molecules/gv-stats';
+export { GvChartPie } from './charts/gv-chart-pie';
+export { GvChartLine } from './charts/gv-chart-line';
+export { GvChartMap } from './charts/gv-chart-map';
