@@ -31,12 +31,12 @@ export const skeleton = css`
     animation-iteration-count: infinite;
     animation-name: skeleton-pulse;
     color: transparent;
-    cursor: progress;
+    cursor: progress !important;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: var(--gv-theme-skeleton-color, #BFBFBF);
+    background-color: var(--gv-theme-skeleton-color, #BFBFBF) !important;
     border-color: var(--gv-theme-skeleton-color, #BFBFBF);
     transition: 0.5s;
   }

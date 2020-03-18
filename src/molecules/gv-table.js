@@ -22,11 +22,12 @@ import { dispatchCustomEvent } from '../lib/events';
 import { i18n, getLanguage } from '../lib/i18n';
 import { until } from 'lit-html/directives/until';
 import { styleMap } from 'lit-html/directives/style-map';
+import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**
  * Table component
  *
- * @fires gv-table:click - when table row is clicked
+ * @fires gv-table:select - when table row is selected
  * @fires gv-table:mouseenter - when the pointer is entering on a table row
  * @fires gv-table:mouseleave - when the pointer is leaving a table row
  *
@@ -37,7 +38,7 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @attr {Boolean} noheader - Used to hide the table header
  * @attr {Boolean} nosort - Used to disable the click on header to sort
  * @attr {String} rowsheight - The height of the table rows
- * @attr {String} emptykey - The i18n key of the empty state
+ * @attr {String} emptymessage - The empty message to display
  * @attr {String} format - A function to format table headers
  *
  * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
@@ -46,7 +47,7 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
  *
  */
-export class GvTable extends LitElement {
+export class GvTable extends withResizeObserver(LitElement) {
 
   static get properties () {
     return {
@@ -57,10 +58,15 @@ export class GvTable extends LitElement {
       noheader: { type: Boolean },
       nosort: { type: Boolean },
       rowsheight: { type: String },
-      emptykey: { type: String },
+      emptymessage: { type: String },
       format: { type: Function },
       _items: { type: Array, attribute: false },
-      _selectedItem: { type: Object },
+      _selectedItem: { type: Object, attribute: false },
+      _skeleton: { type: Boolean, attribute: false },
+      _error: { type: Boolean, attribute: false },
+      _empty: { type: Boolean, attribute: false },
+      _itemsProvider: { type: Array, attribute: false },
+      _page: { type: Number, attribute: false },
     };
   }
 
@@ -69,99 +75,131 @@ export class GvTable extends LitElement {
       skeleton,
       // language=CSS
       css`
-          :host {
-            --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #009B5B));
-            --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-            --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-            --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
-          }
+        :host {
+          --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #009B5B));
+          --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          display: block;
+          height: 100%;
+        }
 
-          .table {
-            background-color: var(--bgc);
-          }
+        .table {
+          background-color: var(--bgc);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
 
-          .rows {
-            overflow: scroll;
-            user-select: none;
-          }
+        .rows {
+          user-select: none;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          flex: 1;
+          overflow: auto;
+          height: 100%;
+        }
 
-          .rows {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
+        .rows::-webkit-scrollbar {
+          display: none;
+        }
 
-          .rows::-webkit-scrollbar {
-            display: none;
-          }
+        .row {
+          cursor: pointer;
+        }
 
-          .row {
-            cursor: pointer;
-          }
+        :host([w-lt-768]) .row {
+          height: 70px;
+        }
 
-          .theader {
-            font-weight: bold;
-          }
+        :host([w-lt-580]) .row {
+          height: 60px;
+        }
 
-          .row, .theader {
-            align-items: center;
-            border-right: solid thick transparent;
-            display: grid;
-            grid-auto-rows: minmax(80px, auto);
-            grid-gap: 10px;
-          }
+        :host([w-lt-400]) .row {
+          height: 50px;
+        }
 
-          .row:not(:last-child) {
-            box-shadow: 0 24px 3px -24px var(--bdc);
-          }
+        .widget {
+          height: 30px !important;
+          text-align: right;
+        }
 
-          .row:hover, .row.selected {
-            background-color: var(--hover-bgc);
-          }
+        .widget div:first-child {
+          text-align: left;
+        }
 
-          .row.selected {
-            border-color: var(--selected--bgc);
-            box-sizing: border-box;
-          }
+        .row.widget {
+          box-shadow: 0 5px 3px -6px var(--bdc) !important;
+        }
 
-          .header {
-            border-bottom: 1px solid var(--bdc);
-            padding: 30px;
-          }
+        .theader {
+          background-color: #FAFAFA;
+          font-weight: bold;
+        }
 
-          .header span {
-            color: var(--gv-theme-neutral-color-dark, #BFBFBF);
-            font-weight: 600;
-            font-size: var(--gv-theme-font-size-s, 12px);
-            line-height: 20px;
-            margin-left: 8px;
-          }
+        .row, .theader {
+          align-items: center;
+          align-content: center;
+          border-right: solid thick transparent;
+          display: grid;
+          grid-auto-rows: minmax(80px, auto);
+          grid-gap: 10px;
+          padding: 0 10px;
+        }
 
-          .header h2 {
-            margin: 0;
-            text-transform: uppercase;
-          }
+        .row:not(:last-child) {
+          box-shadow: 0 24px 3px -24px var(--bdc);
+        }
 
-          .image {
-            width: 50px;
-          }
+        .row:hover, .row.selected {
+          background-color: var(--hover-bgc);
+        }
 
-          gv-image {
-            height: 35px;
-            width: 35px;
-            --gv-image--of: contain;
-            padding-left: 20px;
-          }
+        .row.selected {
+          border-color: var(--selected--bgc);
+          box-sizing: border-box;
+        }
 
-          gv-icon {
-            transform: rotate(0deg);
-            --gv-icon--s: 18px;
-          }
+        .header {
+          border-bottom: 1px solid var(--bdc);
+          padding: 30px;
+        }
 
-          gv-icon.desc {
-            transform: rotate(180deg);
-          }
+        .header span {
+          color: var(--gv-theme-neutral-color-dark, #BFBFBF);
+          font-weight: 600;
+          font-size: var(--gv-theme-font-size-s, 12px);
+          line-height: 20px;
+          margin-left: 8px;
+        }
 
-        .empty {
+        .header h2 {
+          margin: 0;
+          text-transform: uppercase;
+        }
+
+        .image {
+          width: 50px;
+        }
+
+        gv-image {
+          height: 35px;
+          width: 35px;
+          --gv-image--of: contain;
+          padding-left: 20px;
+        }
+
+        gv-icon {
+          transform: rotate(0deg);
+          --gv-icon--s: 18px;
+        }
+
+        gv-icon.desc {
+          transform: rotate(180deg);
+        }
+
+        .empty, .error {
           align-items: center;
           display: grid;
           font-weight: 600;
@@ -171,16 +209,76 @@ export class GvTable extends LitElement {
           opacity: 0.5;
           padding: 41px;
         }
+
+        gv-pagination {
+          align-self: flex-end;
+        }
       `,
     ];
   }
 
   constructor () {
     super();
-    this._empty = true;
+    this.breakpoints = {
+      width: [400, 580, 768],
+    };
+    this._empty = false;
+    this._selectedItem = '';
+    // to display skeleton
+    this.options = { data: [{ field: '' }] };
+    this._items = [{}, {}];
+    this.addEventListener('gv-pagination:paginate', (e) => {
+      this._page = e.detail.page;
+      const startPage = (this._page - 1) * this.options.paging;
+      this._items = this._itemsProvider.slice(startPage, startPage + this.options.paging);
+    });
   }
 
-  _onSortChanged (data, e) {
+  set items (items) {
+    this._skeleton = true;
+    Promise.resolve(items)
+      .then((items) => {
+        if (items) {
+          if (items.values) {
+            this._items = [];
+            this.options.data[0].field = 'key';
+            this.options.data[1].field = 'value';
+            let total;
+            if (this.options.percent) {
+              this.options.data[2].field = 'percent';
+              const values = Object.values(items.values);
+              if (values && values.length) {
+                total = values.reduce((p, n) => p + n);
+              }
+            }
+            this._widget = true;
+            Object.keys(items.values).forEach((key) => {
+              const item = { key: items.metadata[key].name, value: items.values[key] };
+              if (this.options.percent) {
+                item.percent = parseFloat(item.value / total * 100).toFixed(2) + '%';
+              }
+              this._items.push(item);
+            });
+          }
+          else {
+            this._items = items;
+          }
+          this._itemsProvider = this._items.slice();
+          if (this.options.paging) {
+            this._items = this._items.splice(0, this.options.paging);
+          }
+          this._empty = this._items.length === 0;
+          this._skeleton = false;
+        }
+      })
+      .catch(() => {
+        this._error = true;
+        this._skeleton = false;
+        this._items = [];
+      });
+  }
+
+  _onSortChanged (field, e) {
     if (e) {
       e.preventDefault();
     }
@@ -188,13 +286,13 @@ export class GvTable extends LitElement {
       if (this.order) {
         const desc = this.order.startsWith('-');
         const previousOrder = desc ? this.order.substring(1) : this.order;
-        const value = data || previousOrder;
-        if (data) {
+        const value = field || previousOrder;
+        if (field) {
           this.order = previousOrder === value ? (desc ? value : '-' + value) : value;
         }
         this._items = this.items.sort((item, item2) => {
-          const itemData = this._getData(item, value) ? this._getData(item, value).toLowerCase() : '';
-          const itemData2 = this._getData(item2, value) ? this._getData(item2, value).toLowerCase() : '';
+          const itemData = this._getDataFromField(item, value) ? this._getDataFromField(item, value).toLowerCase() : '';
+          const itemData2 = this._getDataFromField(item2, value) ? this._getDataFromField(item2, value).toLowerCase() : '';
           if (this.order.startsWith('-')) {
             return itemData2.localeCompare(itemData);
           }
@@ -209,24 +307,37 @@ export class GvTable extends LitElement {
     }
   }
 
-  _onClick (item) {
-    if (this._selectedItem === item) {
-      this._selectedItem = undefined;
+  _onSelect (item) {
+    if (this.options.selectable && !this._skeleton) {
+      const currentItem = JSON.stringify(item);
+      if (this.options.selectable === 'multi') {
+        if (this._selectedItem && this._selectedItem.includes(currentItem)) {
+          this._selectedItem = this._selectedItem.replace(currentItem, '');
+        }
+        else {
+          this._selectedItem += currentItem;
+        }
+      }
+      else {
+        if (this._selectedItem === item) {
+          this._selectedItem = undefined;
+        }
+        else {
+          this._selectedItem = currentItem;
+        }
+      }
+      dispatchCustomEvent(this, 'select', this._selectedItem);
     }
-    else {
-      this._selectedItem = item;
-    }
-    dispatchCustomEvent(this, 'click', { item });
   }
 
   _onMouseEnter (item) {
-    if (!this._selectedItem) {
+    if (!this._selectedItem && !this._skeleton) {
       dispatchCustomEvent(this, 'mouseenter', { item });
     }
   }
 
   _onMouseLeave () {
-    if (!this._selectedItem) {
+    if (!this._selectedItem && !this._skeleton) {
       dispatchCustomEvent(this, 'mouseleave');
     }
   }
@@ -237,14 +348,14 @@ export class GvTable extends LitElement {
     }
     else {
       return html`
-        <div class="theader" style="${styleGridColumns}">
-          ${this.options && (this._items && this._items.length) ? repeat(this.options, (option) => option, (option) => {
+        <div class=${classMap({ theader: true, widget: this._widget })} style="${styleGridColumns}">
+          ${this.options && this.options.data && (this._items && this._items.length) ? repeat(this.options.data, (option) => option, (option) => {
             const orderValue = (this.order && this.order.startsWith('-')) ? this.order.substring(1) : this.order;
             const label = this.format && option.label ? this.format(option.label) : option.label;
             return html`
                 <div>${this.order && !this.nosort ? html`
-                    <a href="" @click="${this._onSortChanged.bind(this, option.data)}">${until(label)}
-                      ${orderValue === option.data ? html`
+                    <a href="" @click="${this._onSortChanged.bind(this, option.field)}">${until(label)}
+                      ${orderValue === option.field ? html`
                         <gv-icon class=${classMap({ desc: this.order.startsWith('-') })} shape="design:triangle"></gv-icon>` : ''}
                     </a>` : until(label)}
                 </div>`;
@@ -258,18 +369,18 @@ export class GvTable extends LitElement {
       <div class="rows" style="${this.rowsheight ? 'height: ' + this.rowsheight : ''}" @mouseleave="${this._onMouseLeave.bind(this)}">
         ${(this._items && this._items.length) ? repeat(this._items, (item) => item, (item) => {
         return html`
-          <div class=${classMap({ row: true, selected: item === this._selectedItem })} style="${styleGridColumns}"
-            @click="${this._onClick.bind(this, item)}" @mouseenter="${this._onMouseEnter.bind(this, item)}">
-            ${this.options ? repeat(this.options, (option) => option, (option) => {
-              let value = option.data ? this._getData(item, option.data) : '';
+          <div class=${classMap({ row: true, widget: this._widget, skeleton: this._skeleton, selected: this._selectedItem.includes(JSON.stringify(item)) })} style="${styleGridColumns}"
+            @click="${this._onSelect.bind(this, item)}" @mouseenter="${this._onMouseEnter.bind(this, item)}">
+            ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
+              let value = option.field ? this._getDataFromField(item, option.field) : '';
               if (option.type === 'date' && value) {
                 value = new Date(value).toLocaleString(getLanguage());
               }
               if (option.format) {
                 value = option.format('gv-table.' + value);
               }
-              const alt = option.alt ? this._getData(item, option.alt) : '';
-              const tag = option.tag ? this._getData(item, option.tag) : '';
+              const alt = option.alt ? this._getDataFromField(item, option.alt) : '';
+              const tag = option.tag ? this._getDataFromField(item, option.tag) : '';
               const image = option.type === 'image';
               return html`
                   <div class=${classMap({ image })}>
@@ -288,15 +399,29 @@ export class GvTable extends LitElement {
   }
 
   _renderItems () {
-    const styleGridColumns = `grid-template-columns: repeat(${this.options && this.options.length}, 1fr)`;
+    const styleGridColumns = `grid-template-columns: repeat(${(this.options && this.options.data && this.options.data.length) || 1}, 1fr)`;
     return html`
       ${this._renderHeader(styleGridColumns)}
       ${this._renderRows(styleGridColumns)}
+      ${this._renderPagination()}
     `;
   }
 
-  _getData (item, data) {
-    return data.split('.').reduce((p, c) => p && p[c], item);
+  _renderPagination () {
+    if (this.options && this.options.paging && this._itemsProvider) {
+      const paginationData = {
+        first: 1,
+        last: this._itemsProvider.length / this.options.paging,
+        total: this._itemsProvider.length,
+        current_page: this._page || 1,
+        total_pages: this._itemsProvider.length / this.options.paging,
+      };
+      return html`<gv-pagination .data="${paginationData}"></gv-pagination>`;
+    }
+  }
+
+  _getDataFromField (item, field) {
+    return field.split('.').reduce((p, c) => p && p[c], item);
   }
 
   _renderTag (tag) {
@@ -316,11 +441,14 @@ export class GvTable extends LitElement {
   }
 
   render () {
+    if (this._error) {
+      return html`<div class="error">${i18n('gv-table.error')}</div>`;
+    }
+
     const classes = {
       table: true,
       skeleton: this._skeleton,
     };
-    const hasData = this._items && this._items.length;
 
     const emptyStyle = {
       height: this.rowsheight ? this.rowsheight : '',
@@ -328,10 +456,12 @@ export class GvTable extends LitElement {
 
     return html`
       <div class=${classMap(classes)}>
-        <div class="header"><h2>${this.title} ${hasData ? html`<span>(${this.items.length})</span>` : ''}</h2></div>
-        ${hasData ? this._renderItems() : html`
+        ${this.title ? html`
+          <div class="header"><h2>${this.title} ${!this._empty ? html`<span>(${this._items.length})</span>` : ''}</h2></div>`
+          : ''}
+        ${!this._empty ? this._renderItems() : html`
             <div class="empty" style="${styleMap(emptyStyle)}">
-                ${this.emptykey ? i18n(this.emptykey) : i18n('gv-table.empty')}
+                ${this.emptymessage ? this.emptymessage : i18n('gv-table.empty')}
             </div>`}
       </div>
     `;

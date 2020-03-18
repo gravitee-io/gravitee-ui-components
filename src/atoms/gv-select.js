@@ -22,10 +22,13 @@ import { input } from '../styles/input';
 import { repeat } from 'lit-html/directives/repeat';
 import { styleMap } from 'lit-html/directives/style-map';
 import './gv-icon';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  *
  * A select component.
+ *
+ * @fires gv-select:select - Event when user select a value
  *
  * @attr {Boolean} disabled - same as native select element `disabled` attribute
  * @attr {Boolean} required - same as native select element `required` attribute
@@ -204,6 +207,7 @@ export class GvSelect extends LitElement {
       this.value = e.target.dataset.value;
       this._isClosed = !this._isClosed;
       this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+      dispatchCustomEvent(this, 'select', { id: this.value });
     }
   }
 

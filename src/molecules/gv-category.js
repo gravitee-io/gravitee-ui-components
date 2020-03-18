@@ -25,7 +25,7 @@ import { i18n } from '../lib/i18n';
  *
  * @fires gv-category:click - Custom click event
  *
- * @attr {Promise<Object>} Category - A category object {title, description}
+ * @attr {Promise<Object>} category - A category object {title, description}
  * @attr {Length} limit - number of characters that can be display in the description. If _description_ is greater, it will be truncated.
  *
  * @cssprop {Color} [--gv-category--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color

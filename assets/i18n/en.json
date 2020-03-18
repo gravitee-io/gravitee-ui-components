@@ -14,6 +14,10 @@
     "empty": "No information to display",
     "error": "An error has occurred"
   },
+  "gv-chart": {
+    "empty": "No data to display",
+    "error": "An error has occurred"
+  },
   "gv-code": {
     "copy": "Copy to clipboard"
   },
@@ -103,10 +107,15 @@
     "empty": "No data to display here",
     "error": "An error occurred while loading"
   },
+  "gv-stats": {
+    "empty": "No data to display here",
+    "error": "An error occurred while loading"
+  },
   "gv-stepper": {
     "error": "An error occurred while loading the steps"
   },
   "gv-table": {
-    "empty": "No data to display here"
+    "empty": "No data to display here",
+    "error": "An error occurred while loading"
   }
 }
