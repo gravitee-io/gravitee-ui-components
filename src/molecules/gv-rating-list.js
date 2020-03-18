@@ -27,7 +27,12 @@ import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
- * Rating list component
+ * List of ratings with answer form
+ *
+ * ## Attribute `permissions` details
+ *
+ * * `delete` and `update` properties supports booleans or arrays of rating identifier.
+ * * `addAnswer` and `deleteAnswer` only accept booleans.
  *
  * @fires gv-rating-list:add-answer - When user submit answer
  * @fires gv-rating-list:delete - When user delete rating
@@ -37,7 +42,6 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Promise<Array>} ratings - ratings
  * @attr {id, avatar, display_name} user - a current user
  * @attr {Object<{update, delete, addAnswer, deleteAnswer}>} permissions - The permissions
- *
  * @cssprop {Color} [--gv-rating-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-rating-list-answer--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Answer background color
  * @cssprop {Color} [--gv-rating-list--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
@@ -128,6 +132,7 @@ export class GvRatingList extends LitElement {
           .delete-rating, .delete-answer, .fake-icon {
               --gv-icon--s: var(--s);
               min-width: var(--s);
+              display: inline-flex;
           }
 
           .delete-rating {
@@ -261,7 +266,7 @@ export class GvRatingList extends LitElement {
     }
     else {
       return html`
-        ${this._canDelete() ? html`<gv-confirm
+        ${this._canDelete(data.id) ? html`<gv-confirm
                                        icon="home:trash"
                                        @gv-confirm:ok="${this._onDelete.bind(this, data)}"
                                        message="${i18n('gv-rating-list.confirmRatingDelete')}">
@@ -282,7 +287,7 @@ export class GvRatingList extends LitElement {
       <div class="${classMap(classes)}">
         <gv-user-avatar .user="${data.author}"></gv-user-avatar>
         <div class="rating-content">
-            <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canUpdate()}"
+            <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canUpdate(data.id)}"
 @input="${this._onUpdateRating.bind(this, data)}" value="${data.value}"></gv-rating>`}${this._renderActions(data, parent)}</div>
             <div class="sub-title">${this._getDisplayName(data)}<gv-relative-time datetime="${data.date}"></gv-relative-time></div>
             <p class="comment">${data.comment}</p>
@@ -298,19 +303,25 @@ export class GvRatingList extends LitElement {
   }
 
   _canAddAnswer () {
-    return this._permissions.addAnswer;
+    return this._permissions.addAnswer === true;
   }
 
   _canDeleteAnswer () {
-    return this._permissions.deleteAnswer;
+    return this._permissions.deleteAnswer === true;
   }
 
-  _canUpdate () {
-    return this._permissions.update;
+  _canUpdate (ratingId) {
+    if (Array.isArray(this._permissions.update)) {
+      return this._permissions.update.includes(ratingId);
+    }
+    return this._permissions.update === true;
   }
 
-  _canDelete () {
-    return this._permissions.delete;
+  _canDelete (ratingId) {
+    if (Array.isArray(this._permissions.delete)) {
+      return this._permissions.delete.includes(ratingId);
+    }
+    return this._permissions.delete === true;
   }
 
   _getDisplayName (data) {

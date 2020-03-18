@@ -16,6 +16,7 @@
 import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
+import { link } from '../styles/link';
 import '../atoms/gv-icon';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { dispatchCustomEvent } from '../lib/events';
@@ -73,6 +74,7 @@ export class GvButton extends LitElement {
 
   static get styles () {
     return [
+      link,
       // language=CSS
       css`
         :host {
@@ -116,6 +118,7 @@ export class GvButton extends LitElement {
           font-size: var(--gv-button--fz, var(--gv-theme-font-size-m, 14px));
           margin: 0;
           padding: 0;
+          height: 100%;
         }
 
         /* BASE */

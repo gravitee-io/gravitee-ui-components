@@ -31,17 +31,29 @@ const conf = {
 
 const items = [
   { innerHTML: 'User Experience' },
-  { innerHTML: 'Add user', icon: 'communication:add-user' },
   { innerHTML: 'User Experience', minor: true },
-  { innerHTML: 'Add user', icon: 'communication:add-user', minor: true },
   { innerHTML: 'User Experience', major: true },
-  { innerHTML: 'Add user', icon: 'communication:add-user', major: true },
+
 ];
 
 export const Basics = makeStory(conf, {
   items,
 });
 
+const iconItems = [
+  { innerHTML: 'Add user', icon: 'communication:add-user' },
+  { innerHTML: 'Remove user', 'icon-right': 'general:close', minor: true },
+  { innerHTML: 'Add user', icon: 'communication:add-user', major: true },
+];
+
+export const Icon = makeStory(conf, {
+  items: iconItems,
+});
+
+export const Clickable = makeStory(conf, {
+  items: iconItems.map((p) => ({ ...p, clickable: true })),
+});
+
 export const Skeleton = makeStory(conf, {
-  items: items.map((p) => ({ ...p, skeleton: true })),
+  items: [...items, ...iconItems].map((p) => ({ ...p, skeleton: true })),
 });

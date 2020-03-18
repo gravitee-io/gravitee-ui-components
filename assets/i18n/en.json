@@ -25,6 +25,15 @@
     "cancel": "No",
     "ok": "Yes"
   },
+  "gv-file-upload": {
+    "chooseAnotherFile": "Choose another file",
+    "chooseFile": "Choose a file",
+    "error": {
+      "maxSize": "File size exceeds allowed limit",
+      "typeNotAllowed": "This file type is not allowed"
+    },
+    "orDragIt": "or drag it here."
+  },
   "gv-header": {
     "empty": "No data to display here",
     "error": "An error occurred while loading",

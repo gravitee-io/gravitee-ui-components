@@ -16,6 +16,7 @@
 import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
+import { link } from '../styles/link';
 import './gv-icon';
 
 /**
@@ -26,9 +27,11 @@ import './gv-icon';
  * @slot - The content of the tag (text or HTML)
  *
  * @attr {String} icon - name of shape
+ * @attr {String} icon-right - name of shape
  * @attr {Boolean} major - set tag UI as major
  * @attr {Boolean} minor - set tag UI as minor
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
+ * @attr {Boolean} clickable - If true, tag has link style
  *
  * @cssprop {Length} [--gv-tag--bdr=4px] - Border radius
  * @cssprop {String} [--gv-tag--bsw=none] - Box shadow
@@ -59,15 +62,18 @@ export class GvTag extends LitElement {
   static get properties () {
     return {
       icon: { type: String },
+      iconRight: { type: String, attribute: 'icon-right' },
       major: { type: Boolean },
       minor: { type: Boolean },
       skeleton: { type: Boolean },
+      clickable: { type: Boolean },
     };
   }
 
   static get styles () {
     return [
       skeleton,
+      link,
       // language=CSS
       css`
           :host {
@@ -131,12 +137,14 @@ export class GvTag extends LitElement {
       major: this.major,
       minor: this.minor && !this.major,
       skeleton: this.skeleton,
+      link: this.clickable,
     };
 
     return html`
       <div class=${classMap(modes)}>
          ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
         <slot></slot>
+        ${this.iconRight ? html`<gv-icon shape="${this.iconRight}"></gv-icon>` : ''}
       </div>
     `;
   }

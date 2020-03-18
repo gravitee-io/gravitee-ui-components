@@ -46,6 +46,7 @@ import { i18n } from '../lib/i18n';
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  * @attr {String} [autocomplete='off'] - standard autocomplete attribute
+ * @attr {Boolean} [clickable=false] - If true, icon has link style
  *
  * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
  */
@@ -73,6 +74,7 @@ export class GvInput extends LitElement {
       autofocus: { type: Boolean },
       readonly: { type: Boolean },
       autocomplete: { type: String },
+      clickable: { type: Boolean },
     };
   }
 
@@ -81,7 +83,7 @@ export class GvInput extends LitElement {
       skeleton,
       input,
       // language=CSS
-      css`        
+      css`
           gv-icon {
               background-color: var(--gv-input--bdc, var(--gv-theme-neutral-color, #F5F5F5));
           }
@@ -119,6 +121,20 @@ export class GvInput extends LitElement {
                   transform: rotate(360deg);
               }
           }
+
+          input.clipboard:read-only {
+              cursor: copy;
+          }
+
+          input.clipboard:-moz-read-only  {
+              cursor: copy;
+          }
+
+          input.clipboard:read-only:hover {
+              cursor: not-allowed;
+          }
+        
+          
       `,
     ];
   }
@@ -147,6 +163,10 @@ export class GvInput extends LitElement {
   reset () {
     this.value = '';
     this.shadowRoot.querySelector('input').blur();
+  }
+
+  focus () {
+    this.shadowRoot.querySelector('input').focus();
   }
 
   firstUpdated (changedProperties) {
@@ -231,8 +251,11 @@ export class GvInput extends LitElement {
       }
       dispatchCustomEvent(this, 'submit', this.value);
     }
-    if (this._hasClipboard) {
+    else if (this._hasClipboard) {
       this.copy(this.value);
+    }
+    else {
+      dispatchCustomEvent(this, 'submit', this.value);
     }
   }
 
@@ -249,15 +272,18 @@ export class GvInput extends LitElement {
     const classes = {
       small: this.small,
       medium: (this.medium || (!this.large && !this.small)),
-      clickable: this._type === 'search' || this._hasClipboard,
+      clickable: this.clickable || this._type === 'search' || this._hasClipboard,
       copied: this._hasClipboard && this._copied,
     };
-    let title = null;
+    let title = '';
     if (this._type === 'search') {
       title = i18n('gv-input.search');
     }
     else if (this._hasClipboard) {
       title = i18n('gv-input.copy');
+    }
+    else if (this.placeholder) {
+      title = this.placeholder;
     }
     if (!this.loading && (this.icon || this.iconLeft)) {
       return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon || this.iconLeft}" title="${title}"></gv-icon>`;
@@ -324,6 +350,7 @@ export class GvInput extends LitElement {
       small: this.small,
       icon: !!this.icon,
       'icon-left': !!this.iconLeft,
+      clipboard: this._hasClipboard,
     };
 
     return html`
