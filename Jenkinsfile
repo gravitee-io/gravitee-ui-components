@@ -10,7 +10,7 @@ node {
                  "M2_HOME=${mvnHome}",
                  "JAVA_HOME=${javaHome}"]) {
             sh "mvn clean deploy"
-            sh "docker build -t graviteeio/gravitee-ui-components:latest --pull=true ."
+            sh "docker build -f docker/Dockerfile -t graviteeio/gravitee-ui-components:latest --pull=true ."
             sh "docker push graviteeio/gravitee-ui-components:latest"
         }
     }
