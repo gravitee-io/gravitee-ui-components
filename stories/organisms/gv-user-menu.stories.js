@@ -20,6 +20,7 @@ import avatarSrc from '../../assets/images/logo.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const routes = [
+  { path: 'https://gravitee.io', title: 'External link', icon: 'communication:share', separator: true, target: '_blank' },
   { path: '#', title: 'My account', icon: 'general:user' },
   { path: '#', title: 'My apis', icon: 'cooking:cooking-book' },
   { path: '#', title: 'My apps', icon: 'cooking:bowl' },
