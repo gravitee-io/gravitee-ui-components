@@ -19,7 +19,7 @@ import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
 import { repeat } from 'lit-html/directives/repeat';
 import { dispatchCustomEvent } from '../lib/events';
-import { i18n, getLanguage } from '../lib/i18n';
+import { getLanguage, i18n } from '../lib/i18n';
 import { until } from 'lit-html/directives/until';
 import { styleMap } from 'lit-html/directives/style-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
@@ -40,6 +40,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {String} rowsheight - The height of the table rows
  * @attr {String} emptymessage - The empty message to display
  * @attr {String} format - A function to format table headers
+ * @attr {Array<any>} selected-keys - A list of selected keys of the items displayed
  *
  * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
  * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
@@ -60,8 +61,10 @@ export class GvTable extends withResizeObserver(LitElement) {
       rowsheight: { type: String },
       emptymessage: { type: String },
       format: { type: Function },
+      selectedKeys: { type: Array },
       _items: { type: Array, attribute: false },
-      _selectedItem: { type: Object, attribute: false },
+      _selectedItem: { type: String, attribute: false },
+      _selectedItems: { type: Array, attribute: false },
       _skeleton: { type: Boolean, attribute: false },
       _error: { type: Boolean, attribute: false },
       _empty: { type: Boolean, attribute: false },
@@ -225,9 +228,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     this._empty = false;
     this.order = '';
     this._selectedItem = '';
-    // to display skeleton
-    this.options = { data: [{ field: '' }] };
-    this._items = [{}, {}];
+    this._selectedItems = [];
     this.addEventListener('gv-pagination:paginate', (e) => {
       this._page = e.detail.page;
       const startPage = (this._page - 1) * this.options.paging;
@@ -244,7 +245,6 @@ export class GvTable extends withResizeObserver(LitElement) {
             this._items = items;
           }
           else {
-            this._items = items;
             this._items = [];
             this.options.data[0].field = 'key';
             this.options.data[1].field = 'value';
@@ -258,14 +258,18 @@ export class GvTable extends withResizeObserver(LitElement) {
             }
             this._widget = true;
             Object.keys(items.values).forEach((key) => {
-              const item = { key: items.metadata[key].name, value: items.values[key] };
+              const item = { id: key, key: items.metadata[key].name, value: items.values[key] };
               if (this.options.percent) {
                 item.percent = parseFloat(item.value / total * 100).toFixed(2) + '%';
               }
               this._items.push(item);
+              if (this.selectedKeys && this.selectedKeys.includes(key)) {
+                this._selectedItem += JSON.stringify(item);
+                this._selectedItems.push(item);
+              }
             });
           }
-
+          this._onSortChanged();
           this._itemsProvider = this._items.slice();
           if (this.options.paging) {
             this._items = this._items.splice(0, this.options.paging);
@@ -274,7 +278,8 @@ export class GvTable extends withResizeObserver(LitElement) {
           this._skeleton = false;
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error(e);
         this._error = true;
         this._skeleton = false;
         this._items = [];
@@ -285,28 +290,23 @@ export class GvTable extends withResizeObserver(LitElement) {
     if (e) {
       e.preventDefault();
     }
-    if (this._items) {
-      if (this.order) {
-        const desc = this.order.startsWith('-');
-        const previousOrder = desc ? this.order.substring(1) : this.order;
-        const value = field || previousOrder;
-        if (field) {
-          this.order = previousOrder === value ? (desc ? value : '-' + value) : value;
+    if (this._items && this.order) {
+      const desc = this.order.startsWith('-');
+      const previousOrder = desc ? this.order.substring(1) : this.order;
+      const value = field || previousOrder;
+      if (field) {
+        this.order = previousOrder === value ? (desc ? value : '-' + value) : value;
+      }
+      this._items = this._items.sort((item, item2) => {
+        const itemData = this._getDataFromField(item, value) ? this._getDataFromField(item, value).toLowerCase() : '';
+        const itemData2 = this._getDataFromField(item2, value) ? this._getDataFromField(item2, value).toLowerCase() : '';
+        if (this.order.startsWith('-')) {
+          return itemData2.localeCompare(itemData);
         }
-        this._items = this._items.sort((item, item2) => {
-          const itemData = this._getDataFromField(item, value) ? this._getDataFromField(item, value).toLowerCase() : '';
-          const itemData2 = this._getDataFromField(item2, value) ? this._getDataFromField(item2, value).toLowerCase() : '';
-          if (this.order.startsWith('-')) {
-            return itemData2.localeCompare(itemData);
-          }
-          else {
-            return itemData.localeCompare(itemData2);
-          }
-        });
-      }
-      else {
-        this._items = this._items;
-      }
+        else {
+          return itemData.localeCompare(itemData2);
+        }
+      });
     }
   }
 
@@ -316,20 +316,23 @@ export class GvTable extends withResizeObserver(LitElement) {
       if (this.options.selectable === 'multi') {
         if (this._selectedItem && this._selectedItem.includes(currentItem)) {
           this._selectedItem = this._selectedItem.replace(currentItem, '');
+          this._selectedItems.splice(this._selectedItems.indexOf(item), 1);
         }
         else {
           this._selectedItem += currentItem;
+          this._selectedItems.push(item);
         }
+        dispatchCustomEvent(this, 'select', { items: this._selectedItems, options: this.options });
       }
       else {
-        if (this._selectedItem === item) {
+        if (this._selectedItem && this._selectedItem.includes(currentItem)) {
           this._selectedItem = undefined;
         }
         else {
           this._selectedItem = currentItem;
         }
+        dispatchCustomEvent(this, 'select', { item });
       }
-      dispatchCustomEvent(this, 'select', this._selectedItem);
     }
   }
 
@@ -376,7 +379,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         row: true,
         widget: this._widget,
         skeleton: this._skeleton,
-        selected: this._selectedItem.includes(JSON.stringify(item)),
+        selected: this._selectedItem && this._selectedItem.includes(JSON.stringify(item)),
       })} style="${styleGridColumns}"
             @click="${this._onSelect.bind(this, item)}" @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
@@ -424,7 +427,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         current_page: this._page || 1,
         total_pages: this._itemsProvider.length / this.options.paging,
       };
-      return html`<gv-pagination .data="${paginationData}"></gv-pagination>`;
+      return html`<gv-pagination .data="${paginationData}" .widget="${this._widget}"></gv-pagination>`;
     }
   }
 
@@ -465,7 +468,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     return html`
       <div class=${classMap(classes)}>
         ${this.title ? html`
-          <div class="header"><h2>${this.title} ${!this._empty ? html`<span>(${this._items.length})</span>` : ''}</h2></div>`
+          <div class="header"><h2>${this.title} ${!this._empty ? html`<span>(${this._items && this._items.length})</span>` : ''}</h2></div>`
       : ''}
         ${!this._empty ? this._renderItems() : html`
             <div class="empty" style="${styleMap(emptyStyle)}">

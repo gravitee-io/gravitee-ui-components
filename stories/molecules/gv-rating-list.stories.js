@@ -24,8 +24,9 @@ const comment
 const admin = { id: 0, display_name: 'Administrator', _links: { avatar } };
 const author = { id: 1, display_name: 'Jean Christophe' };
 const date = new Date();
+const dateInTheFutur = new Date(new Date().getTime() + 1000 * 60 * 60);
 const answers = [
-  { author, comment: 'Awesome !', date },
+  { author, comment: 'Awesome !', date: dateInTheFutur },
   { author, comment, date },
 ];
 

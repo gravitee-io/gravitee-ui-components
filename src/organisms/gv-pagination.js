@@ -26,6 +26,7 @@ import { i18n } from '../lib/i18n';
  *
  * @attr {Object} data - Pagination information {first, last, total, current_page}
  * @attr {Boolean} hide-empty - hide component if no page or no data.
+ * @attr {Boolean} widget - display widget pagination (with arrows).
  *
  * @cssprop {Length} [--gv-pagination--fz=var(--gv-theme-font-size-s, 12px)] - Font size
  * @cssprop {Length} [--gv-pagination-icon--s=18px] - Height and icon width
@@ -36,6 +37,7 @@ export class GvPagination extends LitElement {
     return {
       data: { type: Object },
       hideEmpty: { type: Boolean, attribute: 'hide-empty' },
+      widget: { type: Boolean },
       _first: { type: Number },
       _last: { type: Number },
       _current: { type: Number },
@@ -127,12 +129,13 @@ export class GvPagination extends LitElement {
       }
       right = right.slice(0, addRight);
     }
+
     const leftP = left.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
     const rightP = right.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
 
-    leftP.unshift(html`<gv-button .disabled="${leftP.length === 0}" outlined @click="${leftP.length === 0 ? () => {} : this._goToPage.bind(this, this._current - 1)}">${i18n('gv-pagination.previous')}</gv-button>`);
-    rightP.push(html`<gv-button .disabled="${rightP.length === 0}" outlined @click="${rightP.length === 0 ? () => {} : this._goToPage.bind(this, this._current + 1)}">${i18n('gv-pagination.next')}</gv-button>`);
-    return html`${leftP} ${html`<gv-button primary>${this._current}</gv-button>`} ${rightP}`;
+    leftP.unshift(html`<gv-button .disabled="${leftP.length === 0}" outlined @click="${leftP.length === 0 ? () => {} : this._goToPage.bind(this, this._current - 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-left" title="${i18n('gv-pagination.previous')}"></gv-icon>` : i18n('gv-pagination.previous')}</gv-button>`);
+    rightP.push(html`<gv-button .disabled="${rightP.length === 0}" outlined @click="${rightP.length === 0 ? () => {} : this._goToPage.bind(this, this._current + 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-right" title="${i18n('gv-pagination.next')}"></gv-icon>` : i18n('gv-pagination.next')}</gv-button>`);
+    return html`${this.widget ? leftP.slice(0, 1) : leftP} ${html`<gv-button primary>${this.widget ? this._current + ' / ' + pagination.length : this._current}</gv-button>`} ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
   }
 
   _hasData () {

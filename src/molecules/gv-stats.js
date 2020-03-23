@@ -70,11 +70,15 @@ export class GvStats extends LitElement {
           text-align: center;
         }
 
-        .error {
+        .empty, .error {
           align-items: center;
-          display: flex;
-          height: 100%;
-          justify-content: center;
+          display: grid;
+          font-weight: 600;
+          font-size: var(--gv-theme-font-size-xl, 26px);
+          text-align: center;
+          color: var(--gv-theme-color-dark, #193E34);
+          opacity: 0.5;
+          padding: 41px;
         }
       `,
     ];
@@ -114,7 +118,7 @@ export class GvStats extends LitElement {
     Promise.resolve(stats)
       .then((stats) => {
         if (stats) {
-          this._empty = stats.length === 0;
+          this._empty = Object.keys(stats).length === 0;
           this._stats = stats;
           this._skeleton = false;
           this.render();
@@ -132,7 +136,7 @@ export class GvStats extends LitElement {
       return html`<div class="error">${i18n('gv-stats.error')}</div>`;
     }
     if (this._empty) {
-      return html`<div class="error">${i18n('gv-stats.empty')}</div>`;
+      return html`<div class="empty">${i18n('gv-stats.empty')}</div>`;
     }
     return html`<div class="${classMap({ stats: true, skeleton: this._skeleton })}">
       ${repeat(this.options, (option) => option, (option) =>
