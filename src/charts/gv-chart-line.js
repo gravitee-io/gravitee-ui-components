@@ -33,17 +33,25 @@ export class GvChartLine extends ChartElement(LitElement) {
 
   getOptions () {
     if (this._series && this._series.values && this._series.values[0] && this._series.values[0].buckets) {
-      this._series.values[0].buckets.forEach((bucket, i) => {
-        const metadata = this._series && this._series.values && this._series.values[i] && this._series.values[i].metadata;
-        this._series.values[i] = { ...this.options.data[0], ...this.options.data[i], ...bucket };
-        const isFieldRequest = metadata && (bucket.name === '1'
-          || bucket.name.match('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'));
+      const values = this._series.values[0].buckets.slice();
+      const metadata = this._series.values[0].metadata;
+      values.forEach((bucket, i) => {
+        this._series.values[i] = { ...bucket, ...this.options.data[0] };
+        let isFieldRequest = this.options.request.aggs && this.options.request.aggs.startsWith('field:');
+        if (bucket.name === '1' || bucket.name.match('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')) {
+          isFieldRequest = false;
+        }
+        let label = this.options.labels ? this.options.labels[0] : '';
+        if (!label && metadata && metadata[bucket.name]) {
+          label = metadata[bucket.name].name;
+        }
         if (isFieldRequest) {
-          this._series.values[i].name = metadata[bucket.name].name;
-          this._series.values[i].labelPrefix = metadata[bucket.name].name;
+          this._series.values[i].name = bucket.name;
+          this._series.values[i].labelPrefix = label;
         }
         else {
-          this._series.values[i].name = this._series.values[i].labelPrefix;
+          this._series.values[i].name = label;
+          this._series.values[i].labelPrefix = '';
         }
       });
     }
