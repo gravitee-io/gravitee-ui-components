@@ -261,6 +261,7 @@ export class GvUserMenu extends LitElement {
                         .icon="${route.icon}"
                         .path="${route.path}"
                         .title="${route.title}"
+                        .target="${route.target}"
                          @click=${this._onSelect}
                       ></gv-link>`}
 
