@@ -68,7 +68,7 @@ export class GvSwitch extends LitElement {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          flex: 1;  
+          flex: 1;
         }
 
         .switch-title {
@@ -149,7 +149,6 @@ export class GvSwitch extends LitElement {
   constructor () {
     super();
     this._id = 'gv-id';
-    this.value = true;
   }
 
   _onInput () {
@@ -168,10 +167,10 @@ export class GvSwitch extends LitElement {
 
     return html`
     <div class="container">
-    
+
     ${this.label ? html`<div class="labels">
         ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
-         ${this.description ? html`<label class="switch-description">${this.description}</label>` : ''} 
+         ${this.description ? html`<label class="switch-description">${this.description}</label>` : ''}
       </div>` : ''}
       <div class="switch-container">
         <div class=${classMap(classes)}>
