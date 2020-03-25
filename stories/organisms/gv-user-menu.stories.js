@@ -47,33 +47,38 @@ const conf = {
 const username = 'Richard T.';
 export const Basics = makeStory(conf, {
   items: [
-    { routes, username, innerHTML: '<gv-user-avatar></gv-user-avatar>' },
+    { routes, username, innerHTML: '<gv-identity-picture></gv-identity-picture>' },
   ],
   simulations: [
     storyWait(0, ([component]) => {
-      component.firstElementChild.user = { display_name: username };
+      component.firstElementChild.display_name = username;
+      component.firstElementChild.type = 'USER';
     }),
   ],
 });
 
 export const withPicture = makeStory(conf, {
   items: [
-    { routes, username, innerHTML: '<gv-user-avatar></gv-user-avatar>' },
+    { routes, username, innerHTML: '<gv-identity-picture></gv-identity-picture>' },
   ],
   simulations: [
     storyWait(0, ([component]) => {
-      component.firstElementChild.user = { display_name: 'Gravatar', _links: { avatar: avatarSrc } };
+      component.firstElementChild.display_name = 'Gravatar';
+      component.firstElementChild.picture = avatarSrc;
+      component.firstElementChild.type = 'USER';
     }),
   ],
 });
 
 export const withLargePicture = makeStory(conf, {
   items: [
-    { routes, username, innerHTML: '<gv-user-avatar></gv-user-avatar>' },
+    { routes, username, innerHTML: '<gv-identity-picture></gv-identity-picture>' },
   ],
   simulations: [
     storyWait(0, ([component]) => {
-      component.firstElementChild.user = { display_name: 'Gravatar', _links: { avatar: bigImage } };
+      component.firstElementChild.display_name = 'Gravatar';
+      component.firstElementChild.picture = bigImage;
+      component.firstElementChild.type = 'USER';
     }),
   ],
 });

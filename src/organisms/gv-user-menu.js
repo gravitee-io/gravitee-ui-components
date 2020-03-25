@@ -91,9 +91,8 @@ export class GvUserMenu extends LitElement {
         }
 
         ::slotted(*) {
-          display: inline-block;
-          vertical-align: middle;
-          max-height: 40px;
+          height: 40px;
+          width: 40px;
         }
 
         .user-menu__title.no-user {

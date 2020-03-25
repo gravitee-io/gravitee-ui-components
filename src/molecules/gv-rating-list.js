@@ -17,7 +17,7 @@ import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import { repeat } from 'lit-html/directives/repeat';
 import './../atoms/gv-relative-time';
-import './gv-user-avatar';
+import './gv-identity-picture';
 import './gv-rating';
 import './gv-confirm';
 import { skeleton } from '../styles/skeleton';
@@ -106,8 +106,10 @@ export class GvRatingList extends LitElement {
               text-decoration: underline;
           }
 
-          gv-user-avatar {
+          gv-identity-picture {
               margin: 0 1rem;
+              vertical-align: middle;
+              width: 40px;
           }
 
           .title {
@@ -281,10 +283,12 @@ export class GvRatingList extends LitElement {
 
   _render (data, parent) {
     const classes = { rating: true, skeleton: this._skeleton, parent: parent == null };
+    const displayName = (data.author && data.author.display_name ? data.author.display_name : null);
+    const picture = (data.author && data.author._links && data.author._links.avatar ? data.author._links.avatar : null);
 
     return html`
       <div class="${classMap(classes)}">
-        <gv-user-avatar .user="${data.author}"></gv-user-avatar>
+        <gv-identity-picture .display_name="${displayName}" .picture="${picture}"></gv-identity-picture>
         <div class="rating-content">
             <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canUpdate(data.id)}"
 @input="${this._onUpdateRating.bind(this, data)}" value="${data.value}"></gv-rating>`}${this._renderActions(data, parent)}</div>

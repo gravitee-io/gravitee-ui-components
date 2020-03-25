@@ -54,7 +54,7 @@ export class GvPromote extends ItemResource(LitElement) {
           width: 100%;
         }
 
-        gv-image {
+        gv-identity-picture {
           height: var(--gv-promote-image--h, 300px);
           width: var(--gv-promote-image--w, 300px);
           --gv-image--of: contain;
@@ -129,6 +129,13 @@ export class GvPromote extends ItemResource(LitElement) {
 
   _onClick () {
     dispatchCustomEvent(this, 'click', { path: this.path });
+  }
+
+  _renderImage () {
+    if (!this._empty) {
+      return html`<gv-identity-picture .display_name="${this._getTitle()}" .picture="${this._picture}" @load="${this._onImageLoaded}"></gv-identity-picture>`;
+    }
+    return '';
   }
 
   render () {

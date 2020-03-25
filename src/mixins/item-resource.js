@@ -17,6 +17,7 @@ import { html } from 'lit-html';
 import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
 import { getApplicationTypeIcon } from '../lib/theme';
+import '../molecules/gv-identity-picture';
 
 /**
  * This is a mixin for ItemResource
@@ -60,9 +61,6 @@ export function ItemResource (ParentClass) {
             else if (item._links && item._links.picture) {
               this._picture = item._links.picture;
             }
-            else {
-              this._loadDefaultPicture();
-            }
             this._empty = false;
             this._skeleton = false;
           }
@@ -73,14 +71,9 @@ export function ItemResource (ParentClass) {
           this._error = false;
         })
         .catch(() => {
-          this._loadDefaultPicture();
           this._error = true;
           this._skeleton = false;
         });
-    }
-
-    getDefaultPicture () {
-      return import('../../assets/images/promote-api.png');
     }
 
     _getVersion () {
@@ -125,7 +118,7 @@ export function ItemResource (ParentClass) {
 
     _renderImage () {
       if (!this._empty) {
-        return html`<gv-image src="${this._picture}" alt="${this._getTitle()}" @load="${this._onImageLoaded}">`;
+        return html`<gv-identity-picture .display_name="${this._getTitle()}" .picture="${this._picture}" @load="${this._onImageLoaded}"></gv-identity-picture>`;
       }
       return '';
     }
@@ -210,11 +203,6 @@ export function ItemResource (ParentClass) {
       return '';
     }
 
-    _loadDefaultPicture () {
-      this.getDefaultPicture().then((picture) => {
-        this._picture = picture.default;
-      });
-    }
   };
 
 }
