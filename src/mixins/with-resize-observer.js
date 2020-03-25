@@ -48,10 +48,17 @@ export function withResizeObserver (ParentClass) {
         super.connectedCallback();
       }
       const ResizeObserver = await ResizeObserverPromise;
-      const ro = new ResizeObserver(() => {
-        const { width } = this.getBoundingClientRect();
-        this._onResize({ width });
+      const ro = new ResizeObserver((entries) => {
+        // We wrap it in requestAnimationFrame to avoid this error - ResizeObserver loop limit exceeded
+        window.requestAnimationFrame(() => {
+          if (!Array.isArray(entries) || !entries.length) {
+            return;
+          }
+          const { width } = this.getBoundingClientRect();
+          this._onResize({ width });
+        });
       });
+
       ro.observe(this);
       this._unobserveResize = () => ro.unobserve(this);
     }
