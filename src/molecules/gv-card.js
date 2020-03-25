@@ -45,7 +45,7 @@ export class GvCard extends ItemResource(LitElement) {
               max-height: 144px;
           }
 
-          gv-image {
+          gv-identity-picture {
             height:  var(--gv-card-image--h, 65px);
             width:  var(--gv-card-image--w, 110px);
             --gv-image--of: contain;

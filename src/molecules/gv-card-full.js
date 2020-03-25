@@ -63,7 +63,7 @@ export class GvCardFull extends ItemResource(LitElement) {
           font-size: var(--gv-theme-font-size-m, 14px);
         }
 
-        gv-image {
+        gv-identity-picture {
           height: var(--gv-card-full-image--h, 65px);
           width: var(--gv-card-full-image--w, 110px);
           --gv-image--of: contain;
@@ -162,10 +162,6 @@ export class GvCardFull extends ItemResource(LitElement) {
   constructor () {
     super();
     this.limit = 150;
-  }
-
-  getDefaultPicture () {
-    return import('../../assets/images/api-full.png');
   }
 
   _renderInfoRating () {

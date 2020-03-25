@@ -76,7 +76,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
           display: block;
         }
 
-        gv-image {
+        gv-identity-picture {
           height: var(--img-h);
           width: var(--img-w);
           --gv-image--of: contain;

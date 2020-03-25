@@ -73,7 +73,7 @@ export class GvInfo extends ItemResource(LitElement) {
           line-height: 22px;
         }
 
-        gv-image {
+        gv-identity-picture {
           height: var(--gv-info-image--h, 32px);
           width: var(--gv-info-image--w, 32px);
         }

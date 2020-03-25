@@ -31,6 +31,8 @@ const states = [
 ];
 const item = { name: 'Long Supernova', _links: { picture }, version, states };
 
+const itemWithoutPicture = { name: 'Long Supernova', version, states };
+
 export default {
   title: 'Organisms|gv-header',
   component: 'gv-header',
@@ -57,6 +59,10 @@ const breadcrumbs = [
 
 export const Basics = makeStory(conf, {
   items: [{ item, breadcrumbs }],
+});
+
+export const BasicsWihoutPicture = makeStory(conf, {
+  items: [{ item: itemWithoutPicture, breadcrumbs, type: 'API' }],
 });
 
 export const WithSubscribe = makeStory(conf, {

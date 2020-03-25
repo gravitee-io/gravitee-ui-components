@@ -17,8 +17,8 @@ import { css, html, LitElement } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
-import { until } from 'lit-html/directives/until';
 import { i18n } from '../lib/i18n';
+import '../molecules/gv-identity-picture';
 
 /**
  * Connected Applications component
@@ -57,7 +57,7 @@ export class GvList extends LitElement {
           --gv-icon--s: var(--gv-list-icon--s, 20px);
         }
 
-        gv-image {
+        gv-identity-picture {
           width: var(--gv-list-image--w, 40px);
           height: var(--gv-list-image--h, 40px);
         }
@@ -149,22 +149,8 @@ export class GvList extends LitElement {
       });
   }
 
-  getDefaultPicture () {
-    return import('../../assets/images/promote-api.png').then((picture) => picture.default);
-  }
-
-  _onImageError (e) {
-    const img = e.target;
-    this.getDefaultPicture().then((picture) => (img.src = picture));
-  }
-
   _renderImage (picture, name) {
-    if (picture) {
-      return html`<gv-image src="${picture}" alt="${name}" @error="${this._onImageError}">`;
-    }
-    else {
-      return html`<gv-image src="${until(this.getDefaultPicture())}" alt="${name}">`;
-    }
+    return html`<gv-identity-picture .picture="${picture}" .display_name="${name}"></gv-identity-picture>`;
   }
 
   _renderStatus (subscriptions) {

@@ -190,7 +190,7 @@ export class GvTable extends withResizeObserver(LitElement) {
               line-height: 20px;
           }
 
-          gv-image {
+          gv-identity-picture {
               height: 35px;
               width: 35px;
               --gv-image--of: contain;
@@ -521,7 +521,7 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _renderImage (picture, alt) {
-    return html`<gv-image src="${picture}" alt="${alt}" @load="${this._onImageLoaded}">`;
+    return html`<gv-identity-picture .picture="${picture}" .display_name="${alt}"></gv-identity-picture>`;
   }
 
   updated () {

@@ -119,7 +119,7 @@ export class GvRow extends ItemResource(LitElement) {
             text-align: center;
           }
 
-          gv-image {
+          gv-identity-picture {
             height: var(--gv-row-image--h, 35px);
             width: var(--gv-row-image--w, 35px);
             border-radius: 20px;

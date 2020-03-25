@@ -13,33 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/molecules/gv-user-avatar';
-import notes from '../../.docs/gv-user-avatar.md';
-import avatar from '../../assets/images/logo.png';
+import '../../src/molecules/gv-identity-picture';
+import notes from '../../.docs/gv-identity-picture.md';
+import picture from '../../assets/images/logo.png';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-user-avatar',
-  component: 'gv-user-avatar',
+  title: 'Molecules|gv-identity-picture',
+  component: 'gv-identity-picture',
   parameters: {
     notes,
   },
 };
 
 const conf = {
-  component: 'gv-user-avatar',
+  component: 'gv-identity-picture',
+  css: `
+    gv-identity-picture {
+      min-height: 40px;
+      min-width: 40px;
+    }
+  `,
 };
-
-const user = { display_name: 'Gravatar', _links: { avatar } };
-
 export const withPicture = makeStory(conf, {
-  items: [{ user }, { user, size: 150 }],
+  items: [{ display_name: 'Gravatar', picture: picture }],
 });
 
 export const withoutPicture = makeStory(conf, {
-  items: [{ user: { display_name: `Jean Jean` } }, { user: { display_name: `Jean Jean` }, size: 150 }],
-});
-
-export const Empty = makeStory(conf, {
-  items: [{ }],
+  items: [{ display_name: 'Jean Jean' }],
 });
