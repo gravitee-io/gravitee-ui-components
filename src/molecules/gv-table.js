@@ -65,7 +65,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       rowsheight: { type: String },
       emptymessage: { type: String },
       format: { type: Function },
-      selectedKeys: { type: Array },
+      selected: { type: Array },
       _items: { type: Array, attribute: false },
       _selectedItem: { type: String, attribute: false },
       _selectedItems: { type: Array, attribute: false },
@@ -143,7 +143,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           }
 
           .theader {
-              background-color: #FAFAFA;
+              background-color: var(--gv-theme-neutral-color-lighter);
               font-weight: bold;
           }
 
@@ -251,6 +251,10 @@ export class GvTable extends withResizeObserver(LitElement) {
         if (items) {
           if (Array.isArray(items)) {
             this._items = items;
+            if (this.selected && this._items.includes(this.selected)) {
+              this._selectedItem += JSON.stringify(this.selected);
+              this._selectedItems.push(this.selected);
+            }
           }
           else {
             this._items = [];
@@ -271,7 +275,7 @@ export class GvTable extends withResizeObserver(LitElement) {
                 item.percent = parseFloat(item.value / total * 100).toFixed(2) + '%';
               }
               this._items.push(item);
-              if (this.selectedKeys && this.selectedKeys.includes(key)) {
+              if (this.selected && this.selected.includes(key)) {
                 this._selectedItem += JSON.stringify(item);
                 this._selectedItems.push(item);
               }
@@ -334,13 +338,18 @@ export class GvTable extends withResizeObserver(LitElement) {
       }
       else {
         if (this._selectedItem && this._selectedItem.includes(currentItem)) {
-          this._selectedItem = undefined;
+          if (this.options.selectable !== 'single') {
+            this._selectedItem = undefined;
+          }
         }
         else {
           this._selectedItem = currentItem;
+          dispatchCustomEvent(this, 'select', { item });
         }
-        dispatchCustomEvent(this, 'select', { item });
       }
+    }
+    else {
+      dispatchCustomEvent(this, 'select', item);
     }
   }
 
@@ -379,14 +388,14 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _renderIcon (item, itemIndex, option) {
-
     const icon = typeof option.icon === 'function' ? option.icon(item) : option.icon;
-    const style = typeof option.style === 'function' ? option.style(item) : option.style;
-
-    return html` <gv-icon shape="${icon}" style="${ifDefined(style)}"></gv-icon>`;
+    return html` <gv-icon shape="${icon}"></gv-icon>`;
   }
 
   _renderComponent (item, itemIndex, option, value) {
+    if (option.condition && !option.condition(item)) {
+      return '';
+    }
     const element = document.createElement(option.type);
     element.value = value;
     if (option.attributes) {
@@ -396,31 +405,65 @@ export class GvTable extends withResizeObserver(LitElement) {
           if (event === 'click') {
             element.classList.add('link');
           }
-          element.addEventListener(event, () => {
-            option.attributes[attribute](item);
+          element.addEventListener(event, (e) => {
+            e.stopPropagation();
+            if (!option.confirmMessage) {
+              option.attributes[attribute](item, e);
+            }
           });
         }
         else if (typeof option.attributes[attribute] === 'function') {
           element[attribute] = option.attributes[attribute](item);
         }
         else {
-          element[attribute] = option.attributes[attribute];
+          if (this.format) {
+            this.format(option.attributes[attribute]).then((t) => {
+              element[attribute] = t;
+            });
+          }
+          else {
+            element[attribute] = option.attributes[attribute];
+          }
         }
       });
     }
     element.addEventListener('input', (event) => {
       this._items[itemIndex][option.field] = event.target.value;
     });
+    if (option.confirmMessage) {
+      const confirm = document.createElement('gv-confirm');
+      if (this.format) {
+        this.format(option.confirmMessage).then((t) => {
+          confirm.message = t;
+        });
+      }
+      else {
+        confirm.message = option.confirmMessage;
+      }
+      confirm.addEventListener('click', (e) => e.stopPropagation());
+      confirm.addEventListener('gv-confirm:ok', (e) => {
+        e.stopPropagation();
+        option.attributes.onClick(item, e);
+      });
+      confirm.appendChild(element);
+      return confirm;
+    }
     return element;
   }
 
   _renderCell (option, item, itemIndex) {
     let value = option.field ? this._getDataFromField(item, option.field) : '';
     if (option.type === 'date' && value) {
+      value = new Date(value).toLocaleDateString(getLanguage());
+    }
+    else if (option.type === 'datetime' && value) {
       value = new Date(value).toLocaleString(getLanguage());
     }
+    else if (option.type === 'time' && value) {
+      value = new Date(value).toLocaleTimeString(getLanguage());
+    }
     if (option.format) {
-      value = option.format('gv-table.' + value);
+      value = option.format(value);
     }
     if (option.type) {
       if (option.type === 'image') {
@@ -434,14 +477,12 @@ export class GvTable extends withResizeObserver(LitElement) {
         return this._renderComponent(item, itemIndex, option, value);
       }
     }
-    else {
-      return until(value);
-    }
+    return until(value);
   }
 
   _renderRows (styleGridColumns) {
     return html`
-      <div class="rows" style="${this.rowsheight ? 'height: ' + this.rowsheight : ''}" @mouseleave="${this._onMouseLeave.bind(this)}">
+      <div class="rows" style="${this.rowsheight ? 'flex: auto; height: ' + this.rowsheight : ''}" @mouseleave="${this._onMouseLeave.bind(this)}">
         ${(this._items && this._items.length) ? repeat(this._items, (item) => item, (item, itemIndex) => {
       return html`
           <div class=${classMap({
@@ -450,10 +491,11 @@ export class GvTable extends withResizeObserver(LitElement) {
         skeleton: this._skeleton,
         selected: this._selectedItem && this._selectedItem.includes(JSON.stringify(item)),
       })} style="${styleGridColumns}"
-            @click="${this._onSelect.bind(this, item)}" 
+            @click="${this._onSelect.bind(this, item)}"
             @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
-        return html`<div class="cell">${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}</div>
+        const style = typeof option.style === 'function' ? option.style(item) : option.style;
+        return html`<div class="cell" style="${ifDefined(style)}">${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}</div>
               `;
       }) : ''}
           </div>

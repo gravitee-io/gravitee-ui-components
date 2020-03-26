@@ -35,17 +35,18 @@ import { InputElement } from '../mixins/input-element';
  * @attr {Boolean} required - same as native select element `required` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  * @attr {String} options - the options of the select
- * @attr {String} value - the value of the select
+ * @attr {String | Array} value - the value of the select
  * @attr {String} label - label of the select
  * @attr {String} title - title of the select
  * @attr {String} name - name of the select
  * @attr {String} placeholder - an example value to display in the select when empty
+ * @attr {Boolean} multiple - enable multiple selection
  *
  * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
  * @cssprop {Color} [--gv-select--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Active background color
- * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hover background color
+ * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
+ * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-light, #EFEFEF)] - Selected background color
  */
 export class GvSelect extends InputElement(LitElement) {
 
@@ -56,6 +57,12 @@ export class GvSelect extends InputElement(LitElement) {
       large: { type: Boolean },
       medium: { type: Boolean },
       small: { type: Boolean },
+      value: { type: String | Array },
+      label: { type: String },
+      title: { type: String },
+      name: { type: String },
+      placeholder: { type: String },
+      multiple: { type: Boolean },
       _isClosed: { type: Boolean, attribute: false },
     };
   }
@@ -74,6 +81,7 @@ export class GvSelect extends InputElement(LitElement) {
               --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
               --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
               color: var(--c);
+            display: block;
           }
 
           div, input {
@@ -210,11 +218,33 @@ export class GvSelect extends InputElement(LitElement) {
   _onSelect (option, e) {
     e.stopPropagation();
     if (option.disabled !== true) {
-      this.value = e.target.dataset.value;
+      if (this.multiple) {
+        if (!this.value) {
+          this.value = [];
+        }
+        if (this.value.includes(e.target.dataset.value)) {
+          const index = this.value.indexOf(e.target.dataset.value);
+          if (index > -1) {
+            this.value.splice(index, 1);
+            this.value = [...this.value];
+          }
+        }
+        else {
+          this.value = [...this.value, e.target.dataset.value];
+        }
+      }
+      else {
+        if (this.value === e.target.dataset.value) {
+          this.value = '';
+        }
+        else {
+          this.value = e.target.dataset.value;
+        }
+        this._isClosed = !this._isClosed;
+      }
       this.updateState();
-      this._isClosed = !this._isClosed;
       this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
-      dispatchCustomEvent(this, 'select', { id: this.value });
+      dispatchCustomEvent(this, 'select', this.value);
     }
   }
 
@@ -249,9 +279,9 @@ export class GvSelect extends InputElement(LitElement) {
 
   selectedLabel () {
     if (this.value) {
-      const element = this._options.find((o) => this.value === o.value);
-      if (element) {
-        return element.label;
+      const elements = this._options.filter((o) => this.isSelected(o));
+      if (elements) {
+        return elements.map((e) => e.label).join(', ');
       }
     }
     return '';
@@ -291,7 +321,7 @@ export class GvSelect extends InputElement(LitElement) {
           ${this._options && repeat(this._options, (option) => option, (option) => html`
             <li class="${classMap({
       select__list__item: true,
-      selected: this.value === option.value,
+      selected: this.isSelected(option),
       disabled: option.disabled,
     })}"
             @click=${this._onSelect.bind(this, option)} data-value="${option.value}" .title="${ifDefined(option.title)}">${option.label}</li>
@@ -299,6 +329,10 @@ export class GvSelect extends InputElement(LitElement) {
         </ul>
       </div>
     `;
+  }
+
+  isSelected (option) {
+    return this.multiple ? (this.value && this.value.includes(option.value)) : this.value === option.value;
   }
 }
 

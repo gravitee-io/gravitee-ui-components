@@ -1276,7 +1276,7 @@
           "name": "--gv-select-selected--bgc",
           "description": "Hover background color",
           "type": "color",
-          "default": "var(--gv-theme-neutral-color-lighter, #FAFAFA)",
+          "default": "var(--gv-theme-neutral-color-light, #EFEFEF)",
           "value": ""
         }
       ]
