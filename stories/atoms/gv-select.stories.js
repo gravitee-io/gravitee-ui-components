@@ -82,3 +82,7 @@ const hundredOptions = Array.from(Array(100), (x, index) => index + 1).map((i) =
 export const HundredOptions = makeStory(conf, {
   items: items.map((p) => ({ ...p, options: hundredOptions })),
 });
+
+export const MultipleSelection = makeStory(conf, {
+  items: items.map((p) => ({ ...p, multiple: true })),
+});

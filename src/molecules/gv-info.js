@@ -37,6 +37,7 @@ import { ItemResource } from '../mixins/item-resource';
  * @attr {any} item - An item
  * @attr {ApiMetrics} metrics - An ApiMetrics.
  * @attr {any} miscellaneous - Miscellaneous data with a key, value and date (optional: short, long, relative).
+ * @attr {String} title - Title to display.
  * @attr {Boolean} withDublinCore - If you want display title, description & image of an item
  *
  * @cssprop {Color} [--gv-info--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
@@ -54,6 +55,7 @@ export class GvInfo extends ItemResource(LitElement) {
       metrics: { type: Object },
       _metrics: { type: Object, attribute: false },
       miscellaneous: { type: Object },
+      title: { type: String },
       withDublinCore: { type: Boolean, attribute: 'with-dc' },
     };
   }
@@ -194,6 +196,7 @@ export class GvInfo extends ItemResource(LitElement) {
   constructor () {
     super();
     this.withDublinCore = false;
+    this._empty = false;
   }
 
   set metrics (metrics) {
@@ -239,6 +242,13 @@ export class GvInfo extends ItemResource(LitElement) {
                   </div>`;
     }
     return '';
+  }
+
+  _renderMiscellaneous (item) {
+    return html`<span>${item.key}</span>
+      ${!item.date ? item.value : ''}
+      ${item.date ? item.date === 'relative' ? html`<gv-relative-time datetime="${item.value}"></gv-relative-time>`
+      : (item.date === 'short' ? item.value.toLocaleDateString(getLanguage()) : item.value.toLocaleString(getLanguage())) : ''}`;
   }
 
   render () {
@@ -335,15 +345,12 @@ export class GvInfo extends ItemResource(LitElement) {
         ${this.miscellaneous && this.miscellaneous.length > 0
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
-                <h4>${i18n('gv-info.moreInfo')}</h4>
+                <h4>${this.title || i18n('gv-info.moreInfo')}</h4>
                 <span>
                   <ul class="info__miscellaneous">
                     ${repeat(this.miscellaneous, (item) =>
                       html`<li class="info__miscellaneous_item">
-                            <span>${item.key}</span>
-                            ${!item.date ? item.value : ''}
-                            ${item.date ? item.date === 'relative' ? html`<gv-relative-time datetime="${item.value}"></gv-relative-time>`
-                            : (item.date === 'short' ? item.value.toLocaleDateString(getLanguage()) : item.value.toLocaleString(getLanguage())) : ''}
+                            ${item.type ? html`<gv-input type=${item.type} value=${item.value} disabled></gv-input>` : this._renderMiscellaneous(item)}
                         </li>`
                     )}
                   </ul>

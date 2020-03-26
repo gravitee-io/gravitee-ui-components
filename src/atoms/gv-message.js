@@ -85,7 +85,6 @@ export class GvMessage extends LitElement {
       success: (this.type === 'success'),
       error: (this.type === 'error'),
     };
-
     return html`
       <div class=${classMap(modes)}>
         <slot></slot>
