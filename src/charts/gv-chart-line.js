@@ -24,6 +24,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * Line chart component
  *
  * @fires gv-chart-line:zoom - Custom event with zoomed timeframe
+ * @fires gv-chart-line:select - Custom event with selected value
  *
  * @attr {Array} series - The series to display on the line chart.
  * @attr {Array} options - The list of options to display.
@@ -48,10 +49,12 @@ export class GvChartLine extends ChartElement(LitElement) {
         if (isFieldRequest) {
           this._series.values[i].name = bucket.name;
           this._series.values[i].labelPrefix = label;
+          this._series.values[i].value = bucket.name;
         }
         else {
           this._series.values[i].name = label;
           this._series.values[i].labelPrefix = '';
+          this._series.values[i].value = bucket.name;
         }
       });
     }
@@ -112,6 +115,12 @@ export class GvChartLine extends ChartElement(LitElement) {
             },
             fillOpacity: 0.1,
           },
+          events: {
+            legendItemClick: (event) => {
+              event.preventDefault();
+              dispatchCustomEvent(this, 'select', event.target.options);
+            },
+          },
         },
       },
       xAxis: {
@@ -168,7 +177,6 @@ export class GvChartLine extends ChartElement(LitElement) {
     };
     (Highcharts).Point.prototype.highlight = function (event) {
       if (event.points.length) {
-        this.onMouseOver();
         this.series.chart.tooltip.refresh(event.points);
         this.series.chart.xAxis[0].drawCrosshair(event, this);
       }

@@ -33,6 +33,7 @@ import '../atoms/gv-image';
  * @fires gv-table:select - when table row is selected
  * @fires gv-table:mouseenter - when the pointer is entering on a table row
  * @fires gv-table:mouseleave - when the pointer is leaving a table row
+ * @fires gv-table:sort - when the order is changed
  *
  * @attr {Array<any>} items - A list of items to display
  * @attr {String} title - A title to display
@@ -41,9 +42,10 @@ import '../atoms/gv-image';
  * @attr {Boolean} noheader - Used to hide the table header
  * @attr {Boolean} nosort - Used to disable the click on header to sort
  * @attr {String} rowsheight - The height of the table rows
+ * @attr {String} rowheight - The height of the table single row
  * @attr {String} emptymessage - The empty message to display
  * @attr {String} format - A function to format table headers
- * @attr {Array<any>} selected-keys - A list of selected keys of the items displayed
+ * @attr {Array<any>} selected - A list of selected keys of the items displayed
  *
  * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
  * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
@@ -63,6 +65,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       noheader: { type: Boolean },
       nosort: { type: Boolean },
       rowsheight: { type: String },
+      rowheight: { type: String },
       emptymessage: { type: String },
       format: { type: Function },
       selected: { type: Array },
@@ -129,19 +132,6 @@ export class GvTable extends withResizeObserver(LitElement) {
               height: 50px;
           }
 
-          .widget {
-              height: 30px !important;
-              text-align: right;
-          }
-
-          .widget div:first-child {
-              text-align: left;
-          }
-
-          .row.widget {
-              box-shadow: 0 5px 3px -6px var(--bdc) !important;
-          }
-
           .theader {
               background-color: var(--gv-theme-neutral-color-lighter);
               font-weight: bold;
@@ -158,7 +148,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           }
 
           .row:not(:last-child) {
-              box-shadow: 0 24px 3px -24px var(--bdc);
+            box-shadow: 0 5px 3px -6px var(--bdc);
           }
 
           .row:hover, .row.selected {
@@ -257,18 +247,22 @@ export class GvTable extends withResizeObserver(LitElement) {
             }
           }
           else {
+            const style = () => 'justify-content: flex-end; text-align: right;';
             this._items = [];
             this.options.data[0].field = 'key';
             this.options.data[1].field = 'value';
+            this.options.data[1].headerStyle = style;
+            this.options.data[1].style = style;
             let total;
             if (this.options.percent) {
               this.options.data[2].field = 'percent';
+              this.options.data[2].headerStyle = style;
+              this.options.data[2].style = style;
               const values = Object.values(items.values);
               if (values && values.length) {
                 total = values.reduce((p, n) => p + n);
               }
             }
-            this._widget = true;
             Object.keys(items.values).forEach((key) => {
               const item = { id: key, key: items.metadata[key].name, value: items.values[key] };
               if (this.options.percent) {
@@ -310,8 +304,8 @@ export class GvTable extends withResizeObserver(LitElement) {
         this.order = previousOrder === value ? (desc ? value : '-' + value) : value;
       }
       this._items = this._items.sort((item, item2) => {
-        const itemData = this._getDataFromField(item, value) ? this._getDataFromField(item, value).toLowerCase() : '';
-        const itemData2 = this._getDataFromField(item2, value) ? this._getDataFromField(item2, value).toLowerCase() : '';
+        const itemData = this._getDataFromField(item, value) && this._getDataFromField(item, value).toLowerCase ? this._getDataFromField(item, value).toLowerCase() : '';
+        const itemData2 = this._getDataFromField(item2, value) && this._getDataFromField(item2, value).toLowerCase ? this._getDataFromField(item2, value).toLowerCase() : '';
         if (this.order.startsWith('-')) {
           return itemData2.localeCompare(itemData);
         }
@@ -319,6 +313,9 @@ export class GvTable extends withResizeObserver(LitElement) {
           return itemData.localeCompare(itemData2);
         }
       });
+      if (field) {
+        dispatchCustomEvent(this, 'sort', { order: this.order });
+      }
     }
   }
 
@@ -340,6 +337,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         if (this._selectedItem && this._selectedItem.includes(currentItem)) {
           if (this.options.selectable !== 'single') {
             this._selectedItem = undefined;
+            dispatchCustomEvent(this, 'select', { item: undefined });
           }
         }
         else {
@@ -371,14 +369,15 @@ export class GvTable extends withResizeObserver(LitElement) {
     }
     else {
       return html`
-        <div class=${classMap({ theader: true, widget: this._widget })} style="${styleGridColumns}">
+        <div class=${classMap({ theader: true })} style=${styleMap({ ...styleGridColumns, ...{ height: this.rowheight } })}}">
           ${this.options && this.options.data && (this._items && this._items.length) ? repeat(this.options.data, (option) => option, (option) => {
         const orderValue = (this.order && this.order.startsWith('-')) ? this.order.substring(1) : this.order;
         const label = this.format && option.label ? this.format(option.label) : option.label;
+        const style = typeof option.headerStyle === 'function' ? option.headerStyle(label) : option.headerStyle;
         return html`
-                <div>${this.order && !this.nosort ? html`
-                   <gv-button link @click="${this._onSortChanged.bind(this, option.field)}">${until(label)}</gv-button>
-                      ${orderValue === option.field ? html`
+                <div style="${'display: flex;' + (style || '')}">${this.order && !this.nosort ? html`
+                   <gv-button link @click="${this._onSortChanged.bind(this, option.field || option.tag)}">${until(label)}</gv-button>
+                      ${orderValue === (option.field || option.tag) ? html`
                         <gv-icon class=${classMap({ desc: this.order.startsWith('-') })} shape="design:triangle"></gv-icon>` : ''}
                     </a>` : until(label)}
                 </div>`;
@@ -482,15 +481,14 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   _renderRows (styleGridColumns) {
     return html`
-      <div class="rows" style="${this.rowsheight ? 'flex: auto; height: ' + this.rowsheight : ''}" @mouseleave="${this._onMouseLeave.bind(this)}">
+      <div class="rows" style=${this.rowsheight ? ('flex: auto; height: ' + this.rowsheight) : ''} @mouseleave="${this._onMouseLeave.bind(this)}">
         ${(this._items && this._items.length) ? repeat(this._items, (item) => item, (item, itemIndex) => {
       return html`
           <div class=${classMap({
         row: true,
-        widget: this._widget,
         skeleton: this._skeleton,
         selected: this._selectedItem && this._selectedItem.includes(JSON.stringify(item)),
-      })} style="${styleGridColumns}"
+      })} style=${styleMap({ ...styleGridColumns, ...{ height: this.rowheight } })}
             @click="${this._onSelect.bind(this, item)}"
             @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
@@ -518,7 +516,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       return '1fr';
     });
 
-    const styleGridColumns = `grid-template-columns: ${widthTemplate.join(' ')}`;
+    const styleGridColumns = { 'grid-template-columns': widthTemplate.join(' ') };
     return html`
       ${this._renderHeader(styleGridColumns)}
       ${this._renderRows(styleGridColumns)}
@@ -535,7 +533,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         current_page: this._page || 1,
         total_pages: this._itemsProvider.length / this.options.paging,
       };
-      return html`<gv-pagination .data="${paginationData}" .widget="${this._widget}"></gv-pagination>`;
+      return html`<gv-pagination .data="${paginationData}" widget="true"></gv-pagination>`;
     }
   }
 
@@ -550,7 +548,7 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   _renderTag (option, item) {
     if (option.tag) {
-      const tag = option.tag ? this._getDataFromField(item, option.tag) : '';
+      const tag = option.format ? option.format(this._getDataFromField(item, option.tag)) : this._getDataFromField(item, option.tag);
       if (tag) {
         return html` <gv-tag ?skeleton="${this._skeleton}">${tag}</gv-tag>`;
       }

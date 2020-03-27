@@ -1267,14 +1267,14 @@
         },
         {
           "name": "--gv-select-hover--bgc",
-          "description": "Active background color",
+          "description": "Hover background color",
           "type": "color",
           "default": "var(--gv-theme-color-light, #D5FDCB)",
           "value": ""
         },
         {
           "name": "--gv-select-selected--bgc",
-          "description": "Hover background color",
+          "description": "Selected background color",
           "type": "color",
           "default": "var(--gv-theme-neutral-color-light, #EFEFEF)",
           "value": ""

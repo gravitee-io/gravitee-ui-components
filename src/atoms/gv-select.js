@@ -79,9 +79,8 @@ export class GvSelect extends InputElement(LitElement) {
               --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
               --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
               --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
-              --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-              color: var(--c);
-            display: block;
+              --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #EFEFEF));
+              display: block;
           }
 
           div, input {
@@ -114,6 +113,7 @@ export class GvSelect extends InputElement(LitElement) {
           }
 
           .select__list {
+              color: var(--c);
               list-style: none;
               position: absolute;
               background-color: var(--bgc);
@@ -225,8 +225,13 @@ export class GvSelect extends InputElement(LitElement) {
         if (this.value.includes(e.target.dataset.value)) {
           const index = this.value.indexOf(e.target.dataset.value);
           if (index > -1) {
-            this.value.splice(index, 1);
-            this.value = [...this.value];
+            if (typeof this.value === 'string') {
+              this.value = [];
+            }
+            else {
+              this.value.splice(index, 1);
+              this.value = [...this.value];
+            }
           }
         }
         else {
@@ -243,8 +248,8 @@ export class GvSelect extends InputElement(LitElement) {
         this._isClosed = !this._isClosed;
       }
       this.updateState();
-      this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
       dispatchCustomEvent(this, 'select', this.value);
+      this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
     }
   }
 
@@ -332,7 +337,7 @@ export class GvSelect extends InputElement(LitElement) {
   }
 
   isSelected (option) {
-    return this.multiple ? (this.value && this.value.includes(option.value)) : this.value === option.value;
+    return this.multiple ? (this.value && this.value.includes(option.value)) : ('' + this.value) === ('' + option.value);
   }
 }
 
