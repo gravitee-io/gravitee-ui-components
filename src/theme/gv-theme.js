@@ -29,6 +29,7 @@ import { applyTheme } from '../lib/theme';
  * @cssprop {Color} [--gv-theme-color-dark=#193E34] - Primary dark color
  * @cssprop {Color} [--gv-theme-color=#009B5B] - Primary color
  * @cssprop {Color} [--gv-theme-color-light=#D5FDCB] - Primary light color
+ * @cssprop {Color} [--gv-theme-color-danger=#FF5722] - Primary danger color
  *
  * @cssprop {Color} [--gv-theme-neutral-color-darkest=#000000] - Neutral darkest color
  * @cssprop {Color} [--gv-theme-neutral-color-darker=#BFBFBF] - Neutral darker color
@@ -74,6 +75,7 @@ export class GvTheme extends LitElement {
           --gv-theme-color-dark: var(--gv-theme-color-dark, #193E34);
           --gv-theme-color: var(--gv-theme-color, #009B5B);
           --gv-theme-color-light: var(--gv-theme-color-light, #D5FDCB);
+          --gv-theme-color-danger: var(--gv-theme-color-danger, #FF5722);
 
           --gv-theme-neutral-color-darkest: var(--gv-theme-neutral-color-darkest, #000000);
           --gv-theme-neutral-color-darker: var(--gv-theme-neutral-color-darker, #BFBFBF);

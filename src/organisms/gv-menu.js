@@ -141,7 +141,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
 
           gv-nav {
               padding-left: var(--pl);
-              flex: 4;
+              flex: 4 1 auto;
           }
 
           .right ::slotted(*) {
