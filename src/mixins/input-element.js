@@ -24,8 +24,9 @@ export function InputElement (ParentClass) {
 
     static get properties () {
       return {
-        disabled: { type: Boolean },
-        required: { type: Boolean },
+        disabled: { type: Boolean, reflect: true },
+        required: { type: Boolean, reflect: true },
+        readonly: { type: Boolean, reflect: true },
         skeleton: { type: Boolean },
         value: { type: String, reflect: true },
         label: { type: String },

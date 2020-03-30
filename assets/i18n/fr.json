@@ -25,6 +25,11 @@
     "cancel": "Non",
     "ok": "Oui"
   },
+  "gv-date-picker": {
+    "endDate": "Date de fin",
+    "startDate": "Date de début",
+    "today": "Aujourd'hui"
+  },
   "gv-file-upload": {
     "chooseAnotherFile": "Choisir un autre fichier",
     "chooseFile": "Choisir un fichier",

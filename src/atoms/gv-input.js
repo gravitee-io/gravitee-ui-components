@@ -15,11 +15,11 @@
  */
 import { classMap } from 'lit-html/directives/class-map';
 import { ifDefined } from 'lit-html/directives/if-defined';
-import { styleMap } from 'lit-html/directives/style-map';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { input } from '../styles/input';
+import { link } from '../styles/link';
 import { dispatchCustomEvent } from '../lib/events';
 import './gv-icon';
 import { i18n } from '../lib/i18n';
@@ -48,14 +48,18 @@ import { InputElement } from '../mixins/input-element';
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  * @attr {String} [autocomplete='off'] - standard autocomplete attribute
  * @attr {Boolean} [clickable=false] - If true, icon has link style
+ * @attr {Boolean} [clearable=false] - If true, input can be clear with button
  * @attr {String} [pattern=null] - Pattern for input validation. If type is url, default pattern is ^(http|https)://
  *
- * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
+ * @cssprop {String} [--gv-input--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
+ * @cssprop {Color} [--gv-input--bds=solid] - Border style
+ * @cssprop {Color} [--gv-input-icon--bgc=var(--gv-theme-neutral-color, #F5F5F5)] - Icon background color
  */
 export class GvInput extends InputElement(LitElement) {
 
   static get properties () {
     return {
+      ...super.properties,
       type: { type: String },
       large: { type: Boolean },
       medium: { type: Boolean },
@@ -67,6 +71,7 @@ export class GvInput extends InputElement(LitElement) {
       max: { type: Number },
       autocomplete: { type: String },
       clickable: { type: Boolean },
+      clearable: { type: Boolean },
       pattern: { type: String },
       _pattern: { type: String, attribute: false },
     };
@@ -77,29 +82,18 @@ export class GvInput extends InputElement(LitElement) {
       ...super.styles,
       skeleton,
       input,
+      link,
       // language=CSS
       css`
-          gv-icon {
-              background-color: var(--gv-input--bdc, var(--gv-theme-neutral-color, #F5F5F5));
-          }
-
-          gv-icon.medium {
-              --gv-icon--s: 25px;
-          }
-
-          gv-icon.small {
-              --gv-icon--s: 19px;
-          }
-
-          gv-icon.clickable {
+          .clickable {
               cursor: pointer;
           }
 
-          gv-icon.clickable:hover {
+          .clickable:hover {
               box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           }
 
-          gv-icon.copied {
+          .copied {
               --gv-icon--c: var(--gv-theme-color, #009B5B);
           }
 
@@ -117,10 +111,7 @@ export class GvInput extends InputElement(LitElement) {
               }
           }
 
-          input.clipboard:read-only {
-              cursor: copy;
-          }
-
+          input.clipboard:read-only,
           input.clipboard:-moz-read-only {
               cursor: copy;
           }
@@ -128,7 +119,6 @@ export class GvInput extends InputElement(LitElement) {
           input.clipboard:read-only:hover {
               cursor: not-allowed;
           }
-
 
       `,
     ];
@@ -144,6 +134,18 @@ export class GvInput extends InputElement(LitElement) {
 
   static get shapeSearch () {
     return 'general:search';
+  }
+
+  static get shapeClear () {
+    return 'code:error';
+  }
+
+  static get shapeInvisible () {
+    return 'general:invisible';
+  }
+
+  static get shapeVisible () {
+    return 'general:visible';
   }
 
   constructor () {
@@ -165,11 +167,11 @@ export class GvInput extends InputElement(LitElement) {
 
   firstUpdated (changedProperties) {
     super.firstUpdated(changedProperties);
-    const clickableIcon = this.shadowRoot.querySelector('.clickable');
+    const clickableIcon = this.shadowRoot.querySelector('gv-icon.link');
     if (clickableIcon) {
       clickableIcon.addEventListener('click', this._onIconClick.bind(this));
     }
-    if (this._hasClipboard) {
+    if (this.hasClipboard) {
       this.getInputElement().addEventListener('click', (e) => this.copy(this.value));
     }
   }
@@ -209,6 +211,10 @@ export class GvInput extends InputElement(LitElement) {
     }
   }
 
+  get isClearable () {
+    return this.clearable && !this.disabled && !this.readonly && !this.loading && this.value != null && this.value !== '';
+  }
+
   set type (value) {
     if (['text', 'password', 'email', 'search', 'number', 'url'].includes(value)) {
       this._type = value;
@@ -218,6 +224,11 @@ export class GvInput extends InputElement(LitElement) {
     }
 
     if (this._type === 'search' && this.icon == null && this.iconLeft == null) {
+      this.icon = GvInput.shapeSearch;
+      this.clearable = true;
+    }
+
+    if (this._type === 'password') {
       this.icon = GvInput.shapeSearch;
     }
 
@@ -241,102 +252,91 @@ export class GvInput extends InputElement(LitElement) {
 
   _onIconClick () {
     if (this._type === 'search') {
+      this.value = '';
       dispatchCustomEvent(this, 'input', this.value);
-      const form = this.closest('form');
-      if (form) {
-        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-      }
-      dispatchCustomEvent(this, 'submit', this.value);
     }
-    else if (this._hasClipboard) {
+    else if (this.hasClipboard) {
       this.copy(this.value);
     }
+    else if (this.isPassword) {
+      this._showPassword = !this._showPassword;
+      this._type = this._showPassword ? 'text' : 'password';
+      this.performUpdate();
+    }
     else {
+      dispatchCustomEvent(this, 'icon-click', this.value);
       dispatchCustomEvent(this, 'submit', this.value);
     }
+  }
+
+  get isPassword () {
+    return !this.disabled && (this._type === 'password' || (this._type === 'text' && this._showPassword));
+  }
+
+  get hasClickableIcon () {
+    return !this.disabled && (this.clickable || this._type === 'search' || this._hasClipboard || this.isPassword);
+  }
+
+  get hasClipboard () {
+    return !this.disabled && this._hasClipboard;
+  }
+
+  clear () {
+    this.value = '';
+  }
+
+  _renderClearIcon () {
+    if (this.isClearable) {
+      return html`<div class="box-icon box-icon-clear">
+                    <gv-icon class="link" shape="code:error" title="${i18n('gv-input.clear')}" @click="${this.clear}"></gv-icon>
+                  </div>`;
+    }
+    return '';
+  }
+
+  get hasBackground () {
+    return !(this.isPassword || this.loading);
   }
 
   _renderIcon () {
-    const iconStyle = {
-      position: 'absolute',
-      bottom: '1px',
-      left: this.iconLeft ? '1px' : 'default',
-      right: this.iconLeft ? 'default' : '1px',
-      padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
-      borderRadius: '0 3px 3px 0',
-    };
-
-    const classes = {
-      small: this.small,
-      medium: (this.medium || (!this.large && !this.small)),
-      clickable: this.clickable || this._type === 'search' || this._hasClipboard,
-      copied: this._hasClipboard && this._copied,
-    };
-    let title = '';
-    if (this._type === 'search') {
-      title = i18n('gv-input.search');
+    let shape = null;
+    if (this.isPassword) {
+      shape = this._showPassword ? 'general:visible' : 'general:hidden';
     }
-    else if (this._hasClipboard) {
-      title = i18n('gv-input.copy');
+    else if (this.icon || this.iconLeft) {
+      shape = this.icon || this.iconLeft;
     }
-    else if (this.placeholder) {
-      title = this.placeholder;
-    }
-    if (!this.loading && (this.icon || this.iconLeft)) {
-      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this.icon || this.iconLeft}" title="${title}"></gv-icon>`;
-    }
-    return '';
-  }
-
-  _renderLoadingIcon () {
-    const iconStyle = {
-      position: 'absolute',
-      bottom: '1px',
-      left: this.iconLeft ? '1px' : 'default',
-      right: this.iconLeft ? 'default' : '1px',
-      padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
-      borderRadius: '0 3px 3px 0',
-    };
-
-    const classes = {
-      small: this.small,
-      medium: (this.medium || (!this.large && !this.small)),
-      loading: this.loading,
-    };
-
     if (this.loading) {
-      return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="navigation:waiting"></gv-icon>`;
+      shape = 'navigation:waiting';
     }
-    return '';
-  }
 
-  _renderPasswordIcon () {
-    const iconStyle = {
-      position: 'absolute',
-      bottom: '1px',
-      right: this.icon ? '40px' : '1px',
-      padding: this.large ? '5px' : (this.small ? '2px' : '6px'),
-      cursor: 'pointer',
-    };
+    if (shape) {
+      const classes = {
+        'box-icon': true,
+        'box-icon-left': this.iconLeft != null || this.clearable,
+        'box-icon-bgc': this.hasBackground,
+        copied: this.hasClipboard && this._copied,
+      };
 
-    const classes = {
-      small: this.small,
-      medium: (this.medium || (!this.large && !this.small)),
-      search: this._type === 'search',
-    };
-
-    if (!this.disabled) {
-      if (this._type === 'password' || (this._type === 'text' && this._showPassword)) {
-        return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="${this._showPassword ? 'general:visible' : 'general:hidden'}" @click="${this._onPasswordIconClick}"></gv-icon>`;
+      const iconClasses = {
+        link: this.hasClickableIcon,
+        loading: this.loading,
+      };
+      let title = '';
+      if (this._type === 'search') {
+        title = i18n('gv-input.search');
       }
+      else if (this.hasClipboard) {
+        title = i18n('gv-input.copy');
+      }
+      else if (this.placeholder) {
+        title = this.placeholder;
+      }
+      return html`<div class="${classMap(classes)}">
+                    <gv-icon class="${classMap(iconClasses)}" shape="${shape}" title="${title}"></gv-icon>
+                  </div>`;
     }
     return '';
-  }
-
-  _onPasswordIconClick () {
-    this._showPassword = !this._showPassword;
-    this._type = this._showPassword ? 'text' : 'password';
-    this.requestUpdate();
   }
 
   set pattern (value) {
@@ -356,9 +356,10 @@ export class GvInput extends InputElement(LitElement) {
       large: this.large,
       medium: (this.medium || (!this.large && !this.small)),
       small: this.small,
-      icon: !!this.icon,
-      'icon-left': !!this.iconLeft,
-      clipboard: this._hasClipboard,
+      icon: !!this.icon && !this.clearable,
+      clearable: this.clearable,
+      'icon-left': !!this.iconLeft || (!!this.icon && this.clearable),
+      clipboard: this.hasClipboard,
       required: this.required,
     };
 
@@ -384,9 +385,8 @@ export class GvInput extends InputElement(LitElement) {
             class=${classMap(classes)}
             @input=${this._onInput}
             @keyup="${this._onKeyUp}">
+            ${this._renderClearIcon()}
             ${this._renderIcon()}
-            ${this._renderLoadingIcon()}
-            ${this._renderPasswordIcon()}
         </div>
     `;
   }

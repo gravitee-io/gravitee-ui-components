@@ -45,11 +45,19 @@ export const Types = makeStory(conf, {
 });
 
 export const Small = makeStory(conf, {
-  items: items.map((p) => ({ ...p, small: true })),
+  items: items.map((p) => ({ ...p, small: true, clearable: true })),
 });
 
 export const Large = makeStory(conf, {
-  items: items.map((p) => ({ ...p, large: true })),
+  items: items.map((p) => ({ ...p, large: true, clearable: true })),
+});
+
+export const Clearable = makeStory(conf, {
+  items: items.map((p) => ({ ...p, clearable: true })),
+});
+
+export const IconLeft = makeStory(conf, {
+  items: items.map((p) => ({ ...p, 'icon-left': 'general:search' })),
 });
 
 export const Disabled = makeStory(conf, {
