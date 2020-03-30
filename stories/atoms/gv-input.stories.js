@@ -31,11 +31,11 @@ const conf = {
 
 const items = [
   { placeholder: 'Text...', label: 'Text label' },
-  { placeholder: 'Password...', type: 'password', label: 'Password label' },
+  { placeholder: 'Password...', 'icon-left': 'general:shield-protected', type: 'password', label: 'Password label' },
   { placeholder: 'Email...', type: 'email', label: 'Email label' },
   { placeholder: 'Number...', type: 'number', min: '1', max: '10', label: 'Number label' },
   { placeholder: 'Search...', type: 'search', label: 'Search label' },
-  { placeholder: 'Clipboard...', type: 'clipboard', label: 'Clipboard label' },
+  { placeholder: 'Clipboard...', type: 'clipboard', label: 'Clipboard label', value: 'Copy me !' },
   { placeholder: 'Url...', type: 'url', label: 'Url label' },
   { placeholder: 'No Label...' },
 ];
@@ -45,11 +45,19 @@ export const Types = makeStory(conf, {
 });
 
 export const Small = makeStory(conf, {
-  items: items.map((p) => ({ ...p, small: true })),
+  items: items.map((p) => ({ ...p, small: true, clearable: true })),
 });
 
 export const Large = makeStory(conf, {
-  items: items.map((p) => ({ ...p, large: true })),
+  items: items.map((p) => ({ ...p, large: true, clearable: true })),
+});
+
+export const Clearable = makeStory(conf, {
+  items: items.map((p) => ({ ...p, clearable: true })),
+});
+
+export const IconLeft = makeStory(conf, {
+  items: items.map((p) => ({ ...p, 'icon-left': 'general:search' })),
 });
 
 export const Disabled = makeStory(conf, {

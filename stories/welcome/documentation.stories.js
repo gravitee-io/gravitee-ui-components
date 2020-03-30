@@ -41,11 +41,11 @@ createDocsStories('Welcome',
   [
     { name: ' Readme', text: Readme, type: 'adoc' },
     { name: 'Contributing', text: Contributing, type: 'adoc' },
-  ]
+  ],
 );
 
 createDocsStories('Documentation',
   [
     { name: 'Theme/LearnMore', text: Theme },
-  ]
+  ],
 );

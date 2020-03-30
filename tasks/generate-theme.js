@@ -78,7 +78,7 @@ async function run () {
             .forEach((codeProp) => {
               const foundProp = cssProperties.find((p) => p.name === codeProp.name);
               if (!foundProp) {
-                throw new Error(`${tag.name} | ${codeProp.name} is used but not documented (default value:${codeProp.value})`);
+                console.warn(`${tag.name} | ${codeProp.name} is used but not documented (default value:${codeProp.value})`);
               }
               else if (foundProp.default !== `${codeProp.value}`) {
                 throw new Error(`${tag.name} | ${codeProp.name} default value is not up to date (in doc:|${foundProp.default}| / in code:|${codeProp.value}|)`);
@@ -89,7 +89,7 @@ async function run () {
         cssProperties.forEach((cssProperty) => {
           const foundProp = codeProperties.find((p) => p.name === cssProperty.name);
           if (!foundProp) {
-            throw new Error(`${tag.name} | ${cssProperty.name} is documented but not used (default value:${cssProperty.value})`);
+            console.warn(`${tag.name} | ${cssProperty.name} is documented but not used (default value:${cssProperty.value})`);
           }
 
           if ((cssProperty.name.endsWith('--c') || cssProperty.name.endsWith('--bgc')) && cssProperty.type.toLowerCase() !== 'color') {

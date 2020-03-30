@@ -265,7 +265,7 @@ export class GvStepper extends LitElement {
     const classes = { stepper: true, disabled: this.disabled };
     return html`<div class="${classMap(classes)}">
       ${repeat(this._steps, (step) => step, (step, index) =>
-      this._getStep(step, index)
+      this._getStep(step, index),
     )}
       </div>
     `;

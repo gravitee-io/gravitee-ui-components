@@ -140,7 +140,7 @@ export class GvStats extends LitElement {
     }
     return html`<div class="${classMap({ stats: true, skeleton: this._skeleton })}">
       ${repeat(this.options, (option) => option, (option) =>
-        this._getStat(option)
+        this._getStat(option),
       )}
       </div>
     `;

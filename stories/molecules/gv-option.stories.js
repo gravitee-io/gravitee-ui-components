@@ -47,7 +47,7 @@ export const Description = makeStory(conf, {
 
 export const Multiple = makeStory(conf, {
   items: [{
-    options: options.map((p, i) => (Promise.resolve({ ...p, description: description, active: i % 2 === 0 })),),
+    options: options.map((p, i) => (Promise.resolve({ ...p, description: description, active: i % 2 === 0 }))),
     multiple: true,
   }],
 });

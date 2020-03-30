@@ -335,7 +335,7 @@ export class GvInfo extends ItemResource(LitElement) {
                   ${repeat(this.resources, (item) => item, (item) => html`
                     <div class="info__resources">
                       <a class="link" href="${item.path}" target="${item.target}" @click=${this._onClick.bind(this, item)}>${item.title}</a>
-                    </div>`
+                    </div>`,
       )}
                 </span>
               </div>
@@ -350,8 +350,8 @@ export class GvInfo extends ItemResource(LitElement) {
                   <ul class="info__miscellaneous">
                     ${repeat(this.miscellaneous, (item) =>
                       html`<li class="info__miscellaneous_item">
-                            ${item.type ? html`<gv-input type=${item.type} value=${item.value} disabled></gv-input>` : this._renderMiscellaneous(item)}
-                        </li>`
+                            ${item.type ? html`<gv-input type=${item.type} value=${item.value}></gv-input>` : this._renderMiscellaneous(item)}
+                        </li>`,
                     )}
                   </ul>
                 </span>
