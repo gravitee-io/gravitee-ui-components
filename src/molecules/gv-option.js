@@ -192,7 +192,7 @@ export class GvOption extends LitElement {
             <div class="description-content" .innerHTML="${option.description}"></div>
             
 </div>`}
-</gv-button>`
+</gv-button>`,
       )}</div>`;
     }
     return html``;

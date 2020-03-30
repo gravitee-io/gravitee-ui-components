@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { repeat } from 'lit-html/directives/repeat';
-import { css, LitElement, html } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
-import { skeleton } from '../styles/skeleton';
-import { link } from '../styles/link';
-import { i18n } from '../lib/i18n';
-import { styleMap } from 'lit-html/directives/style-map';
-import { getCssVar, hexToRGB } from '../lib/style';
+import { css, LitElement } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
+import { getCssVar, hexToRGB } from '../lib/style';
+import { html } from 'lit-html';
+import { i18n } from '../lib/i18n';
+import { link } from '../styles/link';
+import { repeat } from 'lit-html/directives/repeat';
+import { skeleton } from '../styles/skeleton';
+import { styleMap } from 'lit-html/directives/style-map';
+import './../atoms/gv-icon';
 
 /**
  * Plans
@@ -360,6 +362,17 @@ export class GvPlans extends LitElement {
       });
   }
 
+  _renderPagination () {
+    if (this.hasPagination) {
+      return html` <div class="pagination">
+            ${!this.hasLeft ? '' : html`<gv-icon @click="${this.toLeft}" shape="navigation:angle-left" class="link"></gv-icon>`}
+            <div style="flex: 1;"></div>
+            ${!this.hasRight ? '' : html`<gv-icon @click="${this.toRight}" shape="navigation:angle-right" class="link"></gv-icon>`}
+         </div>`;
+    }
+    return '';
+  }
+
   render () {
     const bgc = getCssVar(this, '--gv-plans--bgc', '#009B5B');
     const { r, g, b } = hexToRGB(bgc);
@@ -392,16 +405,11 @@ export class GvPlans extends LitElement {
         <div class="selectors">
             ${this._renderTriangles(currentPlans)}
          </div>
-         <div class="pagination">
-            ${this.hasLeft ? html`<gv-icon @click="${this.toLeft}" shape="navigation:angle-left" class="link"></gv-icon>` : ''}
-            <div style="flex: 1;"></div>
-            ${this.hasRight ? html`<gv-icon @click="${this.toRight}" shape="navigation:angle-right" class="link"</gv-icon>` : ''}
-         </div>
-         ${!this.skeleton
-      ? html`<div class="characteristics">
-          ${repeat(this._characteristics, (characteristic) => characteristic, (characteristic, index) =>
-        html`<div class="characteristic"><div class="circle"><gv-icon shape="home:flower#2"></gv-icon></div><div>${characteristic}</div></div>`)}
-        </div>` : ''}
+         ${this._renderPagination}
+         ${!this.skeleton ? html`<div class="characteristics">
+            ${repeat(this._characteristics, (characteristic) => characteristic, (characteristic, index) =>
+      html`<div class="characteristic"><div class="circle"><gv-icon shape="home:flower#2"></gv-icon></div><div>${characteristic}</div></div>`)}
+          </div>` : ''}
         </div>
     `;
   }

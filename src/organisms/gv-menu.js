@@ -149,13 +149,13 @@ export class GvMenu extends withResizeObserver(LitElement) {
           }
 
           .right ::slotted([slot="right-transition"]) {
-              transition: width 0.5s ease;
+              transition: width 250ms ease 250ms;
               width: 70%;
           }
 
           .right:focus-within ::slotted([slot="right-transition"]) {
-              animation: slide 0.5s;
-              transition: width 0.5s ease-in-out;
+              animation: slide 250ms 250ms;
+              transition: width 250ms ease-in-out 250ms;
               width: 100%;
           }
 

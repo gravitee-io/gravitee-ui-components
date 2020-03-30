@@ -368,8 +368,11 @@ export class GvTable extends withResizeObserver(LitElement) {
       return '';
     }
     else {
+
+      const style = { ...styleGridColumns, ...{ height: this.rowheight } };
+
       return html`
-        <div class=${classMap({ theader: true })} style=${styleMap({ ...styleGridColumns, ...{ height: this.rowheight } })}}">
+        <div class=${classMap({ theader: true })} style=${styleMap(style)}>
           ${this.options && this.options.data && (this._items && this._items.length) ? repeat(this.options.data, (option) => option, (option) => {
         const orderValue = (this.order && this.order.startsWith('-')) ? this.order.substring(1) : this.order;
         const label = this.format && option.label ? this.format(option.label) : option.label;

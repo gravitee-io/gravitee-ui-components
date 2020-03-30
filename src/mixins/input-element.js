@@ -24,8 +24,9 @@ export function InputElement (ParentClass) {
 
     static get properties () {
       return {
-        disabled: { type: Boolean },
-        required: { type: Boolean },
+        disabled: { type: Boolean, reflect: true },
+        required: { type: Boolean, reflect: true },
+        readonly: { type: Boolean, reflect: true },
         skeleton: { type: Boolean },
         value: { type: String, reflect: true },
         label: { type: String },
@@ -48,12 +49,12 @@ export function InputElement (ParentClass) {
                 display: block;
             }
 
-            :host([invalid]) input, :host([invalid]) textarea {
-                border-left: 5px solid #a94442;
+            :host([invalid]) input, :host([invalid]) .box-icon-left, :host([invalid]) textarea {
+                border-left: 3px solid #a94442;
             }
 
-            :host([valid]) input, :host([valid]) textarea {
-                border-left: 5px solid var(--gv-theme-color, #009B5B);
+            :host([valid]) input, :host([valid]) .box-icon-left, :host([valid]) textarea {
+                border-left: 3px solid var(--gv-theme-color, #009B5B);
             }
         `,
       ];

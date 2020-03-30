@@ -25,6 +25,14 @@
     "cancel": "Non",
     "ok": "Oui"
   },
+  "gv-date-picker": {
+    "endDate": "Date de fin",
+    "format": "dd/MM/yyyy",
+    "now": "Maintenant",
+    "ok": "Ok",
+    "startDate": "Date de début",
+    "today": "Aujourd'hui"
+  },
   "gv-file-upload": {
     "chooseAnotherFile": "Choisir un autre fichier",
     "chooseFile": "Choisir un fichier",
@@ -51,6 +59,7 @@
     "resources": "Ressources"
   },
   "gv-input": {
+    "clear": "Vider",
     "copy": "Copier dans le presse papier",
     "search": "Rechercher"
   },

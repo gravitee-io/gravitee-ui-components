@@ -340,6 +340,10 @@ export class GvAutocomplete extends LitElement {
     return this.firstElementChild;
   }
 
+  _onClear () {
+    this._options = [];
+  }
+
   updated () {
     setTimeout(() => {
       const firstOption = this.shadowRoot.querySelector('.option');
@@ -359,11 +363,13 @@ export class GvAutocomplete extends LitElement {
       focus: this._onFocus.bind(this),
       blur: this._onBlur.bind(this),
       keydown: this._onKeydown.bind(this),
+      clear: this._onClear.bind(this),
     };
     this.shadowRoot.addEventListener('input', this._handlers.input);
     this.shadowRoot.addEventListener('keydown', this._handlers.keydown);
     this._getInput().addEventListener('focus', this._handlers.focus);
     this._getInput().addEventListener('blur', this._handlers.blur);
+    this._getInput().addEventListener('gv-input:clear', this._handlers.clear);
   }
 
   disconnectedCallback () {
@@ -372,6 +378,7 @@ export class GvAutocomplete extends LitElement {
       this.shadowRoot.removeEventListener('keydown', this._handlers.keydown);
       this._getInput().removeEventListener('focus', this._handlers.focus);
       this._getInput().removeEventListener('blur', this._handlers.blur);
+      this._getInput().removeEventListener('gv-input:clear', this._handlers.clear);
     }
     super.disconnectedCallback();
   }

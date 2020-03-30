@@ -119,7 +119,7 @@ export class GvCardList extends withResizeObserver(LitElement) {
     return html`<div class="${classMap({ container: true, error: this._error })}">
                  ${this._error ? html`<div>${i18n('gv-card-list.error')}</div>`
       : repeat(this._items, (item) => item, (item, index) =>
-        this.renderItem(item, index)
+        this.renderItem(item, index),
       )}
       </div>
         `;

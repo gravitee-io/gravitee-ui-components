@@ -255,7 +255,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
 
   _renderBreadcrumbs () {
     return html`<nav>${repeat(this._breadcrumbs, (route) => route, (route, index) =>
-      until(this._getLink(route, index), html`<gv-link skeleton></gv-link>`)
+      until(this._getLink(route, index), html`<gv-link skeleton></gv-link>`),
     )}</nav>`;
   }
 

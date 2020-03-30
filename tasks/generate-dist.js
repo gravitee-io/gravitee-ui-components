@@ -33,6 +33,7 @@ function minifyHtmlCss (code, sourceFileName) {
     // Put sourcemap in the file to simplify further manipulation
     sourceMaps: 'inline',
     plugins: [
+      '@babel/plugin-syntax-dynamic-import',
       [
         'template-html-minifier',
         {
@@ -43,15 +44,16 @@ function minifyHtmlCss (code, sourceFileName) {
               { name: 'css', encapsulation: 'style' },
             ],
           },
+          strictCSS: true,
           htmlMinifier: {
             collapseWhitespace: true,
+            conservativeCollapse: true,
             removeComments: true,
             caseSensitive: true,
-            minifyCSS: { level: 2 },
+            minifyCSS: true,
           },
         },
       ],
-      '@babel/plugin-syntax-dynamic-import',
     ],
   });
 }
