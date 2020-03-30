@@ -380,7 +380,7 @@ export class GvInput extends InputElement(LitElement) {
     };
 
     return html`
-      <div>
+      <div class="box-input">
           ${this.renderLabel()}
           <input
             id=${this._id}

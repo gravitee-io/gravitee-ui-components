@@ -36,6 +36,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @attr {String} type - the type of the button
  * @attr {Boolean} primary - set button UI mode to primary
+ * @attr {Boolean} danger - set button UI mode to danger
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} link - set button UI mode to link
@@ -50,6 +51,8 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Color} [--gv-button--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
  * @cssprop {Color} [--gv-button-primary--c=var(--gv-theme-font-color-light, #FFFFFF)] - Primary color
  * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #009B5B)] - Primary background color
+ * @cssprop {Color} [--gv-button-danger--c=var(--gv-theme-font-color-light, #FFFFFF)] - Danger color
+ * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-danger-color, #FF5722)] - Danger background color
  * @cssprop {Length} [--gv-button--p=0rem 0.5rem] - Padding
  * @cssprop {Length} [--gv-button--fz=var(--gv-theme-font-size-m, 14px)] - Font size
  * @cssprop {Length} [--gv-button--bdrs=0.15rem] - Border radius
@@ -59,6 +62,7 @@ export class GvButton extends LitElement {
   static get properties () {
     return {
       type: { type: String },
+      danger: { type: Boolean },
       disabled: { type: Boolean },
       primary: { type: Boolean },
       outlined: { type: Boolean },
@@ -143,6 +147,12 @@ export class GvButton extends LitElement {
           --c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
           --bgc: var(--gv-button-primary--bgc, var(--gv-theme-color, #009B5B));
           --gv-icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
+        }
+
+        .danger {
+          --c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --bgc: var(--gv-button-danger--bgc, var(--gv-theme-danger-color, #FF5722));
+          --gv-icon--c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #FFFFFF));
         }
 
         /* MODES */
@@ -257,9 +267,10 @@ export class GvButton extends LitElement {
 
   render () {
     const classes = {
-      primary: this.primary && !this.link,
+      primary: this.primary && !this.link && !this.danger,
+      danger: this.danger && !this.link,
       skeleton: this.skeleton && !this.link,
-      default: !this.primary && !this.link,
+      default: !this.primary && !this.link && !this.danger,
       outlined: this.outlined && !this.link,
       icon: !!this.icon || !!this.iconRight || this.loading,
       loading: this.loading,

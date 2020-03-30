@@ -18,12 +18,13 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
+import { link } from '../styles/link';
 import { input } from '../styles/input';
 import { repeat } from 'lit-html/directives/repeat';
-import { styleMap } from 'lit-html/directives/style-map';
 import './gv-icon';
 import { dispatchCustomEvent } from '../lib/events';
 import { InputElement } from '../mixins/input-element';
+import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**
  *
@@ -48,7 +49,7 @@ import { InputElement } from '../mixins/input-element';
  * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
  * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-light, #EFEFEF)] - Selected background color
  */
-export class GvSelect extends InputElement(LitElement) {
+export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
 
   static get properties () {
     return {
@@ -72,15 +73,15 @@ export class GvSelect extends InputElement(LitElement) {
       ...super.styles,
       skeleton,
       input,
+      link,
       // language=CSS
       css`
-          :host {
+          .box {
               --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
               --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
               --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
               --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
               --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #EFEFEF));
-              display: block;
           }
 
           div, input {
@@ -254,18 +255,9 @@ export class GvSelect extends InputElement(LitElement) {
   }
 
   _renderIcon () {
-    const iconStyle = {
-      position: 'absolute',
-      bottom: '1px',
-      right: '1px',
-      padding: this.small ? '5px' : '11px',
-      borderRadius: '3px 0 0 3px',
-    };
-    const classes = {
-      small: this.small,
-      medium: (this.medium || (!this.large && !this.small)),
-    };
-    return html`<gv-icon class="${classMap(classes)}" style="${styleMap(iconStyle)}" shape="design:triangle" @click=${this._onClick}></gv-icon>`;
+    return html`<div class="box-icon">
+                  <gv-icon class="link" shape="design:triangle" @click=${this._onClick}></gv-icon>
+                </div>`;
   }
 
   set options (options) {
@@ -292,8 +284,16 @@ export class GvSelect extends InputElement(LitElement) {
     return '';
   }
 
+  onResize () {
+    const input = this.shadowRoot.querySelector('input');
+    const { width } = window.getComputedStyle(input);
+    const list = this.shadowRoot.querySelector('.select__list');
+    list.style.width = width;
+  }
+
   render () {
     const classes = {
+      box: true,
       closed: this._isClosed,
     };
 
@@ -307,21 +307,23 @@ export class GvSelect extends InputElement(LitElement) {
     };
     return html`
       <div class="${classMap(classes)}">
-        ${this.renderLabel()}
-        <input
-          id=${this._id}
-          class="${classMap(inputClasses)}"
-          .type=${this._type}
-          .name=${ifDefined(this.name)}
-          .title=${ifDefined(this.title || this.label)}
-          .required=${this.required}
-          aria-required=${!!this.required}
-          ?disabled=${this.disabled || this.skeleton}
-          .placeholder=${ifDefined(this.placeholder)}
-          .value=${ifDefined(this.selectedLabel())}
-          @click=${this._onClick}
-          readonly="readonly">
-          ${this._renderIcon()}
+         <div class="box-input">
+            ${this.renderLabel()}
+            <input
+              id=${this._id}
+              class="${classMap(inputClasses)}"
+              .type=${this._type}
+              .name=${ifDefined(this.name)}
+              .title=${ifDefined(this.title || this.label)}
+              .required=${this.required}
+              aria-required=${!!this.required}
+              ?disabled=${this.disabled || this.skeleton}
+              .placeholder=${ifDefined(this.placeholder)}
+              .value=${ifDefined(this.selectedLabel())}
+              @click=${this._onClick}
+              readonly="readonly">
+              ${this._renderIcon()}
+         </div>
         <ul class="${classMap(Object.assign({ select__list: true }, inputClasses))}">
           ${this._options && repeat(this._options, (option) => option, (option) => html`
             <li class="${classMap({

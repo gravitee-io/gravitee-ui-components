@@ -55,17 +55,20 @@ export class GvIdentityPicture extends LitElement {
     this.performUpdate();
   }
 
-  render () {
-    const rect = this.getBoundingClientRect();
+  _toNumber (size) {
+    return parseInt(size.replace('px', ''), 10);
+  }
 
+  render () {
+    const { width, height } = window.getComputedStyle(this);
     if (this._error) {
       const container = document.createElement('div');
       container.title = this.display_name;
-      container.innerHTML = jdenticon.toSvg(this.display_name, Math.min(rect.width, rect.height), { backColor: '#FFFFFF' });
+      container.innerHTML = jdenticon.toSvg(this.display_name, Math.min(this._toNumber(width), this._toNumber(height)), { backColor: '#FFFFFF' });
       return html`${container}`;
     }
 
-    const style = `width:${rect.width}px; height:${rect.height}px; border-radius: 50%; --gv-image--of: contain;`;
+    const style = `width:${width}; height:${height}; border-radius: 50%; --gv-image--of: contain;`;
 
     return html`
       <gv-image src="${this.picture}"

@@ -280,6 +280,9 @@ export class GvDatePicker extends LitElement {
 
   async getLocale () {
     const lang = getLanguage();
+    if (!lang) {
+      return locales.en;
+    }
     if (!locales[lang]) {
       try {
         const locale = await import(`date-fns/locale/${lang}/index.js`);

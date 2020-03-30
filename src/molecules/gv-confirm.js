@@ -76,6 +76,7 @@ export class GvConfirm extends GvPopover {
           .text {
               text-align: center;
               line-height: 24px;
+              width: 100%;
           }
 
           .actions {
@@ -105,10 +106,11 @@ export class GvConfirm extends GvPopover {
 
   renderContent () {
     return html`
-          <div class="message">${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<div class="text">${this.message}</div></div>
+          <div class="message">${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<div class="text" .innerHTML="${this.message}"></div></div>
           <div class="actions">
-          <gv-button primary outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>
-          <gv-button primary @click="${this._onOk}">${this.okLabel}</gv-button>
+            <gv-button primary outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>
+            <gv-button primary @click="${this._onOk}">${this.okLabel}</gv-button>
+          </div>
        `;
   }
 

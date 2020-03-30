@@ -100,7 +100,7 @@ export const input = css`
       width: 14px;
   }
   
-  div {
+  .box-input {
     position: relative;
     line-height: 0;
   }
@@ -189,9 +189,12 @@ export const input = css`
   }
 
   /* STATES */
+  :host([disabled]) {
+      --gv-icon--c: var(--gv-theme-neutral-color-darker, #D9D9D9);
+  }
+  
   :host([disabled]) .box-icon-bgc {
       background-color: transparent;
-      --gv-icon--c: var(--gv-theme-neutral-color-darker, #D9D9D9);
   }
   
   :host([disabled]) input {

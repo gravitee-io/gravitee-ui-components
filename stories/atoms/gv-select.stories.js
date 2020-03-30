@@ -31,6 +31,11 @@ const conf = {
     :host {
       height: 250px;
     }
+    
+    gv-select {
+      width: 100%;
+      max-width: 500px;
+    }
   `,
 };
 

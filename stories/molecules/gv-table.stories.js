@@ -161,6 +161,10 @@ export const multipleSelection = makeStory(conf, {
   items: [{ items: simpleAppItems, options: multipleSelectionOptions, noheader: true }],
 });
 
+export const pagination = makeStory(conf, {
+  items: [{ items: [...apiItems, ...apiItems], options: { ...apiOptions, paging: 2 }, title: 'APIs', order: 'name' }],
+});
+
 export const components = makeStory(conf, {
   items: [{
     items: [{ name: 'input', value: 'Value' }],
