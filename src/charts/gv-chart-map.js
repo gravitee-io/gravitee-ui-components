@@ -31,7 +31,7 @@ import { dispatchCustomEvent } from '../lib/events';
  */
 export class GvChartMap extends ChartElement(LitElement) {
 
-  getOptions () {
+  async getOptions () {
     const data = [];
     if (this._series && this._series.values) {
       Object.keys(this._series.values).forEach((k) => {
@@ -44,11 +44,11 @@ export class GvChartMap extends ChartElement(LitElement) {
     if (this.options.zone) {
       const zone = this.options.zone.toLowerCase();
       key = 'name';
-      map = require('@highcharts/map-collection/countries/' + zone.substring(0, 2) + '/' + zone + '-all.geo.json');
+      map = await import('@highcharts/map-collection/countries/' + zone.substring(0, 2) + '/' + zone + '-all.geo.json');
     }
     else {
       key = 'hc-a2';
-      map = require('@highcharts/map-collection/custom/world.geo.json');
+      map = await import('@highcharts/map-collection/custom/world.geo.json');
     }
     return {
       chart: {

@@ -37,6 +37,7 @@ export function ChartElement (ParentClass) {
         /** @required */
         series: { type: Array },
         options: { type: Array },
+        _additionalOptions: { type: Object, attribute: false },
         _series: { type: Array, attribute: false },
         _skeleton: { type: Boolean, attribute: false },
         _error: { type: Boolean, attribute: false },
@@ -120,7 +121,10 @@ export function ChartElement (ParentClass) {
           if (series) {
             this._empty = (series && Object.keys(series).length === 0) || (series.values && Object.keys(series.values).length === 0);
             this._series = series;
-            this._skeleton = false;
+            this.getOptions().then((options) => {
+              this._additionalOptions = options;
+              this._skeleton = false;
+            });
           }
         })
         .catch(() => {
@@ -130,9 +134,10 @@ export function ChartElement (ParentClass) {
         });
     }
 
-    getOptions () {}
+    async getOptions () {}
 
     render () {
+
       if (this._error) {
         return html`<div class="error">${i18n('gv-chart.error')}</div>`;
       }
@@ -142,41 +147,44 @@ export function ChartElement (ParentClass) {
 
       const container = document.createElement('div');
       container.id = 'container';
-      container.className = this._skeleton ? 'skeleton' : '';
+      container.className = this._skeleton || this._additionalOptions == null ? 'skeleton' : '';
       container.style = 'height: 100%; width: 100%;';
 
-      const options = {
-        ...{
-          chart: {
-            height: '100%',
-            width: '100%',
+      if (this._additionalOptions) {
+        const options = {
+          ...{
+            chart: {
+              height: '100%',
+              width: '100%',
+            },
+            credits: {
+              enabled: false,
+            },
+            title: {
+              text: '',
+            },
+            global: {
+              useUTC: false,
+            },
           },
-          credits: {
-            enabled: false,
-          },
-          title: {
-            text: '',
-          },
-          global: {
-            useUTC: false,
-          },
-        },
-        ...this.getOptions(),
-      };
+          ...this._additionalOptions,
+        };
 
-      const hasData = this._series && this._series.values && this._series.values[0] && this._series.values[0].data;
-      if (hasData) {
-        options.series = this._series && this._series.values;
+        const hasData = this._series && this._series.values && this._series.values[0] && this._series.values[0].data;
+        if (hasData) {
+          options.series = this._series && this._series.values;
+        }
+
+        setTimeout(() => {
+          if (options.chart.map) {
+            Highmaps.mapChart(container, options);
+          }
+          else {
+            Highcharts.chart(container, options);
+          }
+        });
       }
 
-      setTimeout(() => {
-        if (options.chart.map) {
-          Highmaps.mapChart(container, options);
-        }
-        else {
-          Highcharts.chart(container, options);
-        }
-      });
       return html`${cache(container)}`;
     }
   };
