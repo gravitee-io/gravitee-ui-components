@@ -51,6 +51,8 @@ export class GvCheckbox extends LitElement {
       css`
         :host {
           cursor: pointer;
+          display: inline-block;
+          width: 100%;
           --gv-icon--c: var(--gv-theme-neutral-color-dark, #D9D9D9);
           --gv-icon--s: 30px;
         }
@@ -75,12 +77,13 @@ export class GvCheckbox extends LitElement {
           opacity: .5;
         }
 
-        label {
+        .checkbox-label {
           cursor: pointer;
           font-weight: 600;
           font-size: var(--gv-theme-font-size-m, 14px);
+          height: 29px;
           line-height: 29px;
-          padding-left: 15px;
+          padding-left: 30px;
         }
 
         gv-icon {
@@ -123,13 +126,13 @@ export class GvCheckbox extends LitElement {
 
   _renderLabel () {
     if (this.label) {
-      return html`<label class="${classMap({
+      return html`<div class="${classMap({
         disabled: this.disabled,
         skeleton: this.skeleton,
         'checkbox-label': true,
-      })}" title="${this.label}">
+      })}" title="${this.label}" @click=${this._onInput}>
         ${this.label}
-        </label>
+        </div>
         `;
     }
     return '';
@@ -139,6 +142,7 @@ export class GvCheckbox extends LitElement {
     if (!(this.disabled || this.skeleton)) {
       this.value = !this.value;
       dispatchCustomEvent(this, 'input', this.value);
+      this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
     }
   }
 
@@ -153,7 +157,7 @@ export class GvCheckbox extends LitElement {
         <gv-icon shape="design:border" @click=${this._onInput}></gv-icon>
         <gv-icon style="display: none;" @click=${this._onInput}
             class=${classMap({ checked: this.value })} shape="code:check"></gv-icon>
-        <label @click=${this._onInput}>${this._renderLabel()}</label>
+        ${this._renderLabel()}
       </div>
     `;
   }
