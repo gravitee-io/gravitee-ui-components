@@ -30,7 +30,7 @@ import { dispatchCustomEvent } from '../lib/events';
  */
 export class GvChartPie extends ChartElement(LitElement) {
 
-  getOptions () {
+  async getOptions () {
     let total = 0;
     if (this._series && this._series.values) {
       this.options.data.forEach((data, i) => {

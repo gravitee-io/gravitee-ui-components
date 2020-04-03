@@ -32,7 +32,7 @@ import { dispatchCustomEvent } from '../lib/events';
  */
 export class GvChartLine extends ChartElement(LitElement) {
 
-  getOptions () {
+  async getOptions () {
     if (this._series && this._series.values && this._series.values[0] && this._series.values[0].buckets) {
       const values = this._series.values[0].buckets.slice();
       const metadata = this._series.values[0].metadata;
