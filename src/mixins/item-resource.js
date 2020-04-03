@@ -203,6 +203,12 @@ export function ItemResource (ParentClass) {
       return '';
     }
 
+    _getNbApisInView () {
+      if (this._item && this._item.total_apis !== undefined) {
+        return this._item.total_apis;
+      }
+      return null;
+    }
   };
 
 }

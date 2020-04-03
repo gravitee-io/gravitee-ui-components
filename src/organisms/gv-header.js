@@ -199,6 +199,11 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
           letter-spacing: 0.05em;
         }
 
+        h1 span {
+          opacity: 0.5;
+          font-size: var(--gv-theme-font-size-l, 16px);
+        }
+
         .skeleton gv-button, .skeleton .error {
           visibility: hidden;
         }
@@ -274,7 +279,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
                 ${(!(this._error || this._empty)) ? html`<div class="version">${this._getVersion()}</div>` : ''}
                 ${(this._error || this._empty) ? html`
                     <div><div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>
-                 </div>` : html`<h1>${this._getTitle()}</h1>`}
+                 </div>` : html`<h1>${this._getTitle()} ${this._getNbApisInView() !== null ? html`<span>(${this._getNbApisInView()})</span>` : ''}</h1>`}
             </div>
             ${!(this._error || this._empty) && this.canSubscribe ? html`<div class="actions">
                 <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header.subscribe')}</gv-button>

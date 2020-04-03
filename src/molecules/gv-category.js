@@ -80,6 +80,15 @@ export class GvCategory extends LitElement {
           cursor: pointer;
         }
 
+        .picture {
+          align-self: flex-end;
+        }
+
+        .picture gv-identity-picture{
+          height: 80px;
+          width: 80px;
+        }
+
         .title {
           color: var(--gv-category--c, var(--gv-theme-font-color-dark, #262626));
           font-size: var(--gv-theme-font-size-xxl, 30px);
@@ -153,6 +162,7 @@ export class GvCategory extends LitElement {
             <span class="error">${this._error ? i18n('gv-category.error') : i18n('gv-category.empty')}</span>
         </div>
         ` : html`
+        <div class="picture"><gv-identity-picture display_name="${this._get('name')}" picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture></div>
         <div class="title">${this._get('name')}</div>
         <div class="description">${truncate(this._get('description'), this.limit)}</div>`}
       </div>
