@@ -46,6 +46,12 @@ export class GvIdentityPicture extends LitElement {
           div {
             text-align: center;
           }
+
+          gv-image, svg {
+              width: 100%;
+              height: 100%;
+              --gv-image--of: contain;
+          }
       `,
     ];
   }
@@ -68,13 +74,11 @@ export class GvIdentityPicture extends LitElement {
       return html`${container}`;
     }
 
-    const style = `width:${width}; height:${height}; border-radius: 50%; --gv-image--of: contain;`;
-
     return html`
       <gv-image src="${this.picture}"
         alt="${this.display_name}"
         title="${this.display_name}"
-        style="${style}" @error="${this._onError}"></gv-image>
+        @error="${this._onError}"></gv-image>
     `;
   }
 }

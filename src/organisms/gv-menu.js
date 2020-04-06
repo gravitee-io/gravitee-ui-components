@@ -44,6 +44,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
     return {
       /** @required **/
       routes: { type: Array },
+      sticky: { type: Boolean, reflect: true },
       _small: { type: Boolean, attribute: false },
       _routes: { type: Array, attribute: false },
       _hasHeader: { type: Boolean, attribute: false },
@@ -67,6 +68,24 @@ export class GvMenu extends withResizeObserver(LitElement) {
               box-sizing: border-box;
               display: block;
               font-size: var(--gv-theme-font-size-s, 12px);
+          }
+
+          gv-nav {
+              transition: line-height 5s ease-in-out;
+          }
+          
+          :host([sticky]) gv-nav {
+              line-height: 1px;
+              --gv-link-icon--s: 20px;
+          }
+
+          :host([sticky]) .has-header gv-nav {
+              line-height: 34px;
+          }
+
+          :host([sticky]) ::slotted([slot="top"]) {
+              height: 35px;
+              transition: height 250ms ease-in-out;
           }
 
           :host([w-lt-1024]) {
@@ -94,8 +113,8 @@ export class GvMenu extends withResizeObserver(LitElement) {
           }
 
           :host([w-lt-380]) .nav-container {
-            display: flex;
-            flex-direction: column-reverse;
+              display: flex;
+              flex-direction: column-reverse;
           }
 
           :host([w-lt-380]) gv-nav {
@@ -110,11 +129,6 @@ export class GvMenu extends withResizeObserver(LitElement) {
               padding-right: 0;
           }
 
-          :host > div {
-              background-color: var(--gv-menu--bgc, var(--gv-theme-color-dark, #193E34));
-              color: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
-          }
-
           gv-nav {
               display: table-cell;
               line-height: 50px;
@@ -124,6 +138,8 @@ export class GvMenu extends withResizeObserver(LitElement) {
           .nav-container {
               display: grid;
               grid-template-columns: auto auto;
+              background-color: var(--gv-menu--bgc, var(--gv-theme-color-dark, #193E34));
+              color: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 
           .has-header .nav-container {
@@ -132,6 +148,12 @@ export class GvMenu extends withResizeObserver(LitElement) {
               --gv-link-a--pv: 0;
           }
 
+          :host([sticky]) .has-header .nav-container {
+              width: calc(100% - 5rem);
+              padding-left: 5rem;
+              transition: all 250ms ease-in-out;
+          }
+           
           .right {
               display: flex;
               padding-right: var(--pr);
@@ -140,6 +162,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
 
           gv-nav {
               padding-left: var(--pl);
+              transition: width 250ms ease-in-out;
           }
 
           slot[name="right-transition"] {
@@ -176,6 +199,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
     super();
     /** @protected */
     this._routes = [];
+    this.sticky = false;
     this.breakpoints = {
       // ceiled width with 275px tiles and 1rem (16px) gap
       width: [380, 580, 768, 1024],
@@ -216,7 +240,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
       <div class="${classMap({ 'has-header': this._hasHeader })}">
         <slot name="top"></slot>
         <div class="nav-container">
-            <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
+            <gv-nav .routes="${this._routes}" ?small="${this._small || this.sticky}"></gv-nav>
             <div class="right"><slot name="right-transition"></slot><slot name="right"></slot></div>
         </div>
       </div>
@@ -230,6 +254,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
       if (node.nodeType === 1) {
         const child = node.nodeName.toLowerCase() === 'gv-header' ? node : node.querySelector('gv-header');
         if (child) {
+          child.sticky = this.sticky;
           _header = true;
           break;
         }

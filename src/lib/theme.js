@@ -20,7 +20,7 @@ export function applyTheme (theme) {
     const backgroundImage = theme._links ? theme._links.backgroundImage : theme.backgroundImage;
     updateImage('--gv-theme-logo', logo, `url('/images/gravitee-logo.png')`);
     updateImage('--gv-theme-optional-logo', optionalLogo, `url('/images/gravitee-logo-light.png')`);
-    updateImage('--gv-theme-background-image', backgroundImage, `url('/images/gravitee-bgi.jpg')`);
+    updateImage('--gv-theme-homepage-background-image', backgroundImage, `none`);
     theme.definition.data.forEach((component) => {
       component.css.forEach((cssProperty) => {
         document.documentElement.style.setProperty(cssProperty.name, cssProperty.value);

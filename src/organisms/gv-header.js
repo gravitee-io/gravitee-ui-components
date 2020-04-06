@@ -35,9 +35,8 @@ import { ItemResource } from '../mixins/item-resource';
  *
  * @cssprop {Color} [--gv-header--bgc=var(--gv-theme-color-light, #D5FDCB)] - Background color.
  * @cssprop {Color} [--gv-header--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Length} [--gv-header-image--h=125px] - Image height
- * @cssprop {Length} [--gv-header-image--w=125px] - Image width
- * @cssprop {Length} [--gv-header--h=150px] - Height
+ * @cssprop {Length} [--gv-header-image--h=100px] - Image height
+ * @cssprop {Length} [--gv-header-image--w=100px] - Image width
  *
  * @cssprop {Length} [--gv-header-button--p=10px 24px] - Button adding
  * @cssprop {Length} [--gv-header-button--fz=var(--gv-theme-font-size-l, 16px)] - Button font size
@@ -48,6 +47,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
   static get properties () {
     return {
       breadcrumbs: { type: Array },
+      sticky: { type: Boolean, reflect: true },
       _breadcrumbs: { type: Array, attribute: false },
       canSubscribe: { type: Boolean, attribute: 'can-subscribe' },
     };
@@ -58,155 +58,146 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
       skeleton,
       // language=CSS
       css`
-        :host {
-          --img-w: var(--gv-header-image--w, 125px);
-          --img-h: var(--gv-header-image--h, 125px);
-          --gv-button--fz: var(--gv-header-button--fz, var(--gv-theme-font-size-l, 16px));
-          --gv-button--p: var(--gv-header-button--p, 10px 24px);
-          --gv-link--bgc: transparent;
-          --gv-link-active-bgc: transparent;
-          --c: var(--gv-header--c, var(--gv-theme-font-color-dark, #262626));
-          --gv-link--c: var(--c);
-          --gv-link-active--c: var(--c);
-          --gv-link-a--ph: 5px;
-          --gv-link--td: underline;
-          --bgc: var(--gv-header--bgc, var(--gv-theme-color-light, #D5FDCB));
-          --h: var(--gv-header--h, 150px);
-          box-sizing: border-box;
-          display: block;
-        }
+          :host {
+              --img-w: var(--gv-header-image--w, 100px);
+              --img-h: var(--gv-header-image--h, 100px);
+              --gv-button--fz: var(--gv-header-button--fz, var(--gv-theme-font-size-l, 16px));
+              --gv-button--p: var(--gv-header-button--p, 10px 24px);
+              --gv-link--bgc: transparent;
+              --gv-link-active-bgc: transparent;
+              --c: var(--gv-header--c, var(--gv-theme-font-color-dark, #262626));
+              --gv-link--c: var(--c);
+              --gv-link-active--c: var(--c);
+              --gv-link-a--ph: 5px;
+              --gv-link--td: underline;
+              --bgc: var(--gv-header--bgc, var(--gv-theme-color-light, #D5FDCB));
+              box-sizing: border-box;
+              display: block;
+          }
+          
+          :host([sticky]) .actions {
+              display: none;
+          }
 
-        gv-identity-picture {
-          height: var(--img-h);
-          width: var(--img-w);
-          --gv-image--of: contain;
-        }
+          :host([w-lt-768]) {
+              --img--w: calc(var(--img-w) / 2);
+              --img--h: calc(var(--img-h) / 2);
+              --gv-button--fz: var(--gv-theme-font-size-s, 12px);
+              font-size: var(--gv-theme-font-size-s, 12px);
+          }
 
-        :host([w-lt-768]) {
-          --img--w: calc(var(--img-w) / 2);
-          --img--h: calc(var(--img-h) / 2);
-          --gv-button--fz: var(--gv-theme-font-size-s, 12px);
-          font-size: var(--gv-theme-font-size-s, 12px);
-        }
+          :host([w-lt-580]) {
+              --gv-button--p: 3px 9px;
+              --gv-link-a--ph: 0px;
+          }
 
-        :host([w-lt-768]) .header__top nav {
-          margin-top: 0;
-        }
+          :host([w-lt-580]) .actions {
+              display: flex;
+              flex-direction: column;
+          }
 
-        :host([w-lt-580]) {
-          --gv-button--p: 3px 9px;
-          --gv-link-a--ph: 0px;
-          --h: 115px;
-        }
+          :host([w-lt-580]) .version {
+              font-size: var(--gv-theme-font-size-s, 12px);
+              line-height: var(--gv-theme-font-size-s, 12px);
+          }
 
-        :host([w-lt-580]) .header__top {
-          min-height: 0;
-        }
+          :host([w-lt-580]) .image gv-image {
+              top: -5px;
+          }
 
-        :host([w-lt-580]) .actions {
-          display: flex;
-          flex-direction: column;
-        }
+          :host([w-lt-580]) h1 {
+              font-size: calc(var(--gv-theme-font-size-xl, 26px) - 4px);
+              line-height: calc(var(--gv-theme-font-size-xl, 26px) - 4px);
+          }
 
-        :host([w-lt-580]) .version {
-          font-size: var(--gv-theme-font-size-s, 12px);
-          line-height: var(--gv-theme-font-size-s, 12px);
-        }
+          :host([w-lt-400]) h1 {
+              font-size: calc(var(--gv-theme-font-size-xl, 26px) - 8px);
+          }
 
-        :host([w-lt-580]) .image gv-image {
-          top: -5px;
-        }
+          .header {
+              display: flex;
+              background-color: var(--bgc);
+              flex-direction: row;
+              color: var(--c);
+              transition: all 350ms ease-in-out;
+              padding: 0.5rem var(--gv-theme-layout--pr, 4rem) 0.5rem var(--gv-theme-layout--pl, 4rem);
+              position: relative;
+          }
 
-        :host([w-lt-580]) h1 {
-          font-size: calc(var(--gv-theme-font-size-xl, 26px) - 4px);
-          line-height: calc(var(--gv-theme-font-size-xl, 26px) - 4px);
-        }
+          .title {
+              flex: 1;
+              margin: 0.5rem 0 0.5rem var(--img-w);
+              padding-left: 1rem;
+          }
 
-        :host([w-lt-400]) h1 {
-          font-size: calc(var(--gv-theme-font-size-xl, 26px) - 8px);
-        }
+          :host([sticky]) .title {
+              margin-left: calc(var(--img-w)/2);
+              transition: all 250ms ease-in-out;
+          }
 
-        .header {
-          display: flex;
-          height: var(--h);
-          background-color: var(--bgc);
-          flex-direction: column;
-          padding-left: var(--gv-theme-layout--pl, 4rem);
-          padding-right: var(--gv-theme-layout--pr, 4rem);
-          color: var(--c);
-          transition: height 1s ease;
-        }
+          .title, .actions {
+              align-self: flex-end;
+          }
+          
+          
+          gv-link:last-child {
+              --gv-link--td: none;
+          }
 
-        .header__top {
-          min-height: 80px;
-          display: flex;
-        }
+          gv-link::after {
+              content: '>';
+              color: var(--gv-theme-font-color-dark, #262626);
+              align-self: center;
+          }
 
-        .header__top nav {
-          margin-top: 10px;
-          flex: 1;
-        }
+          gv-link:last-child::after {
+              content: '';
+          }
 
-        .header__bottom {
-          display: flex;
-        }
+          .error {
+              text-align: center;
+              margin-right: 125px;
+          }
 
-        .title {
-          flex: 1;
-          margin: 0.5rem 0 0 1rem;
-        }
+          .version {
+              letter-spacing: 0.05em;
+              opacity: 0.5;
+              font-size: var(--gv-theme-font-size-l, 16px);
+              line-height: var(--gv-theme-font-size-l, 16px);
+              font-weight: 500;
+          }
 
-        .image {
-          position: relative;
-        }
+          gv-identity-picture {
+              height: var(--img-h);
+              width: var(--img-w);
+              position: absolute;
+              --gv-image--of: contain;
+              transition: all 150ms ease-in-out;
+          }
 
-        gv-link:last-child {
-          --gv-link--td: none;
-        }
+          :host([sticky]) gv-identity-picture {
+              height: calc(var(--img-h)/2);
+              width: calc(var(--img-w)/2);
+              transition: all 150ms ease;
+              top: 20%;
+          }
 
-        gv-link::after {
-          content: '>';
-          color: var(--gv-theme-font-color-dark, #262626);
-          align-self: center;
-        }
-
-        gv-link:last-child::after {
-          content: '';
-        }
-
-        .image gv-image {
-          top: -15px;
-        }
-
-        .error {
-          text-align: center;
-          margin-right: 125px;
-        }
-
-        .version {
-          letter-spacing: 0.05em;
-          opacity: 0.5;
-          font-size: var(--gv-theme-font-size-l, 16px);
-          line-height: var(--gv-theme-font-size-l, 16px);
-          font-weight: 500;
-        }
-
-        h1 {
-          margin: 0;
-          font-size: var(--gv-theme-font-size-xl, 26px);
-          font-weight: 500;
-          line-height: var(--gv-theme-font-size-xl, 26px);
-          letter-spacing: 0.05em;
-        }
-
-        h1 span {
-          opacity: 0.5;
-          font-size: var(--gv-theme-font-size-l, 16px);
-        }
-
-        .skeleton gv-button, .skeleton .error {
-          visibility: hidden;
-        }
+          h1 {
+              margin: 0;
+              font-size: var(--gv-theme-font-size-xl, 26px);
+              font-weight: 500;
+              line-height: var(--gv-theme-font-size-xl, 26px);
+              letter-spacing: 0.05em;
+          }
+          
+          h1 span {
+            opacity: 0.5;
+            font-size: var(--gv-theme-font-size-l, 16px);
+          }
+  
+          .skeleton gv-button, .skeleton .error {
+            visibility: hidden;
+          }
       `,
     ];
   }
@@ -272,11 +263,9 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
   render () {
     return html`
       <div class="${classMap({ header: true, skeleton: this._skeleton })}">
-        <div class="header__top">${(!(this._error || this._empty)) ? this._renderBreadcrumbs() : ''}</div>
-        <div class="header__bottom">
-            <div class="image">${this._renderImage()}</div>
+            ${this._renderImage()}
             <div class="title">
-                ${(!(this._error || this._empty)) ? html`<div class="version">${this._getVersion()}</div>` : ''}
+                ${(!(this._error || this._empty) && !this.sticky) ? html`<div class="version">${this._getVersion()}</div>` : ''}
                 ${(this._error || this._empty) ? html`
                     <div><div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>
                  </div>` : html`<h1>${this._getTitle()} ${this._getNbApisInView() !== null ? html`<span>(${this._getNbApisInView()})</span>` : ''}</h1>`}
@@ -284,7 +273,6 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
             ${!(this._error || this._empty) && this.canSubscribe ? html`<div class="actions">
                 <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header.subscribe')}</gv-button>
             </div>` : ``}
-        </div>
      </div>
     `;
   }

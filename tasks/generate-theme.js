@@ -119,7 +119,7 @@ async function run () {
     const themableElements = elements.filter((element) => element.name !== 'gv-theme');
     themableElements.forEach(
       (element) => element.cssProperties.filter((prop) => prop.default === cssProperty.default).forEach((prop) => {
-        console.warn(`waring: Please use theme property ${cssProperty.name} for ${prop.name}=${prop.default}`);
+        console.warn(`warning: Please use theme property ${cssProperty.name} for ${prop.name}=${prop.default}`);
       }));
     return formatCssProperty(cssProperty);
   });
