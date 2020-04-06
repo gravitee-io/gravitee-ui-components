@@ -20,8 +20,10 @@
   --gv-theme-font-size-l: 16px;
   --gv-theme-font-size-xl: 26px;
   --gv-theme-font-size-xxl: 30px;
+  --gv-theme-homepage-background-height: 400px;
   --gv-theme-skeleton-color: #BFBFBF;
-  --gv-theme-background-image: url('/images/gravitee-bgi.jpg');
+  --gv-theme-homepage-background-color: #193E34;
+  --gv-theme-homepage-background-image: none;
   --gv-theme-logo: url('/images/gravitee-logo.png');
   --gv-theme-optional-logo: url('/images/gravitee-logo-light.png');
 }

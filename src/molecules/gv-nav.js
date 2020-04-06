@@ -45,6 +45,7 @@ export class GvNav extends LitElement {
       css`
         nav {
           position: relative;
+          transition: all 150ms ease-in-out;
         }
 
         #shadowLink {

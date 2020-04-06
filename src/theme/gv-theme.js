@@ -48,10 +48,12 @@ import { applyTheme } from '../lib/theme';
  * @cssprop {Length} [--gv-theme-font-size-l=16px] - Large
  * @cssprop {Length} [--gv-theme-font-size-xl=26px] - Extra large
  * @cssprop {Length} [--gv-theme-font-size-xxl=30px] - Extra extra large
+ * @cssprop {Length} [--gv-theme-homepage-background-height=400px] - Homepage background height
  *
  * @cssprop {Color} [--gv-theme-skeleton-color=#BFBFBF] - Primary skeleton color
+ * @cssprop {Color} [--gv-theme-homepage-background-color=#193E34] - Homepage background color
  *
- * @cssprop {Image} [--gv-theme-background-image=url('/images/gravitee-bgi.jpg')] - Background image
+ * @cssprop {Image} [--gv-theme-homepage-background-image=none] - Background image
  * @cssprop {Image} [--gv-theme-logo=url('/images/gravitee-logo.png')] - Logo
  * @cssprop {Image} [--gv-theme-optional-logo=url('/images/gravitee-logo-light.png')] - Optional logo
  *
@@ -70,36 +72,38 @@ export class GvTheme extends LitElement {
     return [
       // language=CSS
       css`
-        :host {
-          --gv-theme-color-darker: var(--gv-theme-color-darker, #1D3730);
-          --gv-theme-color-dark: var(--gv-theme-color-dark, #193E34);
-          --gv-theme-color: var(--gv-theme-color, #009B5B);
-          --gv-theme-color-light: var(--gv-theme-color-light, #D5FDCB);
-          --gv-theme-color-danger: var(--gv-theme-color-danger, #FF5722);
+          :host {
+              --gv-theme-color-darker: var(--gv-theme-color-darker, #1D3730);
+              --gv-theme-color-dark: var(--gv-theme-color-dark, #193E34);
+              --gv-theme-color: var(--gv-theme-color, #009B5B);
+              --gv-theme-color-light: var(--gv-theme-color-light, #D5FDCB);
+              --gv-theme-color-danger: var(--gv-theme-color-danger, #FF5722);
 
-          --gv-theme-neutral-color-darkest: var(--gv-theme-neutral-color-darkest, #000000);
-          --gv-theme-neutral-color-darker: var(--gv-theme-neutral-color-darker, #BFBFBF);
-          --gv-theme-neutral-color-dark: var(--gv-theme-neutral-color-dark, #D9D9D9);
-          --gv-theme-neutral-color: var(--gv-theme-neutral-color, #F5F5F5);
-          --gv-theme-neutral-color-light: var(--gv-theme-neutral-color-light, #EFEFEF);
-          --gv-theme-neutral-color-lighter: var(--gv-theme-neutral-color-lighter, #FAFAFA);
-          --gv-theme-neutral-color-lightest: var(--gv-theme-neutral-color-lightest, #FFFFFF);
+              --gv-theme-neutral-color-darkest: var(--gv-theme-neutral-color-darkest, #000000);
+              --gv-theme-neutral-color-darker: var(--gv-theme-neutral-color-darker, #BFBFBF);
+              --gv-theme-neutral-color-dark: var(--gv-theme-neutral-color-dark, #D9D9D9);
+              --gv-theme-neutral-color: var(--gv-theme-neutral-color, #F5F5F5);
+              --gv-theme-neutral-color-light: var(--gv-theme-neutral-color-light, #EFEFEF);
+              --gv-theme-neutral-color-lighter: var(--gv-theme-neutral-color-lighter, #FAFAFA);
+              --gv-theme-neutral-color-lightest: var(--gv-theme-neutral-color-lightest, #FFFFFF);
 
-          --gv-theme-font-color-dark: var(--gv-theme-font-color-dark, #262626);
-          --gv-theme-font-color-light: var(--gv-theme-font-color-light, #FFFFFF);
-          --gv-theme-font-size-xs: var(--gv-theme-font-size-xs, 10px);
-          --gv-theme-font-size-s: var(--gv-theme-font-size-s, 12px);
-          --gv-theme-font-size-m: var(--gv-theme-font-size-m, 14px);
-          --gv-theme-font-size-l: var(--gv-theme-font-size-l, 16px);
-          --gv-theme-font-size-xl: var(--gv-theme-font-size-xl, 26px);
-          --gv-theme-font-size-xxl: var(--gv-theme-font-size-xxl, 30px);
-          --gv-theme-skeleton-color: var(--gv-theme-skeleton-color, #BFBFBF);
-          --gv-theme-font-family: var(--gv-theme-font-family, 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif);
+              --gv-theme-font-color-dark: var(--gv-theme-font-color-dark, #262626);
+              --gv-theme-font-color-light: var(--gv-theme-font-color-light, #FFFFFF);
+              --gv-theme-font-size-xs: var(--gv-theme-font-size-xs, 10px);
+              --gv-theme-font-size-s: var(--gv-theme-font-size-s, 12px);
+              --gv-theme-font-size-m: var(--gv-theme-font-size-m, 14px);
+              --gv-theme-font-size-l: var(--gv-theme-font-size-l, 16px);
+              --gv-theme-font-size-xl: var(--gv-theme-font-size-xl, 26px);
+              --gv-theme-font-size-xxl: var(--gv-theme-font-size-xxl, 30px);
+              --gv-theme-skeleton-color: var(--gv-theme-skeleton-color, #BFBFBF);
+              --gv-theme-font-family: var(--gv-theme-font-family, 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif);
 
-          --gv-theme-background-image: var(--gv-theme-background-image, url('/images/gravitee-bgi.jpg'));
-          --gv-theme-logo: var(--gv-theme-logo, urt('/images/gravitee-logo.png'));
-          --gv-theme-optional-logo: var(--gv-theme-optional-logo, url('/images/gravitee-logo-light.png'));
-        }
+              --gv-theme-homepage-background-image: var(--gv-theme-homepage-background-image, none);
+              --gv-theme-homepage-background-color: var(--gv-theme-homepage-background-color, #193E34);
+              --gv-theme-homepage-background-height: var(--gv-theme-homepage-background-height, 400px);
+              --gv-theme-logo: var(--gv-theme-logo, url('/images/gravitee-logo.png'));
+              --gv-theme-optional-logo: var(--gv-theme-optional-logo, url('/images/gravitee-logo-light.png'));
+          }
       `];
   }
 

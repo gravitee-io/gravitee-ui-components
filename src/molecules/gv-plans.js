@@ -405,7 +405,7 @@ export class GvPlans extends LitElement {
         <div class="selectors">
             ${this._renderTriangles(currentPlans)}
          </div>
-         ${this._renderPagination}
+         ${this._renderPagination()}
          ${!this.skeleton ? html`<div class="characteristics">
             ${repeat(this._characteristics, (characteristic) => characteristic, (characteristic, index) =>
       html`<div class="characteristic"><div class="circle"><gv-icon shape="home:flower#2"></gv-icon></div><div>${characteristic}</div></div>`)}
