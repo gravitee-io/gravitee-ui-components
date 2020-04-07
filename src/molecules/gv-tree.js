@@ -30,10 +30,10 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {Boolean} closed - allows to close the menu
  * @attr {Object} selectedItem - the item selected
  *
- * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-color-dark, #1D3730)] - Background color
- * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
- * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color-light, #D5FDCB)] - Active border
- * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-color-dark, #1D3730)] - Active background color
+ * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color, #F5F5F5)] - Background color
+ * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color, #009B5B)] - Active border
+ * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-color-light, #D5FDCB)] - Active background color
  * @cssprop {Length} [--gv-tree-link-a--ph=0] - Link horizontal padding
  * @cssprop {String} [--gv-tree-link--ta=left] - Text align
  * @cssprop {Length} [--gv-tree-icon--s=20px] - Height and icon width
@@ -53,10 +53,10 @@ export class GvTree extends LitElement {
       // language=css
       css`
         :host {
-          --c: var(--gv-tree--c, var(--gv-theme-font-color-light, #FFFFFF));
-          --bgc: var(--gv-tree--bgc, var(--gv-theme-color-dark, #1D3730));
-          --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color-light, #D5FDCB));
-          --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-color-dark, #1D3730));
+          --c: var(--gv-tree--c, var(--gv-theme-font-color-dark, #262626));
+          --bgc: var(--gv-tree--bgc, var(--gv-theme-neutral-color, #F5F5F5));
+          --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color, #009B5B));
+          --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-color-light, #D5FDCB));
           --gv-icon--s: var(--gv-tree-icon--s, 20px);
           --gv-link-a--ph: var(--gv-tree-link-a--ph, 0);
           --gv-link--ta: var(--gv-tree-link--ta, left);
