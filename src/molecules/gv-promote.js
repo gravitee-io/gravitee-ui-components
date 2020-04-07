@@ -137,13 +137,6 @@ export class GvPromote extends ItemResource(LitElement) {
     dispatchCustomEvent(this, 'click', { path: this.path });
   }
 
-  _renderImage () {
-    if (!this._empty) {
-      return html`<gv-identity-picture .display_name="${this._getTitle()}" .picture="${this._picture}" @load="${this._onImageLoaded}"></gv-identity-picture>`;
-    }
-    return '';
-  }
-
   render () {
     return html`<div class="container">
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>

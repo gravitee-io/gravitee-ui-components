@@ -149,8 +149,12 @@ export class GvList extends LitElement {
       });
   }
 
-  _renderImage (picture, name) {
-    return html`<gv-identity-picture .picture="${picture}" .display_name="${name}"></gv-identity-picture>`;
+  _getPictureDisplayName (name, suffix) {
+    return suffix ? `${name} ${suffix}` : name;
+  }
+
+  _renderImage (picture, name, suffix) {
+    return html`<gv-identity-picture .picture="${picture}" .display_name="${this._getPictureDisplayName(name, suffix)}"></gv-identity-picture>`;
   }
 
   _renderStatus (subscriptions) {
@@ -172,7 +176,7 @@ export class GvList extends LitElement {
   _renderItem (item) {
     if (item) {
       return html`
-      <div class="item__image">${this._renderImage(item.picture, item.name)}</div>
+      <div class="item__image">${this._renderImage(item.picture, item.name, item.suffix)}</div>
       <div class="item__content">
         <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.name}</h4>
         <div class="item__description">${item.description}</div>
