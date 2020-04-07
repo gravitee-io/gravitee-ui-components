@@ -19,6 +19,7 @@ import { link } from '../styles/link';
 import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
+import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**
  * Row component
@@ -31,7 +32,7 @@ import { ItemResource } from '../mixins/item-resource';
  * @cssprop {Length} [--gv-row-image--w=35px] - Image width
  *
  */
-export class GvRow extends ItemResource(LitElement) {
+export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
 
   static get styles () {
     return [
@@ -57,13 +58,13 @@ export class GvRow extends ItemResource(LitElement) {
 
           .row:not(.error) {
               display: grid;
-              grid-template-columns: calc(var(--gv-row-image--w, 35px) + 5px) auto 200px;
+              grid-template-columns: calc(var(--gv-row-image--w, 35px) + 5px) 1fr auto;
               grid-gap: 10px;
               align-items: center;
           }
 
-          :host([w-lt-768]) .row {
-              grid-template-columns: calc(var(--gv-row-image--w, 35px) + 5px) auto 150px;
+          :host([w-lt-450]) .meta {
+            display: none;
           }
           
           .row .name {
@@ -135,6 +136,7 @@ export class GvRow extends ItemResource(LitElement) {
               flex-direction: column;
               margin: 0 5px;
               width: 100%;
+              flex: 1;
           }
           
           .title {
@@ -145,6 +147,13 @@ export class GvRow extends ItemResource(LitElement) {
       link,
       skeleton,
     ];
+  }
+
+  constructor () {
+    super();
+    this.breakpoints = {
+      width: [450],
+    };
   }
 
   render () {

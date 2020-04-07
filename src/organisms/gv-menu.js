@@ -122,8 +122,8 @@ export class GvMenu extends withResizeObserver(LitElement) {
           }
 
           .nav-container {
-              display: flex;
-              align-items: center;
+              display: grid;
+              grid-template-columns: auto auto;
           }
 
           .has-header .nav-container {
@@ -136,16 +136,20 @@ export class GvMenu extends withResizeObserver(LitElement) {
               display: flex;
               padding-right: var(--pr);
               justify-content: flex-end;
-              flex: 3;
           }
 
           gv-nav {
               padding-left: var(--pl);
-              flex: 4 1 auto;
           }
 
-          .right ::slotted(*) {
-              align-self: flex-end;
+          slot[name="right-transition"] {
+              display: flex;
+              justify-content: flex-end;
+              width: 100%;
+          }
+          
+          .right ::slotted([slot="right"]), .right ::slotted([slot="right-transition"])  {
+                align-self: center;
           }
 
           .right ::slotted([slot="right-transition"]) {
