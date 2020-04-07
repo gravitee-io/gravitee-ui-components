@@ -118,7 +118,7 @@ export function ItemResource (ParentClass) {
 
     _renderImage () {
       if (!this._empty) {
-        return html`<gv-identity-picture .display_name="${this._getTitle()}" .picture="${this._picture}" @load="${this._onImageLoaded}"></gv-identity-picture>`;
+        return html`<gv-identity-picture .display_name="${this._getPictureDisplayName()}" .picture="${this._picture}" @load="${this._onImageLoaded}"></gv-identity-picture>`;
       }
       return '';
     }
@@ -187,6 +187,18 @@ export function ItemResource (ParentClass) {
         return this._item.description;
       }
       return '';
+    }
+
+    _getPictureDisplayName () {
+      if (this._item) {
+        if (this._item.version) {
+          return `${this._getTitle()}  ${this._item.version}`;
+        }
+        else if (this._item.applicationType) {
+          return `${this._getTitle()}  ${this._item.applicationType}`;
+        }
+      }
+      return this._getTitle();
     }
 
     _getTitle () {
