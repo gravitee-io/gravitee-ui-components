@@ -52,6 +52,8 @@ export class GvPromote extends ItemResource(LitElement) {
           --gv-button--fz: var(--gv-promote-button--fz, var(--gv-theme-font-size-l, 16px));
           --gv-preview-button: 'none';
           width: 100%;
+          --gv-icon--s: 20px;
+          --gv-rating--s: 20px;
         }
 
         gv-identity-picture {
@@ -115,8 +117,12 @@ export class GvPromote extends ItemResource(LitElement) {
         .infos {
           display: flex;
           justify-content: flex-end;
-          padding: 8px 0;
-          margin: 8px 0;
+          margin: 0.5rem 0.2rem;
+          align-items: center;  
+        }
+
+        .infos gv-metrics {
+            flex: 1;
         }
 
         .labels {
