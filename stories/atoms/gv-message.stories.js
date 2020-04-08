@@ -53,3 +53,7 @@ export const Warning = makeStory(conf, {
 export const Error = makeStory(conf, {
   items: items.map((p) => ({ ...p, type: 'error' })),
 });
+
+export const WithHtml = makeStory(conf, {
+  items: items.map((p) => ({ innerHTML: '<b>Some text</b> with a <a href="#">link</a>' })),
+});
