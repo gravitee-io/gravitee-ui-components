@@ -73,11 +73,14 @@ export class GvIdentityPicture extends LitElement {
 
   _onError () {
     this._error = true;
-    this.performUpdate();
   }
 
   _toNumber (size) {
     return parseInt(size.replace('px', ''), 10);
+  }
+
+  _onLoaded () {
+    this._error = false;
   }
 
   render () {

@@ -25,7 +25,7 @@ import { i18n } from '../lib/i18n';
  *
  * @fires gv-category:click - Custom click event
  *
- * @attr {Promise<Object>} category - A category object {title, description}
+ * @attr {Promise<{name, description, _links: { picture }}>} category - A category object
  * @attr {Length} limit - number of characters that can be display in the description. If _description_ is greater, it will be truncated.
  *
  * @cssprop {Color} [--gv-category--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
@@ -67,6 +67,7 @@ export class GvCategory extends LitElement {
           padding: 0 40px;
           box-shadow: 0 0 0 1px var(--gv-theme-neutral-color-dark, #BFBFBF), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           transition: all .3s;
+          position: relative;
         }
 
         .card.empty {
@@ -162,7 +163,10 @@ export class GvCategory extends LitElement {
             <span class="error">${this._error ? i18n('gv-category.error') : i18n('gv-category.empty')}</span>
         </div>
         ` : html`
-        <div class="picture"><gv-identity-picture display_name="${this._get('name')}" picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture></div>
+        <div class="picture">
+        <gv-identity-picture display_name="${this._get('name')}" 
+            picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture>
+        </div>
         <div class="title">${this._get('name')}</div>
         <div class="description">${truncate(this._get('description'), this.limit)}</div>`}
       </div>
