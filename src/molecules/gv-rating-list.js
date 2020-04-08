@@ -292,23 +292,12 @@ export class GvRatingList extends LitElement {
         <div class="rating-content">
             <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canUpdate(data.id)}"
 @input="${this._onUpdateRating.bind(this, data)}" value="${data.value}"></gv-rating>`}${this._renderActions(data, parent)}</div>
-            <div class="sub-title">${this._getDisplayName(data)}<gv-relative-time datetime="${this._formatDateInThePast(data.date)}"></gv-relative-time></div>
+            <div class="sub-title">${this._getDisplayName(data)}<gv-relative-time datetime="${data.date}"></gv-relative-time></div>
             <p class="comment">${data.comment}</p>
             ${parent ? '' : this._renderAnswers(data)}
         </div>
       </div>
     `;
-  }
-
-  _formatDateInThePast (date) {
-    // to avoid to have date in the future in case of desynchronization between browser and server
-    if (date) {
-      const now = new Date();
-      if (now.getTime() < new Date(date).getTime()) {
-        date = now;
-      }
-    }
-    return date;
   }
 
   _onUpdateRating (rating, e) {

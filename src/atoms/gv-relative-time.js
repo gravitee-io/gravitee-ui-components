@@ -90,9 +90,21 @@ export class GvRelativeTime extends LitElement {
   }
 
   set datetime (value) {
+    value = this._formatDateInThePast(value);
     const dtf = new Intl.DateTimeFormat(getLanguage(), options);
     this.title = dtf.format(new Date(value));
     this._datetime = value;
+  }
+
+  _formatDateInThePast (date) {
+    // to avoid to have date in the future in case of desynchronization between browser and server
+    if (date) {
+      const now = new Date();
+      if (now.getTime() < new Date(date).getTime()) {
+        date = now;
+      }
+    }
+    return date;
   }
 
   async _format (dateStr, lang) {
