@@ -53,3 +53,15 @@ export const Warning = makeStory(conf, {
 export const Error = makeStory(conf, {
   items: items.map((p) => ({ ...p, type: 'error' })),
 });
+
+export const Closable = makeStory(conf, {
+  items: items.map((p) => ({ ...p, closable: true })),
+});
+
+export const WithHtml = makeStory(conf, {
+  items: items.map((p) => ({ innerHTML: '<b>Some text</b> with a <a href="#">link</a>' })),
+});
+
+export const ClosableWithButton = makeStory({...conf, events: ['gv-button:click'] }, {
+  items: items.map((p) => ({ innerHTML: 'hello <gv-button>toto</gv-button>', closable: true })),
+});
