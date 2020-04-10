@@ -34,6 +34,7 @@ export function ItemResource (ParentClass) {
       return {
         /** @required */
         item: { type: Object },
+        metrics: { type: Object },
         _item: { type: Object, attribute: false },
         _skeleton: { type: Boolean, attribute: false },
         _error: { type: Boolean, attribute: false },

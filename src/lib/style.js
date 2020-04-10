@@ -17,7 +17,7 @@
 function getPropertyValue (element, propertyName, defaultValue) {
   /* global getComputedStyle */
   const value = getComputedStyle(element).getPropertyValue(propertyName);
-  return value || defaultValue;
+  return value.trim() || defaultValue;
 }
 
 export const getCssVar = function getCssVar (element, variableName, defaultValue) {
