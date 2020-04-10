@@ -46,6 +46,7 @@ import '../atoms/gv-image';
  * @attr {String} emptymessage - The empty message to display
  * @attr {String} format - A function to format table headers
  * @attr {Array<any>} selected - A list of selected ids of the items displayed
+ * @attr {String} total - Total of data displayed on the table (useful with in case of pagination)
  *
  * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
  * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
@@ -69,6 +70,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       emptymessage: { type: String },
       format: { type: Function },
       selected: { type: Array, reflect: true },
+      total: { type: String },
       _items: { type: Array, attribute: false },
       _skeleton: { type: Boolean, attribute: false },
       _error: { type: Boolean, attribute: false },
@@ -102,7 +104,6 @@ export class GvTable extends withResizeObserver(LitElement) {
           }
 
           .rows {
-              user-select: none;
               -ms-overflow-style: none;
               scrollbar-width: none;
               flex: 1;
@@ -112,10 +113,6 @@ export class GvTable extends withResizeObserver(LitElement) {
 
           .rows::-webkit-scrollbar {
               display: none;
-          }
-
-          .row {
-              cursor: pointer;
           }
 
           :host([w-lt-768]) .row {
@@ -207,13 +204,6 @@ export class GvTable extends withResizeObserver(LitElement) {
 
           gv-pagination {
               align-self: flex-end;
-          }
-
-          .cell {
-          }
-
-          .cell > *:not(gv-tag):not(gv-identity-picture) {
-              width: 100%;
           }
       `,
     ];
@@ -468,14 +458,16 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   _renderRows (styleGridColumns) {
     return html`
-      <div class="rows" style=${this.rowsheight ? ('flex: auto; height: ' + this.rowsheight) : ''} @mouseleave="${this._onMouseLeave.bind(this)}">
+      <div class="rows"
+        style=${styleMap({ height: this.rowsheight, 'user-select': this.options.selectable ? 'none' : '' })}
+        @mouseleave="${this._onMouseLeave.bind(this)}">
         ${(this._items && this._items.length) ? repeat(this._items, (item) => item, (item, itemIndex) => {
       return html`
           <div class=${classMap({
         row: true,
         skeleton: this._skeleton,
         selected: this._isSelected(item),
-      })} style=${styleMap({ ...styleGridColumns, ...{ height: this.rowheight } })}
+      })} style=${styleMap({ ...styleGridColumns, ...{ height: this.rowheight, cursor: this.options.selectable ? 'pointer' : '' } })}
             @click="${this._onSelect.bind(this, item)}"
             @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
@@ -572,7 +564,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     return html`
       <div class=${classMap(classes)}>
         ${this.title ? html`
-          <div class="header"><h2>${this.title} ${!this._empty ? html`<span>(${this._items && this._items.length})</span>` : ''}</h2></div>`
+          <div class="header"><h2>${this.title} ${!this._empty ? html`<span>(${this.total || (this._items && this._items.length)})</span>` : ''}</h2></div>`
       : ''}
         ${!this._empty && this.options && this.options.data ? this._renderItems() : html`
             <div class="empty" style="${styleMap(emptyStyle)}">
