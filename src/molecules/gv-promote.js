@@ -16,12 +16,14 @@
 import { css, LitElement, html } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
-import '../atoms/gv-image';
-import '../atoms/gv-button';
-import '../molecules/gv-rating';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
+
+import '../atoms/gv-image';
+import '../atoms/gv-button';
+import '../molecules/gv-rating';
+import '../molecules/gv-metrics';
 
 /**
  * Promote component

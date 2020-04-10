@@ -25,16 +25,17 @@ import { classMap } from 'lit-html/directives/class-map';
  * A tree menu
  *
  * @fires gv-tree:select - Custom event from child components
+ * @fires gv-tree:toggle - Custom event from child components
  *
  * @attr {Array} items - list of items and subitems to be displayed in the menu MenuItem: {name: String, value: any, children: Array<MenuItem>}
  * @attr {Boolean} closed - allows to close the menu
  * @attr {Object} selectedItem - the item selected
  *
- * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color, #F5F5F5)] - Background color
+ * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color-lightest, #FFFFF)] - Background color
  * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color, #009B5B)] - Active border
- * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-color-light, #D5FDCB)] - Active background color
- * @cssprop {Length} [--gv-tree-link-a--ph=0] - Link horizontal padding
+ * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-neutral-color, #F5F5F5)] - Active background color
+ * @cssprop {Length} [--gv-tree-link-a--ph=10px] - Link horizontal padding
  * @cssprop {String} [--gv-tree-link--ta=left] - Text align
  * @cssprop {Length} [--gv-tree-icon--s=20px] - Height and icon width
  */
@@ -43,7 +44,7 @@ export class GvTree extends LitElement {
   static get properties () {
     return {
       items: { type: Array },
-      closed: { type: Boolean },
+      closed: { type: Boolean, reflect: true },
       selectedItem: { type: Object },
     };
   }
@@ -52,109 +53,102 @@ export class GvTree extends LitElement {
     return [
       // language=css
       css`
-        :host {
-          --c: var(--gv-tree--c, var(--gv-theme-font-color-dark, #262626));
-          --bgc: var(--gv-tree--bgc, var(--gv-theme-neutral-color, #F5F5F5));
-          --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color, #009B5B));
-          --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-color-light, #D5FDCB));
-          --gv-icon--s: var(--gv-tree-icon--s, 20px);
-          --gv-link-a--ph: var(--gv-tree-link-a--ph, 0);
-          --gv-link--ta: var(--gv-tree-link--ta, left);
-          --gv-link--c: var(--c);
-          --gv-icon--c: var(--c);
-          background-color: var(--bgc);
-          color: var(--c);
-          display: flex;
-          flex-direction: row;
-          border-radius: 5px;
-          height: 100%;
-        }
+          :host {
+              --c: var(--gv-tree--c, var(--gv-theme-font-color-dark, #262626));
+              --bgc: var(--gv-tree--bgc, var(--gv-theme-neutral-color-lightest, #FFFFF));
+              --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color, #009B5B));
+              --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-neutral-color, #F5F5F5));
+              --gv-icon--s: var(--gv-tree-icon--s, 20px);
+              --gv-link-a--ph: var(--gv-tree-link-a--ph, 10px);
+              --gv-link--ta: var(--gv-tree-link--ta, left);
+              --gv-link--c: var(--c);
+              --gv-icon--c: var(--c);
+              background-color: var(--bgc);
+              color: var(--c);
+              display: flex;
+              flex-direction: row;
+              --gv-link-a--pv: 10px;
+              height: 100%;
+          }
 
-        .switch {
-          max-width: 40px;
-        }
+          .tree {
+              position: relative;
+              width: 300px;
+              padding-top: 10px;
+              transition: all 350ms ease-in-out;
+          }
 
-        .tree {
-          position: relative;
-          width: 300px;
-          padding-top: 20px;
-          overflow: scroll;
-          transition: all 350ms ease-in-out;
-        }
+          .tree.closed {
+              width: 42px;
+          }
 
-        .tree.closed {
-          width: 42px;
-        }
+          .main-tree-menu {
+              flex: 1;
+              user-select: none;
+              overflow: auto;
+              height: calc(100% - 20px);
+          }
 
-        .main-tree-menu {
-          flex: 1;
-          user-select: none;
-        }
+          .tree-menu {
+              list-style: none;
+              padding-left: 0;
+          }
 
-        .tree-menu {
-          list-style: none;
-          padding-left: 10px;
-          max-height: 100%;
-        }
+          .tree-menu__item {
+              padding: 0 10px;
+              position: relative;
+          }
 
-        .tree-menu__item {
-          margin: 2px;
-          position: relative;
-        }
+          .selected {
+              background-color: var(--active-bgc);
+              border-right-width: 3px;
+              border-right-style: solid;
+              border-right-color: var(--active-bdc);
+          }
 
-        .selected {
-          background-color: var(--active-bgc);
-          border-right-width: 3px;
-          border-right-style: solid;
-          border-right-color: var(--active-bdc);
-        }
+          .page:hover {
+              background-color: var(--active-bgc);
+          }
 
-        .page:hover {
-          background-color: var(--hover-bgc);
-        }
+          .folder > ul {
+              padding-left: 10px;
+          }
 
-        .folder {
-          margin-top: 10px;
-        }
+          .folder > gv-link {
+              font-weight: bold;
+          }
 
-        .folder > ul {
-          margin-left: 10px;
-        }
+          .tree-arrow {
+              transform: rotate(90deg);
+              position: absolute;
+              right: 10px;
+              top: 15px;
+              opacity: 0.5;
+              cursor: pointer;
+          }
 
-        .folder > gv-link {
-          font-weight: bold;
-        }
+          .closed .tree-arrow {
+              transform: rotate(0deg);
+          }
 
-        .tree-arrow {
-          transform: rotate(90deg);
-          position: absolute;
-          right: 10px;
-          top: 15px;
-          opacity: 0.5;
-          cursor: pointer;
-        }
+          .closed .tree-menu {
+              height: 0;
+              transition: height 0.8s;
+              display: none;
+          }
 
-        .closed .tree-arrow {
-          transform: rotate(0deg);
-        }
+          .switch {
+              cursor: pointer;
+              opacity: 0.7;
+              position: sticky;
+              margin: 0 11px 0 11px;
+              display: flex;
+              justify-content: flex-end;
+          }
 
-        .closed .tree-menu {
-          height: 0;
-          transition: height 0.8s;
-          display: none;
-        }
-
-        .switch {
-          cursor: pointer;
-          opacity: 0.5;
-          position: absolute;
-          right: 10px;
-          top: 10px;
-        }
-
-        gv-link {
-          width: 100%;
-        }
+          gv-link {
+              width: 100%;
+          }
       `,
     ];
   }
@@ -216,6 +210,7 @@ export class GvTree extends LitElement {
 
   _toggleMenu () {
     this.closed = !this.closed;
+    dispatchCustomEvent(this, 'toggle', { closed: this.closed });
   }
 
   render () {
@@ -225,8 +220,9 @@ export class GvTree extends LitElement {
     };
     return html`
         <div class=${classMap(classes)}>
-          ${html`<div class="main-tree-menu">${this._getMenu(this.items)}</div>`}
-          <gv-icon shape="${this.closed ? 'text:menu' : 'navigation:angle-double-left'}" @click=${this._toggleMenu} class="switch"></gv-icon>
+            <div class="switch"><gv-icon shape="${this.closed ? 'text:menu' : 'navigation:angle-double-left'}" @click=${this._toggleMenu}></gv-icon></div>
+            ${html`<div class="main-tree-menu">${this._getMenu(this.items)}</div>`}
+          
         </div>
           `;
   }

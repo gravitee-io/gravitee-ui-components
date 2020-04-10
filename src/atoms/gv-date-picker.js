@@ -93,14 +93,6 @@ export class GvDatePicker extends LitElement {
               --date-picker-selected--c: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 
-          /*:host([invalid]) input  {*/
-          /*    border-left: 5px solid #a94442;*/
-          /*}*/
-
-          /*:host([valid]) input {*/
-          /*    border-left: 5px solid var(--gv-theme-color, #009B5B);*/
-          /*}*/
-
           .box {
               display: inline-block;
               position: relative;
