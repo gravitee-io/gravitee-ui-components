@@ -220,7 +220,7 @@ export class GvUserMenu extends LitElement {
     if (this._routes) {
       if (this.username) {
         return html`<li class="user-menu__title" @click=${this._onClick} >
-            <div class="user-menu__avatar">
+            <div>
                <slot></slot>
             </div>
             <span>${this.username}</span>

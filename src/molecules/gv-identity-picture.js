@@ -17,13 +17,16 @@ import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import jdenticon from 'jdenticon';
 import { skeleton } from '../styles/skeleton';
+import { styleMap } from 'lit-html/directives/style-map';
 
 /**
  * Identity picture component
  *
  * @attr {String} picture - the picture
  * @attr {String} display_name - the display_name of the picture
+ * @attr {Boolean} notification - true to display a notification info
  *
+ * @cssprop {Color} [--gv-identity-picture-notification--bgc=var(--gv-theme-color, #009B5B)] - Notification background color
  */
 export class GvIdentityPicture extends LitElement {
 
@@ -32,6 +35,7 @@ export class GvIdentityPicture extends LitElement {
       picture: { type: String },
       display_name: { type: String },
       _error: { type: Boolean, attribute: false },
+      notification: { type: Boolean },
     };
   }
 
@@ -40,18 +44,29 @@ export class GvIdentityPicture extends LitElement {
       skeleton,
       // language=CSS
       css`
-          :host {
-            display: block;
-          }
-          div {
-            text-align: center;
-          }
+        :host {
+          display: block;
+          position: relative;
+        }
 
-          gv-image, svg {
-              width: 100%;
-              height: 100%;
-              --gv-image--of: contain;
-          }
+        div {
+          text-align: center;
+        }
+
+        gv-image, svg {
+          width: 100%;
+          height: 100%;
+          --gv-image--of: contain;
+        }
+
+        .notification {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background-clip: padding-box;
+          border-radius: 50%;
+          background-color: var(--gv-identity-picture-notification--bgc, var(--gv-theme-color, #009B5B));
+        }
       `,
     ];
   }
@@ -71,6 +86,12 @@ export class GvIdentityPicture extends LitElement {
       const container = document.createElement('div');
       container.title = this.display_name;
       container.innerHTML = jdenticon.toSvg(this.display_name, Math.min(this._toNumber(width), this._toNumber(height)), { backColor: '#FFFFFF' });
+      if (this.notification) {
+        const notification = document.createElement('span');
+        notification.className = 'notification';
+        notification.style.left = width;
+        container.appendChild(notification);
+      }
       return html`${container}`;
     }
 
@@ -78,7 +99,9 @@ export class GvIdentityPicture extends LitElement {
       <gv-image src="${this.picture}"
         alt="${this.display_name}"
         title="${this.display_name}"
-        @error="${this._onError}"></gv-image>
+        @error="${this._onError}"
+        @gv-image:loaded="${this._onLoaded}"></gv-image>
+        ${this.notification ? html`<span class="notification" style="${styleMap({ left: width })}"></span>` : ''}
     `;
   }
 }

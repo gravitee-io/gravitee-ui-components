@@ -82,7 +82,7 @@ export class GvPagination extends LitElement {
   set data (data) {
     if (data) {
       this._last = data.last;
-      this._current = data.current_page;
+      this._current = parseInt(data.current_page);
       this._pages = data.total_pages;
       if (this._pages < this.max) {
         this.max = this._pages;
@@ -91,7 +91,7 @@ export class GvPagination extends LitElement {
   }
 
   _goToPage (page) {
-    this._current = page;
+    this._current = parseInt(page);
     dispatchCustomEvent(this, 'paginate', { page: page });
   }
 
@@ -112,6 +112,7 @@ export class GvPagination extends LitElement {
     for (let i = 0; i < this._pages; i++) {
       pagination.push(i + 1);
     }
+
     let left = pagination.slice(0, this._current - 1);
     let right = pagination.slice(this._current);
 
@@ -129,7 +130,6 @@ export class GvPagination extends LitElement {
       }
       right = right.slice(0, addRight);
     }
-
     const leftP = left.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
     const rightP = right.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
 

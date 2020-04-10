@@ -36,9 +36,17 @@ const conf = {
   `,
 };
 export const withPicture = makeStory(conf, {
-  items: [{ display_name: 'Gravatar', picture: picture }],
+  items: [{ display_name: 'Gravatar', picture }],
 });
 
 export const withoutPicture = makeStory(conf, {
   items: [{ display_name: 'Jean Jean' }],
+});
+
+export const withPictureAndNotif = makeStory(conf, {
+  items: [{ display_name: 'Gravatar', picture, notification: true }],
+});
+
+export const withoutPictureAndNotif = makeStory(conf, {
+  items: [{ display_name: 'Jean Jean', notification: true }],
 });
