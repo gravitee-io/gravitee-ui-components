@@ -55,6 +55,8 @@
             <exclude>.storybook/**</exclude>
             <exclude>storybook-static/**</exclude>
             <exclude>wc/**</exclude>
+            <exclude>index.js</exclude>
+            <exclude>src/index.js</exclude>
             <exclude>src/icons/shapes/**</exclude>
             <exclude>**/*.generated.*</exclude>
           </excludes>

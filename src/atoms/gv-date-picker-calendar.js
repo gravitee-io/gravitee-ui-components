@@ -57,7 +57,7 @@ import { until } from 'lit-html/directives/until';
  * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
  * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #FFFFFF)] - Selected color
  */
-class GvDatePickerCalendar extends LitElement {
+export class GvDatePickerCalendar extends LitElement {
 
   static get properties () {
     return {

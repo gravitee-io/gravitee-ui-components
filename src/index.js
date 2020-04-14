@@ -1,21 +1,8 @@
-/*
- * Copyright (C) 2015 The Gravitee team (http://gravitee.io)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 export { GvAutocomplete } from './atoms/gv-autocomplete';
 export { GvButton } from './atoms/gv-button';
 export { GvCheckbox } from './atoms/gv-checkbox';
+export { GvDatePickerCalendar } from './atoms/gv-date-picker-calendar';
+export { GvDatePickerCell } from './atoms/gv-date-picker-cell';
 export { GvDatePicker } from './atoms/gv-date-picker';
 export { GvFileUpload } from './atoms/gv-file-upload';
 export { GvIcon } from './atoms/gv-icon';
@@ -31,13 +18,17 @@ export { GvState } from './atoms/gv-state';
 export { GvSwitch } from './atoms/gv-switch';
 export { GvTag } from './atoms/gv-tag';
 export { GvText } from './atoms/gv-text';
-export { GvCard } from './molecules/gv-card';
-export { GvCardList } from './molecules/gv-card-list';
+export { GvChartLine } from './charts/gv-chart-line';
+export { GvChartMap } from './charts/gv-chart-map';
+export { GvChartPie } from './charts/gv-chart-pie';
 export { GvCardFull } from './molecules/gv-card-full';
-export { GvCategory } from './molecules/gv-category';
+export { GvCardList } from './molecules/gv-card-list';
+export { GvCard } from './molecules/gv-card';
 export { GvCategoryList } from './molecules/gv-category-list';
-export { GvConfirm } from './molecules/gv-confirm';
+export { GvCategory } from './molecules/gv-category';
 export { GvCode } from './molecules/gv-code';
+export { GvConfirm } from './molecules/gv-confirm';
+export { GvIdentityPicture } from './molecules/gv-identity-picture';
 export { GvInfo } from './molecules/gv-info';
 export { GvList } from './molecules/gv-list';
 export { GvMetrics } from './molecules/gv-metrics';
@@ -46,18 +37,15 @@ export { GvOption } from './molecules/gv-option';
 export { GvPlans } from './molecules/gv-plans';
 export { GvPopover } from './molecules/gv-popover';
 export { GvPromote } from './molecules/gv-promote';
-export { GvRating } from './molecules/gv-rating';
 export { GvRatingList } from './molecules/gv-rating-list';
+export { GvRating } from './molecules/gv-rating';
 export { GvRow } from './molecules/gv-row';
+export { GvStats } from './molecules/gv-stats';
 export { GvStepper } from './molecules/gv-stepper';
+export { GvTable } from './molecules/gv-table';
 export { GvTree } from './molecules/gv-tree';
 export { GvHeader } from './organisms/gv-header';
 export { GvMenu } from './organisms/gv-menu';
 export { GvPagination } from './organisms/gv-pagination';
 export { GvUserMenu } from './organisms/gv-user-menu';
-export { GvIdentityPicture } from './molecules/gv-identity-picture';
 export { GvTheme } from './theme/gv-theme';
-export { GvStats } from './molecules/gv-stats';
-export { GvChartPie } from './charts/gv-chart-pie';
-export { GvChartLine } from './charts/gv-chart-line';
-export { GvChartMap } from './charts/gv-chart-map';

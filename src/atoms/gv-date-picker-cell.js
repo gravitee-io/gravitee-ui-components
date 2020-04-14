@@ -43,7 +43,7 @@ import { isInvalid } from '../lib/date';
  * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
  * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #FFFFFF)] - Selected color
  */
-class GvDatePickerCell extends LitElement {
+export class GvDatePickerCell extends LitElement {
 
   static get properties () {
     return {
