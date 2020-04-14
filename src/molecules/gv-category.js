@@ -25,12 +25,12 @@ import { i18n } from '../lib/i18n';
  *
  * @fires gv-category:click - Custom click event
  *
- * @attr {Promise<Object>} category - A category object {title, description}
+ * @attr {Promise<{name, description, _links: { picture }}>} category - A category object
  * @attr {Length} limit - number of characters that can be display in the description. If _description_ is greater, it will be truncated.
  *
  * @cssprop {Color} [--gv-category--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-category--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Length} [--gv-category--h=228px] - Height
+ * @cssprop {Length} [--gv-category--h=200px] - Height
  */
 export class GvCategory extends LitElement {
 
@@ -62,11 +62,11 @@ export class GvCategory extends LitElement {
           border-radius: 4px;
           display: flex;
           flex-direction: column;
-          height: var(--gv-category--h, 228px);
-          justify-content: flex-end;
-          padding: 0 40px;
+          height: var(--gv-category--h, 200px);
+          padding: 2rem;
           box-shadow: 0 0 0 1px var(--gv-theme-neutral-color-dark, #BFBFBF), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           transition: all .3s;
+          position: relative;
         }
 
         .card.empty {
@@ -80,13 +80,18 @@ export class GvCategory extends LitElement {
           cursor: pointer;
         }
 
-        .picture {
-          align-self: flex-end;
+        .box {
+            display: flex;
+        }
+        .title {
+            flex: 1;
+            align-self: center;
         }
 
-        .picture gv-identity-picture{
+        gv-identity-picture {
           height: 80px;
           width: 80px;
+          margin: 0.5rem 1rem 0.5rem 0;
         }
 
         .title {
@@ -94,7 +99,7 @@ export class GvCategory extends LitElement {
           font-size: var(--gv-theme-font-size-xxl, 30px);
           font-style: normal;
           font-weight: 600;
-          line-height: 38px;
+          line-height: calc(var(--gv-theme-font-size-xxl, 30px) + 6px);
         }
 
         .description {
@@ -103,8 +108,7 @@ export class GvCategory extends LitElement {
           font-style: normal;
           font-weight: normal;
           line-height: 24px;
-          margin-bottom: 32px;
-          opacity: 0.5;
+          opacity: 0.7;
 
           /** text-overflow **/
           max-height: 150px;
@@ -162,8 +166,12 @@ export class GvCategory extends LitElement {
             <span class="error">${this._error ? i18n('gv-category.error') : i18n('gv-category.empty')}</span>
         </div>
         ` : html`
-        <div class="picture"><gv-identity-picture display_name="${this._get('name')}" picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture></div>
-        <div class="title">${this._get('name')}</div>
+        <div class="box">
+        <gv-identity-picture display_name="${this._get('name')}" 
+            picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture>
+             <div class="title">${this._get('name')}</div>
+        </div>
+       
         <div class="description">${truncate(this._get('description'), this.limit)}</div>`}
       </div>
     `;
