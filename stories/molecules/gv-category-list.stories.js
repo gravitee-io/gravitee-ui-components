@@ -16,11 +16,13 @@
 import '../../src/molecules/gv-category-list';
 import notes from '../../.docs/gv-category-list.md';
 import { makeStory, storyWait } from '../lib/make-story';
+import picture from '../../assets/images/logo.png';
 
 const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 const categories = [
   {
     name: 'Title',
+    _links:{ picture },
   },
   {
     name: 'Truncated description if > 4 lines (Default)',
@@ -30,6 +32,7 @@ const categories = [
     name: 'Title + description',
     description,
     limit: 100,
+    _links: { picture },
   },
   {
     name: 'Title',
@@ -48,6 +51,7 @@ const categories = [
   {
     name: 'Truncated description if > 4 lines (Default)',
     description,
+    _links:{ picture },
   },
   {
     name: 'Title + description',

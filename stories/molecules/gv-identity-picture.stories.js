@@ -30,8 +30,8 @@ const conf = {
   component: 'gv-identity-picture',
   css: `
     gv-identity-picture {
-      min-height: 40px;
-      min-width: 40px;
+      height: 40px;
+      width: 40px;
     }
   `,
 };
