@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-
 const babel = require('@babel/core');
 const del = require('del');
 const fs = require('fs-extra');
@@ -22,6 +20,7 @@ const path = require('path');
 const rawGlob = require('glob');
 const Terser = require('terser');
 const util = require('util');
+const pascalCase = require('pascal-case');
 
 const glob = util.promisify(rawGlob);
 
@@ -84,7 +83,7 @@ async function run () {
   const filepaths = sourceFilepaths.map((src) => {
     // this seems to get better integration in browsers
     const sourceMapFilename = src.replace('/src/', '/node_modules/@gravitee/ui-components/');
-    const dst = src.replace('/src/', '/dist/');
+    const dst = src.replace('/src/', '/dist/src/');
     const sourceMapUrl = path.parse(dst).base + '.map';
     return { src, sourceMapFilename, dst, sourceMapUrl };
   });
@@ -99,17 +98,25 @@ async function run () {
       });
   }
 
+  const sourceIndex = './src/index.js';
+  await del(sourceIndex);
+
   const componentPaths = await glob('./src/**/gv-*.js');
   await del('wc/gv-*.js');
   for (const src of componentPaths) {
     const filePath = './wc/' + path.basename(src);
-    // TODO: replace src by dist in package.json when you publish the project
-    // and uncomment this line and delete the next
-    // const dst = src.replace('/src/', './dist/');
     const dst = src.replace('/src/', './src/');
     await fs.outputFile(filePath, `import '${dst.replace('.js', '')}';`);
+    const _path = src.replace('src/', '').replace('.js', '');
+    const name = pascalCase(_path.split('/').pop());
+    await fs.appendFile(sourceIndex, `export { ${name} } from '${_path}';\n`);
   }
 
+  fs.copy('wc', 'dist/wc');
+  fs.copy('assets/css', 'dist/assets/css');
+  fs.copy('assets/images', 'dist/assets/images');
+  fs.copy('assets/icons/gravitee', 'dist/assets/icons/gravitee');
+  fs.copy('package.json', 'dist/package.json');
 }
 
 run().catch(console.error);

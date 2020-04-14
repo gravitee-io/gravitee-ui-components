@@ -124,18 +124,18 @@ async function run () {
   const externalDepsList = externalDeps
     .map(([, name]) => name);
 
-  const mainSource = 'dist/index.js';
+  const mainSource = 'dist/src/index.js';
   const depTree = await findDeps(mainSource);
 
   const componentList = depTree.deps.map((a) => a.name);
   const otherDepsList = Object
     .values(depsCache)
-    .filter((d) => !componentList.includes(d.name) && d.name !== 'dist/index.js')
+    .filter((d) => !componentList.includes(d.name) && d.name !== 'dist/src/index.js')
     .map((d) => d.name);
 
   const otherDeps = Object
     .values(depsCache)
-    .filter((d) => !componentList.includes(d.name) && d.name !== 'dist/index.js')
+    .filter((d) => !componentList.includes(d.name) && d.name !== 'dist/src/index.js')
     .map((d, i) => {
       const name = d.name.replace(/^dist\//, '');
       return [`(${i})`, name, d.size.raw, d.size.gzip];
