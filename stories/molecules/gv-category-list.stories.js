@@ -22,7 +22,7 @@ const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 const categories = [
   {
     name: 'Title',
-    _links:{ picture },
+    _links: { picture },
   },
   {
     name: 'Truncated description if > 4 lines (Default)',
@@ -51,7 +51,7 @@ const categories = [
   {
     name: 'Truncated description if > 4 lines (Default)',
     description,
-    _links:{ picture },
+    _links: { picture },
   },
   {
     name: 'Title + description',

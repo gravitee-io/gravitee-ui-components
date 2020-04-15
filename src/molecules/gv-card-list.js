@@ -44,7 +44,7 @@ export class GvCardList extends withResizeObserver(LitElement) {
     this._items = [];
     this._skeleton = false;
     this._error = false;
-    this._empty = true;
+    this._empty = false;
   }
 
   static get styles () {
@@ -95,19 +95,19 @@ export class GvCardList extends withResizeObserver(LitElement) {
 
   set items (value) {
     this._skeleton = true;
+    this._error = false;
     Promise.resolve(value)
       .then((value) => {
         if (value) {
-          this._skeleton = false;
           this._items = value;
         }
-        else {
-          this._skeleton = true;
-        }
+        this._empty = this._items == null || Object.keys(this._items).length === 0;
       })
       .catch(() => {
-        this._skeleton = false;
         this._error = true;
+      })
+      .finally(() => {
+        this._skeleton = false;
       });
   }
 

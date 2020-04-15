@@ -240,7 +240,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
       <div class="${classMap({ 'has-header': this._hasHeader })}">
         <slot name="top"></slot>
         <div class="nav-container">
-            <gv-nav .routes="${this._routes}" ?small="${this._small || this.sticky}"></gv-nav>
+            <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
             <div class="right"><slot name="right-transition"></slot><slot name="right"></slot></div>
         </div>
       </div>

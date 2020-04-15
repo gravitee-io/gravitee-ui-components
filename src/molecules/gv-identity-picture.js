@@ -85,11 +85,10 @@ export class GvIdentityPicture extends LitElement {
 
   render () {
     const { width, height } = window.getComputedStyle(this);
+
     if (this._error && width && height) {
       const container = document.createElement('div');
       container.title = this.display_name;
-      container.style.width = width;
-      container.style.height = height;
       container.innerHTML = jdenticon.toSvg(this.display_name, Math.min(this._toNumber(width), this._toNumber(height)), { backColor: '#FFFFFF' });
       if (this.notification) {
         const notification = document.createElement('span');
