@@ -72,6 +72,18 @@ export const Required = makeStory(conf, {
   items: items.map((p) => ({ ...p, required: true })),
 });
 
+export const Slotted = makeStory(conf, {
+  items: [
+    {
+      placeholder: 'Password...',
+      'icon-left': 'general:shield-protected',
+      type: 'password',
+      label: 'Password label',
+      innerHTML: '<input></input>',
+    },
+  ],
+});
+
 export const DisabledAndRequired = makeStory(conf, {
   items: items.map((p) => ({ ...p, disabled: true, required: true })),
 });

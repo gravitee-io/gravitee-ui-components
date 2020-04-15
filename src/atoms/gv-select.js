@@ -145,11 +145,11 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
               overflow: hidden;
           }
 
-          .select__list__item.disabled {
+          .disabled .select__list__item {
               opacity: .5;
           }
 
-          .select__list__item.disabled:hover {
+          .disabled .select__list__item:hover {
               cursor: not-allowed;
           }
 
@@ -176,7 +176,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
               border-left: 1px dotted var(--bdc);
           }
 
-          input.medium.icon, input.large.icon, input.small.icon {
+          .medium.icon input, .large.icon input, .small.icon input {
               padding-right: 0px;
           }
       `,
@@ -295,9 +295,6 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     const classes = {
       box: true,
       closed: this._isClosed,
-    };
-
-    const inputClasses = {
       large: this.large,
       medium: (this.medium || (!this.large && !this.small)),
       small: this.small,
@@ -311,7 +308,6 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
             ${this.renderLabel()}
             <input
               id=${this._id}
-              class="${classMap(inputClasses)}"
               .type=${this._type}
               .name=${ifDefined(this.name)}
               .title=${ifDefined(this.title || this.label)}
@@ -324,7 +320,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
               readonly="readonly">
               ${this._renderIcon()}
          </div>
-        <ul class="${classMap(Object.assign({ select__list: true }, inputClasses))}">
+        <ul class="${classMap(Object.assign({ select__list: true }))}">
           ${this._options && repeat(this._options, (option) => option, (option) => html`
             <li class="${classMap({
       select__list__item: true,

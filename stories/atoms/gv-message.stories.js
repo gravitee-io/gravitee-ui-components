@@ -62,6 +62,6 @@ export const WithHtml = makeStory(conf, {
   items: items.map((p) => ({ innerHTML: '<b>Some text</b> with a <a href="#">link</a>' })),
 });
 
-export const ClosableWithButton = makeStory({...conf, events: ['gv-button:click'] }, {
+export const ClosableWithButton = makeStory({ ...conf, events: ['gv-button:click'] }, {
   items: items.map((p) => ({ innerHTML: 'hello <gv-button>toto</gv-button>', closable: true })),
 });

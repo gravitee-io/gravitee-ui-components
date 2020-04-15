@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { classMap } from 'lit-html/directives/class-map';
-import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
@@ -89,19 +88,19 @@ export class GvInput extends InputElement(LitElement) {
       link,
       // language=CSS
       css`
-          .clickable {
+          .clickable input, .clickable ::slotted(input) {
               cursor: pointer;
           }
 
-          .clickable:hover {
+          .clickable input:hover, .clickable ::slotted(input:hover) {
               box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           }
 
-          .copied {
+          .copied input, .copied ::slotted(input) {
               --gv-icon--c: var(--gv-theme-color, #009B5B);
           }
 
-          .loading {
+          .loading input, .loading ::slotted(input) {
               animation: spinner 1.6s linear infinite;
           }
 
@@ -115,14 +114,18 @@ export class GvInput extends InputElement(LitElement) {
               }
           }
 
-          input.clipboard:read-only,
-          input.clipboard:-moz-read-only {
+          .clipboard input:read-only,
+          .clipboard input:-moz-read-only, 
+          .clipboard ::slotted(input:read-only),
+          .clipboard ::slotted(input:-moz-read-only)
+          {
               cursor: copy;
           }
 
-          input.clipboard:read-only:hover {
+          .clipboard input:read-only:hover, .clipboard ::slotted(input:read-only:hover) {
               cursor: not-allowed;
           }
+
 
       `,
     ];
@@ -169,8 +172,90 @@ export class GvInput extends InputElement(LitElement) {
     this.getInputElement().focus();
   }
 
+  getInputElement () {
+    return this._input || super.getInputElement();
+  }
+
+  updated (changedProperties) {
+    if (changedProperties.has('_type')) {
+      this.getInputElement().type = this._type;
+    }
+
+    if (changedProperties.has('autocomplete')) {
+      this.getInputElement().autocomplete = this.autocomplete;
+    }
+
+    if (changedProperties.has('name') && this.name != null) {
+      this.getInputElement().name = this.name;
+    }
+
+    if (changedProperties.has('required')) {
+      this.getInputElement().required = this.required;
+      this.getInputElement()['aria-required'] = !!this.required;
+    }
+
+    if (changedProperties.has('readonly')) {
+      this.getInputElement().readonly = this.readonly;
+    }
+
+    if (changedProperties.has('label') || changedProperties.has('title')) {
+      const title = this.title || this.label;
+      if (title != null) {
+        this.getInputElement().title = title;
+      }
+    }
+
+    if (changedProperties.has('label') && this.label) {
+      this.getInputElement()['aria-label'] = this.label;
+    }
+
+    if (changedProperties.has('_pattern') && this._pattern) {
+      this.getInputElement().pattern = this._pattern;
+    }
+
+    if (changedProperties.has('disabled') || changedProperties.has('skeleton')) {
+      this.getInputElement().disabled = this.disabled || this.skeleton;
+    }
+
+    if (changedProperties.has('placeholder') && this.placeholder != null) {
+      this.getInputElement().placeholder = this.placeholder;
+    }
+
+    if (changedProperties.has('value')) {
+      this.getInputElement().value = this.value;
+    }
+
+    if (changedProperties.has('min') && this.min != null) {
+      this.getInputElement().min = this.min;
+    }
+
+    if (changedProperties.has('max') && this.max != null) {
+      this.getInputElement().max = this.max;
+    }
+
+  }
+
   firstUpdated (changedProperties) {
     super.firstUpdated(changedProperties);
+
+    const defaultInputElement = this.getInputElement();
+    for (const node of this.childNodes) {
+      if (node.nodeType === 1) {
+        const child = node.nodeName.toLowerCase() === 'input' ? node : node.querySelector('input');
+        if (child) {
+          this._input = child;
+          break;
+        }
+      }
+    }
+    if (this._input) {
+      defaultInputElement.remove();
+    }
+
+    this.getInputElement().id = this._id;
+    this.getInputElement().addEventListener('input', this._onInput.bind(this));
+    this.getInputElement().addEventListener('keyup', this._onKeyUp.bind(this));
+
     const clickableIcon = this.shadowRoot.querySelector('gv-icon.link');
     if (clickableIcon) {
       clickableIcon.addEventListener('click', this._onIconClick.bind(this));
@@ -178,6 +263,7 @@ export class GvInput extends InputElement(LitElement) {
     if (this.hasClipboard) {
       this.getInputElement().addEventListener('click', (e) => this.copy(this.value));
     }
+
   }
 
   updateState () {
@@ -368,6 +454,7 @@ export class GvInput extends InputElement(LitElement) {
 
   render () {
     const classes = {
+      'box-input': true,
       skeleton: this.skeleton,
       large: this.large,
       medium: (this.medium || (!this.large && !this.small)),
@@ -380,31 +467,14 @@ export class GvInput extends InputElement(LitElement) {
     };
 
     return html`
-      <div class="box-input">
-          ${this.renderLabel()}
-          <input
-            id=${this._id}
-            .autocomplete="${this.autocomplete}"
-            .type=${this._type}
-            .name=${ifDefined(this.name)}
-            .title=${ifDefined(this.title || this.label)}
-            ?required=${this.required}
-            ?readonly="${this.readonly}"
-            aria-required=${!!this.required}
-            .aria-label="${ifDefined(this.label)}"
-            .pattern="${ifDefined(this._pattern)}"
-            ?disabled=${this.disabled || this.skeleton}
-            .placeholder=${ifDefined(this.placeholder)}
-            .value=${ifDefined(this.value)}
-            .min="${ifDefined(this.min)}"
-            .max="${ifDefined(this.max)}"
-            class=${classMap(classes)}
-            @input=${this._onInput}
-            @keyup="${this._onKeyUp}">
-            ${this._renderClearIcon()}
-            ${this._renderIcon()}
-            ${this._renderPasswordIcon()}
-        </div>
+      <div class="${classMap(classes)}">
+        ${this.renderLabel()}
+        <input>
+        <slot></slot>
+        ${this._renderClearIcon()}
+        ${this._renderIcon()}
+        ${this._renderPasswordIcon()}
+      </div>
     `;
   }
 

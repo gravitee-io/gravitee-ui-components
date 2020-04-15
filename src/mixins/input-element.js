@@ -62,7 +62,7 @@ export function InputElement (ParentClass) {
 
     constructor () {
       super();
-      this._id = 'gv-id';
+      this._id = `gv-input-${new Date().getTime()}`;
     }
 
     updateState () {
