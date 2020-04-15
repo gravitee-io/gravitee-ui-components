@@ -106,7 +106,7 @@ export const input = css`
   }
 
   /* BASE */
-  input {
+  input, ::slotted(input) {
     border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
     box-sizing: border-box;
     border-radius: 4px;
@@ -118,69 +118,69 @@ export const input = css`
     -webkit-appearance: none;
   }
 
-  input::-webkit-search-decoration {
+  input::-webkit-search-decoration, ::slotted(input::-webkit-search-decoration) {
       -webkit-appearance: none;
   }
   
   /* SIZE */
-  input.large {
+  .large input, .large ::slotted(input) {
     padding: var(--input-large--p);
     font-size: var(--input-large--fz);
     line-height: var(--input-large--lh);
     height: var(--input-large--h);
   }
 
-  input.medium {
+  .medium input, .medium ::slotted(input) {
     padding: var(--input-medium--p);
     font-size: var(--input-medium--fz);
     line-height: var(--input-medium--lh);
     height: var(--input-medium--h);
   }
 
-  input.small {
+  .small input, .small ::slotted(input) {
     padding: var(--input-small--p);
     font-size: var(--input-small--fz);
     line-height: var(--input-small--lh);
     height: var(--input-small--h);
   }
 
-  input.large.icon {
+  .large.icon input, .large.icon ::slotted(input) {
     padding-right: 45px;
   }
 
-  input.large.clearable {
+  .large.clearable input, .large.clearable ::slotted(input) {
       padding-right: 50px;
   }
 
-  input.medium.icon {
+  .medium.icon input, .medium.icon ::slotted(input) {
     padding-right: 36px;
   }
-  
-  input.medium.clearable {
+
+  .medium.clearable input, .medium.clearable ::slotted(input) {
       padding-right: 32px;
   }
 
-  input.small.icon {
+  .small.icon input, .small ::slotted(input) {
     padding-right: 26px;
   }
 
-  input.small.clearable {
+  .small.clearable inpu, .small.clearable ::slotted(input) {
       padding-right: 22px;
   }
 
-  input.large.icon-left {
+  .large.icon-left input, .large.icon-left ::slotted(input) {
     padding-left: 45px;
   }
 
-  input.large.clearable {
+  .large.clearable input, .large.clearable ::slotted(input) {
       padding-right: 40px;
   }
 
-  input.medium.icon-left {
+  .medium.icon-left input, .medium.icon-left ::slotted(input) {
     padding-left: 36px;
   }
 
-  input.small.icon-left {
+  .small.icon-left input, .small.icon-left ::slotted(input) {
     padding-left: 26px;
   }
 
@@ -197,13 +197,13 @@ export const input = css`
       background-color: transparent;
   }
   
-  :host([disabled]) input {
+  :host([disabled]) input, :host([disabled]) ::slotted(input) {
     cursor: default;
     opacity: 0.5;
   }
   
 
-  input:required {
+  input:required, ::slotted(input:required) {
     box-shadow: none;
   }
 
