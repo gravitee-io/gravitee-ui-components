@@ -118,7 +118,7 @@ export const TopRightTransitionSlot = makeStory(conf, {
 });
 
 const options = [
-  { label: 'Dashboard 1', value: '1' },
+  { label: 'Global Dashboard 1', value: '1' },
   { label: 'Dashboard 2', value: '2' },
   { label: 'Dashboard 3', value: '3' },
 ];

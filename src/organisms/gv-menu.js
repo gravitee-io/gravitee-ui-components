@@ -165,14 +165,14 @@ export class GvMenu extends withResizeObserver(LitElement) {
               transition: width 250ms ease-in-out;
           }
 
-          slot[name="right-transition"] {
+          slot[name="right-transition"], slot[name="right"] {
               display: flex;
               justify-content: flex-end;
-              width: 100%;
           }
           
           .right ::slotted([slot="right"]), .right ::slotted([slot="right-transition"])  {
                 align-self: center;
+                width: 100%;
           }
 
           .right ::slotted([slot="right-transition"]) {
