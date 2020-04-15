@@ -27,8 +27,6 @@ import { ItemResource } from '../mixins/item-resource';
  * @attr {Promise<any>} item - An item.
  *
  * @cssprop {Color} [--gv-card--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
- * @cssprop {Length} [--gv-card-image--h=65px] - Image height
- * @cssprop {Length} [--gv-card-image--w=110px] - Image width
  */
 export class GvCard extends ItemResource(LitElement) {
 
@@ -46,8 +44,8 @@ export class GvCard extends ItemResource(LitElement) {
           }
 
           gv-identity-picture {
-            height:  var(--gv-card-image--h, 65px);
-            width:  var(--gv-card-image--w, 110px);
+              width: 65px;
+              height: 65px;
             --gv-image--of: contain;
           }
 
@@ -77,8 +75,6 @@ export class GvCard extends ItemResource(LitElement) {
           }
 
           .image {
-              min-height: 65px;
-              min-width: 0;
               display: flex;
               flex: 1;
               align-items: center;

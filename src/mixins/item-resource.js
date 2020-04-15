@@ -47,11 +47,12 @@ export function ItemResource (ParentClass) {
       super();
       this._skeleton = false;
       this._error = false;
-      this._empty = true;
+      this._empty = false;
     }
 
     set item (item) {
       this._skeleton = true;
+      this._error = false;
       Promise.resolve(item)
         .then((item) => {
           if (item) {
@@ -62,18 +63,16 @@ export function ItemResource (ParentClass) {
             else if (item._links && item._links.picture) {
               this._picture = item._links.picture;
             }
-            this._empty = false;
-            this._skeleton = false;
-          }
-          else {
-            this._skeleton = true;
           }
           this._empty = item == null || Object.keys(item).length === 0;
-          this._error = false;
         })
         .catch(() => {
           this._error = true;
-          this._skeleton = false;
+        })
+        .finally(() => {
+          if (item !== null) {
+            this._skeleton = false;
+          }
         });
     }
 

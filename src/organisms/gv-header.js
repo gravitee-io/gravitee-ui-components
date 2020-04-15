@@ -35,8 +35,6 @@ import { ItemResource } from '../mixins/item-resource';
  *
  * @cssprop {Color} [--gv-header--bgc=var(--gv-theme-color-light, #D5FDCB)] - Background color.
  * @cssprop {Color} [--gv-header--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Length} [--gv-header-image--h=100px] - Image height
- * @cssprop {Length} [--gv-header-image--w=100px] - Image width
  *
  * @cssprop {Length} [--gv-header-button--p=10px 24px] - Button adding
  * @cssprop {Length} [--gv-header-button--fz=var(--gv-theme-font-size-l, 16px)] - Button font size
@@ -59,8 +57,8 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
       // language=CSS
       css`
           :host {
-              --img-w: var(--gv-header-image--w, 100px);
-              --img-h: var(--gv-header-image--h, 100px);
+              --img-w: 120px;
+              --img-h: 120px;
               --gv-button--fz: var(--gv-header-button--fz, var(--gv-theme-font-size-l, 16px));
               --gv-button--p: var(--gv-header-button--p, 10px 24px);
               --gv-link--bgc: transparent;
