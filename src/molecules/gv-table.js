@@ -313,7 +313,7 @@ export class GvTable extends withResizeObserver(LitElement) {
   get selectedItems () {
     if (this.selected && this._itemsProvider) {
       return this._itemsProvider
-        .filter((item) => this.selected.includes(this._getItemId(item)));
+        .filter((item) => this.selected && this.selected.includes(this._getItemId(item)));
     }
     return [];
   }
@@ -450,10 +450,7 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _isSelected (item) {
-    if (this.selected && this.selected.includes(this._getItemId(item))) {
-      return true;
-    }
-    return false;
+    return this.selected && this.selected.includes(this._getItemId(item));
   }
 
   _renderRows (styleGridColumns) {
