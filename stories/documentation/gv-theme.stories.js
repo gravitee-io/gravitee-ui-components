@@ -40,7 +40,8 @@ export const Colors = () => {
     const value = color.default.replace(/"/g, '');
     colorItem.innerHTML = `
         <div class="inverse-color" style="background-color: ${value}; padding: 1rem;">
-            <span>${color.description}<span>
+            <span>${color.description}<span><br/>
+            <span>${color.name}: ${value}</span>
         </div>
     `;
     container.appendChild(colorItem);
