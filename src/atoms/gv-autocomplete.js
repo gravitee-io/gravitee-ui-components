@@ -180,6 +180,9 @@ export class GvAutocomplete extends LitElement {
         dispatchCustomEvent(this, 'search', this.value);
       }, 200);
     }
+    else {
+      this.options = [];
+    }
   }
 
   _onSelect (value, option) {
