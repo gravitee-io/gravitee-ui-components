@@ -15,7 +15,8 @@
  */
 import '../../src/molecules/gv-identity-picture';
 import notes from '../../.docs/gv-identity-picture.md';
-import picture from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo.png';
+import bigImage from '../../assets/images/gravitee-logo-inline.png';
 import { makeStory } from '../lib/make-story';
 
 export default {
@@ -30,23 +31,32 @@ const conf = {
   component: 'gv-identity-picture',
   css: `
     gv-identity-picture {
-      height: 40px;
-      width: 40px;
+      height: 100px;
+      width: 100px;
     }
   `,
 };
-export const withPicture = makeStory(conf, {
-  items: [{ display_name: 'Gravatar', picture }],
-});
 
-export const withoutPicture = makeStory(conf, {
+export const identicon = makeStory(conf, {
   items: [{ display_name: 'Jean Jean' }],
 });
 
-export const withPictureAndNotif = makeStory(conf, {
-  items: [{ display_name: 'Gravatar', picture, notification: true }],
+export const picture = makeStory(conf, {
+  items: [{ display_name: 'Gravatar', picture: bigImage }],
 });
 
-export const withoutPictureAndNotif = makeStory(conf, {
-  items: [{ display_name: 'Jean Jean', notification: true }],
+export const identiconRounded = makeStory(conf, {
+  items: [{ display_name: 'Jean Jean', rounded: true }],
+});
+
+export const pictureRounded = makeStory(conf, {
+  items: [{ display_name: 'Gravatar', picture: bigImage, rounded: true }],
+});
+
+export const identiconNotification = makeStory(conf, {
+  items: [{ display_name: 'Jean Jean', notification: true, rounded: true }],
+});
+
+export const pictureNotification = makeStory(conf, {
+  items: [{ display_name: 'Gravatar', picture: logo, notification: true, rounded: true }],
 });

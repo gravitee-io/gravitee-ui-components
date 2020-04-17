@@ -47,7 +47,7 @@ const conf = {
 const username = 'Richard T.';
 export const Basics = makeStory(conf, {
   items: [
-    { routes, username, innerHTML: '<gv-identity-picture></gv-identity-picture>' },
+    { routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
   ],
   simulations: [
     storyWait(0, ([component]) => {
@@ -59,7 +59,7 @@ export const Basics = makeStory(conf, {
 
 export const withPicture = makeStory(conf, {
   items: [
-    { routes, username, innerHTML: '<gv-identity-picture></gv-identity-picture>' },
+    { routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
   ],
   simulations: [
     storyWait(0, ([component]) => {
@@ -72,7 +72,7 @@ export const withPicture = makeStory(conf, {
 
 export const withLargePicture = makeStory(conf, {
   items: [
-    { routes, username, innerHTML: '<gv-identity-picture></gv-identity-picture>' },
+    { routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
   ],
   simulations: [
     storyWait(0, ([component]) => {

@@ -18,6 +18,7 @@ import { html } from 'lit-html';
 import jdenticon from 'jdenticon';
 import { skeleton } from '../styles/skeleton';
 import { styleMap } from 'lit-html/directives/style-map';
+import '../atoms/gv-image';
 
 /**
  * Identity picture component
@@ -25,6 +26,7 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @attr {String} picture - the picture
  * @attr {String} display_name - the display_name of the picture
  * @attr {Boolean} notification - true to display a notification info
+ * @attr {Boolean} rounded - true for rounded image/icon
  *
  * @cssprop {Color} [--gv-identity-picture-notification--bgc=var(--gv-theme-color, #009B5B)] - Notification background color
  */
@@ -36,6 +38,7 @@ export class GvIdentityPicture extends LitElement {
       display_name: { type: String },
       _error: { type: Boolean, attribute: false },
       notification: { type: Boolean },
+      rounded: { type: Boolean, reflect: true },
     };
   }
 
@@ -44,29 +47,34 @@ export class GvIdentityPicture extends LitElement {
       skeleton,
       // language=CSS
       css`
-        :host {
-          display: block;
-          position: relative;
-        }
+          :host {
+              display: block;
+              position: relative;
+          }
 
-        div {
-          text-align: center;
-        }
+          div {
+              text-align: center;
+          }
 
-        gv-image, svg {
-          width: 100%;
-          height: 100%;
-          --gv-image--of: contain;
-        }
+          gv-image, svg {
+              width: 100%;
+              height: 100%;
+              --gv-image--of: contain;
+          }
 
-        .notification {
-          position: absolute;
-          width: 8px;
-          height: 8px;
-          background-clip: padding-box;
-          border-radius: 50%;
-          background-color: var(--gv-identity-picture-notification--bgc, var(--gv-theme-color, #009B5B));
-        }
+          :host([rounded]) gv-image, :host([rounded]) svg {
+              border-radius: 50%;
+              --gv-image--of: cover;
+          }
+
+          .notification {
+              position: absolute;
+              width: 8px;
+              height: 8px;
+              background-clip: padding-box;
+              border-radius: 50%;
+              background-color: var(--gv-identity-picture-notification--bgc, var(--gv-theme-color, #009B5B));
+          }
       `,
     ];
   }
@@ -83,13 +91,17 @@ export class GvIdentityPicture extends LitElement {
     this._error = false;
   }
 
+  _getMaxSize (width, height) {
+    return Math.min(this._toNumber(width), this._toNumber(height));
+  }
+
   render () {
     const { width, height } = window.getComputedStyle(this);
-
     if (this._error && width && height) {
+      const size = this._getMaxSize(width, height);
       const container = document.createElement('div');
       container.title = this.display_name;
-      container.innerHTML = jdenticon.toSvg(this.display_name, Math.min(this._toNumber(width), this._toNumber(height)), { backColor: '#FFFFFF' });
+      container.innerHTML = jdenticon.toSvg(this.display_name, size, { backColor: '#FFF' });
       if (this.notification) {
         const notification = document.createElement('span');
         notification.className = 'notification';
@@ -98,7 +110,6 @@ export class GvIdentityPicture extends LitElement {
       }
       return html`${container}`;
     }
-
     return html`
       <gv-image src="${this.picture}"
         alt="${this.display_name}"
