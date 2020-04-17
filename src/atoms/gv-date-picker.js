@@ -443,13 +443,6 @@ export class GvDatePicker extends LitElement {
   }
 
   firstUpdated () {
-    if (this.range) {
-      this._from = this.value && this.value.length > 0 ? this.value[0] / 1000 : null;
-      this._to = this.value && this.value.length > 1 ? this.value[1] / 1000 : null;
-    }
-    else {
-      this._from = this.value;
-    }
     if (this.time && this.range) {
       this._mode = 'from';
     }
@@ -483,6 +476,15 @@ export class GvDatePicker extends LitElement {
       if (this.value == null || (this.value.filter && this.value.filter((v) => v != null).length === 0)) {
         this._from = null;
         this._to = null;
+      }
+      else {
+        if (this.range) {
+          this._from = this.value && this.value.length > 0 ? this.value[0] / 1000 : null;
+          this._to = this.value && this.value.length > 1 ? this.value[1] / 1000 : null;
+        }
+        else {
+          this._from = this.value / 1000;
+        }
       }
     }
   }
