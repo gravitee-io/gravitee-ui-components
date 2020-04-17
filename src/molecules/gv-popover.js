@@ -143,10 +143,12 @@ export class GvPopover extends LitElement {
   }
 
   firstUpdated (_changedProperties) {
-    this.firstElementChild.addEventListener(this.event, this._open.bind(this));
-    if (this.event.startsWith('mouse')) {
-      this.firstElementChild.addEventListener('mouseout', this._close.bind(this));
-    }
+    setTimeout(() => {
+      this.firstElementChild.addEventListener(this.event, this._open.bind(this));
+      if (this.event.startsWith('mouse')) {
+        this.firstElementChild.addEventListener('mouseout', this._close.bind(this));
+      }
+    });
   }
 
   _getContentSize () {
