@@ -41,6 +41,7 @@ const UNITS = [
  * Component to display a localized humanized relative date (ex: "two minutes ago").
  *
  * @prop {String|Number} datetime - Date as ISO string or timestamp.
+ * @prop {Boolean} noFuture - Whether a date in future is allowed or not (useful when not sync).
  */
 export class GvRelativeTime extends LitElement {
 
@@ -48,6 +49,7 @@ export class GvRelativeTime extends LitElement {
     return {
       datetime: { type: String },
       title: { type: String, reflect: true },
+      noFuture: { type: Boolean },
       _relativeTime: { type: String, attribute: false },
       _updateIntervalId: { type: String, attribute: false },
     };
@@ -90,7 +92,7 @@ export class GvRelativeTime extends LitElement {
   }
 
   set datetime (value) {
-    value = this._formatDateInThePast(value);
+    value = this.noFuture ? this._formatDateInThePast(value) : value;
     const dtf = new Intl.DateTimeFormat(getLanguage(), options);
     this.title = dtf.format(new Date(value));
     this._datetime = value;
@@ -109,14 +111,18 @@ export class GvRelativeTime extends LitElement {
 
   async _format (dateStr, lang) {
     const Formatter = await this.getFormatter();
-    const format = (value, unit) => new Formatter(lang, { numeric: 'auto' }).format(-value, unit);
+    const format = (value, unit) => {
+      if (!isNaN(value)) {
+        return new Formatter(lang, { numeric: 'auto' }).format(-value, unit);
+      }
+    };
     const now = new Date().getTime();
     const diff = now - new Date(dateStr).getTime();
 
     for (const { unit, duration } of UNITS) {
       const value = diff / duration;
       const roundedValue = Math.round(value);
-      if (value >= 1) {
+      if (Math.abs(value) >= 1) {
         return format(roundedValue, unit);
       }
     }
@@ -125,7 +131,9 @@ export class GvRelativeTime extends LitElement {
 
   connectedCallback () {
     if (this.updateIntervalId == null) {
-      this.performUpdate();
+      setTimeout(() => {
+        this.performUpdate();
+      });
       this.updateIntervalId = setInterval(() => {
         this.performUpdate();
       }, 10 * 1000);

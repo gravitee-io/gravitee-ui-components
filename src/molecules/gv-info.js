@@ -247,7 +247,7 @@ export class GvInfo extends ItemResource(LitElement) {
   _renderMiscellaneous (item) {
     return html`<span>${item.key}</span>
       ${!item.date ? item.value : ''}
-      ${item.date ? item.date === 'relative' ? html`<gv-relative-time datetime="${item.value}"></gv-relative-time>`
+      ${item.date ? item.date === 'relative' ? html`<gv-relative-time datetime="${item.value}" noFuture></gv-relative-time>`
       : (item.date === 'short' ? item.value.toLocaleDateString(getLanguage()) : item.value.toLocaleString(getLanguage())) : ''}`;
   }
 

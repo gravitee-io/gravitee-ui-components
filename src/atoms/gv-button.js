@@ -314,19 +314,6 @@ export class GvButton extends LitElement {
     }
     return '';
   }
-
-  firstUpdated (changedProperties) {
-
-    if (this.title == null) {
-      const contents = [];
-      for (const node of this.childNodes) {
-        const content = node.textContent;
-        contents.push(content);
-      }
-      this.title = contents.join(' ');
-    }
-
-  }
 }
 
 window.customElements.define('gv-button', GvButton);
