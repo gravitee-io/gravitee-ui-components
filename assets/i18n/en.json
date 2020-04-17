@@ -70,7 +70,7 @@
   },
   "gv-metrics": {
     "health": "Health",
-    "hits": "Hits",
+    "hits": "Hits (last 7 days)",
     "subscribers": "Subscribers"
   },
   "gv-pagination": {
