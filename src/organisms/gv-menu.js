@@ -69,10 +69,6 @@ export class GvMenu extends withResizeObserver(LitElement) {
               display: block;
               font-size: var(--gv-theme-font-size-s, 12px);
           }
-
-          gv-nav {
-              transition: line-height 5s ease-in-out;
-          }
           
           :host([sticky]) gv-nav {
               line-height: 1px;
