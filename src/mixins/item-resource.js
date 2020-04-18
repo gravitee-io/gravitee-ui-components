@@ -170,7 +170,7 @@ export function ItemResource (ParentClass) {
     _renderViews () {
       const views = this._getViews();
       if (views) {
-        return repeat(views, (name) => name, (name) => html`<gv-tag @click="${this._onTagClick.bind(this, name, 'view')}" ?skeleton="${this._skeleton}">${name}</gv-tag>`);
+        return repeat(views, (view) => view, (view) => html`<gv-tag @click="${this._onTagClick.bind(this, view, 'view')}" ?skeleton="${this._skeleton}">${view.name}</gv-tag>`);
       }
       return '';
     }

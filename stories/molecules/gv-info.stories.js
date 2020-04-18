@@ -18,7 +18,12 @@ import '../../src/molecules/gv-info';
 import logo from '../../assets/icons/gravitee/graviteeio.svg';
 import { makeStory, storyWait } from '../lib/make-story';
 
-const views = ['Azure', 'Swiss', 'All', 'Magic'];
+const views = [
+  { name: 'Azure' },
+  { name: 'Swiss' },
+  { name: 'All' },
+  { name: 'Magic' },
+];
 const ratingSummary = { average: 3.4 };
 const labels = ['APIDays', 'December', 'Foobar'];
 const resources = [
