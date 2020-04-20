@@ -35,7 +35,6 @@ const items = [
   { placeholder: 'Email...', type: 'email', label: 'Email label' },
   { placeholder: 'Number...', type: 'number', min: '1', max: '10', label: 'Number label' },
   { placeholder: 'Search...', type: 'search', label: 'Search label' },
-  { placeholder: 'Clipboard...', type: 'clipboard', label: 'Clipboard label', value: 'Copy me !' },
   { placeholder: 'Url...', type: 'url', label: 'Url label' },
   { placeholder: 'No Label...' },
 ];
@@ -54,6 +53,13 @@ export const Large = makeStory(conf, {
 
 export const Clearable = makeStory(conf, {
   items: items.map((p) => ({ ...p, clearable: true })),
+});
+
+export const clipboard = makeStory(conf, {
+  items: [
+    { placeholder: 'Clipboard...', label: 'Simple clipboard', value: 'Copy me !', clipboard: true },
+    { placeholder: 'Password...', type: 'password', label: 'Password clipboard', value: 'Copy me !', clipboard: true },
+  ],
 });
 
 export const IconLeft = makeStory(conf, {

@@ -248,7 +248,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         }
         this._isClosed = !this._isClosed;
       }
-      this.updateState();
+      this.updateState(this.value);
       dispatchCustomEvent(this, 'select', this.value);
       this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
     }

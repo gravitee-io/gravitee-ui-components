@@ -41,6 +41,7 @@ export class GvMessage extends LitElement {
     return {
       type: { type: String },
       closable: { type: Boolean },
+      _close: { type: Boolean, attribute: false },
     };
   }
 
@@ -88,6 +89,11 @@ export class GvMessage extends LitElement {
             color: var(--gv-message-error--c, #820014);
             --gv-icon--c: var(--gv-message-error--c, #820014);
           }
+          
+          .close {
+            transition: opacity 250ms ease-in-out;
+            opacity: 0;
+          }
 
           gv-icon {
             --gv-icon--s: 24px;
@@ -107,7 +113,11 @@ export class GvMessage extends LitElement {
   }
 
   _onClick () {
-    dispatchCustomEvent(this, 'close');
+    this._close = true;
+    setTimeout(() => {
+      dispatchCustomEvent(this, 'close');
+    }, 250);
+
   }
 
   render () {
@@ -116,6 +126,7 @@ export class GvMessage extends LitElement {
       warning: (this.type === 'warning'),
       success: (this.type === 'success'),
       error: (this.type === 'error'),
+      close: this._close,
     };
     return html`
       <div class=${classMap(modes)}>

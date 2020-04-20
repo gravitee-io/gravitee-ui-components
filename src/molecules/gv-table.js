@@ -86,125 +86,125 @@ export class GvTable extends withResizeObserver(LitElement) {
       skeleton,
       // language=CSS
       css`
-          :host {
-              --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #009B5B));
-              --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-              --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-              --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
-              display: block;
-              height: 100%;
-              margin: 0.2rem;
-          }
+        :host {
+          --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #009B5B));
+          --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          display: block;
+          height: 100%;
+          margin: 0.2rem;
+        }
 
-          .table {
-              background-color: var(--bgc);
-              display: flex;
-              flex-direction: column;
-              height: 100%;
-          }
+        .table {
+          background-color: var(--bgc);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
 
-          .rows {
-              -ms-overflow-style: none;
-              scrollbar-width: none;
-              flex: 1;
-              overflow: auto;
-              height: 100%;
-          }
+        .rows {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          flex: 1;
+          overflow: auto;
+          height: 100%;
+        }
 
-          .rows::-webkit-scrollbar {
-              display: none;
-          }
+        .rows::-webkit-scrollbar {
+          display: none;
+        }
 
-          :host([w-lt-768]) .row {
-              height: 70px;
-          }
+        :host([w-lt-768]) .row {
+          height: 70px;
+        }
 
-          :host([w-lt-580]) .row {
-              height: 60px;
-          }
+        :host([w-lt-580]) .row {
+          height: 60px;
+        }
 
-          :host([w-lt-400]) .row {
-              height: 50px;
-          }
+        :host([w-lt-400]) .row {
+          height: 50px;
+        }
 
-          .theader {
-              background-color: var(--gv-theme-neutral-color-lighter);
-              font-weight: bold;
-          }
+        .theader {
+          background-color: var(--gv-theme-neutral-color-lighter);
+          font-weight: bold;
+        }
 
-          .row, .theader {
-              align-items: center;
-              align-content: center;
-              border-right: solid thick transparent;
-              display: grid;
-              grid-auto-rows: minmax(80px, auto);
-              grid-gap: 10px;
-              padding: 0 10px;
-          }
+        .row, .theader {
+          align-items: center;
+          align-content: center;
+          border-right: solid thick transparent;
+          display: grid;
+          grid-auto-rows: minmax(80px, auto);
+          grid-gap: 10px;
+          padding: 0 10px;
+        }
 
-          .row:not(:last-child) {
-              box-shadow: 0 5px 3px -6px var(--bdc);
-          }
+        .row:not(:last-child) {
+          box-shadow: 0 5px 3px -6px var(--bdc);
+        }
 
-          .row:hover, .row.selected {
-              background-color: var(--hover-bgc);
-          }
+        .row:hover, .row.selected {
+          background-color: var(--hover-bgc);
+        }
 
-          .row.selected {
-              border-color: var(--selected--bgc);
-              box-sizing: border-box;
-          }
+        .row.selected {
+          border-color: var(--selected--bgc);
+          box-sizing: border-box;
+        }
 
-          .header {
-              border-bottom: 1px solid var(--bdc);
-              padding: var(--gv-table-header--p, 30px);
-          }
+        .header {
+          border-bottom: 1px solid var(--bdc);
+          padding: var(--gv-table-header--p, 30px);
+        }
 
-          .header span {
-              color: var(--gv-theme-neutral-color-dark, #BFBFBF);
-              font-weight: 600;
-              font-size: var(--gv-theme-font-size-s, 12px);
-              line-height: 20px;
-              margin-left: 8px;
-          }
+        .header span {
+          color: var(--gv-theme-neutral-color-dark, #BFBFBF);
+          font-weight: 600;
+          font-size: var(--gv-theme-font-size-s, 12px);
+          line-height: 20px;
+          margin-left: 8px;
+        }
 
-          .header h2 {
-              margin: 0;
-              text-transform: uppercase;
-              font-size: var(--gv-table-header--fz, var(--gv-theme-font-size-xl, 26px));
-              line-height: 20px;
-          }
+        .header h2 {
+          margin: 0;
+          text-transform: uppercase;
+          font-size: var(--gv-table-header--fz, var(--gv-theme-font-size-xl, 26px));
+          line-height: 20px;
+        }
 
-          gv-identity-picture {
-              height: 35px;
-              width: 35px;
-              --gv-image--of: contain;
-              margin-left: 20px;
-          }
+        gv-identity-picture {
+          height: 35px;
+          width: 35px;
+          --gv-image--of: contain;
+          margin-left: 20px;
+        }
 
-          gv-icon {
-              transform: rotate(0deg);
-              --gv-icon--s: 18px;
-          }
+        gv-icon {
+          transform: rotate(0deg);
+          --gv-icon--s: 18px;
+        }
 
-          gv-icon.desc {
-              transform: rotate(180deg);
-          }
+        gv-icon.desc {
+          transform: rotate(180deg);
+        }
 
-          .empty, .error {
-              align-items: center;
-              display: grid;
-              font-weight: 600;
-              font-size: var(--gv-theme-font-size-xl, 26px);
-              text-align: center;
-              color: var(--gv-theme-color-dark, #193E34);
-              opacity: 0.5;
-              padding: 41px;
-          }
+        .empty, .error {
+          align-items: center;
+          display: grid;
+          font-weight: 600;
+          font-size: var(--gv-theme-font-size-xl, 26px);
+          text-align: center;
+          color: var(--gv-theme-color-dark, #193E34);
+          opacity: 0.5;
+          padding: 41px;
+        }
 
-          gv-pagination {
-              align-self: flex-end;
-          }
+        gv-pagination {
+          align-self: flex-end;
+        }
       `,
     ];
   }
@@ -376,7 +376,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           }
           element.addEventListener(event, (e) => {
             e.stopPropagation();
-            if (!option.confirmMessage) {
+            if (!option.confirm) {
               option.attributes[attribute](item, e);
             }
           });
@@ -399,15 +399,16 @@ export class GvTable extends withResizeObserver(LitElement) {
     element.addEventListener('input', (event) => {
       this._items[itemIndex][option.field] = event.target.value;
     });
-    if (option.confirmMessage) {
+    if (option.confirm) {
       const confirm = document.createElement('gv-confirm');
       if (this.format) {
-        this.format(option.confirmMessage).then((t) => {
-          confirm.message = t;
-        });
+        this.format(option.confirm.msg).then((t) => (confirm.message = t));
       }
       else {
-        confirm.message = option.confirmMessage;
+        confirm.message = option.confirm.msg;
+      }
+      if (option.confirm.danger) {
+        confirm.danger = true;
       }
       confirm.addEventListener('click', (e) => e.stopPropagation());
       confirm.addEventListener('gv-confirm:ok', (e) => {
@@ -464,7 +465,13 @@ export class GvTable extends withResizeObserver(LitElement) {
         row: true,
         skeleton: this._skeleton,
         selected: this._isSelected(item),
-      })} style=${styleMap({ ...styleGridColumns, ...{ height: this.rowheight, cursor: this.options.selectable ? 'pointer' : '' } })}
+      })} style=${styleMap({
+        ...styleGridColumns,
+...{
+          height: this.rowheight,
+          cursor: this.options.selectable ? 'pointer' : '',
+        },
+      })}
             @click="${this._onSelect.bind(this, item)}"
             @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {

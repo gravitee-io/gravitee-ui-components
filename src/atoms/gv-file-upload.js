@@ -53,111 +53,112 @@ export class GvFileUpload extends LitElement {
       // language=CSS
       css`
 
-          :host {
-              box-sizing: border-box;
-              display: block;
-              width: 100%;
-              color: var(--gv-theme-color-dark, #193E34);
-          }
+        :host {
+          box-sizing: border-box;
+          display: block;
+          width: 100%;
+          color: var(--gv-theme-color-dark, #193E34);
+        }
 
-          .box {
-              font-size: 1.25rem;
-              background-color: var(--gv-theme-neutral-color-lighter, #FAFAFA);
-              position: relative;
-              padding: 2rem;
-              text-align: center;
-              display: block;
-              border: 1px dashed #193E34;
-              border-radius: 4px;
-              transition: outline-offset .15s ease-in-out, background-color .15s linear;
-              height: 100%;
-          }
+        .box {
+          font-size: 1.25rem;
+          background-color: var(--gv-theme-neutral-color-lighter, #FAFAFA);
+          position: relative;
+          padding: 2rem;
+          text-align: center;
+          display: block;
+          border: 1px dashed #193E34;
+          border-radius: 4px;
+          transition: outline-offset .15s ease-in-out, background-color .15s linear;
+          height: 100%;
+        }
 
-          .box .box__icon {
-              width: 100%;
-              height: 80px;
-              display: block;
-              margin-bottom: 40px;
-              --gv-icon--s: 5rem;
-              --gv-icon--c: var(--gv-theme-color-dark, #193E34);
+        .box .box__icon {
+          width: 100%;
+          height: 80px;
+          display: block;
+          margin-bottom: 40px;
+          --gv-icon--s: 5rem;
+          --gv-icon--c: var(--gv-theme-color-dark, #193E34);
 
-          }
+        }
 
-          .box__file {
-              width: 0.1px;
-              height: 0.1px;
-              opacity: 0;
-              overflow: hidden;
-              position: absolute;
-              z-index: -1;
-          }
+        .box__file {
+          width: 0.1px;
+          height: 0.1px;
+          opacity: 0;
+          overflow: hidden;
+          position: absolute;
+          z-index: -1;
+        }
 
-          .box__file + label {
-              max-width: 80%;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              cursor: pointer;
-              display: inline-block;
-              overflow: hidden;
-          }
+        .box__file + label {
+          max-width: 80%;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+          display: inline-block;
+          overflow: hidden;
+        }
 
-          .box.is-dragover {
-              background-color: var(--gv-theme-color-light, #193E34);
-              border: none;
-              outline: 1px dashed #193E34;
-              outline-offset: -10px;
-          }
+        .box.is-dragover {
+          background-color: var(--gv-theme-color-light, #193E34);
+          border: none;
+          outline: 1px dashed #193E34;
+          outline-offset: -10px;
+        }
 
-          .box .box__dragndrop {
-              display: inline;
-          }
+        .box .box__dragndrop {
+          display: inline;
+        }
 
-          .files {
-              box-sizing: border-box;
-              display: flex;
-              align-items: center;
-              --gv-icon--s: 16px;
-              padding: 1rem 0.5rem 0;
-          }
+        .files {
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          --gv-icon--s: 16px;
+          padding: 1rem 0.5rem 0;
+        }
 
-          .filename {
-              flex: 1;
-              padding: 0.5rem;
-          }
+        .filename {
+          flex: 1;
+          padding: 0.2rem;
+          word-break: break-all;
+        }
 
-          .error {
-              font-style: italic;
-              --gv-icon--c: red;
-          }
+        .error {
+          font-style: italic;
+          --gv-icon--c: red;
+        }
 
-          gv-image {
-              position: absolute;
-          }
+        gv-image {
+          position: absolute;
+        }
 
-          .preview {
-              transition: all 300ms ease-in-out;
-          }
+        .preview {
+          transition: all 300ms ease-in-out;
+        }
 
-          .box__input {
-              position: relative;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              height: 100%;
-              z-index: 10;
-          }
+        .box__input {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 100%;
+          z-index: 10;
+        }
 
-          .preview .box__input {
-              visibility: hidden;
-          }
+        .preview .box__input {
+          visibility: hidden;
+        }
 
-          .preview:hover .box__input {
-              visibility: visible;
-          }
+        .preview:hover .box__input {
+          visibility: visible;
+        }
 
-          .preview:hover gv-image {
-              opacity: 0.3;
-          }
+        .preview:hover gv-image {
+          opacity: 0.3;
+        }
 
       `,
     ];
@@ -290,7 +291,7 @@ export class GvFileUpload extends LitElement {
     @dragleave="${this._onDragEnd}"
     @dragend="${this._onDragEnd}"
     >
-         ${this._preview != null ? html`<gv-image .src="${this._preview}" alt=""></gv-image>` : ''}
+         ${this._preview != null ? html`<gv-image .src="${this._preview}" @error="${this._onPreviewError}"></gv-image>` : ''}
           <div class="box__input">
             <gv-icon class="box__icon" shape="${this.icon}"></gv-icon>
             <label for="file" class="link">
@@ -313,6 +314,10 @@ export class GvFileUpload extends LitElement {
         </div>
         ` : ''}
 `;
+  }
+
+  _onPreviewError () {
+    this.value = null;
   }
 
   updated (changedProperties) {

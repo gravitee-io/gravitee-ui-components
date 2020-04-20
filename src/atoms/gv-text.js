@@ -108,8 +108,8 @@ export class GvText extends InputElement(LitElement) {
   }
 
   _onInput (e) {
+    this.updateState(e.target.value);
     this.value = e.target.value;
-    this.updateState();
     dispatchCustomEvent(this, 'input', this.value);
   }
 
