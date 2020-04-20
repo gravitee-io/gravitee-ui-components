@@ -112,8 +112,8 @@ export class GvMetrics extends LitElement {
 
     return html`
       <div class=${classMap(modes)}>
-        ${this._renderMetric('communication:group', i18n('gv-metrics.subscribers'), this._getSubscribers())}
-        ${this._renderMetric('general:cursor', i18n('gv-metrics.hits'), this._getHits())}
+        ${this._renderMetric('communication:group', i18n('gv-metrics.subscribers', { count: this._getSubscribers() }), this._getSubscribers())}
+        ${this._renderMetric('general:cursor', i18n('gv-metrics.hits', { count: this._getHits() }), this._getHits())}
         ${this._renderMetric('general:heart', i18n('gv-metrics.health'), this._getHealth())}
       </div>
     `;

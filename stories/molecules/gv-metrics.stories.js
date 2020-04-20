@@ -36,6 +36,7 @@ const conf = {
 };
 
 const metrics = { subscribers: 234, hits: 15000, health: 0.034 };
+const smallMetrics = { subscribers: 1, hits: 1, health: 0.034 };
 
 const items = [
   { metrics },
@@ -43,6 +44,10 @@ const items = [
 
 export const basics = makeStory(conf, {
   items,
+});
+
+export const basicsSmallMetrics = makeStory(conf, {
+  items: [{ metrics: smallMetrics }],
 });
 
 export const empty = makeStory(conf, {
