@@ -23,9 +23,12 @@ export function i18n (key, data) {
   if (translation == null) {
     return 'unknown';
   }
-  if (typeof translation === 'function') {
-    return translation(data);
+
+  if (data) {
+    const msg = i18n._messageFormatter.compile(translation);
+    return msg(data);
   }
+
   return translation;
 }
 
@@ -44,6 +47,9 @@ function getTranslation (key) {
 
 // Init private translation storage
 i18n._translations = {};
+
+const MessageFormat = require('messageformat');
+i18n._messageFormatter = new MessageFormat(i18n._lang);
 
 /**
  * @param {string} lang - Translation language code
