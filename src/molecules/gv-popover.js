@@ -56,7 +56,7 @@ export class GvPopover extends LitElement {
           padding: 1rem;
           border-radius: 4px;
           box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-          z-index: 100;
+          z-index: 1000;
           display: none;
           max-width: var(--maw);
         }

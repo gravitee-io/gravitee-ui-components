@@ -48,6 +48,7 @@ export class GvConfirm extends GvPopover {
       okLabel: { type: String },
       message: { type: String },
       icon: { type: String },
+      danger: { type: Boolean, reflect: true },
     };
   };
 
@@ -60,10 +61,15 @@ export class GvConfirm extends GvPopover {
               --gv-icon--s: 24px;
           }
 
+          :host([danger]) {
+              --gv-icon--c: var(--gv-theme-color-danger, #FF5722);
+          }
+
           .popover {
               --bgc: var(--gv-confirm--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
               --maw: var(--gv-confirm--maw, 250px);
           }
+
           .message {
               display: flex;
               align-items: center;
@@ -73,6 +79,7 @@ export class GvConfirm extends GvPopover {
           .message gv-icon {
               margin-right: 0.5rem;
           }
+
           .text {
               text-align: center;
               line-height: 24px;
@@ -112,6 +119,13 @@ export class GvConfirm extends GvPopover {
             <gv-button primary @click="${this._onOk}">${this.okLabel}</gv-button>
           </div>
        `;
+  }
+
+  firstUpdated (changedProperties) {
+    super.firstUpdated(changedProperties);
+    if (this.danger) {
+      this.shadowRoot.querySelectorAll('gv-button').forEach((btn) => (btn.setAttribute('danger', '')));
+    }
   }
 
 }
