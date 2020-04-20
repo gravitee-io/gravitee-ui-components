@@ -103,6 +103,12 @@ export class GvIdentityPicture extends LitElement {
     return Math.min(this._toNumber(width), this._toNumber(height));
   }
 
+  updated (properties) {
+    if (properties.has('picture')) {
+      this._error = false;
+    }
+  }
+
   render () {
     const { width, height } = window.getComputedStyle(this);
     if (this._error && width && height) {

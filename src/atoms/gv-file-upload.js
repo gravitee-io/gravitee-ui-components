@@ -254,6 +254,8 @@ export class GvFileUpload extends LitElement {
     this._errors = [];
     this._files = [];
     this._preview = null;
+    this.value = null;
+    this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
   }
 
   _onChange (e) {
@@ -313,7 +315,25 @@ export class GvFileUpload extends LitElement {
 `;
   }
 
-  updated () {
+  updated (changedProperties) {
+    if (changedProperties.has('value')) {
+      if (this.value) {
+        this._preview = this.value;
+        if (this._files && this._files[0]) {
+          this.reader.readAsDataURL(this._files[0]);
+          this.reader.onload = (event) => {
+            if (this.value !== event.target.result) {
+              this._files = [];
+            }
+          };
+        }
+      }
+      else {
+        this._preview = null;
+        this._files = [];
+      }
+    }
+
     const preview = this.shadowRoot.querySelector('.preview');
     if (preview) {
       const { width, height } = preview.getBoundingClientRect();

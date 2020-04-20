@@ -16,6 +16,7 @@
 import '../../src/atoms/gv-file-upload';
 import notes from '../../.docs/gv-file-upload.md';
 import { makeStory } from '../lib/make-story';
+import img from '../../assets/images/gravitee-logo-inline.png';
 
 export default {
   title: 'Atoms|gv-file-upload',
@@ -33,6 +34,10 @@ const conf = {
 
 export const BasicUsage = makeStory(conf, {
   items: [{ label: 'Image de l\'application' }],
+});
+
+export const InitialValue = makeStory(conf, {
+  items: [{ label: 'Image de l\'application', value: [img] }],
 });
 
 export const MimeTypesConstraint = makeStory(conf, {
