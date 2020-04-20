@@ -65,10 +65,10 @@ export function InputElement (ParentClass) {
       this._id = `gv-input-${new Date().getTime()}`;
     }
 
-    updateState () {
+    updateState (value) {
       if (this.required) {
-        this.invalid = this.value == null || this.value.trim() === '';
-        this.valid = !(this.value == null || this.value.trim() === '');
+        this.invalid = value == null || value.trim() === '';
+        this.valid = !(value == null || value.trim() === '');
       }
     }
 
@@ -76,7 +76,7 @@ export function InputElement (ParentClass) {
       if (this.autofocus) {
         this.getInputElement().focus();
       }
-      this.updateState();
+      this.updateState(this.value);
     }
 
     getInputElement () {

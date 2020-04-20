@@ -61,7 +61,7 @@ export class GvConfirm extends GvPopover {
               --gv-icon--s: 24px;
           }
 
-          :host([danger]) {
+          :host([danger]) .message gv-icon {
               --gv-icon--c: var(--gv-theme-color-danger, #FF5722);
           }
 

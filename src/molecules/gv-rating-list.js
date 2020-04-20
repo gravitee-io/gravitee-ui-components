@@ -257,6 +257,7 @@ export class GvRatingList extends LitElement {
     if (parent) {
       return html`
         ${this._canDeleteAnswer() ? html`<gv-confirm
+                                            danger
                                             icon="home:trash"
                                             @gv-confirm:ok="${this._onDeleteAnswer.bind(this, parent, data)}"
                                             message="${i18n('gv-rating-list.confirmAnswerDelete')}">
@@ -269,6 +270,7 @@ export class GvRatingList extends LitElement {
     else {
       return html`
         ${this._canDelete(data.id) ? html`<gv-confirm
+                                       danger
                                        icon="home:trash"
                                        @gv-confirm:ok="${this._onDelete.bind(this, data)}"
                                        message="${i18n('gv-rating-list.confirmRatingDelete')}">

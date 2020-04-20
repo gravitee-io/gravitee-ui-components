@@ -37,7 +37,8 @@ import { InputElement } from '../mixins/input-element';
  * @attr {String} title - title of the input
  * @attr {String} name - name of the input
  * @attr {String} placeholder - an example value to display in the input when empty
- * @attr {String} type - type of the input, can be text (Default), password, email, search, number, url or clipboard.
+ * @attr {String} type - type of the input, can be text (Default), password, email, search, number, url.
+ * @attr {Boolean} clipboard - for readonly input with clipboard
  * @attr {Boolean} large - for a large input
  * @attr {Boolean} medium - for a medium input (Default)
  * @attr {Boolean} small - for a small input
@@ -73,11 +74,11 @@ export class GvInput extends InputElement(LitElement) {
       min: { type: Number },
       max: { type: Number },
       autocomplete: { type: String },
+      clipboard: { type: Boolean },
       clickable: { type: Boolean },
       clearable: { type: Boolean },
-      pattern: { type: String },
       noSubmit: { type: Boolean, attribute: 'no-submit' },
-      _pattern: { type: String, attribute: false },
+      pattern: { type: String, reflect: true },
       _type: { type: String, attribute: false },
     };
   }
@@ -194,10 +195,16 @@ export class GvInput extends InputElement(LitElement) {
     if (changedProperties.has('required')) {
       this.getInputElement().required = this.required;
       this.getInputElement()['aria-required'] = !!this.required;
+      if (this.value == null || this.value.trim() === '') {
+        this.invalid = true;
+      }
     }
 
-    if (changedProperties.has('readonly')) {
-      this.getInputElement().readonly = this.readonly;
+    if (this.readonly) {
+      this.getInputElement().setAttribute('readonly', true);
+    }
+    else {
+      this.getInputElement().removeAttribute('readonly');
     }
 
     if (changedProperties.has('label') || changedProperties.has('title')) {
@@ -211,8 +218,9 @@ export class GvInput extends InputElement(LitElement) {
       this.getInputElement()['aria-label'] = this.label;
     }
 
-    if (changedProperties.has('_pattern') && this._pattern) {
-      this.getInputElement().pattern = this._pattern;
+    if (changedProperties.has('pattern')) {
+      this.getInputElement().pattern = this.pattern;
+      this._regexPattern = new RegExp(this.pattern);
     }
 
     if (changedProperties.has('disabled') || changedProperties.has('skeleton')) {
@@ -254,47 +262,62 @@ export class GvInput extends InputElement(LitElement) {
       defaultInputElement.remove();
     }
 
+    if (this.clipboard) {
+      import('clipboard-copy').then((mod) => (this.copy = () => {
+        const copy = mod.default;
+        copy(this.value);
+        this._copied = true;
+        this.iconLeft = GvInput.shapeCopied;
+        setTimeout(() => {
+          this._copied = false;
+          this.iconLeft = GvInput.shapeClipboard;
+        }, 1000);
+      }));
+      this.readonly = true;
+      this.iconLeft = GvInput.shapeClipboard;
+      this.getInputElement().addEventListener('click', () => this.copy(this.value));
+
+      setTimeout(() => {
+        const clickableIcon = this.shadowRoot.querySelector('gv-icon.link');
+        clickableIcon.addEventListener('click', () => this.copy(this.value));
+      }, 0);
+    }
+    else {
+      const clickableIcon = this.shadowRoot.querySelector('gv-icon.link');
+      if (clickableIcon) {
+        clickableIcon.addEventListener('click', this._onIconClick.bind(this));
+      }
+    }
+
     this.getInputElement().id = this._id;
     this.getInputElement().addEventListener('input', this._onInput.bind(this));
     this.getInputElement().addEventListener('keyup', this._onKeyUp.bind(this));
 
-    const clickableIcon = this.shadowRoot.querySelector('gv-icon.link');
-    if (clickableIcon) {
-      clickableIcon.addEventListener('click', this._onIconClick.bind(this));
-    }
-    if (this.hasClipboard) {
-      this.getInputElement().addEventListener('click', (e) => this.copy(this.value));
-    }
-
   }
 
-  updateState () {
-    clearTimeout(this._stateTimer);
-    this._stateTimer = setTimeout(() => {
-      super.updateState();
-      if (this._regexPattern) {
-        if (this.value != null && this.value.trim() !== '') {
-          const valid = this.value.match(this._regexPattern);
-          this.invalid = !valid;
-          this.valid = valid;
-        }
-        else if (!this.required) {
-          this.invalid = false;
-          this.valid = false;
-        }
+  updateState (value) {
+    super.updateState(value);
+    if (this._regexPattern) {
+      if (value != null && value.trim() !== '') {
+        const valid = value.match(this._regexPattern);
+        this.invalid = !valid;
+        this.valid = valid;
       }
-    }, 200);
+      else if (!this.required) {
+        this.invalid = false;
+        this.valid = false;
+      }
+    }
   }
 
   _onInput (e) {
+    this.updateState(e.target.value);
     this.value = e.target.value;
     dispatchCustomEvent(this, 'input', this.value);
-    this.updateState();
   }
 
   _onKeyUp (e) {
     if (!this.noSubmit && e.keyCode === 13) {
-      // this.updateState();
       const form = this.closest('form');
       if (form) {
         form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
@@ -323,23 +346,6 @@ export class GvInput extends InputElement(LitElement) {
     if (this._type === 'password') {
       this.icon = GvInput.shapeSearch;
     }
-
-    if (value === 'clipboard') {
-      import('clipboard-copy').then((mod) => (this.copy = () => {
-        const copy = mod.default;
-        copy(this.value);
-        this._copied = true;
-        this.icon = GvInput.shapeCopied;
-        setTimeout(() => {
-          this._copied = false;
-          this.icon = GvInput.shapeClipboard;
-        }, 1000);
-      }));
-      this.readonly = true;
-      this._hasClipboard = true;
-      this.icon = GvInput.shapeClipboard;
-      this._type = 'text';
-    }
   }
 
   _onIconClick () {
@@ -347,17 +353,16 @@ export class GvInput extends InputElement(LitElement) {
       this.value = '';
       dispatchCustomEvent(this, 'input', this.value);
     }
-    else if (this.hasClipboard) {
-      this.copy(this.value);
-    }
     else {
       dispatchCustomEvent(this, 'icon-click', this.value);
       dispatchCustomEvent(this, 'submit', this.value);
     }
   }
 
-  _onIconVisibleClick () {
+  _onIconVisibleClick (e) {
     if (this.isPassword) {
+      e.preventDefault();
+      e.stopPropagation();
       this._showPassword = !this._showPassword;
       this._type = this._showPassword ? 'text' : 'password';
     }
@@ -368,11 +373,11 @@ export class GvInput extends InputElement(LitElement) {
   }
 
   get hasClickableIcon () {
-    return !this.disabled && (this.clickable || this._type === 'search' || this._hasClipboard);
+    return !this.disabled && (this.clickable || this._type === 'search' || this.clipboard);
   }
 
   get hasClipboard () {
-    return !this.disabled && this._hasClipboard;
+    return !this.disabled && this.clipboard;
   }
 
   clear () {
@@ -441,17 +446,6 @@ export class GvInput extends InputElement(LitElement) {
                   </div>`;
     }
     return '';
-  }
-
-  set pattern (value) {
-    if (value) {
-      this._regexPattern = new RegExp(value);
-      this._pattern = value;
-    }
-    else {
-      this._regexPattern = null;
-      this._pattern = null;
-    }
   }
 
   render () {
