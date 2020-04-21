@@ -12,7 +12,7 @@ npm install
 
 If you wanna start the storybook on dev mode :
 ```
-npm run start
+npm run serve
 ```
 
 If you wanna generate docs :
@@ -25,9 +25,9 @@ If you wanna build storybook:
 npm run build
 ```
 
-If you start storybook on prod mode :
+If you wanna start storybook on prod mode :
 ```
-npm run start:prod
+npm run serve:prod
 ```
 
 If you wanna build components to use them in your project:
