@@ -18,10 +18,10 @@ import '../../src/molecules/gv-list';
 import logo from '../../assets/images/logo.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
-const item = { name: 'Long Supernova', description: 'short description about items' };
-const item2 = { name: 'Long Supernova 2', description: 'another descriptions' };
-const item3 = { name: 'Long Supernova 3', description: 'short description', picture: logo };
-const items = [item, item2, item3];
+const api1 = { name: 'Long Supernova', description: 'short description about items', version: '1.0.0' };
+const api2 = { name: 'Long Supernova 2', description: 'another descriptions', version: '2.0.0' };
+const api3 = { name: 'Long Supernova 3', description: 'short description', version: '3.0.0', picture: logo };
+const items = [{ item: api1 }, { item: api2 }, { item: api3 }];
 
 export default {
   title: 'Molecules|gv-list',
@@ -37,6 +37,10 @@ const conf = {
 
 export const basics = makeStory(conf, {
   items: [{ items, title: 'Basic items' }],
+});
+
+export const withLinks = makeStory(conf, {
+  items: [{ items, title: 'Items with link', clickable: true }],
 });
 
 export const empty = makeStory(conf, {
