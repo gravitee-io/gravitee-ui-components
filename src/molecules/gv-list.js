@@ -18,13 +18,19 @@ import { skeleton } from '../styles/skeleton';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
+import { link } from '../styles/link';
 import '../molecules/gv-identity-picture';
+import { dispatchCustomEvent } from '../lib/events';
+import { getApplicationTypeIcon } from '../lib/theme';
 
 /**
  * Connected Applications component
  *
- * @attr {Promise<Array<{picture: string, name: string, description: string}>>} items - a list of item.
+ * @fires gv-list:click - Click event from an element of the list
+ *
+ * @attr {Promise<Array<{Object}>>} items - a list of item.
  * @attr {String} title - title of the list.
+ * @attr {Boolean} clickable - true if gv-list element can be clickable.
  *
  * @cssprop {Color} [--gv-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Length} [--gv-list-icon--s=20px] - Height and icon width
@@ -37,6 +43,7 @@ export class GvList extends LitElement {
     return {
       items: { type: Object },
       title: { type: String },
+      clickable: { type: Boolean },
       _items: { type: Object, attribute: false },
       _skeleton: { type: Boolean, attribute: false },
       _error: { type: Boolean, attribute: false },
@@ -46,6 +53,7 @@ export class GvList extends LitElement {
 
   static get styles () {
     return [
+      link,
       // language=CSS
       css`
         :host {
@@ -149,12 +157,56 @@ export class GvList extends LitElement {
       });
   }
 
-  _getPictureDisplayName (name, suffix) {
-    return suffix ? `${name} ${suffix}` : name;
+  _getPicture (item) {
+    if (item) {
+      if (item.picture) {
+        return item.picture;
+      }
+      else if (item._links && item._links.picture) {
+        return item._links.picture;
+      }
+    }
+    return null;
   }
 
-  _renderImage (picture, name, suffix) {
-    return html`<gv-identity-picture .picture="${picture}" .display_name="${this._getPictureDisplayName(name, suffix)}"></gv-identity-picture>`;
+  _getVersion (item) {
+    if (item) {
+      if (item.version) {
+        return item.version;
+      }
+      else if (item.applicationType) {
+        const icon = getApplicationTypeIcon(item.applicationType);
+        return html`<gv-icon shape="${icon}"></gv-icon>`;
+      }
+    }
+    return null;
+  }
+
+  _getPictureDisplayName (item) {
+    if (item) {
+      if (item.version) {
+        return `${this._getTitle(item)}  ${item.version}`;
+      }
+      else if (item.applicationType) {
+        return `${this._getTitle(item)}  ${item.applicationType}`;
+      }
+    }
+    return this._getTitle();
+  }
+
+  _getTitle (item) {
+    if (item) {
+      return item.name;
+    }
+    return '';
+  }
+
+  _onClick (item) {
+    dispatchCustomEvent(this, 'click', item);
+  }
+
+  _renderImage (item) {
+    return html`<gv-identity-picture .picture="${this._getPicture(item)}" .display_name="${this._getPictureDisplayName(item)}"></gv-identity-picture>`;
   }
 
   _renderStatus (subscriptions) {
@@ -176,10 +228,10 @@ export class GvList extends LitElement {
   _renderItem (item) {
     if (item) {
       return html`
-      <div class="item__image">${this._renderImage(item.picture, item.name, item.suffix)}</div>
+      <div class="item__image">${this._renderImage(item.item)}</div>
       <div class="item__content">
-        <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.name}</h4>
-        <div class="item__description">${item.description}</div>
+        <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.item.name} <span>${this._getVersion(item.item)}</span></h4>
+        <div class="item__description">${item.item.description}</div>
       </div>
       `;
     }
@@ -208,8 +260,17 @@ export class GvList extends LitElement {
           ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}
         </h4>
         <div class="scrollable-container">
-        ${this._items ? repeat(this._items, (item) => item, (item) =>
-      html`<li class="${classMap({ item: true })}">${this._renderItem(item)}</li>`) : ''}
+        ${this._items
+          ? repeat(this._items, (item) => item, (item) => {
+              if (this.clickable) {
+                return html`<li class="${classMap({ item: true, link: true })}" @click="${this._onClick.bind(this, item)}">${this._renderItem(item)}</li>`;
+              }
+              else {
+                return html`<li class="${classMap({ item: true })}">${this._renderItem(item)}</li>`;
+              }
+            })
+          : ''
+        }
         </div>
       </ul>
     `;
