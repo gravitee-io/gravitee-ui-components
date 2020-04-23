@@ -66,69 +66,69 @@ export class GvAutocomplete extends LitElement {
     return [
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              width: 100%;
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-block;
+          width: 100%;
+        }
 
-          ::slotted(*) {
-              width: 100%;
-          }
+        ::slotted(*) {
+          width: 100%;
+        }
 
-          .container {
-              position: relative;
-          }
+        .container {
+          position: relative;
+        }
 
-          .container .options.open {
-              display: block;
-              visibility: visible;
-              opacity: 1;
-              -webkit-transform: -webkit-translateY(0%);
-              transform: translateY(0%);
-              z-index: 100;
-          }
+        .container .options.open {
+          display: block;
+          visibility: visible;
+          opacity: 1;
+          -webkit-transform: -webkit-translateY(0%);
+          transform: translateY(0%);
+          z-index: 100;
+        }
 
-          .options {
-              background-color: var(--gv-autocomplete--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-              color: var(--gv-autocomplete--c, var(--gv-theme-font-color, #262626));
-              margin: 0.2rem;
-              position: absolute;
-              box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-              border-radius: 2px;
-              display: block;
-              width: 100%;
-              cursor: pointer;
-              left: 0;
-              right: 0;
-              visibility: hidden;
-              opacity: 0;
-              -webkit-transform: -webkit-translateY(-2em);
-              transform: translateY(-2em);
-              -webkit-transition: -webkit-transform 150ms ease-in-out, opacity 150ms ease-in-out;
-              -moz-transition: all 150ms ease-in-out;
-              -ms-transition: all 150ms ease-in-out;
-              -o-transition: all 150ms ease-in-out;
-              overflow: auto;
-          }
+        .options {
+          background-color: var(--gv-autocomplete--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          color: var(--gv-autocomplete--c, var(--gv-theme-font-color, #262626));
+          margin: 0.2rem;
+          position: absolute;
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+          border-radius: 2px;
+          display: block;
+          width: 100%;
+          cursor: pointer;
+          left: 0;
+          right: 0;
+          visibility: hidden;
+          opacity: 0;
+          -webkit-transform: -webkit-translateY(-2em);
+          transform: translateY(-2em);
+          -webkit-transition: -webkit-transform 150ms ease-in-out, opacity 150ms ease-in-out;
+          -moz-transition: all 150ms ease-in-out;
+          -ms-transition: all 150ms ease-in-out;
+          -o-transition: all 150ms ease-in-out;
+          overflow: auto;
+        }
 
-          .option {
-              padding: 0.2rem;
-              min-height: 30px;
-              word-break: break-all;
-          }
+        .option {
+          padding: 0.2rem;
+          min-height: 30px;
+          word-break: break-all;
+        }
 
-          .option.match ~ .option.match {
-              background-color: transparent;
-          }
+        .option.match ~ .option.match {
+          background-color: transparent;
+        }
 
-          .option:hover, .option.hover, .keyboard .option.hover:hover {
-              background-color: var(--gv-autocomplete-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-          }
+        .option:hover, .option.hover, .keyboard .option.hover:hover {
+          background-color: var(--gv-autocomplete-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+        }
 
-          .keyboard .option:hover {
-              background-color: transparent;
-          }
+        .keyboard .option:hover {
+          background-color: transparent;
+        }
       `,
     ];
   }
@@ -370,18 +370,23 @@ export class GvAutocomplete extends LitElement {
     };
     this.shadowRoot.addEventListener('input', this._handlers.input);
     this.shadowRoot.addEventListener('keydown', this._handlers.keydown);
-    this._getInput().addEventListener('focus', this._handlers.focus);
-    this._getInput().addEventListener('blur', this._handlers.blur);
-    this._getInput().addEventListener('gv-input:clear', this._handlers.clear);
+    const input = this._getInput();
+    input.addEventListener('focus', this._handlers.focus);
+    input.addEventListener('blur', this._handlers.blur);
+    input.addEventListener('gv-input:clear', this._handlers.clear);
+    if (input.tagName.toLowerCase() === 'gv-input') {
+      input.setAttribute('no-submit', true);
+    }
   }
 
   disconnectedCallback () {
     if (this._handlers) {
       this.shadowRoot.removeEventListener('input', this._handlers.input);
       this.shadowRoot.removeEventListener('keydown', this._handlers.keydown);
-      this._getInput().removeEventListener('focus', this._handlers.focus);
-      this._getInput().removeEventListener('blur', this._handlers.blur);
-      this._getInput().removeEventListener('gv-input:clear', this._handlers.clear);
+      const input = this._getInput();
+      input.removeEventListener('focus', this._handlers.focus);
+      input.removeEventListener('blur', this._handlers.blur);
+      input.removeEventListener('gv-input:clear', this._handlers.clear);
     }
     super.disconnectedCallback();
   }

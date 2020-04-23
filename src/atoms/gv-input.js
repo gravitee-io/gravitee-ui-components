@@ -51,6 +51,7 @@ import { InputElement } from '../mixins/input-element';
  * @attr {String} [autocomplete='off'] - standard autocomplete attribute
  * @attr {Boolean} [clickable=false] - If true, icon has link style
  * @attr {Boolean} [clearable=false] - If true, input can be clear with button
+ * @attr {Boolean} [no-submit=false] - If true, input cannot dispatch submit event on enter key press
  * @attr {String} [pattern=null] - Pattern for input validation. If type is url, default pattern is ^(http|https)://
  *
  * @cssprop {String} [--gv-input--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
@@ -75,6 +76,7 @@ export class GvInput extends InputElement(LitElement) {
       clickable: { type: Boolean },
       clearable: { type: Boolean },
       pattern: { type: String },
+      noSubmit: { type: Boolean, attribute: 'no-submit' },
       _pattern: { type: String, attribute: false },
       _type: { type: String, attribute: false },
     };
@@ -88,43 +90,42 @@ export class GvInput extends InputElement(LitElement) {
       link,
       // language=CSS
       css`
-          .clickable input, .clickable ::slotted(input) {
-              cursor: pointer;
-          }
+        .clickable input, .clickable ::slotted(input) {
+          cursor: pointer;
+        }
 
-          .clickable input:hover, .clickable ::slotted(input:hover) {
-              box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-          }
+        .clickable input:hover, .clickable ::slotted(input:hover) {
+          box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+        }
 
-          .copied input, .copied ::slotted(input) {
-              --gv-icon--c: var(--gv-theme-color, #009B5B);
-          }
+        .copied input, .copied ::slotted(input) {
+          --gv-icon--c: var(--gv-theme-color, #009B5B);
+        }
 
-          .loading input, .loading ::slotted(input) {
-              animation: spinner 1.6s linear infinite;
-          }
+        .loading input, .loading ::slotted(input) {
+          animation: spinner 1.6s linear infinite;
+        }
 
-          gv-icon.loading {
-              background-color: transparent;
-          }
+        gv-icon.loading {
+          background-color: transparent;
+        }
 
-          @keyframes spinner {
-              to {
-                  transform: rotate(360deg);
-              }
+        @keyframes spinner {
+          to {
+            transform: rotate(360deg);
           }
+        }
 
-          .clipboard input:read-only,
-          .clipboard input:-moz-read-only, 
-          .clipboard ::slotted(input:read-only),
-          .clipboard ::slotted(input:-moz-read-only)
-          {
-              cursor: copy;
-          }
+        .clipboard input:read-only,
+        .clipboard input:-moz-read-only,
+        .clipboard ::slotted(input:read-only),
+        .clipboard ::slotted(input:-moz-read-only) {
+          cursor: copy;
+        }
 
-          .clipboard input:read-only:hover, .clipboard ::slotted(input:read-only:hover) {
-              cursor: not-allowed;
-          }
+        .clipboard input:read-only:hover, .clipboard ::slotted(input:read-only:hover) {
+          cursor: not-allowed;
+        }
 
 
       `,
@@ -161,6 +162,7 @@ export class GvInput extends InputElement(LitElement) {
     this._showPassword = false;
     this.value = '';
     this.autocomplete = 'off';
+    this.noSubmit = false;
   }
 
   reset () {
@@ -291,7 +293,7 @@ export class GvInput extends InputElement(LitElement) {
   }
 
   _onKeyUp (e) {
-    if (e.keyCode === 13) {
+    if (!this.noSubmit && e.keyCode === 13) {
       // this.updateState();
       const form = this.closest('form');
       if (form) {
