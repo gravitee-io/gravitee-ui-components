@@ -34,6 +34,7 @@ const mockVal = (str, repeat = 1) => ({
 
 const conf = {
   component: 'gv-autocomplete',
+  events: ['gv-input:submit'],
   css: `
     :host {
       height: 175px;
