@@ -108,8 +108,8 @@ export class GvRatingList extends LitElement {
 
           gv-identity-picture {
               margin: 0 1rem;
-              vertical-align: middle;
-              width: 40px;
+              height: 60px;
+              width: 60px;
           }
 
           .title {
@@ -288,7 +288,7 @@ export class GvRatingList extends LitElement {
 
     return html`
       <div class="${classMap(classes)}">
-        <gv-identity-picture .display_name="${displayName}" .picture="${picture}"></gv-identity-picture>
+        <gv-identity-picture rounded .display_name="${displayName}" .picture="${picture}"></gv-identity-picture>
         <div class="rating-content">
             <div class="title"><b>${data.title ? data.title : data.author.display_name}</b>${parent ? '' : html`<gv-rating .readonly="${!this._canUpdate(data.id)}"
 @input="${this._onUpdateRating.bind(this, data)}" value="${data.value}"></gv-rating>`}${this._renderActions(data, parent)}</div>

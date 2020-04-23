@@ -39,6 +39,7 @@ export class GvIdentityPicture extends LitElement {
       _error: { type: Boolean, attribute: false },
       notification: { type: Boolean },
       rounded: { type: Boolean, reflect: true },
+      skeleton: { type: Boolean },
     };
   }
 
@@ -47,34 +48,41 @@ export class GvIdentityPicture extends LitElement {
       skeleton,
       // language=CSS
       css`
-          :host {
-              display: block;
-              position: relative;
-          }
+        :host {
+          display: block;
+          position: relative;
+        }
 
-          div {
-              text-align: center;
-          }
+        div {
+          text-align: center;
+        }
 
-          gv-image, svg {
-              width: 100%;
-              height: 100%;
-              --gv-image--of: contain;
-          }
+        svg, .skeleton {
+          width: auto;
+          height: auto;
+          max-width: 100%;
+          max-height: 100%;
+        }
 
-          :host([rounded]) gv-image, :host([rounded]) svg {
-              border-radius: 50%;
-              --gv-image--of: cover;
-          }
+        gv-image {
+          width: 100%;
+          height: 100%;
+          --gv-image--of: contain;
+        }
+        
+        :host([rounded]) gv-image, :host([rounded]) svg {
+          border-radius: 50%;
+          --gv-image--of: cover;
+        }
 
-          .notification {
-              position: absolute;
-              width: 8px;
-              height: 8px;
-              background-clip: padding-box;
-              border-radius: 50%;
-              background-color: var(--gv-identity-picture-notification--bgc, var(--gv-theme-color, #009B5B));
-          }
+        .notification {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background-clip: padding-box;
+          border-radius: 50%;
+          background-color: var(--gv-identity-picture-notification--bgc, var(--gv-theme-color, #009B5B));
+        }
       `,
     ];
   }
@@ -100,6 +108,9 @@ export class GvIdentityPicture extends LitElement {
     if (this._error && width && height) {
       const size = this._getMaxSize(width, height);
       const container = document.createElement('div');
+      if (this.skeleton) {
+        container.classList.add('skeleton');
+      }
       container.title = this.display_name;
       container.innerHTML = jdenticon.toSvg(this.display_name, size, { backColor: '#FFF' });
       if (this.notification) {

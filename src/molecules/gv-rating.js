@@ -64,7 +64,7 @@ export class GvRating extends LitElement {
         .content, .rate {
           justify-content: space-evenly;
           display: inline-flex;
-          align-items: center;
+          align-items: flex-end;
           vertical-align: middle;
         }
 

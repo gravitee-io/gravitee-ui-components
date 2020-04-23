@@ -118,7 +118,10 @@ export function ItemResource (ParentClass) {
 
     _renderImage () {
       if (!this._empty) {
-        return html`<gv-identity-picture .display_name="${this._getPictureDisplayName()}" .picture="${this._picture}" @load="${this._onImageLoaded}"></gv-identity-picture>`;
+        return html`<gv-identity-picture .skeleton="${this._skeleton}" 
+                                         .display_name="${this._getPictureDisplayName()}" 
+                                         .picture="${this._picture}" 
+                                         @load="${this._onImageLoaded}"></gv-identity-picture>`;
       }
       return '';
     }
