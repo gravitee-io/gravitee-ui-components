@@ -31,11 +31,11 @@ const conf = {
 
 const options = [
   { id: 'sun', title: 'Sun glasses', icon: 'clothers:sun-glasses' },
-  { id: 'cap', title: 'Cap', icon: 'clothers:cap', active: true },
+  { id: 'cap', title: 'Cap', icon: 'clothers:cap' },
   { id: 'shorts', title: 'Shorts', icon: 'clothers:shorts' },
 ];
 export const basics = makeStory(conf, {
-  items: [{ options }],
+  items: [{ options, value: 'cap' }],
 });
 
 const description
@@ -47,19 +47,23 @@ export const Description = makeStory(conf, {
 
 export const Multiple = makeStory(conf, {
   items: [{
-    options: options.map((p, i) => (Promise.resolve({ ...p, description: description, active: i % 2 === 0 }))),
+    options: options.map((p, i) => (Promise.resolve({ ...p, description: description }))),
+    value: ['cap', 'shorts'],
     multiple: true,
   }],
 });
 
 const withoutIconOptions = [
   { id: 'sun', title: 'Sun glasses' },
-  { id: 'cap', title: 'Cap', active: true },
+  { id: 'cap', title: 'Cap' },
   { id: 'shorts', title: 'Shorts' },
 ];
 
 export const NoIcon = makeStory(conf, {
-  items: [{ options: withoutIconOptions.map((p) => (Promise.resolve({ ...p, description: description }))) }],
+  items: [{
+    options: withoutIconOptions.map((p) => (Promise.resolve({ ...p, description: description }))),
+    value: 'cap',
+  }],
 });
 
 const times = [

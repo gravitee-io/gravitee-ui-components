@@ -52,7 +52,7 @@ import { InputElement } from '../mixins/input-element';
  * @attr {String} [autocomplete='off'] - standard autocomplete attribute
  * @attr {Boolean} [clickable=false] - If true, icon has link style
  * @attr {Boolean} [clearable=false] - If true, input can be clear with button
- * @attr {Boolean} [no-submit=false] - If true, input cannot dispatch submit event on enter key press
+ * @attr {Boolean} [no-submit=false] - If true, input cannot dispatch native submit event on enter key press to closest form
  * @attr {String} [pattern=null] - Pattern for input validation. If type is url, default pattern is ^(http|https)://
  *
  * @cssprop {String} [--gv-input--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
@@ -317,10 +317,12 @@ export class GvInput extends InputElement(LitElement) {
   }
 
   _onKeyUp (e) {
-    if (!this.noSubmit && e.keyCode === 13) {
-      const form = this.closest('form');
-      if (form) {
-        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    if (e.keyCode === 13) {
+      if (!this.noSubmit) {
+        const form = this.closest('form');
+        if (form) {
+          form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        }
       }
       dispatchCustomEvent(this, 'submit', this.value);
     }

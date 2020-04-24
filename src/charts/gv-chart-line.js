@@ -19,6 +19,7 @@ import '../atoms/gv-tag';
 import Highcharts from 'highcharts';
 import { ChartElement } from '../mixins/chart-element';
 import { dispatchCustomEvent } from '../lib/events';
+import { getLanguage } from '../lib/i18n';
 
 /**
  * Line chart component
@@ -75,7 +76,7 @@ export class GvChartLine extends ChartElement(LitElement) {
       tooltip: {
         formatter: function () {
           const nbCol = Math.trunc(this.points.filter((p) => p.y).length / 10);
-          let s = '<div><b>' + Highcharts.dateFormat('%A, %b %d, %H:%M', this.x) + '</b></div>';
+          let s = '<div><b>' + new Date(this.x).toLocaleString(getLanguage()) + '</b></div>';
           s += '<div class="' + ((nbCol >= 2) ? 'tooltip tooltip-' + (nbCol > 5 ? 5 : nbCol) : '') + '">';
           if (this.points.filter((point) => {
             return point.y !== 0;

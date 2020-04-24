@@ -163,7 +163,7 @@ export function ChartElement (ParentClass) {
             title: {
               text: '',
             },
-            global: {
+            time: {
               useUTC: false,
             },
           },
