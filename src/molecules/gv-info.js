@@ -148,7 +148,8 @@ export class GvInfo extends ItemResource(LitElement) {
         }
 
         gv-metrics {
-          margin-top: 10px;
+          display: grid;
+          grid-gap: 0.5rem;
         }
 
         gv-tag:hover {

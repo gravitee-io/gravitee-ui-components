@@ -78,7 +78,7 @@ export class GvCardFull extends ItemResource(LitElement) {
           color: var(--gv-theme-font-color-dark, #262626);
           padding: 16px;
           box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-          transition: all .3s;
+          transition: transform .3s;
         }
 
         .card:hover {
@@ -132,18 +132,20 @@ export class GvCardFull extends ItemResource(LitElement) {
 
         .infos {
           display: flex;
-          justify-content: space-evenly;
           border-bottom: 1px solid var(--gv-theme-neutral-color-dark, #D9D9D9);
-          padding: 8px;
-          margin: 8px;
+          padding: 0.5rem 0;
+          justify-content: flex-end;
+        }
+        
+        gv-metrics {
+          display: flex;
+          height: 100%;
+          justify-content: flex-end;
+          align-items: stretch;
         }
 
         .skeleton .infos {
           border-bottom: none;
-        }
-
-        .info {
-          flex: 1 1 0%;
         }
 
         .labels {
@@ -162,26 +164,6 @@ export class GvCardFull extends ItemResource(LitElement) {
   constructor () {
     super();
     this.limit = 150;
-  }
-
-  _renderInfoRating () {
-    const rating = this._getRating();
-    if (rating && rating.count) {
-      return html`<gv-rating readonly .skeleton="${this._skeleton}" .value="${rating.average}" .count="${rating.count}"></gv-rating>`;
-    }
-    return html`<div class="info"></div>`;
-  }
-
-  _renderMetrics () {
-    if (this.metrics) {
-      const container = document.createElement('gv-metrics');
-      container.metrics = this.metrics;
-      container.className = 'info';
-      return container;
-    }
-    else {
-      return html`<div class="info"></div>`;
-    }
   }
 
   _onClick () {
@@ -208,9 +190,9 @@ export class GvCardFull extends ItemResource(LitElement) {
         </div>
         <span class="${classMap({ skeleton: this._skeleton })}">
           <div class="infos">
-            ${this._renderMetrics()}
-            ${this._renderInfoRating()}
+            ${this._renderMetricsWithRating()}
           </div>
+          
           <div class="labels">
             ${this._renderLabels()}
           </div>

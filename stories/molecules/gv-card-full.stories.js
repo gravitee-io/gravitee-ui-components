@@ -28,7 +28,6 @@ const version = 'v.1.1';
 const states = [{ value: 'beta' }, { value: 'running', major: true }];
 const ratingSummary = { average: 3.4, count: 124 };
 const labels = ['APIDays', 'December', 'Foobar'];
-const apiMetrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
 const applicationMetrics = Promise.resolve({ subscribers: '3' });
 const api = Promise.resolve({
   name,
@@ -59,7 +58,9 @@ const conf = {
 
 const apiItems = [
   { item: api },
-  { item: api, metrics: apiMetrics },
+  { item: api, metrics: { hits: '11M+' } },
+  { item: api, metrics: { hits: '11M+', subscribers: '689' } },
+  { item: api, metrics: { hits: '11M+', subscribers: '689', health: '0.95' } },
   {
     item: {
       name: 'Long Supernova with empty description',
@@ -91,7 +92,7 @@ export const loading = makeStory(conf, {
   simulations: [
     storyWait(2000, ([component]) => {
       component.item = api;
-      component.metrics = apiMetrics;
+      component.metrics = { hits: '11M+', subscribers: '689', health: '0.95' };
     }),
   ],
 });

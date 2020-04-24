@@ -59,11 +59,31 @@ export const withLargeImage = makeStory(conf, {
 });
 
 export const withMetrics = makeStory(conf, {
-  items: [{ item: { name, description, version, _links: { picture } }, metrics }],
+  items: [
+    { item: { name, description, version, _links: { picture } }, metrics: { hits: '11M+' } },
+    { item: { name, description, version, _links: { picture } }, metrics: { hits: '11M+', subscribers: '689' } },
+    {
+      item: { name, description, version, _links: { picture } },
+      metrics: { hits: '11M+', subscribers: '689', health: '0.95' },
+    },
+  ],
 });
 
 export const withRating = makeStory(conf, {
-  items: [{ item: { name, description, version, _links: { picture }, rating_summary: ratingSummary }, metrics }],
+  items: [
+    {
+      item: { name, description, version, _links: { picture }, rating_summary: ratingSummary },
+      metrics: { hits: '11M+' },
+    },
+    {
+      item: { name, description, version, _links: { picture }, rating_summary: ratingSummary },
+      metrics: { hits: '11M+', subscribers: '689' },
+    },
+    {
+      item: { name, description, version, _links: { picture }, rating_summary: ratingSummary },
+      metrics: { hits: '11M+', subscribers: '689', health: '0.95' },
+    },
+  ],
 });
 
 export const withLabels = makeStory(conf, {

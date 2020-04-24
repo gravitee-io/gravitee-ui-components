@@ -44,33 +44,46 @@ export class GvMetric extends LitElement {
     return [
       // language=CSS
       css`
-          .metric {
-              --gv-icon--s: var(--gv-metric-icon--s, 24px);
-              --gv-icon--c: var(--gv-metric--c, var(--gv-theme-color, #009B5B));
-              display: inline-flex;
-              min-width: 75px;
-          }
+        
+        :host {
+          box-sizing: border-box;
+        }
+        
+        .metric {
+          --gv-icon--s: var(--gv-metric-icon--s, 24px);
+          --gv-icon--c: var(--gv-metric--c, var(--gv-theme-color, #009B5B));
+          min-width: 75px;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+        }
 
-          .icon {
-              align-self: center;
-              margin-right: 4px;
-          }
+        .icon {
+          align-self: center;
+          margin-right: 4px;
+        }
 
-          div {
-              display: block;
-          }
+        div {
+          display: block;
+        }
 
-          .metric-value {
-              font-size: var(--gv-theme-font-size-m, 14px);
-              line-height: var(--gv-theme-font-size-m, 14px);
-              align-self: center;
-          }
+        .metric-data {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+        }
 
-          .metric-name {
-              font-size: var(--gv-theme-font-size-xs, 10px);
-              line-height: var(--gv-theme-font-size-xs, 10px);
-              opacity: 0.5;
-          }
+        .metric-value {
+          font-size: var(--gv-theme-font-size-m, 14px);
+          line-height: var(--gv-theme-font-size-m, 14px);
+        }
+
+        .metric-name {
+          font-size: var(--gv-theme-font-size-xs, 10px);
+          line-height: var(--gv-theme-font-size-xs, 10px);
+          opacity: 0.5;
+        }
       `,
       skeleton,
     ];
@@ -86,17 +99,17 @@ export class GvMetric extends LitElement {
     return html`
       <div class=${classMap(modes)}>
         ${this.value
-          ? html`
+      ? html`
             <div class="icon">
               <gv-icon shape="${this.icon}"></gv-icon>
             </div>
-            <div>
+            <div class="metric-data">
               <div class="metric-value">${this.value}</div>
               <div class="metric-name">${this.name}</div>
             </div>
             `
-          : ''
-        }
+      : ''
+    }
       </div>
     `;
   }
