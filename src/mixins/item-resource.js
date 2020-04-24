@@ -151,20 +151,22 @@ export function ItemResource (ParentClass) {
     }
 
     _renderMetricsWithRating () {
-      const rendered = [];
       if (this.metrics) {
-        rendered.push(html`<gv-metrics .metrics="${this.metrics}">`);
+        return html`
+        <gv-metrics .metrics="${this.metrics}">
+          ${this._renderInfoRating()}
+        </gv-metrics>
+      
+      `;
       }
-      const rating = this._getRating();
-      if (rating) {
-        rendered.push(html`<gv-rating readonly .skeleton="${this._skeleton}" .value="${rating.average}" .count="${rating.count}"></gv-rating>`);
+      else {
+        return this._renderInfoRating();
       }
-      return rendered;
     }
 
     _renderInfoRating () {
       const rating = this._getRating();
-      if (rating) {
+      if (rating && rating.count) {
         return html`<gv-rating readonly .skeleton="${this._skeleton}" .value="${rating.average}" .count="${rating.count}"></gv-rating>`;
       }
       return '';

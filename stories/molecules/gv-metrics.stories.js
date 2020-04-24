@@ -28,9 +28,13 @@ export default {
 const conf = {
   component: 'gv-metrics',
   css: `
+    :host {
+      max-width: 500px;
+    }
     gv-metrics {
-      display: block;
-      margin-bottom: 1rem;
+      display: flex;
+      height: 100%;
+      justify-content: space-evenly;
     }
   `,
 };
@@ -46,6 +50,10 @@ export const basics = makeStory(conf, {
   items,
 });
 
+export const basicsWithRating = makeStory(conf, {
+  items: items.map((item) => ({ ...item, innerHTML: '<gv-rating value="3.3" count="345"></gv-rating>' })),
+});
+
 export const basicsSmallMetrics = makeStory(conf, {
   items: [{ metrics: smallMetrics }],
 });
@@ -55,7 +63,7 @@ export const empty = makeStory(conf, {
 });
 
 export const loading = makeStory(conf, {
-  items: [{ metrics: '' }],
+  items: [{ metrics: null }],
   simulations: [
     storyWait(2000, ([component]) => {
       component.metrics = metrics;
@@ -64,7 +72,7 @@ export const loading = makeStory(conf, {
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ metrics: '' }],
+  items: [{ metrics: null }],
   simulations: [
     storyWait(2000, ([component]) => {
       component.metrics = Promise.reject(new Error());

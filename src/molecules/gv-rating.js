@@ -66,6 +66,7 @@ export class GvRating extends LitElement {
           display: inline-flex;
           align-items: flex-end;
           vertical-align: middle;
+          height: 100%;
         }
 
         .info-title {

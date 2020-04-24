@@ -16,7 +16,6 @@
 import { css, LitElement, html } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import '../atoms/gv-metric';
-import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
 
 /**
@@ -31,7 +30,7 @@ export class GvMetrics extends LitElement {
     return {
       metrics: { type: Object },
       _metrics: { type: Object, attribute: false },
-      _skeleton: { type: Boolean, attribute: false },
+      skeleton: { type: Boolean, reflect: true },
       _error: { type: Boolean, attribute: false },
     };
   }
@@ -40,12 +39,17 @@ export class GvMetrics extends LitElement {
     return [
       // language=CSS
       css`
-        .metrics {
-          display: flex;
+        :host {
+          box-sizing: border-box;
+          margin: 0.2rem;
+          width: 100%;
+          height: 100%;
+          min-height: 25px;
+          min-width: 25px;
         }
-
-        .metrics > * {
-          flex: 1;
+        
+        * {
+          flex: 1 1 auto;
         }
       `,
       skeleton,
@@ -58,16 +62,17 @@ export class GvMetrics extends LitElement {
   }
 
   set metrics (metrics) {
-    this._skeleton = true;
+    this.skeleton = true;
     Promise.resolve(metrics)
       .then((metrics) => {
         if (metrics) {
-          this._skeleton = false;
+          this.skeleton = false;
           this._metrics = metrics;
         }
-      }).catch(() => {
+      })
+      .catch(() => {
         this._error = true;
-        this._skeleton = false;
+        this.skeleton = false;
       });
   }
 
@@ -105,17 +110,11 @@ export class GvMetrics extends LitElement {
   }
 
   render () {
-    const modes = {
-      skeleton: this._skeleton,
-      metrics: true,
-    };
-
     return html`
-      <div class=${classMap(modes)}>
         ${this._renderMetric('communication:group', i18n('gv-metrics.subscribers', { count: this._getSubscribers() }), this._getSubscribers())}
         ${this._renderMetric('general:cursor', i18n('gv-metrics.hits', { count: this._getHits() }), this._getHits())}
         ${this._renderMetric('general:heart', i18n('gv-metrics.health'), this._getHealth())}
-      </div>
+        <slot></slot>
     `;
   }
 

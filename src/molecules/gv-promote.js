@@ -97,11 +97,10 @@ export class GvPromote extends ItemResource(LitElement) {
           font-size: var(--gv-theme-font-size-s, 12px);
           color: var(--gv-theme-neutral-color-dark, #D9D9D9);
         }
-
-
+        
         .content {
           flex: 1;
-          padding: 50px 70px;
+          padding: 1.5rem;
           background-color: var(--gv-promote--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
           color: var(--gv-theme-font-color-dark, #262626);
           font-size: var(--gv-theme-font-size-l, 16px);
@@ -123,8 +122,11 @@ export class GvPromote extends ItemResource(LitElement) {
           align-items: center;  
         }
 
-        .infos gv-metrics {
-            flex: 1;
+        gv-metrics {
+          display: flex;
+          height: 100%;
+          justify-content: flex-end;
+          align-items: stretch;
         }
 
         .labels {

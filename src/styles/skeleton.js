@@ -25,7 +25,7 @@ export const skeleton = css`
       opacity: 0.45;
     }
   }
-  .skeleton {
+  .skeleton, :host([skeleton]) {
     animation-direction: alternate;
     animation-duration: 500ms;
     animation-iteration-count: infinite;
@@ -38,10 +38,12 @@ export const skeleton = css`
     user-select: none;
     background-color: var(--gv-theme-skeleton-color, #BFBFBF) !important;
     border-color: var(--gv-theme-skeleton-color, #BFBFBF);
-    transition: 0.5s;
   }
 
-  .skeleton svg, .skeleton gv-icon{
+  .skeleton svg,
+  :host([skeleton]) svg,
+  :host([skeleton]) gv-icon,
+  .skeleton gv-icon{
       visibility: hidden;
   }
 `;
