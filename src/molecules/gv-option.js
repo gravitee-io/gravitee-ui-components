@@ -24,7 +24,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * Option component
  *
  * @attr {Array<{id, title, icon, active?, description?}>} options - An array of options.
- * @attr {String|Array} value - Selected value, array with multiple option.
+ * @attr {String|Array} value - Selected value id, array with multiple option ids.
  * @attr {Boolean} multiple - If true, can choose several option
  * @attr {Boolean} reverse - If true, title and description are reversed.
  *
@@ -40,6 +40,7 @@ export class GvOption extends LitElement {
     return {
       options: { type: Array },
       _options: { type: Array, attribute: false },
+      _hasDescription: { type: Array, attribute: false },
       value: { type: String, reflect: true },
       multiple: { type: Boolean },
       reverse: { type: Boolean },
@@ -50,67 +51,68 @@ export class GvOption extends LitElement {
     return [
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              --gv-button--p: var(--gv-option-button--p, 5px);
-              margin: 0.2rem;
-              --bdrs: var(--gv-option--bdrs, 0.15rem);
-              --maw: var(--gv-option-button--maw, 200px);
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-block;
+          --gv-button--p: var(--gv-option-button--p, 5px);
+          margin: 0.2rem;
+          --bdrs: var(--gv-option--bdrs, 0.15rem);
+          --maw: var(--gv-option-button--maw, 200px);
+        }
 
-          .box.description {
-              display: flex;
-              margin: -0.5rem;
-              flex-wrap: var(--gv-option--fxw, none);
-              justify-content: space-around;
-          }
-          
-          gv-button {
-              margin: 0;
-          }
-          
-          gv-button.description {
-              flex: 1 1 var(--maw);
-              max-width: var(--maw);
-          }
+        .box.description {
+          display: flex;
+          margin: -0.5rem;
+          flex-wrap: var(--gv-option--fxw, none);
+          justify-content: space-around;
+        }
 
-          gv-button:not(.description) {
-              margin: 0;
-              --gv-button--bdrs: 0;
-              --gv-button--bgc: var(--gv-option--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
-          }
+        gv-button {
+          margin: 0;
+        }
 
-          gv-button:not(.description).entry {
-              --gv-button--bdrs: var(--bdrs) 0 0 var(--bdrs);
-          }
+        gv-button.description {
+          flex: 1 1 var(--maw);
+          max-width: var(--maw);
+        }
 
-          gv-button:not(.description).exit {
-              --gv-button--bdrs: 0 var(--bdrs) var(--bdrs) 0;
-          }
-          
-          .content {
-              white-space: pre-line;
-              --gv-icon--s: 64px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              height: 100%;
-              text-transform: none;
-          }
-          .reverse .content {
-              flex-direction: column-reverse;
-          }
-          
-          .title {
-              font-size: var(--gv-theme-font-size-l, 18px);
-              font-weight: bold;
-              margin: 0.5rem 0;
-          }
+        gv-button:not(.description) {
+          margin: 0;
+          --gv-button--bdrs: 0;
+          --gv-button--bgc: var(--gv-option--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
+        }
 
-          gv-button.description {
-              margin: 0.5rem;
-          }
+        gv-button:not(.description).entry {
+          --gv-button--bdrs: var(--bdrs) 0 0 var(--bdrs);
+        }
+
+        gv-button:not(.description).exit {
+          --gv-button--bdrs: 0 var(--bdrs) var(--bdrs) 0;
+        }
+
+        .content {
+          white-space: pre-line;
+          --gv-icon--s: 64px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 100%;
+          text-transform: none;
+        }
+
+        .reverse .content {
+          flex-direction: column-reverse;
+        }
+
+        .title {
+          font-size: var(--gv-theme-font-size-l, 18px);
+          font-weight: bold;
+          margin: 0.5rem 0;
+        }
+
+        gv-button.description {
+          margin: 0.5rem;
+        }
       `,
     ];
   }
@@ -122,22 +124,7 @@ export class GvOption extends LitElement {
   }
 
   _onClick (option) {
-    if (this.multiple === true) {
-      this._options = this._options.map((opt) => {
-        if (opt.id === option.id) {
-          opt.active = !opt.active;
-        }
-        return opt;
-      });
-      this.setValue(this._options.filter((opt) => opt.active));
-    }
-    else {
-      this._options = this._options.map((opt) => {
-        opt.active = opt.id === option.id;
-        return opt;
-      });
-      this.setValue(option);
-    }
+    this.setValue(option);
     dispatchCustomEvent(this, 'select', option);
     this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
   }
@@ -149,7 +136,19 @@ export class GvOption extends LitElement {
 
   setValue (option) {
     if (option) {
-      this.value = option.id;
+      if (this.multiple) {
+        if (this.value.includes(option.id)) {
+          this.value = this.value.filter((optId) => {
+            return optId !== option.id;
+          });
+        }
+        else {
+          this.value = [...this.value, option.id];
+        }
+      }
+      else {
+        this.value = option.id;
+      }
     }
   }
 
@@ -157,42 +156,58 @@ export class GvOption extends LitElement {
     if (options) {
       Promise.all(options).then((_options) => {
         this._options = _options;
-        this.setValue(this._options.find((option) => option.active));
+        this._hasDescription = this._options.find((opt) => opt.description != null) != null;
       });
     }
   }
 
-  render () {
-    if (this._options) {
+  isActive (option) {
+    if (this.value) {
+      if (this.multiple) {
+        return this.value.includes(option.id);
+      }
+      else {
+        return this.value === option.id;
+      }
+    }
+    return false;
+  }
 
-      const hasDescription = this._options.find((opt) => opt.description != null) != null;
-      const classes = {
-        box: true,
-        description: hasDescription,
-        reverse: this.reverse,
-      };
-      return html`<div class="${classMap(classes)}">${repeat(this._options, (option) => option, (option, index) =>
-        html`<gv-button 
-            .icon=${ifDefined(!hasDescription ? option.icon : null)} 
+  _renderOption (option, index) {
+    const isActive = this.isActive(option);
+    return html`<gv-button 
+            .icon=${ifDefined(!this._hasDescription ? option.icon : null)} 
             .title="${ifDefined(option.title)}"
-            .primary="${option.active}"
+            .primary="${isActive}"
             .disabled="${option.disabled}"
             @click="${this._onClick.bind(this, option)}"
-            .outlined="${!option.active && hasDescription}"
+            .outlined="${!isActive && this._hasDescription}"
             class="${classMap({
-          active: option.active,
-          entry: index === 0,
-          exit: (index === this._options.length - 1),
-          description: option.description != null,
-        })}">
-        ${!hasDescription ? ''
-          : html`<div class="content">
+      active: isActive,
+      entry: index === 0,
+      exit: (index === this._options.length - 1),
+      description: option.description != null,
+    })}">
+        ${!this._hasDescription ? ''
+      : html`<div class="content">
             ${option.icon ? html`<gv-icon shape="${option.icon}"></gv-icon>` : ''}
             <div class="title">${option.title}</div>
             <div class="description-content" .innerHTML="${option.description}"></div>
             
 </div>`}
-</gv-button>`,
+</gv-button>`;
+  }
+
+  render () {
+    if (this._options) {
+      const classes = {
+        box: true,
+        description: this._hasDescription,
+        reverse: this.reverse,
+      };
+      return html`<div class="${classMap(classes)}">
+${repeat(this._options, (option) => option, (option, index) =>
+        html`${this._renderOption(option, index)}`,
       )}</div>`;
     }
     return html``;

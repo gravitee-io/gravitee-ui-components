@@ -583,7 +583,7 @@ export class GvDatePicker extends LitElement {
 
     if (this.range) {
       this.value = [this._from * 1000, this._to * 1000];
-      this.invalid = isInvalid(this._to, this._min, this._max, !this.time) || isInvalid(this._from, this._min, this._max, !this.time);
+      this.invalid = isInvalid(this._to, this._min, this._max, !this.time) || isInvalid(this._from, this._min, this._max, !this.time) || this._to === this._form;
     }
     else {
       this.value = this._from * 1000;
