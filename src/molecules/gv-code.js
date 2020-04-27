@@ -25,6 +25,7 @@ import copy from 'clipboard-copy';
  * Code wrapper component
  *
  * @attr {String} lang - code language
+ * @attr {String} content - code content to be highlighted
  *
  * @cssprop {String} [--gv-code--ff=Operator Mono, Inconsolata, Roboto Mono, monaco, consolas, monospace] - Font family
  * @cssprop {Length} [--gv-code--fz=var(--gv-theme-font-size-m, 14px)] - Font size
@@ -48,6 +49,7 @@ export class GvCode extends LitElement {
   static get properties () {
     return {
       lang: { type: String },
+      content: { type: String },
       _shape: { type: String, attribute: false },
     };
   }
@@ -182,25 +184,20 @@ export class GvCode extends LitElement {
     codeClasses[this.lang] = true;
     const classes = { copied: GvCode.shapeCopied === this._shape };
     return html`<pre class="${classMap(classes)}">
-        <code class="${classMap(codeClasses)}"><slot></slot></code>
+        <code class="${classMap(codeClasses)}"></code>
         <gv-icon @click="${this._onCopy}" title="${i18n('gv-code.copy')}" shape="${this._shape}" class="link"></gv-icon>
         </pre>`;
   }
 
-  async firstUpdated (changedProperties) {
-    if (this.lang !== 'html') {
-      const language = await import(`highlight.js/lib/languages/${this.lang}`);
+  async updated (changedProperties) {
+    if (changedProperties.has('lang')) {
+      const language = await import(`highlight.js/lib/languages/${this.lang === 'html' ? 'htmlbars' : this.lang}.js`);
       hljs.registerLanguage(this.lang, language.default);
     }
-    const highlights = [];
-    const contents = [];
-    for (const node of this.childNodes) {
-      const content = node.outerHTML || node.textContent;
-      contents.push(content);
-      highlights.push(hljs.highlight(this.lang, content).value);
+
+    if (changedProperties.has('content') && this.content) {
+      this.shadowRoot.querySelector('code').innerHTML = hljs.highlight(this.lang, this.content).value;
     }
-    this._code = contents.join('').trim();
-    this.shadowRoot.querySelector('code').innerHTML = highlights.join('');
   }
 
 }

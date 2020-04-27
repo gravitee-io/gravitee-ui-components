@@ -32,7 +32,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} message - the message
  *
  * @cssprop {Color} [--gv-confirm--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
- * @cssprop {Length} [--gv-confirm--maw=250px] - Max width
+ * @cssprop {Length} [--gv-confirm--maw=350px] - Max width
  */
 export class GvConfirm extends GvPopover {
 
@@ -67,7 +67,7 @@ export class GvConfirm extends GvPopover {
 
           .popover {
               --bgc: var(--gv-confirm--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-              --maw: var(--gv-confirm--maw, 250px);
+              --maw: var(--gv-confirm--maw, 350px);
           }
 
           .message {
@@ -89,6 +89,10 @@ export class GvConfirm extends GvPopover {
           .actions {
               text-align: right;
           }
+        
+        ::slotted(*) {
+          width: 100%;
+        }
       `,
     ];
   }

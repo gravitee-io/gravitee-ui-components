@@ -47,7 +47,7 @@ const conf = {
 };
 
 export const withDefaultImage = makeStory(conf, {
-  items: [{ item: { name, description, version } }],
+  items: [{ item: { name, description, version }, href: 'https://gravitee.io' }],
 });
 
 export const withImage = makeStory(conf, {

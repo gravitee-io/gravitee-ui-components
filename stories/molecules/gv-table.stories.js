@@ -77,9 +77,10 @@ const apiOptions = {
     { field: 'name', label: 'Name', tag: 'version' },
     { field: 'description', label: 'Description' },
     { field: 'owner.display_name', label: 'Owner' },
-    { icon: (item) => (item.public ? '' : 'general:lock') },
+    { type: 'icon', icon: (item) => (item.public ? '' : 'general:lock') },
     {
-      icon: (item) => (item.running ? 'design:circle' : ''),
+      type: 'icon',
+      icon: 'design:circle',
       style: (item) => (item.running ? '--gv-icon--c: #009B5B' : '--gv-icon--c: #FF7875'),
     },
   ],
