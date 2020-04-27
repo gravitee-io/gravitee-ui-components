@@ -35,7 +35,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {Boolean} disabled - same as native select element `disabled` attribute
  * @attr {Boolean} required - same as native select element `required` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
- * @attr {String} options - the options of the select
+ * @attr {Array} options - the options of the select
  * @attr {String | Array} value - the value of the select
  * @attr {String} label - label of the select
  * @attr {String} title - title of the select
