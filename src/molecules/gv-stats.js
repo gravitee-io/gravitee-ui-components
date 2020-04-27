@@ -96,6 +96,9 @@ export class GvStats extends LitElement {
       return '<div></div>';
     }
     let value = Math.round(this._stats[option.key]);
+    if (isNaN(value)) {
+      value = 0;
+    }
     if (value === 0 && option.fallback) {
       const fallback = option.fallback.find((fallback) => Math.round(this._stats[fallback.key]) > 0);
       if (fallback) {

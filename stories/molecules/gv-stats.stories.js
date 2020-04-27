@@ -82,6 +82,19 @@ export const WithFallback = makeStory(conf, {
   items: [{ stats: statsWithFallback, options }],
 });
 
+export const BasicsNoRPX = makeStory(conf, {
+  items: [{
+    stats: {
+      count: 6,
+      min: 1,
+      max: 125,
+      avg: 32.166668,
+      sum: 193,
+    },
+    options,
+  }],
+});
+
 export const Empty = makeStory(conf, {
   items: [{ stats: [], options }],
 });

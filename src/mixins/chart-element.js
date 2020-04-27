@@ -119,7 +119,10 @@ export function ChartElement (ParentClass) {
       Promise.resolve(series)
         .then((series) => {
           if (series) {
-            this._empty = (series && Object.keys(series).length === 0) || (series.values && Object.keys(series.values).length === 0);
+            this._empty = (series && Object.keys(series).length === 0)
+              || (series.values && Object.keys(series.values).length === 0)
+              || (series.values && !Object.values(series.values).find((v) => v !== 0))
+              || (series.values && series.values[0] && series.values[0].buckets.length === 0);
             this._series = series;
             this.getOptions().then((options) => {
               this._additionalOptions = options;
