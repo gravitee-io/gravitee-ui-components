@@ -81,11 +81,20 @@ export class GvCategory extends LitElement {
         }
 
         .box {
-            display: flex;
+          display: flex;
         }
+        
         .title {
-            flex: 1;
-            align-self: center;
+          flex: 1;
+          align-self: center;
+        }
+
+        .title span{
+          font-size: var(--gv-theme-font-size-s);
+          font-weight: 600;
+          line-height: var(--gv-theme-font-size-s);
+          margin-left: 8px;
+          opacity: 0.7;
         }
 
         gv-identity-picture {
@@ -169,7 +178,7 @@ export class GvCategory extends LitElement {
         <div class="box">
         <gv-identity-picture display_name="${this._get('name')}" 
             picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture>
-             <div class="title">${this._get('name')}</div>
+             <div class="title">${this._get('name')}<span>(${this._category.total_apis})</span></div>
         </div>
        
         <div class="description">${truncate(this._get('description'), this.limit)}</div>`}
