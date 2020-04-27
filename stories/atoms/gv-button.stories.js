@@ -20,8 +20,12 @@ import { makeStory } from '../lib/make-story';
 const items = [
   { innerHTML: 'Default' },
   { innerHTML: 'Primary', primary: true },
+  { innerHTML: 'Primary href', primary: true, href: 'https://gravitee.io/' },
   { innerHTML: 'Danger', danger: true },
+  { innerHTML: 'Link', link: true },
+  { innerHTML: 'Link href', link: true, href: 'https://gravitee.io/' },
   { innerHTML: 'Default', icon: 'cooking:dish' },
+  { innerHTML: 'Default href', icon: 'cooking:dish', href: 'https://gravitee.io/' },
   { innerHTML: 'Primary', primary: true, icon: 'cooking:dish' },
   { innerHTML: 'Danger', danger: true, icon: 'cooking:dish' },
   { innerHTML: 'Default', 'icon-right': 'code:plus' },
@@ -47,10 +51,6 @@ export const modes = makeStory(conf, {
 
 export const outlined = makeStory(conf, {
   items: items.map((p) => ({ ...p, outlined: true })),
-});
-
-export const link = makeStory(conf, {
-  items: items.map((p) => ({ ...p, link: true })),
 });
 
 export const disabled = makeStory(conf, {

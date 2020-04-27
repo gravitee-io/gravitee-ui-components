@@ -40,10 +40,11 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
  * @attr {Boolean} link - set button UI mode to link
+ * @attr {String} href - If is defined gv-button will be rendered as a <a> with `href`
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  * @attr {String} icon - display an icon on the button
  * @attr {Boolean} icon-right - if icon should be at right
- * @attr {String} title - title of btn
+ * @attr {String} title - title of button
  * @attr {Boolean} loading - true to display a loading icon
  * @attr {String} provider - Provider name (github, oidc, graviteeio_am, google)
  *
@@ -67,6 +68,7 @@ export class GvButton extends LitElement {
       primary: { type: Boolean },
       outlined: { type: Boolean },
       link: { type: Boolean },
+      href: { type: String },
       skeleton: { type: Boolean },
       icon: { type: String },
       iconRight: { type: String, attribute: 'icon-right' },
@@ -115,7 +117,7 @@ export class GvButton extends LitElement {
         }
 
         /* RESET */
-        button {
+        .button {
           background: #fff;
           border: 1px solid #000;
           display: block;
@@ -123,10 +125,15 @@ export class GvButton extends LitElement {
           margin: 0;
           padding: 0;
           height: 100%;
+          text-decoration: none;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          text-align: center;
         }
 
         /* BASE */
-        .btn {
+        .button:not(.link) {
           border-radius: var(--gv-button--bdrs, 0.15rem);
           cursor: pointer;
           min-height: 26px;
@@ -156,7 +163,7 @@ export class GvButton extends LitElement {
         }
 
         /* MODES */
-        button {
+        .button {
           background-color: var(--bgc);
           border-color: var(--bgc);
           color: var(--c);
@@ -169,50 +176,50 @@ export class GvButton extends LitElement {
         }
 
         /* STATES */
-        .btn:enabled:focus {
+        .button:not(.link):focus {
           box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
           outline: 0;
         }
 
-        .btn:enabled:hover {
+        .button:not(.link):hover {
           box-shadow: 0 1px 3px var(--gv-theme-color-darker, #1D3730);
         }
 
-        button:enabled:active {
+        .button:not(.link):active {
           box-shadow: none;
           outline: 0;
         }
 
-        button:disabled {
+        .button:disabled {
           cursor: default;
           opacity: .5;
         }
 
-        button.skeleton > gv-icon {
+        .button.skeleton > gv-icon {
           opacity: 0;
         }
 
         /* TRANSITIONS */
-        button {
+        .button {
           box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
           transition: all 75ms ease-in-out;
         }
 
         /* We can do this because we set a visible focus state */
-        button::-moz-focus-inner {
+        .button::-moz-focus-inner {
           border: 0;
         }
 
-        button.icon > * {
+        .button.icon > * {
           vertical-align: middle;
         }
 
-        button.icon {
+        .button.icon {
           display: flex;
           align-items: center;
         }
 
-        button slot {
+        .button slot {
           flex: 1;
           white-space: nowrap;
           display: inline;
@@ -249,7 +256,10 @@ export class GvButton extends LitElement {
     ];
   }
 
-  _onClick () {
+  _onClick (e) {
+    if (this.href) {
+      e.preventDefault();
+    }
     const form = this.closest('form');
     if (form && this.type === 'submit') {
       form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
@@ -267,15 +277,15 @@ export class GvButton extends LitElement {
 
   render () {
     const classes = {
-      primary: this.primary && !this.link && !this.danger,
-      danger: this.danger && !this.link,
+      button: true,
+      primary: this.primary && !this.danger,
+      danger: this.danger,
       skeleton: this.skeleton && !this.link,
-      default: !this.primary && !this.link && !this.danger,
-      outlined: this.outlined && !this.link,
+      default: !this.primary && !this.danger && !this.link,
+      outlined: this.outlined,
       icon: !!this.icon || !!this.iconRight || this.loading,
       loading: this.loading,
-      btn: !this.link,
-      link: this.link,
+      link: this.link && !this.primary && !this.danger,
     };
 
     if (this.provider) {
@@ -283,16 +293,29 @@ export class GvButton extends LitElement {
       this.icon = `thirdparty:${this.provider}`;
     }
 
-    return html`<button
-        type=${this.type || 'button'}
-        .title="${ifDefined(this.title)}"
-      class=${classMap(classes)}
-      .disabled=${this.disabled || this.skeleton}
-      @click="${this._onClick}">
-      ${this._getIconLeft()}
-      <slot></slot>
-      ${this._getIconRight()}
-    </button>`;
+    if (this.href) {
+      return html`<a
+          .href="${this.href}"
+          .title="${ifDefined(this.title)}"
+          class=${classMap(classes)}
+          @click="${this._onClick}">
+          ${this._getIconLeft()}
+          <slot></slot>
+          ${this._getIconRight()}
+        </a>`;
+    }
+    else {
+      return html`<button
+          type=${this.type || 'button'}
+          .title="${ifDefined(this.title)}"
+        class=${classMap(classes)}
+        .disabled=${this.disabled || this.skeleton}
+        @click="${this._onClick}">
+        ${this._getIconLeft()}
+        <slot></slot>
+        ${this._getIconRight()}
+      </button>`;
+    }
   }
 
   _getIconRight () {

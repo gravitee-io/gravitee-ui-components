@@ -138,7 +138,7 @@ export class GvPromote extends ItemResource(LitElement) {
   }
 
   _onClick () {
-    dispatchCustomEvent(this, 'click', { path: this.path });
+    dispatchCustomEvent(this, 'click', { data: this._item, href: this.href });
   }
 
   render () {
@@ -158,7 +158,7 @@ export class GvPromote extends ItemResource(LitElement) {
         <div class="labels">
           ${this._renderLabels()}
         </div>
-        <gv-button ?skeleton=${this._skeleton} @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote.view')}</gv-button>`}
+        <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote.view')}</gv-button>`}
     `}
     </div>
 </div>`;

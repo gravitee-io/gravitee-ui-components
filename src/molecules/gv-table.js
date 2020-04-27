@@ -44,7 +44,7 @@ import '../atoms/gv-image';
  * @attr {String} rowsheight - The height of the table rows
  * @attr {String} rowheight - The height of the table single row
  * @attr {String} emptymessage - The empty message to display
- * @attr {String} format - A function to format table headers
+ * @attr {Function} format - A function to format table headers and string cells
  * @attr {Array<any>} selected - A list of selected ids of the items displayed
  * @attr {String} total - Total of data displayed on the table (useful with in case of pagination)
  *
@@ -52,8 +52,8 @@ import '../atoms/gv-image';
  * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
  * @cssprop {Color} [--gv-table--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
- * @cssprop {String} [--gv-table-header--fz=var(--gv-theme-font-size-xl, 26px)] - Title font size
- * @cssprop {Length} [--gv-table-header--p=30px] - Title padding
+ * @cssprop {String} [--gv-table-header--fz=var(--gv-theme-font-size-l, 20px)] - Title font size
+ * @cssprop {Length} [--gv-table-header--p=2rem 4rem] - Title padding
  */
 export class GvTable extends withResizeObserver(LitElement) {
 
@@ -98,7 +98,6 @@ export class GvTable extends withResizeObserver(LitElement) {
 
         .table {
           background-color: var(--bgc);
-          display: flex;
           flex-direction: column;
           height: 100%;
         }
@@ -109,6 +108,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           flex: 1;
           overflow: auto;
           height: 100%;
+          transition: height 250ms ease-in-out;
         }
 
         .rows::-webkit-scrollbar {
@@ -157,22 +157,23 @@ export class GvTable extends withResizeObserver(LitElement) {
 
         .header {
           border-bottom: 1px solid var(--bdc);
-          padding: var(--gv-table-header--p, 30px);
+          padding: var(--gv-table-header--p, 2rem 4rem);
         }
 
-        .header span {
-          color: var(--gv-theme-neutral-color-dark, #BFBFBF);
-          font-weight: 600;
-          font-size: var(--gv-theme-font-size-s, 12px);
-          line-height: 20px;
-          margin-left: 8px;
-        }
-
-        .header h2 {
+        .title {
           margin: 0;
           text-transform: uppercase;
-          font-size: var(--gv-table-header--fz, var(--gv-theme-font-size-xl, 26px));
-          line-height: 20px;
+          font-size: var(--gv-table-header--fz, var(--gv-theme-font-size-l, 20px));
+          line-height: var(--gv-table-header--fz, var(--gv-theme-font-size-l, 20px));
+          opacity: 0.6;
+        }
+        
+        .title span {
+          font-weight: 600;
+          font-size: var(--gv-theme-font-size-s);
+          line-height: var(--gv-theme-font-size-s);
+          margin-left: 8px;
+          opacity: 0.7;
         }
 
         gv-identity-picture {
@@ -347,7 +348,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         return html`
                 <div style="${'display: flex;' + (style || '')}">${this.order && !this.nosort ? html`
                    <gv-button link @click="${this._onSortChanged.bind(this, option.field || option.tag)}">${until(label)}</gv-button>
-                      ${orderValue === (option.field || option.tag) ? html`
+                      ${orderValue === option.tag || (orderValue === option.field && option.type !== 'image') ? html`
                         <gv-icon class=${classMap({ desc: this.order.startsWith('-') })} shape="design:triangle"></gv-icon>` : ''}
                     </a>` : until(label)}
                 </div>`;
@@ -358,7 +359,10 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   _renderIcon (item, itemIndex, option) {
     const icon = typeof option.icon === 'function' ? option.icon(item) : option.icon;
-    return html` <gv-icon shape="${icon}"></gv-icon>`;
+    if (icon) {
+      return html` <gv-icon shape="${icon}"></gv-icon>`;
+    }
+    return '';
   }
 
   _renderComponent (item, itemIndex, option, value) {
@@ -385,7 +389,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           element[attribute] = option.attributes[attribute](item);
         }
         else {
-          if (this.format) {
+          if (this.format && typeof option.attributes[attribute] === 'string') {
             this.format(option.attributes[attribute]).then((t) => {
               element[attribute] = t;
             });
@@ -437,7 +441,15 @@ export class GvTable extends withResizeObserver(LitElement) {
     }
     if (option.type) {
       if (option.type === 'image') {
-        const alt = option.alt ? this._getDataFromField(item, option.alt) : '';
+        let alt = '';
+        if (option.alt) {
+          if (typeof option.alt === 'function') {
+            alt = option.alt(item);
+          }
+          else {
+            alt = this._getDataFromField(item, option.alt);
+          }
+        }
         return this._renderImage(value, alt);
       }
       else if (option.type === 'icon') {
@@ -531,7 +543,13 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   _renderTag (option, item) {
     if (option.tag) {
-      const tag = option.format ? option.format(this._getDataFromField(item, option.tag)) : this._getDataFromField(item, option.tag);
+      let tag;
+      if (typeof option.tag === 'function') {
+        tag = option.tag(item);
+      }
+      else {
+        tag = option.format ? option.format(this._getDataFromField(item, option.tag)) : this._getDataFromField(item, option.tag);
+      }
       if (tag) {
         return html` <gv-tag ?skeleton="${this._skeleton}">${tag}</gv-tag>`;
       }
@@ -566,9 +584,9 @@ export class GvTable extends withResizeObserver(LitElement) {
     };
 
     return html`
-      <div class=${classMap(classes)}>
+      <div class=${classMap(classes)} style="${styleMap({ display: this.rowsheight ? 'block' : 'flex' })}">
         ${this.title ? html`
-          <div class="header"><h2>${this.title} ${!this._empty ? html`<span>(${this.total || (this._items && this._items.length)})</span>` : ''}</h2></div>`
+          <div class="header"><h3 class="title">${this.title} ${!this._empty ? html`<span>(${this.total || (this._items && this._items.length)})</span>` : ''}</h3></div>`
       : ''}
         ${!this._empty && this.options && this.options.data ? this._renderItems() : html`
             <div class="empty" style="${styleMap(emptyStyle)}">

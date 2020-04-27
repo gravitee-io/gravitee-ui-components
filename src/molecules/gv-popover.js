@@ -62,7 +62,13 @@ export class GvPopover extends LitElement {
         }
 
         ::slotted(*) {
-          display: inline-block;
+          display: inline-flex;
+          justify-content: center;
+          width: 100%;
+        }
+
+        .content {
+          width: 100%;
         }
 
         .open .popover {
@@ -127,7 +133,7 @@ export class GvPopover extends LitElement {
   }
 
   render () {
-    const classes = { open: this._opened };
+    const classes = { open: this._opened, content: true };
     return html`
       <div class="${classMap(classes)}">
          <slot></slot>

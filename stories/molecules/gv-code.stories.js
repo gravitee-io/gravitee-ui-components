@@ -45,13 +45,13 @@ const conf = {
 };
 
 export const bash = makeStory(conf, {
-  items: [{ innerHTML: bashCode, lang: 'bash' }],
+  items: [{ content: bashCode, lang: 'bash' }],
 });
 
 export const html = makeStory(conf, {
-  items: [{ innerHTML: htmlCode }],
+  items: [{ content: htmlCode }],
 });
 
 export const python = makeStory(conf, {
-  items: [{ innerHTML: pythonCode, lang: 'python' }],
+  items: [{ content: pythonCode, lang: 'python' }],
 });

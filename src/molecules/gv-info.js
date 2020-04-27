@@ -292,7 +292,7 @@ export class GvInfo extends ItemResource(LitElement) {
       : ''
     }
 
-        ${this._skeleton || (this._item.entrypoints && this._item.entrypoints.length > 0)
+        ${this._skeleton || (this._item && this._item.entrypoints && this._item.entrypoints.length > 0)
       ? html`
           <div class="${classMap({ info: true, skeleton: this._skeleton })}">
             <h4>${i18n('gv-info.entrypoints')}</h4>
