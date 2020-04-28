@@ -15,6 +15,7 @@
  */
 import { css, html, LitElement } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
+import { empty } from '../styles/empty';
 import '../atoms/gv-button';
 import '../atoms/gv-tag';
 import { repeat } from 'lit-html/directives/repeat';
@@ -43,6 +44,7 @@ export class GvStats extends LitElement {
   static get styles () {
     return [
       skeleton,
+      empty,
       // language=CSS
       css`
         .stats {
@@ -68,17 +70,6 @@ export class GvStats extends LitElement {
         .stats-label {
           font-size: 15px;
           text-align: center;
-        }
-
-        .empty, .error {
-          align-items: center;
-          display: grid;
-          font-weight: 600;
-          font-size: var(--gv-theme-font-size-xl, 26px);
-          text-align: center;
-          color: var(--gv-theme-color-dark, #193E34);
-          opacity: 0.5;
-          padding: 41px;
         }
       `,
     ];

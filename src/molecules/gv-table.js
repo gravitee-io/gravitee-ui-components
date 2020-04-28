@@ -16,6 +16,7 @@
 import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import { skeleton } from '../styles/skeleton';
+import { empty } from '../styles/empty';
 import { link } from '../styles/link';
 import { classMap } from 'lit-html/directives/class-map';
 import { repeat } from 'lit-html/directives/repeat';
@@ -84,6 +85,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     return [
       link,
       skeleton,
+      empty,
       // language=CSS
       css`
         :host {
@@ -148,6 +150,7 @@ export class GvTable extends withResizeObserver(LitElement) {
 
         .row:hover, .row.selected {
           background-color: var(--hover-bgc);
+          border-color: var(--selected--bgc);
         }
 
         .row.selected {
@@ -190,17 +193,6 @@ export class GvTable extends withResizeObserver(LitElement) {
 
         gv-icon.desc {
           transform: rotate(180deg);
-        }
-
-        .empty, .error {
-          align-items: center;
-          display: grid;
-          font-weight: 600;
-          font-size: var(--gv-theme-font-size-xl, 26px);
-          text-align: center;
-          color: var(--gv-theme-color-dark, #193E34);
-          opacity: 0.5;
-          padding: 41px;
         }
 
         gv-pagination {
