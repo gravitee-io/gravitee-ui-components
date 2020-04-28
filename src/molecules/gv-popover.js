@@ -186,8 +186,8 @@ export class GvPopover extends LitElement {
       let triangleTop = -this._getTriangleWidth();
       let heightOffset = (this.target.height / 2) + padding;
       if (!below) {
-        heightOffset = halfSize.height * 2;
-        triangleTop = halfSize.height * 2 - this._getTriangleWidth();
+        heightOffset = halfSize.height * 2 + this._getTriangleWidth();
+        triangleTop = halfSize.height * 2;
         triangle.style.setProperty('transform', 'rotate(180deg)');
       }
       else {
