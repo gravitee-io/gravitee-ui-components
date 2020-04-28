@@ -73,9 +73,9 @@ export class GvTree extends LitElement {
 
           .tree {
               position: relative;
-              width: 300px;
               padding-top: 10px;
               transition: all 350ms ease-in-out;
+              width: 300px;
           }
 
           .tree.closed {
@@ -85,17 +85,20 @@ export class GvTree extends LitElement {
           .main-tree-menu {
               flex: 1;
               user-select: none;
-              overflow: auto;
+              overflow-y: auto;
+              overflow-x: hidden;
               height: calc(100% - 20px);
+              direction: rtl;
           }
 
           .tree-menu {
               list-style: none;
-              padding-left: 0;
+              padding-right: 0;
+              padding-left: 0;   
           }
 
           .tree-menu__item {
-              padding: 0 10px;
+              width: 290px;
               position: relative;
           }
 
@@ -104,6 +107,7 @@ export class GvTree extends LitElement {
               border-right-width: 3px;
               border-right-style: solid;
               border-right-color: var(--active-bdc);
+              box-sizing: border-box; 
           }
 
           .page:hover {
