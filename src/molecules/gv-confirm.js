@@ -105,6 +105,16 @@ export class GvConfirm extends GvPopover {
     this.okLabel = i18n('gv-confirm.ok');
   }
 
+  connectedCallback () {
+    super.connectedCallback();
+    window.addEventListener('resize', this._closeHandler);
+  }
+
+  disconnectedCallback () {
+    window.addEventListener('resize', this._closeHandler);
+    super.disconnectedCallback();
+  }
+
   _onCancel () {
     this._opened = false;
     dispatchCustomEvent(this, 'cancel');
