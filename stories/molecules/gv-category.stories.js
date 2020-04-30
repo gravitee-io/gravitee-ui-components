@@ -36,11 +36,11 @@ const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
   + 'dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex '
   + 'ea commodo consequat.';
 
-const category = { name: 'Truncated description if > 4 lines (Default)', description, _links: { picture } };
+const category = { name: 'Truncated description if > 4 lines (Default)', description, _links: { picture }, total_apis: 5 };
 const items = [
-  { category: { name: 'Title' } },
+  { category: { name: 'Title', total_apis: 0 } },
   { category },
-  { category: { name: 'Title + description + description limit', description }, limit: 150 },
+  { category: { name: 'Title + description + description limit', description, total_apis: 132 }, limit: 150 },
 ];
 
 export const Basics = makeStory(conf, {

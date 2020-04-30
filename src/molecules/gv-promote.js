@@ -19,6 +19,7 @@ import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
+import { getTitle, getDescription, getVersion } from '../lib/item';
 
 import '../atoms/gv-image';
 import '../atoms/gv-button';
@@ -148,10 +149,10 @@ export class GvPromote extends ItemResource(LitElement) {
     ${this._error && !this._skeleton ? html`<p class="description">${i18n('gv-promote.error')}</p>` : html`
         ${this._empty && !this._skeleton ? html`<p class="description">${i18n('gv-promote.empty')}</p>` : html`
         <div class=${classMap({ skeleton: this._skeleton, title: true })}>
-          <h2>${this._getTitle()}</h2>
-          <span class="version">${this._getVersion()}</span>
+          <h2>${getTitle(this._item)}</h2>
+          <span class="version">${getVersion(this._item)}</span>
         </div>
-        <p class=${classMap({ skeleton: this._skeleton, description: true })}>${this._getDescription()}</p>
+        <p class=${classMap({ skeleton: this._skeleton, description: true })}>${getDescription(this._item)}</p>
         <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
             ${this._renderMetricsWithRating()}
         </div>

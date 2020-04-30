@@ -23,6 +23,7 @@ import { i18n, getLanguage } from '../lib/i18n';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
 import { ItemResource } from '../mixins/item-resource';
+import { getDescription, getLabels, getViews, getTitle, getVersion, getRating } from '../lib/item';
 
 /**
  * Info component
@@ -214,7 +215,7 @@ export class GvInfo extends ItemResource(LitElement) {
   }
 
   _renderInfoRating () {
-    const rating = this._getRating();
+    const rating = getRating(this._item);
     if (rating) {
       return html`
     ${rating.count ? '' : html`<span>${i18n('gv-info.beFirstToRate')}</span>`}
@@ -236,10 +237,11 @@ export class GvInfo extends ItemResource(LitElement) {
   }
 
   _renderDescription () {
-    if (this._getDescription()) {
+    const description = getDescription(this._item);
+    if (description && description.trim() !== '') {
       return html`<div class="description">
                     <h4>${i18n('gv-info.about')}</h4>
-                    ${this._getDescription()}
+                    ${description}
                   </div>`;
     }
     return '';
@@ -273,8 +275,8 @@ export class GvInfo extends ItemResource(LitElement) {
       `;
     }
 
-    const views = this._getViews();
-    const labels = this._getLabels();
+    const views = getViews(this._item);
+    const labels = getLabels(this._item);
     return html`
       <div class="infos">
 
@@ -283,8 +285,8 @@ export class GvInfo extends ItemResource(LitElement) {
           <div class="${classMap({ dc: true, skeleton: this._skeleton })}">
             <div class="title">
                 ${this._renderImage()}
-               <h3>${this._getTitle()}</h3>
-               <span class="version">${this._getVersion()}</span>
+               <h3>${getTitle(this._item)}</h3>
+               <span class="version">${getVersion(this._item)}</span>
             </div>
             ${this._renderDescription()}
          </div>
@@ -320,7 +322,7 @@ export class GvInfo extends ItemResource(LitElement) {
             `
       : ''
     }
-        ${this._skeleton || this._getRating()
+        ${this._skeleton || getRating(this._item)
       ? html`
               <div class="${classMap({ info: true, skeleton: this._skeleton })}">
                 <h4>${i18n('gv-info.ratings')}</h4>

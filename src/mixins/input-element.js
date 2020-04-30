@@ -49,12 +49,30 @@ export function InputElement (ParentClass) {
                 display: block;
             }
 
-            :host([invalid]) input, :host([invalid]) .box-icon-left, :host([invalid]) textarea {
+            :host([invalid]) :not(.clipboard) input, :host([invalid]) :not(.clipboard) .box-icon-left, :host([invalid]) :not(.clipboard) textarea {
                 border-left: 3px solid #a94442;
             }
 
-            :host([valid]) input, :host([valid]) .box-icon-left, :host([valid]) textarea {
+            :host([valid]) :not(.clipboard) input, :host([valid]) :not(.clipboard) .box-icon-left, :host([valid]) :not(.clipboard) textarea {
                 border-left: 3px solid var(--gv-theme-color, #009B5B);
+            }
+            
+            :host([readonly]) :not(.clipboard) input, :host([readonly]) .box-icon-left, :host([readonly]) .textarea {
+              border: none;
+              border-radius: 0;
+              letter-spacing: 0.05rem;
+              opacity: 0.7;
+              font-weight: 500;
+              cursor: text;
+            }
+            
+
+            :host([readonly]) input::placeholder {
+              color: transparent;
+            }
+
+            :host([readonly]) :not(.clipboard) label {
+                display: none;
             }
         `,
       ];
@@ -66,7 +84,7 @@ export function InputElement (ParentClass) {
     }
 
     updateState (value) {
-      if (this.required) {
+      if (this.required && !this.readonly) {
         this.invalid = value == null || value.trim() === '';
         this.valid = !(value == null || value.trim() === '');
       }
