@@ -57,40 +57,43 @@ export class GvConfirm extends GvPopover {
       GvPopover.styles,
       // language=CSS
       css`
-          :host {
-              --gv-icon--s: 24px;
-          }
+        :host {
+          --gv-icon--s: 24px;
+          margin: 0.2rem;
+          box-sizing: border-box;
+        }
 
-          :host([danger]) .message gv-icon {
-              --gv-icon--c: var(--gv-theme-color-danger, #FF5722);
-          }
+        :host([danger]) .message gv-icon {
+          --gv-icon--c: var(--gv-theme-color-danger, #FF5722);
+        }
 
-          .popover {
-              --bgc: var(--gv-confirm--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-              --maw: var(--gv-confirm--maw, 350px);
-          }
+        .popover {
+          --bgc: var(--gv-confirm--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --maw: var(--gv-confirm--maw, 350px);
+        }
 
-          .message {
-              display: flex;
-              align-items: center;
-              margin: 1rem 0.5rem;
-          }
+        .message {
+          display: flex;
+          align-items: center;
+          margin: 1rem 0.5rem;
+        }
 
-          .message gv-icon {
-              margin-right: 0.5rem;
-          }
+        .message gv-icon {
+          margin-right: 0.5rem;
+        }
 
-          .text {
-              text-align: center;
-              line-height: 24px;
-              width: 100%;
-          }
+        .text {
+          text-align: center;
+          line-height: 24px;
+          width: 100%;
+        }
 
-          .actions {
-              text-align: right;
-          }
-        
+        .actions {
+          text-align: right;
+        }
+
         ::slotted(*) {
+          margin: 0;
           width: 100%;
         }
       `,

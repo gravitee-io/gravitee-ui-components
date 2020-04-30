@@ -99,7 +99,7 @@ export class GvInput extends InputElement(LitElement) {
           box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
         }
 
-        .copied input, .copied ::slotted(input) {
+        .copied {
           --gv-icon--c: var(--gv-theme-color, #009B5B);
         }
 
@@ -117,18 +117,14 @@ export class GvInput extends InputElement(LitElement) {
           }
         }
 
-        .clipboard input:read-only,
-        .clipboard input:-moz-read-only,
-        .clipboard ::slotted(input:read-only),
-        .clipboard ::slotted(input:-moz-read-only) {
+        .clipboard input,
+        .clipboard ::slotted(input) {
           cursor: copy;
         }
 
         .clipboard input:read-only:hover, .clipboard ::slotted(input:read-only:hover) {
           cursor: not-allowed;
         }
-
-
       `,
     ];
   }
@@ -200,7 +196,7 @@ export class GvInput extends InputElement(LitElement) {
       }
     }
 
-    if (this.readonly) {
+    if (this.readonly || this.hasClipboard) {
       this.getInputElement().setAttribute('readonly', true);
     }
     else {
@@ -273,7 +269,6 @@ export class GvInput extends InputElement(LitElement) {
           this.iconLeft = GvInput.shapeClipboard;
         }, 1000);
       }));
-      this.readonly = true;
       this.iconLeft = GvInput.shapeClipboard;
       this.getInputElement().addEventListener('click', () => this.copy(this.value));
 
@@ -375,7 +370,7 @@ export class GvInput extends InputElement(LitElement) {
   }
 
   get hasClickableIcon () {
-    return !this.disabled && (this.clickable || this._type === 'search' || this.clipboard);
+    return !this.disabled && !this.readonly && (this.clickable || this._type === 'search' || this.clipboard);
   }
 
   get hasClipboard () {
@@ -451,6 +446,10 @@ export class GvInput extends InputElement(LitElement) {
   }
 
   render () {
+    if (this.readonly && (this.value == null || this.value.trim() === '')) {
+      return html`<div></div>`;
+    }
+
     const classes = {
       'box-input': true,
       skeleton: this.skeleton,

@@ -76,109 +76,114 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       link,
       // language=CSS
       css`
-          .box {
-              --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
-              --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
-              --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-              --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
-              --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #EFEFEF));
-          }
+        .box {
+          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
+          --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
+          --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+          --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #EFEFEF));
+        }
 
-          div, input {
-              user-select: none;
-              cursor: pointer;
-          }
+        div, input {
+          user-select: none;
+          cursor: pointer;
+        }
+        
+        :host([readonly]) div, :host([readonly]) input {
+          user-select: auto;
+          cursor: text;
+        }
 
-          input:read-only:hover {
-              cursor: pointer;
-          }
+        input:read-only:hover {
+          cursor: pointer;
+        }
 
-          gv-icon {
-              transform: rotate(180deg);
-              --gv-icon--s: 19px;
-          }
+        gv-icon {
+          transform: rotate(180deg);
+          --gv-icon--s: 19px;
+        }
 
-          gv-icon.medium {
-              --gv-icon--s: 14px;
-          }
+        gv-icon.medium {
+          --gv-icon--s: 14px;
+        }
 
-          gv-icon.small {
-              --gv-icon--s: 11px;
-          }
+        gv-icon.small {
+          --gv-icon--s: 11px;
+        }
 
-          .closed .select__list {
-              display: none;
-              opacity: 0;
-              transform: translateY(-2em);
-              z-index: -1;
-          }
+        .closed .select__list {
+          display: none;
+          opacity: 0;
+          transform: translateY(-2em);
+          z-index: -1;
+        }
 
-          .select__list {
-              color: var(--c);
-              list-style: none;
-              position: absolute;
-              background-color: var(--bgc);
-              list-style: none;
-              padding: 0;
-              transition: all 0.3s ease 0s;
-              margin: 0;
-              width: 100%;
-              cursor: pointer;
-              z-index: 100;
-              box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-              max-height: 340px;
-              overflow: auto;
-          }
+        .select__list {
+          color: var(--c);
+          list-style: none;
+          position: absolute;
+          background-color: var(--bgc);
+          list-style: none;
+          padding: 0;
+          transition: all 0.3s ease 0s;
+          margin: 0;
+          width: 100%;
+          cursor: pointer;
+          z-index: 100;
+          box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+          max-height: 340px;
+          overflow: auto;
+        }
 
-          .select__list .selected {
-              background-color: var(--selected-bgc);
-          }
+        .select__list .selected {
+          background-color: var(--selected-bgc);
+        }
 
-          .select__list__item {
-              border-left: 1px solid var(--bdc);
-              display: flex;
-              align-items: center;
-              transition: all 0.5s ease;
+        .select__list__item {
+          border-left: 1px solid var(--bdc);
+          display: flex;
+          align-items: center;
+          transition: all 0.5s ease;
 
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              overflow: hidden;
-          }
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
 
-          .disabled .select__list__item {
-              opacity: .5;
-          }
+        .disabled .select__list__item {
+          opacity: .5;
+        }
 
-          .disabled .select__list__item:hover {
-              cursor: not-allowed;
-          }
+        .disabled .select__list__item:hover {
+          cursor: not-allowed;
+        }
 
-          .large .select__list__item {
-              padding: var(--input-large--p);
-              font-size: var(--input-large--fz);
-              height: var(--input-large--h);
-          }
+        .large .select__list__item {
+          padding: var(--input-large--p);
+          font-size: var(--input-large--fz);
+          height: var(--input-large--h);
+        }
 
-          .medium .select__list__item {
-              padding: 0 5px;
-              font-size: var(--input-medium--fz);
-              height: var(--input-medium--h);
-          }
+        .medium .select__list__item {
+          padding: 0 5px;
+          font-size: var(--input-medium--fz);
+          height: var(--input-medium--h);
+        }
 
-          .small .select__list__item {
-              padding: var(--input-small--p);
-              font-size: var(--input-small--fz);
-              height: var(--input-small--h);
-          }
+        .small .select__list__item {
+          padding: var(--input-small--p);
+          font-size: var(--input-small--fz);
+          height: var(--input-small--h);
+        }
 
-          .select__list__item:hover {
-              background-color: var(--hover-bgc);
-              border-left: 1px dotted var(--bdc);
-          }
+        .select__list__item:hover {
+          background-color: var(--hover-bgc);
+          border-left: 1px dotted var(--bdc);
+        }
 
-          .medium.icon input, .large.icon input, .small.icon input {
-              padding-right: 0px;
-          }
+        .medium.icon input, .large.icon input, .small.icon input {
+          padding-right: 0px;
+        }
       `,
     ];
   }
@@ -255,6 +260,9 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
   }
 
   _renderIcon () {
+    if (this.readonly) {
+      return '';
+    }
     return html`<div class="box-icon">
                   <gv-icon class="link" shape="design:triangle" @click=${this._onClick}></gv-icon>
                 </div>`;
@@ -320,6 +328,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
               readonly="readonly">
               ${this._renderIcon()}
          </div>
+       ${this.readonly ? '' : html`  
         <ul class="${classMap(Object.assign({ select__list: true }))}">
           ${this._options && repeat(this._options, (option) => option, (option) => html`
             <li class="${classMap({
@@ -329,7 +338,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     })}"
             @click=${this._onSelect.bind(this, option)} data-value="${option.value}" .title="${ifDefined(option.title)}">${option.label}</li>
           `)}
-        </ul>
+        </ul>`}
       </div>
     `;
   }

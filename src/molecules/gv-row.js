@@ -20,6 +20,7 @@ import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
 import { withResizeObserver } from '../mixins/with-resize-observer';
+import { getOwner, getTitle, getDescription, getVersion } from '../lib/item';
 
 /**
  * Row component
@@ -168,14 +169,14 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
             <div class="${classMap({ skeleton: this._skeleton })}">${this._renderImage()}</div>
             <div class="${classMap({ group: true, skeleton: this._skeleton })}">
                 <div class="title">            
-                    <h3 class="name">${this._getTitle()}</h3>
-                    <div class="version">${this._getVersion()}</div>
+                    <h3 class="name">${getTitle(this._item)}</h3>
+                    <div class="version">${getVersion(this._item)}</div>
                 </div>
-                <div class="description">${this._getDescription()}</div>
+                <div class="description">${getDescription(this._item)}</div>
             </div>
             <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
               <div class="meta__owner">
-                <gv-icon shape="general:user" size="8px"></gv-icon>${this._getOwner()}</div>
+                <gv-icon shape="general:user" size="8px"></gv-icon>${getOwner(this._item)}</div>
               <div class="meta__tags">${this._renderLabels()}</div>
             </div>
           </div>

@@ -42,6 +42,10 @@ export const required = makeStory(conf, {
   items: items.map((p) => ({ ...p, required: true })),
 });
 
+export const readonly = makeStory(conf, {
+  items: items.map((p) => ({ ...p, required: true, readonly: true, value: 'Readonly text' })),
+});
+
 export const disabled = makeStory(conf, {
   items: items.map((p) => ({ ...p, disabled: true })),
 });

@@ -26,6 +26,7 @@ import { truncate } from '../lib/utils';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
 import { dispatchCustomEvent } from '../lib/events';
+import { getVersion, getTitle, getDescription } from '../lib/item';
 
 /**
  * Full Card component
@@ -173,20 +174,21 @@ export class GvCardFull extends ItemResource(LitElement) {
   }
 
   render () {
+    const title = getTitle(this._item);
     const classes = { error: this._error || this._empty, card: true };
-    return html`<div class="${classMap(classes)}" title="${this._getTitle()}" @click="${this._onClick}">
+    return html`<div class="${classMap(classes)}" title="${title}" @click="${this._onClick}">
         <div class="${classMap({ skeleton: this._skeleton })}">
             <div class="${classMap({ image: true })}">${this._renderImage()}</div>
             <div class="content">
-                <div class="${classMap({ title: true })}">${this._getTitle()}</div>
+                <div class="${classMap({ title: true })}">${title}</div>
                 <div class="states">
                 ${this._renderStates()}
                 </div>
             </div>
-            <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${this._getVersion()}</span></div>
+            <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${getVersion(this._item)}</span></div>
         </div>
         <div class="${classMap({ skeleton: this._skeleton, description: true })}">
-            ${truncate(this._error ? i18n('gv-card-full.error') : this._empty ? i18n('gv-card-full.empty') : this._getDescription(), this.limit)}
+            ${truncate(this._error ? i18n('gv-card-full.error') : this._empty ? i18n('gv-card-full.empty') : getDescription(this._item), this.limit)}
         </div>
         <span class="${classMap({ skeleton: this._skeleton })}">
           <div class="infos">

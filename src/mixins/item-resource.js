@@ -16,8 +16,8 @@
 import { html } from 'lit-html';
 import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
-import { getApplicationTypeIcon } from '../lib/theme';
 import '../molecules/gv-identity-picture';
+import { getLabels, getPicture, getStates, getRating, getViews, getPictureDisplayName } from '../lib/item';
 
 /**
  * This is a mixin for ItemResource
@@ -40,7 +40,6 @@ export function ItemResource (ParentClass) {
         _skeleton: { type: Boolean, attribute: false },
         _error: { type: Boolean, attribute: false },
         _empty: { type: Boolean, attribute: false },
-        _picture: { type: String, attribute: false },
       };
     }
 
@@ -58,12 +57,6 @@ export function ItemResource (ParentClass) {
         .then((item) => {
           if (item) {
             this._item = item;
-            if (item.picture) {
-              this._picture = item.picture;
-            }
-            else if (item._links && item._links.picture) {
-              this._picture = item._links.picture;
-            }
           }
           this._empty = item == null || Object.keys(item).length === 0;
         })
@@ -77,51 +70,17 @@ export function ItemResource (ParentClass) {
         });
     }
 
-    _getVersion () {
-      if (this._item) {
-        if (this._item.version) {
-          return this._item.version;
-        }
-        else if (this._item.applicationType) {
-          const icon = getApplicationTypeIcon(this._item.applicationType);
-          return html`<gv-icon shape="${icon}"></gv-icon>`;
-        }
-      }
-      return null;
-    }
-
     _onImageLoaded () {
       if (this._item) {
         this._skeleton = false;
       }
     }
 
-    _getStates () {
-      if (this._item) {
-        return this._item.states;
-      }
-      return null;
-    }
-
-    _getLabels () {
-      if (this._item) {
-        return this._item.labels;
-      }
-      return null;
-    }
-
-    _getViews () {
-      if (this._item) {
-        return this._item.views;
-      }
-      return null;
-    }
-
     _renderImage () {
       if (!this._empty) {
         return html`<gv-identity-picture .skeleton="${this._skeleton}" 
-                                         .display_name="${this._getPictureDisplayName()}" 
-                                         .picture="${this._picture}" 
+                                         .display_name="${getPictureDisplayName(this._item)}" 
+                                         .picture="${getPicture(this._item)}" 
                                          @load="${this._onImageLoaded}"></gv-identity-picture>`;
       }
       return '';
@@ -132,15 +91,16 @@ export function ItemResource (ParentClass) {
     }
 
     _renderLabels () {
-      const labels = this._getLabels();
+      const labels = getLabels(this._item);
       if (labels) {
-        return repeat(labels, (label) => label, (label) => html` <gv-tag @click="${this._onTagClick.bind(this, label, 'label')}" ?skeleton="${this._skeleton}" major>${label}</gv-tag>`);
+        return repeat(labels, (label) => label, (label) =>
+          html`<gv-tag @click="${this._onTagClick.bind(this, label, 'label')}" ?skeleton="${this._skeleton}" major>${label}</gv-tag>`);
       }
       return '';
     }
 
     _renderStates () {
-      const states = this._getStates();
+      const states = getStates(this._item);
       if (states) {
         return repeat(states, (state) => state, ({ value, major, minor }) => html`
                  <gv-state ?skeleton="${this._skeleton}"
@@ -166,7 +126,7 @@ export function ItemResource (ParentClass) {
     }
 
     _renderInfoRating () {
-      const rating = this._getRating();
+      const rating = getRating(this._item);
       if (rating && rating.count) {
         return html`<gv-rating readonly .skeleton="${this._skeleton}" .value="${rating.average}" .count="${rating.count}"></gv-rating>`;
       }
@@ -174,59 +134,14 @@ export function ItemResource (ParentClass) {
     }
 
     _renderViews () {
-      const views = this._getViews();
+      const views = getViews(this._item);
       if (views) {
-        return repeat(views, (name) => name, (name) => html`<gv-tag @click="${this._onTagClick.bind(this, name, 'view')}" ?skeleton="${this._skeleton}">${name}</gv-tag>`);
+        return repeat(views, (name) => name, (name) =>
+          html`<gv-tag @click="${this._onTagClick.bind(this, name, 'view')}" ?skeleton="${this._skeleton}">${name}</gv-tag>`);
       }
       return '';
     }
 
-    _getRating () {
-      if (this._item) {
-        return this._item.rating_summary;
-      }
-      return null;
-    }
-
-    _getDescription () {
-      if (this._item) {
-        return this._item.description;
-      }
-      return '';
-    }
-
-    _getPictureDisplayName () {
-      if (this._item) {
-        if (this._item.version) {
-          return `${this._getTitle()}  ${this._item.version}`;
-        }
-        else if (this._item.applicationType) {
-          return `${this._getTitle()}  ${this._item.applicationType}`;
-        }
-      }
-      return this._getTitle();
-    }
-
-    _getTitle () {
-      if (this._item) {
-        return this._item.name;
-      }
-      return '';
-    }
-
-    _getOwner () {
-      if (this._item && this._item.owner) {
-        return this._item.owner.display_name;
-      }
-      return '';
-    }
-
-    _getNbApisInView () {
-      if (this._item && this._item.total_apis !== undefined) {
-        return this._item.total_apis;
-      }
-      return null;
-    }
   };
 
 }

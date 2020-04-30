@@ -25,6 +25,7 @@ import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 import { ItemResource } from '../mixins/item-resource';
+import { getNbApisInView, getTitle, getVersion } from '../lib/item';
 
 /**
  * Header component
@@ -125,7 +126,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
           .title {
               flex: 1;
               margin: 0.5rem 0 0.5rem var(--img-w);
-              padding-left: 1rem;
+              padding-left: 2rem;
           }
 
           :host([sticky]) .title {
@@ -232,7 +233,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
   _getLink (route, index) {
     return Promise.resolve(route).then((_route) => {
 
-      const title = index === this._breadcrumbs.length - 1 ? this._getTitle() : _route.title;
+      const title = index === this._breadcrumbs.length - 1 ? getTitle(this._item) : _route.title;
 
       return html`
             <gv-link
@@ -259,14 +260,15 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
   }
 
   render () {
+    const nbApisInView = getNbApisInView(this._item);
     return html`
       <div class="${classMap({ header: true, skeleton: this._skeleton })}">
             ${this._renderImage()}
             <div class="title">
-                ${(!(this._error || this._empty) && !this.sticky) ? html`<div class="version">${this._getVersion()}</div>` : ''}
+                ${(!(this._error || this._empty) && !this.sticky) ? html`<div class="version">${getVersion(this._item)}</div>` : ''}
                 ${(this._error || this._empty) ? html`
                     <div><div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>
-                 </div>` : html`<h1>${this._getTitle()} ${this._getNbApisInView() !== null ? html`<span>(${this._getNbApisInView()})</span>` : ''}</h1>`}
+                 </div>` : html`<h1>${getTitle(this._item)} ${nbApisInView !== null ? html`<span>(${nbApisInView})</span>` : ''}</h1>`}
             </div>
             ${!(this._error || this._empty) && this.canSubscribe ? html`<div class="actions">
                 <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header.subscribe')}</gv-button>

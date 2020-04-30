@@ -21,7 +21,7 @@ import { i18n } from '../lib/i18n';
 import { link } from '../styles/link';
 import '../molecules/gv-identity-picture';
 import { dispatchCustomEvent } from '../lib/events';
-import { getApplicationTypeIcon } from '../lib/theme';
+import { getPicture, getPictureDisplayName, getVersion } from '../lib/item';
 
 /**
  * Connected Applications component
@@ -157,56 +157,12 @@ export class GvList extends LitElement {
       });
   }
 
-  _getPicture (item) {
-    if (item) {
-      if (item.picture) {
-        return item.picture;
-      }
-      else if (item._links && item._links.picture) {
-        return item._links.picture;
-      }
-    }
-    return null;
-  }
-
-  _getVersion (item) {
-    if (item) {
-      if (item.version) {
-        return item.version;
-      }
-      else if (item.applicationType) {
-        const icon = getApplicationTypeIcon(item.applicationType);
-        return html`<gv-icon shape="${icon}"></gv-icon>`;
-      }
-    }
-    return null;
-  }
-
-  _getPictureDisplayName (item) {
-    if (item) {
-      if (item.version) {
-        return `${this._getTitle(item)}  ${item.version}`;
-      }
-      else if (item.applicationType) {
-        return `${this._getTitle(item)}  ${item.applicationType}`;
-      }
-    }
-    return this._getTitle();
-  }
-
-  _getTitle (item) {
-    if (item) {
-      return item.name;
-    }
-    return '';
-  }
-
   _onClick (item) {
     dispatchCustomEvent(this, 'click', item);
   }
 
   _renderImage (item) {
-    return html`<gv-identity-picture .picture="${this._getPicture(item)}" .display_name="${this._getPictureDisplayName(item)}"></gv-identity-picture>`;
+    return html`<gv-identity-picture .picture="${getPicture(item)}" .display_name="${getPictureDisplayName(item)}"></gv-identity-picture>`;
   }
 
   _renderStatus (subscriptions) {
@@ -230,7 +186,7 @@ export class GvList extends LitElement {
       return html`
       <div class="item__image">${this._renderImage(item.item)}</div>
       <div class="item__content">
-        <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.item.name} <span>${this._getVersion(item.item)}</span></h4>
+        <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.item.name} <span>${getVersion(item.item)}</span></h4>
         <div class="item__description">${item.item.description}</div>
       </div>
       `;

@@ -57,43 +57,43 @@ export class GvText extends InputElement(LitElement) {
       skeleton,
       // language=CSS
       css`
-          div {
-              position: relative;
-              line-height: 0;
-          }
+        .box {
+          position: relative;
+          line-height: 0;
+        }
 
-          /* BASE */
-          textarea {
-              border: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
-              box-sizing: border-box;
-              border-radius: 4px;
-              outline: none;
-              padding: 10px 5px;
-              width: 100%;
-              resize: none;
-              font-size: var(--gv-theme-font-size-m, 14px);
-              line-height: 17px;
-          }
+        /* BASE */
+        .textarea {
+          border: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          box-sizing: border-box;
+          border-radius: 4px;
+          outline: none;
+          padding: 10px 5px;
+          width: 100%;
+          resize: none;
+          font-size: var(--gv-theme-font-size-m, 14px);
+          line-height: 17px;
+        }
 
-          textarea:disabled {
-              cursor: default;
-              opacity: .5;
-          }
+        textarea:disabled {
+          cursor: default;
+          opacity: .5;
+        }
 
-          textarea:required {
-              box-shadow: none;
-          }
+        textarea:required {
+          box-shadow: none;
+        }
 
-          label {
-              display: block;
-              line-height: 15px;
-              padding: 0 0 0.2rem 0;
-          }
+        label {
+          display: block;
+          line-height: 15px;
+          padding: 0 0 0.2rem 0;
+        }
 
-          /* Hack for FF */
-          textarea {
-              font-family: inherit;
-          }
+        /* Hack for FF */
+        textarea {
+          font-family: inherit;
+        }
       `,
     ];
   }
@@ -117,10 +117,22 @@ export class GvText extends InputElement(LitElement) {
     const classes = {
       skeleton: this.skeleton,
       required: this.required,
+      textarea: true,
     };
 
+    if (this.readonly) {
+      if (this.value || this.value.trim() !== '') {
+        return html`
+      <div class="${classMap(classes)}" .title=${ifDefined(this.title || this.label)}>
+            ${ifDefined(this.value)}
+      </div>
+    `;
+      }
+      return '';
+    }
+
     return html`
-      <div>
+      <div class="box">
         ${this.renderLabel()}
         <textarea class="${classMap(classes)}"
             id=${this._id}

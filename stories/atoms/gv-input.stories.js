@@ -58,6 +58,7 @@ export const Clearable = makeStory(conf, {
 export const clipboard = makeStory(conf, {
   items: [
     { placeholder: 'Clipboard...', label: 'Simple clipboard', value: 'Copy me !', clipboard: true },
+    { placeholder: 'Clipboard...', label: 'Readonly style clipboard', value: 'Copy me !', clipboard: true, readonly: true },
     { placeholder: 'Password...', type: 'password', label: 'Password clipboard', value: 'Copy me !', clipboard: true },
   ],
 });
@@ -70,12 +71,12 @@ export const Disabled = makeStory(conf, {
   items: items.map((p) => ({ ...p, disabled: true })),
 });
 
-export const Readonly = makeStory(conf, {
-  items: items.map((p) => ({ ...p, readonly: true })),
-});
-
 export const Required = makeStory(conf, {
   items: items.map((p) => ({ ...p, required: true })),
+});
+
+export const Readonly = makeStory(conf, {
+  items: items.map((p) => ({ ...p, required: true, readonly: true, value: 'Readonly value' })),
 });
 
 export const Slotted = makeStory(conf, {
