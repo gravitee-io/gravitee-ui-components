@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { css, LitElement, html } from 'lit-element';
-import { skeleton } from '../styles/skeleton';
 import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
@@ -42,8 +41,15 @@ import '../molecules/gv-metrics';
  */
 export class GvPromote extends ItemResource(LitElement) {
 
+  static get properties () {
+    return {
+      ...super.properties,
+    };
+  }
+
   static get styles () {
     return [
+      ...super.styles,
       // language=CSS
       css`
         :host {
@@ -98,7 +104,7 @@ export class GvPromote extends ItemResource(LitElement) {
           font-size: var(--gv-theme-font-size-s, 12px);
           color: var(--gv-theme-neutral-color-dark, #D9D9D9);
         }
-        
+
         .content {
           flex: 1;
           padding: 1.5rem;
@@ -120,7 +126,7 @@ export class GvPromote extends ItemResource(LitElement) {
           display: flex;
           justify-content: flex-end;
           margin: 0.5rem 0.2rem;
-          align-items: center;  
+          align-items: center;
         }
 
         gv-metrics {
@@ -134,7 +140,6 @@ export class GvPromote extends ItemResource(LitElement) {
           text-align: right;
         }
       `,
-      skeleton,
     ];
   }
 
@@ -146,8 +151,8 @@ export class GvPromote extends ItemResource(LitElement) {
     return html`<div class="container">
     <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
     <div class="content">
-    ${this._error && !this._skeleton ? html`<p class="description">${i18n('gv-promote.error')}</p>` : html`
-        ${this._empty && !this._skeleton ? html`<p class="description">${i18n('gv-promote.empty')}</p>` : html`
+    ${this._error && !this._skeleton ? html`<p class="description error">${i18n('gv-promote.error')}</p>` : html`
+        ${this._empty && !this._skeleton ? html`<p class="description empty">${i18n('gv-promote.empty')}</p>` : html`
         <div class=${classMap({ skeleton: this._skeleton, title: true })}>
           <h2>${getTitle(this._item)}</h2>
           <span class="version">${getVersion(this._item)}</span>

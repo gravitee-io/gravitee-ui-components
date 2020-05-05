@@ -25,7 +25,7 @@ const description
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 
 const ratingSummary = { average: 3.2, count: 345 };
-const metrics = Promise.resolve({ hits: '11M+', subscribers: '689', health: '0.95' });
+const metrics = { hits: '11M+', subscribers: '689', health: '0.95' };
 const version = 'v1.1';
 const labels = ['APIDays', 'December', 'Foobar'];
 
@@ -91,25 +91,39 @@ export const withLabels = makeStory(conf, {
 });
 
 export const empty = makeStory(conf, {
-  items: [{}],
+  items: [{ item: {} }],
 });
 
+let itemResolver;
+let metricsResolver;
 export const loading = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})), metrics: new Promise(() => ({})) }],
+  items: [{}],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.item = { name, description, version, _links: { picture }, rating_summary: ratingSummary };
-      component.metrics = metrics;
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve) => (itemResolver = resolve));
+      component.metrics = new Promise((resolve) => (metricsResolver = resolve));
+    }),
+    storyWait(1000, () => {
+      metricsResolver(metrics);
+    }),
+    storyWait(500, () => {
+      itemResolver({ name, description, version, _links: { picture }, rating_summary: ratingSummary });
     }),
   ],
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})), metrics: new Promise(() => ({})) }],
+  items: [{}],
   simulations: [
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve) => (itemResolver = resolve));
+      component.metrics = new Promise((resolve) => (metricsResolver = resolve));
+    }),
+    storyWait(1000, () => {
+      itemResolver({});
+    }),
     storyWait(2000, ([component]) => {
-      component.item = Promise.reject(new Error());
-      component.metrics = Promise.reject(new Error());
+      metricsResolver(metrics);
     }),
   ],
 });

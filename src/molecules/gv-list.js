@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { skeleton } from '../styles/skeleton';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
@@ -22,6 +21,7 @@ import { link } from '../styles/link';
 import '../molecules/gv-identity-picture';
 import { dispatchCustomEvent } from '../lib/events';
 import { getPicture, getPictureDisplayName, getVersion } from '../lib/item';
+import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 
 /**
  * Connected Applications component
@@ -37,22 +37,21 @@ import { getPicture, getPictureDisplayName, getVersion } from '../lib/item';
  * @cssprop {Length} [--gv-list-image--h=40px] - Image height
  * @cssprop {Length} [--gv-list-image--w=40px] - Image width
  */
-export class GvList extends LitElement {
+export class GvList extends withSkeletonAttribute(LitElement) {
 
   static get properties () {
     return {
+      ...super.styles,
       items: { type: Object },
       title: { type: String },
       clickable: { type: Boolean },
       _items: { type: Object, attribute: false },
-      _skeleton: { type: Boolean, attribute: false },
-      _error: { type: Boolean, attribute: false },
-      _empty: { type: Boolean, attribute: false },
     };
   }
 
   static get styles () {
     return [
+      ...super.styles,
       link,
       // language=CSS
       css`
@@ -72,25 +71,36 @@ export class GvList extends LitElement {
 
         .list {
           list-style: none;
-          margin: 24px 0;
-          padding: 0 24px;
+          margin: 0;
+          padding: 0;
         }
 
-        .list h4 {
-          margin: 0 0 8px 0;
+        h3 {
+          padding: 24px;
+          font-size: var(--gv-theme-font-size-m);
+          line-height: var(--gv-theme-font-size-m);
+          opacity: 0.6;
+          letter-spacing: 0.05rem;
+          border-bottom: 1px solid var(--gv-theme-neutral-color);
+          margin: 0;
+        }
+        
+        h4 {
+          font-size: var(--gv-theme-font-size-m);
+          line-height: var(--gv-theme-font-size-m);
+          opacity: 0.6;
+          letter-spacing: 0.05rem;
         }
 
-        .list h4 span {
-          color: var(--gv-theme-neutral-color-dark, #BFBFBF);
-          font-weight: 600;
+        h4 span {
           font-size: var(--gv-theme-font-size-s, 12px);
-          line-height: 20px;
           margin-left: 8px;
+          opacity: 0.8;
         }
 
         .item {
           display: flex;
-          margin: 24px 0;
+          margin: 24px;
         }
 
         .item__image {
@@ -126,35 +136,12 @@ export class GvList extends LitElement {
           overflow: auto;
         }
       `,
-      skeleton,
     ];
   }
 
   constructor () {
     super();
-    this._skeleton = false;
-    this._error = false;
-    this._empty = true;
-  }
-
-  set items (items) {
-    this._skeleton = true;
-    Promise.resolve(items)
-      .then((items) => {
-        if (items) {
-          this._items = items;
-          this._skeleton = false;
-          this._empty = Object.keys(items).length === 0;
-        }
-        else {
-          this._skeleton = true;
-          this._error = false;
-          this._empty = false;
-        }
-      }).catch(() => {
-        this._error = true;
-        this._skeleton = false;
-      });
+    this._skeletonAttribute = 'items';
   }
 
   _onClick (item) {
@@ -211,10 +198,10 @@ export class GvList extends LitElement {
     }
     return html`
       <ul class="list">
-        <h4>
+        <h3>
           ${this.title ? this.title : ''}
           ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}
-        </h4>
+        </h3>
         <div class="scrollable-container">
         ${this._items
           ? repeat(this._items, (item) => item, (item) => {
@@ -235,7 +222,7 @@ export class GvList extends LitElement {
   render () {
     return html`
       <div>
-        ${this._error ? html`<ul class="list"><h4>${i18n('gv-list.error')}</h4></ul>` : this._renderItems()}
+        ${this._error ? html`<div class="error">${i18n('gv-list.error')}</div>` : this._renderItems()}
       </div>
       `;
   }

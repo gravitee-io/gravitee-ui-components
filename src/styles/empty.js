@@ -18,15 +18,17 @@ import { css } from 'lit-element';
 // language=CSS
 export const empty = css`
     .empty, .error {
-      box-sizing: border-box;
-      opacity: 0.5;
-      color: var(--gv-theme-font-color-dark);
-      text-align: center;
-      font-weight: bold;
       align-items: center;
-      font-size: var(--gv-theme-font-size-xl, 26px);
-      padding: 3rem;
+      box-sizing: border-box;
+      color: var(--gv-theme-font-color-dark);
+      font-size: var(--gv-theme-font-size-l, 20px);
+      font-weight: bold;
       height: 100%;
+      opacity: 0.5;
+      padding: 3rem;
+      text-align: center;
       width: 100%;
+      justify-content: center;
+      display: flex;
     }
 `;

@@ -73,20 +73,32 @@ export const Empty = makeStory(conf, {
   items: [{}],
 });
 
+let itemResolver;
 export const loading = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})), breadcrumbs }],
+  items: [{}],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.item = item;
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve) => (itemResolver = resolve));
+    }),
+
+    storyWait(750, ([component]) => {
+      itemResolver(item);
+      component.breadcrumbs = breadcrumbs;
     }),
   ],
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})), breadcrumbs }],
+  items: [{}],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.item = Promise.reject(new Error());
+
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve, reject) => (itemResolver = reject));
+    }),
+
+    storyWait(750, ([component]) => {
+      itemResolver(item);
+      component.breadcrumbs = breadcrumbs;
     }),
   ],
 });

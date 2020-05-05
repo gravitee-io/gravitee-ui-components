@@ -16,9 +16,9 @@
 import { LitElement, html, css } from 'lit-element';
 import { truncate } from '../lib/utils';
 import { classMap } from 'lit-html/directives/class-map';
-import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
+import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 
 /**
  * A card used to display a category
@@ -32,21 +32,19 @@ import { i18n } from '../lib/i18n';
  * @cssprop {Color} [--gv-category--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Length} [--gv-category--h=200px] - Height
  */
-export class GvCategory extends LitElement {
+export class GvCategory extends withSkeletonAttribute(LitElement) {
 
   static get properties () {
     return {
       category: { type: Object },
       limit: { type: Number },
       _category: { type: Object, attribute: false },
-      _skeleton: { type: Boolean, attribute: false },
-      _empty: { type: Boolean, attribute: false },
-      _error: { type: Boolean, attribute: false },
     };
   }
 
   static get styles () {
     return [
+      ...super.styles,
       // language=CSS
       css`
         :host {
@@ -67,11 +65,6 @@ export class GvCategory extends LitElement {
           box-shadow: 0 0 0 1px var(--gv-theme-neutral-color-dark, #BFBFBF), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           transition: all .3s;
           position: relative;
-        }
-
-        .card.empty {
-          justify-content: center;
-          align-items: center;
         }
 
         .card:hover {
@@ -127,33 +120,12 @@ export class GvCategory extends LitElement {
           overflow: hidden;
         }
       `,
-      skeleton,
     ];
   }
 
   constructor () {
     super();
-    this._skeleton = false;
-    this._error = false;
-    this._empty = true;
-  }
-
-  set category (category) {
-    this._skeleton = true;
-    Promise.resolve(category)
-      .then((category) => {
-        if (category) {
-          this._empty = Object.keys(category).length === 0;
-          this._skeleton = false;
-          this._category = category;
-        }
-        else {
-          this._skeleton = true;
-        }
-      }).catch(() => {
-        this._error = true;
-        this._skeleton = false;
-      });
+    this._skeletonAttribute = 'category';
   }
 
   _get (property) {
@@ -168,17 +140,17 @@ export class GvCategory extends LitElement {
   }
 
   render () {
+    const total = this._get('total_apis');
     return html`<div @click=${this._onClick} class="${classMap({ card: true, skeleton: this._skeleton, empty: this._error || this._empty })}">
-
           ${(this._error || this._empty) ? html`
         <div class="${classMap({ skeleton: this._skeleton })}">
-            <span class="error">${this._error ? i18n('gv-category.error') : i18n('gv-category.empty')}</span>
+            <span>${this._error ? i18n('gv-category.error') : i18n('gv-category.empty')}</span>
         </div>
         ` : html`
         <div class="box">
-        <gv-identity-picture display_name="${this._get('name')}" 
+        <gv-identity-picture .skeleton="${this._skeleton}" display_name="${this._get('name')}" 
             picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture>
-             <div class="title">${this._get('name')}<span>(${this._category.total_apis})</span></div>
+             <div class="title">${this._get('name')}${total ? html`<span>(${total})</span>` : ''}</div>
         </div>
        
         <div class="description">${truncate(this._get('description'), this.limit)}</div>`}

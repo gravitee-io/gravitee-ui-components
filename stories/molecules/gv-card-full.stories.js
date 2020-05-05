@@ -37,7 +37,7 @@ const api = Promise.resolve({
   labels,
   rating_summary: ratingSummary,
 });
-const application = Promise.resolve({ name, description, applicationType: 'Web' });
+const application = Promise.resolve({ name: `${name} app`, description, applicationType: 'Web' });
 
 export default {
   title: 'Molecules|gv-card-full',
@@ -84,24 +84,43 @@ export const Applications = makeStory(conf, {
 });
 
 export const empty = makeStory(conf, {
-  items: [{}],
+  items: [{ item: {} }],
 });
 
+let itemResolver;
+let metricResolver;
 export const loading = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})), metrics: new Promise(() => ({})) }],
+  items: [{}],
   simulations: [
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve) => (itemResolver = resolve));
+      component.metrics = new Promise((resolve) => (metricResolver = resolve));
+    }),
+
+    storyWait(750, ([component]) => {
+      itemResolver(api);
+    }),
+
     storyWait(2000, ([component]) => {
-      component.item = api;
-      component.metrics = { hits: '11M+', subscribers: '689', health: '0.95' };
+      metricResolver({ hits: '11M+', subscribers: '689', health: '0.95' });
     }),
   ],
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})) }],
+  items: [{}],
   simulations: [
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve, reject) => (itemResolver = reject));
+      component.metrics = new Promise((resolve) => (metricResolver = resolve));
+    }),
+
     storyWait(2000, ([component]) => {
-      component.item = Promise.reject(new Error());
+      itemResolver({});
+    }),
+
+    storyWait(750, ([component]) => {
+      metricResolver({ hits: '11M+', subscribers: '689', health: '0.95' });
     }),
   ],
 });

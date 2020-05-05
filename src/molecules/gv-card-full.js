@@ -50,6 +50,7 @@ export class GvCardFull extends ItemResource(LitElement) {
 
   static get styles () {
     return [
+      ...super.styles,
       // language=CSS
       css`
         :host {
@@ -125,10 +126,6 @@ export class GvCardFull extends ItemResource(LitElement) {
           max-height: 150px;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-
-        .error .description {
-          justify-content: center;
         }
 
         .infos {

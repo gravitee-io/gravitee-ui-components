@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 import { css, LitElement, html } from 'lit-element';
-import { skeleton } from '../styles/skeleton';
 import '../atoms/gv-metric';
 import { i18n } from '../lib/i18n';
+import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
+import { classMap } from 'lit-html/directives/class-map';
 
 /**
  * Api metrics information component
@@ -24,19 +25,18 @@ import { i18n } from '../lib/i18n';
  * @attr {Promise<ApiMetrics>} metrics - Metrics of an API.
  * @attr {RatingSummary} rating - Ratings of an API.
  */
-export class GvMetrics extends LitElement {
+export class GvMetrics extends withSkeletonAttribute(LitElement) {
 
   static get properties () {
     return {
       metrics: { type: Object },
       _metrics: { type: Object, attribute: false },
-      skeleton: { type: Boolean, reflect: true },
-      _error: { type: Boolean, attribute: false },
     };
   }
 
   static get styles () {
     return [
+      ...super.styles,
       // language=CSS
       css`
         :host {
@@ -47,33 +47,25 @@ export class GvMetrics extends LitElement {
           min-height: 25px;
           min-width: 25px;
         }
-        
-        * {
+
+        div {
+          display: flex;
+          width: 100%;
+        }
+
+        div > * {
           flex: 1 1 auto;
         }
       `,
-      skeleton,
     ];
   }
 
   constructor () {
     super();
+    this._skeletonAttribute = 'metrics';
+    this.skeleton = false;
     this._error = false;
-  }
-
-  set metrics (metrics) {
-    this.skeleton = true;
-    Promise.resolve(metrics)
-      .then((metrics) => {
-        if (metrics) {
-          this.skeleton = false;
-          this._metrics = metrics;
-        }
-      })
-      .catch(() => {
-        this._error = true;
-        this.skeleton = false;
-      });
+    this._empty = false;
   }
 
   _getSubscribers () {
@@ -110,11 +102,18 @@ export class GvMetrics extends LitElement {
   }
 
   render () {
+
+    if (this._error) {
+      return html`<div class="error">${i18n('gv-metrics.error')}</div>`;
+    }
+
     return html`
-        ${this._renderMetric('communication:group', i18n('gv-metrics.subscribers', { count: this._getSubscribers() }), this._getSubscribers())}
-        ${this._renderMetric('general:cursor', i18n('gv-metrics.hits', { count: this._getHits() }), this._getHits())}
-        ${this._renderMetric('general:heart', i18n('gv-metrics.health'), this._getHealth())}
-        <slot></slot>
+        <div class="${classMap({ skeleton: this._skeleton })}">
+            ${this._renderMetric('communication:group', i18n('gv-metrics.subscribers', { count: this._getSubscribers() }), this._getSubscribers())}
+            ${this._renderMetric('general:cursor', i18n('gv-metrics.hits', { count: this._getHits() }), this._getHits())}
+            ${this._renderMetric('general:heart', i18n('gv-metrics.health'), this._getHealth())}
+            <slot></slot>
+        </div>
     `;
   }
 

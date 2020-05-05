@@ -37,6 +37,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
 
   static get styles () {
     return [
+      ...super.styles,
       // language=CSS
       css`
           :host {
@@ -45,6 +46,10 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
               --hover-bgc: var(--gv-row-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
               --trf-ty: var(--gv-row-hover--trf-ty, 0);
               display: block;
+          }
+
+          :host([_invisible]) {
+            display: none;
           }
           
           .row {

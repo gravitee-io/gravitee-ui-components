@@ -22,6 +22,7 @@ import { i18n } from '../lib/i18n';
 import { link } from '../styles/link';
 import { repeat } from 'lit-html/directives/repeat';
 import { skeleton } from '../styles/skeleton';
+import { empty } from '../styles/empty';
 import { styleMap } from 'lit-html/directives/style-map';
 import './../atoms/gv-icon';
 
@@ -64,6 +65,7 @@ export class GvPlans extends LitElement {
 
   static get styles () {
     return [
+      empty,
       link,
       // language=css
       css`
@@ -171,16 +173,6 @@ export class GvPlans extends LitElement {
               min-height: 400px;
               margin: 0 0.2rem;
               opacity: 0.5;
-          }
-
-          .message {
-              padding: 2rem;
-              text-align: center;
-              border-radius: 2px;
-              background-color: var(--gv-theme-neutral-color-lighter);
-              font-size: var(--gv-theme-font-size-m);
-              line-height: 22px;
-              margin-bottom: 16px;
           }
 
           .link {
@@ -383,13 +375,13 @@ export class GvPlans extends LitElement {
 
     if (!this.skeleton) {
       if (this._error) {
-        return html`<div class="message error">
+        return html`<div class="error">
           <p> ${i18n('gv-plans.error')}</p>
         </div>`;
       }
       else if (this._empty) {
         return html`
-      <div class="message">
+      <div class="empty">
          <p> ${i18n('gv-plans.empty.title')}</p>
          <a  class="link" @click="${this._onRedirect}">${i18n('gv-plans.empty.redirect')}</a>
       </div>`;

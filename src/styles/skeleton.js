@@ -43,7 +43,10 @@ export const skeleton = css`
   .skeleton svg,
   :host([skeleton]) svg,
   :host([skeleton]) gv-icon,
-  .skeleton gv-icon{
+  .skeleton gv-icon,
+  .skeleton > *,
+  .skeleton ::slotted(*),
+  :host([skeleton]) ::slotted(*) {
       visibility: hidden;
   }
 `;

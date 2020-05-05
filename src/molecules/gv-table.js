@@ -150,7 +150,6 @@ export class GvTable extends withResizeObserver(LitElement) {
 
         .row:hover, .row.selected {
           background-color: var(--hover-bgc);
-          border-color: var(--selected--bgc);
         }
 
         .row.selected {
@@ -170,7 +169,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           line-height: var(--gv-table-header--fz, var(--gv-theme-font-size-l, 20px));
           opacity: 0.6;
         }
-        
+
         .title span {
           font-weight: 600;
           font-size: var(--gv-theme-font-size-s);
@@ -471,9 +470,10 @@ export class GvTable extends withResizeObserver(LitElement) {
         selected: this._isSelected(item),
       })} style=${styleMap({
         ...styleGridColumns,
-...{
+        ...{
           height: this.rowheight,
           cursor: this.options.selectable ? 'pointer' : '',
+          'border-color': (this.options.selectable && this._isSelected(item)) ? 'var(--selected--bgc)' : '',
         },
       })}
             @click="${this._onSelect.bind(this, item)}"

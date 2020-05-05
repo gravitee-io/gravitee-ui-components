@@ -70,6 +70,7 @@
     "pending": "Pending"
   },
   "gv-metrics": {
+    "error": "An error occurred while loading metrics",
     "health": "Health",
     "hits": "{count, plural, =0{Hit} one{Hit} other{Hits}} (last 7 days)",
     "subscribers": "{count, plural, =0{Subscriber} one{Subscriber} other{Subscribers}}"

@@ -76,6 +76,13 @@ export function getRating (item) {
   return null;
 }
 
+export function getEntrypoints (item) {
+  if (item) {
+    return item.entrypoints || [];
+  }
+  return [];
+}
+
 export function getDescription (item) {
   if (item) {
     return item.description;
