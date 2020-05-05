@@ -223,20 +223,21 @@ export class GvButton extends LitElement {
           flex: 1;
           white-space: nowrap;
           display: inline;
+          text-indent: 3px;
+        }
+        
+        .button.iconRight slot {
+          direction: rtl;
         }
 
-        gv-icon::before, gv-icon::after {
-          content: ' ';
-          width: 1px;
-        }
-
-        .loading gv-icon::before, .loading gv-icon::after {
-          width: 3px;
+        .fake-icon {
+          height: 23px;
         }
 
         .loading gv-icon {
           animation: spinner 1.6s linear infinite;
           --gv-icon--s: 20px;
+          margin: 0 3px 0 0;
         }
 
         @keyframes spinner {
@@ -257,14 +258,16 @@ export class GvButton extends LitElement {
   }
 
   _onClick (e) {
-    if (this.href) {
-      e.preventDefault();
+    if (!this.loading) {
+      if (this.href) {
+        e.preventDefault();
+      }
+      const form = this.closest('form');
+      if (form && this.type === 'submit') {
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      }
+      dispatchCustomEvent(this, 'click');
     }
-    const form = this.closest('form');
-    if (form && this.type === 'submit') {
-      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-    }
-    dispatchCustomEvent(this, 'click');
   }
 
   async performUpdate () {
@@ -284,6 +287,7 @@ export class GvButton extends LitElement {
       default: !this.primary && !this.danger && !this.link,
       outlined: this.outlined,
       icon: !!this.icon || !!this.iconRight || this.loading,
+      iconRight: !!this.iconRight || this.loading,
       loading: this.loading,
       link: this.link && !this.primary && !this.danger,
     };
@@ -325,7 +329,7 @@ export class GvButton extends LitElement {
     if (this.iconRight) {
       return html`<gv-icon shape="${this.iconRight}" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
-    return '';
+    return html`<div class="fake-icon"></div>`;
   }
 
   _getIconLeft () {
