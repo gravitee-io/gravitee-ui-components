@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { skeleton } from '../styles/skeleton';
-import { empty } from '../styles/empty';
 import '../atoms/gv-button';
 import '../atoms/gv-tag';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
+import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 
 /**
  * Stats component
@@ -29,22 +28,18 @@ import { i18n } from '../lib/i18n';
  * @attr {Array<any>} options - The list of options to display.
  *
  */
-export class GvStats extends LitElement {
+export class GvStats extends withSkeletonAttribute(LitElement) {
 
   static get properties () {
     return {
       stats: { type: Object },
       options: { type: Array },
-      _skeleton: { type: Boolean, attribute: false },
-      _error: { type: Boolean, attribute: false },
-      _empty: { type: Boolean, attribute: false },
     };
   }
 
   static get styles () {
     return [
-      skeleton,
-      empty,
+      ...super.styles,
       // language=CSS
       css`
         .stats {
@@ -77,9 +72,7 @@ export class GvStats extends LitElement {
 
   constructor () {
     super();
-    this._skeleton = false;
-    this._error = false;
-    this._empty = false;
+    this._skeletonAttribute = 'stats';
   }
 
   _getStat (option) {
@@ -105,24 +98,6 @@ export class GvStats extends LitElement {
         <div class="stats-label">${option.label || option.key}</div>
       </div>
     `;
-  }
-
-  set stats (stats) {
-    this._skeleton = true;
-    Promise.resolve(stats)
-      .then((stats) => {
-        if (stats) {
-          this._empty = Object.keys(stats).length === 0;
-          this._stats = stats;
-          this._skeleton = false;
-          this.render();
-        }
-      })
-      .catch(() => {
-        this._error = true;
-        this._skeleton = false;
-        this._stats = [];
-      });
   }
 
   render () {

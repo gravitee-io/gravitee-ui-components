@@ -18,6 +18,7 @@ import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
 import '../molecules/gv-identity-picture';
 import { getLabels, getPicture, getStates, getRating, getViews, getPictureDisplayName } from '../lib/item';
+import { withSkeletonAttribute } from './with-skeleton-attribute';
 
 /**
  * This is a mixin for ItemResource
@@ -28,46 +29,22 @@ export function ItemResource (ParentClass) {
   /**
    * @mixinClass
    */
-  return class extends ParentClass {
+  return class extends withSkeletonAttribute(ParentClass) {
 
     static get properties () {
       return {
+        ...super.properties,
         /** @required */
         item: { type: Object },
         href: { type: String },
         metrics: { type: Object },
         _item: { type: Object, attribute: false },
-        _skeleton: { type: Boolean, attribute: false },
-        _error: { type: Boolean, attribute: false },
-        _empty: { type: Boolean, attribute: false },
       };
     }
 
     constructor () {
       super();
-      this._skeleton = false;
-      this._error = false;
-      this._empty = false;
-    }
-
-    set item (item) {
-      this._skeleton = true;
-      this._error = false;
-      Promise.resolve(item)
-        .then((item) => {
-          if (item) {
-            this._item = item;
-          }
-          this._empty = item == null || Object.keys(item).length === 0;
-        })
-        .catch(() => {
-          this._error = true;
-        })
-        .finally(() => {
-          if (item !== null) {
-            this._skeleton = false;
-          }
-        });
+      this._skeletonAttribute = 'item';
     }
 
     _onImageLoaded () {
@@ -77,7 +54,7 @@ export function ItemResource (ParentClass) {
     }
 
     _renderImage () {
-      if (!this._empty) {
+      if (this._item && !this._empty) {
         return html`<gv-identity-picture .skeleton="${this._skeleton}" 
                                          .display_name="${getPictureDisplayName(this._item)}" 
                                          .picture="${getPicture(this._item)}" 

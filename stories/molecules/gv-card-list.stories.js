@@ -72,7 +72,7 @@ export const empty = makeStory(conf, {
 });
 
 export const loading = makeStory(conf, {
-  items: [{ items: new Array(apiItems.length) }],
+  items: [{ items: new Array(apiItems.length).fill({ item: null, metrics: null }) }],
   simulations: [
     storyWait(2000, ([component]) => {
       component.items = apiItems;
@@ -84,7 +84,7 @@ export const loadingAndError = makeStory(conf, {
   items: [{ items: new Array(apiItems.length) }],
   simulations: [
     storyWait(2000, ([component]) => {
-      component.items = Promise.reject(new Error());
+      component.items = apiItems.map(() => ({ item: Promise.reject(new Error()), metrics: null }));
     }),
   ],
 });

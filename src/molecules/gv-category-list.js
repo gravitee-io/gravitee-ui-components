@@ -31,7 +31,8 @@ import { GvCardList } from './gv-card-list';
 export class GvCategoryList extends GvCardList {
 
   static get styles () {
-    return [...GvCardList.styles, ...[
+    return [
+      ...super.styles,
       // language=CSS
       css`
         :host {
@@ -43,11 +44,11 @@ export class GvCategoryList extends GvCardList {
           --bgc-6: var(--gv-category-list--bgc-6, #E0C8B2);
         }
       `,
-    ]];
+    ];
   }
 
   renderItem (item, index) {
-    return html`<gv-category class="item" .category="${item}" style="${this._getCategoryBackgroundColor(index)}"> </gv-category>`;
+    return html`<gv-category class="item" .category="${item || null}" style="${this._getCategoryBackgroundColor(index)}"> </gv-category>`;
   }
 
   _getCategoryBackgroundColor (index) {

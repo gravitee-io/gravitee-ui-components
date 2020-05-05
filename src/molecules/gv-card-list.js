@@ -17,8 +17,6 @@ import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import { repeat } from 'lit-html/directives/repeat';
 import { withResizeObserver } from '../mixins/with-resize-observer';
-import './gv-category';
-import { classMap } from 'lit-html/directives/class-map';
 import { i18n } from '../lib/i18n';
 import './gv-card-full';
 
@@ -30,9 +28,6 @@ export class GvCardList extends withResizeObserver(LitElement) {
   static get properties () {
     return {
       items: { type: Array },
-      _items: { type: Array, attribute: false },
-      _skeleton: { type: Boolean, attribute: false },
-      _error: { type: Boolean, attribute: false },
     };
   }
 
@@ -41,10 +36,6 @@ export class GvCardList extends withResizeObserver(LitElement) {
     this.breakpoints = {
       width: [845, 1270],
     };
-    this._items = [];
-    this._skeleton = false;
-    this._error = false;
-    this._empty = false;
   }
 
   static get styles () {
@@ -53,18 +44,9 @@ export class GvCardList extends withResizeObserver(LitElement) {
       css`
         :host {
           box-sizing: border-box;
-          display: block;
-        }
-
-        .container {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           grid-gap: 0.5rem;
-        }
-
-        .container.error {
-          display: block;
-          text-align: center;
         }
 
         :host([w-lt-1270]) .container {
@@ -88,52 +70,41 @@ export class GvCardList extends withResizeObserver(LitElement) {
         .item.show {
           opacity: 1;
         }
-
       `,
     ];
   }
 
-  set items (value) {
-    this._skeleton = true;
-    this._error = false;
-    Promise.resolve(value)
-      .then((value) => {
-        if (value) {
-          this._items = value;
-        }
-        this._empty = this._items == null || Object.keys(this._items).length === 0;
-      })
-      .catch(() => {
-        this._error = true;
-      })
-      .finally(() => {
-        this._skeleton = false;
-      });
-  }
-
   renderItem (item, index) {
-    return html`<gv-card-full class="item" .item="${item && item.item ? item.item : null}" .metrics="${item && item.item ? item.metrics : null}"> </gv-card-full>`;
+    const _item = item && item.item ? item.item : null;
+    const _metrics = item && item.metrics ? item.metrics : null;
+    return html`<gv-card-full class="item" .item="${_item}" .metrics="${_metrics}"> </gv-card-full>`;
   }
 
   render () {
-    return html`<div class="${classMap({ container: true, error: this._error })}">
-                 ${this._error ? html`<div>${i18n('gv-card-list.error')}</div>`
-      : repeat(this._items, (item) => item, (item, index) =>
-        this.renderItem(item, index),
-      )}
-      </div>
-        `;
+
+    if (this._error) {
+      return html`<div>${i18n('gv-card-list.error')}</div>`;
+    }
+
+    if (this.items) {
+      return html`${repeat(this.items, (item) => item, (item, index) => this.renderItem(item, index))}`;
+    }
+    return '';
+
   }
 
-  updated () {
-    if (this._items.length > 0) {
-      const items = this.shadowRoot.querySelectorAll('.item');
-      items.forEach((item, index) => {
-        setTimeout(() => {
-          item.classList.add('show');
-        }, index * 100);
-      });
+  updated (changedProperties) {
+    if (changedProperties.has('items')) {
+      if (this.items && this.items.length > 0) {
+        const items = this.shadowRoot.querySelectorAll('.item');
+        items.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add('show');
+          }, index * 100);
+        });
+      }
     }
+
   }
 
 }

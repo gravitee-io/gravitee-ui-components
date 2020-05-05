@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
@@ -23,7 +22,7 @@ import { i18n, getLanguage } from '../lib/i18n';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
 import { ItemResource } from '../mixins/item-resource';
-import { getDescription, getLabels, getViews, getTitle, getVersion, getRating } from '../lib/item';
+import { getDescription, getLabels, getViews, getTitle, getVersion, getRating, getEntrypoints } from '../lib/item';
 
 /**
  * Info component
@@ -52,6 +51,7 @@ export class GvInfo extends ItemResource(LitElement) {
 
   static get properties () {
     return {
+      ...super.properties,
       resources: { type: Object },
       metrics: { type: Object },
       _metrics: { type: Object, attribute: false },
@@ -63,6 +63,7 @@ export class GvInfo extends ItemResource(LitElement) {
 
   static get styles () {
     return [
+      ...super.styles,
       link,
       // language=CSS
       css`
@@ -80,6 +81,7 @@ export class GvInfo extends ItemResource(LitElement) {
           height: var(--gv-info-image--h, 32px);
           width: var(--gv-info-image--w, 32px);
         }
+
         .infos {
           display: flex;
           flex-direction: column;
@@ -96,13 +98,10 @@ export class GvInfo extends ItemResource(LitElement) {
           margin: 6px 12px;
         }
 
-        h4 {
-          margin: 0 0 8px 0;
-        }
-
         .info__miscellaneous {
           list-style: none;
           padding: 0;
+          margin: 0;
         }
 
         .info__resources, .info__miscellaneous_item {
@@ -113,29 +112,12 @@ export class GvInfo extends ItemResource(LitElement) {
 
         .info__miscellaneous_item span {
           padding: 1px 5px 1px 0;
-          color: var(--gv-theme-neutral-color-dark, #BFBFBF);
-          filter: contrast(0);
-        }
-
-        .skeleton .info__miscellaneous_item span {
-          color: transparent;
+          opacity: 0.6;
         }
 
         .skeleton {
-          display: block;
-          padding: 15px;
-        }
-
-        .skeleton a {
-          visibility: hidden;
-        }
-
-        .dc.skeleton {
-          min-height: 150px;
-        }
-
-        .info.skeleton {
-          min-height: 50px;
+          width: 100%;
+          height: 100%;
         }
 
         .figures {
@@ -170,9 +152,19 @@ export class GvInfo extends ItemResource(LitElement) {
         .title h3 {
           flex: 1;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.05rem;
           word-break: break-all;
-          margin: 0.2rem;
+          margin: 0.6rem 0.2rem;
+          font-size: var(--gv-theme-font-size-l);
+          line-height: var(--gv-theme-font-size-l);
+        }
+
+        h4 {
+          margin: 0 0 10px 0;
+          font-size: var(--gv-theme-font-size-m);
+          line-height: var(--gv-theme-font-size-m);
+          opacity: 0.6;
+          letter-spacing: 0.05rem;
         }
 
         .title .version {
@@ -191,7 +183,6 @@ export class GvInfo extends ItemResource(LitElement) {
           cursor: pointer;
         }
       `,
-      skeleton,
     ];
   }
 
@@ -256,30 +247,18 @@ export class GvInfo extends ItemResource(LitElement) {
 
   render () {
     if (this._empty) {
-      return html`
-        <div class="infos">
-          <div class="info">
-            <span></span>
-          </div>
-        </div>
-      `;
+      return '';
     }
 
     if (this._error) {
-      return html`
-        <div class="infos">
-          <div class="info">
-            <h4>${i18n('gv-info.error')}</h4>
-          </div>
-        </div>
-      `;
+      return html`<div class="error">${i18n('gv-info.error')}</div>`;
     }
 
     const views = getViews(this._item);
     const labels = getLabels(this._item);
+    const entrypoints = getEntrypoints(this._item);
     return html`
       <div class="infos">
-
         ${this.withDublinCore === true
       ? html`
           <div class="${classMap({ dc: true, skeleton: this._skeleton })}">
@@ -294,11 +273,11 @@ export class GvInfo extends ItemResource(LitElement) {
       : ''
     }
 
-        ${this._skeleton || (this._item && this._item.entrypoints && this._item.entrypoints.length > 0)
+        ${this._skeleton || (entrypoints.length > 0)
       ? html`
           <div class="${classMap({ info: true, skeleton: this._skeleton })}">
             <h4>${i18n('gv-info.entrypoints')}</h4>
-            ${repeat(this._item.entrypoints, (e) => html`<div><a class="link" href="${e}" target="_blank">${e}</a></div>`)}
+            ${repeat(entrypoints, (e) => html`<div><a class="link" href="${e}" target="_blank">${e}</a></div>`)}
           </div>
         `
       : ''
@@ -361,11 +340,11 @@ export class GvInfo extends ItemResource(LitElement) {
                 <h4>${this.title || i18n('gv-info.moreInfo')}</h4>
                 <span>
                   <ul class="info__miscellaneous">
-                    ${repeat(this.miscellaneous, (item) =>
-                      html`<li class="info__miscellaneous_item">
-                            ${item.type ? html`<gv-input type=${item.type} value=${item.value}></gv-input>` : this._renderMiscellaneous(item)}
-                        </li>`,
-                    )}
+                    ${repeat(this.miscellaneous, (item) => html`
+                      <li class="info__miscellaneous_item">
+                        ${item.type ? html`<gv-input type=${item.type} value=${item.value}></gv-input>` : this._renderMiscellaneous(item)}
+                      </li>`,
+      )}
                   </ul>
                 </span>
               </div>

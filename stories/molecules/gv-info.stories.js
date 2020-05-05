@@ -50,12 +50,6 @@ const api = {
     picture: logo,
   },
 };
-//
-// const withActions = withCustomEventActions(
-//   'gv-info:click-view',
-//   'gv-info:click-label',
-//   'gv-info:click-resource'
-// );
 
 export default {
   title: 'Molecules|gv-info',
@@ -90,25 +84,36 @@ export const withTitleAndPicture = makeStory(conf, {
 });
 
 export const empty = makeStory(conf, {
-  items: [{}],
+  items: [{ item: {} }],
 });
 
+let itemResolver;
 export const loading = makeStory(conf, {
-  items: [{ item: {}, resources: {}, 'with-dc': true }],
+  items: [{ }],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.item = api;
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve) => (itemResolver = resolve));
+    }),
+    storyWait(750, ([component]) => {
+      itemResolver(api);
       component.resources = resources;
       component.miscellaneous = miscellaneous;
+      component['with-dc'] = true;
     }),
   ],
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ item: {}, resources: {}, 'with-dc': true }],
+  items: [{ }],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.item = Promise.reject(new Error());
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve, reject) => (itemResolver = reject));
+    }),
+    storyWait(750, ([component]) => {
+      itemResolver({});
+      component.resources = resources;
+      component.miscellaneous = miscellaneous;
+      component['with-dc'] = true;
     }),
   ],
 });

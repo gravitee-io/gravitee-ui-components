@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { skeleton } from '../styles/skeleton';
 import '../atoms/gv-button';
 import '../atoms/gv-tag';
 import { i18n } from '../lib/i18n';
@@ -54,7 +53,7 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
 
   static get styles () {
     return [
-      skeleton,
+      ...super.styles,
       // language=CSS
       css`
           :host {
@@ -266,9 +265,9 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
             ${this._renderImage()}
             <div class="title">
                 ${(!(this._error || this._empty) && !this.sticky) ? html`<div class="version">${getVersion(this._item)}</div>` : ''}
-                ${(this._error || this._empty) ? html`
-                    <div><div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>
-                 </div>` : html`<h1>${getTitle(this._item)} ${nbApisInView !== null ? html`<span>(${nbApisInView})</span>` : ''}</h1>`}
+                ${(this._error || this._empty)
+                  ? html`<div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>`
+                  : html`<h1>${getTitle(this._item)} ${nbApisInView !== null ? html`<span>(${nbApisInView})</span>` : ''}</h1>`}
             </div>
             ${!(this._error || this._empty) && this.canSubscribe ? html`<div class="actions">
                 <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header.subscribe')}</gv-button>

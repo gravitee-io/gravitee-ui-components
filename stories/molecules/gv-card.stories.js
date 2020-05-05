@@ -53,23 +53,30 @@ export const basics = makeStory(conf, {
 });
 
 export const empty = makeStory(conf, {
-  items: [{}],
+  items: [{ item: {} }],
 });
 
+let itemResolver;
 export const loading = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})) }],
+  items: [{}],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.item = item;
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve) => (itemResolver = resolve));
+    }),
+    storyWait(750, () => {
+      itemResolver(item);
     }),
   ],
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ item: new Promise(() => ({})) }],
+  items: [{ }],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.item = Promise.reject(new Error());
+    storyWait(0, ([component]) => {
+      component.item = new Promise((resolve, reject) => (itemResolver = reject));
+    }),
+    storyWait(750, () => {
+      itemResolver({});
     }),
   ],
 });

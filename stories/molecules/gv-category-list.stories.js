@@ -93,7 +93,7 @@ export const loadingAndError = makeStory(conf, {
   items: [{ items: new Array(categories.length) }],
   simulations: [
     storyWait(2000, ([component]) => {
-      component.items = Promise.reject(new Error());
+      component.items = categories.map(() => Promise.reject(new Error()));
     }),
   ],
 });

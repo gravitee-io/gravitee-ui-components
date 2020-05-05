@@ -68,6 +68,11 @@ export default {
 const conf = {
   component: 'gv-chart-map',
   events,
+  css: `
+    gv-chart-map {
+      min-height: 200px;
+    }
+  `,
 };
 
 export const Basics = makeStory(conf, {
@@ -86,20 +91,31 @@ export const Empty = makeStory(conf, {
   items: [{ series: [], options }],
 });
 
+let seriesResolver;
 export const Loading = makeStory(conf, {
-  items: [{ series: new Promise(() => ({})), options }],
+  items: [{}],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.series = series;
+    storyWait(0, ([component]) => {
+      component.series = new Promise((resolve) => (seriesResolver = resolve));
+      component.options = options;
+    }),
+
+    storyWait(750, () => {
+      seriesResolver(series);
     }),
   ],
 });
 
 export const LoadingAndError = makeStory(conf, {
-  items: [{ series: new Promise(() => ({})), options }],
+  items: [{}],
   simulations: [
-    storyWait(2000, ([component]) => {
-      component.series = Promise.reject(new Error());
+    storyWait(0, ([component]) => {
+      component.series = new Promise((resolve, reject) => (seriesResolver = reject));
+      component.options = options;
+    }),
+
+    storyWait(750, () => {
+      seriesResolver({});
     }),
   ],
 });

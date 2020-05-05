@@ -33,6 +33,7 @@ export class GvCard extends ItemResource(LitElement) {
 
   static get styles () {
     return [
+      ...super.styles,
       // language=CSS
       css`
         :host {
@@ -104,11 +105,6 @@ export class GvCard extends ItemResource(LitElement) {
           right: 0.4rem;
           position: absolute;
         }
-
-        .error {
-          text-align: center;
-          font-size: var(--gv-theme-font-size-xs, 10px);
-        }
       `,
       skeleton,
     ];
@@ -120,11 +116,9 @@ export class GvCard extends ItemResource(LitElement) {
     <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${getVersion(this._item)}</span>
     <div class="${classMap({ image: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
 
-    <div class="content">
+    <div class="${classMap({ content: true, empty: this._error || this._empty })}">
         ${(this._error || this._empty) ? html`
-        <div class="${classMap({ skeleton: this._skeleton })}">
-            <span class="error">${this._error ? i18n('gv-card.error') : i18n('gv-card.empty')}</span>
-        </div>
+        <span>${this._error ? i18n('gv-card.error') : i18n('gv-card.empty')}</span>
         ` : html`
         <div class="${classMap({ skeleton: this._skeleton })}">
             <span class="title">${title}</span>

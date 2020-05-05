@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 import { html } from 'lit-html';
-import { skeleton } from '../styles/skeleton';
 import { css } from 'lit-element';
 import { i18n } from '../lib/i18n';
 import Highcharts from 'highcharts';
 import Highmaps from 'highcharts/highmaps';
 import { cache } from 'lit-html/directives/cache';
+import { withSkeletonAttribute } from './with-skeleton-attribute';
 
 /**
  * This is a mixin for ChartElement
@@ -30,7 +30,7 @@ export function ChartElement (ParentClass) {
   /**
    * @mixinClass
    */
-  return class extends ParentClass {
+  return class extends withSkeletonAttribute(ParentClass) {
 
     static get properties () {
       return {
@@ -39,27 +39,31 @@ export function ChartElement (ParentClass) {
         options: { type: Array },
         _additionalOptions: { type: Object, attribute: false },
         _series: { type: Array, attribute: false },
-        _skeleton: { type: Boolean, attribute: false },
-        _error: { type: Boolean, attribute: false },
-        _empty: { type: Boolean, attribute: false },
       };
     }
 
     static get styles () {
       return [
-        skeleton,
+        ...super.styles,
         // language=CSS
         css`
-          .error {
-            align-items: center;
+          :host {
+            box-sizing: border-box;
             display: flex;
             height: 100%;
+            width: 100%;
+            flex-direction: column;
             justify-content: center;
+            align-content: center;
           }
-
+          
+          .container {
+            flex: 1;
+          }
+          
           .tooltip {
-             display: grid;
-           }
+            display: grid;
+          }
 
           .tooltip-2 {
             grid-template-columns: repeat(2, 1fr);
@@ -76,27 +80,13 @@ export function ChartElement (ParentClass) {
           .tooltip-5 {
             grid-template-columns: repeat(5, 1fr);
           }
-
-          .empty, .error {
-            align-items: center;
-            display: grid;
-            font-weight: 600;
-            font-size: var(--gv-theme-font-size-xl, 26px);
-            text-align: center;
-            color: var(--gv-theme-color-dark, #193E34);
-            opacity: 0.5;
-            padding: 41px;
-          }
         `,
       ];
     }
 
     constructor () {
       super();
-      this._skeleton = false;
-      this._error = false;
-      this._empty = false;
-
+      this._skeletonAttribute = 'series';
       this._eventListener = function eventListener () {
         for (let i = 0; i < Highcharts.charts.length; i++) {
           Highcharts.charts[i].reflow();
@@ -114,30 +104,17 @@ export function ChartElement (ParentClass) {
       window.removeEventListener('resize', this._eventListener);
     }
 
-    set series (series) {
-      this._skeleton = true;
-      Promise.resolve(series)
-        .then((series) => {
-          if (series) {
-            this._empty = (series && Object.keys(series).length === 0)
-              || (series.values && Object.keys(series.values).length === 0)
-              || (series.values && !Object.values(series.values).find((v) => v !== 0))
-              || (series.values && series.values[0] && series.values[0].buckets.length === 0);
-            this._series = series;
-            this.getOptions().then((options) => {
-              this._additionalOptions = options;
-              this._skeleton = false;
-            });
-          }
-        })
-        .catch(() => {
-          this._error = true;
-          this._skeleton = false;
-          this._series = [];
-        });
+    async getOptions () {
     }
 
-    async getOptions () {}
+    updated (changedProperties) {
+      super.updated(changedProperties);
+      if (changedProperties.has('_series')) {
+        this.getOptions().then((options) => {
+          this._additionalOptions = options;
+        });
+      }
+    }
 
     render () {
 
@@ -151,7 +128,7 @@ export function ChartElement (ParentClass) {
       const container = document.createElement('div');
       container.id = 'container';
       container.className = this._skeleton || this._additionalOptions == null ? 'skeleton' : '';
-      container.style = 'height: 100%; width: 100%;';
+      container.classList.add('container');
 
       if (this._additionalOptions) {
         const options = {
