@@ -106,5 +106,5 @@ export function getPictureDisplayName (item) {
       return `${getTitle(item)}  ${item.applicationType}`;
     }
   }
-  return getTitle();
+  return getTitle(item);
 }
