@@ -37,9 +37,9 @@ import './../atoms/gv-icon';
  * @attr {String} value - The current plan id
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {Color} [--gv-plans--bgc=var(--gv-theme-color, #009B5B)] - Background color
+ * @cssprop {Color} [--gv-plans--bgc=var(--gv-theme-color, #5A7684)] - Background color
  * @cssprop {Color} [--gv-plans-font--c=var(--gv-theme-font-color-light, #FFFFFF)] - Font color
- * @cssprop {Color} [--gv-plans-characteristic--bgc=var(--gv-theme-color-light, #D5FDCB)] - Characteristic background color
+ * @cssprop {Color} [--gv-plans-characteristic--bgc=var(--gv-theme-color-light, #86c3d0)] - Characteristic background color
  * @cssprop {Color} [--gv-plans-characteristics--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Characteristics border color
  * @cssprop {Length} [--gv-plans-icon--s=24px] - Height and icon width
  */
@@ -73,7 +73,7 @@ export class GvPlans extends LitElement {
               display: block;
               box-sizing: border-box;
               margin: 0.2rem;
-              --bgc: var(--gv-plans--bgc, var(--gv-theme-color, #009B5B));
+              --bgc: var(--gv-plans--bgc, var(--gv-theme-color, #5A7684));
               --fc: var(--gv-plans-font--c, var(--gv-theme-font-color-light, #FFFFFF));
               --gv-icon--c: var(--bgc);
           }
@@ -155,7 +155,7 @@ export class GvPlans extends LitElement {
           }
 
           .circle {
-              background-color: var(--gv-plans-characteristic--bgc, var(--gv-theme-color-light, #D5FDCB));
+              background-color: var(--gv-plans-characteristic--bgc, var(--gv-theme-color-light, #86c3d0));
               border-radius: 50%;
               width: 32px;
               height: 32px;
@@ -366,7 +366,7 @@ export class GvPlans extends LitElement {
   }
 
   render () {
-    const bgc = getCssVar(this, '--gv-plans--bgc', '#009B5B');
+    const bgc = getCssVar(this, '--gv-plans--bgc', '#5A7684');
     const { r, g, b } = hexToRGB(bgc);
     const style = {
       backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,

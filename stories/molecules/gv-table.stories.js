@@ -81,7 +81,7 @@ const apiOptions = {
     {
       type: 'icon',
       icon: 'design:circle',
-      style: (item) => (item.running ? '--gv-icon--c: #009B5B' : '--gv-icon--c: #FF7875'),
+      style: (item) => (item.running ? '--gv-icon--c: #86c3d0' : '--gv-icon--c: #FF7875'),
     },
   ],
 };

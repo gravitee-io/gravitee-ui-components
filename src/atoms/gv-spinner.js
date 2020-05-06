@@ -38,8 +38,8 @@ export class GvSpinner extends LitElement {
           position: relative;
           height: 100%;
           width: 100%;
-          background-image: var(--gv-theme-loader, url('/images/gravitee-loader.gif'));
-          background-size: auto;
+          background-image: var(--gv-theme-loader);
+          background-size: 200px;
           background-repeat: no-repeat;
           background-position: center center;
         }

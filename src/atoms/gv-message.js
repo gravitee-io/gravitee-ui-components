@@ -26,8 +26,8 @@ import '../atoms/gv-icon';
  * @attr {String} type - type of the message. Can be info (Default), success, error, warning or info.
  * @attr {boolean} closable - determines if the message can be hidden.
  *
- * @cssprop {Color} [--gv-message-success--bgc=var(--gv-theme-color-light, #D5FDCB)] - Success background color
- * @cssprop {Color} [--gv-message-success--c=var(--gv-theme-color-darker, #1D3730)] - Success color
+ * @cssprop {Color} [--gv-message-success--bgc=var(--gv-theme-color-light, #86c3d0)] - Success background color
+ * @cssprop {Color} [--gv-message-success--c=var(--gv-theme-color-darker, #383E3F)] - Success color
  * @cssprop {Color} [--gv-message-info--c=#00529B] - Info color
  * @cssprop {Color} [--gv-message-info--bgc=#BDE5F8] - Info background color
  * @cssprop {Color} [--gv-message-warn--c=#9F6000] - Warning color
@@ -73,9 +73,9 @@ export class GvMessage extends LitElement {
           }
 
           .success {
-            background-color: var(--gv-message-success--bgc, var(--gv-theme-color-light, #D5FDCB));
-            color: var(--gv-message-success--c, var(--gv-theme-color-darker, #1D3730));
-            --gv-icon--c: var(--gv-message-success--c, var(--gv-theme-color-darker, #1D3730));
+            background-color: var(--gv-message-success--bgc, var(--gv-theme-color-light, #86c3d0));
+            color: var(--gv-message-success--c, var(--gv-theme-color-darker, #383E3F));
+            --gv-icon--c: var(--gv-message-success--c, var(--gv-theme-color-darker, #383E3F));
           }
 
           .warning {
@@ -89,7 +89,7 @@ export class GvMessage extends LitElement {
             color: var(--gv-message-error--c, #820014);
             --gv-icon--c: var(--gv-message-error--c, #820014);
           }
-          
+
           .close {
             transition: opacity 250ms ease-in-out;
             opacity: 0;

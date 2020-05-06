@@ -33,7 +33,7 @@ import copy from 'clipboard-copy';
  * @cssprop {Color} [--gv-code--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Length} [--gv-code--bdw=1px] - Border width
  * @cssprop {String} [--gv-code--bds=solid] - Border style
- * @cssprop {Color} [--gv-code--bdc=var(--gv-theme-color, #009B5B)] - Border color
+ * @cssprop {Color} [--gv-code--bdc=var(--gv-theme-color, #5A7684)] - Border color
  * @cssprop {Length} [--gv-code-icon--s=24px] - Height and icon width
  */
 export class GvCode extends LitElement {
@@ -73,7 +73,7 @@ export class GvCode extends LitElement {
           color: var(--gv-code--c, var(--gv-theme-font-color-dark, #262626));
           border-width: var(--gv-code--bdw, 1px);
           border-style: var(--gv-code--bds, solid);
-          border-color: var(--gv-code--bdc, var(--gv-theme-color, #009B5B));
+          border-color: var(--gv-code--bdc, var(--gv-theme-color, #5A7684));
           border-radius: 4px;
           display: flex;
         }
@@ -92,7 +92,7 @@ export class GvCode extends LitElement {
         }
 
         pre.copied {
-          --gv-icon--c: var(--gv-theme-color, #009B5B);
+          --gv-icon--c: var(--gv-theme-color, #5A7684);
           opacity: 0.8;
         }
 

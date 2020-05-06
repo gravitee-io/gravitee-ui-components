@@ -32,7 +32,7 @@ import '../molecules/gv-metrics';
  *
  * @attr {Promise<any>} item - an item.
  *
- * @cssprop {Color} [--gv-promote-image--bgc=var(--gv-theme-color-light, #D5FDCB)] - Image background color
+ * @cssprop {Color} [--gv-promote-image--bgc=var(--gv-theme-color-light, #86c3d0)] - Image background color
  * @cssprop {Color} [--gv-promote--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Length} [--gv-promote-image--h=300px] - Image height
  * @cssprop {Length} [--gv-promote-image--w=300px] - Image width
@@ -78,7 +78,7 @@ export class GvPromote extends ItemResource(LitElement) {
         }
 
         .image {
-          background-color: var(--gv-promote-image--bgc, var(--gv-theme-color-light, #D5FDCB));
+          background-color: var(--gv-promote-image--bgc, var(--gv-theme-color-light, #86c3d0));
           min-height: 0;
           min-width: 0;
           width: 480px;

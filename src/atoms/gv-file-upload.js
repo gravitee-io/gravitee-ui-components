@@ -57,7 +57,7 @@ export class GvFileUpload extends LitElement {
           box-sizing: border-box;
           display: block;
           width: 100%;
-          color: var(--gv-theme-color-dark, #193E34);
+          color: var(--gv-theme-color-dark, #28444F);
         }
 
         .box {
@@ -67,7 +67,7 @@ export class GvFileUpload extends LitElement {
           padding: 2rem;
           text-align: center;
           display: block;
-          border: 1px dashed #193E34;
+          border: 1px dashed #28444F;
           border-radius: 4px;
           transition: outline-offset .15s ease-in-out, background-color .15s linear;
           height: 100%;
@@ -79,7 +79,7 @@ export class GvFileUpload extends LitElement {
           display: block;
           margin-bottom: 40px;
           --gv-icon--s: 5rem;
-          --gv-icon--c: var(--gv-theme-color-dark, #193E34);
+          --gv-icon--c: var(--gv-theme-color-dark, #28444F);
 
         }
 
@@ -102,9 +102,9 @@ export class GvFileUpload extends LitElement {
         }
 
         .box.is-dragover {
-          background-color: var(--gv-theme-color-light, #193E34);
+          background-color: var(--gv-theme-color-light, #28444F);
           border: none;
-          outline: 1px dashed #193E34;
+          outline: 1px dashed #28444F;
           outline-offset: -10px;
         }
 

@@ -37,11 +37,11 @@ import './gv-icon';
  * @cssprop {String} [--gv-tag--bsw=none] - Box shadow
  *
  * @cssprop {Color} [--gv-tag--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
- * @cssprop {Color} [--gv-tag-major--bgc=var(--gv-theme-color, #009B5B)] - Major background color
+ * @cssprop {Color} [--gv-tag-major--bgc=var(--gv-theme-color, #5A7684)] - Major background color
  * @cssprop {Color} [--gv-tag-minor--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Minor background color
  *
  * @cssprop {Color} [--gv-tag--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
- * @cssprop {Color} [--gv-tag-major--bdc=var(--gv-theme-color, #009B5B)] - Major border color
+ * @cssprop {Color} [--gv-tag-major--bdc=var(--gv-theme-color, #5A7684)] - Major border color
  * @cssprop {Color} [--gv-tag-minor--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Minor border color
 
  * @cssprop {String} [--gv-tag--bds=solid] - Border style
@@ -92,8 +92,8 @@ export class GvTag extends LitElement {
           }
 
           div.major {
-              --bgc: var(--gv-tag-major--bgc, var(--gv-theme-color, #009B5B));
-              --bdc: var(--gv-tag-major--bdc, var(--gv-theme-color, #009B5B));
+              --bgc: var(--gv-tag-major--bgc, var(--gv-theme-color, #5A7684));
+              --bdc: var(--gv-tag-major--bdc, var(--gv-theme-color, #5A7684));
               --bds: var(--gv-tag-major--bds, solid);
               --bdw: var(--gv-tag-major--bdw, 1px);
               --c: var(--gv-tag-major--c, var(--gv-theme-font-color-light, #FFFFFF));

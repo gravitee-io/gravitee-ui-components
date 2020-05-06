@@ -32,7 +32,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} label - label of the switch
  * @attr {String} description - description of the switch
  *
- * @cssprop {Color} [--gv-switch-on--bgc=var(--gv-theme-color, #009B5B)] - On background color
+ * @cssprop {Color} [--gv-switch-on--bgc=var(--gv-theme-color, #5A7684)] - On background color
  * @cssprop {Color} [--gv-switch-off--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Off background color
  * @cssprop {Color} [--gv-switch--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Switch background color
  */
@@ -55,7 +55,7 @@ export class GvSwitch extends LitElement {
       css`
         :host {
           --off-bgc: var(--gv-switch-off--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
-          --on-bgc: var(--gv-switch-on--bgc, var(--gv-theme-color, #009B5B));
+          --on-bgc: var(--gv-switch-on--bgc, var(--gv-theme-color, #5A7684));
             box-sizing: border-box;
             margin: 0.2rem;
         }

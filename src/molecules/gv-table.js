@@ -49,7 +49,7 @@ import '../atoms/gv-image';
  * @attr {Array<any>} selected - A list of selected ids of the items displayed
  * @attr {String} total - Total of data displayed on the table (useful with in case of pagination)
  *
- * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
+ * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #5A7684)] - Selected background color
  * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
  * @cssprop {Color} [--gv-table--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
@@ -89,7 +89,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       // language=CSS
       css`
         :host {
-          --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #009B5B));
+          --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #5A7684));
           --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
           --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
           --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));

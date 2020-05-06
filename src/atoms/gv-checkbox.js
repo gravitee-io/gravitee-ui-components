@@ -30,7 +30,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} label - label of the checkbox
  * @attr {String} title - title of the checkbox
  *
- * @cssprop {Color} [--gv-checkbox--bgc=var(--gv-theme-color, #009B5B)] - Checked background color
+ * @cssprop {Color} [--gv-checkbox--bgc=var(--gv-theme-color, #5A7684)] - Checked background color
  */
 export class GvCheckbox extends LitElement {
 
@@ -89,7 +89,7 @@ export class GvCheckbox extends LitElement {
 
         gv-icon.checked {
           --gv-icon--s: 20px;
-          background-color: var(--gv-checkbox--bgc, var(--gv-theme-color, #009B5B));
+          background-color: var(--gv-checkbox--bgc, var(--gv-theme-color, #5A7684));
           display: inherit !important;
           margin: 5px;
           border-radius: 4px;

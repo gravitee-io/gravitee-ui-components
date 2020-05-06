@@ -30,8 +30,8 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
  * @cssprop {Color} [--gv-menu--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
- * @cssprop {Color} [--gv-menu--bgc=var(--gv-theme-color-dark, #193E34)] - Background color.
- * @cssprop {Color} [--gv-menu-link-active--bdbc=var(--gv-theme-color-light, #D5FDCB)] - Border bottom color of active link.
+ * @cssprop {Color} [--gv-menu--bgc=var(--gv-theme-color-dark, #28444F)] - Background color.
+ * @cssprop {Color} [--gv-menu-link-active--bdbc=var(--gv-theme-color-light, #86c3d0)] - Border bottom color of active link.
  * @cssprop {String} [--gv-menu-link-active--bdbs=solid] - Border bottom style of active link.
  * @cssprop {Length} [--gv-menu-link-active--bdbw=3px] - Border bottom width of active link.
  * @cssprop {Color} [--gv-menu-link-active--bgc=transparent] - Active background color
@@ -60,7 +60,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
               --gv-link-active--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
               --gv-link--bgc: var(--gv-menu-link--bgc, transparent);
               --gv-link-active--bgc: var(--gv-menu-link-active--bgc, transparent);
-              --gv-link-active--bdbc: var(--gv-menu-link-active--bdbc, var(--gv-theme-color-light, #D5FDCB));
+              --gv-link-active--bdbc: var(--gv-menu-link-active--bdbc, var(--gv-theme-color-light, #86c3d0));
               --gv-link-active--bdbs: var(--gv-menu-link-active--bdbs, solid);
               --gv-link-active--bdbw: var(--gv-menu-link-active--bdbw, 3px);
               --pr: var(--gv-theme-layout--pr, 4rem);
@@ -69,7 +69,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
               display: block;
               font-size: var(--gv-theme-font-size-s, 12px);
           }
-          
+
           :host([sticky]) gv-nav {
               line-height: 1px;
               --gv-link-icon--s: 20px;
@@ -134,7 +134,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
           .nav-container {
               display: grid;
               grid-template-columns: auto auto;
-              background-color: var(--gv-menu--bgc, var(--gv-theme-color-dark, #193E34));
+              background-color: var(--gv-menu--bgc, var(--gv-theme-color-dark, #28444F));
               color: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 
@@ -149,7 +149,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
               padding-left: 5rem;
               transition: all 250ms ease-in-out;
           }
-           
+
           .right {
               display: flex;
               padding-right: var(--pr);
@@ -167,7 +167,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
               justify-content: flex-end;
               width: 100%;
           }
-          
+
           .right ::slotted([slot="right"]), .right ::slotted([slot="right-transition"])  {
                 align-self: center;
           }

@@ -100,7 +100,7 @@ export class GvInput extends InputElement(LitElement) {
         }
 
         .copied {
-          --gv-icon--c: var(--gv-theme-color, #009B5B);
+          --gv-icon--c: var(--gv-theme-color, #5A7684);
         }
 
         .loading input, .loading ::slotted(input) {

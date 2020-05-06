@@ -25,10 +25,10 @@ import { applyTheme } from '../lib/theme';
  *
  * So we offer within our portal a customization tool.
  *
- * @cssprop {Color} [--gv-theme-color-darker=#1D3730] - Primary darker color
- * @cssprop {Color} [--gv-theme-color-dark=#193E34] - Primary dark color
- * @cssprop {Color} [--gv-theme-color=#009B5B] - Primary color
- * @cssprop {Color} [--gv-theme-color-light=#D5FDCB] - Primary light color
+ * @cssprop {Color} [--gv-theme-color-darker=#383E3F] - Primary darker color
+ * @cssprop {Color} [--gv-theme-color-dark=#28444F] - Primary dark color
+ * @cssprop {Color} [--gv-theme-color=#5A7684] - Primary color
+ * @cssprop {Color} [--gv-theme-color-light=#86c3d0] - Primary light color
  * @cssprop {Color} [--gv-theme-color-danger=#FF5722] - Primary danger color
  *
  * @cssprop {Color} [--gv-theme-neutral-color-darkest=#000000] - Neutral darkest color
@@ -51,7 +51,7 @@ import { applyTheme } from '../lib/theme';
  * @cssprop {Length} [--gv-theme-homepage-background-height=400px] - Homepage background height
  *
  * @cssprop {Color} [--gv-theme-skeleton-color=#BFBFBF] - Primary skeleton color
- * @cssprop {Color} [--gv-theme-homepage-background-color=#193E34] - Homepage background color
+ * @cssprop {Color} [--gv-theme-homepage-background-color=#5A7684] - Homepage background color
  *
  * @cssprop {Image} [--gv-theme-homepage-background-image=none] - Background image
  * @cssprop {Image} [--gv-theme-logo=url('/images/gravitee-logo.png')] - Logo
@@ -73,10 +73,11 @@ export class GvTheme extends LitElement {
       // language=CSS
       css`
           :host {
-              --gv-theme-color-darker: var(--gv-theme-color-darker, #1D3730);
-              --gv-theme-color-dark: var(--gv-theme-color-dark, #193E34);
-              --gv-theme-color: var(--gv-theme-color, #009B5B);
-              --gv-theme-color-light: var(--gv-theme-color-light, #D5FDCB);
+              --gv-theme-color-darker: var(--gv-theme-color-darker, #383E3F);
+              --gv-theme-color-dark: var(--gv-theme-color-dark, #28444F);
+              --gv-theme-color: var(--gv-theme-color, #5A7684);
+              --gv-theme-color-light: var(--gv-theme-color-light, #86c3d0);
+
               --gv-theme-color-danger: var(--gv-theme-color-danger, #FF5722);
 
               --gv-theme-neutral-color-darkest: var(--gv-theme-neutral-color-darkest, #000000);
@@ -99,7 +100,7 @@ export class GvTheme extends LitElement {
               --gv-theme-font-family: var(--gv-theme-font-family, 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif);
 
               --gv-theme-homepage-background-image: var(--gv-theme-homepage-background-image, none);
-              --gv-theme-homepage-background-color: var(--gv-theme-homepage-background-color, #193E34);
+              --gv-theme-homepage-background-color: var(--gv-theme-homepage-background-color, #5A7684);
               --gv-theme-homepage-background-height: var(--gv-theme-homepage-background-height, 400px);
               --gv-theme-logo: var(--gv-theme-logo, url('/images/gravitee-logo.png'));
               --gv-theme-optional-logo: var(--gv-theme-optional-logo, url('/images/gravitee-logo-light.png'));
