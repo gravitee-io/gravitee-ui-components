@@ -29,8 +29,8 @@ import { i18n } from '../lib/i18n';
  * @attr {Array} steps - Array of step {title: string, description: string, validate: boolean}
  * @attr {Boolean} [disabled=false] - Indicate if stepper is disabled
  *
- * @cssprop {Color} [--gv-stepper-validate--bgc=var(--gv-theme-color, #009B5B)] - Validate background color
- * @cssprop {Color} [--gv-stepper-passed--bdc=var(--gv-theme-color-light,#D5FDCB)] - Passed border color
+ * @cssprop {Color} [--gv-stepper-validate--bgc=var(--gv-theme-color, #5A7684)] - Validate background color
+ * @cssprop {Color} [--gv-stepper-passed--bdc=var(--gv-theme-color-light,#86c3d0)] - Passed border color
  * @cssprop {Color} [--gv-stepper--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Background color
  * @cssprop {Color} [--gv-stepper--bdc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Border color
  * @cssprop {Color} [--gv-stepper--c=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Color
@@ -55,8 +55,8 @@ export class GvStepper extends LitElement {
       css`
         :host {
           box-sizing: border-box;
-          --passed--bgc: var(--gv-stepper-validate--bgc, var(--gv-theme-color, #009B5B));
-          --passed--bdc: var(--gv-stepper-passed--bdc, var(--gv-theme-color-light,#D5FDCB));
+          --passed--bgc: var(--gv-stepper-validate--bgc, var(--gv-theme-color, #5A7684));
+          --passed--bdc: var(--gv-stepper-passed--bdc, var(--gv-theme-color-light,#86c3d0));
           --bdc: var(--gv-stepper--bdc, var(--gv-theme-neutral-color-dark, #BFBFBF));
           --bgc: var(--gv-stepper--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
           --passed--c: var(--gv-stepper-passed--c, #595959);

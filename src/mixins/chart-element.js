@@ -56,11 +56,11 @@ export function ChartElement (ParentClass) {
             justify-content: center;
             align-content: center;
           }
-          
+
           .container {
             flex: 1;
           }
-          
+
           .tooltip {
             display: grid;
           }

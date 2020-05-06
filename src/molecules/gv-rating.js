@@ -32,7 +32,7 @@ const MAX_RATE = 5;
  * @attr {Boolean} readonly - readonly mode
  * @attr {Boolean} with-description - if true, show rate description on hover
  *
- * @cssprop {Color} [--gv-rating--c=var(--gv-theme-color, #009B5B)] - Color
+ * @cssprop {Color} [--gv-rating--c=var(--gv-theme-color, #5A7684)] - Color
  * @cssprop {Length} [--gv-rating--s=13px] - Size
  */
 export class GvRating extends LitElement {
@@ -53,7 +53,7 @@ export class GvRating extends LitElement {
       // language=CSS
       css`
         :host {
-          --gv-icon--c: var(--gv-rating--c, var(--gv-theme-color, #009B5B));
+          --gv-icon--c: var(--gv-rating--c, var(--gv-theme-color, #5A7684));
           --size: var(--gv-rating--s, 13px);
           --gv-icon--s: var(--size);
 

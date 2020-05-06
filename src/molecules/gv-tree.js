@@ -33,7 +33,7 @@ import { classMap } from 'lit-html/directives/class-map';
  *
  * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color-lightest, #FFFFF)] - Background color
  * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color, #009B5B)] - Active border
+ * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color, #5A7684)] - Active border
  * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-neutral-color, #F5F5F5)] - Active background color
  * @cssprop {Length} [--gv-tree-link-a--ph=10px] - Link horizontal padding
  * @cssprop {String} [--gv-tree-link--ta=left] - Text align
@@ -56,7 +56,7 @@ export class GvTree extends LitElement {
           :host {
               --c: var(--gv-tree--c, var(--gv-theme-font-color-dark, #262626));
               --bgc: var(--gv-tree--bgc, var(--gv-theme-neutral-color-lightest, #FFFFF));
-              --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color, #009B5B));
+              --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color, #5A7684));
               --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-neutral-color, #F5F5F5));
               --gv-icon--s: var(--gv-tree-icon--s, 20px);
               --gv-link-a--ph: var(--gv-tree-link-a--ph, 10px);
@@ -94,7 +94,7 @@ export class GvTree extends LitElement {
           .tree-menu {
               list-style: none;
               padding-right: 0;
-              padding-left: 0;   
+              padding-left: 0;
           }
 
           .tree-menu__item {
@@ -107,7 +107,7 @@ export class GvTree extends LitElement {
               border-right-width: 3px;
               border-right-style: solid;
               border-right-color: var(--active-bdc);
-              box-sizing: border-box; 
+              box-sizing: border-box;
           }
 
           .page:hover {
@@ -226,7 +226,7 @@ export class GvTree extends LitElement {
         <div class=${classMap(classes)}>
             <div class="switch"><gv-icon shape="${this.closed ? 'text:menu' : 'navigation:angle-double-left'}" @click=${this._toggleMenu}></gv-icon></div>
             ${html`<div class="main-tree-menu">${this._getMenu(this.items)}</div>`}
-          
+
         </div>
           `;
   }

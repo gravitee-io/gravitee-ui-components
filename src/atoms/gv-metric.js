@@ -26,7 +26,7 @@ import './gv-icon';
  * @attr {String} value - the value of the metric
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {Color} [--gv-metric--c=var(--gv-theme-color, #009B5B)] - Color
+ * @cssprop {Color} [--gv-metric--c=var(--gv-theme-color, #5A7684)] - Color
  * @cssprop {Length} [--gv-metric-icon--s=24px] - Height and icon width
  */
 export class GvMetric extends LitElement {
@@ -44,14 +44,14 @@ export class GvMetric extends LitElement {
     return [
       // language=CSS
       css`
-        
+
         :host {
           box-sizing: border-box;
         }
-        
+
         .metric {
           --gv-icon--s: var(--gv-metric-icon--s, 24px);
-          --gv-icon--c: var(--gv-metric--c, var(--gv-theme-color, #009B5B));
+          --gv-icon--c: var(--gv-metric--c, var(--gv-theme-color, #5A7684));
           min-width: 75px;
           height: 100%;
           width: 100%;

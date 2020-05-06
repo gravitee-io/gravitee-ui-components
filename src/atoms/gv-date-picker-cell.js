@@ -38,9 +38,9 @@ import { isInvalid } from '../lib/date';
  * @attr {Number} max - unix max date
  * @attr {Array} disabledDates - array of disabled date
  *
- * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
+ * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-date-picker-hover--c=var(--gv-theme-font-color-dark, #262626)] - Hover color
- * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
+ * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #5A7684)] - Selected background color
  * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #FFFFFF)] - Selected color
  */
 export class GvDatePickerCell extends LitElement {
@@ -82,7 +82,7 @@ export class GvDatePickerCell extends LitElement {
           }
 
           .cell:not(.disabled):not(.selected):hover {
-              background: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+              background: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
               color: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
               cursor: pointer;
               opacity: 1;
@@ -98,7 +98,7 @@ export class GvDatePickerCell extends LitElement {
           }
 
           .cell.hovered, .cell.selected {
-              background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #009B5B));
+              background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
               color: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 

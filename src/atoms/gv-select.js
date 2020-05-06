@@ -46,7 +46,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
  * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
  * @cssprop {Color} [--gv-select--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
+ * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-light, #EFEFEF)] - Selected background color
  */
 export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
@@ -80,7 +80,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
           --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
           --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+          --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #86c3d0));
           --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #EFEFEF));
         }
 
@@ -88,7 +88,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           user-select: none;
           cursor: pointer;
         }
-        
+
         :host([readonly]) div, :host([readonly]) input {
           user-select: auto;
           cursor: text;
@@ -328,7 +328,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
               readonly="readonly">
               ${this._renderIcon()}
          </div>
-       ${this.readonly ? '' : html`  
+       ${this.readonly ? '' : html`
         <ul class="${classMap(Object.assign({ select__list: true }))}">
           ${this._options && repeat(this._options, (option) => option, (option) => html`
             <li class="${classMap({

@@ -33,7 +33,7 @@ import { getNbApisInView, getTitle, getVersion } from '../lib/item';
  * @attr {Promise<Array<{ path: String, title: String }>>} breadcrumbs - definition of routes in order
  * @attr {Boolean} canSubscribe - for display actions (default: false)
  *
- * @cssprop {Color} [--gv-header--bgc=var(--gv-theme-color-light, #D5FDCB)] - Background color.
+ * @cssprop {Color} [--gv-header--bgc=var(--gv-theme-color-light, #86c3d0)] - Background color.
  * @cssprop {Color} [--gv-header--c=var(--gv-theme-font-color-dark, #262626)] - Color
  *
  * @cssprop {Length} [--gv-header-button--p=10px 24px] - Button adding
@@ -68,11 +68,11 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
               --gv-link-active--c: var(--c);
               --gv-link-a--ph: 5px;
               --gv-link--td: underline;
-              --bgc: var(--gv-header--bgc, var(--gv-theme-color-light, #D5FDCB));
+              --bgc: var(--gv-header--bgc, var(--gv-theme-color-light, #86c3d0));
               box-sizing: border-box;
               display: block;
           }
-          
+
           :host([sticky]) .actions {
               display: none;
           }
@@ -136,8 +136,8 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
           .title, .actions {
               align-self: flex-end;
           }
-          
-          
+
+
           gv-link:last-child {
               --gv-link--td: none;
           }
@@ -187,12 +187,12 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
               line-height: var(--gv-theme-font-size-xl, 26px);
               letter-spacing: 0.05em;
           }
-          
+
           h1 span {
             opacity: 0.5;
             font-size: var(--gv-theme-font-size-l, 16px);
           }
-  
+
           .skeleton gv-button, .skeleton .error {
             visibility: hidden;
           }

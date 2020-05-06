@@ -54,9 +54,9 @@ export function InputElement (ParentClass) {
             }
 
             :host([valid]) :not(.clipboard) input, :host([valid]) :not(.clipboard) .box-icon-left, :host([valid]) :not(.clipboard) textarea {
-                border-left: 3px solid var(--gv-theme-color, #009B5B);
+                border-left: 3px solid var(--gv-theme-color, #5A7684);
             }
-            
+
             :host([readonly]) :not(.clipboard) input, :host([readonly]) .box-icon-left, :host([readonly]) .textarea {
               border: none;
               border-radius: 0;
@@ -65,7 +65,7 @@ export function InputElement (ParentClass) {
               font-weight: 500;
               cursor: text;
             }
-            
+
 
             :host([readonly]) input::placeholder {
               color: transparent;

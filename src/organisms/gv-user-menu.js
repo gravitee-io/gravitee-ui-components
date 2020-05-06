@@ -28,10 +28,10 @@ import { isSameRoutes } from '../lib/utils';
  * @attr {String} avatar - url of the user avatar
  *
  * @cssprop {Color} [--gv-user-menu--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-user-menu-hover--c=var(--gv-theme-color-dark, #193E34)] - Hover color
+ * @cssprop {Color} [--gv-user-menu-hover--c=var(--gv-theme-color-dark, #28444F)] - Hover color
  * @cssprop {Color} [--gv-user-menu--bgc=transparent] - Background color
  * @cssprop {Color} [--gv-user-menu-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - List background color
- * @cssprop {Color} [--gv-user-menu-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
+ * @cssprop {Color} [--gv-user-menu-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-user-menu--bdc=lightgrey] - Border color
  * @cssprop {String} [--gv-user-menu--tsh=none] - Text shadow
  * @cssprop {Color} [--gv-user-menu-icon--c=var(--gv-theme-neutral-color-darkest, #000000)] - Icon color
@@ -60,8 +60,8 @@ export class GvUserMenu extends LitElement {
             --c: var(--gv-user-menu--c, var(--gv-theme-font-color-dark, #262626));
             --bgc: var(--gv-user-menu--bgc, transparent);
             --list-bgc: var(--gv-user-menu-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-            --hover-bgc: var(--gv-user-menu-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
-            --gv-link-active--c: var(--gv-user-menu-hover--c, var(--gv-theme-color-dark, #193E34));
+            --hover-bgc: var(--gv-user-menu-hover--bgc, var(--gv-theme-color-light, #86c3d0));
+            --gv-link-active--c: var(--gv-user-menu-hover--c, var(--gv-theme-color-dark, #28444F));
             --gv-icon--c: var(--gv-user-menu-icon--c, var(--gv-theme-neutral-color-darkest, #000000));
             --gv-icon--s: var(--gv-user-menu-icon--s, 16px);
             --gv-link-a--ph: var(--gv-user-menu-link-a--ph, 0);

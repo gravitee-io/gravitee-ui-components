@@ -28,7 +28,7 @@ import '../atoms/gv-image';
  * @attr {Boolean} notification - true to display a notification info
  * @attr {Boolean} rounded - true for rounded image/icon
  *
- * @cssprop {Color} [--gv-identity-picture-notification--bgc=var(--gv-theme-color, #009B5B)] - Notification background color
+ * @cssprop {Color} [--gv-identity-picture-notification--bgc=var(--gv-theme-color-light, #86c3d0)] - Notification background color
  */
 export class GvIdentityPicture extends LitElement {
 
@@ -69,9 +69,11 @@ export class GvIdentityPicture extends LitElement {
           height: 100%;
           --gv-image--of: contain;
         }
-        
+
         :host([rounded]) gv-image, :host([rounded]) svg {
+          border: 2px solid var(--gv-theme-neutral-color-lighter, #FAFAFA);
           border-radius: 50%;
+          box-sizing: border-box;
           --gv-image--of: cover;
         }
 
@@ -81,7 +83,7 @@ export class GvIdentityPicture extends LitElement {
           height: 8px;
           background-clip: padding-box;
           border-radius: 50%;
-          background-color: var(--gv-identity-picture-notification--bgc, var(--gv-theme-color, #009B5B));
+          background-color: var(--gv-identity-picture-notification--bgc, var(--gv-theme-color-light, #86c3d0));
         }
       `,
     ];

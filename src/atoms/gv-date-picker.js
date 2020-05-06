@@ -41,9 +41,9 @@ const locales = { en: enUS };
  * @attr {Boolean} valid - if value is valid
  * @attr {Boolean} invalid - if value is invalid
  *
- * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
+ * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-date-picker-hover--c=var(--gv-theme-font-color-dark, #262626)] - Hover color
- * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
+ * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #5A7684)] - Selected background color
  * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #FFFFFF)] - Selected color
  */
 export class GvDatePicker extends LitElement {
@@ -87,9 +87,9 @@ export class GvDatePicker extends LitElement {
               --gv-input-icon--bgc: transparent;
               --gv-icon--c: var(--gv-theme-neutral-color-darker);
               --gv-icon--s: 20px;
-              --date-picker-hover--bgc: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+              --date-picker-hover--bgc: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
               --date-picker-hover--c: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
-              --date-picker-selected--bgc: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #009B5B));
+              --date-picker-selected--bgc: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
               --date-picker-selected--c: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 
@@ -122,11 +122,11 @@ export class GvDatePicker extends LitElement {
           }
 
           .range.hasFrom.open gv-input:first-of-type, .range.hasFrom.open .box-icon:first-of-type {
-              border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #009B5B));
+              border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
           }
 
           .range.hasTo.open gv-input:last-of-type, .range.hasTo.open .box-icon:not(.box-icon-calendar) {
-              border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #009B5B));
+              border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
           }
 
           .range-input {
@@ -331,30 +331,30 @@ export class GvDatePicker extends LitElement {
         ${this.label ? html`<label for=${this._id} title="${this.label}">${this.label}</label>` : ''}
         <div class="range-input">
         <div class="box-icon box-icon-calendar"><gv-icon shape=general:calendar></gv-icon></div>
-        <gv-input 
+        <gv-input
         id="${this._id}"
-        @focus="${this._onFocus.bind(this, 'from')}" 
+        @focus="${this._onFocus.bind(this, 'from')}"
         @blur="${this._onBlurForm}"
         @gv-input:submit="${this._onBlurForm}"
         .value="${until(this.getFormattedDate(this._from))}"
         .placeholder="${this.dateFromPlaceholder}"
         ></gv-input>
         <div class="box-icon"><gv-icon shape="navigation:arrow-right"></gv-icon></div>
-        <gv-input 
+        <gv-input
         .placeholder="${this.dateToPlaceholder}"
-        @focus="${this._onFocus.bind(this, 'to')}" 
+        @focus="${this._onFocus.bind(this, 'to')}"
         @blur="${this._onBlurTo}"
         @gv-input:submit="${this._onBlurTo}"
         .value="${until(this.getFormattedDate(this._to))}"></gv-input>
         <div class="box-icon box-icon-clear">${this.hasContent ? html`<gv-icon class="link" @click=${this._onClear} shape=code:error></gv-icon>` : ''}</div>
         `
       : html`
-        <gv-input 
+        <gv-input
         id="${this._id}"
-        icon="general:calendar" 
+        icon="general:calendar"
         clearable
         .label="${this.label}"
-        @focus="${this._onFocus.bind(this, null)}" 
+        @focus="${this._onFocus.bind(this, null)}"
         @blur="${this._onBlurForm}"
         ?invalid="${this.invalid}"
          @gv-input:submit="${this._onBlurForm}"
@@ -362,9 +362,9 @@ export class GvDatePicker extends LitElement {
         .placeholder="${this.dateToPlaceholder}"
         .value="${until(this.getFormattedDate(this._from))}"></gv-input></div>
         `}
-        
+
         <span class="calendar">
-       
+
         ${this.range ? html`
          ${this.hasFrom() ? html`<gv-date-picker-calendar
               .disabledDates="${this.disabledDates}"

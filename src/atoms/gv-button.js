@@ -48,10 +48,10 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} loading - true to display a loading icon
  * @attr {String} provider - Provider name (github, oidc, graviteeio_am, google)
  *
- * @cssprop {Color} [--gv-button--bgc=var(--gv-theme-color-dark, #193E34)] - Background color
+ * @cssprop {Color} [--gv-button--bgc=var(--gv-theme-color-dark, #28444F)] - Background color
  * @cssprop {Color} [--gv-button--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
  * @cssprop {Color} [--gv-button-primary--c=var(--gv-theme-font-color-light, #FFFFFF)] - Primary color
- * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #009B5B)] - Primary background color
+ * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #5A7684)] - Primary background color
  * @cssprop {Color} [--gv-button-danger--c=var(--gv-theme-font-color-light, #FFFFFF)] - Danger color
  * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-danger-color, #FF5722)] - Danger background color
  * @cssprop {Length} [--gv-button--p=0rem 0.5rem] - Padding
@@ -92,7 +92,7 @@ export class GvButton extends LitElement {
           --github--c: #444;
           --google--c: #4285F4;
           --oidc--c: #000000;
-          --gravitee--c: #32ABDF;
+          --gravitee--c: #86c3d0;
         }
 
         .github {
@@ -146,14 +146,15 @@ export class GvButton extends LitElement {
         /* COLORS */
         .default {
           --c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF));
-          --bgc: var(--gv-button--bgc, var(--gv-theme-color-dark, #193E34));
+          --bgc: var(--gv-button--bgc, var(--gv-theme-color-dark, #28444F));
           --gv-icon--c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF))
         }
 
         .primary {
           --c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
-          --bgc: var(--gv-button-primary--bgc, var(--gv-theme-color, #009B5B));
+          --bgc: var(--gv-button-primary--bgc, var(--gv-theme-color, #5A7684));
           --gv-icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
+          font-weight: 500;
         }
 
         .danger {
@@ -182,7 +183,7 @@ export class GvButton extends LitElement {
         }
 
         .button:not(.link):hover {
-          box-shadow: 0 1px 3px var(--gv-theme-color-darker, #1D3730);
+          box-shadow: 0 1px 3px var(--gv-theme-color-darker, #383E3F);
         }
 
         .button:not(.link):active {
@@ -225,7 +226,7 @@ export class GvButton extends LitElement {
           display: inline;
           text-indent: 3px;
         }
-        
+
         .button.iconRight slot {
           direction: rtl;
         }

@@ -52,9 +52,9 @@ import { until } from 'lit-html/directives/until';
  * @attr {Number} max - unix max date
  * @attr {Object} locale - date-fns locale object
  *
- * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #D5FDCB)] - Hover background color
+ * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-date-picker-hover--c=var(--gv-theme-font-color-dark, #262626)] - Hover color
- * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #009B5B)] - Selected background color
+ * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #5A7684)] - Selected background color
  * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #FFFFFF)] - Selected color
  */
 export class GvDatePickerCalendar extends LitElement {
@@ -203,12 +203,12 @@ export class GvDatePickerCalendar extends LitElement {
 
 
           .time > div:hover {
-              background: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #D5FDCB));
+              background: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
               color: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
           }
 
           .time > div.selected {
-              background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #009B5B));
+              background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
               color: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
           }
 
@@ -284,7 +284,7 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   _renderDays () {
-    return html` 
+    return html`
     ${this._dayNamesOfWeek && this._dayNamesOfWeek.map((dayNameOfWeek) => html`<div class="day">${dayNameOfWeek}</div>`)}
     ${this._dimensions && this._dimensions.map((dimension) => html`${dimension && dimension.map((data) => html`
         <div>
@@ -351,8 +351,8 @@ export class GvDatePickerCalendar extends LitElement {
     <div class="foot foot-time">
     <gv-button primary outlined
     @click=${this._onNow}>${i18n('gv-date-picker.now')}</gv-button>
-    <gv-button primary 
-    @click=${this._onDateTimeSelected} 
+    <gv-button primary
+    @click=${this._onDateTimeSelected}
     .disabled="${this.disableValidation === true}">${i18n('gv-date-picker.ok')}</gv-button></div>` : ''}
 `;
   }
