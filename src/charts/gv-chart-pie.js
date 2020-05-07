@@ -40,6 +40,9 @@ export class GvChartPie extends ChartElement(LitElement) {
         total += d.y;
       });
     }
+    if (!total) {
+      this._empty = true;
+    }
     return {
       chart: {
         type: 'pie',
