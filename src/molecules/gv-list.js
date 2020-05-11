@@ -88,14 +88,13 @@ export class GvList extends withSkeletonAttribute(LitElement) {
         h4 {
           font-size: var(--gv-theme-font-size-m);
           line-height: var(--gv-theme-font-size-m);
-          opacity: 0.6;
+          opacity: 0.9;
           letter-spacing: 0.05rem;
         }
 
         h4 span {
           font-size: var(--gv-theme-font-size-s, 12px);
           margin-left: 8px;
-          opacity: 0.8;
         }
 
         .item {

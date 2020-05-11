@@ -30,5 +30,6 @@ export const empty = css`
       width: 100%;
       justify-content: center;
       display: flex;
+      flex-direction: column;
     }
 `;
