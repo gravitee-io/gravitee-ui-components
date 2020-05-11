@@ -76,19 +76,19 @@ export class GvStats extends withSkeletonAttribute(LitElement) {
   }
 
   _getStat (option) {
-    if (!this._stats) {
+    if (!this.stats) {
       return '<div></div>';
     }
-    let value = Math.round(this._stats[option.key]);
+    let value = Math.round(this.stats[option.key]);
     if (isNaN(value)) {
       value = 0;
     }
     if (value === 0 && option.fallback) {
-      const fallback = option.fallback.find((fallback) => Math.round(this._stats[fallback.key]) > 0);
+      const fallback = option.fallback.find((fallback) => Math.round(this.stats[fallback.key]) > 0);
       if (fallback) {
         option.key = fallback.key;
         option.label = fallback.label;
-        value = Math.round(this._stats[option.key]);
+        value = Math.round(this.stats[option.key]);
       }
     }
 
