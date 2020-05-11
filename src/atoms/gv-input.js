@@ -332,7 +332,7 @@ export class GvInput extends InputElement(LitElement) {
       this._type = value;
     }
     if (this._type === 'url') {
-      this.pattern = '^(http|https)://';
+      this.pattern = '(https?://.w*)(:\\d*)?\\/?(.*)';
     }
 
     if (this._type === 'search' && this.icon == null && this.iconLeft == null) {

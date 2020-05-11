@@ -383,7 +383,7 @@ export class GvPlans extends LitElement {
         return html`
       <div class="empty">
          <p> ${i18n('gv-plans.empty.title')}</p>
-         <a  class="link" @click="${this._onRedirect}">${i18n('gv-plans.empty.redirect')}</a>
+         <a class="link" @click="${this._onRedirect}">${i18n('gv-plans.empty.redirect')}</a>
       </div>`;
       }
     }

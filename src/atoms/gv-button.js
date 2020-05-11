@@ -54,7 +54,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #5A7684)] - Primary background color
  * @cssprop {Color} [--gv-button-danger--c=var(--gv-theme-font-color-light, #FFFFFF)] - Danger color
  * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-danger-color, #FF5722)] - Danger background color
- * @cssprop {Length} [--gv-button--p=0rem 0.5rem] - Padding
+ * @cssprop {Length} [--gv-button--p=7px 14px] - Padding
  * @cssprop {Length} [--gv-button--fz=var(--gv-theme-font-size-m, 14px)] - Font size
  * @cssprop {Length} [--gv-button--bdrs=0.15rem] - Border radius
  */
@@ -93,6 +93,7 @@ export class GvButton extends LitElement {
           --google--c: #4285F4;
           --oidc--c: #000000;
           --gravitee--c: #86c3d0;
+          outline: none;
         }
 
         .github {
@@ -136,8 +137,9 @@ export class GvButton extends LitElement {
         .button:not(.link) {
           border-radius: var(--gv-button--bdrs, 0.15rem);
           cursor: pointer;
-          min-height: 26px;
-          padding: var(--gv-button--p, 0rem 0.5rem);
+          min-height: 39px;
+          min-width: 39px;
+          padding: var(--gv-button--p, 7px 14px);
           text-transform: uppercase;
           user-select: none;
           width: 100%;
@@ -168,6 +170,7 @@ export class GvButton extends LitElement {
           background-color: var(--bgc);
           border-color: var(--bgc);
           color: var(--c);
+          position: relative;
         }
 
         .outlined {
@@ -177,21 +180,23 @@ export class GvButton extends LitElement {
         }
 
         /* STATES */
-        .button:not(.link):focus {
+        .button:focus, .button:active {
+          outline: none;
+        }
+        
+        .button:not(.link):not(.disabled):focus {
           box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
-          outline: 0;
         }
 
-        .button:not(.link):hover {
+        .button:not(.link):not(.disabled):hover {
           box-shadow: 0 1px 3px var(--gv-theme-color-darker, #383E3F);
         }
 
-        .button:not(.link):active {
+        .button:active {
           box-shadow: none;
-          outline: 0;
         }
 
-        .button:disabled {
+        .button.disabled {
           cursor: default;
           opacity: .5;
         }
@@ -224,21 +229,35 @@ export class GvButton extends LitElement {
           flex: 1;
           white-space: nowrap;
           display: inline;
-          text-indent: 3px;
+        }
+
+        .button.icon slot {
+          padding-left: 21px;
+        }
+
+
+        .button.iconRight slot {
+          padding-left: 0;
+          padding-right: 21px;
         }
 
         .button.iconRight slot {
           direction: rtl;
         }
 
-        .fake-icon {
-          height: 23px;
+        gv-icon {
+          left: 7px;
+          position: absolute;
+        }
+
+        .button.iconRight gv-icon {
+          left: unset;
+          right: 7px;
         }
 
         .loading gv-icon {
           animation: spinner 1.6s linear infinite;
           --gv-icon--s: 20px;
-          margin: 0 3px 0 0;
         }
 
         @keyframes spinner {
@@ -259,10 +278,10 @@ export class GvButton extends LitElement {
   }
 
   _onClick (e) {
-    if (!this.loading) {
-      if (this.href) {
-        e.preventDefault();
-      }
+    if (this.href) {
+      e.preventDefault();
+    }
+    if (!this.disabled && !this.loading && !this.skeleton) {
       const form = this.closest('form');
       if (form && this.type === 'submit') {
         form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
@@ -287,15 +306,17 @@ export class GvButton extends LitElement {
       skeleton: this.skeleton && !this.link,
       default: !this.primary && !this.danger && !this.link,
       outlined: this.outlined,
-      icon: !!this.icon || !!this.iconRight || this.loading,
-      iconRight: !!this.iconRight || this.loading,
-      loading: this.loading,
+      icon: this.icon || this.iconRight,
+      iconRight: this.iconRight,
+      loading: this.loading && !this.link,
       link: this.link && !this.primary && !this.danger,
+      disabled: this.disabled,
     };
 
     if (this.provider) {
       classes[this.provider] = true;
       this.icon = `thirdparty:${this.provider}`;
+      classes.icon = true;
     }
 
     if (this.href) {
@@ -324,20 +345,20 @@ export class GvButton extends LitElement {
   }
 
   _getIconRight () {
-    if (this.loading && !this.icon && this.iconRight) {
-      return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
-    }
     if (this.iconRight) {
+      if (this.loading && !this.icon && !this.link) {
+        return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
+      }
       return html`<gv-icon shape="${this.iconRight}" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
-    return html`<div class="fake-icon"></div>`;
+    return '';
   }
 
   _getIconLeft () {
-    if (this.loading && !this.iconRight) {
-      return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
-    }
     if (this.icon) {
+      if (this.loading && !this.link) {
+        return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
+      }
       return html`<gv-icon shape="${this.icon}" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
     return '';

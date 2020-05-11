@@ -19,6 +19,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { ifDefined } from 'lit-html/directives/if-defined';
+import { styleMap } from 'lit-html/directives/style-map';
 
 /**
  * Option component
@@ -32,7 +33,6 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @cssprop {Length} [--gv-option--bdrs=0.15rem] - Border radius
  * @cssprop {Length} [--gv-option-button--p=5px] - Button padding
  * @cssprop {Length} [--gv-option-button--maw=200px] - Button max width
- * @cssprop {Length} [--gv-option--fxw=none] - Flex wrap
  */
 export class GvOption extends LitElement {
 
@@ -54,17 +54,15 @@ export class GvOption extends LitElement {
         :host {
           box-sizing: border-box;
           display: inline-block;
-          --gv-button--p: var(--gv-option-button--p, 5px);
+          --gv-button--p: 5px;
           margin: 0.2rem;
           --bdrs: var(--gv-option--bdrs, 0.15rem);
           --maw: var(--gv-option-button--maw, 200px);
         }
 
         .box.description {
-          display: flex;
-          margin: -0.5rem;
-          flex-wrap: var(--gv-option--fxw, none);
-          justify-content: space-around;
+          display: grid;
+          grid-gap: 0.5rem;
         }
 
         gv-button {
@@ -205,7 +203,7 @@ export class GvOption extends LitElement {
         description: this._hasDescription,
         reverse: this.reverse,
       };
-      return html`<div class="${classMap(classes)}">
+      return html`<div class="${classMap(classes)}" style="${styleMap({ 'grid-template-columns': `repeat(${this._options.length}, 1fr)` })}">
 ${repeat(this._options, (option) => option, (option, index) =>
         html`${this._renderOption(option, index)}`,
       )}</div>`;
