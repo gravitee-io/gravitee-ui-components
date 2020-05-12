@@ -23,6 +23,13 @@ const name = 'supernova cloud';
 const description
   = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
   + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
+const longDescription
+  = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non viverra magna. '
+  + 'Duis justo risus, iaculis vel luctus vel, euismod quis ipsum. Sed pellentesque elit eu enim auctor ullamcorper. '
+  + 'Donec rhoncus, nunc eget tempus viverra, leo libero lobortis nibh, quis vulputate ligula nunc sit amet erat. '
+  + 'Suspendisse mi mauris, convallis non lobortis id, elementum eu orci. Fusce mattis aliquam augue eu pharetra. '
+  + 'Morbi quam neque, interdum ut ullamcorper lacinia, viverra ut odio. Aliquam porttitor a augue ut dignissim. '
+  + 'Nulla facilisi. Praesent eget varius ante. Interdum et malesuada fames ac ante ipsum primis in faucibus.';
 
 const ratingSummary = { average: 3.2, count: 345 };
 const metrics = { hits: '11M+', subscribers: '689', health: '0.95' };
@@ -88,6 +95,10 @@ export const withRating = makeStory(conf, {
 
 export const withLabels = makeStory(conf, {
   items: [{ item: { name, description, version, _links: { picture }, labels }, metrics }],
+});
+
+export const withLongDescription = makeStory(conf, {
+  items: [{ item: { name, description: longDescription, version }, href: 'https://gravitee.io' }],
 });
 
 export const empty = makeStory(conf, {

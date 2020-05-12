@@ -19,6 +19,7 @@ import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
 import { getTitle, getDescription, getVersion } from '../lib/item';
+import { truncate } from '../lib/utils';
 
 import '../atoms/gv-image';
 import '../atoms/gv-button';
@@ -44,6 +45,7 @@ export class GvPromote extends ItemResource(LitElement) {
   static get properties () {
     return {
       ...super.properties,
+      limit: { type: Number },
     };
   }
 
@@ -157,7 +159,7 @@ export class GvPromote extends ItemResource(LitElement) {
           <h2>${getTitle(this._item)}</h2>
           <span class="version">${getVersion(this._item)}</span>
         </div>
-        <p class=${classMap({ skeleton: this._skeleton, description: true })}>${getDescription(this._item)}</p>
+        <p class=${classMap({ skeleton: this._skeleton, description: true })}>${truncate(getDescription(this._item), this.limit)}</p>
         <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
             ${this._renderMetricsWithRating()}
         </div>
