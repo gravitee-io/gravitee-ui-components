@@ -124,6 +124,10 @@ export class GvPromote extends ItemResource(LitElement) {
           flex-grow: 1;
         }
 
+        .description-large {
+          text-align: justify;
+        }
+
         .infos {
           display: flex;
           justify-content: flex-end;
@@ -159,7 +163,8 @@ export class GvPromote extends ItemResource(LitElement) {
           <h2>${getTitle(this._item)}</h2>
           <span class="version">${getVersion(this._item)}</span>
         </div>
-        <p class=${classMap({ skeleton: this._skeleton, description: true })}>${truncate(getDescription(this._item), this.limit)}</p>
+        <p class=${classMap({ skeleton: this._skeleton, description: true, 'description-large': getDescription(this._item).split(' ').length > 10 })}>
+            ${truncate(getDescription(this._item), this.limit)}</p>
         <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
             ${this._renderMetricsWithRating()}
         </div>

@@ -97,6 +97,10 @@ export const withLabels = makeStory(conf, {
   items: [{ item: { name, description, version, _links: { picture }, labels }, metrics }],
 });
 
+export const withShortDescription = makeStory(conf, {
+  items: [{ item: { name, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', version }, href: 'https://gravitee.io' }],
+});
+
 export const withLongDescription = makeStory(conf, {
   items: [{ item: { name, description: longDescription, version }, href: 'https://gravitee.io' }],
 });
