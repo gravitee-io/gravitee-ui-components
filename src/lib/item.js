@@ -110,7 +110,7 @@ export function getPictureDisplayName (item) {
       return `${getTitle(item)}  ${item.version}`;
     }
     else if (item.applicationType) {
-      return `${getTitle(item)}  ${item.applicationType}`;
+      return `${getTitle(item)}  ${item.applicationType}  ${getOwner(item)}`;
     }
   }
   return getTitle(item);
