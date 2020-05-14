@@ -26,10 +26,10 @@ import { i18n } from '../lib/i18n';
  * @fires gv-stepper:change - when step change
  *
  * @attr {Length} current - The current selected step
- * @attr {Array} steps - Array of step {title: string, description: string, validate: boolean}
+ * @attr {Array} steps - Array of step {title: string, description: string, valid: boolean, invalid: boolean}
  * @attr {Boolean} [disabled=false] - Indicate if stepper is disabled
  *
- * @cssprop {Color} [--gv-stepper-validate--bgc=var(--gv-theme-color, #5A7684)] - Validate background color
+ * @cssprop {Color} [--gv-stepper-valid--bgc=var(--gv-theme-color, #5A7684)] - Valid background color
  * @cssprop {Color} [--gv-stepper-passed--bdc=var(--gv-theme-color-light,#86c3d0)] - Passed border color
  * @cssprop {Color} [--gv-stepper--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Background color
  * @cssprop {Color} [--gv-stepper--bdc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Border color
@@ -55,7 +55,7 @@ export class GvStepper extends LitElement {
       css`
         :host {
           box-sizing: border-box;
-          --passed--bgc: var(--gv-stepper-validate--bgc, var(--gv-theme-color, #5A7684));
+          --passed--bgc: var(--gv-stepper-valid--bgc, var(--gv-theme-color, #5A7684));
           --passed--bdc: var(--gv-stepper-passed--bdc, var(--gv-theme-color-light,#86c3d0));
           --bdc: var(--gv-stepper--bdc, var(--gv-theme-neutral-color-dark, #BFBFBF));
           --bgc: var(--gv-stepper--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
@@ -171,9 +171,16 @@ export class GvStepper extends LitElement {
           animation: validate 0.2s ease-in;
         }
 
+        .invalid.circle {
+        }
+
         gv-icon {
           --gv-icon--c: var(--passed--bgc);
           --gv-icon--s: var(--gv-stepper-icon--s, 32px);
+        }
+
+        .invalid gv-icon {
+          --gv-icon--c: var(--gv-theme-color-danger);
         }
 
         @keyframes validate {
@@ -207,7 +214,7 @@ export class GvStepper extends LitElement {
     await Promise.all([this.steps, this.current])
       .then(([steps, current]) => {
         this._steps = steps.map((step, _index) => {
-          step.passed = step.validate === true || (current > 0 && _index + 1 <= current);
+          step.passed = step.valid === true || (current > 0 && _index + 1 <= current);
           return step;
         });
         this._error = false;
@@ -221,7 +228,10 @@ export class GvStepper extends LitElement {
   }
 
   _getIcon (step) {
-    if (step.validate) {
+    if (step.invalid) {
+      return html`<div class="circle invalid"><gv-icon shape="code:error"></gv-icon></div>`;
+    }
+    if (step.valid) {
       return html`<div class="circle"><gv-icon shape="code:check"></gv-icon></div>`;
     }
     return html`<div class="round"></div>`;
@@ -230,7 +240,7 @@ export class GvStepper extends LitElement {
   _getStep (step, index) {
     const classes = {
       passed: step.passed,
-      validate: step.validate,
+      valid: step.valid,
       step: true,
       first: index === 0,
       end: index === this._steps.length - 1,
