@@ -43,16 +43,23 @@ export const withCurrentStep = makeStory(conf, {
   items: [{ steps, current: 1 }],
 });
 
-const validateSteps = JSON.parse(JSON.stringify(steps));
-validateSteps[0].validate = true;
+const validStep = JSON.parse(JSON.stringify(steps));
+validStep[0].valid = true;
 
-export const withValidateStep = makeStory(conf, {
-  items: [{ steps: validateSteps }],
+export const withValidStep = makeStory(conf, {
+  items: [{ steps: validStep }],
 });
 
-const validateSteps2 = JSON.parse(JSON.stringify(validateSteps));
-validateSteps2[1].validate = true;
+const validSteps = JSON.parse(JSON.stringify(validStep));
+validSteps[1].valid = true;
 
 export const withTwoValidateStep = makeStory(conf, {
-  items: [{ steps: validateSteps2, current: 3 }],
+  items: [{ steps: validSteps, current: 3 }],
+});
+
+const invalidSteps = JSON.parse(JSON.stringify(validSteps));
+invalidSteps[0].invalid = true;
+
+export const withInvalidStep = makeStory(conf, {
+  items: [{ steps: invalidSteps, current: 3 }],
 });
