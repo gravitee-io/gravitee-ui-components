@@ -19,6 +19,7 @@ import '../atoms/gv-link';
 import { until } from 'lit-html/directives/until';
 import { isSameRoutes } from '../lib/utils';
 import { dispatchCustomEvent } from '../lib/events';
+import { classMap } from 'lit-html/directives/class-map';
 
 /**
  * A main nav
@@ -35,6 +36,7 @@ export class GvNav extends LitElement {
       routes: { type: Array },
       _routes: { type: Array },
       small: { type: Boolean },
+      _compact: { type: Boolean, attribute: false },
     };
   }
 
@@ -46,6 +48,10 @@ export class GvNav extends LitElement {
         nav {
           position: relative;
           transition: all 150ms ease-in-out;
+        }
+
+        .compact {
+          --gv-link-a--ph: 10px;
         }
 
         #shadowLink {
@@ -145,9 +151,15 @@ export class GvNav extends LitElement {
     });
   }
 
+  updated (_changedProperties) {
+    if (_changedProperties.has('_routes')) {
+      this._compact = this._routes && this._routes.length > 5;
+    }
+  }
+
   render () {
     if (this._routes) {
-      return html`<nav>${repeat(this._routes, (route) => route, (route, index) =>
+      return html`<nav class="${classMap({compact: this._compact})}">${repeat(this._routes, (route) => route, (route, index) =>
         until(this._getLink(route, index), html`<gv-link skeleton></gv-link>`),
       )}</nav>`;
     }
