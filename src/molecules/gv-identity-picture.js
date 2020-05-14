@@ -113,7 +113,7 @@ export class GvIdentityPicture extends LitElement {
 
   render () {
     const { width, height } = window.getComputedStyle(this);
-    if (this._error && width && height) {
+    if ((!this.picture || this._error) && width && height) {
       const size = this._getMaxSize(width, height);
       const container = document.createElement('div');
       if (this.skeleton) {
