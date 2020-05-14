@@ -256,6 +256,7 @@ export class GvFileUpload extends LitElement {
     this._files = [];
     this._preview = null;
     this.value = null;
+    this.shadowRoot.querySelector('#file').value = null;
     this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
   }
 
