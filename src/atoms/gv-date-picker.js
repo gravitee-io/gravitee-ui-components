@@ -264,7 +264,6 @@ export class GvDatePicker extends LitElement {
   _onFocus (mode) {
     this._open = true;
     if (this.time && this.range) {
-      this._to = null;
       this._mode = mode;
     }
     this.performUpdate();

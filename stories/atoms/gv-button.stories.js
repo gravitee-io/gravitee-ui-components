@@ -49,6 +49,10 @@ export const modes = makeStory(conf, {
   items,
 });
 
+export const small = makeStory(conf, {
+  items: items.map((p) => ({ ...p, small: true })),
+});
+
 export const outlined = makeStory(conf, {
   items: items.map((p) => ({ ...p, outlined: true })),
 });
@@ -67,6 +71,10 @@ export const loading = makeStory(conf, {
 
 export const outlinedAndLoading = makeStory(conf, {
   items: items.map((p) => ({ ...p, outlined: true, loading: true })),
+});
+
+export const smallOutlinedAndLoading = makeStory(conf, {
+  items: items.map((p) => ({ ...p, outlined: true, loading: true, small: true })),
 });
 
 export const skeleton = makeStory(conf, {

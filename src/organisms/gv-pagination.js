@@ -130,12 +130,12 @@ export class GvPagination extends LitElement {
       }
       right = right.slice(0, addRight);
     }
-    const leftP = left.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
-    const rightP = right.map((i) => html`<gv-button outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
+    const leftP = left.map((i) => html`<gv-button small outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
+    const rightP = right.map((i) => html`<gv-button small outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
 
-    leftP.unshift(html`<gv-button .disabled="${leftP.length === 0}" outlined @click="${leftP.length === 0 ? () => {} : this._goToPage.bind(this, this._current - 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-left" title="${i18n('gv-pagination.previous')}"></gv-icon>` : i18n('gv-pagination.previous')}</gv-button>`);
-    rightP.push(html`<gv-button .disabled="${rightP.length === 0}" outlined @click="${rightP.length === 0 ? () => {} : this._goToPage.bind(this, this._current + 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-right" title="${i18n('gv-pagination.next')}"></gv-icon>` : i18n('gv-pagination.next')}</gv-button>`);
-    return html`${this.widget ? leftP.slice(0, 1) : leftP} ${html`<gv-button primary>${this.widget ? this._current + ' / ' + pagination.length : this._current}</gv-button>`} ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
+    leftP.unshift(html`<gv-button small .disabled="${leftP.length === 0}" outlined @click="${leftP.length === 0 ? () => {} : this._goToPage.bind(this, this._current - 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-left" title="${i18n('gv-pagination.previous')}"></gv-icon>` : i18n('gv-pagination.previous')}</gv-button>`);
+    rightP.push(html`<gv-button small .disabled="${rightP.length === 0}" outlined @click="${rightP.length === 0 ? () => {} : this._goToPage.bind(this, this._current + 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-right" title="${i18n('gv-pagination.next')}"></gv-icon>` : i18n('gv-pagination.next')}</gv-button>`);
+    return html`${this.widget ? leftP.slice(0, 1) : leftP} ${html`<gv-button small primary>${this.widget ? this._current + ' / ' + pagination.length : this._current}</gv-button>`} ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
   }
 
   _hasData () {
@@ -150,7 +150,7 @@ export class GvPagination extends LitElement {
     if (this._hasData() && !this._hideEmpty()) {
       return html`<div class="pagination">
           ${this.hasInput ? html`<gv-input class="goto" @gv-input:submit="${this._onSubmit}" type="number" min="1" max="${this._pages}" placeholder="Page" small></gv-input>
-          <gv-button outlined @click="${this._onClickToSearch}" icon="general:search"></gv-button>` : ''}
+          <gv-button small outlined @click="${this._onClickToSearch}" icon="general:search"></gv-button>` : ''}
           ${this._renderPagination()}
         </div> `;
     }

@@ -47,6 +47,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} title - title of button
  * @attr {Boolean} loading - true to display a loading icon
  * @attr {String} provider - Provider name (github, oidc, graviteeio_am, google)
+ * @attr {Boolean} small - for a small input
  *
  * @cssprop {Color} [--gv-button--bgc=var(--gv-theme-color-dark, #28444F)] - Background color
  * @cssprop {Color} [--gv-button--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
@@ -75,6 +76,7 @@ export class GvButton extends LitElement {
       loading: { type: Boolean },
       title: { type: String, reflect: true },
       provider: { type: String },
+      small: { type: Boolean },
     };
   }
 
@@ -131,6 +133,14 @@ export class GvButton extends LitElement {
           display: flex;
           align-items: center;
           text-align: center;
+        }
+
+        .button.small:not(.link) {
+          max-height: 25px;
+          min-height: 25px;
+          min-width: 25px;
+          --gv-icon--s: 21px;
+          --gv-button--p: 1px 6px;
         }
 
         /* BASE */
@@ -245,6 +255,9 @@ export class GvButton extends LitElement {
           direction: rtl;
         }
 
+        .small gv-icon {
+          left: 5px;
+        }
         gv-icon {
           left: 7px;
           position: absolute;
@@ -255,9 +268,18 @@ export class GvButton extends LitElement {
           right: 7px;
         }
 
+
+        .button.iconRight.small gv-icon {
+          right: 5px;
+        }
+
         .loading gv-icon {
           animation: spinner 1.6s linear infinite;
           --gv-icon--s: 20px;
+        }
+
+        .loading.small gv-icon {
+          --gv-icon--s: 18px;
         }
 
         @keyframes spinner {
@@ -311,6 +333,7 @@ export class GvButton extends LitElement {
       loading: this.loading && !this.link,
       link: this.link && !this.primary && !this.danger,
       disabled: this.disabled,
+      small: this.small,
     };
 
     if (this.provider) {
