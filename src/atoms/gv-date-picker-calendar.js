@@ -191,10 +191,10 @@ export class GvDatePickerCalendar extends LitElement {
 
           .time {
               overflow-x: auto;
+              width: 50px;
           }
 
           .time > div {
-              width: 50px;
               height: 32px;
               display: flex;
               justify-content: center;
@@ -349,9 +349,9 @@ export class GvDatePickerCalendar extends LitElement {
     </div>` : ''}
    ${this.time && !this.monthMode && !this.yearMode ? html`
     <div class="foot foot-time">
-    <gv-button primary outlined
+    <gv-button primary outlined small
     @click=${this._onNow}>${i18n('gv-date-picker.now')}</gv-button>
-    <gv-button primary
+    <gv-button primary small
     @click=${this._onDateTimeSelected}
     .disabled="${this.disableValidation === true}">${i18n('gv-date-picker.ok')}</gv-button></div>` : ''}
 `;

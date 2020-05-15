@@ -132,8 +132,8 @@ export class GvConfirm extends GvPopover {
     return html`
           <div class="message">${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<div class="text" .innerHTML="${this.message}"></div></div>
           <div class="actions">
-            <gv-button primary outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>
-            <gv-button primary @click="${this._onOk}">${this.okLabel}</gv-button>
+            <gv-button primary small outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>
+            <gv-button primary small @click="${this._onOk}">${this.okLabel}</gv-button>
           </div>
        `;
   }
