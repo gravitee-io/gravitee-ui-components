@@ -15,7 +15,7 @@
  */
 import notes from '../../.docs/gv-info.md';
 import '../../src/molecules/gv-info';
-import logo from '../../assets/icons/gravitee/graviteeio.svg';
+import logo from '../../assets/icons/thirdparty/graviteeio_am.svg';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const views = ['Azure', 'Swiss', 'All', 'Magic'];

@@ -88,7 +88,7 @@ export class GvButton extends LitElement {
           display: inline-block;
           margin: 0.2rem;
           vertical-align: middle;
-          --gv-icon--s: 23px;
+          --gv-icon--s: 25px;
           --github--c: #444;
           --google--c: #4285F4;
           --oidc--c: #000000;
@@ -113,8 +113,9 @@ export class GvButton extends LitElement {
           --gv-button-icon--c: var(--oidc--c);
         }
 
-        .graviteeio_am {
+        .button.graviteeio_am {
           --gv-button--bgc: var(--gravitee--c);
+          color: #383E3F;
         }
 
         /* RESET */

@@ -18,7 +18,7 @@ import '../../src/molecules/gv-card';
 import horizontalImage from '../../assets/images/gravitee-logo.png';
 import picture from '../../assets/images/logo.png';
 import { makeStory, storyWait } from '../lib/make-story';
-import logo from '../../assets/icons/gravitee/graviteeio.svg';
+import logo from '../../assets/icons/thirdparty/graviteeio_am.svg';
 
 export default {
   title: 'Molecules|gv-card',
