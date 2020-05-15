@@ -293,6 +293,7 @@ export class GvButton extends LitElement {
           cursor: pointer;
           text-decoration: underline;
           outline: 0;
+          background-color: transparent;
         }
       `,
       skeleton,
