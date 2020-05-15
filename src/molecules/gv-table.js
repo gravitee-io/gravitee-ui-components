@@ -102,6 +102,9 @@ export class GvTable extends withResizeObserver(LitElement) {
           background-color: var(--bgc);
           flex-direction: column;
           height: 100%;
+          display: flex;
+          width: 100%;
+          position: relative;
         }
 
         .rows {
@@ -140,8 +143,18 @@ export class GvTable extends withResizeObserver(LitElement) {
           border-right: solid thick transparent;
           display: grid;
           grid-auto-rows: minmax(80px, auto);
-          grid-gap: 10px;
-          padding: 0 10px;
+          padding-right: 15px;
+        }
+        
+        div {
+          box-sizing: border-box;
+        }
+        
+        .cell {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          margin: 0.2rem;
         }
 
         .row:not(:last-child) {
@@ -327,7 +340,6 @@ export class GvTable extends withResizeObserver(LitElement) {
       return '';
     }
     else {
-
       const style = { ...styleGridColumns, ...{ height: this.rowheight } };
 
       return html`
@@ -337,7 +349,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         const label = this.format && option.label ? this.format(option.label) : option.label;
         const style = typeof option.headerStyle === 'function' ? option.headerStyle(label) : option.headerStyle;
         return html`
-                <div style="${'display: flex;' + (style || '')}">${this.order && !this.nosort ? html`
+                <div style="${(style || '')}">${this.order && !this.nosort ? html`
                    <gv-button link @click="${this._onSortChanged.bind(this, option.field || option.tag)}">${until(label)}</gv-button>
                       ${orderValue === option.tag || (orderValue === option.field && option.type !== 'image') ? html`
                         <gv-icon class=${classMap({ desc: this.order.startsWith('-') })} shape="design:triangle"></gv-icon>` : ''}
@@ -490,7 +502,7 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _renderItems () {
-    const widthTemplate = this.options.data.map((o) => {
+    let widthTemplate = this.options.data.map((o) => {
       if (o.width) {
         return o.width;
       }
@@ -500,7 +512,18 @@ export class GvTable extends withResizeObserver(LitElement) {
       else if (o.icon) {
         return '40px';
       }
-      return '1fr';
+      return null;
+    });
+    const fixedData = widthTemplate.filter((width) => width !== null);
+    const fixedWidth = fixedData.reduce((acc, width) => {
+      return acc + parseInt(width.replace('px', ''), 10);
+    }, 0);
+
+    widthTemplate = widthTemplate.map((width) => {
+      if (width == null) {
+        return `calc((100% - ${fixedWidth}px) / ${this.options.data.length - fixedData.length})`;
+      }
+      return width;
     });
 
     const styleGridColumns = { 'grid-template-columns': widthTemplate.join(' ') };
