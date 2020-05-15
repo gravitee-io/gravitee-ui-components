@@ -47,18 +47,6 @@
     "error": "An error occurred while loading",
     "subscribe": "subscribe"
   },
-  "gv-info": {
-    "about": "About",
-    "beFirstToRate": "Be the first to rate",
-    "categories": "Categories",
-    "entrypoints": "Access URL",
-    "error": "An error occurred while loading information",
-    "labels": "Labels",
-    "metrics": "Metrics",
-    "moreInfo": "More information",
-    "ratings": "Ratings",
-    "resources": "Resources"
-  },
   "gv-input": {
     "clear": "Cancel",
     "copy": "Copy to clipboard",
