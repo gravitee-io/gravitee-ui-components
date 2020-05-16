@@ -159,7 +159,7 @@ export class GvNav extends LitElement {
 
   render () {
     if (this._routes) {
-      return html`<nav class="${classMap({compact: this._compact})}">${repeat(this._routes, (route) => route, (route, index) =>
+      return html`<nav class="${classMap({ compact: this._compact })}">${repeat(this._routes, (route) => route, (route, index) =>
         until(this._getLink(route, index), html`<gv-link skeleton></gv-link>`),
       )}</nav>`;
     }
