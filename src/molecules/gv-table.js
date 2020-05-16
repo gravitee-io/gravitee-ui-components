@@ -145,11 +145,11 @@ export class GvTable extends withResizeObserver(LitElement) {
           grid-auto-rows: minmax(80px, auto);
           padding-right: 15px;
         }
-        
+
         div {
           box-sizing: border-box;
         }
-        
+
         .cell {
           height: 100%;
           display: flex;
@@ -291,7 +291,7 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _getItemId (item) {
-    return item.id || item._id;
+    return item.id === null ? item._id : item.id;
   }
 
   _onSelect (item) {
