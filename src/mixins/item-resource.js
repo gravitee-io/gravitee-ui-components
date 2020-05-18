@@ -88,10 +88,14 @@ export function ItemResource (ParentClass) {
       return '';
     }
 
+    _onClickToMetrics (event) {
+      event.detail.item = this._item;
+    }
+
     _renderMetricsWithRating () {
       if (this.metrics) {
         return html`
-        <gv-metrics .metrics="${this.metrics}">
+        <gv-metrics .metrics="${this.metrics}" @gv-metrics:click="${this._onClickToMetrics}">
           ${this._renderInfoRating()}
         </gv-metrics>
       

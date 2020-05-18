@@ -16,13 +16,20 @@
 import { css, LitElement, html } from 'lit-element';
 import '../atoms/gv-metric';
 import { i18n } from '../lib/i18n';
+import { link } from '../styles/link';
 import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 import { classMap } from 'lit-html/directives/class-map';
+import { dispatchCustomEvent } from '../lib/events';
+import { ifDefined } from 'lit-html/directives/if-defined';
 
 /**
- * Api metrics information component
+ * Metrics information component
  *
- * @attr {Promise<ApiMetrics>} metrics - Metrics of an API.
+ * * attributes `metrics` should be an array of Object {value, clickable}, or an array of values, or a mix.
+ *
+ * @fires gv-metrics:click - Click event from metric if is clickable
+ *
+ * @attr {Promise<{ hits: value, health: {value, clickable}, subscribers: {value, clickable?, title?} }>} metrics - Metrics.
  * @attr {RatingSummary} rating - Ratings of an API.
  */
 export class GvMetrics extends withSkeletonAttribute(LitElement) {
@@ -37,6 +44,7 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
   static get styles () {
     return [
       ...super.styles,
+      link,
       // language=CSS
       css`
         :host {
@@ -68,36 +76,67 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
     this._empty = false;
   }
 
+  _isClickable (metricName) {
+    if (this._metrics && typeof this._metrics[metricName] === 'object') {
+      return this._metrics[metricName].clickable;
+    }
+    return false;
+  }
+
+  _getValue (metric) {
+    if (typeof metric === 'object') {
+      return metric.value;
+    }
+    return metric;
+  }
+
   _getSubscribers () {
     if (this._metrics) {
-      return this._metrics.subscribers;
+      return this._getValue(this._metrics.subscribers);
     }
     return null;
   }
 
   _getHits () {
     if (this._metrics) {
-      return this._metrics.hits;
+      return this._getValue(this._metrics.hits);
     }
     return null;
   }
 
   _getHealth () {
     if (this._metrics) {
-      return !isNaN(this._metrics.health)
+      const health = this._getValue(this._metrics.health);
+      return !isNaN(health)
         ? Intl.NumberFormat.call(this, navigator.language, {
           style: 'percent',
           maximumFractionDigits: 2,
-        }).format(this._metrics.health)
+        }).format(health)
         : ''
       ;
     }
     return null;
   }
 
-  _renderMetric (icon, name, value) {
+  _getTitle (metricName) {
+    if (this._metrics && typeof this._metrics[metricName] === 'object') {
+      return this._metrics[metricName].title;
+    }
+    return null;
+  }
+
+  _onClick (key) {
+    dispatchCustomEvent(this, 'click', { key });
+  }
+
+  _renderMetric (key, icon, name, value) {
+    const clickable = this._isClickable(key);
     return (value || this._skeleton)
-      ? html`<gv-metric .skeleton="${this._skeleton}" icon="${icon}" name="${name}" value="${value}"></gv-metric>`
+      ? html`<gv-metric @click="${clickable ? this._onClick.bind(this, key) : null}" 
+                        .skeleton="${this._skeleton}" icon="${icon}" name="${name}" 
+                        value="${value}" 
+                        class="${classMap({ link: clickable })}"
+                        title="${ifDefined(this._getTitle(key))}"></gv-metric>`
       : html``;
   }
 
@@ -107,11 +146,15 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
       return html`<div class="error">${i18n('gv-metrics.error')}</div>`;
     }
 
+    const subscribers = this._getSubscribers();
+    const hits = this._getHits();
+    const health = this._getHealth();
+
     return html`
         <div class="${classMap({ skeleton: this._skeleton })}">
-            ${this._renderMetric('communication:group', i18n('gv-metrics.subscribers', { count: this._getSubscribers() }), this._getSubscribers())}
-            ${this._renderMetric('general:cursor', i18n('gv-metrics.hits', { count: this._getHits() }), this._getHits())}
-            ${this._renderMetric('general:heart', i18n('gv-metrics.health'), this._getHealth())}
+            ${this._renderMetric('subscribers', 'communication:group', i18n('gv-metrics.subscribers', { count: subscribers }), subscribers)}
+            ${this._renderMetric('hits', 'general:cursor', i18n('gv-metrics.hits', { count: hits }), hits)}
+            ${this._renderMetric('health', 'general:heart', i18n('gv-metrics.health'), health)}
             <slot></slot>
         </div>
     `;

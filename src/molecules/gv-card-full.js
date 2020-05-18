@@ -164,8 +164,8 @@ export class GvCardFull extends ItemResource(LitElement) {
     this.limit = 150;
   }
 
-  _onClick () {
-    if (!this._empty && !this._error && !this._skeleton) {
+  _onClick (e) {
+    if (!this._empty && !this._error && !this._skeleton && !e.target.tagName.toLowerCase().startsWith('gv-metrics')) {
       dispatchCustomEvent(this, 'click', this._item);
     }
   }
