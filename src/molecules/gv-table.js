@@ -235,7 +235,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       .then((items) => {
         if (items) {
           this._itemsProvider = items.map((item, index) => {
-            item._id = item.id || index;
+            item._id = (item.id == null ? index : item.id);
             return item;
           });
           this._onSortChanged();
@@ -290,7 +290,7 @@ export class GvTable extends withResizeObserver(LitElement) {
   }
 
   _getItemId (item) {
-    return item.id === null ? item._id : item.id;
+    return item.id == null ? item._id : item.id;
   }
 
   _onSelect (item) {

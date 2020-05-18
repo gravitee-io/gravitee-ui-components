@@ -106,34 +106,6 @@ export const Applications = makeStory(conf, {
   items: [{ items: appItems, options: appOptions, title: 'Applications' }],
 });
 
-const data = {
-  values: {
-    '/': 40000,
-    1: 4000,
-    2: 10000,
-    3: 12333,
-  },
-  metadata: {
-    '/': { name: '/' },
-    1: { name: 'Test' },
-    2: { name: 'Test2' },
-    3: { name: 'Test3' },
-  },
-};
-
-const testOptions = {
-  selectable: 'multi',
-  paging: 2,
-  data: [
-    { label: 'Path' },
-    { label: 'Nb hits' },
-  ],
-};
-
-export const Analytics = makeStory(conf, {
-  items: [{ items: data, options: testOptions }],
-});
-
 const appWithoutHeaderOptions = {
   selectable: false,
   data: [
