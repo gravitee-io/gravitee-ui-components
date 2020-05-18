@@ -23,7 +23,7 @@ import '../atoms/gv-icon';
  *
  * @slot - The content of the button (text or HTML)
  *
- * @attr {String} type - type of the message. Can be info (Default), success, error, warning or info.
+ * @attr {String} type - type of the message. Can be default, success, error, warning or info.
  * @attr {boolean} closable - determines if the message can be hidden.
  *
  * @cssprop {Color} [--gv-message-success--bgc=var(--gv-theme-color-light, #86c3d0)] - Success background color
@@ -54,10 +54,9 @@ export class GvMessage extends LitElement {
             vertical-align: middle;
           }
 
-          .info, .success, .warning, .error {
+          .box {
             display: flex;
             align-items: center;
-
             font-style: normal;
             font-weight: normal;
             line-height: normal;
@@ -122,7 +121,9 @@ export class GvMessage extends LitElement {
 
   render () {
     const modes = {
-      info: (!this.type || (this.type !== 'success' && this.type !== 'error' && this.type !== 'warning')),
+      box: true,
+      simple: (!this.type || (this.type !== 'info' && this.type !== 'success' && this.type !== 'error' && this.type !== 'warning')),
+      info: (this.type === 'info'),
       warning: (this.type === 'warning'),
       success: (this.type === 'success'),
       error: (this.type === 'error'),

@@ -38,6 +38,10 @@ const items = [
   { innerHTML: 'The cake is a lie' },
 ];
 
+export const Default = makeStory(conf, {
+  items: items.map((p) => ({ ...p })),
+});
+
 export const Info = makeStory(conf, {
   items: items.map((p) => ({ ...p, type: 'info' })),
 });
