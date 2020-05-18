@@ -142,7 +142,6 @@ export class GvTable extends withResizeObserver(LitElement) {
           align-content: center;
           border-right: solid thick transparent;
           display: grid;
-          grid-auto-rows: minmax(80px, auto);
           padding-right: 15px;
         }
 
@@ -340,7 +339,13 @@ export class GvTable extends withResizeObserver(LitElement) {
       return '';
     }
     else {
-      const style = { ...styleGridColumns, ...{ height: this.rowheight } };
+      const style = {
+        ...styleGridColumns,
+        ...{
+          height: this.rowheight,
+          'grid-auto-rows': this.rowheight ? null : 'minmax(80px, auto)',
+        },
+      };
 
       return html`
         <div class=${classMap({ theader: true })} style=${styleMap(style)}>
@@ -484,6 +489,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         ...styleGridColumns,
         ...{
           height: this.rowheight,
+          'grid-auto-rows': this.rowheight ? null : 'minmax(80px, auto)',
           cursor: this.options.selectable ? 'pointer' : '',
           'border-color': (this.options.selectable && this._isSelected(item)) ? 'var(--selected--bgc)' : '',
         },
