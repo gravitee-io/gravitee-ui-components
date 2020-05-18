@@ -150,11 +150,11 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           overflow: hidden;
         }
 
-        .disabled .select__list__item {
+        .select__list__item.disabled {
           opacity: .5;
         }
 
-        .disabled .select__list__item:hover {
+         .select__list__item.disabled:hover {
           cursor: not-allowed;
         }
 

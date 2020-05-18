@@ -66,6 +66,7 @@ export const input = css`
 
   .box-icon gv-icon {
       width: 22px;
+      --gv-icon--c: var(--gv-theme-font-color-dark);
   }
 
   .box-icon.box-icon-clear gv-icon, :host([large]) .box-icon.box-icon-clear gv-icon {
