@@ -103,11 +103,11 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           --gv-icon--s: 19px;
         }
 
-        gv-icon.medium {
+        .medium gv-icon {
           --gv-icon--s: 14px;
         }
 
-        gv-icon.small {
+        .small gv-icon {
           --gv-icon--s: 11px;
         }
 
