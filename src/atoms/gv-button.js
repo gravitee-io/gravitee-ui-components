@@ -55,6 +55,8 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #5A7684)] - Primary background color
  * @cssprop {Color} [--gv-button-danger--c=var(--gv-theme-font-color-light, #FFFFFF)] - Danger color
  * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-danger-color, #FF5722)] - Danger background color
+ * @cssprop {Color} [--gv-button-oidc--bgc=#000000] - OIDC Social Provider button background color
+ * @cssprop {Color} [--gv-button-graviteeio_am--bgc=#86c3d0] - Gravitee.io AM Social Provider button background color
  * @cssprop {Length} [--gv-button--p=7px 14px] - Padding
  * @cssprop {Length} [--gv-button--fz=var(--gv-theme-font-size-m, 14px)] - Font size
  * @cssprop {Length} [--gv-button--bdrs=0.15rem] - Border radius
@@ -93,8 +95,8 @@ export class GvButton extends LitElement {
           --gv-icon--s: 25px;
           --github--c: #444;
           --google--c: #4285F4;
-          --oidc--c: #000000;
-          --gravitee--c: #86c3d0;
+          --oidc--c: var(--gv-button-oidc--bgc, #000000);
+          --gravitee--c: var(--gv-button-graviteeio_am--bgc, #86c3d0);
           outline: none;
         }
 
@@ -240,6 +242,7 @@ export class GvButton extends LitElement {
           flex: 1;
           white-space: nowrap;
           display: inline;
+          height: 100%;
         }
 
         .button.icon slot {
