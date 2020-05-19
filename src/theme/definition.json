@@ -396,7 +396,7 @@
           "name": "--gv-tree-active--bgc",
           "description": "Active background color",
           "type": "color",
-          "default": "var(--gv-theme-neutral-color, #F5F5F5)",
+          "default": "var(--gv-theme-neutral-color-dark, #D9D9D9)",
           "value": ""
         },
         {

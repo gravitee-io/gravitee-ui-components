@@ -17,7 +17,6 @@ import { LitElement, html, css } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-button';
 import '../atoms/gv-icon';
-import '../atoms/gv-link';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 
@@ -34,7 +33,7 @@ import { classMap } from 'lit-html/directives/class-map';
  * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color-lightest, #FFFFF)] - Background color
  * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color, #5A7684)] - Active border
- * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-neutral-color, #F5F5F5)] - Active background color
+ * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Active background color
  * @cssprop {Length} [--gv-tree-link-a--ph=10px] - Link horizontal padding
  * @cssprop {String} [--gv-tree-link--ta=left] - Text align
  * @cssprop {Length} [--gv-tree-icon--s=20px] - Height and icon width
@@ -57,22 +56,17 @@ export class GvTree extends LitElement {
               --c: var(--gv-tree--c, var(--gv-theme-font-color-dark, #262626));
               --bgc: var(--gv-tree--bgc, var(--gv-theme-neutral-color-lightest, #FFFFF));
               --active-bdc: var(--gv-tree-active--bdc, var(--gv-theme-color, #5A7684));
-              --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-neutral-color, #F5F5F5));
+              --active-bgc: var(--gv-tree-active--bgc, var(--gv-theme-neutral-color-dark, #D9D9D9));
               --gv-icon--s: var(--gv-tree-icon--s, 20px);
-              --gv-link-a--ph: var(--gv-tree-link-a--ph, 10px);
-              --gv-link--ta: var(--gv-tree-link--ta, left);
-              --gv-link--c: var(--c);
               --gv-icon--c: var(--c);
               background-color: var(--bgc);
               color: var(--c);
               display: flex;
               flex-direction: row;
-              --gv-link-a--pv: 10px;
               height: 100%;
           }
 
           .tree {
-              position: relative;
               padding-top: 10px;
               transition: all 350ms ease-in-out;
               width: 300px;
@@ -83,7 +77,6 @@ export class GvTree extends LitElement {
           }
 
           .main-tree-menu {
-              flex: 1;
               user-select: none;
               overflow-y: auto;
               overflow-x: hidden;
@@ -91,67 +84,90 @@ export class GvTree extends LitElement {
               direction: rtl;
           }
 
-          .tree-menu {
-              list-style: none;
-              padding-right: 0;
-              padding-left: 0;
+          .main-tree-menu > ul {
+            position: relative;
           }
 
-          .tree-menu__item {
-              width: 290px;
-              position: relative;
+          ul {
+            display: block;
+            line-height: 2;
+            list-style: none;
+            margin: 0;
+            padding: 0;
           }
 
-          .selected {
-              background-color: var(--active-bgc);
-              border-right-width: 3px;
-              border-right-style: solid;
-              border-right-color: var(--active-bdc);
-              box-sizing: border-box;
+          ul li {
+            display: block;
+            padding: .5em .5em .5em 1em;
           }
 
-          .page:hover {
-              background-color: var(--active-bgc);
+          ul li ul {
+            margin-bottom: -.5em;
+            margin-top: .5em;
+          }
+          
+          ul li:hover:not(.folder):not(.selected) > label::before {
+            border-right-width: 4px;
+            border-right-style: solid;
+            border-right-color: var(--active-bgc);
+            box-sizing: border-box;
           }
 
-          .folder > ul {
-              padding-left: 10px;
+          ul label {
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            direction: ltr;
           }
 
-          .folder > gv-link {
-              font-weight: bold;
+          ul label::before {
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            content: '';
+            height: 3em;
+            left: 0;
+            position: absolute;
+            right: 0;
+          }
+
+          .selected > label::before {
+            border-right-width: 4px;
+            border-right-style: solid;
+            border-right-color: var(--active-bdc);
+            box-sizing: border-box;
+          }
+
+          .folder > label {
+            font-weight: bold;
           }
 
           .tree-arrow {
-              transform: rotate(90deg);
-              position: absolute;
-              right: 10px;
-              top: 15px;
-              opacity: 0.5;
-              cursor: pointer;
+            transform: rotate(90deg);
+            cursor: pointer;
+            opacity: 0.5;
+            width: 20px;
+            height: 20px;
           }
 
           .closed .tree-arrow {
-              transform: rotate(0deg);
+            transform: rotate(0deg);
           }
 
           .closed .tree-menu {
-              height: 0;
-              transition: height 0.8s;
-              display: none;
+            height: 0;
+            transition: height 0.8s;
+            display: none;
           }
 
           .switch {
-              cursor: pointer;
-              opacity: 0.7;
-              position: sticky;
-              margin: 0 11px 0 11px;
-              display: flex;
-              justify-content: flex-end;
-          }
-
-          gv-link {
-              width: 100%;
+            cursor: pointer;
+            opacity: 0.7;
+            position: sticky;
+            margin: 0 11px 0 11px;
+            display: flex;
+            justify-content: flex-end;
           }
       `,
     ];
@@ -177,20 +193,22 @@ export class GvTree extends LitElement {
   }
 
   _getMenuItemPage (menuItem) {
-    return html`<gv-link
-                .title="${menuItem.name}"
-                @gv-link:click=${this._onSelect.bind(this, menuItem)}>
-                </gv-link>`;
+    return html`<label
+                @click=${this._onSelect.bind(this, menuItem)}>
+                ${menuItem.name}
+                </label>`;
   }
 
   _getMenuItemFolder (menuItem) {
     return html`
-        <gv-link
-        .title="${menuItem.name}"
-        @gv-link:click=${this._onClick.bind(this, menuItem)}>
-        </gv-link>
+        <label
+        @click=${this._onClick.bind(this, menuItem)}
+        class="${classMap({ closed: !menuItem.expanded })}" >
+        ${menuItem.name}
+        <gv-icon class="tree-arrow" shape="code:right-circle"></gv-icon>
+        </label>
         <span class="${classMap({ closed: !menuItem.expanded })}">
-         <gv-icon class="tree-arrow" shape="code:right-circle" @click=${() => this._onClick(menuItem)}></gv-icon>${this._getMenu(menuItem.children)}
+        ${this._getMenu(menuItem.children)}
         </span>`;
   }
 
