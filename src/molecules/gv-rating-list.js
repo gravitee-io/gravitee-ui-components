@@ -55,6 +55,7 @@ export class GvRatingList extends LitElement {
       ratings: { type: Array },
       user: { type: Object },
       permissions: { type: Object },
+      required: { type: Boolean, attribute: 'required' },
       _permissions: { type: Object, attribute: false },
       _ratings: { type: Array, attribute: false },
     };
@@ -67,99 +68,99 @@ export class GvRatingList extends LitElement {
       // language=CSS
       css`
 
-          :host {
-              --s: var(--gv-rating-list--s, 18px);
-              --gv-icon--s: var(--s);
-              --gv-rating--s: var(--s);
-              margin: 0.2rem;
-              box-sizing: border-box;
-          }
+        :host {
+          --s: var(--gv-rating-list--s, 18px);
+          --gv-icon--s: var(--s);
+          --gv-rating--s: var(--s);
+          margin: 0.2rem;
+          box-sizing: border-box;
+        }
 
-          .rating-list {
-              background-color: var(--gv-rating-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          }
+        .rating-list {
+          background-color: var(--gv-rating-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+        }
 
-          .rating.parent {
-              border-bottom: 1px solid var(--gv-rating-list--bdc, var(--gv-theme-neutral-color, #F5F5F5));
-          }
+        .rating.parent {
+          border-bottom: 1px solid var(--gv-rating-list--bdc, var(--gv-theme-neutral-color, #F5F5F5));
+        }
 
-          .rating {
-              display: flex;
-              padding: 1rem 0;
-          }
+        .rating {
+          display: flex;
+          padding: 1rem 0;
+        }
 
-          .answer .rating {
-              padding: 1rem 0 0 0;
-          }
+        .answer .rating {
+          padding: 1rem 0 0 0;
+        }
 
-          .sub-title {
-              color: grey;
-              display: flex;
-              line-height: 20px;
-          }
+        .sub-title {
+          color: grey;
+          display: flex;
+          line-height: 20px;
+        }
 
-          gv-confirm {
-              align-self: center;
-          }
+        gv-confirm {
+          align-self: center;
+        }
 
-          .sub-title a.link {
-              text-decoration: underline;
-          }
+        .sub-title a.link {
+          text-decoration: underline;
+        }
 
-          gv-identity-picture {
-              margin: 0 1rem;
-              height: 60px;
-              width: 60px;
-          }
+        gv-identity-picture {
+          margin: 0 1rem;
+          height: 60px;
+          width: 60px;
+        }
 
-          .title {
-              display: flex;
-              line-height: 20px;
-          }
+        .title {
+          display: flex;
+          line-height: 20px;
+        }
 
-          .title b, .rating-content {
-              flex: 1;
-          }
+        .title b, .rating-content {
+          flex: 1;
+        }
 
-          .link-answer {
-              display: inline-block;
-              padding: 1rem 0;
-          }
+        .link-answer {
+          display: inline-block;
+          padding: 1rem 0;
+        }
 
-          .link-answer gv-icon {
-              margin-right: 0.2rem;
-              --gv-icon--s: var(--s);
-          }
+        .link-answer gv-icon {
+          margin-right: 0.2rem;
+          --gv-icon--s: var(--s);
+        }
 
-          .delete-rating, .delete-answer, .fake-icon {
-              --gv-icon--s: var(--s);
-              min-width: var(--s);
-              display: inline-flex;
-          }
+        .delete-rating, .delete-answer, .fake-icon {
+          --gv-icon--s: var(--s);
+          min-width: var(--s);
+          display: inline-flex;
+        }
 
-          .delete-rating {
-              padding-right: 1rem;
-          }
+        .delete-rating {
+          padding-right: 1rem;
+        }
 
-          .answer {
-              padding: 1rem;
-              margin-top: 1rem;
-              background-color: var(--gv-rating-list-answer--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-          }
+        .answer {
+          padding: 1rem;
+          margin-top: 1rem;
+          background-color: var(--gv-rating-list-answer--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+        }
 
-          .answer-form {
-              display: flex;
-              flex-direction: column;
-          }
+        .answer-form {
+          display: flex;
+          flex-direction: column;
+        }
 
-          .display-name:after {
-              content: '|';
-              margin: 2px;
-          }
+        .display-name:after {
+          content: '|';
+          margin: 2px;
+        }
 
-          .actions {
-              text-align: right;
-          }
+        .actions {
+          text-align: right;
+        }
 
       `,
     ];
@@ -212,9 +213,24 @@ export class GvRatingList extends LitElement {
     this.performUpdate();
   }
 
+  _getAnswerValue () {
+    const element = this.shadowRoot.querySelector('gv-text');
+    if (element) {
+      return element.value;
+    }
+    return '';
+  }
+
   _onAnswer (rating) {
-    const answer = this.shadowRoot.querySelector('gv-text').value;
-    dispatchCustomEvent(this, 'add-answer', { rating, answer });
+    const answer = this._getAnswerValue();
+    if (answer.trim().length > 0) {
+      dispatchCustomEvent(this, 'add-answer', { rating, answer });
+    }
+  }
+
+  _hasValidAnswer () {
+    const answer = this._getAnswerValue();
+    return answer.trim().length > 0;
   }
 
   _onClose (rating) {
@@ -233,10 +249,10 @@ export class GvRatingList extends LitElement {
         <gv-icon class="link" shape="communication:chat#5"></gv-icon> ${i18n('gv-rating-list.reply')}</a>` : ''}
         ${rating._edit ? html`
         <div class="answer answer-form">
-          <gv-text rows="4" label="${i18n('gv-rating-list.answerLabel')}"></gv-text>
+          <gv-text rows="4" label="${i18n('gv-rating-list.answerLabel')}" required @input="${this.performUpdate}"></gv-text>
           <div class="actions">
             <gv-button primary outlined @click="${this._onClose.bind(this, rating)}">${i18n('gv-rating-list.cancel')}</gv-button>
-            <gv-button primary @click="${this._onAnswer.bind(this, rating)}">${i18n('gv-rating-list.send')}</gv-button>
+            <gv-button primary @click="${this._onAnswer.bind(this, rating)}" .disabled="${!this._hasValidAnswer()}">${i18n('gv-rating-list.send')}</gv-button>
           </div>
         </div>
        ` : ''}
