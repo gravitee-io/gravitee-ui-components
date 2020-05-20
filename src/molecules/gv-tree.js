@@ -34,8 +34,6 @@ import { classMap } from 'lit-html/directives/class-map';
  * @cssprop {Color} [--gv-tree--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-tree-active--bdc=var(--gv-theme-color, #5A7684)] - Active border
  * @cssprop {Color} [--gv-tree-active--bgc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Active background color
- * @cssprop {Length} [--gv-tree-link-a--ph=10px] - Link horizontal padding
- * @cssprop {String} [--gv-tree-link--ta=left] - Text align
  * @cssprop {Length} [--gv-tree-icon--s=20px] - Height and icon width
  */
 export class GvTree extends LitElement {
