@@ -50,6 +50,23 @@ export const basics = makeStory(conf, {
   items,
 });
 
+export const basicsInColumn = makeStory({
+  ...conf,
+  ...{
+    css: `
+    :host {
+      max-width: 500px;
+    }
+    gv-metrics {
+      display: grid;
+      grid-gap: 1rem;
+    }
+  `,
+  },
+}, {
+  items,
+});
+
 export const basicsWithRating = makeStory(conf, {
   items: items.map((item) => ({ ...item, innerHTML: '<gv-rating value="3.3" count="345"></gv-rating>' })),
 });

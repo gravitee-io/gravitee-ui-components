@@ -54,14 +54,11 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
           height: 100%;
           min-height: 25px;
           min-width: 25px;
-        }
-
-        div {
           display: flex;
           width: 100%;
         }
 
-        div > * {
+        :host > * {
           flex: 1 1 auto;
         }
       `,
@@ -151,12 +148,10 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
     const health = this._getHealth();
 
     return html`
-        <div class="${classMap({ skeleton: this._skeleton })}">
             ${this._renderMetric('subscribers', 'communication:group', i18n('gv-metrics.subscribers', { count: subscribers }), subscribers)}
             ${this._renderMetric('hits', 'general:cursor', i18n('gv-metrics.hits', { count: hits }), hits)}
             ${this._renderMetric('health', 'general:heart', i18n('gv-metrics.health'), health)}
             <slot></slot>
-        </div>
     `;
   }
 
