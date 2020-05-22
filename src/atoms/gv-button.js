@@ -177,7 +177,7 @@ export class GvButton extends LitElement {
         }
 
         /* MODES */
-        .button {
+        .button:not(.link) {
           background-color: var(--bgc);
           border-color: var(--bgc);
           color: var(--c);
@@ -292,9 +292,12 @@ export class GvButton extends LitElement {
         .link {
           border: 0;
           cursor: pointer;
-          text-decoration: underline;
           outline: 0;
           background-color: transparent;
+        }
+
+        button.link {
+          text-decoration: underline;
         }
       `,
       skeleton,
