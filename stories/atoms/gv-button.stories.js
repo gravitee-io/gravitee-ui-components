@@ -25,6 +25,7 @@ const items = [
   { innerHTML: 'Link', link: true },
   { innerHTML: 'Link href', link: true, href: 'https://gravitee.io/' },
   { innerHTML: 'Default', icon: 'cooking:dish' },
+  { icon: 'cooking:dish' },
   { innerHTML: 'Default href', icon: 'cooking:dish', href: 'https://gravitee.io/' },
   { innerHTML: 'Primary', primary: true, icon: 'cooking:dish' },
   { innerHTML: 'Danger', danger: true, icon: 'cooking:dish' },
@@ -48,6 +49,22 @@ const conf = { component: 'gv-button' };
 export const modes = makeStory(conf, {
   items,
 });
+
+export const modesInColumn = makeStory(
+  {
+    ...conf,
+    ...{
+      css: ` 
+        :host {
+          display: flex;
+          flex-direction: column;
+          width: 200px;
+        }
+`,
+    },
+  }, {
+    items,
+  });
 
 export const small = makeStory(conf, {
   items: items.map((p) => ({ ...p, small: true })),
