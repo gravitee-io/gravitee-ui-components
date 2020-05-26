@@ -79,6 +79,7 @@ export class GvButton extends LitElement {
       title: { type: String, reflect: true },
       provider: { type: String },
       small: { type: Boolean },
+      _hasContent: { type: Boolean, attribute: false },
     };
   }
 
@@ -92,7 +93,7 @@ export class GvButton extends LitElement {
           display: inline-block;
           margin: 0.2rem;
           vertical-align: middle;
-          --gv-icon--s: 25px;
+          --gv-icon--s: 23px;
           --github--c: #444;
           --google--c: #4285F4;
           --oidc--c: var(--gv-button-oidc--bgc, #000000);
@@ -134,6 +135,7 @@ export class GvButton extends LitElement {
           text-decoration: none;
           box-sizing: border-box;
           display: flex;
+          justify-content: center;
           align-items: center;
           text-align: center;
         }
@@ -156,6 +158,14 @@ export class GvButton extends LitElement {
           text-transform: uppercase;
           user-select: none;
           width: 100%;
+        }
+
+        .button.iconLeft slot {
+          margin-left: 7px;
+        }
+
+        .button.iconRight slot {
+          margin-right: 7px;
         }
 
         /* COLORS */
@@ -183,10 +193,9 @@ export class GvButton extends LitElement {
           background-color: var(--bgc);
           border-color: var(--bgc);
           color: var(--c);
-          position: relative;
         }
 
-        .outlined {
+        .button.outlined {
           background-color: var(--c);
           color: var(--bgc);
           --gv-icon--c: var(--bgc);
@@ -196,7 +205,7 @@ export class GvButton extends LitElement {
         .button:focus, .button:active {
           outline: none;
         }
-        
+
         .button:not(.link):not(.disabled):focus {
           box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
         }
@@ -229,52 +238,17 @@ export class GvButton extends LitElement {
           border: 0;
         }
 
-        .button.icon > * {
-          vertical-align: middle;
-        }
-
-        .button.icon {
-          display: flex;
-          align-items: center;
-        }
-
         .button slot {
           flex: 1;
           white-space: nowrap;
-          display: inline;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           height: 100%;
         }
-
-        .button.icon slot {
-          padding-left: 21px;
-        }
-
-
-        .button.iconRight slot {
-          padding-left: 0;
-          padding-right: 21px;
-        }
-
-        .button.iconRight slot {
-          direction: rtl;
-        }
-
-        .small gv-icon {
-          left: 5px;
-        }
-        gv-icon {
-          left: 7px;
-          position: absolute;
-        }
-
-        .button.iconRight gv-icon {
-          left: unset;
-          right: 7px;
-        }
-
-
-        .button.iconRight.small gv-icon {
-          right: 5px;
+        
+        .button.noContent slot {
+          display: none;
         }
 
         .loading gv-icon {
@@ -337,17 +311,20 @@ export class GvButton extends LitElement {
       default: !this.primary && !this.danger && !this.link,
       outlined: this.outlined,
       icon: this.icon || this.iconRight,
+      iconLeft: this.icon,
       iconRight: this.iconRight,
       loading: this.loading && !this.link,
       link: this.link && !this.primary && !this.danger,
       disabled: this.disabled,
       small: this.small,
+      noContent: !this._hasContent,
     };
 
     if (this.provider) {
       classes[this.provider] = true;
       this.icon = `thirdparty:${this.provider}`;
       classes.icon = true;
+      classes.iconLeft = true;
     }
 
     if (this.href) {
@@ -393,6 +370,13 @@ export class GvButton extends LitElement {
       return html`<gv-icon shape="${this.icon}" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
     return '';
+  }
+
+  firstUpdated () {
+    const slot = this.shadowRoot.querySelector('slot');
+    if (slot.assignedNodes().length > 0) {
+      this._hasContent = true;
+    }
   }
 }
 
