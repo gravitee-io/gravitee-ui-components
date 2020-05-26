@@ -30,6 +30,7 @@ import '../molecules/gv-metrics';
  * Promote component
  *
  * @fires gv-promote:click - When click on button for view item
+ * @fires gv-tag:click - When one of the label is clicked
  *
  * @attr {Promise<any>} item - an item.
  *
@@ -169,7 +170,7 @@ export class GvPromote extends ItemResource(LitElement) {
             ${this._renderMetricsWithRating()}
         </div>
         <div class="labels">
-          ${this._renderLabels()}
+          ${this._renderLabels(true)}
         </div>
         <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote.view')}</gv-button>`}
     `}

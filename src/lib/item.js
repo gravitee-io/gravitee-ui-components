@@ -62,13 +62,6 @@ export function getLabels (item) {
   return null;
 }
 
-export function getViews (item) {
-  if (item) {
-    return item.views;
-  }
-  return null;
-}
-
 export function getRating (item) {
   if (item) {
     return item.rating_summary;

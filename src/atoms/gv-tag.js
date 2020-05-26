@@ -18,6 +18,7 @@ import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { link } from '../styles/link';
 import './gv-icon';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  * A Tag
@@ -131,6 +132,13 @@ export class GvTag extends LitElement {
     ];
   }
 
+  _onTagClick (e) {
+    if (this.clickable) {
+      e.stopPropagation();
+      dispatchCustomEvent(this, 'click', {});
+    }
+  }
+
   render () {
 
     const modes = {
@@ -142,7 +150,7 @@ export class GvTag extends LitElement {
     };
 
     return html`
-      <div class=${classMap(modes)}>
+      <div class=${classMap(modes)} @click="${this._onTagClick}">
          ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
         <slot></slot>
         ${this.iconRight ? html`<gv-icon shape="${this.iconRight}"></gv-icon>` : ''}
