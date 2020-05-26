@@ -61,12 +61,6 @@ function minifyJs (code, sourceMapUrl) {
   return Terser.minify(code, {
     module: true,
     toplevel: true,
-    mangle: {
-      properties: {
-        // mangle "private properties/functions" starting with _
-        regex: /^_/,
-      },
-    },
     sourceMap: {
       content: 'inline',
       url: sourceMapUrl,
