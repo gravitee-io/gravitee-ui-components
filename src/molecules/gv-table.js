@@ -211,6 +211,10 @@ export class GvTable extends withResizeObserver(LitElement) {
         gv-pagination {
           align-self: flex-end;
         }
+
+        .cell > * {
+          margin-left: 10px;
+        }
       `,
     ];
   }
@@ -369,8 +373,9 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   _renderIcon (item, itemIndex, option) {
     const icon = typeof option.icon === 'function' ? option.icon(item) : option.icon;
+    const iconTitle = typeof option.iconTitle === 'function' ? option.iconTitle(item) : option.iconTitle;
     if (icon) {
-      return html` <gv-icon shape="${icon}"></gv-icon>`;
+      return html` <gv-icon shape="${icon}" title="${iconTitle}"></gv-icon>`;
     }
     return '';
   }
@@ -500,7 +505,7 @@ export class GvTable extends withResizeObserver(LitElement) {
             @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
         const style = typeof option.style === 'function' ? option.style(item) : option.style;
-        return html`<div class="cell" style="${ifDefined(style)}">${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}</div>
+        return html`<div class="cell" style="${ifDefined(style)}">${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}${option.icon ? this._renderIcon(item, itemIndex, option) : ''}</div>
               `;
       }) : ''}
           </div>
@@ -517,7 +522,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       else if (o.type === 'image') {
         return '80px';
       }
-      else if (o.icon) {
+      else if (o.type === 'icon') {
         return '40px';
       }
       return null;

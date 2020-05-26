@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 import { html } from 'lit-html';
-import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
 import '../molecules/gv-identity-picture';
-import { getLabels, getPicture, getStates, getRating, getViews, getPictureDisplayName } from '../lib/item';
+import { getLabels, getPicture, getStates, getRating, getPictureDisplayName } from '../lib/item';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
 
 /**
@@ -63,15 +62,15 @@ export function ItemResource (ParentClass) {
       return '';
     }
 
-    _onTagClick (tagValue, tagType) {
-      dispatchCustomEvent(this, 'click-' + tagType, { tagValue });
+    _onTagClick (tagValue, event) {
+      event.detail.tagValue = tagValue;
     }
 
-    _renderLabels () {
+    _renderLabels (clickable) {
       const labels = getLabels(this._item);
       if (labels) {
         return repeat(labels, (label) => label, (label) =>
-          html`<gv-tag @click="${this._onTagClick.bind(this, label, 'label')}" ?skeleton="${this._skeleton}" major>${label}</gv-tag>`);
+          html`<gv-tag ?clickable="${clickable}" @gv-tag:click="${this._onTagClick.bind(this, label)}" ?skeleton="${this._skeleton}" major>${label}</gv-tag>`);
       }
       return '';
     }
@@ -110,15 +109,6 @@ export function ItemResource (ParentClass) {
       const rating = getRating(this._item);
       if (rating && rating.count) {
         return html`<gv-rating readonly .skeleton="${this._skeleton}" .value="${rating.average}" .count="${rating.count}"></gv-rating>`;
-      }
-      return '';
-    }
-
-    _renderViews () {
-      const views = getViews(this._item);
-      if (views) {
-        return repeat(views, (name) => name, (name) =>
-          html`<gv-tag @click="${this._onTagClick.bind(this, name, 'view')}" ?skeleton="${this._skeleton}">${name}</gv-tag>`);
       }
       return '';
     }

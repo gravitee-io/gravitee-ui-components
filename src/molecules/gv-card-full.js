@@ -32,6 +32,7 @@ import { getVersion, getTitle, getDescription } from '../lib/item';
  * Full Card component
  *
  * @fires gv-card-full:click - Custom click event
+ * @fires gv-tag:click - Custom click event on card labels
  *
  * @attr {Promise<Object>} item - An item.
  * @attr {Promise<Metrics>} metrics - A Metrics.
@@ -193,7 +194,7 @@ export class GvCardFull extends ItemResource(LitElement) {
           </div>
           
           <div class="labels">
-            ${this._renderLabels()}
+            ${this._renderLabels(true)}
           </div>
         </span>
 </div>`;
