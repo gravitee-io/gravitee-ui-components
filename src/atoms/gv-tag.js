@@ -121,6 +121,8 @@ export class GvTag extends LitElement {
               padding: 1px 8px;
               --gv-icon--s: var(--gv-tag-icon--s, 18px);
               --gv-icon--c: var(--c);
+
+              word-break: normal;
           }
 
           div > * {
