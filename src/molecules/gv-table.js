@@ -48,6 +48,7 @@ import '../atoms/gv-image';
  * @attr {Function} format - A function to format table headers and string cells
  * @attr {Array<any>} selected - A list of selected ids of the items displayed
  * @attr {String} total - Total of data displayed on the table (useful with in case of pagination)
+ * @attr {Boolean} skeleton - Force gv-table to be in skeleton mode
  *
  * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #5A7684)] - Selected background color
  * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
@@ -72,6 +73,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       format: { type: Function },
       selected: { type: Array, reflect: true },
       total: { type: String },
+      skeleton: { type: Boolean},
       _items: { type: Array, attribute: false },
       _skeleton: { type: Boolean, attribute: false },
       _error: { type: Boolean, attribute: false },
@@ -597,7 +599,7 @@ export class GvTable extends withResizeObserver(LitElement) {
 
     const classes = {
       table: true,
-      skeleton: this._skeleton,
+      skeleton: this._skeleton || this.skeleton,
     };
 
     const emptyStyle = {
