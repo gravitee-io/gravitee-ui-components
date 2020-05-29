@@ -23,6 +23,7 @@ import { dispatchCustomEvent } from '../lib/events';
 import './gv-icon';
 import { i18n } from '../lib/i18n';
 import { InputElement } from '../mixins/input-element';
+import { shapeClipboard, shapeCopied } from '../styles/shapes';
 
 /**
  *
@@ -127,14 +128,6 @@ export class GvInput extends InputElement(LitElement) {
         }
       `,
     ];
-  }
-
-  static get shapeClipboard () {
-    return 'general:clipboard';
-  }
-
-  static get shapeCopied () {
-    return 'communication:clipboard-check';
   }
 
   static get shapeSearch () {
@@ -263,13 +256,13 @@ export class GvInput extends InputElement(LitElement) {
         const copy = mod.default;
         copy(this.value);
         this._copied = true;
-        this.iconLeft = GvInput.shapeCopied;
+        this.iconLeft = shapeCopied;
         setTimeout(() => {
           this._copied = false;
-          this.iconLeft = GvInput.shapeClipboard;
+          this.iconLeft = shapeClipboard;
         }, 1000);
       }));
-      this.iconLeft = GvInput.shapeClipboard;
+      this.iconLeft = shapeClipboard;
       this.getInputElement().addEventListener('click', () => this.copy(this.value));
 
       setTimeout(() => {

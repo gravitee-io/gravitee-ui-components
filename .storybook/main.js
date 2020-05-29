@@ -11,7 +11,6 @@ module.exports = {
   presets: ['@storybook/addon-docs/preset'],
 
   webpackFinal: async (config, {configType}) => {
-    config.performance = {hints: false};
     config.module.rules.push({
       test: /\.adoc/,
       use: ["asciidoc-loader"],
