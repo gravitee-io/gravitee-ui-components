@@ -144,8 +144,8 @@ export class GvButton extends LitElement {
           max-height: 25px;
           min-height: 25px;
           min-width: 25px;
-          --gv-icon--s: 21px;
-          --gv-button--p: 1px 6px;
+          --gv-icon--s: 19px;
+          --gv-button--p: 1px 4px;
         }
 
         /* BASE */

@@ -83,6 +83,11 @@ export class GvCheckbox extends LitElement {
           padding-left: 15px;
         }
 
+        .required > label::after {
+          content: '*';
+          color: var(--gv-theme-color-danger);
+        }
+        
         gv-icon {
           position: absolute;
         }
@@ -146,6 +151,7 @@ export class GvCheckbox extends LitElement {
     const classes = {
       skeleton: this.skeleton,
       disabled: this.disabled,
+      required: this.required,
       container: true,
     };
     return html`
