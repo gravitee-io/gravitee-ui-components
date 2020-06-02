@@ -73,7 +73,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       format: { type: Function },
       selected: { type: Array, reflect: true },
       total: { type: String },
-      skeleton: { type: Boolean},
+      skeleton: { type: Boolean },
       _items: { type: Array, attribute: false },
       _skeleton: { type: Boolean, attribute: false },
       _error: { type: Boolean, attribute: false },
