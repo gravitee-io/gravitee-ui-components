@@ -73,10 +73,6 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
               display: block;
           }
 
-          :host([sticky]) .actions {
-              display: none;
-          }
-
           :host([w-lt-768]) {
               --img--w: calc(var(--img-w) / 2);
               --img--h: calc(var(--img-h) / 2);
