@@ -34,7 +34,7 @@
 
   <groupId>io.gravitee.ui</groupId>
   <artifactId>gravitee-ui-components</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <packaging>pom</packaging>
   <name>Gravitee.io UI - Components</name>
 
