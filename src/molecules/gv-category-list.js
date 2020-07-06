@@ -21,6 +21,9 @@ import { GvCardList } from './gv-card-list';
 /**
  * List of categories
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @cssprop {Color} [--gv-category-list--bgc-1=#CCE6EB] - Category background color 1
  * @cssprop {Color} [--gv-category-list--bgc-2=#FCF1A8] - Category background color 2
  * @cssprop {Color} [--gv-category-list--bgc-3=#D9D4F1] - Category background color 3

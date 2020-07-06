@@ -20,6 +20,10 @@ import { classMap } from 'lit-html/directives/class-map';
 import { isSameRoutes } from '../lib/utils';
 
 /**
+ * User menu
+ *
+ * ## Details
+ * * has @theme facet
  *
  * @fires gv-link:click - Custom event when nav link click
  *

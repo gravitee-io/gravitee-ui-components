@@ -20,6 +20,9 @@ import { skeleton } from '../styles/skeleton';
 /**
  * An icon
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @cssprop {Color} [--gv-icon--c=var(--gv-theme-font-color-dark,  #262626)] - Color
  * @cssprop {Length} [--gv-icon--s=32px] - Height and width
  */

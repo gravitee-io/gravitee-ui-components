@@ -27,8 +27,10 @@ import { InputElement } from '../mixins/input-element';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**
- *
  * A select component.
+ *
+ * ## Details
+ * * has @theme facet
  *
  * @fires gv-select:select - Event when user select a value
  *

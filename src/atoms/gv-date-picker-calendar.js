@@ -41,6 +41,9 @@ import { until } from 'lit-html/directives/until';
 /**
  * Date Picker Calendar
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-date-picker-cell:select - Custom event when user select cell
  * @fires gv-date-picker-cell:hover - Custom event when user hover cell
  *

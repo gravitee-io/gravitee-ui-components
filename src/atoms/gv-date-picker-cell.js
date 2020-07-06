@@ -23,6 +23,9 @@ import { isInvalid } from '../lib/date';
 /**
  * Date Picker Cell
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-date-picker-cell:select - Custom event when user select cell
  * @fires gv-date-picker-cell:hover - Custom event when user hover cell
  *

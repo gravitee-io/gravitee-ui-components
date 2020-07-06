@@ -40,6 +40,9 @@ const UNITS = [
 /**
  * Component to display a localized humanized relative date (ex: "two minutes ago").
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @prop {String|Number} datetime - Date as ISO string or timestamp.
  * @prop {Boolean} noFuture - Whether a date in future is allowed or not (useful when not sync).
  */

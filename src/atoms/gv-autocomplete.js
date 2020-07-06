@@ -27,6 +27,9 @@ const ESCAPE_KEY_CODE = 27;
 /**
  * Autocomplete input wrapper
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-autocomplete:search - Custom event when user search value
  * @fires gv-autocomplete:select - Custom event when user select value
  *

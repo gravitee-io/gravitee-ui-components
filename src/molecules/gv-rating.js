@@ -26,6 +26,9 @@ const MAX_RATE = 5;
 /**
  * Rating component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {Length} value - average of ratings between 1 and 5
  * @attr {String} count - total count for the average
  * @attr {Boolean} skeleton - skeleton mode

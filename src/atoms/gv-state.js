@@ -20,6 +20,9 @@ import { skeleton } from '../styles/skeleton';
 /**
  * A State
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires click - Native click event
  *
  * @slot - The content of the state (text or HTML)

@@ -29,6 +29,9 @@ import './../atoms/gv-icon';
 /**
  * Plans
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires input - Native input event when plan change
  * @fires gv-plans:redirect - Event when user click to redirect link when plans are empty
  *

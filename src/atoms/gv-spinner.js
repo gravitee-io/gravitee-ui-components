@@ -17,6 +17,10 @@ import { css, html, LitElement } from 'lit-element';
 
 /**
  * Spinner component
+ *
+ * ## Details
+ * * has @theme facet
+ *
  */
 export class GvSpinner extends LitElement {
 

@@ -25,6 +25,9 @@ import { getVersion, getTitle } from '../lib/item';
 /**
  * Card component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {Promise<any>} item - An item.
  *
  * @cssprop {Color} [--gv-card--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color

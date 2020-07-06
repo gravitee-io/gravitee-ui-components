@@ -29,8 +29,10 @@ import { dispatchCustomEvent } from '../lib/events';
 /**
  * List of ratings with answer form
  *
- * ## Attribute `permissions` details
+ * ## Details
+ * * has @theme facet
  *
+ * ## Attribute `permissions` details
  * * `delete` and `update` properties supports booleans or arrays of rating identifier.
  * * `addAnswer` and `deleteAnswer` only accept booleans.
  *

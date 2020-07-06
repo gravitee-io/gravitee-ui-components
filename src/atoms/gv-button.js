@@ -29,6 +29,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * * attributes `primary` define the mode of the button and are exclusive.
  * * You can only set one mode at a time.
  * * When you don't use any of these values, the mode defaults to `default`.
+ * * has @theme facet
  *
  * @fires gv-button:click - Click event from inner button element
  *

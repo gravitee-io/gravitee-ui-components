@@ -47,7 +47,8 @@ async function run () {
   await del([filepath, themeFilepath, cssFilepath]);
 
   const input = [];
-  let elements = [];
+  let gvTheme;
+  let themableElements = [];
   let index = 1;
   for (const src of sourceFilepaths) {
 
@@ -55,8 +56,11 @@ async function run () {
     const { results, program } = wca.analyzeText(code, { config: { features: ['cssproperty'] } });
     const output = wca.transformAnalyzerResult('json', results, program);
     const tag = JSON.parse(output).tags[0];
-
-    if (tag) {
+    if (tag && tag.name && tag.name === 'gv-theme') {
+      gvTheme = tag;
+      delete gvTheme.description;
+    }
+    else if (tag && tag.description && tag.description.includes('@theme')) {
       const cssProperties = tag.cssProperties;
       if (cssProperties) {
         const matches = code.match(/var\(--gv[a-zA-Z-, 0-9.#();'/]*\)/g);
@@ -104,7 +108,7 @@ async function run () {
         const markdownProperties = doc.split('## CSS Custom Properties')[1];
         input.push(`# ${index++}. ${tag.name}`);
         input.push(markdownProperties);
-        elements = elements.concat(tag);
+        themableElements = themableElements.concat(tag);
       }
       else {
         console.warn(`warning: ${tag.name} doesn't have css properties ?`);
@@ -112,19 +116,15 @@ async function run () {
     }
   }
 
-  const gvTheme = elements.find((element) => element.name === 'gv-theme');
-  delete gvTheme.description;
-
   const gvThemeProperties = gvTheme.cssProperties.map((cssProperty) => {
-    const themableElements = elements.filter((element) => element.name !== 'gv-theme');
     themableElements.forEach(
-      (element) => element.cssProperties.filter((prop) => prop.default === cssProperty.default).forEach((prop) => {
+      (element) => element.cssProperties.filter((prop) => prop.default === cssProperty.default && prop.default !== '"none"').forEach((prop) => {
         console.warn(`warning: Please use theme property ${cssProperty.name} for ${prop.name}=${prop.default}`);
       }));
     return formatCssProperty(cssProperty);
   });
 
-  const gvComponents = elements
+  const gvComponents = themableElements
     .filter((element) => !element.name.startsWith('gv-theme'))
     .map((element) => {
       delete element.description;

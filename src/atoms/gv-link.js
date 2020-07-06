@@ -26,6 +26,9 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 /**
  * A link
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-link:click - Custom click event from inner link element
  *
  * @slot - The content of the link (text or HTML)

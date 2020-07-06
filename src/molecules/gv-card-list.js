@@ -22,6 +22,9 @@ import './gv-card-full';
 
 /**
  * List of cards
+ *
+ * ## Details
+ * * has @theme facet
  */
 export class GvCardList extends withResizeObserver(LitElement) {
 

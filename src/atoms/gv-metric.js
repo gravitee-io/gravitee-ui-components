@@ -21,6 +21,9 @@ import './gv-icon';
 /**
  * A Metric
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {String} icon - name of shape
  * @attr {String} name - the name of the metric
  * @attr {String} value - the value of the metric

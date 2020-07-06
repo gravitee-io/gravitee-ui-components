@@ -32,6 +32,9 @@ const locales = { en: enUS };
 /**
  * Date Picker
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {Number|Array} value - if range picker, value is an array of timestamp else is a timestamp
  * @attr {Boolean} range - if has range picker
  * @attr {Boolean} time - if has time picker

@@ -23,6 +23,10 @@ import { dispatchCustomEvent } from '../lib/events';
 
 /**
  * Confirm component
+ *
+ * ## Details
+ * * has @theme facet
+ *
  * @extends GvPopover
  *
  * @attr {String} event - the event that triggers the opening

@@ -36,6 +36,9 @@ import { shapeClipboard, shapeCopied } from '../styles/shapes';
 /**
  * Code component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {String} label - code language
  * @attr {String} value - code content to be highlighted
  * @attr {options} Object - options based on codemirror https://codemirror.net/doc/manual.html#config
