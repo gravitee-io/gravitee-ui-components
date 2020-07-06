@@ -1102,6 +1102,20 @@
           "value": "17px"
         },
         {
+          "name": "--gv-state--fz",
+          "description": "Font size",
+          "type": "length",
+          "default": "var(--gv-theme-font-size-s, 12px)",
+          "value": ""
+        },
+        {
+          "name": "--gv-state--p",
+          "description": "Padding",
+          "type": "length",
+          "default": "4px 8px",
+          "value": "4px 8px"
+        },
+        {
           "name": "--gv-state--bgc",
           "description": "Background color",
           "type": "color",

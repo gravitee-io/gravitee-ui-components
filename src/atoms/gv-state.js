@@ -31,6 +31,8 @@ import { skeleton } from '../styles/skeleton';
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
  * @cssprop {Length} [--gv-state--bdr=17px] - Border radius
+ * @cssprop {Length} [--gv-state--fz=var(--gv-theme-font-size-s, 12px)] - Font size
+ * @cssprop {Length} [--gv-state--p=4px 8px] - Padding
  * @cssprop {Color} [--gv-state--bgc=#F0F5FF] - Background color
  * @cssprop {Color} [--gv-state--c=#597EF7] - Color
  * @cssprop {Color} [--gv-state-major--bgc=var(--gv-theme-color-light, #D5FDCB)] - Major background color
@@ -73,11 +75,13 @@ export class GvState extends LitElement {
               border-radius: var(--gv-state--bdr, 17px);
               color: var(--c);
 
-              font-size: var(--gv-theme-font-size-xs, 10px);
+              --fz: var(--gv-state--fz, var(--gv-theme-font-size-s, 12px));
+              font-size: var(--fz);
+            
               font-weight: bold;
               text-transform: uppercase;
-              line-height: 20px;
-              padding: 0 8px;
+              line-height: var(--fz);
+              padding: var(--gv-state--p, 4px 8px);
           }
       `,
     ];
