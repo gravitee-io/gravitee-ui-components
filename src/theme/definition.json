@@ -924,6 +924,20 @@
       "name": "gv-tag",
       "css": [
         {
+          "name": "--gv-tag--fz",
+          "description": "Font size",
+          "type": "length",
+          "default": "var(--gv-theme-font-size-s, 12px)",
+          "value": ""
+        },
+        {
+          "name": "--gv-tag--p",
+          "description": "Padding",
+          "type": "length",
+          "default": "4px 8px",
+          "value": "4px 8px"
+        },
+        {
           "name": "--gv-tag--bdr",
           "description": "Border radius",
           "type": "length",
