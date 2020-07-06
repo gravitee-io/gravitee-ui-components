@@ -168,7 +168,13 @@ function assignPropsToElement (element, props = {}) {
       element.innerHTML = value;
     }
     else if (typeof value === 'function') {
-      element[name] = value;
+      if (name.startsWith('@')) {
+        const eventName = name.substring(1);
+        element.addEventListener(eventName, value);
+      }
+      else {
+        element[name] = value;
+      }
     }
     else if (typeof value === 'object') {
       element[name] = value;

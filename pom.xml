@@ -62,7 +62,6 @@
             <exclude>**/*.generated.*</exclude>
             <exclude>coverage/**</exclude>
             <exclude>dist/**</exclude>
-            <exclude>storybook-static/**</exclude>
             <exclude>.*/**</exclude>
           </excludes>
         </configuration>
