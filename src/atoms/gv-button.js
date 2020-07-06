@@ -49,6 +49,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} loading - true to display a loading icon
  * @attr {String} provider - Provider name (github, oidc, graviteeio_am, google)
  * @attr {Boolean} small - for a small input
+ * @attr {Number} tabindex - tabindex of button
  *
  * @cssprop {Color} [--gv-button--bgc=var(--gv-theme-color-dark, #28444F)] - Background color
  * @cssprop {Color} [--gv-button--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
@@ -80,13 +81,13 @@ export class GvButton extends LitElement {
       title: { type: String, reflect: true },
       provider: { type: String },
       small: { type: Boolean },
+      tabindex: { type: Number, reflect: true },
       _hasContent: { type: Boolean, attribute: false },
     };
   }
 
   static get styles () {
     return [
-      link,
       // language=CSS
       css`
         :host {
@@ -99,9 +100,12 @@ export class GvButton extends LitElement {
           --google--c: #4285F4;
           --oidc--c: var(--gv-button-oidc--bgc, #000000);
           --gravitee--c: var(--gv-button-graviteeio_am--bgc, #86c3d0);
-          outline: none;
         }
 
+        :host(:not([link])) {
+          outline: 0;
+        }
+        
         .github {
           --gv-button--bgc: var(--github--c);
         }
@@ -128,7 +132,6 @@ export class GvButton extends LitElement {
         .button {
           background: #fff;
           border: 1px solid #000;
-          display: block;
           font-size: var(--gv-button--fz, var(--gv-theme-font-size-m, 14px));
           margin: 0;
           padding: 0;
@@ -139,13 +142,17 @@ export class GvButton extends LitElement {
           justify-content: center;
           align-items: center;
           text-align: center;
+          outline: 0;
         }
 
+        .button.small {
+          --gv-icon--s: 16px;
+        }
+        
         .button.small:not(.link) {
           max-height: 25px;
           min-height: 25px;
           min-width: 25px;
-          --gv-icon--s: 19px;
           --gv-button--p: 1px 4px;
         }
 
@@ -202,20 +209,12 @@ export class GvButton extends LitElement {
           --gv-icon--c: var(--bgc);
         }
 
-        /* STATES */
-        .button:focus, .button:active {
-          outline: none;
-        }
-
-        .button:not(.link):not(.disabled):focus {
-          box-shadow: 0 0 0 .1em rgba(50, 115, 220, .25);
-        }
-
-        .button:not(.link):not(.disabled):hover {
+        :host(:focus) .button:not(.link):not(.disabled),
+        :host(:hover) .button:not(.link):not(.disabled) {
           box-shadow: 0 1px 3px var(--gv-theme-color-darker, #383E3F);
         }
 
-        .button:active {
+        :host(:active) .button {
           box-shadow: none;
         }
 
@@ -270,7 +269,6 @@ export class GvButton extends LitElement {
         .link {
           border: 0;
           cursor: pointer;
-          outline: 0;
           background-color: transparent;
         }
 
@@ -279,12 +277,21 @@ export class GvButton extends LitElement {
         }
       `,
       skeleton,
+      link,
     ];
   }
 
   constructor () {
     super();
+    this.tabindex = 0;
     this.addEventListener('click', this._onClick.bind(this));
+  }
+
+  _onKeyDown (e) {
+    if (e.keyCode === 32) {
+      e.preventDefault();
+      this._onClick(e);
+    }
   }
 
   _onClick (e) {
@@ -335,6 +342,7 @@ export class GvButton extends LitElement {
 
     if (this.href) {
       return html`<a
+          tabindex="-1"
           .href="${this.href}"
           .title="${ifDefined(this.title)}"
           class=${classMap(classes)}>
@@ -345,6 +353,7 @@ export class GvButton extends LitElement {
     }
     else {
       return html`<button
+          tabindex="-1"
           type=${this.type || 'button'}
           .title="${ifDefined(this.title)}"
         class=${classMap(classes)}
@@ -381,6 +390,7 @@ export class GvButton extends LitElement {
     if (slot.assignedNodes().length > 0) {
       this._hasContent = true;
     }
+    this.addEventListener('keydown', this._onKeyDown);
   }
 }
 

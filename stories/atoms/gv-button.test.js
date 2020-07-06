@@ -17,66 +17,71 @@ import { afterEach, beforeEach, describe, expect, test, jest } from '@jest/globa
 import { Page, querySelector } from '../lib/test-utils';
 import '../../src/atoms/gv-button';
 
-describe('<gv-button>', () => {
+describe('B U T T O N', () => {
 
-  let page;
+  describe('<gv-button>', () => {
 
-  beforeEach(() => {
-    page = new Page();
-    page.create('gv-button', {
-      innerHTML: 'FOOBAR',
+    let page;
+
+    beforeEach(() => {
+      page = new Page();
+      page.create('gv-button', {
+        innerHTML: 'FOOBAR',
+      });
     });
-  });
 
-  afterEach(() => {
-    page.clear();
-  });
-
-  test('should create element', () => {
-    expect(window.customElements.get('gv-button')).toBeDefined();
-    const component = querySelector('gv-button');
-    expect(component).toBeDefined();
-    expect(component.innerHTML).toEqual('FOOBAR');
-  });
-
-  test('should dispatch `gv-button:click` event when clicked', () => {
-    const component = querySelector('gv-button');
-    const mockFn = jest.fn();
-
-    component.addEventListener('gv-button:click', mockFn);
-
-    component.click();
-
-    expect(mockFn).toBeCalled();
-  });
-
-});
-
-describe('<gv-button type="submit">', () => {
-
-  let page;
-
-  beforeEach(() => {
-    page = new Page('form');
-    page.create('gv-button', {
-      innerHTML: 'Submit action',
-      type: 'submit',
+    afterEach(() => {
+      page.clear();
     });
+
+    test('should create element', () => {
+      expect(window.customElements.get('gv-button')).toBeDefined();
+      const component = querySelector('gv-button');
+      expect(component).toBeDefined();
+      expect(component.innerHTML).toEqual('FOOBAR');
+      expect(component.tabIndex).toEqual(0);
+    });
+
+    test('should dispatch `gv-button:click` event when clicked', () => {
+      const component = querySelector('gv-button');
+      const mockFn = jest.fn();
+
+      component.addEventListener('gv-button:click', mockFn);
+
+      component.click();
+
+      expect(mockFn).toBeCalled();
+    });
+
   });
 
-  afterEach(() => {
-    page.clear();
-  });
+  describe('<gv-button type="submit">', () => {
 
-  test('should dispatch `submit` event on form when clicked', () => {
-    const component = querySelector('gv-button');
-    const mockFn = jest.fn();
+    let page;
 
-    page.addEventListener('submit', mockFn);
+    beforeEach(() => {
+      page = new Page('form');
+      page.create('gv-button', {
+        innerHTML: 'Submit action',
+        type: 'submit',
+      });
+    });
 
-    component.click();
+    afterEach(() => {
+      page.clear();
+    });
 
-    expect(mockFn).toBeCalled();
+    test('should dispatch `submit` event on form when clicked', () => {
+      const component = querySelector('gv-button');
+      const mockFn = jest.fn();
+
+      page.addEventListener('submit', mockFn);
+
+      component.click();
+
+      expect(mockFn).toBeCalled();
+    });
+
   });
 
 });
