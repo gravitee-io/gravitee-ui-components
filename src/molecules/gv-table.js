@@ -31,6 +31,9 @@ import '../atoms/gv-image';
 /**
  * Table component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-table:select - when table row is selected
  * @fires gv-table:mouseenter - when the pointer is entering on a table row
  * @fires gv-table:mouseleave - when the pointer is leaving a table row

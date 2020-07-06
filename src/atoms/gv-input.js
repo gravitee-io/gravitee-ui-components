@@ -27,6 +27,9 @@ import { shapeClipboard, shapeCopied } from '../styles/shapes';
 
 /**
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-input:input - mirrors native input events with the `value` on `detail`
  * @fires gv-input:clear - event when user clear a clearable input
  *

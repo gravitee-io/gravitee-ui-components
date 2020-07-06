@@ -23,6 +23,9 @@ import { dispatchCustomEvent } from '../lib/events';
 /**
  * A Tag
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires click - Native click event
  *
  * @slot - The content of the tag (text or HTML)

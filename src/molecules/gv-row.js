@@ -25,6 +25,9 @@ import { getOwner, getTitle, getDescription, getVersion } from '../lib/item';
 /**
  * Row component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {Promise<any>} item - An item.
  *
  * @cssprop {Color} [--gv-row-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hoover background color

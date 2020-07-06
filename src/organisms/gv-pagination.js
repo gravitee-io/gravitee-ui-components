@@ -22,6 +22,9 @@ import { i18n } from '../lib/i18n';
 /**
  * A pagination
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-pagination:paginate - Custom event with pagination link
  *
  * @attr {Object} data - Pagination information {first, last, total, current_page}

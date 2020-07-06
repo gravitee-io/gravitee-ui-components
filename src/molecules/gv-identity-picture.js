@@ -23,6 +23,9 @@ import '../atoms/gv-image';
 /**
  * Identity picture component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {String} picture - the picture
  * @attr {String} display_name - the display_name of the picture
  * @attr {Boolean} notification - true to display a notification info

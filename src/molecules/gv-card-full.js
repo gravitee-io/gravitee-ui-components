@@ -31,6 +31,9 @@ import { getVersion, getTitle, getDescription } from '../lib/item';
 /**
  * Full Card component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-card-full:click - Custom click event
  * @fires gv-tag:click - Custom click event on card labels
  *

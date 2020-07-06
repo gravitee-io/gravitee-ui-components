@@ -23,6 +23,9 @@ import { i18n } from '../lib/i18n';
 /**
  * Stepper component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-stepper:change - when step change
  *
  * @attr {Length} current - The current selected step

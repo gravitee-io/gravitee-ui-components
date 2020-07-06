@@ -29,6 +29,9 @@ import '../molecules/gv-metrics';
 /**
  * Promote component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-promote:click - When click on button for view item
  * @fires gv-tag:click - When one of the label is clicked
  *

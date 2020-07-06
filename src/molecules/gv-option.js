@@ -24,6 +24,9 @@ import { styleMap } from 'lit-html/directives/style-map';
 /**
  * Option component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {Array<{id, title, icon, active?, description?}>} options - An array of options.
  * @attr {String|Array} value - Selected value id, array with multiple option ids.
  * @attr {Boolean} multiple - If true, can choose several option

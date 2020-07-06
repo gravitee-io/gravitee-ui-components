@@ -26,6 +26,9 @@ import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 /**
  * Connected Applications component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-list:click - Click event from an element of the list
  *
  * @attr {Promise<Array<{Object}>>} items - a list of item.

@@ -24,6 +24,9 @@ import { classMap } from 'lit-html/directives/class-map';
 /**
  * File upload
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-file-upload:drop - Custom event when user drop file
  *
  * @attr {String} label - Label

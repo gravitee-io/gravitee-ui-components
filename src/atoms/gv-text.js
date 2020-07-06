@@ -21,8 +21,10 @@ import { dispatchCustomEvent } from '../lib/events';
 import { InputElement } from '../mixins/input-element';
 
 /**
- *
  * A wrapper of a <text> component.
+ *
+ * ## Details
+ * * has @theme facet
  *
  * @fires gv-text:input - mirrors native textarea events with the `value` on `detail`
  *

@@ -22,6 +22,9 @@ import { dispatchCustomEvent } from '../lib/events';
 /**
  * A wrapper of a <checkbox> component.
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-checkbox:input - mirrors native input events with the `value` on `detail`
  * @fires input - native input event
  * @fires change - native change event

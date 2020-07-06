@@ -24,10 +24,12 @@ import { classMap } from 'lit-html/directives/class-map';
 /**
  * A main nav
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-nav:click - Custom event when nav item is clicked
  *
  * @attr {Array<{active: Boolean, icon: String, path: String, title: Promise<String>, target: String}>} routes - definition of routes
- *
  */
 export class GvNav extends LitElement {
 

@@ -19,6 +19,11 @@ import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-icon';
 
 /**
+ * Message component
+ *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-message:close - Click event from inner button element
  *
  * @slot - The content of the button (text or HTML)

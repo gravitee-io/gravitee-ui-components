@@ -22,6 +22,9 @@ import { skeleton } from '../styles/skeleton';
 /**
  * An image
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-image:loaded - When image is loaded
  *
  * @attr {String} src - Source of img

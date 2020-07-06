@@ -30,6 +30,9 @@ import { styleMap } from 'lit-html/directives/style-map';
 /**
  * Header component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {Promise<any>} item - An item
  * @attr {Promise<Array<{ path: String, title: String }>>} breadcrumbs - definition of routes in order
  * @attr {Boolean} canSubscribe - for display actions (default: false)

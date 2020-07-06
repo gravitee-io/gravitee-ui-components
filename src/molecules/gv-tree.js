@@ -23,6 +23,9 @@ import { classMap } from 'lit-html/directives/class-map';
 /**
  * A tree menu
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-tree:select - Custom event from child components
  * @fires gv-tree:toggle - Custom event from child components
  *

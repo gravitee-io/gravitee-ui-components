@@ -21,8 +21,10 @@ import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
- *
  * A wrapper of a <switch> component.
+ *
+ * ## Details
+ * * has @theme facet
  *
  * @fires gv-switch:input - mirrors native input events with the `value` on `detail`
  *

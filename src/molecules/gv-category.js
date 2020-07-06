@@ -23,6 +23,9 @@ import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 /**
  * A card used to display a category
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-category:click - Custom click event
  *
  * @attr {Promise<{name, description, _links: { picture }, total_apis}>} category - A category object

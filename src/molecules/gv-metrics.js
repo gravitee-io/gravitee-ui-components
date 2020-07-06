@@ -25,6 +25,8 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 /**
  * Metrics information component
  *
+ * ## Details
+ * * has @theme facet
  * * attributes `metrics` should be an array of Object {value, clickable}, or an array of values, or a mix.
  *
  * @fires gv-metrics:click - Click event from metric if is clickable

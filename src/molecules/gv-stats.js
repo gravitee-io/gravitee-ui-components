@@ -24,9 +24,11 @@ import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 /**
  * Stats component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {Object} stats - The stats (count by key). Key can be: count, min, max, avg, sum, rps, rpm or rph.
  * @attr {Array<any>} options - The list of options to display.
- *
  */
 export class GvStats extends withSkeletonAttribute(LitElement) {
 

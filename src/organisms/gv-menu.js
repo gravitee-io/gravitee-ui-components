@@ -22,6 +22,9 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
 /**
  * A menu
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @fires gv-link:click - Custom event when link click
  *
  * @slot top - The content on top of menu

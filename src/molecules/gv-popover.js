@@ -21,6 +21,9 @@ import { zoom } from '../styles/zoom';
 /**
  * Popover component
  *
+ * ## Details
+ * * has @theme facet
+ *
  * @attr {String} event - the event that triggers the opening.
  * @cssprop {Color} [--gv-popover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
  * @cssprop {Color} [--gv-popover--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
