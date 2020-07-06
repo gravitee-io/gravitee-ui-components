@@ -1,0 +1,1 @@
+import '../src/organisms/gv-tabs';

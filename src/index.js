@@ -47,6 +47,7 @@ export { GvTree } from './molecules/gv-tree';
 export { GvHeader } from './organisms/gv-header';
 export { GvMenu } from './organisms/gv-menu';
 export { GvPagination } from './organisms/gv-pagination';
+export { GvTabs } from './organisms/gv-tabs';
 export { GvUserMenu } from './organisms/gv-user-menu';
 export { GvVerticalMenu } from './organisms/gv-vertical-menu';
 export { GvTheme } from './theme/gv-theme';
