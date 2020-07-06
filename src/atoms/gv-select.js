@@ -32,7 +32,8 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * ## Details
  * * has @theme facet
  *
- * @fires gv-select:select - Event when user select a value
+ * @fires gv-select:select - Event when user select a value (deprecated, use gv-select:input)
+ * @fires gv-select:input - Event when user select a value
  *
  * @attr {Boolean} disabled - same as native select element `disabled` attribute
  * @attr {Boolean} required - same as native select element `required` attribute
@@ -195,16 +196,16 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     this._type = 'text';
     this._isClosed = true;
     this._options = [{ label: '', value: '', disabled: false, title: null }];
-    this.handleDocumentClick = this._onDocumentClick.bind(this);
+    this._handleDocumentClick = this._onDocumentClick.bind(this);
   }
 
   connectedCallback () {
     super.connectedCallback();
-    window.addEventListener('click', this.handleDocumentClick);
+    window.addEventListener('click', this._handleDocumentClick);
   }
 
   disconnectedCallback () {
-    window.removeEventListener('click', this.handleDocumentClick);
+    window.removeEventListener('click', this._handleDocumentClick);
     super.disconnectedCallback();
   }
 
@@ -257,6 +258,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       }
       this.updateState(this.value);
       dispatchCustomEvent(this, 'select', this.value);
+      dispatchCustomEvent(this, 'input', this.value);
       this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
     }
   }
