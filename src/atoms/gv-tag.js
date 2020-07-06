@@ -37,6 +37,8 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  * @attr {Boolean} clickable - If true, tag has link style
  *
+ * @cssprop {Length} [--gv-tag--fz=var(--gv-theme-font-size-s, 12px)] - Font size
+ * @cssprop {Length} [--gv-tag--p=4px 8px] - Padding
  * @cssprop {Length} [--gv-tag--bdr=4px] - Border radius
  * @cssprop {String} [--gv-tag--bsw=none] - Box shadow
  *
@@ -119,10 +121,10 @@ export class GvTag extends LitElement {
               border-width: var(--bdw);
               box-shadow: var(--gv-tag--bsw, none);
               color: var(--c);
-
-              font-size: var(--gv-theme-font-size-s, 12px);
-              line-height: 20px;
-              padding: 1px 8px;
+              --fz: var(--gv-tag--fz, var(--gv-theme-font-size-s, 12px));
+              font-size: var(--fz);
+              line-height: var(--fz);
+              padding: var(--gv-tag--p, 4px 8px);
               --gv-icon--s: var(--gv-tag-icon--s, 18px);
               --gv-icon--c: var(--c);
 
