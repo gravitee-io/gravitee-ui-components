@@ -54,9 +54,9 @@ export function ItemResource (ParentClass) {
 
     _renderImage () {
       if (this._item && !this._empty) {
-        return html`<gv-identity-picture .skeleton="${this._skeleton}" 
-                                         .display_name="${getPictureDisplayName(this._item)}" 
-                                         .picture="${getPicture(this._item)}" 
+        return html`<gv-identity-picture .skeleton="${this._skeleton}"
+                                         .display_name="${getPictureDisplayName(this._item)}"
+                                         .picture="${getPicture(this._item)}"
                                          @load="${this._onImageLoaded}"></gv-identity-picture>`;
       }
       return '';
@@ -97,7 +97,7 @@ export function ItemResource (ParentClass) {
         <gv-metrics .metrics="${this.metrics}" @gv-metrics:click="${this._onClickToMetrics}">
           ${this._renderInfoRating()}
         </gv-metrics>
-      
+
       `;
       }
       else {

@@ -76,7 +76,7 @@ export class GvCategory extends withSkeletonAttribute(LitElement) {
         .box {
           display: flex;
         }
-        
+
         .title {
           flex: 1;
           align-self: center;
@@ -148,11 +148,11 @@ export class GvCategory extends withSkeletonAttribute(LitElement) {
         </div>
         ` : html`
         <div class="box">
-        <gv-identity-picture .skeleton="${this._skeleton}" display_name="${this._get('name')}" 
+        <gv-identity-picture .skeleton="${this._skeleton}" display_name="${this._get('name')}"
             picture="${this._get('_links') ? this._get('_links').picture : ''}"></gv-identity-picture>
              <div class="title">${this._get('name')}${total ? html`<span>(${total})</span>` : ''}</div>
         </div>
-       
+
         <div class="description">${truncate(this._get('description'), this.limit)}</div>`}
       </div>
     `;

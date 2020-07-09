@@ -24,7 +24,8 @@ import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 import { ItemResource } from '../mixins/item-resource';
-import { getNbApisInView, getTitle, getVersion } from '../lib/item';
+import { getNbApisInView, getBackground, getTitle, getVersion } from '../lib/item';
+import { styleMap } from 'lit-html/directives/style-map';
 
 /**
  * Header component
@@ -257,7 +258,8 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
   render () {
     const nbApisInView = getNbApisInView(this._item);
     return html`
-      <div class="${classMap({ header: true, skeleton: this._skeleton })}">
+      <div class="${classMap({ header: true, skeleton: this._skeleton })}"
+        style="${styleMap({ background: 'url("' + getBackground(this._item) + '") var(--bgc) center center no-repeat' })}">
             ${this._renderImage()}
             <div class="title">
                 ${(!(this._error || this._empty) && !this.sticky) ? html`<div class="version">${getVersion(this._item)}</div>` : ''}
