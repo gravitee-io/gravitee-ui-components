@@ -48,6 +48,18 @@ export function getPicture (item) {
   return null;
 }
 
+export function getBackground (item) {
+  if (item) {
+    if (item.background) {
+      return item.background;
+    }
+    else if (item._links && item._links.background) {
+      return item._links.background;
+    }
+  }
+  return null;
+}
+
 export function getStates (item) {
   if (item) {
     return item.states;

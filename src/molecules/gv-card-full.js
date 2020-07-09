@@ -135,7 +135,7 @@ export class GvCardFull extends ItemResource(LitElement) {
           padding: 0.5rem 0;
           justify-content: flex-end;
         }
-        
+
         gv-metrics {
           display: flex;
           height: 100%;
@@ -192,7 +192,7 @@ export class GvCardFull extends ItemResource(LitElement) {
           <div class="infos">
             ${this._renderMetricsWithRating()}
           </div>
-          
+
           <div class="labels">
             ${this._renderLabels(true)}
           </div>

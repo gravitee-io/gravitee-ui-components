@@ -16,6 +16,7 @@
 import notes from '../../.docs/gv-header.md';
 import '../../src/organisms/gv-header';
 import picture from '../../assets/images/logo.png';
+import background from '../../assets/images/gravitee-logo-inline.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const events = [
@@ -63,6 +64,14 @@ export const Basics = makeStory(conf, {
 
 export const BasicsWihoutPicture = makeStory(conf, {
   items: [{ item: itemWithoutPicture, breadcrumbs, type: 'API' }],
+});
+
+export const WithBackground = makeStory(conf, {
+  items: [{ item: { ...item, ...{ _links: { ...item._links, ...{ background } } } }, breadcrumbs }],
+});
+
+export const WithBackgroundWithoutPicture = makeStory(conf, {
+  items: [{ item: { ...itemWithoutPicture, ...{ _links: { background } } }, breadcrumbs, type: 'API' }],
 });
 
 export const WithSubscribe = makeStory(conf, {
