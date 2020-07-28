@@ -23,10 +23,13 @@ import { dispatchCustomEvent } from '../lib/events';
  * A wrapper of a <checkbox> component.
  *
  * @fires gv-checkbox:input - mirrors native input events with the `value` on `detail`
+ * @fires input - native input event
+ * @fires change - native change event
  *
  * @attr {Boolean} disabled - same as native checkbox element `disabled` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
- * @attr {Boolean} value - true if the checkbox is checked, false otherwise
+ * @attr {String} value - The string to use as the value of the checkbox when submitting the form, if the checkbox is currently toggled on
+ * @attr {Boolean} checked - true if the checkbox is checked, false otherwise
  * @attr {String} label - label of the checkbox
  * @attr {String} title - title of the checkbox
  *
@@ -38,7 +41,8 @@ export class GvCheckbox extends LitElement {
     return {
       disabled: { type: Boolean },
       skeleton: { type: Boolean },
-      value: { type: Boolean },
+      value: { type: String, reflect: true },
+      checked: { type: Boolean, reflect: true },
       label: { type: String },
       title: { type: String },
     };
@@ -87,7 +91,7 @@ export class GvCheckbox extends LitElement {
           content: '*';
           color: var(--gv-theme-color-danger);
         }
-        
+
         gv-icon {
           position: absolute;
         }
@@ -123,7 +127,8 @@ export class GvCheckbox extends LitElement {
   constructor () {
     super();
     this._type = 'checkbox';
-    this.value = false;
+    this.checked = false;
+    this.value = 'off';
   }
 
   _renderLabel () {
@@ -142,8 +147,19 @@ export class GvCheckbox extends LitElement {
 
   _onInput () {
     if (!(this.disabled || this.skeleton)) {
-      this.value = !this.value;
-      dispatchCustomEvent(this, 'input', this.value);
+      this.checked = !this.checked;
+      // Must dispatch events after all properties are updated
+      setTimeout(() => {
+        dispatchCustomEvent(this, 'input', this.checked);
+        this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+        this.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+      }, 0);
+    }
+  }
+
+  updated (properties) {
+    if (properties.has('checked') && (this.value === 'off' || this.value === 'on')) {
+      this.value = this.checked ? 'on' : 'off';
     }
   }
 
@@ -158,7 +174,7 @@ export class GvCheckbox extends LitElement {
       <div class=${classMap(classes)}>
         <gv-icon shape="design:border" @click=${this._onInput}></gv-icon>
         <gv-icon style="display: none;" @click=${this._onInput}
-            class=${classMap({ checked: this.value })} shape="code:check"></gv-icon>
+            class=${classMap({ checked: this.checked })} shape="code:check"></gv-icon>
         <label @click=${this._onInput}>${this._renderLabel()}</label>
       </div>
     `;
