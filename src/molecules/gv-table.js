@@ -106,7 +106,6 @@ export class GvTable extends withResizeObserver(LitElement) {
           height: 100%;
           display: flex;
           width: 100%;
-          position: relative;
         }
 
         .rows {
