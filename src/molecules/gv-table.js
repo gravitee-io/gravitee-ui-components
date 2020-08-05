@@ -143,7 +143,6 @@ export class GvTable extends withResizeObserver(LitElement) {
           align-content: center;
           border-right: solid thick transparent;
           display: grid;
-          padding-right: 15px;
         }
 
         div {
@@ -212,7 +211,8 @@ export class GvTable extends withResizeObserver(LitElement) {
         }
 
         .cell > * {
-          margin-left: 10px;
+          margin: auto;
+          width: 100%;
         }
       `,
     ];
@@ -379,11 +379,11 @@ export class GvTable extends withResizeObserver(LitElement) {
     return '';
   }
 
-  _renderComponent (item, itemIndex, option, value) {
+  _renderComponent (item, itemIndex, option, value, type) {
     if (option.condition && !option.condition(item)) {
       return '';
     }
-    const element = document.createElement(option.type);
+    const element = document.createElement(type);
     element.value = value;
     if (option.attributes) {
       Object.keys(option.attributes).forEach((attribute) => {
@@ -394,13 +394,19 @@ export class GvTable extends withResizeObserver(LitElement) {
           }
           element.addEventListener(event, (e) => {
             e.stopPropagation();
-            if (!option.confirm) {
-              option.attributes[attribute](item, e);
+            const optionConfirm = typeof option.confirm === 'function' ? option.confirm(item) : option.confirm;
+            if (optionConfirm == null) {
+              setTimeout(() => {
+                option.attributes[attribute](item, e, element);
+              }, 0);
             }
           });
         }
         else if (typeof option.attributes[attribute] === 'function') {
-          element[attribute] = option.attributes[attribute](item);
+          const value = option.attributes[attribute](item);
+          if (value != null) {
+            element[attribute] = value;
+          }
         }
         else {
           if (this.format && typeof option.attributes[attribute] === 'string') {
@@ -417,21 +423,24 @@ export class GvTable extends withResizeObserver(LitElement) {
     element.addEventListener('input', (event) => {
       this._items[itemIndex][option.field] = event.target.value;
     });
-    if (option.confirm) {
+
+    const optionConfirm = typeof option.confirm === 'function' ? option.confirm(item) : option.confirm;
+
+    if (optionConfirm) {
       const confirm = document.createElement('gv-confirm');
       if (this.format) {
-        this.format(option.confirm.msg).then((t) => (confirm.message = t));
+        this.format(optionConfirm.msg).then((t) => (confirm.message = t));
       }
       else {
-        confirm.message = option.confirm.msg;
+        confirm.message = optionConfirm.msg;
       }
-      if (option.confirm.danger) {
+      if (optionConfirm.danger) {
         confirm.danger = true;
       }
       confirm.addEventListener('click', (e) => e.stopPropagation());
       confirm.addEventListener('gv-confirm:ok', (e) => {
         e.stopPropagation();
-        option.attributes.onClick(item, e);
+        option.attributes.onClick(item, e, element);
       });
       confirm.appendChild(element);
       return confirm;
@@ -469,8 +478,11 @@ export class GvTable extends withResizeObserver(LitElement) {
       else if (option.type === 'icon') {
         return this._renderIcon(item, itemIndex, option);
       }
+      else if (typeof option.type === 'function') {
+        return this._renderComponent(item, itemIndex, option, value, option.type(item));
+      }
       else if (option.type.startsWith('gv-')) {
-        return this._renderComponent(item, itemIndex, option, value);
+        return this._renderComponent(item, itemIndex, option, value, option.type);
       }
     }
     return until(value);
@@ -592,7 +604,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     return html`<gv-identity-picture .picture="${picture}" .display_name="${alt}"></gv-identity-picture>`;
   }
 
-  updated () {
+  updated (props) {
     this._onSortChanged();
   }
 

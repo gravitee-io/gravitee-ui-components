@@ -328,6 +328,10 @@ export class GvInput extends InputElement(LitElement) {
       this.pattern = '(https?://.w*)(:\\d*)?\\/?(.*)';
     }
 
+    if (this._type === 'email') {
+      this.pattern = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    }
+
     if (this._type === 'search' && this.icon == null && this.iconLeft == null) {
       this.icon = GvInput.shapeSearch;
       this.clearable = true;

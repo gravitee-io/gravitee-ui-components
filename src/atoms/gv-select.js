@@ -129,7 +129,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           margin: 0;
           width: 100%;
           cursor: pointer;
-          z-index: 100;
+          z-index: 110;
           box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
           max-height: 340px;
           overflow: auto;
