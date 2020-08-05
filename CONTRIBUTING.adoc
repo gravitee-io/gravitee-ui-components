@@ -37,13 +37,13 @@ git checkout -b issue/#<issue-id>-my-fix-branch master
  git commit -a
 ```
 
-* Build your changes locally to **ensure all the tests pass**:
+* Build your changes locally to **ensure all the tests pass**, and amend your latest commit with new snapshot version
 
 ```shell
-npm run dev
-npm run lint
-npm run generate:dist
+mvn clean install -Pbump-version
+git commit -a --amend
 ```
+
 
 * Push your branch to GitHub:
 

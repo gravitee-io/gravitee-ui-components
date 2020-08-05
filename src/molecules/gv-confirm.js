@@ -111,10 +111,12 @@ export class GvConfirm extends GvPopover {
   connectedCallback () {
     super.connectedCallback();
     window.addEventListener('resize', this._closeHandler);
+    window.addEventListener('scroll', this._closeHandler);
   }
 
   disconnectedCallback () {
-    window.addEventListener('resize', this._closeHandler);
+    window.removeEventListener('resize', this._closeHandler);
+    window.removeEventListener('scroll', this._closeHandler);
     super.disconnectedCallback();
   }
 

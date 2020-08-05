@@ -25,6 +25,7 @@ import { getLanguage, i18n } from '../lib/i18n';
 import { html } from 'lit-html';
 import { isInvalid } from '../lib/date';
 import { until } from 'lit-html/directives/until';
+import { dispatchCustomEvent } from '../lib/events';
 
 const locales = { en: enUS };
 
@@ -95,22 +96,26 @@ export class GvDatePicker extends LitElement {
 
           .box {
               display: inline-block;
-              position: relative;
+              width: 100%;
           }
 
           gv-input {
-              width: 160px;
-              --gv-icon--s: 16px;
+            width: 160px;
+            --gv-icon--s: 16px;
+            margin: 0;
           }
 
           .time gv-input {
               width: 205px
           }
 
+          :not(.range) gv-input {
+            width: 100%;
+          }
+          
           .range gv-input {
               --gv-input--bds: none;
               --gv-input--bdw: 0;
-              margin: 0;
           }
 
           .time .range-input gv-input {
@@ -176,7 +181,6 @@ export class GvDatePicker extends LitElement {
               border-radius: 2px;
               display: flex;
               cursor: pointer;
-              left: 0;
               visibility: hidden;
               opacity: 0;
               -webkit-transform: -webkit-translateY(-2em);
@@ -186,6 +190,7 @@ export class GvDatePicker extends LitElement {
               -ms-transition: all 150ms ease-in-out;
               -o-transition: all 150ms ease-in-out;
               overflow: auto;
+              position: absolute;
           }
 
           :host([invalid]) .range-input {
@@ -312,6 +317,7 @@ export class GvDatePicker extends LitElement {
     this.invalid = false;
     this.value = null;
     this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+    dispatchCustomEvent(this, 'input', this.value);
   }
 
   render () {
@@ -589,6 +595,7 @@ export class GvDatePicker extends LitElement {
       this.invalid = isInvalid(this._from, this._min, this._max, !this.time);
     }
     this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+    dispatchCustomEvent(this, 'input', this.value);
   }
 
   dateToChanged ({ detail }) {
@@ -600,6 +607,7 @@ export class GvDatePicker extends LitElement {
       this._open = false;
       this.value = [this._from * 1000, this._to * 1000];
       this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+      dispatchCustomEvent(this, 'input', this.value);
     }
   }
 

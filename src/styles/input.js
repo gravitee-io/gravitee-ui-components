@@ -65,7 +65,7 @@ export const input = css`
   }
 
   .box-icon gv-icon {
-      width: 22px;
+      width: var(--gv-icon--s, 22px);
       --gv-icon--c: var(--gv-theme-font-color-dark);
   }
 
