@@ -36,7 +36,7 @@ import { isSameRoutes } from '../lib/utils';
  * @cssprop {String} [--gv-user-menu--tsh=none] - Text shadow
  * @cssprop {Color} [--gv-user-menu-icon--c=var(--gv-theme-neutral-color-darkest, #000000)] - Icon color
  * @cssprop {Length} [--gv-user-menu-icon--s=16px] - Height and icon width
- * @cssprop {Length} [--gv-user-menu-link-a--ph=0] - Link horizontal padding
+ * @cssprop {Length} [--gv-user-menu-link-a--ph=0px] - Link horizontal padding
  * @cssprop {String} [--gv-user-menu-link--ta=right] - Text align
  */
 export class GvUserMenu extends LitElement {
@@ -64,7 +64,7 @@ export class GvUserMenu extends LitElement {
             --gv-link-active--c: var(--gv-user-menu-hover--c, var(--gv-theme-color-dark, #28444F));
             --gv-icon--c: var(--gv-user-menu-icon--c, var(--gv-theme-neutral-color-darkest, #000000));
             --gv-icon--s: var(--gv-user-menu-icon--s, 16px);
-            --gv-link-a--ph: var(--gv-user-menu-link-a--ph, 0);
+            --gv-link-a--ph: var(--gv-user-menu-link-a--ph, 0px);
             --gv-link--ta: var(--gv-user-menu-link--ta, right);
             user-select: none;
           }

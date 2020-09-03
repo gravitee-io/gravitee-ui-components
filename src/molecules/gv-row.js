@@ -28,7 +28,7 @@ import { getOwner, getTitle, getDescription, getVersion } from '../lib/item';
  * @attr {Promise<any>} item - An item.
  *
  * @cssprop {Color} [--gv-row-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hoover background color
- * @cssprop {String} [--gv-row-hover--trf-ty=0] - Hoover transform translateY
+ * @cssprop {Length} [--gv-row-hover--trf-ty=0px] - Hoover transform translateY
  * @cssprop {Length} [--gv-row-image--h=35px] - Image height
  * @cssprop {Length} [--gv-row-image--w=35px] - Image width
  *
@@ -44,7 +44,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
               box-sizing: border-box;
               cursor: pointer;
               --hover-bgc: var(--gv-row-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-              --trf-ty: var(--gv-row-hover--trf-ty, 0);
+              --trf-ty: var(--gv-row-hover--trf-ty, 0px);
               display: block;
           }
 

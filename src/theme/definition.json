@@ -243,8 +243,8 @@
           "name": "--gv-user-menu-link-a--ph",
           "description": "Link horizontal padding",
           "type": "length",
-          "default": "0",
-          "value": "0"
+          "default": "0px",
+          "value": "0px"
         },
         {
           "name": "--gv-user-menu-link--ta",
@@ -330,8 +330,8 @@
           "name": "--gv-menu-link-a--pv",
           "description": "Link vertical padding",
           "type": "length",
-          "default": "0",
-          "value": "0"
+          "default": "0px",
+          "value": "0px"
         }
       ]
     },
@@ -522,9 +522,9 @@
         {
           "name": "--gv-row-hover--trf-ty",
           "description": "Hoover transform translateY",
-          "type": "string",
-          "default": "0",
-          "value": "0"
+          "type": "length",
+          "default": "0px",
+          "value": "0px"
         },
         {
           "name": "--gv-row-image--h",
