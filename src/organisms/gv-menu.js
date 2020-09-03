@@ -36,7 +36,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @cssprop {Length} [--gv-menu-link-active--bdbw=3px] - Border bottom width of active link.
  * @cssprop {Color} [--gv-menu-link-active--bgc=transparent] - Active background color
  * @cssprop {Color} [--gv-menu-link--bgc=transparent] - Background color
- * @cssprop {Length} [--gv-menu-link-a--pv=0] - Link vertical padding
+ * @cssprop {Length} [--gv-menu-link-a--pv=0px] - Link vertical padding
  */
 export class GvMenu extends withResizeObserver(LitElement) {
 
@@ -92,7 +92,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
           :host([w-lt-768]) .nav-container {
               width: 100%;
               padding-left: var(--pl);
-              --gv-link-a--pv: var(--gv-menu-link-a--pv, 0);
+              --gv-link-a--pv: var(--gv-menu-link-a--pv, 0px);
           }
 
           :host([w-lt-580]) .nav-container {
