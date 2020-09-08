@@ -24,6 +24,8 @@ node {
                     sh "npm install"
                     sh "npm run build"
                     sh "npm publish dist"
+                } catch (Exception e) {
+                    echo "Package not published"
                 } finally {
                     sh 'rm .npmrc'
                 }
