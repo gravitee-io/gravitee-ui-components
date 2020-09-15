@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-tag.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-tag',
+  title: 'Atoms/gv-tag',
   component: 'gv-tag',
   parameters: {
     notes,

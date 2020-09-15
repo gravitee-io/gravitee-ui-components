@@ -35,7 +35,7 @@ const item = { name: 'Long Supernova', _links: { picture }, version, states };
 const itemWithoutPicture = { name: 'Long Supernova', version, states };
 
 export default {
-  title: 'Organisms|gv-header',
+  title: 'Organisms/gv-header',
   component: 'gv-header',
   parameters: {
     notes,

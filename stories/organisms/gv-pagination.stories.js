@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-pagination.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Organisms|gv-pagination',
+  title: 'Organisms/gv-pagination',
   component: 'gv-pagination',
   parameters: {
     notes,

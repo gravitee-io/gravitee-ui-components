@@ -19,7 +19,7 @@ import { icons } from '../../.docs/icons.json';
 import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-icon',
+  title: 'Atoms/gv-icon',
   component: 'gv-icon',
   parameters: {
     notes,

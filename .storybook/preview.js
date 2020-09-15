@@ -1,5 +1,4 @@
-import {addDecorator, addParameters, configure, setCustomElements} from '@storybook/web-components';
-import {withA11y} from '@storybook/addon-a11y';
+import {addDecorator, addParameters, setCustomElements} from '@storybook/web-components';
 import {withKnobs} from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.generated.css';
 import {i18nKnob} from '../stories/lib/i18n-knob';
@@ -8,7 +7,6 @@ import customElements from '../.docs/custom-elements.json';
 addDecorator(withKnobs({
   escapeHTML: false,
 }));
-addDecorator(withA11y);
 
 addDecorator((storyFn) => {
   i18nKnob();
@@ -48,9 +46,6 @@ addParameters({
       return -1;
     }
   },
-  a11y: {
-    restoreScroll: true,
-  },
   viewport: {viewports},
 });
 
@@ -68,7 +63,6 @@ setCustomElements(customElements);
 const stories = require.context('../stories', true, /\.stories\.(js|mdx)$/);
 const docs = require.context('../docs', true, /\.mdx$/);
 
-configure([stories, docs], module);
 
 // Force full reload instead of HMR for Web Components
 // https://github.com/storybookjs/storybook/tree/next/app/web-components

@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-rating.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-rating',
+  title: 'Molecules/gv-rating',
   component: 'gv-rating',
   parameters: {
     notes,

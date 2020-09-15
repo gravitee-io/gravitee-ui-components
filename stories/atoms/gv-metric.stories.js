@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-metric.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-metric',
+  title: 'Atoms/gv-metric',
   component: 'gv-metric',
   parameters: {
     notes,

@@ -58,7 +58,7 @@ const options = [
 ];
 
 export default {
-  title: 'Molecules|gv-stats',
+  title: 'Molecules/gv-stats',
   component: 'gv-stats',
   parameters: {
     notes,

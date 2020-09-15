@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-state.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-state',
+  title: 'Atoms/gv-state',
   component: 'gv-state',
   parameters: {
     notes,

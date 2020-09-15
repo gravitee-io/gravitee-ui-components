@@ -21,7 +21,7 @@ import { makeStory, storyWait } from '../lib/make-story';
 import logo from '../../assets/icons/thirdparty/graviteeio_am.svg';
 
 export default {
-  title: 'Molecules|gv-card',
+  title: 'Molecules/gv-card',
   component: 'gv-card',
   parameters: {
     notes,

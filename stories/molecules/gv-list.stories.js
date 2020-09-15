@@ -24,7 +24,7 @@ const api3 = { name: 'Long Supernova 3', description: 'short description', versi
 const items = [{ item: api1 }, { item: api2 }, { item: api3 }];
 
 export default {
-  title: 'Molecules|gv-list',
+  title: 'Molecules/gv-list',
   component: 'gv-list',
   parameters: {
     notes,

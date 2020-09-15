@@ -58,7 +58,7 @@ const options = {
 };
 
 export default {
-  title: 'charts|gv-chart-map',
+  title: 'charts/gv-chart-map',
   component: 'gv-chart-map',
   parameters: {
     notes,

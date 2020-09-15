@@ -19,7 +19,7 @@ import notes from '../../.docs/gv-confirm.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-confirm',
+  title: 'Molecules/gv-confirm',
   component: 'gv-confirm',
   parameters: {
     notes,

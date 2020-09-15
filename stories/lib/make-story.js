@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 import * as blockPreview from '@storybook/components/dist/blocks/Preview';
-import { decorate as decorateActions } from '@storybook/addon-actions';
 import { color, text } from '@storybook/addon-knobs';
 import { sequence } from './sequence';
 import customElements from '../../.docs/custom-elements.json';
-
 // NOTE: Those dirty injects are work in progress
 
 // Force html in preview examples
@@ -26,10 +24,6 @@ const oldPreview = blockPreview.Preview;
 blockPreview.Preview = (pppp) => {
   return oldPreview({ ...pppp, language: 'html', isExpanded: false });
 };
-
-const customEvent = decorateActions([(args) => {
-  return [JSON.stringify(args[0].detail)];
-}]);
 
 export function makeStory (...configs) {
 
@@ -76,10 +70,6 @@ export function makeStory (...configs) {
         await wait(delay);
         callback(components);
       }
-    });
-
-    _events.forEach((e) => {
-      container.addEventListener(e, customEvent.action(e));
     });
 
     if (customElement.cssProperties) {
@@ -138,23 +128,24 @@ export function makeStory (...configs) {
     ? domSource()
     : generatedSource();
 
-  storyFn.story = {
-    docs,
-    css,
-    component,
-    items,
-    parameters: {
-      docsOnly,
-      docs: {
-        storyDescription: (docs || '').trim(),
-      },
-      // Dirty way to ovveride the contnet of the "show code" block
-      mdxSource,
+  storyFn.docs = docs;
+  storyFn.css = css;
+  storyFn.component = component;
+  storyFn.items = items;
+  storyFn.parameters = {
+    actions: {
+      handles: [..._events],
     },
+    docsOnly,
+    docs: {
+      storyDescription: (docs || '').trim(),
+    },
+    // Dirty way to override the contnet of the "show code" block
+    mdxSource,
   };
 
   if (name != null) {
-    storyFn.story.name = name;
+    storyFn.name = name;
   }
 
   return storyFn;

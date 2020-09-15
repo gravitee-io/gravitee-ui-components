@@ -26,7 +26,7 @@ const items = [
 ];
 
 export default {
-  title: 'Atoms|gv-image',
+  title: 'Atoms/gv-image',
   component: 'gv-image',
   parameters: { notes },
 };

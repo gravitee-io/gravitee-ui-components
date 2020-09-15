@@ -19,7 +19,7 @@ import { makeStory } from '../lib/make-story';
 import img from '../../assets/images/gravitee-logo-inline.png';
 
 export default {
-  title: 'Atoms|gv-file-upload',
+  title: 'Atoms/gv-file-upload',
   component: 'gv-file-upload',
   parameters: {
     notes,

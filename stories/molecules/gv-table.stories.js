@@ -53,7 +53,7 @@ const application = {
 };
 
 export default {
-  title: 'Molecules|gv-table',
+  title: 'Molecules/gv-table',
   component: 'gv-table',
   parameters: {
     notes,

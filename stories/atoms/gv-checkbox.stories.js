@@ -23,7 +23,7 @@ const items = [
 ];
 
 export default {
-  title: 'Atoms|gv-checkbox',
+  title: 'Atoms/gv-checkbox',
   component: 'gv-checkbox',
   parameters: { notes },
 };

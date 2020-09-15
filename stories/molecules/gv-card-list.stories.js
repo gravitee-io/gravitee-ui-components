@@ -51,7 +51,7 @@ const apiItems = [
 ];
 
 export default {
-  title: 'Molecules|gv-card-list',
+  title: 'Molecules/gv-card-list',
   component: 'gv-card-list',
   parameters: {
     notes,

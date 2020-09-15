@@ -21,7 +21,7 @@ import { makeStory, storyWait } from '../lib/make-story';
 import picture from '../../assets/images/logo.png';
 
 export default {
-  title: 'Atoms|gv-autocomplete',
+  title: 'Atoms/gv-autocomplete',
   component: 'gv-autocomplete',
   parameters: {
     notes,

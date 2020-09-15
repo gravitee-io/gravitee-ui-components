@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-plans.md';
 import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-plans',
+  title: 'Molecules/gv-plans',
   component: 'gv-plans',
   parameters: {
     notes,

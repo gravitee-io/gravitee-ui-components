@@ -27,7 +27,7 @@ const events = [
 ];
 
 export default {
-  title: 'Organisms|gv-menu',
+  title: 'Organisms/gv-menu',
   component: 'gv-menu',
   parameters: {
     notes,

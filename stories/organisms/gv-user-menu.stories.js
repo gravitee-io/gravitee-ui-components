@@ -28,7 +28,7 @@ const routes = [
 ];
 
 export default {
-  title: 'Organisms|gv-user-menu',
+  title: 'Organisms/gv-user-menu',
   component: 'gv-user-menu',
   parameters: {
     notes,

@@ -19,7 +19,7 @@ import notes from '../../.docs/gv-date-picker.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-date-picker',
+  title: 'Atoms/gv-date-picker',
   component: 'gv-date-picker',
   parameters: {
     notes,
