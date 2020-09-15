@@ -48,7 +48,7 @@ const menuItems = [
 ];
 
 export default {
-  title: 'Molecules|gv-tree',
+  title: 'Molecules/gv-tree',
   component: 'gv-tree',
   parameters: {
     notes,

@@ -39,9 +39,11 @@ const items = [
 ];
 
 export default {
-  title: 'Atoms|gv-button',
+  title: 'Atoms/gv-button',
   component: 'gv-button',
-  parameters: { notes },
+  parameters: {
+    notes,
+  },
 };
 
 const conf = { component: 'gv-button' };

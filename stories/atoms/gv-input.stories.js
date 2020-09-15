@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-input.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-input',
+  title: 'Atoms/gv-input',
   component: 'gv-input',
   parameters: {
     notes,

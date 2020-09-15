@@ -18,7 +18,7 @@ import '../../src/molecules/gv-option';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-option',
+  title: 'Molecules/gv-option',
   component: 'gv-option',
   parameters: {
     notes,

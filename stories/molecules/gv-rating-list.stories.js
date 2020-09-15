@@ -39,7 +39,7 @@ const ratings = [
 ];
 
 export default {
-  title: 'Molecules|gv-rating-list',
+  title: 'Molecules/gv-rating-list',
   component: 'gv-rating-list',
   parameters: {
     notes,

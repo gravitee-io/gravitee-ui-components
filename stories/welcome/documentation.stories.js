@@ -24,7 +24,7 @@ export function createDocsStories (kind, stories) {
   stories.forEach(({ name, text, type }) => {
 
     const dom = toDom(text, type);
-    storiesOf(kind + '|' + name, module)
+    storiesOf(kind + '/' + name, module)
       .addParameters({
         options: { showPanel: false },
       })

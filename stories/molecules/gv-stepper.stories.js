@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-stepper.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-stepper',
+  title: 'Molecules/gv-stepper',
   component: 'gv-stepper',
   parameters: {
     notes,

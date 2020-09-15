@@ -37,7 +37,7 @@ const version = 'v1.1';
 const labels = ['APIDays', 'December', 'Foobar'];
 
 export default {
-  title: 'Molecules|gv-promote',
+  title: 'Molecules/gv-promote',
   component: 'gv-promote',
   parameters: {
     notes,

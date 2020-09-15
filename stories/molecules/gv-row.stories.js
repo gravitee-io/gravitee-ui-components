@@ -41,7 +41,7 @@ const api = {
 };
 
 export default {
-  title: 'Molecules|gv-row',
+  title: 'Molecules/gv-row',
   component: 'gv-row',
   parameters: {
     notes,

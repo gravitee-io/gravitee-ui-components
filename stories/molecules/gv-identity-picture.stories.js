@@ -20,7 +20,7 @@ import bigImage from '../../assets/images/gravitee-logo-inline.png';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-identity-picture',
+  title: 'Molecules/gv-identity-picture',
   component: 'gv-identity-picture',
   parameters: {
     notes,

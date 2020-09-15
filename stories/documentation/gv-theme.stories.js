@@ -19,7 +19,7 @@ import customElements from '../../.docs/custom-elements.json';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Documentation|Theme',
+  title: 'Documentation/Theme',
   component: 'gv-theme',
   parameters: {
     notes,

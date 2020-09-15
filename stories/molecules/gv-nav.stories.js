@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-nav.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-nav',
+  title: 'Molecules/gv-nav',
   component: 'gv-nav',
   parameters: {
     notes,

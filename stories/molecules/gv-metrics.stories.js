@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-metrics.md';
 import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-metrics',
+  title: 'Molecules/gv-metrics',
   component: 'gv-metrics',
   parameters: {
     notes,

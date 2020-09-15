@@ -59,7 +59,7 @@ const options = {
 };
 
 export default {
-  title: 'charts|gv-chart-line',
+  title: 'charts/gv-chart-line',
   component: 'gv-chart-line',
   parameters: {
     notes,

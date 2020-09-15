@@ -60,7 +60,7 @@ const categories = [
 ];
 
 export default {
-  title: 'Molecules|gv-category-list',
+  title: 'Molecules/gv-category-list',
   component: 'gv-category-list',
   parameters: {
     notes,

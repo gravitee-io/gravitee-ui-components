@@ -19,7 +19,7 @@ import { makeStory, storyWait } from '../lib/make-story';
 import picture from '../../assets/images/logo.png';
 
 export default {
-  title: 'Molecules|gv-category',
+  title: 'Molecules/gv-category',
   component: 'gv-category',
   parameters: {
     notes,

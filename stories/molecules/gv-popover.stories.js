@@ -19,7 +19,7 @@ import notes from '../../.docs/gv-popover.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Molecules|gv-popover',
+  title: 'Molecules/gv-popover',
   component: 'gv-popover',
   parameters: {
     notes,

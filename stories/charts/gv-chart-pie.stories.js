@@ -43,7 +43,7 @@ const options = {
 };
 
 export default {
-  title: 'charts|gv-chart-pie',
+  title: 'charts/gv-chart-pie',
   component: 'gv-chart-pie',
   parameters: {
     notes,

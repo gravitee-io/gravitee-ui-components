@@ -40,7 +40,7 @@ const api = Promise.resolve({
 const application = Promise.resolve({ name: `${name} app`, description, applicationType: 'Web' });
 
 export default {
-  title: 'Molecules|gv-card-full',
+  title: 'Molecules/gv-card-full',
   component: 'gv-card-full',
   parameters: {
     notes,

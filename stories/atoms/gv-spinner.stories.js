@@ -19,7 +19,7 @@ import '../../src/atoms/gv-image';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-spinner',
+  title: 'Atoms/gv-spinner',
   component: 'gv-spinner',
   parameters: {
     notes,

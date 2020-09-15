@@ -18,7 +18,7 @@ import notes from '../../.docs/gv-link.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'Atoms|gv-link',
+  title: 'Atoms/gv-link',
   component: 'gv-link',
   parameters: {
     notes,
