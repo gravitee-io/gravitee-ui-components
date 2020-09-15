@@ -120,6 +120,16 @@
             </configuration>
           </execution>
           <execution>
+            <id>test</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <arguments>run test</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>build storybook with npm</id>
             <goals>
               <goal>npm</goal>

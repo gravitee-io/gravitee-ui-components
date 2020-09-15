@@ -20,6 +20,16 @@ If you wanna generate docs :
 npm run docs
 ```
 
+If you wanna run test:
+```
+npm run test
+```
+
+If you wanna run test with coverage:
+```
+npm run test -- --collect-coverage
+```
+
 If you wanna build storybook:
 ```
 npm run build
