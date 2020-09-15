@@ -246,7 +246,7 @@ export class GvButton extends LitElement {
           justify-content: center;
           height: 100%;
         }
-        
+
         .button.noContent slot {
           display: none;
         }
@@ -279,6 +279,11 @@ export class GvButton extends LitElement {
       `,
       skeleton,
     ];
+  }
+
+  constructor () {
+    super();
+    this.addEventListener('click', this._onClick.bind(this));
   }
 
   _onClick (e) {
@@ -331,8 +336,7 @@ export class GvButton extends LitElement {
       return html`<a
           .href="${this.href}"
           .title="${ifDefined(this.title)}"
-          class=${classMap(classes)}
-          @click="${this._onClick}">
+          class=${classMap(classes)}>
           ${this._getIconLeft()}
           <slot></slot>
           ${this._getIconRight()}
@@ -343,8 +347,7 @@ export class GvButton extends LitElement {
           type=${this.type || 'button'}
           .title="${ifDefined(this.title)}"
         class=${classMap(classes)}
-        .disabled=${this.disabled || this.skeleton}
-        @click="${this._onClick}">
+        .disabled=${this.disabled || this.skeleton}>
         ${this._getIconLeft()}
         <slot></slot>
         ${this._getIconRight()}
