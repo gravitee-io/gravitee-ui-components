@@ -29,14 +29,21 @@ const conf = {
   component: 'gv-nav',
 };
 
-const items = [{
-  routes: [
-    { path: '', title: 'Dashboard' },
-    { path: '', title: 'Catalogue', active: true },
-    { path: '', title: 'Mes applications' },
-  ],
-}];
+const routes = [
+  { path: '', title: 'Dashboard' },
+  { path: '', title: 'Catalogue', active: true },
+  { path: '', title: 'Mes applications' },
+];
 
 export const basics = makeStory(conf, {
-  items,
+  items: [{
+    routes: routes,
+  }],
+});
+
+export const vertical = makeStory(conf, {
+  items: [{
+    routes: routes,
+    vertical: true,
+  }],
 });

@@ -31,9 +31,9 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
  * @cssprop {Color} [--gv-menu--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
  * @cssprop {Color} [--gv-menu--bgc=var(--gv-theme-color-dark, #28444F)] - Background color.
- * @cssprop {Color} [--gv-menu-link-active--bdbc=var(--gv-theme-color-light, #86c3d0)] - Border bottom color of active link.
- * @cssprop {String} [--gv-menu-link-active--bdbs=solid] - Border bottom style of active link.
- * @cssprop {Length} [--gv-menu-link-active--bdbw=3px] - Border bottom width of active link.
+ * @cssprop {Color} [--gv-menu-link-active--bdc=var(--gv-theme-color-light, #86c3d0)] - Border bottom color of active link.
+ * @cssprop {String} [--gv-menu-link-active--bds=solid] - Border bottom style of active link.
+ * @cssprop {Length} [--gv-menu-link-active--bdw=0 0 3px 0] - Border bottom width of active link.
  * @cssprop {Color} [--gv-menu-link-active--bgc=transparent] - Active background color
  * @cssprop {Color} [--gv-menu-link--bgc=transparent] - Background color
  * @cssprop {Length} [--gv-menu-link-a--pv=0px] - Link vertical padding
@@ -60,9 +60,9 @@ export class GvMenu extends withResizeObserver(LitElement) {
               --gv-link-active--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
               --gv-link--bgc: var(--gv-menu-link--bgc, transparent);
               --gv-link-active--bgc: var(--gv-menu-link-active--bgc, transparent);
-              --gv-link-active--bdbc: var(--gv-menu-link-active--bdbc, var(--gv-theme-color-light, #86c3d0));
-              --gv-link-active--bdbs: var(--gv-menu-link-active--bdbs, solid);
-              --gv-link-active--bdbw: var(--gv-menu-link-active--bdbw, 3px);
+              --gv-link-active--bdc: var(--gv-menu-link-active--bdc, var(--gv-theme-color-light, #86c3d0));
+              --gv-link-active--bds: var(--gv-menu-link-active--bds, solid);
+              --gv-link-active--bdw: var(--gv-menu-link-active--bdw, 0 0 3px 0);
               --pr: var(--gv-theme-layout--pr, 4rem);
               --pl: var(--gv-theme-layout--pl, 4rem);
               box-sizing: border-box;

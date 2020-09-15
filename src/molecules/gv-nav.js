@@ -37,6 +37,7 @@ export class GvNav extends LitElement {
       _routes: { type: Array },
       small: { type: Boolean },
       _compact: { type: Boolean, attribute: false },
+      vertical: { type: Boolean, reflect: true },
     };
   }
 
@@ -48,6 +49,15 @@ export class GvNav extends LitElement {
         nav {
           position: relative;
           transition: all 150ms ease-in-out;
+        }
+
+        .vertical {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vertical gv-link {
+            width: 100%
         }
 
         .compact {
@@ -124,6 +134,13 @@ export class GvNav extends LitElement {
     }
   }
 
+  constructor () {
+    super();
+    /** @protected */
+    this._routes = [];
+    this.vertical = false;
+  }
+
   set routes (routes) {
     if (routes) {
       Promise.resolve(routes).then((_routes) => {
@@ -145,7 +162,8 @@ export class GvNav extends LitElement {
             .target="${_route.target}"
             ?small="${this.small}"
             .title="${_route.title}"
-            .help="${until(_route.help, null)}"></gv-link>`;
+            .help="${until(_route.help, null)}"
+            ?vertical="${this.vertical}"></gv-link>`;
     }).catch(() => {
       delete this._routes[index];
     });
@@ -159,8 +177,8 @@ export class GvNav extends LitElement {
 
   render () {
     if (this._routes) {
-      return html`<nav class="${classMap({ compact: this._compact })}">${repeat(this._routes, (route) => route, (route, index) =>
-        until(this._getLink(route, index), html`<gv-link skeleton></gv-link>`),
+      return html`<nav class="${classMap({ compact: this._compact, vertical: this.vertical })}">${repeat(this._routes, (route) => route, (route, index) =>
+        until(this._getLink(route, index), html`<gv-link skeleton .vertical="${this.vertical}"></gv-link>`),
       )}</nav>`;
     }
     return html``;
