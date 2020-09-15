@@ -35,7 +35,6 @@ addParameters({
     docs: {
       iframeHeight: '200px',
     },
-    enableShortcuts: false,
     showPanel: true,
     storySort: (a, b) => {
       if (a[1].kind !== b[1].kind) {

@@ -42,9 +42,9 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @cssprop {Color} [--gv-link-active--c=var(--gv-theme-font-color-light, #FFFFFF)] - Active color
  * @cssprop {Color} [--gv-link--bgc=transparent] - Background color
  * @cssprop {Color} [--gv-link-active--bgc=var(--gv-theme-color-dark, #28444F)] - Active background color
- * @cssprop {Color} [--gv-link-active--bdbc=none] - Active border bottom color
- * @cssprop {String} [--gv-link-active--bdbs=none] - Active border bottom style
- * @cssprop {Length} [--gv-link-active--bdbw=none] - Active border bottom width
+ * @cssprop {Color} [--gv-link-active--bdc=none] - Active border color
+ * @cssprop {String} [--gv-link-active--bds=none] - Active border style
+ * @cssprop {Length} [--gv-link-active--bdw=none] - Active border width
  * @cssprop {String} [--gv-link--ta=center] - Text align
  * @cssprop {String} [--gv-link--td=none] - Text decoration
  * @cssprop {String} [--gv-link--tsh=none]- Text shadow
@@ -92,6 +92,9 @@ export class GvLink extends LitElement {
             align-content: center;
             text-align: var(--gv-link--ta, center);
             text-shadow: var(--gv-link--tsh, none);
+            border-color: var(--gv-link--bgc, transparent);
+            border-style: var(--gv-link-active--bds, none);
+            border-width: var(--gv-link-active--bdw, none);
           }
 
           a > * {
@@ -102,9 +105,7 @@ export class GvLink extends LitElement {
           .active {
               color: var(--link-active--c);
               background-color: var(--gv-link-active--bgc, var(--gv-theme-color-dark, #28444F));
-              border-bottom-color: var(--gv-link-active--bdbc, none);
-              border-bottom-style: var(--gv-link-active--bdbs, none);
-              border-bottom-width: var(--gv-link-active--bdbw, none);
+              border-color: var(--gv-link-active--bdc, none);
           }
 
           .link.active:hover {

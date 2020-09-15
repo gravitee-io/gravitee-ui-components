@@ -47,4 +47,5 @@ export { GvHeader } from './organisms/gv-header';
 export { GvMenu } from './organisms/gv-menu';
 export { GvPagination } from './organisms/gv-pagination';
 export { GvUserMenu } from './organisms/gv-user-menu';
+export { GvVerticalMenu } from './organisms/gv-vertical-menu';
 export { GvTheme } from './theme/gv-theme';
