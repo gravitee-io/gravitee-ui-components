@@ -1,7 +1,6 @@
 const path = require('path');
 
 module.exports = {
-  stories: ['../**/*.stories.js'],
   addons: [
     '@storybook/addon-actions',
     '@storybook/addon-docs',
@@ -16,9 +15,6 @@ module.exports = {
       use: ["asciidoc-loader"],
       include: path.resolve(__dirname, '../'),
     });
-
     return config;
   },
 };
-
-
