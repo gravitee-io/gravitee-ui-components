@@ -13,5 +13,5 @@ const graviteeTheme = create({
 
 addons.setConfig({
   theme: graviteeTheme,
-  showRoots: false,
+  showRoots: true,
 });

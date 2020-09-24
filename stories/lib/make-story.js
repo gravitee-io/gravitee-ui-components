@@ -140,8 +140,9 @@ export function makeStory (...configs) {
     docs: {
       storyDescription: (docs || '').trim(),
     },
-    // Dirty way to override the contnet of the "show code" block
-    mdxSource,
+    storySource: {
+      source: mdxSource,
+    },
   };
 
   if (name != null) {
