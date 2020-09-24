@@ -40,7 +40,8 @@
       "maxSize": "File size exceeds allowed limit",
       "typeNotAllowed": "This file type is not allowed"
     },
-    "orDragIt": "or drag it here."
+    "orDragIt": "or drag it here.",
+    "removePicture": "Remove picture"
   },
   "gv-header": {
     "empty": "No data to display here",
