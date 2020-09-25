@@ -102,7 +102,7 @@ export class GvCode extends LitElement {
           color: black;
           direction: ltr;
           margin-top: 0.2rem;
-          
+
         }
 
         /* PADDING */
@@ -806,13 +806,23 @@ export class GvCode extends LitElement {
     });
   }
 
+  _getProcessedOptions () {
+    const options = { ...this.options };
+    if (options.mode === 'json') {
+      options.mode = 'javascript';
+    }
+    return options;
+  }
+
   async updated (changedProperties) {
     if (changedProperties.has('options') && this.options && this.options.mode) {
-      await import(`codemirror/mode/${this.options.mode}/${this.options.mode}`);
+      const options = this._getProcessedOptions();
+
+      await import(`codemirror/mode/${options.mode}/${options.mode}`);
 
       const textArea = this.shadowRoot.querySelector(`#${this._id}`);
       CodeMirror.fromTextArea(textArea, {
-        ...this.options,
+        ...options,
         ...{
           theme: 'mdn-like',
           lineWrapping: true,

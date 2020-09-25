@@ -120,6 +120,24 @@ export const Javascript = makeStory(conf, {
   items: [{ value: jsSrc, options: jsOptions }],
 });
 
+const jsonSrc = `{
+  "id": "foobar",
+  "data": []
+}`;
+
+const jsonOptions = {
+  placeholder: 'Put the body content here',
+  lineNumbers: true,
+  allowDropFileTypes: true,
+  autoCloseBrackets: true,
+  matchBrackets: true,
+  mode: 'json',
+};
+
+export const Json = makeStory(conf, {
+  items: [{ value: jsonSrc, options: jsonOptions }],
+});
+
 const groovySrc = `println 'Hello'                                 
 
 int power(int n) { 2**n }                       
