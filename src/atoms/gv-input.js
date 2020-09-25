@@ -107,12 +107,13 @@ export class GvInput extends InputElement(LitElement) {
           --gv-icon--c: var(--gv-theme-color, #5A7684);
         }
 
-        .loading input, .loading ::slotted(input) {
+        div.box-icon gv-icon.loading, .loading ::slotted(input) {
           animation: spinner 1.6s linear infinite;
+          --gv-icon--s: 20px;
         }
 
-        gv-icon.loading {
-          background-color: transparent;
+        .loading.small gv-icon {
+          --gv-icon--s: 18px;
         }
 
         @keyframes spinner {
