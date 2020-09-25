@@ -17,7 +17,7 @@ import '../../src/atoms/gv-autocomplete';
 import '../../src/atoms/gv-input';
 import '../../src/atoms/gv-image';
 import notes from '../../.docs/gv-autocomplete.md';
-import { makeStory, storyWait } from '../lib/make-story';
+import { makeStory } from '../lib/make-story';
 import picture from '../../assets/images/logo.png';
 
 export default {
@@ -46,25 +46,25 @@ const conf = {
 };
 
 export const BasicUsage = makeStory(conf, {
-  items: [{ innerHTML: '<gv-input placeholder="Type something..."></gv-input>' }],
-  simulations: [
-    storyWait(0, ([component]) => {
-      component.addEventListener('gv-autocomplete:search', ({ detail }) => {
-        component.options = [mockVal(detail), mockVal(detail, 2), mockVal(detail, 3)];
-      });
-    }),
-  ],
+  items: [{
+    innerHTML: '<gv-input placeholder="Type something..."></gv-input>',
+    '@gv-autocomplete:search': (event) => {
+      const detail = event.detail;
+      const component = event.target;
+      component.options = [mockVal(detail), mockVal(detail, 2), mockVal(detail, 3)];
+    },
+  }],
 });
 
 export const CustomInput = makeStory(conf, {
-  items: [{ innerHTML: '<gv-input type="search" placeholder="Type text to start the search..."></gv-input>' }],
-  simulations: [
-    storyWait(0, ([component]) => {
-      component.addEventListener('gv-autocomplete:search', ({ detail }) => {
-        component.options = [mockVal(detail), mockVal(detail, 2), mockVal(detail, 3)];
-      });
-    }),
-  ],
+  items: [{
+    innerHTML: '<gv-input type="search" placeholder="Type text to start the search..."></gv-input>',
+    '@gv-autocomplete:search': (event) => {
+      const component = event.target;
+      const detail = event.detail;
+      component.options = [mockVal(detail), mockVal(detail, 2), mockVal(detail, 3)];
+    },
+  }],
   docs: `
    You can use any element that returns the native [input event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event)
   `,
@@ -76,20 +76,17 @@ export const DisplayChoices = makeStory(conf, {
     innerHTML: '<gv-input label="Play with dynamic data" placeholder="Play with dynamic data" autofocus></gv-input>',
     options,
     minChars: 0,
+    '@gv-autocomplete:search': (event) => {
+      const detail = event.detail;
+      const component = event.target;
+      if (detail.length === 0) {
+        component.options = options;
+      }
+      else {
+        component.options = [mockVal(detail), mockVal(detail, 2), mockVal(detail, 3)];
+      }
+    },
   }],
-  simulations: [
-    storyWait(0, ([component]) => {
-      component.addEventListener('gv-autocomplete:search', ({ detail }) => {
-        if (detail.length === 0) {
-          component.options = options;
-        }
-        else {
-          component.options = [mockVal(detail), mockVal(detail, 2), mockVal(detail, 3)];
-        }
-
-      });
-    }),
-  ],
   docs: `
     If you want displayed choices on the first load, you must initialize the data and set the option \`minChars = 0\`
   `,
@@ -153,22 +150,23 @@ export const CustomFilter = makeStory(conf, {
 });
 
 export const CustomHTML = makeStory(conf, {
-  items: [{ innerHTML: `<gv-input></gv-input>`, style }],
-  simulations: [
-    storyWait(0, ([component, a]) => {
-      component.addEventListener('gv-autocomplete:search', ({ detail }) => {
-        component.options = [
-          { value: mockVal(detail).value, innerHTML: renderApi({ title: mockVal(detail).value }) },
-          { value: mockVal(detail, 2).value, innerHTML: renderApi({ title: mockVal(detail, 2).value }) },
-          { value: mockVal(detail, 3).value, innerHTML: renderApi({ title: mockVal(detail, 3).value }) },
-          { value: mockVal(detail, 4).value, innerHTML: renderApi({ title: mockVal(detail, 4).value }) },
-          { value: mockVal(detail, 5).value, innerHTML: renderApi({ title: mockVal(detail, 5).value }) },
-          { value: mockVal(detail, 6).value, innerHTML: renderApi({ title: mockVal(detail, 6).value }) },
-          { value: mockVal(detail, 7).value, innerHTML: renderApi({ title: mockVal(detail, 7).value }) },
-        ];
-      });
-    }),
-  ],
+  items: [{
+    innerHTML: `<gv-input></gv-input>`,
+    style,
+    '@gv-autocomplete:search': (event) => {
+      const detail = event.detail;
+      const component = event.target;
+      component.options = [
+        { value: mockVal(detail).value, innerHTML: renderApi({ title: mockVal(detail).value }) },
+        { value: mockVal(detail, 2).value, innerHTML: renderApi({ title: mockVal(detail, 2).value }) },
+        { value: mockVal(detail, 3).value, innerHTML: renderApi({ title: mockVal(detail, 3).value }) },
+        { value: mockVal(detail, 4).value, innerHTML: renderApi({ title: mockVal(detail, 4).value }) },
+        { value: mockVal(detail, 5).value, innerHTML: renderApi({ title: mockVal(detail, 5).value }) },
+        { value: mockVal(detail, 6).value, innerHTML: renderApi({ title: mockVal(detail, 6).value }) },
+        { value: mockVal(detail, 7).value, innerHTML: renderApi({ title: mockVal(detail, 7).value }) },
+      ];
+    },
+  }],
   docs: `
       If you want to customize option rendering, you must use option object with value and innerHTML property's
     `,
@@ -188,18 +186,19 @@ const renderApiElement = ({ title }) => {
 };
 
 export const CustomElement = makeStory(conf, {
-  items: [{ innerHTML: `<gv-input></gv-input>`, style }],
-  simulations: [
-    storyWait(0, ([component, a]) => {
-      component.addEventListener('gv-autocomplete:search', ({ detail }) => {
-        component.options = [
-          { value: mockVal(detail).value, element: renderApiElement({ title: mockVal(detail).value }) },
-          { value: mockVal(detail, 2).value, element: renderApiElement({ title: mockVal(detail, 2).value }) },
-          { value: mockVal(detail, 3).value, element: renderApiElement({ title: mockVal(detail, 3).value }) },
-        ];
-      });
-    }),
-  ],
+  items: [{
+    innerHTML: `<gv-input></gv-input>`,
+    style,
+    '@gv-autocomplete:search': (event) => {
+      const detail = event.detail;
+      const component = event.target;
+      component.options = [
+        { value: mockVal(detail).value, element: renderApiElement({ title: mockVal(detail).value }) },
+        { value: mockVal(detail, 2).value, element: renderApiElement({ title: mockVal(detail, 2).value }) },
+        { value: mockVal(detail, 3).value, element: renderApiElement({ title: mockVal(detail, 3).value }) },
+      ];
+    },
+  }],
   docs: `
       If you want to customize option rendering, you must use option object with value and innerHTML property's
     `,
