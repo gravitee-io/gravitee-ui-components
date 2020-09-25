@@ -54,7 +54,7 @@ export class GvAutocomplete extends LitElement {
 
   static get properties () {
     return {
-      options: { type: Array },
+      options: { type: Array, reflect: true },
       value: { type: String, reflect: true },
       style: { type: String },
       minChars: { type: Number },
@@ -151,6 +151,10 @@ export class GvAutocomplete extends LitElement {
     this._options = options;
   }
 
+  get options () {
+    return this._options;
+  }
+
   reset () {
     this._getInput().reset();
     this._options = [];
@@ -174,10 +178,10 @@ export class GvAutocomplete extends LitElement {
     }
   }
 
-  _onInput () {
+  _onInput (event) {
     clearTimeout(this._cancellableTimeout);
-    this.value = this._getInput().value;
-    if (this.value && this.value.trim().length >= this.minChars) {
+    this.value = event.target.value;
+    if (this.value != null && this.value.trim().length >= this.minChars) {
       this._cancellableTimeout = setTimeout(() => {
         this._forceOpen = true;
         dispatchCustomEvent(this, 'search', this.value);
@@ -346,8 +350,8 @@ export class GvAutocomplete extends LitElement {
     return this.firstElementChild;
   }
 
-  _onClear () {
-    this._options = [];
+  _onClear (event) {
+    this.value = event.target.value;
   }
 
   updated () {
@@ -363,7 +367,6 @@ export class GvAutocomplete extends LitElement {
   }
 
   firstUpdated () {
-
     this._handlers = {
       input: this._onInput.bind(this),
       focus: this._onFocus.bind(this),

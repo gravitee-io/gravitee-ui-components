@@ -1,0 +1,45 @@
+{
+  "type" : "object",
+  "id" : "urn:jsonschema:io:gravitee:policy:cache:configuration:CachePolicyConfiguration",
+  "properties" : {
+    "cacheName" : {
+      "title": "Cache name",
+      "description": "The cache resource used to store the element.",
+      "type" : "string",
+      "enum" : [],
+      "x-schema-form" : {
+        "event" : {
+          "name": "fetch-resources",
+          "type": "cache"
+        }
+      }
+    },
+    "key" : {
+      "title": "Key",
+      "description": "The key used to store the element (support EL).",
+      "type" : "string"
+    },
+    "timeToLiveSeconds" : {
+      "title": "Time to live (in seconds)",
+      "default": 600,
+      "description": "Time to live of the element put in cache (Default to 10 minutes).",
+      "type" : "integer"
+    },
+    "useResponseCacheHeaders" : {
+      "title": "Use response headers",
+      "description": "Time to live based on 'Cache-Control' and / or 'Expires' headers from response.",
+      "type" : "boolean"
+    },
+    "scope" : {
+      "title": "Scope",
+      "description": "Cached response can be set for a single consumer (application) or for all consumers.<br><strong>WARNING:</strong> Please be aware that by using an \"API\" scope, data will be shared between all consumers!",
+      "type" : "string",
+      "default": "APPLICATION",
+      "enum" : [ "API", "APPLICATION" ]
+    }
+  },
+  "required": [
+    "cacheName",
+    "timeToLiveSeconds"
+  ]
+}
