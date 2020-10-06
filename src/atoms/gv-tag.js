@@ -82,59 +82,59 @@ export class GvTag extends LitElement {
       link,
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              margin: 0.2rem;
-              vertical-align: middle;
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-block;
+          margin: 0.2rem;
+          vertical-align: middle;
+        }
 
-          div.default {
-              --bgc: var(--gv-tag--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-              --bdc: var(--gv-tag--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
-              --bds: var(--gv-tag--bds, solid);
-              --bdw: var(--gv-tag--bdw, 1px);
-              --c: var(--gv-tag--c, var(--gv-theme-font-color-dark, #262626));
-          }
+        div.default {
+          --bgc: var(--gv-tag--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --bdc: var(--gv-tag--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          --bds: var(--gv-tag--bds, solid);
+          --bdw: var(--gv-tag--bdw, 1px);
+          --c: var(--gv-tag--c, var(--gv-theme-font-color-dark, #262626));
+        }
 
-          div.major {
-              --bgc: var(--gv-tag-major--bgc, var(--gv-theme-color, #5A7684));
-              --bdc: var(--gv-tag-major--bdc, var(--gv-theme-color, #5A7684));
-              --bds: var(--gv-tag-major--bds, solid);
-              --bdw: var(--gv-tag-major--bdw, 1px);
-              --c: var(--gv-tag-major--c, var(--gv-theme-font-color-light, #FFFFFF));
-          }
+        div.major {
+          --bgc: var(--gv-tag-major--bgc, var(--gv-theme-color, #5A7684));
+          --bdc: var(--gv-tag-major--bdc, var(--gv-theme-color, #5A7684));
+          --bds: var(--gv-tag-major--bds, solid);
+          --bdw: var(--gv-tag-major--bdw, 1px);
+          --c: var(--gv-tag-major--c, var(--gv-theme-font-color-light, #FFFFFF));
+        }
 
-          div.minor {
-              --bgc: var(--gv-tag-minor--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-              --bdc: var(--gv-tag-minor--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
-              --bds: var(--gv-tag-minor--bds, dashed);
-              --bdw: var(--gv-tag-minor--bdw, 1px);
-              --c: var(--gv-tag-minor--c, var(--gv-theme-font-color-dark, #262626))
-          }
+        div.minor {
+          --bgc: var(--gv-tag-minor--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --bdc: var(--gv-tag-minor--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          --bds: var(--gv-tag-minor--bds, dashed);
+          --bdw: var(--gv-tag-minor--bdw, 1px);
+          --c: var(--gv-tag-minor--c, var(--gv-theme-font-color-dark, #262626))
+        }
 
-          div {
-              background-color: var(--bgc);
-              border-color: var(--bdc);
-              border-radius: var(--gv-tag--bdr, 4px);
-              border-style: var(--bds);
-              border-width: var(--bdw);
-              box-shadow: var(--gv-tag--bsw, none);
-              color: var(--c);
-              --fz: var(--gv-tag--fz, var(--gv-theme-font-size-s, 12px));
-              font-size: var(--fz);
-              line-height: var(--fz);
-              padding: var(--gv-tag--p, 4px 8px);
-              --gv-icon--s: var(--gv-tag-icon--s, 18px);
-              --gv-icon--c: var(--c);
+        div {
+          background-color: var(--bgc);
+          border-color: var(--bdc);
+          border-radius: var(--gv-tag--bdr, 4px);
+          border-style: var(--bds);
+          border-width: var(--bdw);
+          box-shadow: var(--gv-tag--bsw, none);
+          color: var(--c);
+          --fz: var(--gv-tag--fz, var(--gv-theme-font-size-s, 12px));
+          font-size: var(--fz);
+          line-height: var(--fz);
+          padding: var(--gv-tag--p, 4px 8px);
+          --gv-icon--s: var(--gv-tag-icon--s, 18px);
+          --gv-icon--c: var(--c);
 
-              word-break: normal;
-          }
+          word-break: normal;
+        }
 
-          div > * {
-              vertical-align: middle;
-              display: inline-flex;
-          }
+        div > * {
+          vertical-align: middle;
+          display: inline-flex;
+        }
       `,
     ];
   }
@@ -147,7 +147,6 @@ export class GvTag extends LitElement {
   }
 
   render () {
-
     const modes = {
       default: !this.major && !this.minor,
       major: this.major,
@@ -158,9 +157,9 @@ export class GvTag extends LitElement {
 
     return html`
       <div class=${classMap(modes)} @click="${this._onTagClick}">
-         ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
-        <slot></slot>
-        ${this.iconRight ? html`<gv-icon shape="${this.iconRight}"></gv-icon>` : ''}
+         ${this.icon
+      ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<slot></slot>${this.iconRight
+      ? html`<gv-icon shape="${this.iconRight}"></gv-icon>` : ''}
       </div>
     `;
   }
