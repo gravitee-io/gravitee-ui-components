@@ -64,3 +64,22 @@ If you wanna generate theme :
 ```
 npm run generate:theme
 ```
+
+
+If you wanna link for use in other local project as dependency:
+
+```
+npm link
+cd ../my-project
+npm link @gravitee/ui-components
+```
+
+If you wanna link the prod version in other local project:
+
+```
+npm run build
+cd dist
+npm link
+cd ../my-project
+npm link @gravitee/ui-components
+```

@@ -190,7 +190,7 @@ export class GvTree extends LitElement {
       e.stopPropagation();
     }
     menuItem.expanded = !menuItem.expanded;
-    super.performUpdate();
+    this.requestUpdate();
   }
 
   _getMenuItemPage (menuItem) {
