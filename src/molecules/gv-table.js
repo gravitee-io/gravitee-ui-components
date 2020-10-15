@@ -27,6 +27,7 @@ import { styleMap } from 'lit-html/directives/style-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import '../atoms/gv-image';
+import '../organisms/gv-pagination';
 
 /**
  * Table component
@@ -101,6 +102,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           display: block;
           height: 100%;
           margin: 0.2rem;
+          box-sizing: border-box;
         }
 
         .table {
