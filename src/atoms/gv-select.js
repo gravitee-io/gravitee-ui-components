@@ -56,12 +56,14 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
 
   static get properties () {
     return {
+      ...super.properties,
       options: { type: Array },
       _options: { type: Array, attribute: false },
       large: { type: Boolean },
       medium: { type: Boolean },
       small: { type: Boolean },
       value: { type: String | Array },
+      _value: { type: String | Array, attribute: false },
       label: { type: String },
       title: { type: String },
       name: { type: String },
@@ -157,7 +159,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           opacity: .5;
         }
 
-         .select__list__item.disabled:hover {
+        .select__list__item.disabled:hover {
           cursor: not-allowed;
         }
 
@@ -209,6 +211,42 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     super.disconnectedCallback();
   }
 
+  set value (value) {
+    if (this.multiple) {
+      if (Array.isArray(value)) {
+        this._value = value;
+        this.updateState(this._value);
+      }
+    }
+    else {
+      this._value = value;
+      this.updateState(this._value);
+    }
+  }
+
+  get value () {
+    return this._value;
+  }
+
+  updateState (value) {
+    super.updateState(value);
+    if (value && this._options && this.valid) {
+      if (this.multiple) {
+        if (this.required) {
+          this.valid = this._options.length > 0;
+        }
+        if (this.valid) {
+          const possibleValues = this._options.map((o) => o.value);
+          this.valid = value.some((v) => possibleValues.includes(v));
+        }
+      }
+      else {
+        this.valid = this._options.find((option) => option.value === value) != null;
+      }
+      this.invalid = !this.valid;
+    }
+  }
+
   _onDocumentClick () {
     this._isClosed = true;
   };
@@ -256,7 +294,6 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         }
         this._isClosed = !this._isClosed;
       }
-      this.updateState(this.value);
       dispatchCustomEvent(this, 'select', this.value);
       dispatchCustomEvent(this, 'input', this.value);
       this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));

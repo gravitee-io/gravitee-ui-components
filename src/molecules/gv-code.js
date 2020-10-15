@@ -32,12 +32,16 @@ import 'codemirror/addon/lint/yaml-lint';
 import 'codemirror/addon/display/placeholder';
 import { i18n } from '../lib/i18n';
 import { shapeClipboard, shapeCopied } from '../styles/shapes';
+import { dispatchCustomEvent } from '../lib/events';
+import { InputElement } from '../mixins/input-element';
 
 /**
  * Code component
  *
  * ## Details
  * * has @theme facet
+ *
+ * @fires gv-code:input - input events with the `value` on `detail`
  *
  * @attr {String} label - code language
  * @attr {String} value - code content to be highlighted
@@ -47,16 +51,12 @@ import { shapeClipboard, shapeCopied } from '../styles/shapes';
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  */
-export class GvCode extends LitElement {
+export class GvCode extends InputElement(LitElement) {
 
   static get properties () {
     return {
-      value: { type: String },
+      ...super.properties,
       options: { type: Object },
-      label: { type: String },
-      readonly: { type: Boolean },
-      clipboard: { type: Boolean },
-      autofocus: { type: Boolean },
       _clipboardIcon: { type: String },
     };
   }
@@ -797,6 +797,7 @@ export class GvCode extends LitElement {
 
   _onChange (cm) {
     this.value = cm.getValue();
+    dispatchCustomEvent(this, 'input', this.value);
   }
 
   connectedCallback () {
@@ -815,6 +816,7 @@ export class GvCode extends LitElement {
   }
 
   async updated (changedProperties) {
+    super.updated(changedProperties);
     if (changedProperties.has('options') && this.options && this.options.mode) {
       const options = this._getProcessedOptions();
 
