@@ -85,7 +85,7 @@ export function InputElement (ParentClass) {
 
     updateState (value) {
       if (this.required && !this.readonly) {
-        this.invalid = value == null || (typeof value === 'string' && value.trim() === '');
+        this.invalid = value == null || value.length === 0 || (typeof value === 'string' && value.trim() === '');
         this.valid = !this.invalid;
       }
     }
