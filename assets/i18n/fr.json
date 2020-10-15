@@ -93,6 +93,21 @@
     "error": "Une erreur est survenue pendant le chargement",
     "view": "Voir"
   },
+  "gv-properties": {
+    "placeholder": {
+      "input": "NOM_DE_LA_PROPRIETE=\"valeur de la propriété\"",
+      "key": "NOM_DE_LA_PROPRIETE",
+      "value": "valeur de la propriété"
+    },
+    "errors": {
+      "line": "ligne",
+      "invalid-key": "<code>${key}</code> n'est pas une clée valide",
+      "duplicated-key": "attention, la clée <code>${key}</code> est déjà utilisée",
+      "unknown": "Erreur inconnue",
+      "invalid-line": "Cette ligne n'est pas valide, il faut respecter la syntaxe: <code>NAME=\"VALUE\"</code>",
+      "invalid-value": "la valeur n'est pas valide, si vous utilisez des guillemets, vous devez les échapper comme ceci: <code>\\\\\"</code> ou envelopper la valeur totale."
+    }
+  },
   "gv-rating": {
     "description-1": "Je déteste",
     "description-2": "Je n'aime pas",
