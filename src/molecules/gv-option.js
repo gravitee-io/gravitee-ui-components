@@ -31,6 +31,8 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @attr {String|Array} value - Selected value id, array with multiple option ids.
  * @attr {Boolean} multiple - If true, can choose several option
  * @attr {Boolean} reverse - If true, title and description are reversed.
+ * @attr {Boolean} small - If true, use small button for options
+ * @attr {Boolean} outlined - If true, use outlined button for options
  *
  * @cssprop {Color} [--gv-option--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Background color
  * @cssprop {Length} [--gv-option--bdrs=0.15rem] - Border radius
@@ -46,6 +48,8 @@ export class GvOption extends LitElement {
       value: { type: String, reflect: true },
       multiple: { type: Boolean },
       reverse: { type: Boolean },
+      small: { type: Boolean },
+      outlined: { type: Boolean },
     };
   }
 
@@ -175,13 +179,16 @@ export class GvOption extends LitElement {
 
   _renderOption (option, index) {
     const isActive = this.isActive(option);
+    const outlined = this.outlined || (!isActive && this._hasDescription);
     return html`<gv-button 
             .icon=${ifDefined(!this._hasDescription ? option.icon : null)} 
+            .iconRight=${ifDefined(!option.icon && option.iconRight ? option.iconRight : null)} 
             .title="${ifDefined(option.title)}"
             .primary="${isActive}"
+            .small="${this.small}"
             .disabled="${option.disabled}"
             @click="${this._onClick.bind(this, option)}"
-            .outlined="${!isActive && this._hasDescription}"
+            .outlined="${outlined}"
             class="${classMap({
       active: isActive,
       entry: index === 0,
@@ -205,7 +212,7 @@ export class GvOption extends LitElement {
         description: this._hasDescription,
         reverse: this.reverse,
       };
-      return html`<div class="${classMap(classes)}" style="${styleMap({ 'grid-template-columns': `repeat(${this._options.length}, 1fr)` })}">
+      return html`<div class="${classMap(classes)}" style="${styleMap({ 'grid-template-columns': `repeat(${this._options.length}, auto)` })}">
 ${repeat(this._options, (option) => option, (option, index) =>
         html`${this._renderOption(option, index)}`,
       )}</div>`;
