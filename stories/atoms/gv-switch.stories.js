@@ -39,8 +39,10 @@ const conf = {
 
 const items = [
   {},
-  { label: 'Subscription Resumed' },
-  { label: 'Subscription Resumed', description: 'Triggered when a Subscription is created.' },
+  { small: true, value: true },
+  { label: 'Subscription Resumed', value: 'false' },
+  { label: 'Subscription Resumed', description: 'Triggered when a Subscription is created.', value: false },
+  { description: 'Triggered when a Subscription is created.', value: 'true' },
 ];
 
 export const basics = makeStory(conf, {
