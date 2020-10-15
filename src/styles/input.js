@@ -58,6 +58,11 @@ export const input = css`
       border-radius: 0 3px 3px 0;
   }
   
+  .small .box-icon {
+    height: var(--input-small--h);
+    width: calc(var(--input-small--h) - 4px);
+  }
+  
   .box-icon-left {
       right: initial;
       left: 0px;
@@ -68,6 +73,11 @@ export const input = css`
       width: var(--gv-icon--s, 22px);
       --gv-icon--c: var(--gv-theme-font-color-dark);
   }
+
+  .small .box-icon gv-icon {
+    width: var(--gv-icon--s, 16px);
+  }
+  
 
   .box-icon.box-icon-clear gv-icon, :host([large]) .box-icon.box-icon-clear gv-icon {
       width: 16px;
