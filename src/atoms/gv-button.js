@@ -288,7 +288,7 @@ export class GvButton extends LitElement {
   }
 
   _onKeyDown (e) {
-    if (e.keyCode === 32) {
+    if (e.keyCode === 32 || e.keyCode === 13) {
       e.preventDefault();
       this._onClick(e);
     }
