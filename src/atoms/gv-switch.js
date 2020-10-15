@@ -30,7 +30,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @attr {Boolean} disabled - same as native switch element `disabled` attribute
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
- * @attr {Boolean} value - true if the switch is checked, false otherwise
+ * @attr {Boolean|String} value - true if the switch is checked, false otherwise
  * @attr {String} label - label of the switch
  * @attr {String} description - description of the switch
  *
@@ -47,6 +47,7 @@ export class GvSwitch extends LitElement {
       value: { type: String, reflect: true },
       label: { type: String },
       description: { type: String },
+      small: { type: Boolean, reflect: true },
     };
   }
 
@@ -58,8 +59,8 @@ export class GvSwitch extends LitElement {
         :host {
           --off-bgc: var(--gv-switch-off--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
           --on-bgc: var(--gv-switch-on--bgc, var(--gv-theme-color, #5A7684));
-            box-sizing: border-box;
-            margin: 0.2rem;
+          box-sizing: border-box;
+          margin: 0.2rem;
         }
 
         .container {
@@ -71,6 +72,8 @@ export class GvSwitch extends LitElement {
           flex-direction: column;
           justify-content: center;
           flex: 1;
+          margin-right: 0.4rem;
+          box-sizing: border-box;
         }
 
         .switch-title {
@@ -93,6 +96,27 @@ export class GvSwitch extends LitElement {
           -moz-user-select: none;
           -ms-user-select: none;
           border-radius: 16px;
+        }
+
+        :host([small]) .switch {
+          width: 25px;
+        }
+
+        :host([small]) .switch-label:before {
+          width: 10px;
+          border-radius: 10px;
+          right: 10px;
+        }
+
+        :host([small]) .switch-label {
+          height: 10px;
+          line-height: 10px;
+          border-radius: 10px;
+        }
+
+        :host([small]) .switch-title {
+          font-weight: 400;
+          font-size: 11px;
         }
 
         .switch input {
@@ -155,22 +179,28 @@ export class GvSwitch extends LitElement {
 
   _onInput () {
     if (!(this.disabled || this.skeleton)) {
-      this.value = !this.value;
+      this.value = !this.checked;
       dispatchCustomEvent(this, 'input', this.value);
     }
+  }
+
+  get checked () {
+    // Manage String and Boolean value
+    return this.value != null && this.value.toString() === 'true';
   }
 
   render () {
     const classes = {
       skeleton: this.skeleton,
       disabled: this.disabled,
+      small: this.small,
       switch: true,
     };
 
     return html`
     <div class="container">
 
-    ${this.label ? html`<div class="labels">
+    ${(this.label || this.description) ? html`<div class="labels">
         ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
          ${this.description ? html`<label class="switch-description">${this.description}</label>` : ''}
       </div>` : ''}
@@ -181,8 +211,7 @@ export class GvSwitch extends LitElement {
             type="checkbox"
             .title=${ifDefined(this.label || this.description)}
             ?disabled=${this.disabled || this.skeleton}
-            .checked=${this.value}
-            value=${this.value}
+            ?checked=${this.checked}
             @input=${this._onInput}>
           <label class="switch-label" for="${this._id}"></label>
         </div>
