@@ -43,37 +43,36 @@ export function InputElement (ParentClass) {
       return [
         // language=CSS
         css`
-            :host {
-                box-sizing: border-box;
-                margin: 0.2rem;
-                display: block;
-            }
+          :host {
+            box-sizing: border-box;
+            margin: 0.2rem;
+            display: block;
+          }
 
-            :host([invalid]) :not(.clipboard) input, :host([invalid]) :not(.clipboard) .box-icon-left, :host([invalid]) :not(.clipboard) textarea {
-                border-left: 3px solid #a94442;
-            }
+          :host([invalid]) :not(.clipboard) input, :host([invalid]) :not(.clipboard) .box-icon-left, :host([invalid]) :not(.clipboard) textarea {
+            border-left: 3px solid #a94442;
+          }
 
-            :host([valid]) :not(.clipboard) input, :host([valid]) :not(.clipboard) .box-icon-left, :host([valid]) :not(.clipboard) textarea {
-                border-left: 3px solid var(--gv-theme-color, #5A7684);
-            }
+          :host([valid]) :not(.clipboard) input, :host([valid]) :not(.clipboard) .box-icon-left, :host([valid]) :not(.clipboard) textarea {
+            border-left: 3px solid var(--gv-theme-color, #5A7684);
+          }
 
-            :host([readonly]) :not(.clipboard) input, :host([readonly]) .box-icon-left, :host([readonly]) .textarea {
-              border: none;
-              border-radius: 0;
-              letter-spacing: 0.05rem;
-              opacity: 0.7;
-              font-weight: 500;
-              cursor: text;
-            }
+          :host([readonly]) :not(.clipboard) input, :host([readonly]) .box-icon-left, :host([readonly]) .textarea {
+            border: none;
+            border-radius: 0;
+            letter-spacing: 0.05rem;
+            opacity: 0.7;
+            font-weight: 500;
+            cursor: text;
+          }
 
+          :host([readonly]) input::placeholder {
+            color: transparent;
+          }
 
-            :host([readonly]) input::placeholder {
-              color: transparent;
-            }
-
-            :host([readonly]) :not(.clipboard) label {
-                display: none;
-            }
+          :host([readonly]) :not(.clipboard) label {
+            display: none;
+          }
         `,
       ];
     }
@@ -90,7 +89,7 @@ export function InputElement (ParentClass) {
       }
     }
 
-    firstUpdated (changedProperties) {
+    firstUpdated () {
       if (this.autofocus) {
         this.getInputElement().focus();
       }
