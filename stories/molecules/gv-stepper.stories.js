@@ -16,6 +16,7 @@
 import '../../src/molecules/gv-stepper';
 import notes from '../../.docs/gv-stepper.md';
 import { makeStory } from '../lib/make-story';
+import { deepClone } from '../../src/lib/utils';
 
 export default {
   title: 'Molecules/gv-stepper',
@@ -43,21 +44,21 @@ export const withCurrentStep = makeStory(conf, {
   items: [{ steps, current: 1 }],
 });
 
-const validStep = JSON.parse(JSON.stringify(steps));
+const validStep = deepClone(steps);
 validStep[0].valid = true;
 
 export const withValidStep = makeStory(conf, {
   items: [{ steps: validStep }],
 });
 
-const validSteps = JSON.parse(JSON.stringify(validStep));
+const validSteps = deepClone(validStep);
 validSteps[1].valid = true;
 
 export const withTwoValidateStep = makeStory(conf, {
   items: [{ steps: validSteps, current: 3 }],
 });
 
-const invalidSteps = JSON.parse(JSON.stringify(validSteps));
+const invalidSteps = deepClone(validSteps);
 invalidSteps[0].invalid = true;
 
 export const withInvalidStep = makeStory(conf, {

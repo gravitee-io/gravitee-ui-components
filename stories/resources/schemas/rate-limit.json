@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "id": "urn:jsonschema:io:gravitee:policy:ratelimit:configuration:RateLimitPolicyConfiguration",
+  "properties": {
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "description": ""
+    },
+    "async": {
+      "type": "boolean",
+      "default": false,
+      "title": "Non-strict mode (async)",
+      "description": "By activating this option, rate-limiting is applied in an asynchronous way meaning that the distributed counter value is not strict."
+    },
+    "addHeaders": {
+      "type": "boolean",
+      "default": false,
+      "title": "Add response headers",
+      "description": "Add X-Rate-Limit-Limit, X-Rate-Limit-Remaining and X-Rate-Limit-Reset headers in HTTP response"
+    },
+    "rate": {
+      "type": "object",
+      "title": "Apply rate-limiting",
+      "id": "urn:jsonschema:io:gravitee:policy:ratelimit:configuration:RateLimitConfiguration",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "title": "Max requests",
+          "description": "Limit on the number of requests that can be sent."
+        },
+        "periodTime": {
+          "type": "integer",
+          "title": "Time duration",
+          "default": 1
+        },
+        "periodTimeUnit": {
+          "type": "string",
+          "title": "Time unit",
+          "default": "SECONDS",
+          "enum": [
+            "SECONDS",
+            "MINUTES"
+          ]
+        }
+      },
+      "required": [
+        "limit",
+        "periodTime",
+        "periodTimeUnit"
+      ]
+    }
+  },
+  "required": [
+    "rate"
+  ]
+}

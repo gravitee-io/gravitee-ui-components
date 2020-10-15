@@ -43,115 +43,116 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
       ...super.styles,
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              cursor: pointer;
-              --hover-bgc: var(--gv-row-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-              --trf-ty: var(--gv-row-hover--trf-ty, 0px);
-              display: block;
-          }
+        :host {
+          box-sizing: border-box;
+          cursor: pointer;
+          --hover-bgc: var(--gv-row-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --trf-ty: var(--gv-row-hover--trf-ty, 0px);
+          display: block;
+        }
 
-          :host([_invisible]) {
-            display: none;
-          }
-          
-          .row {
-              padding: 12px;
-          }
+        :host([_invisible]) {
+          display: none;
+        }
 
-          .row:hover {
-              -webkit-transform: -webkit-translateY(var(--trf-ty));
-              transform: translateY(var(--trf-ty));
-              background-color: var(--hover-bgc)
-          }
+        .row {
+          padding: 12px;
+        }
 
-          .row:not(.error) {
-              display: grid;
-              grid-template-columns: calc(var(--gv-row-image--w, 35px) + 5px) 1fr auto;
-              grid-gap: 10px;
-              align-items: center;
-          }
+        .row:hover {
+          -webkit-transform: -webkit-translateY(var(--trf-ty));
+          transform: translateY(var(--trf-ty));
+          background-color: var(--hover-bgc)
+        }
 
-          :host([w-lt-450]) .meta {
-            display: none;
-          }
-          
-          .row .name {
-              margin-right: 15px;
-          }
+        .row:not(.error) {
+          display: grid;
+          grid-template-columns: calc(var(--gv-row-image--w, 35px) + 5px) 1fr auto;
+          grid-gap: 10px;
+          align-items: center;
+        }
 
-          .row .name, .row .meta__owner {
-              margin-bottom: 5px;
-          }
+        :host([w-lt-450]) .meta {
+          display: none;
+        }
 
-          .row .version {
-              color: var(--gv-theme-neutral-color-dark, #D9D9D9);
-          }
+        .row .name {
+          margin-right: 15px;
+        }
 
-          .row .description {
-              --lh: 1.4rem;
-              --max-lines: 2;
-              max-height: calc(var(--lh) * var(--max-lines));
-              line-height: var(--lh);
-              overflow: hidden;
-              text-overflow: ellipsis;
-              text-after-overflow: '...';
-        
-          }
+        .row .name, .row .meta__owner {
+          margin-bottom: 5px;
+        }
 
-          .row .meta {
-              display: flex;
-              flex-direction: column;
-              align-items: flex-end;
-          }
+        .row .version {
+          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+        }
 
-          .row .meta__owner {
-              --gv-icon--c: var(--gv-theme-neutral-color-dark, #D9D9D9);
-              --gv-icon--s: 16px;
-              color: var(--gv-theme-neutral-color-dark, #D9D9D9);
-              display: flex;
-          }
+        .row .description {
+          --lh: 1.4rem;
+          --max-lines: 2;
+          max-height: calc(var(--lh) * var(--max-lines));
+          line-height: var(--lh);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-after-overflow: '...';
 
-          .row  .meta__tags {
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-          }
+        }
 
-          .skeleton {
-              transition: 0.5s;
-              min-height: 30px;
-              align-self: start;
-          }
+        .row .meta {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
 
-          .error {
-            cursor: default;
-            text-align: center;
-          }
+        .row .meta__owner {
+          --gv-icon--c: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          --gv-icon--s: 16px;
+          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          display: flex;
+        }
 
-          gv-identity-picture {
-            height: var(--gv-row-image--h, 35px);
-            width: var(--gv-row-image--w, 35px);
-            border-radius: 20px;
-            --gv-image--of: contain;
-            align-self: baseline;
-          }
-        
-          h3 {
-              margin: 0;
-          }
-          .row > .group {
-              display: flex;
-              flex-direction: column;
-              margin: 0 5px;
-              width: 100%;
-              flex: 1;
-          }
-          
-          .title {
-              display: flex;
-              flex-direction: row;
-          }
+        .row .meta__tags {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        .skeleton {
+          transition: 0.5s;
+          min-height: 30px;
+          align-self: start;
+        }
+
+        .error {
+          cursor: default;
+          text-align: center;
+        }
+
+        gv-identity-picture {
+          height: var(--gv-row-image--h, 35px);
+          width: var(--gv-row-image--w, 35px);
+          border-radius: 20px;
+          --gv-image--of: contain;
+          align-self: baseline;
+        }
+
+        h3 {
+          margin: 0;
+        }
+
+        .row > .group {
+          display: flex;
+          flex-direction: column;
+          margin: 0 5px;
+          width: 100%;
+          flex: 1;
+        }
+
+        .title {
+          display: flex;
+          flex-direction: row;
+        }
       `,
       link,
       skeleton,
@@ -171,6 +172,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
       link: true,
       error: !this._skeleton && (this._error || this._empty),
     };
+    const owner = getOwner(this._item);
     return html`
         <div class=${classMap(classes)}>
             ${(!this._skeleton && (this._error || this._empty)) ? html`<div class="message">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>` : html`
@@ -184,8 +186,8 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
             </div>
             <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
               <div class="meta__owner">
-                <gv-icon shape="general:user" size="8px"></gv-icon>${getOwner(this._item)}</div>
-              <div class="meta__tags">${this._renderLabels()}</div>
+                ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>` : ''}
+                <div class="meta__tags">${this._renderLabels()}</div>
             </div>
           </div>
           `}

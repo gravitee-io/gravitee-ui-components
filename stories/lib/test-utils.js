@@ -52,3 +52,12 @@ export class Page {
 export function querySelector (selectors) {
   return window.document.querySelector(selectors);
 }
+
+export function since (message, expect) {
+  try {
+    expect();
+  }
+  catch (e) {
+    throw new Error(message);
+  }
+}

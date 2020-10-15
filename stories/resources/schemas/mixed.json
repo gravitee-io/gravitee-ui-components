@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "id": "story",
+  "properties": {
+    "body": {
+      "title": "Body content",
+      "description": "The body content to attach to the request or to the response. You can also make use of freemarker templating engine to map an incoming body content to a new one.",
+      "type": "string",
+      "x-schema-form": {
+        "type": "codemirror",
+        "codemirrorOptions": {
+          "placeholder": "Put the body content here",
+          "lineWrapping": true,
+          "lineNumbers": true,
+          "allowDropFileTypes": true,
+          "autoCloseTags": true,
+          "mode": "xml"
+        }
+      }
+    },
+    "path-operator": {
+      "type": "object",
+      "properties": {
+        "operator": {
+          "title": "Operator path",
+          "description": "The operator path",
+          "type": "string",
+          "enum": [
+            "EQUALS",
+            "STARTS_WITH"
+          ],
+          "default": "STARTS_WITH"
+        },
+        "path": {
+          "title": "Path",
+          "description": "The path of flow (must start by /)",
+          "type": "string",
+          "pattern": "^/"
+        }
+      },
+      "required": [
+        "path",
+        "operator"
+      ]
+    },
+    "resources": {
+      "title": "Async list of resource",
+      "description": "Special field that's dispatch an event after add in DOM, usefull for async load",
+      "type": "string",
+      "x-schema-form": {
+        "event": {
+          "name": "fetch-data"
+        }
+      }
+    },
+    "attributes": {
+      "type": "array",
+      "title": "Assign context attributes",
+      "items": {
+        "type": "object",
+        "id": "attr",
+        "title": "Attribute",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "description": "Name of the attribute",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "description": "Value of the attribute (support EL)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      }
+    },
+    "timeToLiveSeconds": {
+      "title": "Time to live (in seconds)",
+      "default": 600,
+      "description": "Time to live of the element put in cache (Default to 10 minutes).",
+      "type": "integer"
+    },
+    "useResponseCacheHeaders": {
+      "title": "Use response headers",
+      "description": "Time to live based on 'Cache-Control' and / or 'Expires' headers from response.",
+      "type": "boolean"
+    },
+    "select": {
+      "title": "Simple select",
+      "type": "string",
+      "enum": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "multiselect": {
+      "title": "Multi select",
+      "type": "array",
+      "enum": [
+        "a",
+        "b",
+        "c"
+      ]
+    }
+  },
+  "required": [
+    "multiselect",
+    "timeToLiveSeconds"
+  ]
+}

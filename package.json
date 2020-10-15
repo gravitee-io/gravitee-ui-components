@@ -43,6 +43,7 @@
     "jdenticon": "^2.2.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
+    "object-path": "^0.11.5",
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {

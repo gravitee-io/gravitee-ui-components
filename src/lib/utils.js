@@ -23,3 +23,21 @@ export function isSameRoutes (routes, futureRoutes) {
   }
   return false;
 }
+
+export function flatDeep (arr) {
+  return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val) : val), []);
+};
+
+export function flatObject (obj, prefix = '') {
+  return Object.keys(obj).reduce((acc, k) => {
+    const pre = prefix.length ? prefix + '.' : '';
+    if (Array.isArray(obj[k])) acc[pre + k] = obj[k];
+    else if (typeof obj[k] === 'object') Object.assign(acc, flatObject(obj[k], pre + k));
+    else acc[pre + k] = obj[k];
+    return acc;
+  }, {});
+}
+
+export function deepClone (obj) {
+  return JSON.parse(JSON.stringify(obj));
+}

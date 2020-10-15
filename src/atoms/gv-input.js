@@ -68,7 +68,7 @@ export class GvInput extends InputElement(LitElement) {
   static get properties () {
     return {
       ...super.properties,
-      type: { type: String },
+      type: { type: String, reflect: true },
       large: { type: Boolean },
       medium: { type: Boolean },
       small: { type: Boolean },
@@ -290,15 +290,22 @@ export class GvInput extends InputElement(LitElement) {
 
   updateState (value) {
     super.updateState(value);
-    if (this._regexPattern) {
-      if (value != null && value.trim() !== '') {
-        const valid = value.match(this._regexPattern);
-        this.invalid = !valid;
-        this.valid = valid;
+    if (this.valid === true) {
+      if (this._regexPattern) {
+        if (value != null && value.trim() !== '') {
+          const valid = value.match(this._regexPattern);
+          this.invalid = valid == null;
+          this.valid = valid != null;
+        }
+        else if (!this.required) {
+          this.invalid = false;
+          this.valid = false;
+        }
       }
-      else if (!this.required) {
-        this.invalid = false;
-        this.valid = false;
+      else if (this._type === 'number' && this.value != null) {
+        const value = Number(this.value).valueOf();
+        this.invalid = isNaN(value);
+        this.valid = !this.invalid;
       }
     }
   }
@@ -345,6 +352,10 @@ export class GvInput extends InputElement(LitElement) {
     if (this._type === 'password') {
       this.icon = GvInput.shapeSearch;
     }
+  }
+
+  get type () {
+    return this._type;
   }
 
   _onIconClick () {
