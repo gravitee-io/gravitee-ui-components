@@ -51,6 +51,7 @@ export { GvMenu } from './organisms/gv-menu';
 export { GvPagination } from './organisms/gv-pagination';
 export { GvProperties } from './organisms/gv-properties';
 export { GvResizableViews } from './organisms/gv-resizable-views';
+export { GvResources } from './organisms/gv-resources';
 export { GvSchemaForm } from './organisms/gv-schema-form';
 export { GvTabs } from './organisms/gv-tabs';
 export { GvUserMenu } from './organisms/gv-user-menu';
