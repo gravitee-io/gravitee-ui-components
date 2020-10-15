@@ -1,6 +1,7 @@
 import {configure, addDecorator, addParameters, setCustomElements} from '@storybook/web-components';
 import {withKnobs} from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.generated.css';
+import '../assets/css/documentation.css';
 import {i18nKnob} from '../stories/lib/i18n-knob';
 import customElements from '../.docs/custom-elements.json';
 

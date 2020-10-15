@@ -37,6 +37,14 @@ const formatCssProperty = (cssProperty) => {
 
 async function run () {
 
+  await del([
+    'assets/css/github-markdown-css',
+    'assets/css/highlight.js',
+  ]);
+
+  fs.copy('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
+  fs.copy('node_modules/highlight.js/styles/github-gist.css', 'assets/css/highlight.js/github-gist.css');
+
   const sourceFilepaths = await glob('./src/**/*.js', {
     ignore: [
       './src/lib/*.js',

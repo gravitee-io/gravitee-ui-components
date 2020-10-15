@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 import { storiesOf } from '@storybook/web-components';
-import { domToReact, toDom } from '../lib/text-format';
-
+import { setAsciiDoctorAsGlobal, toDom } from '../../src/lib/text-format';
 import Readme from '../../README.adoc';
 import Contributing from '../../CONTRIBUTING.adoc';
 import Theme from '../../docs/theme.md';
+import { Parser as HtmlToReactParser } from 'html-to-react';
+import asciidoctor from 'asciidoctor';
+import highlightJsExt from 'asciidoctor-highlight.js';
+
+setAsciiDoctorAsGlobal(asciidoctor, highlightJsExt);
+
+const htmlToReactParser = new HtmlToReactParser();
+
+function domToReact (element) {
+  return htmlToReactParser.parse(element.outerHTML);
+}
 
 export function createDocsStories (kind, stories) {
   stories.forEach(({ name, text, type }) => {

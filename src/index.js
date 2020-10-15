@@ -44,6 +44,7 @@ export { GvStats } from './molecules/gv-stats';
 export { GvStepper } from './molecules/gv-stepper';
 export { GvTable } from './molecules/gv-table';
 export { GvTree } from './molecules/gv-tree';
+export { GvDocumentation } from './organisms/gv-documentation';
 export { GvHeader } from './organisms/gv-header';
 export { GvMenu } from './organisms/gv-menu';
 export { GvPagination } from './organisms/gv-pagination';
