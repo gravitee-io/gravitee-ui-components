@@ -103,8 +103,8 @@ export class GvInput extends InputElement(LitElement) {
           box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
         }
 
-        .copied {
-          --gv-icon--c: var(--gv-theme-color, #5A7684);
+        .box-icon.copied gv-icon {
+          --gv-icon--c: #339900;
         }
 
         div.box-icon gv-icon.loading, .loading ::slotted(input) {
@@ -226,6 +226,7 @@ export class GvInput extends InputElement(LitElement) {
 
     if (changedProperties.has('value')) {
       this.getInputElement().value = this.value;
+      this.updateState(this.value);
     }
 
     if (changedProperties.has('min') && this.min != null) {

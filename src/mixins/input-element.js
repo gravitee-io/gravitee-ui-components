@@ -97,6 +97,12 @@ export function InputElement (ParentClass) {
       this.updateState(this.value);
     }
 
+    updated (changedProperties) {
+      if (changedProperties.has('value')) {
+        this.updateState(this.value);
+      }
+    }
+
     getInputElement () {
       return this.shadowRoot.querySelector('input');
     }
