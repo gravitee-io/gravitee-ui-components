@@ -213,7 +213,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           align-self: flex-end;
         }
 
-        .cell > * {
+        .cell > *:not(gv-tag) {
           margin: auto;
           width: 100%;
         }
