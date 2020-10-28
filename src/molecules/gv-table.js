@@ -50,6 +50,7 @@ import '../organisms/gv-pagination';
  * @attr {String} rowheight - The height of the table single row
  * @attr {String} emptymessage - The empty message to display
  * @attr {Function} format - A function to format table headers and string cells
+ * @attr {Function} compareFn - A function to define how to sort. Default function will sort selected field ignoring case
  * @attr {Array<any>} selected - A list of selected ids of the items displayed
  * @attr {String} total - Total of data displayed on the table (useful with in case of pagination)
  * @attr {Boolean} skeleton - Force gv-table to be in skeleton mode
@@ -75,6 +76,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       rowheight: { type: String },
       emptymessage: { type: String },
       format: { type: Function },
+      compareFn: { type: Function },
       selected: { type: Array, reflect: true },
       total: { type: String },
       skeleton: { type: Boolean },
@@ -233,6 +235,16 @@ export class GvTable extends withResizeObserver(LitElement) {
     this._page = 1;
     this._itemsProvider = [];
     this.selected = [];
+    this.compareFn = (item, item2, value) => {
+      const itemData = this._getDataFromField(item, value) && this._getDataFromField(item, value).toLowerCase ? this._getDataFromField(item, value).toLowerCase() : '';
+      const itemData2 = this._getDataFromField(item2, value) && this._getDataFromField(item2, value).toLowerCase ? this._getDataFromField(item2, value).toLowerCase() : '';
+      if (this.order.startsWith('-')) {
+        return itemData2.localeCompare(itemData);
+      }
+      else {
+        return itemData.localeCompare(itemData2);
+      }
+    };
     this.addEventListener('gv-pagination:paginate', (e) => {
       this._page = e.detail.page;
     });
@@ -271,16 +283,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       if (field) {
         this.order = previousOrder === value ? (desc ? value : '-' + value) : value;
       }
-      this._itemsProvider = this._itemsProvider.sort((item, item2) => {
-        const itemData = this._getDataFromField(item, value) && this._getDataFromField(item, value).toLowerCase ? this._getDataFromField(item, value).toLowerCase() : '';
-        const itemData2 = this._getDataFromField(item2, value) && this._getDataFromField(item2, value).toLowerCase ? this._getDataFromField(item2, value).toLowerCase() : '';
-        if (this.order.startsWith('-')) {
-          return itemData2.localeCompare(itemData);
-        }
-        else {
-          return itemData.localeCompare(itemData2);
-        }
-      });
+      this._itemsProvider = this._itemsProvider.sort((item, item2) => this.compareFn(item, item2, value));
       if (field) {
         dispatchCustomEvent(this, 'sort', { order: this.order });
       }
