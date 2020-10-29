@@ -478,9 +478,6 @@ export class GvTable extends withResizeObserver(LitElement) {
         }
         return this._renderImage(value, alt);
       }
-      else if (option.type === 'icon') {
-        return this._renderIcon(item, itemIndex, option);
-      }
       else if (typeof option.type === 'function') {
         return this._renderComponent(item, itemIndex, option, value, option.type(item));
       }

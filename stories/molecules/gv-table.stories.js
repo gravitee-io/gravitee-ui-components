@@ -77,10 +77,15 @@ const apiOptions = {
     { field: 'name', label: 'Name', tag: 'version' },
     { field: 'description', label: 'Description' },
     { field: 'owner.display_name', label: 'Owner' },
-    { type: 'icon', icon: (item) => (item.public ? '' : 'general:lock') },
     {
-      type: 'icon',
-      icon: 'design:circle',
+      type: 'gv-icon',
+      width: '40px',
+      attributes: { shape: (item) => (item.public ? 'general:unlock' : 'general:lock') },
+    },
+    {
+      type: 'gv-icon',
+      width: '40px',
+      attributes: { shape: 'design:circle' },
       style: (item) => (item.running ? '--gv-icon--c: #86c3d0' : '--gv-icon--c: #FF7875'),
     },
   ],
