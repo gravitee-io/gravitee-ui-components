@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import 'whatwg-fetch';
+
 /**
  * @param {string} key - The translation key
  * @param {object} data - The translation data
@@ -84,4 +86,15 @@ export function getAvailableLanguages () {
     availableLanguages[LANGUAGE] = lang;
   }
   return availableLanguages;
+}
+
+export function loadDefaultTranslations () {
+  setLanguage('en');
+  return fetch(`/i18n/${i18n._lang}.json`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((translations) => {
+      addTranslations(i18n._lang, translations);
+    });
 }
