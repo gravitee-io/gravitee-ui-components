@@ -195,7 +195,7 @@ export class GvOption extends LitElement {
       exit: (index === this._options.length - 1),
       description: option.description != null,
     })}">
-        ${!this._hasDescription ? ''
+        ${!this._hasDescription ? option.title != null ? option.title : ''
       : html`<div class="content">
             ${option.icon ? html`<gv-icon shape="${option.icon}"></gv-icon>` : ''}
             <div class="title">${option.title}</div>
