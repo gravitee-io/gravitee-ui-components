@@ -1001,6 +1001,20 @@
           "type": "color",
           "default": "var(--gv-theme-neutral-color-dark, #D9D9D9)",
           "value": ""
+        },
+        {
+          "name": "--gv-text--fz",
+          "description": "Font size",
+          "type": "length",
+          "default": "var(--gv-theme-font-size-m, 14px)",
+          "value": ""
+        },
+        {
+          "name": "--gv-text--lh",
+          "description": "Line height",
+          "type": "length",
+          "default": "var(--gv-theme-font-size-m, 14px)",
+          "value": ""
         }
       ]
     },

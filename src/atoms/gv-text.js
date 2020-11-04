@@ -39,10 +39,12 @@ import { InputElement } from '../mixins/input-element';
  * @attr {Length} rows - number of rows of the text element
  * @attr {Boolean} autofocus - true to put the focus on the input
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
+ * @attr {Boolean} [autosize=false] - true if field auto resize when content change
  *
  * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
+ * @cssprop {Length} [--gv-text--fz=var(--gv-theme-font-size-m, 14px)] - Font size
+ * @cssprop {Length} [--gv-text--lh=var(--gv-theme-font-size-m, 14px)] - Line height
  */
-
 export class GvText extends InputElement(LitElement) {
 
   static get properties () {
@@ -50,6 +52,7 @@ export class GvText extends InputElement(LitElement) {
       rows: { type: Number },
       minlength: { type: Number },
       maxlength: { type: Number },
+      autosize: { type: Boolean },
     };
   }
 
@@ -66,6 +69,9 @@ export class GvText extends InputElement(LitElement) {
 
         /* BASE */
         .textarea {
+          --fz: var(--gv-text--fz, var(--gv-theme-font-size-m, 14px));
+          --tmp: var(--gv-text--lh, var(--gv-theme-font-size-m, 14px));
+          --lh: calc(var(--tmp) + 3px);
           border: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
           box-sizing: border-box;
           border-radius: 4px;
@@ -73,8 +79,8 @@ export class GvText extends InputElement(LitElement) {
           padding: 10px 5px;
           width: 100%;
           resize: none;
-          font-size: var(--gv-theme-font-size-m, 14px);
-          line-height: 17px;
+          font-size: var(--fz);
+          line-height: var(--lh);
         }
 
         textarea:disabled {
@@ -132,7 +138,7 @@ export class GvText extends InputElement(LitElement) {
       }
       return '';
     }
-
+    const rows = this.autosize ? this.value.split('\n').length : this.rows;
     return html`
       <div class="box">
         ${this.renderLabel()}
@@ -148,7 +154,7 @@ export class GvText extends InputElement(LitElement) {
             ?disabled=${this.disabled || this.skeleton}
             .placeholder=${ifDefined(this.placeholder)}
             .value=${ifDefined(this.value)}
-            rows="${this.rows}"
+            rows="${this.rows < rows ? rows : this.rows}"
             @input=${this._onInput}></textarea>
       </div>
     `;
