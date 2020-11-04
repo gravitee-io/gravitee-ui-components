@@ -7,6 +7,7 @@ export { GvDatePicker } from './atoms/gv-date-picker';
 export { GvFileUpload } from './atoms/gv-file-upload';
 export { GvIcon } from './atoms/gv-icon';
 export { GvImage } from './atoms/gv-image';
+export { GvInputMessage } from './atoms/gv-input-message';
 export { GvInput } from './atoms/gv-input';
 export { GvLink } from './atoms/gv-link';
 export { GvMessage } from './atoms/gv-message';
