@@ -15,7 +15,6 @@
  */
 import { css, html, LitElement, TemplateResult } from 'lit-element';
 import { until } from 'lit-html/directives/until';
-import { skeleton } from '../styles/skeleton';
 
 /**
  * An icon
@@ -23,7 +22,8 @@ import { skeleton } from '../styles/skeleton';
  * ## Details
  * * has @theme facet
  *
- * @cssprop {Color} [--gv-icon--c=var(--gv-theme-font-color-dark,  #262626)] - Color
+ * @cssprop {Color} [--gv-icon--c=var(--gv-theme-font-color-dark, #262626)] - Color
+ * @cssprop {Color} [--gv-icon-opacity--c=var(--gv-theme-font-color-dark, #262626)] - Opacity color
  * @cssprop {Length} [--gv-icon--s=32px] - Height and width
  */
 export class GvIcon extends LitElement {
@@ -46,14 +46,14 @@ export class GvIcon extends LitElement {
 
   static get styles () {
     return [
-      skeleton,
       // language=CSS
       css`
         :host {
           box-sizing: border-box;
           display: inline-flex;
           vertical-align: middle;
-          --color: var(--gv-icon--c, var(--gv-theme-font-color-dark,  #262626));
+          --color: var(--gv-icon--c, var(--gv-theme-font-color-dark, #262626));
+          --opacity: var(--gv-icon-opacity--c, var(--gv-theme-font-color-dark, #262626));
           --size: var(--gv-icon--s, 32px);
         }
 
@@ -62,10 +62,13 @@ export class GvIcon extends LitElement {
           width: var(--size);
         }
 
-        svg:not(.no-color) * {
-          fill: var(--color);
+        svg:not(.no-color) *[opacity] {
+          fill: var(--opacity);
         }
 
+        svg:not(.no-color) *:not([opacity]) {
+          fill: var(--color);
+        }
       `];
   }
 
