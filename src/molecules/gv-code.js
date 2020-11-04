@@ -61,6 +61,95 @@ export class GvCode extends InputElement(LitElement) {
     };
   }
 
+  constructor () {
+    super();
+    this._id = `gv-code-${new Date().getTime()}`;
+    this.value = '';
+    this.readonly = false;
+    this.autofocus = false;
+    this.clipboard = false;
+    this._clipboardIcon = shapeClipboard;
+  }
+
+  render () {
+    return html`
+      <div class="${classMap({ box: true })}">
+        ${this.label ? html`<label for="code">${this.label}</label>` : ''}
+        ${this.clipboard ? html`<gv-button title="${i18n('gv-code.copy')}" ?outlined="${!this._copied}" ?primary="${this._copied}" small icon="${this._clipboardIcon}"></gv-button>` : ''}
+        <textarea id="${this._id}" name="code">${this.value}</textarea>
+      </div>
+    `;
+  }
+
+  _onChange (cm) {
+    this.value = cm.getValue();
+    dispatchCustomEvent(this, 'input', this.value);
+  }
+
+  connectedCallback () {
+    super.connectedCallback();
+    CodeMirror.defineInitHook((cm) => {
+      cm.on('change', this._onChange.bind(this, cm));
+    });
+  }
+
+  _getProcessedOptions () {
+    const options = { ...this.options };
+    if (options.mode === 'json') {
+      options.mode = 'javascript';
+    }
+    return options;
+  }
+
+  async updated (changedProperties) {
+    super.updated(changedProperties);
+    if (changedProperties.has('options') && this.options && this.options.mode) {
+      const options = this._getProcessedOptions();
+
+      await import(`codemirror/mode/${options.mode}/${options.mode}`);
+
+      const textArea = this.shadowRoot.querySelector(`#${this._id}`);
+      const codeMirror = CodeMirror.fromTextArea(textArea, {
+        ...options,
+        ...{
+          theme: 'mdn-like',
+          lineWrapping: true,
+          readOnly: this.readonly,
+          autofocus: this.autofocus,
+        },
+      });
+
+      if (this.value == null && this.options.placeholder) {
+        const placeholderByLines = this.options.placeholder.split('\n');
+        codeMirror.setSize(null, placeholderByLines.length * 18);
+      }
+      else {
+        codeMirror.setSize(null, null);
+      }
+    }
+
+    if (changedProperties.has('label') && this.label) {
+      this.screenReaderLabel = this.label;
+    }
+  }
+
+  firstUpdated () {
+    if (this.clipboard) {
+      import('clipboard-copy').then((mod) => {
+        const copy = mod.default;
+        this.shadowRoot.querySelector('gv-button').addEventListener('gv-button:click', () => {
+          copy(this.value);
+          this._copied = true;
+          this._clipboardIcon = shapeCopied;
+          setTimeout(() => {
+            this._copied = false;
+            this._clipboardIcon = shapeClipboard;
+          }, 1000);
+        });
+      });
+    }
+  }
+
   static get styles () {
     return [
       // language=CSS
@@ -773,87 +862,6 @@ export class GvCode extends InputElement(LitElement) {
 
       `,
     ];
-  }
-
-  constructor () {
-    super();
-    this._id = `gv-code-${new Date().getTime()}`;
-    this.value = '';
-    this.readonly = false;
-    this.autofocus = false;
-    this.clipboard = false;
-    this._clipboardIcon = shapeClipboard;
-  }
-
-  render () {
-    return html`
-      <div class="${classMap({ box: true })}">
-        ${this.label ? html`<label for="code">${this.label}</label>` : ''}
-        ${this.clipboard ? html`<gv-button title="${i18n('gv-code.copy')}" ?outlined="${!this._copied}" ?primary="${this._copied}" small icon="${this._clipboardIcon}"></gv-button>` : ''}
-        <textarea id="${this._id}" name="code">${this.value}</textarea>
-      </div>
-    `;
-  }
-
-  _onChange (cm) {
-    this.value = cm.getValue();
-    dispatchCustomEvent(this, 'input', this.value);
-  }
-
-  connectedCallback () {
-    super.connectedCallback();
-    CodeMirror.defineInitHook((cm) => {
-      cm.on('change', this._onChange.bind(this, cm));
-    });
-  }
-
-  _getProcessedOptions () {
-    const options = { ...this.options };
-    if (options.mode === 'json') {
-      options.mode = 'javascript';
-    }
-    return options;
-  }
-
-  async updated (changedProperties) {
-    super.updated(changedProperties);
-    if (changedProperties.has('options') && this.options && this.options.mode) {
-      const options = this._getProcessedOptions();
-
-      await import(`codemirror/mode/${options.mode}/${options.mode}`);
-
-      const textArea = this.shadowRoot.querySelector(`#${this._id}`);
-      CodeMirror.fromTextArea(textArea, {
-        ...options,
-        ...{
-          theme: 'mdn-like',
-          lineWrapping: true,
-          readOnly: this.readonly,
-          autofocus: this.autofocus,
-        },
-      });
-    }
-
-    if (changedProperties.has('label') && this.label) {
-      this.screenReaderLabel = this.label;
-    }
-  }
-
-  firstUpdated () {
-    if (this.clipboard) {
-      import('clipboard-copy').then((mod) => {
-        const copy = mod.default;
-        this.shadowRoot.querySelector('gv-button').addEventListener('gv-button:click', () => {
-          copy(this.value);
-          this._copied = true;
-          this._clipboardIcon = shapeCopied;
-          setTimeout(() => {
-            this._copied = false;
-            this._clipboardIcon = shapeClipboard;
-          }, 1000);
-        });
-      });
-    }
   }
 
 }
