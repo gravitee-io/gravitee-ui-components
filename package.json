@@ -10,7 +10,7 @@
     "wc"
   ],
   "scripts": {
-    "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && npm run size && build-storybook",
+    "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && npm run size && build-storybook -s ./assets/public",
     "check:i18n": "node tasks/check-i18n.js",
     "docs": "wca analyze src/** --format markdown --outDir .docs && wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
     "generate:dist": "node tasks/generate-dist.js",
