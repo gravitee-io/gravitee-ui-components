@@ -30,15 +30,6 @@ import '../atoms/gv-icon';
  *
  * @attr {String} type - type of the message. Can be default, success, error, warning or info.
  * @attr {boolean} closable - determines if the message can be hidden.
- *
- * @cssprop {Color} [--gv-message-success--bgc=var(--gv-theme-color-light, #86c3d0)] - Success background color
- * @cssprop {Color} [--gv-message-success--c=var(--gv-theme-color-darker, #383E3F)] - Success color
- * @cssprop {Color} [--gv-message-info--c=#00529B] - Info color
- * @cssprop {Color} [--gv-message-info--bgc=#BDE5F8] - Info background color
- * @cssprop {Color} [--gv-message-warn--c=#9F6000] - Warning color
- * @cssprop {Color} [--gv-message-warn--bgc=#FEEFB3] - Warning background color
- * @cssprop {Color} [--gv-message-error--c=#820014] - Error color
- * @cssprop {Color} [--gv-message-error--bgc=#FFCCC7] - Error background color
 */
 export class GvMessage extends LitElement {
 
@@ -71,27 +62,19 @@ export class GvMessage extends LitElement {
           }
 
           .info {
-            background-color: var(--gv-message-info--bgc, #BDE5F8);
-            color: var(--gv-message-info--c, #00529B);
-            --gv-icon--c: var(--gv-message-info--c, #00529B);
+            background-color: var(--gv-theme-color-info-light, #64b5f6);
           }
 
           .success {
-            background-color: var(--gv-message-success--bgc, var(--gv-theme-color-light, #86c3d0));
-            color: var(--gv-message-success--c, var(--gv-theme-color-darker, #383E3F));
-            --gv-icon--c: var(--gv-message-success--c, var(--gv-theme-color-darker, #383E3F));
+            background-color: var(--gv-theme-color-success-light, #81c784);
           }
 
           .warning {
-            background-color: var(--gv-message-warn--bgc, #FEEFB3);
-            color: var(--gv-message-warn--c, #9F6000);
-            --gv-icon--c: var(--gv-message-warn--c, #9F6000);
+            background-color: var(--gv-theme-color-warning-light, #ffb74d);
           }
 
           .error {
-            background-color: var(--gv-message-error--bgc, #FFCCC7);
-            color: var(--gv-message-error--c, #820014);
-            --gv-icon--c: var(--gv-message-error--c, #820014);
+            background-color: var(--gv-theme-color-error-light, #e57373);
           }
 
           .close {
@@ -111,7 +94,6 @@ export class GvMessage extends LitElement {
             flex: 1 1 auto;
             margin-left: 12px
           }
-
       `,
     ];
   }
