@@ -1289,67 +1289,6 @@
       ]
     },
     {
-      "name": "gv-message",
-      "css": [
-        {
-          "name": "--gv-message-success--bgc",
-          "description": "Success background color",
-          "type": "color",
-          "default": "var(--gv-theme-color-light, #86c3d0)",
-          "value": ""
-        },
-        {
-          "name": "--gv-message-success--c",
-          "description": "Success color",
-          "type": "color",
-          "default": "var(--gv-theme-color-darker, #383E3F)",
-          "value": ""
-        },
-        {
-          "name": "--gv-message-info--c",
-          "description": "Info color",
-          "type": "color",
-          "default": "#00529B",
-          "value": "#00529B"
-        },
-        {
-          "name": "--gv-message-info--bgc",
-          "description": "Info background color",
-          "type": "color",
-          "default": "#BDE5F8",
-          "value": "#BDE5F8"
-        },
-        {
-          "name": "--gv-message-warn--c",
-          "description": "Warning color",
-          "type": "color",
-          "default": "#9F6000",
-          "value": "#9F6000"
-        },
-        {
-          "name": "--gv-message-warn--bgc",
-          "description": "Warning background color",
-          "type": "color",
-          "default": "#FEEFB3",
-          "value": "#FEEFB3"
-        },
-        {
-          "name": "--gv-message-error--c",
-          "description": "Error color",
-          "type": "color",
-          "default": "#820014",
-          "value": "#820014"
-        },
-        {
-          "name": "--gv-message-error--bgc",
-          "description": "Error background color",
-          "type": "color",
-          "default": "#FFCCC7",
-          "value": "#FFCCC7"
-        }
-      ]
-    },
-    {
       "name": "gv-link",
       "css": [
         {
