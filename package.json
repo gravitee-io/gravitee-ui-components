@@ -44,7 +44,8 @@
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
     "object-path": "^0.11.5",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "whatwg-fetch": "^3.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
