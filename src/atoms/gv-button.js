@@ -180,20 +180,26 @@ export class GvButton extends LitElement {
         .default {
           --c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF));
           --bgc: var(--gv-button--bgc, var(--gv-theme-color-dark, #28444F));
-          --gv-icon--c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF))
+          --icon--c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --gv-icon--c: var(--icon--c);
+          --gv-icon-opacity--c: var(--icon--c);
         }
 
         .primary {
           --c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
           --bgc: var(--gv-button-primary--bgc, var(--gv-theme-color, #5A7684));
-          --gv-icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --gv-icon--c: var(--icon--c);
+          --gv-icon-opacity--c: var(--icon--c);
           font-weight: 500;
         }
 
         .danger {
           --c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #FFFFFF));
           --bgc: var(--gv-button-danger--bgc, var(--gv-theme-danger-color, #FF5722));
-          --gv-icon--c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --icon--c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --gv-icon--c: var(--icon--c);
+          --gv-icon-opacity--c: var(--icon--c);
         }
 
         /* MODES */
@@ -207,6 +213,7 @@ export class GvButton extends LitElement {
           background-color: var(--c);
           color: var(--bgc);
           --gv-icon--c: var(--bgc);
+          --gv-icon-opacity--c: var(--bgc);
         }
 
         :host(:focus) .button:not(.link):not(.disabled),

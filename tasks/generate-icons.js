@@ -41,6 +41,11 @@ async function run () {
 
   iconsByShape.thirdparty.google = iconsByShape.thirdparty.google.replace('svg', 'svg class="no-color"');
   iconsByShape.thirdparty.graviteeio_am = iconsByShape.thirdparty.graviteeio_am.replace('svg', 'svg class="no-color"');
+  iconsByShape.thirdparty.http = iconsByShape.thirdparty.http.replace('svg', 'svg class="no-color"');
+  iconsByShape.thirdparty.jdbc = iconsByShape.thirdparty.jdbc.replace('svg', 'svg class="no-color"');
+  iconsByShape.thirdparty.microsoft = iconsByShape.thirdparty.microsoft.replace('svg', 'svg class="no-color"');
+  iconsByShape.thirdparty.mongodb = iconsByShape.thirdparty.mongodb.replace('svg', 'svg class="no-color"');
+  iconsByShape.thirdparty.twitter = iconsByShape.thirdparty.twitter.replace('svg', 'svg class="no-color"');
 
   await del('src/icons/shapes');
   await fs.mkdir('src/icons/shapes', { recursive: true });

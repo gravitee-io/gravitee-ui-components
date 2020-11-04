@@ -1406,7 +1406,14 @@
           "name": "--gv-icon--c",
           "description": "Color",
           "type": "color",
-          "default": "var(--gv-theme-font-color-dark,  #262626)",
+          "default": "var(--gv-theme-font-color-dark, #262626)",
+          "value": ""
+        },
+        {
+          "name": "--gv-icon-opacity--c",
+          "description": "Opacity color",
+          "type": "color",
+          "default": "var(--gv-theme-font-color-dark, #262626)",
           "value": ""
         },
         {

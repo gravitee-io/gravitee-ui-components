@@ -178,7 +178,7 @@ export class GvLink extends LitElement {
     const classes = {
       active: this.active, link: true, skeleton: this.skeleton, small: this.small,
     };
-    const iconStyle = this.active ? { '--gv-icon--c': 'var(--link-active--c)' } : { '--gv-icon--c': 'var(--link--c)' };
+    const iconStyle = this.active ? { '--gv-icon--c': 'var(--link-active--c)', '--gv-icon-opacity--c': 'var(--link-active--c)' } : { '--gv-icon--c': 'var(--link--c)', '--gv-icon-opacity--c': 'var(--link--c)' };
     return html`
       <a @click=${this._onClick}
       class="${classMap(classes)}"
