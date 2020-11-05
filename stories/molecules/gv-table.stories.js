@@ -62,6 +62,11 @@ export default {
 
 const conf = {
   component: 'gv-table',
+  css: `
+    :host {
+      min-height: 90vh;
+    }
+  `,
 };
 
 const apiItems = [
@@ -149,7 +154,9 @@ export const components = makeStory(conf, {
     options: {
       data: [
         { field: 'name', label: 'Name' },
-        { field: 'value', label: 'Component', type: 'gv-input' },
+        { field: 'value', label: 'Component', type: 'gv-input', attributes: { clipboard: true } },
+        { label: 'Button', type: 'gv-button', attributes: { innerHTML: 'Click me !' } },
+        { label: 'Confirm', type: 'gv-confirm', attributes: { message: 'Please confirm your click', innerHTML: '<gv-button danger>Click & confirm!</gv-button>' } },
       ],
     },
   }],
