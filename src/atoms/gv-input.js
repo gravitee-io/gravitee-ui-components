@@ -21,6 +21,7 @@ import { input } from '../styles/input';
 import { link } from '../styles/link';
 import { dispatchCustomEvent } from '../lib/events';
 import './gv-icon';
+import '../molecules/gv-popover';
 import { i18n } from '../lib/i18n';
 import { InputElement } from '../mixins/input-element';
 import { shapeClipboard, shapeCopied } from '../styles/shapes';
@@ -130,6 +131,20 @@ export class GvInput extends InputElement(LitElement) {
         .clipboard input:read-only:hover, .clipboard ::slotted(input:read-only:hover) {
           cursor: not-allowed;
         }
+
+        .clipboard__popover {
+          --gv-popover--bgc: var(--gv-theme-color-darker, #383E3F);
+          --gv-popover--c: var(--gv-theme-font-color-light, #FFFFFF);
+          --gv-popover--p: 0rem 0.4rem 0rem 0.2rem;
+          font-size: 11px;
+        }
+
+        .clipboard__popover-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          --gv-icon--c: var(--gv-theme-font-color-light, #FFFFFF);
+        }
       `,
     ];
   }
@@ -236,7 +251,15 @@ export class GvInput extends InputElement(LitElement) {
     if (changedProperties.has('max') && this.max != null) {
       this.getInputElement().max = this.max;
     }
+  }
 
+  _setClipboardIcon (shape) {
+    if (this.icon != null && this.icon !== shapeCopied && this.icon !== shapeClipboard) {
+      this.iconLeft = shape;
+    }
+    else {
+      this.icon = shape;
+    }
   }
 
   firstUpdated (changedProperties) {
@@ -261,18 +284,18 @@ export class GvInput extends InputElement(LitElement) {
         const copy = mod.default;
         copy(this.value);
         this._copied = true;
-        this.iconLeft = shapeCopied;
+        this._setClipboardIcon(shapeCopied);
         setTimeout(() => {
           this._copied = false;
-          this.iconLeft = shapeClipboard;
+          this._setClipboardIcon(shapeClipboard);
         }, 1000);
       }));
-      this.iconLeft = shapeClipboard;
-      this.getInputElement().addEventListener('click', () => this.copy(this.value));
+      this._setClipboardIcon(shapeClipboard);
 
       setTimeout(() => {
-        const clickableIcon = this.shadowRoot.querySelector('gv-icon.link');
-        clickableIcon.addEventListener('click', () => this.copy(this.value));
+        const clipboardPopover = this.shadowRoot.querySelector('.clipboard__popover');
+        this.getInputElement().addEventListener('click', () => clipboardPopover.click());
+        clipboardPopover.addEventListener('click', () => this.copy(this.value));
       }, 0);
     }
     else {
@@ -392,7 +415,7 @@ export class GvInput extends InputElement(LitElement) {
 
   clear () {
     this.focus();
-    this.value = null;
+    this.value = '';
     dispatchCustomEvent(this, 'clear');
   }
 
@@ -447,6 +470,14 @@ export class GvInput extends InputElement(LitElement) {
       }
       else if (this.hasClipboard) {
         title = i18n('gv-input.copy');
+        return html`<div class="${classMap(classes)}">
+                    <gv-popover class="clipboard__popover" event="click" delay="750" .arrow="${false}">
+                      <gv-icon class="${classMap(iconClasses)}" shape="${shape}" title="${title}"></gv-icon>
+                      <div slot="popover" class="clipboard__popover-content">
+                        <gv-icon shape="code:check"></gv-icon><div>Copied</div>
+                      </div>
+                    </gv-popover>
+                  </div>`;
       }
       else if (this.placeholder) {
         title = this.placeholder;
