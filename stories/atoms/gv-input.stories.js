@@ -31,12 +31,12 @@ const conf = {
 
 const items = [
   { placeholder: 'Text...', label: 'Text label' },
-  { placeholder: 'Password...', 'icon-left': 'general:shield-protected', type: 'password', label: 'Password label' },
   { placeholder: 'Email...', type: 'email', label: 'Email label' },
   { placeholder: 'Number...', type: 'number', min: '1', max: '10', label: 'Number label' },
   { placeholder: 'Search...', type: 'search', label: 'Search label' },
   { placeholder: 'Url...', type: 'url', label: 'Url label' },
   { placeholder: 'No Label...' },
+  { placeholder: 'Password...', 'icon-left': 'general:shield-protected', type: 'password', label: 'Password label' },
 ];
 
 export const Types = makeStory(conf, {
@@ -52,7 +52,7 @@ export const Large = makeStory(conf, {
 });
 
 export const Clearable = makeStory(conf, {
-  items: items.map((p) => ({ ...p, clearable: true })),
+  items: items.slice(0, items.length - 1).map((p) => ({ ...p, clearable: true })),
 });
 
 export const clipboard = makeStory(conf, {
