@@ -23,27 +23,138 @@ export default {
   component: 'gv-popover',
   parameters: {
     notes,
+    options: {
+      showPanel: false,
+    },
   },
 };
 
 const conf = {
   component: 'gv-popover',
+  css: `
+    :host {
+      display: flex;
+      height: 90vh;
+      justify-content: space-around;
+      align-items: center;
+    }
+  
+    gv-popover {
+      border: 1px solid red;
+      --gv-popover--bgc: #262626;
+      --gv-popover--c: white;
+    }
+  `,
 };
 
-const items = [
-  { innerHTML: ' <h1> Ola !</h1><div slot="popover">Bonjour !</div>' },
-  {
-    innerHTML: ' <span> More Content </span>'
-      + '<div slot="popover"><h2>Ola = Bonjour !</h2>'
-      + '<p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page'
-      + ' avant impression. Le Lorem Ipsum est le faux texte standard de l\'imprimerie depuis les années'
-      + ' 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre'
-      + ' spécimen de polices de texte. Il n\'a pas fait que survivre cinq siècles, mais s\'est aussi adapté'
-      + ' à la bureautique informatique, sans que son contenu n\'en soit modifié. Il a été popularisé dans'
-      + ' les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus'
-      + ' récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMa</p>'
-      + '<gv-tag>Hello</gv-tag><gv-tag>i18n</gv-tag></div>',
-  },
-];
+export const Inline = makeStory(conf, {
+  items: [
+    { innerHTML: ' <h1>Top</h1><div slot="popover">On top !</div>', position: 'top' },
+    { innerHTML: ' <h1>Right</h1><div slot="popover">On right !</div>', position: 'right' },
+    { innerHTML: ' <h1>Bottom</h1><div slot="popover">On bottom !</div>' },
+    { innerHTML: ' <h1>Left</h1><div slot="popover">On left !</div>', position: 'left' },
+  ],
+});
 
-export const Basics = makeStory(conf, { items });
+export const InlineArrow = makeStory(conf, {
+  items: [
+    { innerHTML: ' <h1>Top</h1><div slot="popover">On top !</div>', position: 'top', arrow: true },
+    { innerHTML: ' <h1>Right</h1><div slot="popover">On right !</div>', position: 'right', arrow: true },
+    { innerHTML: ' <h1>Bottom</h1><div slot="popover">On bottom !</div>', arrow: true },
+    { innerHTML: ' <h1>Left</h1><div slot="popover">On left !</div>', position: 'left', arrow: true },
+  ],
+});
+
+const largeContent = '<h2 slot="popover">Ola = Bonjour !</h2>'
+  + '<p slot="popover">Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page'
+  + ' avant impression. Le Lorem Ipsum est le faux texte standard de l\'imprimerie depuis les années'
+  + ' 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre'
+  + ' spécimen de polices de texte. Il n\'a pas fait que survivre cinq siècles, mais s\'est aussi adapté'
+  + ' à la bureautique informatique, sans que son contenu n\'en soit modifié. Il a été popularisé dans'
+  + ' les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus'
+  + ' récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMa</p>'
+  + '<gv-tag slot="popover">Hello</gv-tag><gv-tag slot="popover">i18n</gv-tag>';
+
+export const Large = makeStory(conf, {
+  items: [
+    {
+      innerHTML: `<span> Top </span>${largeContent}`,
+      position: 'top',
+      large: true,
+    },
+    {
+      innerHTML: `<span> Right </span>${largeContent}`,
+      large: true,
+      position: 'right',
+    },
+    {
+      innerHTML: `<span> Bottom </span>${largeContent}`,
+      large: true,
+    },
+    {
+      innerHTML: `<span> Left </span>${largeContent}`,
+      large: true,
+      position: 'left',
+    },
+  ],
+});
+
+export const LargeArrow = makeStory(conf, {
+  items: [
+    {
+      innerHTML: `<span> Top </span>${largeContent}`,
+      position: 'top',
+      large: true,
+      arrow: true,
+    },
+    {
+      innerHTML: `<span> Right </span>${largeContent}`,
+      large: true,
+      position: 'right',
+      arrow: true,
+    },
+    {
+      innerHTML: `<span> Bottom </span>${largeContent}`,
+      large: true,
+      arrow: true,
+    },
+    {
+      innerHTML: `<span> Left </span>${largeContent}`,
+      large: true,
+      position: 'left',
+      arrow: true,
+    },
+  ],
+});
+
+export const AutoPosition = makeStory(conf, {
+  items: [
+    {
+      innerHTML: `<span> Top </span>${largeContent}`,
+      position: 'top',
+      large: true,
+      arrow: true,
+      auto: true,
+    },
+    {
+      innerHTML: `<span> Right </span>${largeContent}`,
+      large: true,
+      position: 'right',
+      arrow: true,
+      auto: true,
+    },
+    {
+      innerHTML: `<span> Bottom </span>${largeContent}`,
+      large: true,
+      arrow: true,
+      auto: true,
+    },
+    {
+      innerHTML: `<span> Left </span>${largeContent}`,
+      large: true,
+      position: 'left',
+      arrow: true,
+      auto: true,
+    },
+  ],
+});

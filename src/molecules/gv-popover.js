@@ -16,7 +16,6 @@
 import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import { classMap } from 'lit-html/directives/class-map';
-import { zoom } from '../styles/zoom';
 
 /**
  * Popover component
@@ -25,80 +24,181 @@ import { zoom } from '../styles/zoom';
  * * has @theme facet
  *
  * @attr {String} event - the event that triggers the opening.
+ * @attr {String} delay - the time before closing, useful for a click event
+ * @attr {String} arrow - if need arrow
+ * @attr {String} small - Small popover
+ * @attr {String} medium - Medium popover
+ * @attr {String} large - Large popover
+ * @attr {String} width - The width of popover
+ * @attr {String} position - The position top, right, bottom or left
+ * @attr {Boolean} auto - to let the component choose the position
+ *
  * @cssprop {Color} [--gv-popover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
+ * @cssprop {Color} [--gv-popover--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-popover--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
- * @cssprop {Length} [--gv-popover--maw=350px] - Max width
+ * @cssprop {Length} [--gv-popover--p=0.5rem] - Padding
  */
 export class GvPopover extends LitElement {
 
   static get properties () {
     return {
       event: { type: String },
+      delay: { type: Number },
+      arrow: { type: Boolean, reflect: true },
+      small: { type: Boolean, reflect: true },
+      medium: { type: Boolean, reflect: true },
+      large: { type: Boolean, reflect: true },
+      width: { type: String },
+      position: { type: String, reflect: true },
+      auto: { type: Boolean },
       _opened: { type: Boolean, attribute: false },
     };
   };
 
   static get styles () {
     return [
-      zoom,
       // language=CSS
       css`
         :host {
           cursor: pointer;
           box-sizing: border-box;
           display: inline-block;
+          position: relative;
         }
 
         .popover {
           --bgc: var(--gv-popover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-          --maw: var(--gv-popover--maw, 350px);
+          color: var(--gv-popover--c, var(--gv-theme-font-color-dark, #262626));
           position: absolute;
-          top: 0;
-          left: 0;
           background-color: var(--bgc);
-          padding: 1rem;
+          padding: var(--gv-popover--p, 0.5rem);
           border-radius: 4px;
-          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
           z-index: 1000;
-          display: none;
-          max-width: var(--maw);
+          margin: 0 auto;
+          text-align: center;
+          width: auto;
+          box-sizing: content-box;
         }
 
-        ::slotted(*) {
-          display: inline-flex;
-          justify-content: center;
-          width: 100%;
+        :host([position="bottom"]) .popover {
+          top: calc(100% + 0.4rem);;
+          transform: translateX(-50%);
+          left: 50%;
+          box-shadow: 1px 0 0 0 var(--gv-theme-neutral-color, #F5F5F5), 0 2px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+        }
+
+        :host([position="bottom"][arrow]) .popover {
+          top: calc(100% + 0.4rem + 10px);
+        }
+
+        :host([position="bottom"][arrow]) .arrow {
+          top: calc(100% - 8px);
+          transform: translateX(-50%);
+          left: 50%;
+        }
+
+        :host([position="top"]) .popover {
+          bottom: calc(100% + 0.4rem);
+          transform: translateX(-50%);
+          left: 50%;
+          box-shadow: 1px 0 0 0 var(--gv-theme-neutral-color, #F5F5F5), 0 -2px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+        }
+
+        :host([position="top"][arrow]) .popover {
+          bottom: calc(100% + 0.4rem + 10px);
+        }
+
+        :host([position="top"][arrow]) .arrow {
+          bottom: calc(100% - 8px);
+          transform: translateX(-50%) rotate(180deg);
+          left: 50%;
+        }
+
+        :host([position="left"]) .popover {
+          top: 50%;
+          transform: translateY(-50%);
+          right: calc(100% + 0.4rem);
+          box-shadow: -1px 0 0 0 var(--gv-theme-neutral-color, #F5F5F5), -1px 2px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+        }
+
+        :host([position="left"][arrow]) .popover {
+          right: calc(100% + 0.4rem + 10px);
+        }
+
+        :host([position="left"][arrow]) .arrow {
+          top: 50%;
+          transform: translateY(-50%) rotate(90deg);
+          right: calc(100% - 8px);
+        }
+
+        :host([position="right"]) .popover {
+          top: 50%;
+          transform: translateY(-50%);
+          left: calc(100% + 0.4rem);
+          box-shadow: 1px 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 1px 1px 1px var(--gv-theme-neutral-color-dark, #BFBFBF);
+        }
+
+        :host([position="right"][arrow]) .popover {
+          left: calc(100% + 0.4rem + 10px);
+        }
+
+        :host([position="right"][arrow]) .arrow {
+          left: calc(100% - 8px);
+          top: 50%;
+          transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .inline .popover {
+          white-space: nowrap;
+        }
+
+        :host([small]) .popover {
+          width: 200px;
+        }
+
+        :host([medium]) .popover {
+          width: 350px;
+        }
+
+        :host([large]) .popover {
+          width: 500px;
         }
 
         .content {
           width: 100%;
         }
 
-        .open .popover {
+        .popover, .arrow {
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease-in-out;
+        }
+
+        .open .popover,
+        .open .arrow {
           display: block;
-          animation: zoomIn 0.1s ease-in;
           opacity: 1;
+          visibility: visible;
         }
 
-        .close .popover {
-          animation: zoomOut 0.2s ease-out;
+        .close .popover,
+        .close .arrow {
         }
 
-        .triangle {
+        .arrow {
           width: 25px;
           height: 25px;
           z-index: 101;
           position: absolute;
           overflow: hidden;
-
         }
 
-        .triangle:after {
+        .arrow:after {
           content: "";
           position: absolute;
           width: 12px;
           height: 12px;
-          background: var(--bgc);
+          background: var(--gv-popover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
           transform: rotate(45deg);
           top: 19px;
           left: 6px;
@@ -112,6 +212,10 @@ export class GvPopover extends LitElement {
     super();
     this.event = 'mouseover';
     this._closeHandler = this._close.bind(this);
+    this.delay = 0;
+    this.arrow = false;
+    this.position = 'bottom';
+    this.auto = false;
   }
 
   _open (e) {
@@ -122,6 +226,15 @@ export class GvPopover extends LitElement {
     if (this.event === 'click') {
       setTimeout(() => (window.addEventListener(this.event, this._closeHandler)));
     }
+
+    if (this.delay > 0) {
+      setTimeout(() => (this._close({})), this.delay);
+    }
+
+  }
+
+  close () {
+    this._close({});
   }
 
   _close (e) {
@@ -136,12 +249,13 @@ export class GvPopover extends LitElement {
   }
 
   render () {
-    const classes = { open: this._opened, content: true };
+    const inline = this.width == null && !this.small && !this.medium && !this.large;
+    const classes = { open: this._opened, content: true, inline };
     return html`
       <div class="${classMap(classes)}">
          <slot></slot>
+         ${this.arrow ? html`<div class="arrow"></div>` : ''}
          <div class="popover">
-          <div class="triangle"></div>
           ${this.renderContent()}
         </div>
      </div>`;
@@ -153,9 +267,9 @@ export class GvPopover extends LitElement {
 
   firstUpdated (_changedProperties) {
     setTimeout(() => {
-      this.firstElementChild.addEventListener(this.event, this._open.bind(this));
-      if (this.event.startsWith('mouse')) {
-        this.firstElementChild.addEventListener('mouseout', this._close.bind(this));
+      this.addEventListener(this.event, this._open.bind(this));
+      if (this.event.startsWith('mouse') && this.delay === 0) {
+        this.addEventListener('mouseleave', this._close.bind(this));
       }
     });
   }
@@ -180,44 +294,20 @@ export class GvPopover extends LitElement {
   }
 
   _updatePosition () {
-    const popover = this.shadowRoot.querySelector('.popover');
-    if (popover) {
-      this.target = this.firstElementChild.getBoundingClientRect();
-      const below = this._hasSpaceBelow() || !this._hasSpaceAbove();
-      const center = this._getCenterPosition();
-      const padding = this._getPositionPadding();
+    if (this.position != null && this.auto) {
+      const popover = this.shadowRoot.querySelector('.popover');
+      if (popover) {
+        this.target = this.firstElementChild.getBoundingClientRect();
+        if ((this.position === 'top' && !this._hasTopSpace()) || (this.position === 'bottom' && !this._hasBottomSpace())
+          || (this.position === 'left' && !this._hasLeftSpace()) || (this.position === 'right' && !this._hasRightSpace())) {
 
-      const halfSize = {
-        width: this._getContentSize().width / 2,
-        height: this._getContentSize().height / 2,
-      };
-      const triangle = this.shadowRoot.querySelector('.triangle');
-      let triangleTop = -this._getTriangleWidth();
-      let heightOffset = (this.target.height / 2) + padding;
-      if (!below) {
-        heightOffset = halfSize.height * 2 + this._getTriangleWidth();
-        triangleTop = halfSize.height * 2;
-        triangle.style.setProperty('transform', 'rotate(180deg)');
+          const index = [this._hasTopSpace(), this._hasRightSpace(), this._hasBottomSpace(), this._hasLeftSpace()].indexOf(true);
+          if (index > -1) {
+            this.position = ['top', 'right', 'bottom', 'left'][index];
+          }
+        }
       }
-      else {
-        triangle.style.setProperty('transform', 'none');
-      }
-
-      const coords = {
-        x: Math.max(0,
-          this._getMaxX() - halfSize.width < center.x
-            ? this._getMaxX() - halfSize.width * 2 - this._getPositionPadding() : center.x - halfSize.width),
-        y: center.y + (below ? heightOffset : -heightOffset),
-      };
-
-      triangle.style.setProperty('left', `${center.x - this._getTriangleWidth() / 2 - coords.x}px`);
-      triangle.style.setProperty('top', `${triangleTop}px`);
-
-      popover.style.setProperty('left', `${coords.x}px`);
-      popover.style.setProperty('top', `${coords.y}px`);
-      popover.style.visibility = 'visible';
     }
-
   }
 
   _getMaxX () {
@@ -228,7 +318,7 @@ export class GvPopover extends LitElement {
     return window.innerHeight - this._getPositionPadding();
   }
 
-  _hasSpaceBelow () {
+  _hasBottomSpace () {
     const y = this.target.y
       + this.target.height
       + this._getContentSize().height
@@ -237,7 +327,16 @@ export class GvPopover extends LitElement {
     return y <= this._getMaxY();
   }
 
-  _hasSpaceAbove () {
+  _hasRightSpace () {
+    const y = this.target.x
+      + this.target.width
+      + this._getContentSize().width
+      + this._getPositionPadding();
+
+    return y <= this._getMaxX();
+  }
+
+  _hasTopSpace () {
     const y = this.target.y
       - this._getContentSize().height
       - this._getPositionPadding();
@@ -245,15 +344,21 @@ export class GvPopover extends LitElement {
     return y >= this._getPositionPadding();
   }
 
-  updated () {
-    if (this.firstElementChild) {
-      this._updatePosition();
-    }
+  _hasLeftSpace () {
+    const y = this.target.x
+      - this._getContentSize().width
+      - this._getPositionPadding();
+
+    return y >= this._getPositionPadding();
   }
 
-  _getTriangleWidth () {
-    return 25;
+  updated (props) {
+    if (props.has('width')) {
+      this.shadowRoot.querySelector('.popover').style.setProperty('width', this.width);
+    }
+    this._updatePosition();
   }
+
 }
 
 window.customElements.define('gv-popover', GvPopover);
