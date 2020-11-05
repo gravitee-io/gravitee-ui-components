@@ -117,7 +117,6 @@ export class GvTable extends withResizeObserver(LitElement) {
           -ms-overflow-style: none;
           scrollbar-width: none;
           flex: 1;
-          overflow: auto;
           height: 100%;
           transition: height 250ms ease-in-out;
         }
