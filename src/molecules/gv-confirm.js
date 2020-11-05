@@ -107,6 +107,8 @@ export class GvConfirm extends GvPopover {
   constructor () {
     super();
     this.event = 'click';
+    this.arrow = true;
+    this.auto = true;
     this.icon = 'code:info';
     this.cancelLabel = i18n('gv-confirm.cancel');
     this.okLabel = i18n('gv-confirm.ok');
@@ -125,12 +127,12 @@ export class GvConfirm extends GvPopover {
   }
 
   _onCancel () {
-    this._opened = false;
+    this.close();
     dispatchCustomEvent(this, 'cancel');
   }
 
   _onOk () {
-    this._opened = false;
+    this.close();
     dispatchCustomEvent(this, 'ok');
   }
 

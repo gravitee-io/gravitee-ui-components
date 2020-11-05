@@ -736,6 +736,13 @@
           "value": ""
         },
         {
+          "name": "--gv-popover--c",
+          "description": "Color",
+          "type": "color",
+          "default": "var(--gv-theme-font-color-dark, #262626)",
+          "value": ""
+        },
+        {
           "name": "--gv-popover--bdc",
           "description": "Border color",
           "type": "color",
@@ -743,11 +750,11 @@
           "value": ""
         },
         {
-          "name": "--gv-popover--maw",
-          "description": "Max width",
+          "name": "--gv-popover--p",
+          "description": "Padding",
           "type": "length",
-          "default": "350px",
-          "value": "350px"
+          "default": "0.5rem",
+          "value": "0.5rem"
         }
       ]
     },

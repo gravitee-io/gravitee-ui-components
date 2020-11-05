@@ -29,8 +29,11 @@ export default {
 const conf = {
   component: 'gv-confirm',
   css: `
-    gv-confirm {
-      height:20px;
+   :host {
+      display: flex;
+      height: 90vh;
+      justify-content: space-around;
+      align-items: center;
     }
   `,
 };
