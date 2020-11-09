@@ -104,6 +104,13 @@ export class GvOption extends LitElement {
           text-transform: none;
         }
 
+        gv-image {
+          height: 64px;
+          width: 64px;
+          --gv-image--of: fill;
+          display: inline-flex;
+        }
+
         .reverse .content {
           flex-direction: column-reverse;
         }
@@ -197,7 +204,7 @@ export class GvOption extends LitElement {
     })}">
         ${!this._hasDescription ? option.title != null ? option.title : ''
       : html`<div class="content">
-            ${option.icon ? html`<gv-icon shape="${option.icon}"></gv-icon>` : ''}
+            ${option.icon ? html`<gv-icon shape="${option.icon}"></gv-icon>` : option.image ? html`<gv-image src="${option.image}"></gv-image>` : ''}
             <div class="title">${option.title}</div>
             <div class="description-content" .innerHTML="${option.description}"></div>
             
