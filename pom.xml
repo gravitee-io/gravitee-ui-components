@@ -54,13 +54,16 @@
             <exclude>node/**</exclude>
             <exclude>node_modules/**</exclude>
             <exclude>**/*.svg</exclude>
-            <exclude>.storybook/**</exclude>
             <exclude>storybook-static/**</exclude>
             <exclude>wc/**</exclude>
             <exclude>index.js</exclude>
             <exclude>src/index.js</exclude>
             <exclude>src/icons/shapes/**</exclude>
             <exclude>**/*.generated.*</exclude>
+            <exclude>coverage/**</exclude>
+            <exclude>dist/**</exclude>
+            <exclude>storybook-static/**</exclude>
+            <exclude>.*/**</exclude>
           </excludes>
         </configuration>
       </plugin>
