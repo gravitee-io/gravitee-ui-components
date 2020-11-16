@@ -130,9 +130,11 @@ export class GvDocumentation extends LitElement {
   async updated (props) {
     if (props.has('text')) {
       this._dom = await toDom(this.text, this.type, true);
-      const title = this._dom.element.querySelector('h1');
-      if (title) {
-        this._dom.element.querySelector('h1').remove();
+      if (this._dom) {
+        const title = this._dom.element.querySelector('h1');
+        if (title) {
+          this._dom.element.querySelector('h1').remove();
+        }
       }
     }
   }

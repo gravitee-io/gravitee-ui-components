@@ -24,6 +24,21 @@ export function isSameRoutes (routes, futureRoutes) {
   return false;
 }
 
+export function appendDraggableImage (src, size = 100) {
+  // Usefull when image src is svg
+  const image = new Image();
+  image.src = src;
+  image.style = `width:${size}px;height:${size}px`;
+  const div = document.createElement('div');
+  div.style.position = 'fixed';
+  div.style.left = '-999px';
+  div.style.top = '-999px';
+  div.style.zIndex = 1000;
+  div.appendChild(image);
+  document.body.appendChild(div);
+  return div;
+}
+
 export function flatDeep (arr) {
   return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val) : val), []);
 };
@@ -39,5 +54,8 @@ export function flatObject (obj, prefix = '') {
 }
 
 export function deepClone (obj) {
-  return JSON.parse(JSON.stringify(obj));
+  if (obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+  return obj;
 }

@@ -175,7 +175,7 @@ describe('S C H E M A  F O R M', () => {
     };
     expect(component.dirty).toBeUndefined();
 
-    component._onChange('timeToLiveSeconds', { detail: 6 });
+    component._onChange('timeToLiveSeconds', { control: 'integer' }, { detail: 6 });
 
     expect(component.dirty).toEqual(true);
   });
@@ -186,7 +186,7 @@ describe('S C H E M A  F O R M', () => {
       body: '<xml></xml>',
     };
 
-    component._onChange('timeToLiveSeconds', { detail: 6 });
+    component._onChange('timeToLiveSeconds', { control: 'integer' }, { detail: 6 });
     component.addEventListener('gv-schema-form:change', ({ detail }) => {
       expect(detail.values).toEqual({
         body: '<xml></xml>',

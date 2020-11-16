@@ -50,7 +50,7 @@ export function InputElement (ParentClass) {
           }
 
           :host([invalid]) :not(.clipboard) input, :host([invalid]) :not(.clipboard) .box-icon-left, :host([invalid]) :not(.clipboard) textarea {
-            border-left: 3px solid #a94442;
+            border-left: 3px solid var(--gv-theme-color-error-dark, #d32f2f);
           }
 
           :host([valid]) :not(.clipboard) input, :host([valid]) :not(.clipboard) .box-icon-left, :host([valid]) :not(.clipboard) textarea {

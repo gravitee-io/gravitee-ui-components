@@ -49,6 +49,7 @@ async function run () {
     ignore: [
       './src/lib/*.js',
       './src/styles/*.js',
+      './src/studio-policy/*.js',
     ],
   });
 

@@ -247,6 +247,10 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     }
   }
 
+  close () {
+    this._isClosed = true;
+  }
+
   _onDocumentClick () {
     this._isClosed = true;
   };
@@ -300,10 +304,23 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     }
   }
 
+  _onClear () {
+    this.value = [];
+    dispatchCustomEvent(this, 'select', this.value);
+    dispatchCustomEvent(this, 'input', this.value);
+    this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+  }
+
   _renderIcon () {
     if (this.readonly) {
       return '';
     }
+    if (this.multiple && this.value != null && this.value.length > 0) {
+      return html`<div class="box-icon">
+                  <gv-icon class="link" shape="code:error" @click=${this._onClear}></gv-icon>
+                </div>`;
+    }
+
     return html`<div class="box-icon">
                   <gv-icon class="link" shape="design:triangle" @click=${this._onClick}></gv-icon>
                 </div>`;

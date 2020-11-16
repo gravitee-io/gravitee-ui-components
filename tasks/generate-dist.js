@@ -109,6 +109,7 @@ async function run () {
   fs.copy('wc', 'dist/wc');
   fs.copy('assets/css', 'dist/assets/css');
   fs.copy('assets/images', 'dist/assets/images');
+  fs.copy('assets/i18n', 'dist/assets/i18n');
   fs.copy('package.json', 'dist/package.json');
 }
 

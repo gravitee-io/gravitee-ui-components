@@ -1,0 +1,32 @@
+{
+  "name": "Auth",
+  "version": "1",
+  "flows": [
+    {
+      "name": "ALL",
+      "type": "ROOT",
+      "pre": []
+    },
+    {
+      "name": "LOGIN",
+      "type": "LOGIN",
+      "condition": "",
+      "pre": [],
+      "post": []
+    },
+    {
+      "name": "CONSENT",
+      "type": "CONSENT",
+      "condition": "",
+      "pre": [],
+      "post": []
+    },
+    {
+      "name": "REGISTER",
+      "type": "REGISTER",
+      "condition": "",
+      "pre": [],
+      "post": []
+    }
+  ]
+}

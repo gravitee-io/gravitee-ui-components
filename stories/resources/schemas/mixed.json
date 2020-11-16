@@ -29,7 +29,13 @@
             "EQUALS",
             "STARTS_WITH"
           ],
-          "default": "STARTS_WITH"
+          "default": "STARTS_WITH",
+          "x-schema-form": {
+            "titleMap": {
+              "EQUALS": "Equals",
+              "STARTS_WITH": "Starts with"
+            }
+          }
         },
         "path": {
           "title": "Path",
@@ -101,11 +107,14 @@
     "multiselect": {
       "title": "Multi select",
       "type": "array",
-      "enum": [
-        "a",
-        "b",
-        "c"
-      ]
+      "items" : {
+        "type" : "string",
+        "enum": [
+          "a",
+          "b",
+          "c"
+        ]
+      }
     }
   },
   "required": [

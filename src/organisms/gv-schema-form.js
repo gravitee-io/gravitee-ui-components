@@ -35,13 +35,12 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {Object} schema - the schema form configuration
  * @attr {Object} values - the values of fields
  * @attr {Object} errors - the map of errors by input key
+ * @attr {Boolean} validate - to force validation on first render
  */
 export class GvSchemaForm extends LitElement {
 
   static get properties () {
     return {
-      title: { type: String },
-      icon: { type: String },
       schema: { type: Object },
       errors: { type: Object },
       values: { type: Object },
@@ -52,12 +51,13 @@ export class GvSchemaForm extends LitElement {
       _values: { type: Object, attribute: false },
       dirty: { type: Boolean, reflect: true },
       hideDeprecated: { type: Boolean, attribute: 'hide-deprecated' },
+      validate: { type: Boolean },
     };
   }
 
   constructor () {
     super();
-    this.hideDeprecated = true;
+    this.hideDeprecated = false;
     this._values = {};
     this.submitLabel = 'Ok';
     this.hasHeader = false;
@@ -67,9 +67,11 @@ export class GvSchemaForm extends LitElement {
   set values (values) {
     if (values) {
       this._initialValues = { ...values };
-      this._formPart = null;
-      this.reset();
     }
+    else {
+      this._initialValues = {};
+    }
+    this._values = deepClone(this._initialValues);
   }
 
   get values () {
@@ -77,9 +79,13 @@ export class GvSchemaForm extends LitElement {
   }
 
   reset () {
-    this._formPart = null;
     this._values = deepClone(this._initialValues);
     this._setDirty(false);
+  }
+
+  _onReset () {
+    this.reset();
+    dispatchCustomEvent(this, 'reset');
   }
 
   _onSubmit () {
@@ -102,12 +108,17 @@ export class GvSchemaForm extends LitElement {
   }
 
   _onConfirm () {
-    this.reset();
-    this._confirm.resolve();
+    const { resolve } = this._confirm;
     this._confirm = null;
+    this._onReset();
+    this.requestUpdate().then(() => {
+      resolve();
+      // Promise.resolve(promise);
+    });
   }
 
   _onCancelConfirm () {
+    this._values = deepClone(this._values);
     this._confirm.reject();
     this._confirm = null;
   }
@@ -123,11 +134,16 @@ export class GvSchemaForm extends LitElement {
   _change () {
     this.dirty = true;
     this._updateActions();
-    dispatchCustomEvent(this, 'change', { values: this._values });
+    dispatchCustomEvent(this, 'change', { target: this, values: this._values });
   }
 
-  _onChange (key, e) {
-    set(this._values, key, e.detail);
+  _onChange (key, control, e) {
+    // Specific case for gv-autocomplete that's returns an object with value
+    let value = e.detail && e.detail.value ? e.detail.value : e.detail;
+    if (control.type === 'integer' && value != null && ((value.trim && value.length > 0) || value.length > 0)) {
+      value = parseInt(value, 10);
+    }
+    set(this._values, key, value);
     this._change();
   }
 
@@ -140,7 +156,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   _getElementName (control) {
-    if (control.enum && !this._isAutocomplete(control)) {
+    if ((control.enum || (control.items && control.items.enum)) && !this._isAutocomplete(control)) {
       return 'gv-select';
     }
     else if (control.type === 'array') {
@@ -178,6 +194,11 @@ export class GvSchemaForm extends LitElement {
     this._change();
   }
 
+  _onMouseEnterItem (container) {
+    const select = container.querySelectorAll(`gv-select`);
+    select.forEach((s) => s.close());
+  }
+
   _onAddItem (key, index, control, parent, isInit, value) {
     if (key == null || index == null) {
       const msg = 'Cannot add item without key and index';
@@ -185,8 +206,8 @@ export class GvSchemaForm extends LitElement {
     }
     const container = document.createElement('div');
     container.className = 'form__item';
-
     container.id = `${key}.${index}`;
+    container.addEventListener('mouseleave', this._onMouseEnterItem.bind(this, container));
 
     const labelContainer = document.createElement('div');
     labelContainer.className = 'form__control form__control-label form__item-label';
@@ -214,6 +235,10 @@ export class GvSchemaForm extends LitElement {
       push(this._values, key, control.items.type === 'object' ? {} : '');
       this._change();
     }
+  }
+
+  _isComplexArray (control) {
+    return control.type === 'array' && !control.items.enum;
   }
 
   _renderControl (control, value = null, isRequired = false, isDisabled = false, error = null, key, groupContainer = null) {
@@ -244,7 +269,7 @@ export class GvSchemaForm extends LitElement {
         return this._renderControl(control.properties[subKey], value != null ? value[subKey] : null, isRequired, isDisabled, error, fullKey, container);
       });
     }
-    else if (!control.enum && control.type === 'array') {
+    else if (this._isComplexArray(control)) {
       const row = document.createElement('div');
       row.classList.add('form__item-group-header');
       const label = document.createElement('label');
@@ -271,7 +296,14 @@ export class GvSchemaForm extends LitElement {
         if (value == null && control.default != null) {
           value = control.default;
           set(this._values, key, value);
-          dispatchCustomEvent(this, 'change', { values: this._values });
+          if (this.validate) {
+            setTimeout(() => {
+              this._onChange(key, control, { detail: value });
+            });
+          }
+          else {
+            dispatchCustomEvent(this, 'change', { values: this._values, target: this });
+          }
         }
       }
       const elementName = this._getElementName(control);
@@ -299,8 +331,16 @@ export class GvSchemaForm extends LitElement {
         element.type = 'number';
       }
 
-      if (control.enum) {
-        element.options = control.enum;
+      if (control.enum || (control.items && control.items.enum)) {
+        if (control['x-schema-form'] && control['x-schema-form'].titleMap) {
+          element.options = control.enum.map((value) => ({
+            value,
+            label: control['x-schema-form'].titleMap[value] || value,
+          }));
+        }
+        else {
+          element.options = control.enum || control.items.enum;
+        }
         if (control.type === 'array') {
           element.multiple = true;
         }
@@ -324,24 +364,10 @@ export class GvSchemaForm extends LitElement {
         autocomplete.appendChild(element);
         dispatchCustomEvent(this, name, { element: autocomplete, ...control['x-schema-form'].event });
         container.appendChild(autocomplete);
-        autocomplete.addEventListener('gv-autocomplete:select', this._onChange.bind(this, key));
+        autocomplete.addEventListener('gv-autocomplete:select', this._onChange.bind(this, key, control));
       }
       else {
         container.appendChild(element);
-      }
-
-      if (control.enum) {
-        if (control.type === 'array') {
-          const all = document.createElement('gv-button');
-          all.innerHTML = 'clear';
-          all.outlined = true;
-          container.appendChild(all);
-          all.checked = value && value.length === control.enum.length;
-          all.addEventListener('gv-button:click', (e) => {
-            element.value = [];
-            dispatchCustomEvent(element, 'input', element.value);
-          });
-        }
       }
 
       if (control.description) {
@@ -362,7 +388,7 @@ export class GvSchemaForm extends LitElement {
 
       if (value != null) {
         setTimeout(() => {
-          if (control.type === 'boolean') {
+          if (control.type === 'boolean' || control.type === 'array') {
             element.value = value;
           }
           else {
@@ -371,7 +397,7 @@ export class GvSchemaForm extends LitElement {
 
         }, 0);
       }
-      element.addEventListener(`${elementName}:input`, this._onChange.bind(this, key));
+      element.addEventListener(`${elementName}:input`, this._onChange.bind(this, key, control));
 
     }
 
@@ -393,18 +419,14 @@ export class GvSchemaForm extends LitElement {
                   </div>
                </div>`;
     }
-
-    if (this._formPart == null) {
-      const keys = this.schema.properties ? Object.keys(this.schema.properties) : [];
-      return keys.map((key) => {
-        const control = this.schema.properties[key];
-        const isRequired = this.schema.required && this.schema.required.includes(key);
-        const isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
-        const error = this.errors && this.errors[key];
-        return this._renderControl(control, null, isRequired, isDisabled, error, key);
-      });
-    }
-    return this._formPart;
+    const keys = this.schema.properties ? Object.keys(this.schema.properties) : [];
+    return keys.map((key) => {
+      const control = this.schema.properties[key];
+      const isRequired = this.schema.required && this.schema.required.includes(key);
+      const isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
+      const error = this.errors && this.errors[key];
+      return this._renderControl(control, null, isRequired, isDisabled, error, key);
+    });
   }
 
   getElements () {
@@ -435,7 +457,7 @@ export class GvSchemaForm extends LitElement {
     const submitBtn = this._getSubmitBtn();
     if (submitBtn != null) {
       if (this.canSubmit()) {
-        this._getSubmitBtn().removeAttribute('disabled', true);
+        this._getSubmitBtn().removeAttribute('disabled');
       }
       else {
         this._getSubmitBtn().setAttribute('disabled', true);
@@ -444,7 +466,7 @@ export class GvSchemaForm extends LitElement {
     const resetBtn = this._getResetBtn();
     if (resetBtn != null) {
       if (this.dirty) {
-        resetBtn.removeAttribute('disabled', true);
+        resetBtn.removeAttribute('disabled');
       }
       else {
         resetBtn.setAttribute('disabled', true);
@@ -461,9 +483,11 @@ export class GvSchemaForm extends LitElement {
   }
 
   async updated (changedProperties) {
+    clearTimeout(this._updateActionsTimeout);
     if (changedProperties.has('_values')) {
       this._updateElementsWithValues();
     }
+    this._updateActionsTimeout = setTimeout(() => this._updateActions(), 0);
   }
 
   async _getUpdateComplete () {
@@ -505,8 +529,8 @@ export class GvSchemaForm extends LitElement {
                             <slot name="header-left"></slot>
                           </div>
                           ${this.hasFooter === true ? '' : html`<div class="right">
-                            <gv-button id="reset" outlined small @gv-button:click="${this.reset}" disabled icon="general:update" title="Reset"></gv-button>
-                            <gv-button id="submit" small @gv-button:click="${this._onSubmit}" disabled icon="code:check" .title="${this.submitLabel}"></gv-button>
+                            <gv-button id="reset" outlined small @gv-button:click="${this._onReset}" icon="general:update" title="Reset"></gv-button>
+                            <gv-button id="submit" small @gv-button:click="${this._onSubmit}" icon="code:check" .title="${this.submitLabel}"></gv-button>
                           </div> `}
                         </div>
                       ` : ''}
@@ -517,8 +541,8 @@ export class GvSchemaForm extends LitElement {
                     <div class="footer">
                       <div class="left"></div>
                       <div class="right">
-                        <gv-button id="reset" outlined @gv-button:click="${this.reset}" disabled icon="general:update" title="Reset">Reset</gv-button>
-                        <gv-button id="submit" @gv-button:click="${this._onSubmit}" disabled icon="code:check" .title="${this.submitLabel}">${this.submitLabel}</gv-button>
+                        <gv-button id="reset" outlined @gv-button:click="${this._onReset}" icon="general:update" title="Reset">Reset</gv-button>
+                        <gv-button id="submit" @gv-button:click="${this._onSubmit}" icon="code:check" .title="${this.submitLabel}">${this.submitLabel}</gv-button>
                       </div>
                     </div>
                     ` : ''}
@@ -596,12 +620,13 @@ export class GvSchemaForm extends LitElement {
           margin: 0.3rem 0.6rem;
           background-color: white;
           transition: all .3s ease-in-out;
-          z-index: 500;
+          z-index: 50;
         }
 
         .form__item:hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 20px -10px #BFBFBF;
+          z-index: 60;
         }
 
         .form__item-label {
@@ -676,6 +701,10 @@ export class GvSchemaForm extends LitElement {
           margin: 0.2rem 0;
         }
 
+        gv-select:hover, gv-autocomplete:hover {
+          z-index: 70;
+        }
+
         .form__control-group-title {
           border-bottom: 1px solid #BFBFBF;
           padding: 0.5rem;
@@ -746,8 +775,15 @@ export class GvSchemaForm extends LitElement {
         }
 
         .footer {
+          display: flex;
+          justify-content: center;
           padding: 1rem;
           border-top: 1px solid #D9D9D9;
+        }
+
+        .footer .left,
+        .footer .right {
+          max-width: 400px;
         }
 
         .header .left,

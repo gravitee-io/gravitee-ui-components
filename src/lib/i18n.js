@@ -96,5 +96,9 @@ export function loadDefaultTranslations () {
     })
     .then((translations) => {
       addTranslations(i18n._lang, translations);
+    })
+    .catch((ex) => {
+      // eslint-disable-next-line no-console
+      console.error('[ui-components] loadDefaultTranslations - parsing failed ', ex);
     });
 }

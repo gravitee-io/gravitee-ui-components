@@ -56,4 +56,8 @@ export { GvSchemaForm } from './organisms/gv-schema-form';
 export { GvTabs } from './organisms/gv-tabs';
 export { GvUserMenu } from './organisms/gv-user-menu';
 export { GvVerticalMenu } from './organisms/gv-vertical-menu';
+export { GvFlowStep } from './policy-studio/gv-flow-step';
+export { GvFlow } from './policy-studio/gv-flow';
+export { GvPolicyStudioMenu } from './policy-studio/gv-policy-studio-menu';
+export { GvPolicyStudio } from './policy-studio/gv-policy-studio';
 export { GvTheme } from './theme/gv-theme';

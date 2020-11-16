@@ -30,7 +30,7 @@ Array
     };
   });
 
-const KIND_SORT = ['welcome', 'documentation', 'atoms', 'charts', 'molecules', 'organisms'];
+const KIND_SORT = ['welcome', 'documentation', 'atoms', 'charts', 'molecules', 'organisms', 'policy'];
 
 addParameters({
   options: {
