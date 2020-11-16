@@ -31,8 +31,9 @@ export class GvTabs extends LitElement {
 
   static get properties () {
     return {
-      tabs: { type: Array },
+      options: { type: Array },
       value: { type: String, reflect: true },
+      validator: { type: Function },
     };
   }
 
@@ -88,7 +89,7 @@ export class GvTabs extends LitElement {
           justify-content: flex-end;
           --gv-option--bdrs: 0;
         }
-        
+
         gv-option {
           margin: 0;
         }
@@ -127,13 +128,25 @@ export class GvTabs extends LitElement {
   }
 
   _onClick ({ detail }) {
-    this._getContent().forEach((e) => {
-      e.classList.remove('current');
-    });
+    const from = this._getContent().find((e) => e.classList.contains('current'));
     const content = this.querySelector(`#${detail.id}`);
-    content.classList.add('current');
-    this.value = detail.id;
-    dispatchCustomEvent(this, 'change', { value: detail.id });
+    if (this.validator) {
+      this.shadowRoot.querySelector('gv-option').value = from.id;
+      this.validator({ from: from.id, to: content.id })
+        .then(() => {
+          from.classList.remove('current');
+          content.classList.add('current');
+          this.value = detail.id;
+          dispatchCustomEvent(this, 'change', { value: detail.id, from: from.id, to: content.id });
+        })
+        .catch(() => {
+          this.shadowRoot.querySelector('gv-option').value = from.id;
+        });
+    }
+    else {
+      dispatchCustomEvent(this, 'change', { value: detail.id, from: from.id, to: content.id });
+    }
+
   }
 
   render () {

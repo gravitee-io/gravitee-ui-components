@@ -19,17 +19,10 @@
             "title": "Methods",
             "description": "HTTP Methods",
             "type": "array",
-            "enum": [
-              "CONNECT",
-              "DELETE",
-              "GET",
-              "HEAD",
-              "OPTIONS",
-              "PATCH",
-              "POST",
-              "PUT",
-              "TRACE"
-            ]
+            "items" : {
+              "type" : "string",
+              "enum" : [ "CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE" ]
+            }
           }
         },
         "required": [
@@ -54,17 +47,10 @@
             "title": "Methods",
             "description": "HTTP Methods",
             "type": "array",
-            "enum": [
-              "CONNECT",
-              "DELETE",
-              "GET",
-              "HEAD",
-              "OPTIONS",
-              "PATCH",
-              "POST",
-              "PUT",
-              "TRACE"
-            ]
+            "items" : {
+              "type" : "string",
+              "enum" : [ "CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE" ]
+            }
           }
         },
         "required": [

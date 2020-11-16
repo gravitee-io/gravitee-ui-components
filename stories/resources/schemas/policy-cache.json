@@ -10,7 +10,7 @@
       "x-schema-form" : {
         "event" : {
           "name": "fetch-resources",
-          "type": "cache"
+          "types": ["cache"]
         }
       }
     },

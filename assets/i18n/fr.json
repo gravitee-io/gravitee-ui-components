@@ -94,6 +94,7 @@
     "view": "Voir"
   },
   "gv-properties": {
+    "add": "Ajouter",
     "placeholder": {
       "input": "NOM_DE_LA_PROPRIETE=\"valeur de la propriété\"",
       "key": "NOM_DE_LA_PROPRIETE",

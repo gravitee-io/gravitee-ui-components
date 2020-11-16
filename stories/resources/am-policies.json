@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "policy-http-callout",
+      "name": "HTTP Callout",
+      "description": "Description of the CalloutHttp Gravitee Policy",
+      "version": "1.9.0",
+      "icon": ""
+    },
+    {
+      "id": "ip-filtering",
+      "name": "IPFiltering",
+      "description": "Filter IPs from remote address or X-Forwarded-For header with blacklist or whitelist",
+      "version": "1.3.0",
+      "icon": ""
+    },
+    {
+      "id": "policy-request-validation",
+      "name": "Validate Request",
+      "description": "Description of the validate HTTP request Policy",
+      "version": "1.7.1",
+      "icon": ""
+    },
+    {
+      "id": "groovy",
+      "name": "Groovy",
+      "description": "Description of the Groovy Gravitee Policy",
+      "version": "1.10.0",
+      "icon": ""
+    }
+  ]
+}

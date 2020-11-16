@@ -25,8 +25,9 @@ import '../atoms/gv-switch';
 import '../atoms/gv-icon';
 import { dispatchCustomEvent } from '../lib/events';
 import { uuid } from '../lib/studio';
+import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 
-export class GvResources extends LitElement {
+export class GvResources extends KeyboardElement(LitElement) {
 
   static get properties () {
     return {
@@ -45,6 +46,18 @@ export class GvResources extends LitElement {
     this.types = [];
     this._currentResource = null;
     this._emptymessage = 'No resource';
+  }
+
+  onKeyboard () {
+    if (this.isPressed(KEYS.Esc)) {
+      this._onCancelResourceForm();
+    }
+    if (this.isPressed(KEYS.Shift, KEYS.Ctrl, KEYS.Space)) {
+      const search = this.shadowRoot.querySelector('#search-resource');
+      if (search) {
+        search.focus();
+      }
+    }
   }
 
   firstUpdated () {
@@ -140,6 +153,7 @@ export class GvResources extends LitElement {
   }
 
   _onSubmitResourceForm ({ detail }) {
+    delete this._currentResource._values;
     const { type } = this._currentResource;
     const { _id, name, ...configuration } = detail.values;
 
@@ -172,12 +186,11 @@ export class GvResources extends LitElement {
   }
 
   _onChangeResourceForm ({ detail }) {
-    if (detail.values.type && this._currentResource.type !== detail.values.type) {
-      this._currentResource.type = detail.values.type;
-      const resourceType = this._findResourceById(this._currentResource.type);
-      this._currentResource.schema = this._buildResourceSchema(resourceType);
-      this._onFetchDocumentation();
-    }
+    this._currentResource._values = detail.values;
+  }
+
+  _onResetResourceForm () {
+    delete this._currentResource._values;
   }
 
   _findResourceById (id) {
@@ -210,7 +223,20 @@ export class GvResources extends LitElement {
   }
 
   _onFetchDocumentation () {
-    dispatchCustomEvent(this, 'fetch-documentation', { resourceType: this._getCurrentResourceType() });
+    dispatchCustomEvent(this, 'fetch-documentation', { target: this, resourceType: this._getCurrentResourceType() });
+  }
+
+  get dirty () {
+    const form = this.shadowRoot.querySelector('gv-schema-form');
+    return form && form.dirty;
+  }
+
+  confirm () {
+    const form = this.shadowRoot.querySelector('gv-schema-form');
+    if (form) {
+      return form.confirm().then(() => this._onCancelResourceForm());
+    }
+    return Promise.resolve();
   }
 
   _onChangeResourceState (item, event) {
@@ -225,15 +251,20 @@ export class GvResources extends LitElement {
   }
 
   _renderForm () {
-    return html`<gv-schema-form .schema="${this._currentResource.schema}"
-                                .values="${this._currentResource.values}" 
+    const values = { ...this._currentResource.values, ...this._currentResource._values };
+    return html`<gv-schema-form
+                                .schema="${this._currentResource.schema}"
+                                .values="${values}" 
                                 submitLabel="${this._currentResource.submitLabel}"
                                  has-header
                                 .icon="${this._currentResource.icon}"
+                                validate
+                                .dirty="${this._currentResource._values != null}"
                                 @gv-schema-form:change="${this._onChangeResourceForm}"
+                                @gv-schema-form:reset="${this._onResetResourceForm}"
                                 @gv-schema-form:submit="${this._onSubmitResourceForm}">
                   <div slot="title" class="form-title">${this._currentResource.title}</div>
-                  <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._onCancelResourceForm}" title="Close"></gv-button>
+                  <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._onCancelResourceForm}" title="Close (esc)"></gv-button>
                   <gv-button slot="header-left" icon="home:book" ?disabled="${this.documentation != null}" outlined small @gv-button:click="${this._onFetchDocumentation}" title="Open documentation"></gv-button>
                 </gv-schema-form>`;
   }
@@ -264,7 +295,7 @@ export class GvResources extends LitElement {
       });
 
       return html`<div class="resources-bottom-container">
-                        <gv-option .options="${resourceOpts}" @gv-option:select="${this._onCreateResource}">
+                        <gv-option class="resource__option" .options="${resourceOpts}" @gv-option:select="${this._onCreateResource}">
                   </div>`;
     }
   }
@@ -341,7 +372,7 @@ export class GvResources extends LitElement {
                           <div class="title">
                             Manage global resources <span>(${this.resources.length})</span>
                           </div>
-                          <gv-input class="search-input" placeholder="Filter resources..." type="search" small 
+                          <gv-input id="search-resource" class="search-input" placeholder="Filter resources (Shift + Ctrl + Space)" type="search" small 
                                     @gv-input:input="${this._onSearchResource}" 
                                     @gv-input:clear="${this._onClearResource}"></gv-input>
                         </div>
@@ -464,6 +495,11 @@ export class GvResources extends LitElement {
         .search-input {
           width: 300px;
         }
+
+        .resource__option {
+          --gv-option-button--maw: 175px;
+        }
+
       `,
     ];
   }

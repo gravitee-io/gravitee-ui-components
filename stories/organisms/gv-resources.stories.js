@@ -42,7 +42,7 @@ const conf = {
 
 const fetchDocumentation = (event) => {
   const detail = event.detail;
-  const component = event.originalTarget;
+  const component = detail.target;
   if (detail && detail.resourceType) {
     const title = `${detail.resourceType.name} documentation`;
     component.documentation = { title, content: 'Imported from Github' };
