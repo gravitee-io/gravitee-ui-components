@@ -348,16 +348,18 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   set definition (definition) {
-    this._initialDefinition = deepClone(definition);
-    const flows = this._generateFlowsId(definition.flows);
-    const resources = this._generateId('resource-', definition.resources);
-    const plans = definition.plans == null ? [] : definition.plans.map((plan) => {
-      return { ...plan, flows: this._generatePlanFlowsId(plan) };
-    });
+    if (definition) {
+      this._initialDefinition = deepClone(definition);
+      const flows = this._generateFlowsId(definition.flows);
+      const resources = this._generateId('resource-', definition.resources);
+      const plans = definition.plans == null ? [] : definition.plans.map((plan) => {
+        return { ...plan, flows: this._generatePlanFlowsId(plan) };
+      });
 
-    this._definition = { ...definition, flows, resources, plans };
-    this.isDirty = false;
-    this._selectFirstFlow();
+      this._definition = { ...definition, flows, resources, plans };
+      this.isDirty = false;
+      this._selectFirstFlow();
+    }
   }
 
   get definition () {
@@ -440,19 +442,30 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
         }
       }
+      this._refresh(true);
+      this._onCloseDocumentation();
     }
     else {
       targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
+      const step = targetFlow[detail.flowKey][detail.position];
+      this._onEditFlowStep(targetFlow, {
+        detail: {
+          step,
+          policy,
+          flowKey: detail.flowKey,
+          position: detail.position,
+        },
+      });
     }
     targetFlow._dirty = true;
     sourceFlow._dirty = true;
     this.isDirty = true;
     this.shadowRoot.querySelectorAll('gv-flow').forEach((gvFlow) => gvFlow.removeCandidate());
-    this._refresh();
     setTimeout(() => {
       this._dragPolicy = null;
       this._dropPolicy = null;
     }, 0);
+
   }
 
   _onDeletePolicy ({ detail }) {
@@ -525,16 +538,19 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._refresh(false);
   }
 
-  _closeFlowStepForm () {
-    this._setCurrentFlowStep(null, null);
+  _closeFlowStepForm (force = false) {
+    this._setCurrentFlowStep(null, null, force);
   }
 
-  async _setCurrentFlowStep (currentFlowStep, flowStepSchema) {
-    const form = this._getFlowStepForm();
-    if (form && form.dirty) {
-      // eslint-disable-next-line no-useless-catch
-      await form.confirm();
+  async _setCurrentFlowStep (currentFlowStep, flowStepSchema, force = false) {
+    if (!force) {
+      const form = this._getFlowStepForm();
+      if (form && form.dirty) {
+        // eslint-disable-next-line no-useless-catch
+        await form.confirm();
+      }
     }
+
     this._currentFlowStep = currentFlowStep;
 
     if (flowStepSchema && flowStepSchema.properties.scope) {
@@ -553,7 +569,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _refresh (closeStepForm = true) {
     if (closeStepForm) {
-      this._closeFlowStepForm();
+      this._closeFlowStepForm(true);
     }
     this._definition = deepClone(this._definition);
   }
@@ -562,10 +578,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._closeFlowStepForm();
     this._updateSelectedFlows(detail.flows);
     this._onDesign();
-    if (this.selectedFlowsId.length > 1) {
-      this._onCloseDocumentation();
-      this._splitMainViews();
+    if (detail.flows.length <= 1) {
+      this._maximizeTopView();
     }
+    this._onCloseDocumentation();
   }
 
   _onOpenDocumentationFromMenu ({ detail: { policy } }) {
@@ -626,9 +642,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     if (this._currentFlowStep.flow) {
       this._currentFlowStep.flow._dirty = true;
     }
-    this._definition = deepClone(this._definition);
+    const flow = this._definition.flows.find((flow) => {
+      return this._currentFlowStep.flow._id === flow._id;
+    });
+    flow[this._currentFlowStep.flowKey][this._currentFlowStep.position] = this._currentFlowStep.step;
     this.isDirty = true;
-    this._refresh(false);
   }
 
   _onCancelFlow () {
@@ -720,9 +738,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _onFetchResources (event) {
-    const { element, types } = event.detail;
+    const { element, regexTypes } = event.detail;
     const options = this.definedResources
-      .filter((resource) => types != null && types.includes(resource.type))
+      .filter((resource) => regexTypes == null || new RegExp(regexTypes).test(resource.type))
       .map((resource, index) => {
         const resourceType = this.resourceTypes.find((type) => type.id === resource.type);
         const row = document.createElement('gv-row');
@@ -911,7 +929,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _addFlow (collection, duplicate = null) {
     const flow = duplicate == null ? {
-      name: 'New flow',
+      name: '',
       pre: [],
       post: [],
       _dirty: true,
@@ -923,7 +941,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     };
     collection.push(flow);
     this.isDirty = true;
-    this._changeTab('settings');
     this._refresh();
     return collection;
   }

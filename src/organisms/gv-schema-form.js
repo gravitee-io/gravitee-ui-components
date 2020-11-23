@@ -52,6 +52,7 @@ export class GvSchemaForm extends LitElement {
       dirty: { type: Boolean, reflect: true },
       hideDeprecated: { type: Boolean, attribute: 'hide-deprecated' },
       validate: { type: Boolean },
+      _touch: { type: Boolean },
     };
   }
 
@@ -62,6 +63,7 @@ export class GvSchemaForm extends LitElement {
     this.submitLabel = 'Ok';
     this.hasHeader = false;
     this.hasFooter = false;
+    this._touch = false;
   }
 
   set values (values) {
@@ -80,6 +82,7 @@ export class GvSchemaForm extends LitElement {
 
   reset () {
     this._values = deepClone(this._initialValues);
+    this._touch = false;
     this._setDirty(false);
   }
 
@@ -91,6 +94,7 @@ export class GvSchemaForm extends LitElement {
   _onSubmit () {
     this._initialValues = deepClone(this._values);
     this.dirty = false;
+    this._touch = false;
     dispatchCustomEvent(this, 'submit', { values: this._values });
   }
 
@@ -98,13 +102,20 @@ export class GvSchemaForm extends LitElement {
     setTimeout(() => (this.dirty = !!dirty), 0);
   }
 
+  _setTouch (touch = true) {
+    setTimeout(() => (this._touch = !!touch), 0);
+  }
+
   confirm () {
-    if (this._confirm && this._confirm.promise) {
-      return this._confirm.promise;
+    if (this._touch) {
+      if (this._confirm && this._confirm.promise) {
+        return this._confirm.promise;
+      }
+      const promise = new Promise((resolve, reject) => (this._confirm = { resolve, reject }));
+      this._confirm.promise = promise;
+      return promise;
     }
-    const promise = new Promise((resolve, reject) => (this._confirm = { resolve, reject }));
-    this._confirm.promise = promise;
-    return promise;
+    return Promise.resolve();
   }
 
   _onConfirm () {
@@ -138,6 +149,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   _onChange (key, control, e) {
+    this._setTouch(true);
     // Specific case for gv-autocomplete that's returns an object with value
     let value = e.detail && e.detail.value ? e.detail.value : e.detail;
     if (control.type === 'integer' && value != null && ((value.trim && value.length > 0) || value.length > 0)) {
@@ -242,9 +254,6 @@ export class GvSchemaForm extends LitElement {
   }
 
   _renderControl (control, value = null, isRequired = false, isDisabled = false, error = null, key, groupContainer = null) {
-    if (this.hideDeprecated === true && control.deprecated === 'true') {
-      return null;
-    }
     const container = document.createElement('div');
     const controlType = control.enum ? 'enum' : control.type;
     container.className = `form__control form__control-${controlType}`;
@@ -477,6 +486,9 @@ export class GvSchemaForm extends LitElement {
   shouldUpdate (changedProperties) {
     if (changedProperties.has('dirty') && changedProperties.size === 1) {
       setTimeout(() => this._updateActions(), 0);
+      return false;
+    }
+    if (changedProperties.has('_touch') && changedProperties.size === 1) {
       return false;
     }
     return super.shouldUpdate(changedProperties);

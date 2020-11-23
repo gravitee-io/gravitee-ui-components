@@ -167,7 +167,7 @@ describe('P O L I C Y  S T U D I O', () => {
 
           const createdFlow = component.definition.plans[1].flows[3];
           expect(createdFlow._dirty).toEqual(true);
-          expect(createdFlow.name).toEqual('New flow');
+          expect(createdFlow.name).toEqual('');
           expect(createdFlow.post).toEqual([]);
           expect(createdFlow.pre).toEqual([]);
           expect(createdFlow._id).toBeDefined();
@@ -200,7 +200,7 @@ describe('P O L I C Y  S T U D I O', () => {
       const createdFlow = component.definition.flows[0];
       expect(createdFlow._dirty).toEqual(true);
       expect(createdFlow._id).toBeDefined();
-      expect(createdFlow.name).toEqual('New flow');
+      expect(createdFlow.name).toEqual('');
       expect(createdFlow.post).toEqual([]);
       expect(createdFlow.pre).toEqual([]);
     });
