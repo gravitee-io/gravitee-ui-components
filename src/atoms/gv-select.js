@@ -290,12 +290,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         }
       }
       else {
-        if (this.value === e.target.dataset.value) {
-          this.value = '';
-        }
-        else {
-          this.value = e.target.dataset.value;
-        }
+        this.value = e.target.dataset.value;
         this._isClosed = !this._isClosed;
       }
       dispatchCustomEvent(this, 'select', this.value);
