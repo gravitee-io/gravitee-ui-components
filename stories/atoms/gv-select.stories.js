@@ -95,3 +95,7 @@ export const HundredOptions = makeStory(conf, {
 export const MultipleSelection = makeStory(conf, {
   items: items.map((p) => ({ ...p, multiple: true })),
 });
+
+export const SingleOption = makeStory(conf, {
+  items: items.map((p) => ({ ...p, options: [options[0]], required: true })),
+});
