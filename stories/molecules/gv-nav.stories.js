@@ -15,7 +15,7 @@
  */
 import '../../src/molecules/gv-nav';
 import notes from '../../.docs/gv-nav.md';
-import { makeStory } from '../lib/make-story';
+import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-nav',
@@ -46,4 +46,16 @@ export const vertical = makeStory(conf, {
     routes: routes,
     vertical: true,
   }],
+});
+
+export const dynamicAdd = makeStory(conf, {
+  items: [{
+    routes: routes,
+    vertical: true,
+  }],
+  simulations: [
+    storyWait(3000, ([component]) => {
+      component.routes = [...routes, { path: '', title: 'Mon compte' }];
+    }),
+  ],
 });
