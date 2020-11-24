@@ -642,11 +642,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     if (this._currentFlowStep.flow) {
       this._currentFlowStep.flow._dirty = true;
     }
-    const flow = this._definition.flows.find((flow) => {
-      return this._currentFlowStep.flow._id === flow._id;
-    });
+    const flow = this._findFlowById(this._currentFlowStep.flow._id);
     flow[this._currentFlowStep.flowKey][this._currentFlowStep.position] = this._currentFlowStep.step;
+
     this.isDirty = true;
+    // Important to refresh schema-form
+    this._refresh(false);
   }
 
   _onCancelFlow () {
@@ -917,14 +918,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._addFlow(this.definedPlans[detail.planIndex].flows);
     this.definedPlans[detail.planIndex].flows = this._generatePlanFlowsId(this.definedPlans[detail.planIndex]);
     this._updateSelectedFlows([this.definedPlans[detail.planIndex].flows[this.definedPlans[detail.planIndex].flows.length - 1]._id]);
-    this._flowFilter = [];
   }
 
   _onAddFlow () {
     this._addFlow(this._definition.flows);
     this._definition.flows = this._generateFlowsId(this._definition.flows);
     this._updateSelectedFlows([this._definition.flows[this._definition.flows.length - 1]._id]);
-    this._flowFilter = [];
   }
 
   _addFlow (collection, duplicate = null) {
