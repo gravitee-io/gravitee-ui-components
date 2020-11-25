@@ -70,12 +70,12 @@ export const input = css`
   }
 
   .box-icon gv-icon {
-      width: var(--gv-icon--s, 22px);
+      --gv-icon--s: 22px;
       --gv-icon--c: var(--gv-theme-font-color-dark);
   }
 
-  .small .box-icon gv-icon {
-    width: var(--gv-icon--s, 16px);
+  .small .box-icon gv-icon {  
+      --gv-icon--s: 16px;
   }
   
 
@@ -95,6 +95,7 @@ export const input = css`
   
   :host([large]) .box-icon gv-icon {
       width: 24px;
+      --gv-icon--s: 24px;
   }
 
   :host([small]) .box-icon {

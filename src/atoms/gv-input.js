@@ -104,6 +104,10 @@ export class GvInput extends InputElement(LitElement) {
           box-shadow: 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
         }
 
+        gv-icon {
+          --gv-icon--s: 22px;
+        }
+        
         .box-icon.copied gv-icon {
           --gv-icon--c: #339900;
         }
@@ -126,6 +130,10 @@ export class GvInput extends InputElement(LitElement) {
         .clipboard input,
         .clipboard ::slotted(input) {
           cursor: copy;
+        }
+
+        .clipboard {
+          
         }
 
         .clipboard input:read-only:hover, .clipboard ::slotted(input:read-only:hover) {
