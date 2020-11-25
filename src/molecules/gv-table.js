@@ -142,6 +142,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         .theader {
           background-color: var(--gv-theme-neutral-color-lighter);
           font-weight: bold;
+          padding: 0 0.2rem;
         }
 
         .row, .theader {
