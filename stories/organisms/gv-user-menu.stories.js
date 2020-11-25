@@ -86,3 +86,32 @@ export const withLargePicture = makeStory(conf, {
 export const withoutUser = makeStory(conf, {
   items: [{ routes: [{ path: '#', title: 'Log in' }] }],
 });
+
+const routesWithGroups = [
+  { path: '/settings/me', title: 'Your profile', icon: 'general:user', separator: true },
+  {
+    title: 'Accounts',
+    routes: [
+      { path: '/accounts/1/organizations', title: 'Account 1', icon: 'home:building', active: true },
+      { path: '/accounts/2/organizations', title: 'Account 2', icon: 'home:building', active: false },
+      { path: '/accounts/3/organizations', title: 'Account 3', icon: 'home:building', active: false },
+    ],
+    class: 'account',
+    separator: true,
+  },
+  { path: '/settings/accounts', title: 'General settings', icon: 'general:settings#2', separator: true },
+  { path: '/logout', title: 'Logout', icon: 'home:door-open', separator: true },
+];
+
+export const withRouteGroups = makeStory(conf, {
+  items: [
+    { routes: routesWithGroups, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
+  ],
+  simulations: [
+    storyWait(0, ([component]) => {
+      component.firstElementChild.display_name = 'Gravatar';
+      component.firstElementChild.picture = avatarSrc;
+      component.firstElementChild.type = 'USER';
+    }),
+  ],
+});

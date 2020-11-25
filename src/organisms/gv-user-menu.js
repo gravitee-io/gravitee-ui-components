@@ -27,7 +27,7 @@ import { isSameRoutes } from '../lib/utils';
  *
  * @fires gv-link:click - Custom event when nav link click
  *
- * @attr {Array} routes - definition of user routes [{icon: String, path: String, title: Promise<String>]
+ * @attr {Array} routes - definition of user routes [{icon: String, path: String, title: Promise<String>, active: Boolean, routes: Array<any>]
  * @attr {String} username - name of the user
  * @attr {String} avatar - url of the user avatar
  *
@@ -152,6 +152,11 @@ export class GvUserMenu extends LitElement {
             border-top: 1px solid var(--bdc);
           }
 
+          .active {
+            background-color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+            font-weight: bold;
+          }
+
           /** for animations */
           .user-menu__list {
             visibility: visible;
@@ -159,6 +164,19 @@ export class GvUserMenu extends LitElement {
             transform: translateY(0%);
             z-index: 100;
             transition-delay: 0s, 0s, 0.2s;
+          }
+
+          .user-menu__list__group {
+            border-top: 1px solid var(--bdc);
+            background-color: var(--gv-theme-neutral-color-light, #EFEFEF);
+            padding-left: 0;
+          }
+
+          .user-menu__list__group__title {
+            font-size: small;
+            color: var(--gv-theme-color-darker, #383E3F);
+            border-left:  1px solid var(--bdc);
+            padding-left: 10px;
           }
 
           .closed .user-menu__list {
@@ -257,17 +275,7 @@ export class GvUserMenu extends LitElement {
           <li class="user-menu__content">
             <ul class="user-menu__list">
                 ${repeat(this._routes, (route) => route, (route, index) => html`
-                    ${this._hasOneItem() ? html``
-        : html`<li class="user-menu__list__item ${route.separator ? 'separator' : ''}">
-                      <gv-link
-                        .icon="${route.icon}"
-                        .path="${route.path}"
-                        .title="${route.title}"
-                        .target="${route.target}"
-                         @click=${this._onSelect}
-                      ></gv-link>`}
-
-                    </li>
+                    ${this._hasOneItem() ? html`` : this._renderItem(route)}
                 `)}
             </ul>
           </li>
@@ -276,6 +284,26 @@ export class GvUserMenu extends LitElement {
     `;
     }
     return html``;
+  }
+
+  _renderItem (route) {
+    if (route.routes) {
+      return html`<ul class="user-menu__list__group" @mouseleave=${this._onMouseLeave}><span class="user-menu__list__group__title">${route.title}</span>
+                ${repeat(route.routes, (childRoute) => childRoute, (childRoute, index) => html`
+                    ${this._renderItem(childRoute)}
+                `)}
+      </ul>`;
+    }
+    else {
+      return html`<li class="user-menu__list__item ${route.separator ? 'separator' : ''} ${route.active ? 'active' : ''}" style="${route.style}">
+                      <gv-link
+                        .icon="${route.icon}"
+                        .path="${route.path}"
+                        .title="${route.title}"
+                        .target="${route.target}"
+                         @click=${this._onSelect}
+                      ></gv-link></li>`;
+    }
   }
 
 }
