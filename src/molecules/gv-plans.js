@@ -144,6 +144,7 @@ export class GvPlans extends LitElement {
               padding: 34px;
               text-align: center;
               justify-content: center;
+              user-select: none;
           }
 
           .characteristic {
@@ -274,19 +275,20 @@ export class GvPlans extends LitElement {
   }
 
   to (plan) {
-    this.value = plan.id;
-    this._plans = this._plans.map((p, index) => {
-      if (JSON.stringify(p) === JSON.stringify(plan)) {
-        p.active = true;
-        this.current = index + 1;
-      }
-      else {
-        p.active = false;
-      }
-      return p;
-    });
-
-    this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
+    if (plan) {
+      this.value = plan.id;
+      this._plans = this._plans.map((p, index) => {
+        if (JSON.stringify(p) === JSON.stringify(plan)) {
+          p.active = true;
+          this.current = index + 1;
+        }
+        else {
+          p.active = false;
+        }
+        return p;
+      });
+      this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
+    }
   }
 
   _getPlanTitle (plan) {
@@ -310,7 +312,7 @@ export class GvPlans extends LitElement {
   }
 
   get hasRight () {
-    return this.hasPagination && (this.current - 1 <= this._plans.length);
+    return this.hasPagination && (this.current < this._plans.length);
   };
 
   get plans () {
