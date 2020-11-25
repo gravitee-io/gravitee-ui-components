@@ -40,7 +40,7 @@
     "codemirror": "^5.54.0",
     "date-fns": "^2.11.1",
     "highcharts": "^8.2.0",
-    "highlight.js": "^9.18.1",
+    "highlight.js": "^10.1.2",
     "jdenticon": "^2.2.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
