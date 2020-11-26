@@ -89,7 +89,6 @@ export class GvDatePicker extends LitElement {
               display: inline-block;
               margin: 0.2rem;
               --gv-input-icon--bgc: transparent;
-              --gv-icon--c: var(--gv-theme-neutral-color-darker);
               --gv-icon--s: 20px;
               --date-picker-hover--bgc: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
               --date-picker-hover--c: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
@@ -155,6 +154,11 @@ export class GvDatePicker extends LitElement {
           .box-icon-calendar {
               --gv-icon--s: 16px;
               padding: 0 6px;
+          }
+          
+          .box-icon-arrow,
+          .box-icon-calendar {
+              --gv-icon--c: var(--gv-theme-neutral-color-darker);
           }
 
           .box-icon-clear {
@@ -347,7 +351,7 @@ export class GvDatePicker extends LitElement {
         .value="${until(this.getFormattedDate(this._from))}"
         .placeholder="${this.dateFromPlaceholder}"
         ></gv-input>
-        <div class="box-icon"><gv-icon shape="navigation:arrow-right"></gv-icon></div>
+        <div class="box-icon box-icon-arrow"><gv-icon shape="navigation:arrow-right"></gv-icon></div>
         <gv-input
         .placeholder="${this.dateToPlaceholder}"
         @focus="${this._onFocus.bind(this, 'to')}"

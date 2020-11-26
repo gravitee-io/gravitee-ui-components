@@ -132,10 +132,6 @@ export class GvInput extends InputElement(LitElement) {
           cursor: copy;
         }
 
-        .clipboard {
-          
-        }
-
         .clipboard input:read-only:hover, .clipboard ::slotted(input:read-only:hover) {
           cursor: not-allowed;
         }
