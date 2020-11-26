@@ -29,6 +29,7 @@ import { getOwner, getTitle, getDescription, getVersion } from '../lib/item';
  * * has @theme facet
  *
  * @attr {Promise<any>} item - An item.
+ * @attr {Boolean} small - When true, not display labels
  *
  * @cssprop {Color} [--gv-row-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hoover background color
  * @cssprop {Length} [--gv-row-hover--trf-ty=0px] - Hoover transform translateY
@@ -159,11 +160,20 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
     ];
   }
 
+  static get properties () {
+    return {
+      ...super.properties,
+      /** @required */
+      small: { type: Boolean },
+    };
+  }
+
   constructor () {
     super();
     this.breakpoints = {
       width: [450],
     };
+    this.small = false;
   }
 
   render () {
@@ -187,7 +197,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
             <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
               <div class="meta__owner">
                 ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>` : ''}
-                <div class="meta__tags">${this._renderLabels()}</div>
+                ${this.small !== true ? html`<div class="meta__tags">${this._renderLabels()}</div>` : ''}
             </div>
           </div>
           `}
