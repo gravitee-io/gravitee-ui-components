@@ -72,6 +72,10 @@ export const Basics = makeStory(conf, {
   items,
 });
 
+export const Small = makeStory(conf, {
+  items: items.map((item) => ({ ...item, small: true })),
+});
+
 export const empty = makeStory(conf, {
   items: [{}],
 });
