@@ -105,8 +105,12 @@ export class GvCode extends InputElement(LitElement) {
     super.updated(changedProperties);
     if (changedProperties.has('options') && this.options && this.options.mode) {
       const options = this._getProcessedOptions();
+      try {
+        await import(`codemirror/mode/${options.mode}/${options.mode}`);
+      }
+      catch (er) {
 
-      await import(`codemirror/mode/${options.mode}/${options.mode}`);
+      }
 
       const textArea = this.shadowRoot.querySelector(`#${this._id}`);
       const codeMirror = CodeMirror.fromTextArea(textArea, {
@@ -743,7 +747,7 @@ export class GvCode extends InputElement(LitElement) {
         :host([invalid]) .cm-s-mdn-like .CodeMirror-gutters {
           border-color: var(--gv-theme-color-error-dark, #d32f2f);
         }
-        
+
         .cm-s-mdn-like .CodeMirror-gutters {
           background: #f8f8f8;
           border-left: 6px solid var(--gv-theme-color, #5A7684);
