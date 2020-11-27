@@ -288,7 +288,7 @@ export class GvUserMenu extends LitElement {
 
   _renderItem (route) {
     if (route.routes) {
-      return html`<ul class="user-menu__list__group" @mouseleave=${this._onMouseLeave}><span class="user-menu__list__group__title">${route.title}</span>
+      return html`<ul class="user-menu__list__group"><span class="user-menu__list__group__title">${route.title}</span>
                 ${repeat(route.routes, (childRoute) => childRoute, (childRoute, index) => html`
                     ${this._renderItem(childRoute)}
                 `)}
