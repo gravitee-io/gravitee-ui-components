@@ -218,3 +218,16 @@ const gmfOptions = {
 export const Gmf = makeStory(conf, {
   items: [{ value: gmfSrc, options: gmfOptions }],
 });
+
+const textSrc = 'Simple text';
+
+const textOptions = {
+  placeholder: 'Put the body content here',
+  lineNumbers: true,
+  allowDropFileTypes: true,
+  mode: 'text',
+};
+
+export const Text = makeStory(conf, {
+  items: [{ value: textSrc, options: textOptions }],
+});
