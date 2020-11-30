@@ -218,17 +218,12 @@ export class GvSchemaFormControl extends LitElement {
   }
 
   _setValue (controlElement) {
-    if (this.value != null) {
-      if (controlElement != null) {
-        if (this.control.type === 'boolean' || this.control.type === 'array' || this.control.type === 'object') {
-          controlElement.value = this.value;
-        }
-        else {
-          controlElement.value = this.value.toString ? this.value.toString() : this.value;
-        }
+    if (this.value != null && controlElement != null) {
+      if (this.control.type === 'boolean' || this.control.type === 'array' || this.control.type === 'object') {
+        controlElement.value = this.value;
       }
       else {
-        console.warn('[schema-form-control] not found control', this.id, this.getControls());
+        controlElement.value = this.value.toString ? this.value.toString() : this.value;
       }
     }
     return controlElement;

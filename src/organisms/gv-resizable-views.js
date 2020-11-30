@@ -253,13 +253,13 @@ export class GvResizableViews extends LitElement {
         .top {
           overflow-y: auto;
           overflow-x: hidden;
-          height: 85%;
+          height: 50%;
         }
 
         .bottom {
           overflow-y: auto;
           overflow-x: hidden;
-          height: 15%;
+          height: 50%;
         }
 
         :host([direction=horizontal]) .top,

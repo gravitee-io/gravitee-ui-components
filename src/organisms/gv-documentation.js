@@ -26,6 +26,7 @@ export class GvDocumentation extends LitElement {
       type: { type: String },
       image: { type: String },
       _dom: { type: Object, attribute: false },
+      disabled: { type: Boolean },
     };
   }
 
@@ -154,7 +155,7 @@ export class GvDocumentation extends LitElement {
                     <div class="header">
                       <div class="title">${title}</div>
                         <div class="left">
-                          <gv-button icon="general:close" outlined small @gv-button:click="${this._onCloseDocumentation}" title="Close"></gv-button>
+                          ${this.disabled ? html`` : html`<gv-button icon="general:close" outlined small @gv-button:click="${this._onCloseDocumentation}" title="Close"></gv-button>`}
                         </div>
                         <div class="right">
                           ${this._renderIcon()}

@@ -110,13 +110,13 @@ export class GvSchemaForm extends LitElement {
     this._onSubmit();
   }
 
-  _onSubmit (save = false) {
+  _onSubmit () {
     const validatorResults = this.validate();
     if (validatorResults.valid) {
       this._initialValues = deepClone(this._values);
       this.dirty = false;
       this._touch = false;
-      dispatchCustomEvent(this, 'submit', { values: this._values, validatorResults, save: save === true });
+      dispatchCustomEvent(this, 'submit', { values: this._values, validatorResults });
     }
     else {
       dispatchCustomEvent(this, 'error', { values: this._values, validatorResults });
