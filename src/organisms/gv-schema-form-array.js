@@ -15,7 +15,6 @@
  */
 import { css, html, LitElement } from 'lit-element';
 
-import './gv-schema-form-control';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';

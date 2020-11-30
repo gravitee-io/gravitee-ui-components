@@ -155,6 +155,7 @@ export const components = makeStory(conf, {
       data: [
         { field: 'name', label: 'Name' },
         { field: 'value', label: 'Component', type: 'gv-input', attributes: { clipboard: true } },
+        { label: 'List', type: 'gv-select', attributes: { options: ['Admin', 'Owner'] } },
         { label: 'Button', type: 'gv-button', attributes: { innerHTML: 'Click me !' } },
         {
           label: 'Confirm',

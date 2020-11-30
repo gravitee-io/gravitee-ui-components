@@ -26,6 +26,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @slot content - Lis of elements for tabs content. Should have an id
  *
  * @attr {String} open - the opened tab selector like #myTab
+ * @attr {Boolean} disabled - true for disabled
  */
 export class GvTabs extends LitElement {
 
@@ -34,6 +35,7 @@ export class GvTabs extends LitElement {
       options: { type: Array },
       value: { type: String, reflect: true },
       validator: { type: Function },
+      disabled: { type: Boolean },
     };
   }
 
@@ -135,21 +137,22 @@ export class GvTabs extends LitElement {
   }
 
   _onClick ({ detail }) {
-    const from = this._getContent().find((e) => e.classList.contains('current'));
-    const content = this.querySelector(`#${detail.id}`);
-    this.shadowRoot.querySelector('gv-option').value = from.id;
-    if (this.validator) {
-      this.validator({ from: from.id, to: content.id })
-        .then(() => {
-          this._changeTab(from, content, detail.id);
-        })
-        .catch(() => {
-        });
+    if (!this.disabled) {
+      const from = this._getContent().find((e) => e.classList.contains('current'));
+      const content = this.querySelector(`#${detail.id}`);
+      this.shadowRoot.querySelector('gv-option').value = from.id;
+      if (this.validator) {
+        this.validator({ from: from.id, to: content.id })
+          .then(() => {
+            this._changeTab(from, content, detail.id);
+          })
+          .catch(() => {
+          });
+      }
+      else {
+        this._changeTab(from, content, detail.id);
+      }
     }
-    else {
-      this._changeTab(from, content, detail.id);
-    }
-
   }
 
   render () {

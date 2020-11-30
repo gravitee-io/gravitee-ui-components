@@ -66,7 +66,12 @@ export const methods = css`
     --gv-icon--c: #5A7684;
     --gv-icon-opacity--c: #5A7684;
   }
-    
+  
+  .icon-type {
+    --gv-icon--s: 26px;
+    --gv-icon--c: #383E3F;  
+    --gv-icon-opacity--c: #5A7684;
+  }
 `;
 
 export function getFlowName (flow, collectionName, withMethods = true, draggable = false, compact = true) {
@@ -76,7 +81,26 @@ export function getFlowName (flow, collectionName, withMethods = true, draggable
       rendering.push(html`<gv-icon title="Drag for reorder" class="draggable-icon" shape="general:sort"></gv-icon>`);
     }
     const methods = flow.methods || [];
-    if (withMethods) {
+    if (flow.type != null) {
+      let shape = null;
+      if (flow.type.toUpperCase() === 'ROOT') {
+        shape = 'home:earth';
+      }
+      else if (flow.type.toUpperCase() === 'LOGIN') {
+        shape = 'general:shield-protected';
+      }
+      else if (flow.type.toUpperCase() === 'CONSENT') {
+        shape = 'general:shield-check';
+      }
+      else if (flow.type.toUpperCase() === 'REGISTER') {
+        shape = 'communication:shield-user';
+      }
+
+      if (shape != null) {
+        rendering = [...rendering, html`<gv-icon title="${flow.type}" shape="${shape}" class="icon-type"></gv-icon>`];
+      }
+    }
+    else if (withMethods) {
       const renderingMethods = methods.map((method) => html`<gv-tag class="${method.toUpperCase()}" >${method.toUpperCase()}</gv-tag>`);
       if (compact && (renderingMethods.length === 9 || renderingMethods.length === 0)) {
         rendering = [...rendering, html`<gv-tag major title="${methods.join('\n')}">ALL</gv-tag>`];

@@ -87,6 +87,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
           --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #86c3d0));
           --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #EFEFEF));
+          position: relative;
         }
 
         div, input {

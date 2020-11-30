@@ -20,9 +20,7 @@ import '../atoms/gv-button';
 import '../atoms/gv-icon';
 import '../molecules/gv-option';
 import '../organisms/gv-documentation';
-import '../organisms/gv-properties';
 import '../organisms/gv-resizable-views';
-import '../organisms/gv-resources';
 import '../organisms/gv-schema-form';
 import '../organisms/gv-tabs';
 import '../molecules/gv-row';
@@ -44,14 +42,21 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * @fires gv-policy-studio:save - When request savet
  *
  * @attr {Array} policies - Policies available
- * @attr {Array} resources - Resources available
+ * @attr {Array} services - Services available
+ * @attr {Array} resourceTypes - Resources types available
+ * @attr {Array} propertyProviders - Providers of properties
+ * @attr {String} tabId - Current tabId to display (design, settings, properties or resources)
  * @attr {Object} definition - The definition of flows
  * @attr {Object} documentation - The documentation to display
- * @attr {String} selectedId - The selected policy id
  * @attr {Object} flowSchema - The flow form configuration to display in gv-schema-form component
  * @attr {Object} configurationSchema - The form configuration to display in gv-schema-form component
  * @attr {Object} configurationInformation - The information related to api configuration tab
- *
+ * @attr {Boolean} isDirty - true if component is dirty
+ * @attr {Array} selectedFlowsId - The selected flows id
+ * @attr {Boolean} sortable - true if flows are sortable
+ * @attr {Boolean} can-add - true if user can add flow
+ * @attr {String} flowsTitle - flows menu title
+ * @attr {Boolean} has-policy-filter - true if policies have onRequest/onResponse properties
  */
 export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
@@ -83,6 +88,14 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       _policyFilter: { type: Array, attribute: false },
       _flowFilter: { type: Array, attribute: false },
       _currentAskConfirmation: { type: Boolean, attribute: false },
+      hasProperties: { type: Boolean, attribute: 'has-properties' },
+      _hasProperties: { type: Boolean, attribute: false },
+      hasResources: { type: Boolean, attribute: 'has-resources' },
+      hasPlans: { type: Boolean, attribute: 'has-plans' },
+      hasPolicyFilter: { type: Boolean, attribute: 'has-policy-filter' },
+      flowsTitle: { type: String, attribute: 'flows-title' },
+      sortable: { type: Boolean },
+      canAdd: { type: Boolean, attribute: 'can-add' },
     };
   }
 
@@ -285,6 +298,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           overflow: hidden;
           text-overflow: ellipsis;
           width: 240px;
+          min-height: 25px;
         }
 
         .header-actions > *,
@@ -302,28 +316,60 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this.resourceTypes = [];
     this.tabId = 'design';
     this.selectedFlowsId = [];
+    this.flowsTitle = 'Flows';
+    this.sortable = false;
     this.services = {};
     this._definition = {
       flows: [],
     };
     this._tabs = [
       { id: 'design', title: 'Design', icon: 'navigation:exchange' },
-      { id: 'properties', title: 'Properties', icon: 'general:settings#1' },
-      { id: 'resources', title: 'Resources', icon: 'general:settings#5' },
-    ];
-
-    this._flowFilterOptions = [
-      { id: 'api', title: 'Api', icon: 'shopping:box#3' },
-      { id: 'plan', title: 'Plans', icon: 'shopping:sale#2' },
-    ];
-    this._flowFilter = [];
-    this._policyFilterOptions = [
-      { id: 'onRequest', title: 'Request', icon: 'navigation:arrow-from-left' },
-      { id: 'onResponse', title: 'Response', icon: 'navigation:arrow-from-right' },
     ];
     this._policyFilter = [];
+    this._flowFilter = [];
     loadAsciiDoctor();
     this.addEventListener('gv-schema-form:change', this._onSchemaFormChange);
+  }
+
+  set hasProperties (value) {
+    if (value) {
+      import('../organisms/gv-properties').then(() => {
+        this._tabs = [...this._tabs, { id: 'properties', title: 'Properties', icon: 'general:settings#1' }];
+        this.requestUpdate();
+      });
+    }
+    this._hasProperties = value;
+  }
+
+  get hasProperties () {
+    return this._hasProperties;
+  }
+
+  set hasResources (value) {
+    if (value) {
+      import('../organisms/gv-resources').then(() => {
+        this._tabs = [...this._tabs, { id: 'resources', title: 'Resources', icon: 'general:settings#5' }];
+        this.requestUpdate();
+      });
+    }
+  }
+
+  set hasPlans (value) {
+    if (value) {
+      this._flowFilterOptions = [
+        { id: 'api', title: 'Api', icon: 'shopping:box#3' },
+        { id: 'plan', title: 'Plans', icon: 'shopping:sale#2' },
+      ];
+    }
+  }
+
+  set hasPolicyFilter (value) {
+    if (value) {
+      this._policyFilterOptions = [
+        { id: 'onRequest', title: 'Request', icon: 'navigation:arrow-from-left' },
+        { id: 'onResponse', title: 'Response', icon: 'navigation:arrow-from-right' },
+      ];
+    }
   }
 
   set configurationSchema(value) {
@@ -339,21 +385,23 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   onKeyboard () {
-    if (this.isPressed(KEYS.Shift, KEYS.Ctrl, KEYS.Space)) {
-      const search = this.shadowRoot.querySelector('#search-policy');
-      if (search) {
-        search.focus();
+    if (this._currentAskConfirmation == null) {
+      if (this.isPressed(KEYS.Shift, KEYS.Ctrl, KEYS.Space)) {
+        const search = this.shadowRoot.querySelector('#search-policy');
+        if (search) {
+          search.focus();
+        }
       }
-    }
-    else if (this.isPressed(KEYS.Ctrl, KEYS.Space)) {
-      const search = this.shadowRoot.querySelector('#search-flow');
-      if (search) {
-        search.focus();
+      else if (this.isPressed(KEYS.Ctrl, KEYS.Space)) {
+        const search = this.shadowRoot.querySelector('#search-flow');
+        if (search) {
+          search.focus();
+        }
       }
-    }
-    if (this.isPressed(KEYS.Esc)) {
-      this._closeFlowStepForm();
-      this._onCloseDocumentation();
+      if (this.isPressed(KEYS.Esc)) {
+        this._closeFlowStepForm();
+        this._onCloseDocumentation();
+      }
     }
   }
 
@@ -469,6 +517,14 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         if (detail.sourceFlowKey && detail.sourceFlowKey !== detail.flowKey) {
           sourceFlow[detail.sourceFlowKey].splice(detail.sourcePosition, 1);
           targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
+          if (this._currentFlowStep != null && this._currentFlowStep.step._id === _id) {
+            this._currentFlowStep.group = detail.flowKey;
+            // Special case for update schema after change request to response or inverse
+            const schema = this.buildSchema(this._currentFlowStep.policy);
+            await this._setCurrentFlowStep(this._currentFlowStep, schema, true);
+            this._getFlowElement(targetFlow._id).requestUpdate();
+          }
+
         }
         else {
           if (detail.position > detail.sourcePosition) {
@@ -497,21 +553,14 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           }
 
           if (detail.cancelEdit !== true) {
-            this._onEditFlowStep({
-              detail: {
-                step,
-                policy,
-                flow: targetFlow,
-                group: detail.flowKey,
-              },
+            setTimeout(async () => {
+              await this._editFlowStep({ step, policy, flow: targetFlow, group: detail.flowKey });
+              this.updateComplete.then(() => {
+                const flowElement = this._getFlowElement(targetFlow._id);
+                flowElement.selectedStepId = step._id;
+                flowElement.requestUpdate();
+              });
             });
-
-            this.updateComplete.then(() => {
-              const flowElement = this._getFlowElement(targetFlow._id);
-              flowElement.selectedStepId = step._id;
-              flowElement.requestUpdate();
-            });
-
           }
         }
       }
@@ -560,7 +609,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return { properties: { description } };
   }
 
-  async _onEditFlowStep ({ detail: { step, flow, policy, group } }) {
+  async _editFlowStep ({ step, flow, policy, group }) {
     if (step) {
       this._currentPolicyId = policy.id;
       const currentFlowStep = { flow, step, policy, group };
@@ -569,17 +618,23 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         await this._setCurrentFlowStep(currentFlowStep, schema);
         this._updateSelectedFlows([flow._id]);
         this._splitMainViews();
-        this._onOpenDocumentation();
+        if (localStorage.getItem('gv-policy-studio:keep-documentation-close') == null) {
+          this._onOpenDocumentation();
+        }
+
       }
       catch (e) {
         this._currentAskConfirmation = null;
       }
-
     }
     else {
-      this._closeFlowStepForm();
+      await this._closeFlowStepForm();
       this._maximizeTopView();
     }
+  }
+
+  async _onEditFlowStep ({ detail: { step, flow, policy, group } }) {
+    return this._editFlowStep({ step, flow, policy, group });
   }
 
   _getResizableViews () {
@@ -608,8 +663,17 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this.isDirty = true;
   }
 
-  _closeFlowStepForm (force = false) {
-    return this._setCurrentFlowStep(null, null, force);
+  async _onCloseFlowStepForm () {
+    try {
+      await this._closeFlowStepForm();
+    }
+    catch (err) {
+      this._currentAskConfirmation = null;
+    }
+  }
+
+  async _closeFlowStepForm (force = false) {
+    await this._setCurrentFlowStep(null, null, force);
   }
 
   async _askToValidateForms () {
@@ -630,6 +694,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         }
         else {
           this._currentAskConfirmation = null;
+          return forms;
         }
       });
     }
@@ -642,25 +707,38 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       await this._askToValidateForms();
     }
 
-    this._currentFlowStep = currentFlowStep;
-    if (this._currentFlowStep != null) {
-      this._currentFlowStep._initialValues = {
-        ...this._currentFlowStep.step.configuration,
-        description: this._currentFlowStep.step.description,
-      };
+    const schema = deepClone(flowStepSchema);
+    if (currentFlowStep != null) {
+
+      const configuration = typeof currentFlowStep.step.configuration === 'string'
+        ? JSON.parse(currentFlowStep.step.configuration) : currentFlowStep.step.configuration;
+      const step = { ...currentFlowStep.step, configuration };
+
+      const _initialValues = { ...step.configuration, description: step.description };
+      this._currentFlowStep = { ...currentFlowStep, step, _initialValues };
+
       if (flowStepSchema && flowStepSchema.properties.scope) {
-        if (flowStepSchema.properties.scope.enum.find((scope) => ['REQUEST', 'REQUEST_CONTENT', 'RESPONSE', 'RESPONSE_CONTENT'].includes(scope)) != null) {
+        const _enum = schema.properties.scope.enum;
+        if (_enum.find((scope) => ['REQUEST', 'REQUEST_CONTENT', 'RESPONSE', 'RESPONSE_CONTENT'].includes(scope)) != null) {
           const filtered = this._currentFlowStep.group === 'pre' ? ['REQUEST', 'REQUEST_CONTENT'] : ['RESPONSE', 'RESPONSE_CONTENT'];
-          flowStepSchema.properties.scope.enum = flowStepSchema.properties.scope.enum.filter((scope) => filtered.includes(scope));
+          schema.properties.scope.enum = _enum.filter((scope) => filtered.includes(scope));
           const scope = this._currentFlowStep.step.configuration.scope;
-          if (scope == null || !flowStepSchema.properties.scope.enum.includes(scope)) {
-            this._currentFlowStep.step.configuration.scope = flowStepSchema.properties.scope.enum[0];
+          if (scope == null || !schema.properties.scope.enum.includes(scope)) {
+            schema.properties.scope.default = schema.properties.scope.enum[0];
+            this._currentFlowStep.step.configuration.scope = schema.properties.scope.enum[0];
+            this._currentFlowStep._initialValues.scope = schema.properties.scope.enum[0];
+            if (this._currentFlowStep._values) {
+              this._currentFlowStep._values.scope = schema.properties.scope.enum[0];
+            }
           }
         }
       }
     }
+    else {
+      this._currentFlowStep = null;
+    }
 
-    this._flowStepSchema = flowStepSchema;
+    this._flowStepSchema = schema;
   }
 
   _refresh (closeStepForm = true) {
@@ -683,17 +761,22 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   }
 
-  _onOpenDocumentationFromMenu ({ detail: { policy } }) {
-    if (this.documentation == null || this.documentation.id !== policy.id) {
-      this._currentPolicyId = policy.id;
-      this._closeFlowStepForm();
-      if (this.getSelectedFlow()) {
-        this._splitMainViews();
+  async _onOpenDocumentationFromMenu ({ detail: { policy } }) {
+    try {
+      if (this.documentation == null || this.documentation.id !== policy.id) {
+        await this._closeFlowStepForm();
+        this._currentPolicyId = policy.id;
+        if (this.getSelectedFlow()) {
+          this._splitMainViews();
+        }
+        else {
+          this._maximizeBottomView();
+        }
+        dispatchCustomEvent(this, 'fetch-documentation', { policy });
       }
-      else {
-        this._maximizeBottomView();
-      }
-      dispatchCustomEvent(this, 'fetch-documentation', { policy });
+    }
+    catch (e) {
+
     }
   }
 
@@ -707,6 +790,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     if (this._currentFlowStep && this._currentFlowStep.policy) {
       this._fetchDocumentation(this._currentFlowStep.policy);
     }
+  }
+
+  _onOpenDocumentationFromForm () {
+    localStorage.removeItem('gv-policy-studio:keep-documentation-close');
+    this._onOpenDocumentation();
   }
 
   _findFlowCollection (flowId) {
@@ -741,11 +829,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   _writeFlowStep (values) {
     const { description, ...configuration } = values;
     if (this._currentFlowStep.step._new || this._currentFlowStep.step.description !== description || !deepEqual(this._currentFlowStep.step.configuration, configuration)) {
-      delete this._currentFlowStep.step._new;
       const flow = this._findFlowById(this._currentFlowStep.flow._id);
       const position = flow[this._currentFlowStep.group].findIndex((step) => step._id === this._currentFlowStep.step._id);
       flow[this._currentFlowStep.group][position].description = description;
       flow[this._currentFlowStep.group][position].configuration = configuration;
+      delete flow[this._currentFlowStep.group][position]._new;
       flow[this._currentFlowStep.group][position]._dirty = true;
       flow._dirty = true;
       this.isDirty = true;
@@ -756,7 +844,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   async _onSubmitFlowStep ({ detail }) {
     this._writeFlowStep(detail.values);
-    await this.requestUpdate('_definition', this._initialDefinition);
+    await this.requestUpdate('_definition');
     this.getChildren().forEach((c) => (c.requestUpdate()));
   }
 
@@ -816,8 +904,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _changeTab (tabId) {
-    this.tabId = tabId;
-    dispatchCustomEvent(this, 'change-tab', this.tabId);
+    if (this._currentAskConfirmation == null) {
+      this.tabId = tabId;
+      dispatchCustomEvent(this, 'change-tab', this.tabId);
+    }
   }
 
   _onDragStartFlowStep (flow, { detail }) {
@@ -846,9 +936,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                  .plan="${plan}"
                  .policies="${this.policies}"
                  slot="content"
+                 ?disabled="${this._currentAskConfirmation}"
                  .dragPolicy="${this._dragPolicy}"
                  .dropPolicy="${this._dropPolicy}"
                  .selectedStepId="${selectedStepId}"
+                 ?has-policy-filter="${this._policyFilterOptions != null}"
+                 flows-title="${this.flowsTitle}"
                  @gv-flow:drag-start="${this._onDragStartFlowStep.bind(this, flow)}"
                  @gv-flow:edit="${this._onEditFlowStep}"
                  @gv-flow:change-state="${this._onChangeFlowStepState}"
@@ -884,12 +977,18 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       return html`<gv-resizable-views direction="horizontal" no-overflow>
                     <div slot="top">${this._renderFlowStepForm()}</div>
                     <div slot="bottom">
-                      <gv-documentation .text="${this.documentation.content}" .image="${this.documentation.image}" @gv-documentation:close="${this._onCloseDocumentation}"></gv-documentation>
+                      <gv-documentation .text="${this.documentation.content}" 
+                                        .image="${this.documentation.image}" 
+                                        ?disabled="${this._currentAskConfirmation}"
+                                        @gv-documentation:close="${this._onCloseDocumentation}"></gv-documentation>
                     </div>
                   </gv-resizable-views>`;
     }
     else if (this.documentation) {
-      return html`<gv-documentation .text="${this.documentation.content}" .image="${this.documentation.image}" @gv-documentation:close="${this._onCloseDocumentation}"></gv-documentation>`;
+      return html`<gv-documentation .text="${this.documentation.content}" 
+                                    .image="${this.documentation.image}"
+                                    ?disabled="${this._currentAskConfirmation}" 
+                                    @gv-documentation:close="${this._onCloseDocumentation}"></gv-documentation>`;
     }
 
     else if (this._flowStepSchema) {
@@ -970,7 +1069,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _renderFlowStepForm () {
     const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
-
     return html`${cache(this._flowStepSchema && this._currentFlowStep
       ? html`<div class="flow-step__container">
            <div class="flow-step__form">
@@ -988,9 +1086,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                 @gv-schema-form:submit="${this._onSubmitFlowStep}">
 
                   <div slot="title" class="flow-step__form-title">${this._currentFlowStep.step.name}</div>
-                  <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._closeFlowStepForm}" title="Close (esc)"></gv-button>
-                  <gv-button slot="header-left" icon="home:book" ?disabled="${this.documentation != null}" outlined small @gv-button:click="${this._fetchDocumentation.bind(this, this._currentFlowStep.policy)}" title="Open documentation"></gv-button>
-
+                  <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._onCloseFlowStepForm}" title="Close (esc)"></gv-button>
+                  <gv-button slot="header-left" icon="home:book" ?disabled="${this.documentation != null}" outlined small 
+                             @gv-button:click="${this._onOpenDocumentationFromForm}" 
+                             title="Open documentation"></gv-button>
+                  
               </gv-schema-form>
             </div>
         </div>` : '')}`;
@@ -1000,6 +1100,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this.documentation = null;
     if (this._currentFlowStep == null) {
       this._maximizeTopView();
+    }
+    else {
+      localStorage.setItem('gv-policy-studio:keep-documentation-close', true);
     }
   }
 
@@ -1252,38 +1355,32 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   _buildDefinitionToSave () {
     // Copy definition and remove invalid step
     // Keep private properties like _id and others stuff useful for render
-    const plans = this._definition.plans.map((plan) => {
-      const flows = plan.flows
-        .map((flow) => {
-          flow.pre = flow.pre.filter(this._filterNotValidStep);
-          flow.post = flow.post.filter(this._filterNotValidStep);
-          return flow;
-        });
-      return { ...plan, flows };
-    });
-
     const flows = this._definition.flows
       .map((flow) => {
         flow.pre = flow.pre.filter(this._filterNotValidStep);
         flow.post = flow.post.filter(this._filterNotValidStep);
         return flow;
       });
-    return { ...this._definition, flows, plans };
+
+    let definition = { ...this._definition, flows };
+
+    if (this._definition.plans != null) {
+      const plans = this._definition.plans.map((plan) => {
+        const flows = plan.flows
+          .map((flow) => {
+            flow.pre = flow.pre.filter(this._filterNotValidStep);
+            flow.post = flow.post.filter(this._filterNotValidStep);
+            return flow;
+          });
+        return { ...plan, flows };
+      });
+      definition = { ...definition, plans };
+    }
+    return definition;
   }
 
   _buildDefinitionToSend (definitionToSave) {
     // Copy definition and remove all private properties
-    const plans = definitionToSave.plans.map((plan) => {
-      const flows = plan.flows
-        .map((f) => {
-          const flow = this._removePrivateProperties(f);
-          flow.pre = flow.pre.map(this._removePrivateProperties);
-          flow.post = flow.post.map(this._removePrivateProperties);
-          return flow;
-        });
-      return { ...plan, flows };
-    });
-
     const flows = definitionToSave.flows
       .map((f) => {
         const flow = this._removePrivateProperties(f);
@@ -1292,13 +1389,34 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         return flow;
       });
 
-    const resources = this._definition.resources.map(this._removePrivateProperties);
-    return { ...this._definition, flows, resources, plans };
+    let definition = { ...this._definition, flows };
+    if (this._definition.plans != null) {
+      const plans = definitionToSave.plans.map((plan) => {
+        const flows = plan.flows
+          .map((f) => {
+            const flow = this._removePrivateProperties(f);
+            flow.pre = flow.pre.map(this._removePrivateProperties);
+            flow.post = flow.post.map(this._removePrivateProperties);
+            return flow;
+          });
+        return { ...plan, flows };
+      });
+      definition = { ...definition, plans };
+    }
+
+    if (this._definition.resources != null) {
+      const resources = this._definition.resources.map(this._removePrivateProperties);
+      definition = { ...definition, resources };
+    }
+
+    return definition;
   }
 
   _onSaveAll () {
 
-    this.getPropertiesElement().submit();
+    if (this.hasProperties) {
+      this.getPropertiesElement().submit();
+    }
 
     Promise.all(this._submitOrConfirmForms())
       .then(() => {
@@ -1306,9 +1424,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         const definition = this._buildDefinitionToSend(this._definitionSaved);
         dispatchCustomEvent(this, 'save', { definition, services: this.services });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(`[policy-studio] Error on save`, err);
       });
-
   }
 
   get filteredFlows () {
@@ -1372,12 +1490,13 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               .policies="${this._getFilteredPolicies()}"
               .selectedIds="${[this._currentPolicyId]}"
               .query="${this._searchPolicyQuery}"
+              ?has-policy-filter="${this._policyFilterOptions != null}"
               @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
               @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
               @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}">
 
               <div slot="header" class="search-policies">
-                <gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._policyFilterOptions}" multiple outlined .value="${this._policyFilter}" small @gv-option:select="${this._onFilterPolicies}"></gv-option>
+               ${this._policyFilterOptions != null ? html`<gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._policyFilterOptions}" multiple outlined .value="${this._policyFilter}" small @gv-option:select="${this._onFilterPolicies}"></gv-option>` : ''}
                 <gv-input
                     id="search-policy"
                     ?disabled="${this._currentAskConfirmation}"
@@ -1462,8 +1581,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               .plans="${this.filteredPlans}"
               .selectedIds="${this.selectedFlowsId}"
               ?disabled="${this._currentAskConfirmation}"
-              sortable
+              ?sortable="${this.sortable}"
+              flows-title="${this.flowsTitle}"
               .query="${this._searchFlowQuery}"
+              ?can-add="${this.canAdd}"
               @gv-policy-studio-menu:reorder-flows="${this._onReorderFlows}"
               @gv-policy-studio-menu:change-flow-state="${this._onChangeFlowState}"
               @gv-policy-studio-menu:add-flow="${this._onAddFlow}"
@@ -1474,7 +1595,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
                 <div slot="header" class="header-actions">
                   <div class="title">${this._definition.name}</div>
-                  <gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._flowFilterOptions}" multiple outlined .value="${this._flowFilter}" small @gv-option:select="${this._onFilterFlows}"></gv-option>
+                  ${this._flowFilterOptions != null ? html`<gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._flowFilterOptions}" multiple outlined .value="${this._flowFilter}" small @gv-option:select="${this._onFilterFlows}"></gv-option>` : ''}
                   <gv-input  ?disabled="${this._currentAskConfirmation}" id="search-flow" placeholder="Filter flows (Ctrl + Space)" type="search" small
                     @gv-input:input="${this._onSearchFlows}"
                     @gv-input:clear="${this._onClearFlows}"></gv-input>
@@ -1486,7 +1607,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                 </div>
          </gv-policy-studio-menu>
 
-        <gv-tabs .value="${this.tabId}" .options="${this._tabs}" @gv-tabs:change="${this._onChangeTab}" .validator="${this._changeTabValidator.bind(this)}">
+        <gv-tabs .value="${this.tabId}" .options="${this._tabs}"
+                  .disabled="${this._currentAskConfirmation}" 
+                  @gv-tabs:change="${this._onChangeTab}" 
+                 .validator="${this._changeTabValidator.bind(this)}">
             ${this._renderDesign()}
             ${this._renderConfigurationForm()}
             <gv-properties id="properties" slot="content" class="properties"

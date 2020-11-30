@@ -231,12 +231,12 @@ describe('P O L I C Y  S T U D I O', () => {
       expect(component.definition.flows.length).toEqual(0);
     });
 
-    test('should update definition when submit schema form with updated flow', () => {
+    test('should update definition when submit schema form with updated flow', async () => {
       const _id = 'foobar';
       const flow = { _id, name: 'New flow', condition: '#method == "POST"' };
       component.definition = { flows: [flow] };
 
-      component._onSelectFlows({ detail: { flows: [flow._id] } });
+      await component._onSelectFlows({ detail: { flows: [flow._id] } });
       const updatedFlow = {
         name: 'Updated flow',
         description: 'more....',

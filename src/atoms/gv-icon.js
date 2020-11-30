@@ -72,14 +72,27 @@ export class GvIcon extends LitElement {
       `];
   }
 
-  static async _getIcon (name) {
+  static async getAsBase64 (name) {
+    await this._load(name);
     const [shape, icon] = name.split(':');
+    const tmp = document.createElement('div');
+    tmp.innerHTML = window.GvIcons[shape][icon];
+    return `data:image/svg+xml;base64,${window.btoa(new XMLSerializer().serializeToString(tmp.firstChild))}`;
+  }
+
+  static async _load (name) {
+    const [shape] = name.split(':');
     if (window.GvIcons == null) {
       window.GvIcons = {};
     }
     if (shape && window.GvIcons[shape] == null) {
       await import(`../icons/shapes/${shape}.js`);
     }
+  }
+
+  static async _getIcon (name) {
+    await this._load(name);
+    const [shape, icon] = name.split(':');
     if (shape && window.GvIcons[shape]) {
       return new TemplateResult([window.GvIcons[shape][icon]], [], 'html');
     }

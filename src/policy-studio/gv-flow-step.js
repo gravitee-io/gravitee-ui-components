@@ -32,11 +32,12 @@ import '../atoms/gv-switch';
  *
  * @attr {Object<{name, icon, configuration:{description, ...}}>} step - the flow step, configuration contains form conf for gv-schema-form component
  * @attr {Boolean} editing - true, if edition in progress
- * @attr {Boolean} editing - true, if dragging in progress
+ * @attr {Boolean} dragging - true, if dragging in progress
  * @attr {Boolean} hover - true, if area is hover
  * @attr {String} title - title of area, default is "content.configuration.description" if exist
  * @attr {Boolean} empty - true, if render empty state
  * @attr {Boolean} confirm - true, if render confirm state
+ * @attr {Boolean} disabled - true for disabled
  */
 export class GvFlowStep extends withResizeObserver(LitElement) {
 
@@ -53,6 +54,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
       title: { type: String, reflect: true },
       empty: { type: Boolean, reflect: true },
       confirm: { type: Boolean, reflect: true },
+      disabled: { type: Boolean, reflect: true },
       _small: { type: Boolean, attribute: false },
       _confirmDelete: { type: Boolean, reflect: true },
       _confirmDuplicate: { type: Boolean, reflect: true },
@@ -92,21 +94,25 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
   }
 
   _edit () {
-    if (this.policy) {
+    if (this.policy && !this.disabled) {
       dispatchCustomEvent(this, 'edit', { step: this.step, policy: this.policy, group: this.group });
     }
   }
 
   _onMouseEnter () {
-    this.hover = true;
-    const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
-    dropdownMenu.setAttribute('open', true);
+    if (!this.disabled) {
+      this.hover = true;
+      const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
+      dropdownMenu.setAttribute('open', true);
+    }
   }
 
   _onMouseLeave () {
-    this.hover = false;
-    const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
-    dropdownMenu.removeAttribute('open');
+    if (!this.disabled) {
+      this.hover = false;
+      const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
+      dropdownMenu.removeAttribute('open');
+    }
   }
 
   _onDelete () {
@@ -149,6 +155,9 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
   }
 
   _renderDropdownMenu () {
+    if (this.disabled) {
+      return html``;
+    }
     const enabled = this.step.enabled !== false;
     return html`<gv-dropdown-menu right>
                   <gv-switch slot="action" class="action" small label="${enabled ? 'Enabled' : 'Disabled'}" title="${enabled ? 'Disable policy ?' : 'Enable policy ?'}" @gv-switch:input="${this._onChangeState}" .value="${enabled}"></gv-switch>
