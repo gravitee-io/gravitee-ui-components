@@ -30,12 +30,13 @@ Array
     };
   });
 
-const KIND_SORT = ['welcome', 'documentation', 'atoms', 'charts', 'molecules', 'organisms', 'policy'];
+const KIND_SORT = ['welcome', 'documentation', 'atoms', 'molecules', 'organisms', 'charts', 'policy'];
 
 addParameters({
   options: {
     docs: {
       iframeHeight: '200px',
+      inlineStories: false,
     },
     showPanel: true,
     storySort: (a, b) => {
