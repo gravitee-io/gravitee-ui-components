@@ -17,7 +17,6 @@ import * as blockPreview from '@storybook/components/dist/blocks/Preview';
 import { color, text } from '@storybook/addon-knobs';
 import { sequence } from './sequence';
 import customElements from '../../.docs/custom-elements.json';
-// NOTE: Those dirty injects are work in progress
 
 // Force html in preview examples
 const oldPreview = blockPreview.Preview;
@@ -97,7 +96,7 @@ export function makeStory (...configs) {
 
   const generatedSource = () => items
     .map(({ innerHTML = '', ...props }) => {
-
+      const variables = [];
       const allPropertiesAndAttributes = Object.entries(props)
         .map(([name, value]) => {
           if (value === true) {
@@ -106,11 +105,10 @@ export function makeStory (...configs) {
           if (typeof value === 'string' || typeof value === 'number') {
             return `${name}=${JSON.stringify(String(value))}`;
           }
-          if (typeof value === 'object' && Array.isArray(value)) {
-            return `.${name}='${JSON.stringify(value)}'`;
-          }
           if (typeof value === 'object') {
-            return `.${name}='${JSON.stringify(value)}'`;
+            variables.push({ name, value });
+            const variableName = '${' + name + '}';
+            return `.${name}='${variableName}'`;
           }
         })
         .filter((a) => a != null);
@@ -119,7 +117,11 @@ export function makeStory (...configs) {
         ? ' ' + allPropertiesAndAttributes.join(' ')
         : '';
 
-      return `<${component}${attrsAndProps}>${innerHTML}</${component}>`;
+      const variablesAsJavascript = variables.map(({ name, value }) => {
+        return `const ${name} = ${JSON.stringify(value, null, 2)}`;
+      });
+
+      return `${variablesAsJavascript.join('\n')}\n<${component}${attrsAndProps}>${innerHTML}</${component}>`;
     })
     .join('\n');
 
