@@ -34,6 +34,7 @@ import { i18n } from '../lib/i18n';
 import { shapeClipboard, shapeCopied } from '../styles/shapes';
 import { dispatchCustomEvent } from '../lib/events';
 import { InputElement } from '../mixins/input-element';
+import { uuid } from '../lib/utils';
 
 /**
  * Code component
@@ -63,7 +64,7 @@ export class GvCode extends InputElement(LitElement) {
 
   constructor () {
     super();
-    this._id = `gv-code-${new Date().getTime()}`;
+    this._id = `gv-code-${uuid()}`;
     this.value = '';
     this.readonly = false;
     this.autofocus = false;
@@ -89,7 +90,11 @@ export class GvCode extends InputElement(LitElement) {
   connectedCallback () {
     super.connectedCallback();
     CodeMirror.defineInitHook((cm) => {
-      cm.on('change', this._onChange.bind(this, cm));
+      cm.on('change', () => {
+        if (this._id === cm.getTextArea().id) {
+          this._onChange(cm);
+        }
+      });
     });
   }
 

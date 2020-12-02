@@ -21,9 +21,9 @@ import '../atoms/gv-image';
 import '../atoms/gv-state';
 import '../molecules/gv-popover';
 import './gv-flow-step';
-import { getFlowName, methods, uuid } from '../lib/studio';
+import { getFlowName, methods } from '../lib/studio';
 import { repeat } from 'lit-html/directives/repeat';
-import { appendDraggableImage } from '../lib/utils';
+import { appendDraggableImage, uuid } from '../lib/utils';
 
 /**
  * Policy studio menu component
