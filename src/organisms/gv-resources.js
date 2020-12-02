@@ -24,7 +24,7 @@ import '../molecules/gv-option';
 import '../atoms/gv-switch';
 import '../atoms/gv-icon';
 import { dispatchCustomEvent } from '../lib/events';
-import { uuid } from '../lib/studio';
+import { uuid } from '../lib/utils';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 
 export class GvResources extends KeyboardElement(LitElement) {

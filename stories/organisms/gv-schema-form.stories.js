@@ -19,6 +19,7 @@ import { makeStory } from '../lib/make-story';
 import mixed from '../resources/schemas/mixed.json';
 import rateLimit from '../resources/schemas/rate-limit.json';
 import resourceFiltering from '../resources/schemas/resource-filtering.json';
+import groovy from '../resources/schemas/groovy.json';
 
 export default {
   title: 'organisms/gv-schema-form',
@@ -84,5 +85,9 @@ export const RateLimit = makeStory(conf, {
 });
 
 export const ResourceFiltering = makeStory(conf, {
-  items: [{ schema: resourceFiltering }],
+  items: [{ schema: resourceFiltering, 'has-footer': true }],
+});
+
+export const Groovy = makeStory(conf, {
+  items: [{ schema: groovy, 'has-header': true }],
 });

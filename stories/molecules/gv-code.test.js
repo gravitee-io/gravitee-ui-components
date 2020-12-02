@@ -49,7 +49,7 @@ describe('<gv-code>', () => {
     expect(component.autofocus).toEqual(false);
     expect(component.clipboard).toEqual(false);
     expect(component._clipboardIcon).toEqual(shapeClipboard);
-    expect(component._id).toMatch(/^gv-code-[0-9]{13}$/gm);
+    expect(component._id).toMatch(/^gv-code-[a-z0-9-]{36}$/gm);
   });
 
   test('should have initialize textArea', () => {
