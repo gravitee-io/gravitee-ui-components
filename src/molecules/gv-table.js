@@ -273,6 +273,10 @@ export class GvTable extends withResizeObserver(LitElement) {
       });
   }
 
+  get items () {
+    return this._itemsProvider;
+  }
+
   _onSortChanged (field, e) {
     if (e) {
       e.preventDefault();
@@ -405,7 +409,7 @@ export class GvTable extends withResizeObserver(LitElement) {
             const optionConfirm = typeof option.confirm === 'function' ? option.confirm(item) : option.confirm;
             if (optionConfirm == null) {
               setTimeout(() => {
-                option.attributes[attribute](item, e, element);
+                option.attributes[attribute](item, e, element, this);
               }, 0);
             }
           });
