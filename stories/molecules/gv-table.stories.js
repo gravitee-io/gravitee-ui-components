@@ -156,7 +156,14 @@ export const components = makeStory(conf, {
         { field: 'name', label: 'Name' },
         { field: 'value', label: 'Component', type: 'gv-input', attributes: { clipboard: true } },
         { label: 'Button', type: 'gv-button', attributes: { innerHTML: 'Click me !' } },
-        { label: 'Confirm', type: 'gv-confirm', attributes: { message: 'Please confirm your click', innerHTML: '<gv-button danger>Click & confirm!</gv-button>' } },
+        {
+          label: 'Confirm',
+          type: 'gv-confirm',
+          attributes: {
+            message: 'Please confirm your click',
+            innerHTML: '<gv-button danger>Click & confirm!</gv-button>',
+          },
+        },
       ],
     },
   }],
@@ -172,5 +179,52 @@ export const LoadingAndError = makeStory(conf, {
     storyWait(2000, ([component]) => {
       component.items = Promise.reject(new Error());
     }),
+  ],
+});
+
+export const users = [
+  { name: '', _new: true },
+  { name: 'me', id: '1' },
+  { name: 'someone else', id: '2' },
+];
+
+export const dynamicRows = makeStory(conf, {
+  items: [
+    {
+      items: users,
+      options: {
+        data: [
+          { field: 'id', label: 'Id' },
+          {
+            field: 'name',
+            label: 'Name',
+            type: (item) => (item._new ? 'gv-input' : 'label'),
+            attributes: {
+              innerHTML: (item) => item._new ? '' : item.name,
+              required: true,
+            },
+          },
+          {
+            label: 'Actions',
+            type: 'gv-button',
+            width: '100px',
+            condition: (item) => item._new,
+            attributes: {
+              innerHTML: 'Add',
+              icon: 'code:plus',
+              outlined: true,
+              'ongv-button:click': (item, event, target, component) => {
+                if (item.name.trim().length > 0) {
+                  const person = { ...item, id: component.items.length };
+                  delete person._new;
+                  component.items[0].name = '';
+                  component.items = [...component.items, person];
+                }
+              },
+            },
+          },
+        ],
+      },
+    },
   ],
 });
