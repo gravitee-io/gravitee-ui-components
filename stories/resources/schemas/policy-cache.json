@@ -6,7 +6,6 @@
       "title": "Cache name",
       "description": "The cache resource used to store the element.",
       "type" : "string",
-      "enum" : [],
       "x-schema-form" : {
         "event" : {
           "name": "fetch-resources",

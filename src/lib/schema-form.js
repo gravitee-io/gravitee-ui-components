@@ -13,14 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function dispatchCustomEvent (node, suffix, detail, options = {}) {
-  const eventName = `${node.nodeName.toLocaleLowerCase()}:${suffix}`;
-  /* global CustomEvent */
-  const event = new CustomEvent(eventName, {
-    detail,
-    bubbles: true,
-    composed: true,
-    ...options,
-  });
-  node.dispatchEvent(event);
+export function isCodemirror (control) {
+  return control['x-schema-form'] && control['x-schema-form'].type === 'codemirror';
 }

@@ -22,7 +22,8 @@ import amPolicies from '../resources/am-policies.json';
 import apimResourceTypes from '../resources/apim-resource-types.json';
 import apimDefinition from '../resources/apim-definition.json';
 import amDefinition from '../resources/am-definition.json';
-import apimForm from '../resources/schemas/apim.json';
+import apimFlow from '../resources/schemas/apim-flow.json';
+import apimConfiguration from '../resources/schemas/apim-configuration.json';
 import apimPropertyProviders from '../resources/apim-property-providers.json';
 import amForm from '../resources/schemas/am.json';
 import icon from '../resources/images/policy.svg';
@@ -111,7 +112,8 @@ export const Empty = makeStory(conf, {
       return policy;
     }),
     resourceTypes: apimResourceTypes.data,
-    flowSettingsForm: apimForm,
+    flowSchema: apimFlow,
+    configurationSchema: apimConfiguration,
     '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
     '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
   }],
@@ -126,7 +128,8 @@ export const APIM = makeStory(conf, {
     resourceTypes: apimResourceTypes.data,
     propertyProviders: apimPropertyProviders.data,
     definition: apimDefinition,
-    flowSettingsForm: apimForm,
+    flowSchema: apimFlow,
+    configurationSchema: apimConfiguration,
     '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
     '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
   }],
@@ -139,7 +142,7 @@ export const AM = makeStory(conf, {
       return policy;
     }),
     definition: amDefinition,
-    flowSettingsForm: amForm,
+    flowSchema: amForm,
     '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
   }],
 });

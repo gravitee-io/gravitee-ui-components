@@ -200,7 +200,7 @@ export class GvSwitch extends LitElement {
     return html`
     <div class="container">
 
-    ${(this.label || this.description) ? html`<div class="labels">
+    ${(this.label || this.description) ? html`<div class="${classMap({ labels: true, skeleton: this.skeleton })}">
         ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
          ${this.description ? html`<label class="switch-description">${this.description}</label>` : ''}
       </div>` : ''}

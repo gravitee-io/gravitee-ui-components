@@ -36,6 +36,7 @@ export class GvResources extends KeyboardElement(LitElement) {
       types: { type: Array },
       documentation: { type: Object },
       _currentResource: { type: Object, attribute: false },
+      _currentResourceLoading: { type: Boolean, attribute: false },
       _filter: { type: String },
     };
   }
@@ -125,7 +126,7 @@ export class GvResources extends KeyboardElement(LitElement) {
           title: 'Resource name',
         },
       },
-      required: ['type', 'name'],
+      required: ['name'],
     };
 
     const schema = typeof resourceType.schema === 'string' ? JSON.parse(resourceType.schema) : resourceType.schema;
@@ -137,9 +138,9 @@ export class GvResources extends KeyboardElement(LitElement) {
   }
 
   _onCreateResource ({ detail }) {
+    this._currentResourceLoading = true;
     const defaultResourceType = this.types.find((type) => type.id === detail.id);
     const schema = this._buildResourceSchema(defaultResourceType);
-
     this._currentResource = {
       type: defaultResourceType.id,
       title: 'Create resource',
@@ -150,6 +151,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     };
     this._maximizeBottomView();
     this._onFetchDocumentation();
+    setTimeout(() => (this._currentResourceLoading = false), 600);
   }
 
   _onSubmitResourceForm ({ detail }) {
@@ -258,7 +260,7 @@ export class GvResources extends KeyboardElement(LitElement) {
                                 submitLabel="${this._currentResource.submitLabel}"
                                  has-header
                                 .icon="${this._currentResource.icon}"
-                                validate
+                                validate-on-render
                                 .dirty="${this._currentResource._values != null}"
                                 @gv-schema-form:change="${this._onChangeResourceForm}"
                                 @gv-schema-form:reset="${this._onResetResourceForm}"

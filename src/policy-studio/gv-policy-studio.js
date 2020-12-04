@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map';
-import { getFlowName, methods } from '../lib/studio';
+import { methods } from '../lib/studio';
 import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-button';
 import '../atoms/gv-icon';
@@ -33,7 +32,7 @@ import './gv-policy-studio-menu';
 import { empty } from '../styles/empty';
 import { loadAsciiDoctor } from '../lib/text-format';
 import { cache } from 'lit-html/directives/cache';
-import { deepClone } from '../lib/utils';
+import { deepClone, deepEqual, uuid } from '../lib/utils';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 
 const FLOW_STEP_FORM_ID = 'flow-step-form';
@@ -42,6 +41,7 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  *  Studio Policy component
  *
  * @fires gv-policy-studio:select-policy - Select policy event
+ * @fires gv-policy-studio:save - When request savet
  *
  * @attr {Array} policies - Policies available
  * @attr {Array} resources - Resources available
@@ -64,7 +64,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       definition: { type: Object },
       _definition: { type: Object, attribute: false },
       documentation: { type: Object },
-      flowSettingsForm: { type: Object },
+      configurationSchema: { type: Object },
+      flowSchema: { type: Object },
       isDirty: { type: Boolean, attribute: 'dirty', reflect: true },
       _dragPolicy: { type: Object, attribute: false },
       _dropPolicy: { type: Object, attribute: false },
@@ -77,7 +78,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       _currentFlowStep: { type: Object, attribute: false },
       _policyFilter: { type: Array, attribute: false },
       _flowFilter: { type: Array, attribute: false },
-      _registeredSchemaForms: { type: Array, attribute: false },
+      _currentAskConfirmation: { type: Boolean, attribute: false },
     };
   }
 
@@ -286,7 +287,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     };
     this._tabs = [
       { id: 'design', title: 'Design', icon: 'navigation:exchange' },
-      { id: 'settings', title: 'Settings', icon: 'general:settings#2' },
+      // { id: 'settings', title: 'Configuration', icon: 'general:settings#2' },
       { id: 'properties', title: 'Properties', icon: 'general:settings#1' },
       { id: 'resources', title: 'Resources', icon: 'general:settings#5' },
     ];
@@ -301,7 +302,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     ];
     this._policyFilter = [];
     loadAsciiDoctor();
-    this._registeredSchemaForms = [];
     this.addEventListener('gv-schema-form:change', this._onSchemaFormChange);
   }
 
@@ -333,30 +333,19 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  _onSchemaFormChange ({ detail }) {
-    const form = detail.target;
-    if (form.id == null || form.id.trim() === '') {
-      console.warn('Cannot register schema form without id');
-    }
-    else if (!this._registeredSchemaForms.includes(form.id)) {
-      this._registeredSchemaForms.push(form.id);
-    }
-  }
-
   get tabId () {
     return this._tabId;
   }
 
   set definition (definition) {
     if (definition) {
-      this._initialDefinition = deepClone(definition);
       const flows = this._generateFlowsId(definition.flows);
       const resources = this._generateId('resource-', definition.resources);
       const plans = definition.plans == null ? [] : definition.plans.map((plan) => {
         return { ...plan, flows: this._generatePlanFlowsId(plan) };
       });
-
-      this._definition = { ...definition, flows, resources, plans };
+      this._initialDefinition = { ...definition, flows, resources, plans };
+      this._definition = deepClone(this._initialDefinition);
       this.isDirty = false;
       this._selectFirstFlow();
     }
@@ -407,64 +396,104 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
+  _getFlowElement (flowId) {
+    return this.shadowRoot.querySelector(`[id="${flowId}"]`);
+  }
+
   _onDragEndPolicy () {
     this.shadowRoot.querySelectorAll('gv-flow').forEach((e) => e.onDragEnd());
   }
 
-  _onDropPolicy ({ detail }) {
-    const targetFlow = this._findFlowById(detail.flowId);
-    const sourceFlow = detail.sourceFlowId != null ? this._findFlowById(detail.sourceFlowId) : targetFlow;
-    const policy = detail.policy;
+  async _onDropPolicy ({ detail }) {
+    try {
 
-    let name = policy.name;
-    let description = policy.description;
-    let configuration = {};
-    if (detail.flowStep) {
-      name = detail.flowStep.name;
-      description = detail.flowStep.description;
-      configuration = detail.flowStep.configuration;
-    }
+      await this._askToValidateForms();
 
-    const flowStep = { name, policy: policy.id, description, enabled: true, configuration };
+      const policy = detail.policy;
 
-    if (detail.sourcePosition != null) {
-      if (detail.sourceFlowKey && detail.sourceFlowKey !== detail.flowKey) {
-        sourceFlow[detail.sourceFlowKey].splice(detail.sourcePosition, 1);
-        targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
+      let name = policy.name;
+      let description = '';
+      let configuration = {};
+      let _id;
+      let _new = false;
+      if (detail.flowStep) {
+        _id = detail.flowStep._id;
+        name = detail.flowStep.name;
+        description = detail.flowStep.description || '';
+        configuration = detail.flowStep.configuration;
       }
       else {
-        if (detail.position > detail.sourcePosition) {
+        _id = uuid();
+        _new = true;
+      }
+
+      const flowStep = { _id, _new, name, policy: policy.id, description, enabled: true, configuration };
+
+      const targetFlow = this._findFlowById(detail.flowId);
+      const sourceFlow = detail.sourceFlowId != null ? this._findFlowById(detail.sourceFlowId) : targetFlow;
+
+      if (detail.sourcePosition != null) {
+        if (detail.sourceFlowKey && detail.sourceFlowKey !== detail.flowKey) {
+          sourceFlow[detail.sourceFlowKey].splice(detail.sourcePosition, 1);
           targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
-          sourceFlow[detail.flowKey].splice(detail.sourcePosition, 1);
         }
         else {
-          sourceFlow[detail.flowKey].splice(detail.sourcePosition, 1);
-          targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
+          if (detail.position > detail.sourcePosition) {
+            targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
+            sourceFlow[detail.flowKey].splice(detail.sourcePosition, 1);
+          }
+          else {
+            sourceFlow[detail.flowKey].splice(detail.sourcePosition, 1);
+            targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
+          }
+        }
+        // Force Refresh source flow element when move to other flow
+        if (targetFlow._id !== sourceFlow._id) {
+          this._getFlowElement(targetFlow._id).requestUpdate();
         }
       }
-      this._refresh(true);
-      this._onCloseDocumentation();
+      else {
+        targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
+        const currentFlowForm = this._getFlowStepForm();
+        if (currentFlowForm == null || currentFlowForm.dirty !== true) {
+
+          let step = targetFlow[detail.flowKey][detail.position];
+          if (step == null) {
+            // When confirm lose change after drop policy
+            step = targetFlow[detail.flowKey][detail.position - 1];
+          }
+
+          if (detail.cancelEdit !== true) {
+            this._onEditFlowStep({
+              detail: {
+                step,
+                policy,
+                flow: targetFlow,
+                group: detail.flowKey,
+              },
+            });
+
+            this.updateComplete.then(() => {
+              const flowElement = this._getFlowElement(targetFlow._id);
+              flowElement.selectedStepId = step._id;
+              flowElement.requestUpdate();
+            });
+
+          }
+        }
+      }
+      targetFlow._dirty = true;
+      sourceFlow._dirty = true;
+      this.isDirty = true;
+      this.shadowRoot.querySelectorAll('gv-flow').forEach((gvFlow) => gvFlow.removeCandidate());
+      setTimeout(() => {
+        this._dragPolicy = null;
+        this._dropPolicy = null;
+      }, 0);
     }
-    else {
-      targetFlow[detail.flowKey].splice(detail.position, 0, flowStep);
-      const step = targetFlow[detail.flowKey][detail.position];
-      this._onEditFlowStep(targetFlow, {
-        detail: {
-          step,
-          policy,
-          flowKey: detail.flowKey,
-          position: detail.position,
-        },
-      });
+    catch (e) {
+      this._currentAskConfirmation = null;
     }
-    targetFlow._dirty = true;
-    sourceFlow._dirty = true;
-    this.isDirty = true;
-    this.shadowRoot.querySelectorAll('gv-flow').forEach((gvFlow) => gvFlow.removeCandidate());
-    setTimeout(() => {
-      this._dragPolicy = null;
-      this._dropPolicy = null;
-    }, 0);
 
   }
 
@@ -473,7 +502,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     targetFlow[detail.flowKey].splice(detail.position, 1);
     targetFlow._dirty = true;
     this.isDirty = true;
-    this._refresh(detail.isEditable);
+    if (detail.target.editing) {
+      this._closeFlowStepForm(true);
+    }
+    this._getFlowElement(detail.flowId).requestUpdate();
   }
 
   _onDesign () {
@@ -481,29 +513,33 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._splitMainViews();
   }
 
-  async _onEditFlowStep (flow, { detail }) {
-    if (detail) {
-      const currentFlowStep = { flow, step: detail.step, ...detail };
-      let flowStepSchema = null;
-      this._currentPolicyId = detail.policy.id;
-      if (detail.policy.schema) {
-        const description = {
-          title: 'Description',
-          description: 'Description of flow step',
-          type: 'string',
-        };
-        const schema = typeof detail.policy.schema === 'string' ? JSON.parse(detail.policy.schema) : detail.policy.schema;
-        const properties = { description, ...schema.properties };
-        flowStepSchema = { ...schema, properties };
-      }
+  buildSchema ({ schema }) {
+    const description = {
+      title: 'Description',
+      description: 'Description of flow step',
+      type: 'string',
+    };
+    if (schema) {
+      const jsonSchema = typeof schema === 'string' ? JSON.parse(schema) : schema;
+      const properties = { description, ...jsonSchema.properties };
+      return { ...jsonSchema, properties };
+    }
+    return { properties: { description } };
+  }
+
+  async _onEditFlowStep ({ detail: { step, flow, policy, group } }) {
+    if (step) {
+      this._currentPolicyId = policy.id;
+      const currentFlowStep = { flow, step, policy, group };
+      const schema = this.buildSchema(policy);
       try {
-        await this._setCurrentFlowStep(currentFlowStep, flowStepSchema);
+        await this._setCurrentFlowStep(currentFlowStep, schema);
         this._updateSelectedFlows([flow._id]);
         this._splitMainViews();
         this._onOpenDocumentation();
       }
       catch (e) {
-
+        this._currentAskConfirmation = null;
       }
 
     }
@@ -518,7 +554,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _maximizeTopView () {
-    this._getResizableViews().maximizeTop();
+    if (this.selectedFlowsId.length <= 1) {
+      this._getResizableViews().maximizeTop();
+    }
   }
 
   _maximizeBottomView () {
@@ -535,31 +573,56 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     step.enabled = detail.enabled;
     targetFlow._dirty = true;
     this.isDirty = true;
-    this._refresh(false);
   }
 
   _closeFlowStepForm (force = false) {
-    this._setCurrentFlowStep(null, null, force);
+    return this._setCurrentFlowStep(null, null, force);
+  }
+
+  async _askToValidateForms () {
+    if (this._currentAskConfirmation == null) {
+      this._currentAskConfirmation = true;
+      return Promise.all(this._submitOrConfirmForms()).then((forms) => {
+        if (forms.filter((r) => r != null).length > 0) {
+          this._definition = this._buildDefinitionToSave();
+          this.getChildren().forEach((e) => e.requestUpdate());
+          // Refresh if lose changes lost current step selection
+          return this._checkCurrentFlowStep().then(() => {
+            this.getChildren().forEach((e) => e.requestUpdate());
+            return this.updateComplete.then(() => {
+              this._currentAskConfirmation = null;
+              return forms;
+            });
+          });
+        }
+        else {
+          this._currentAskConfirmation = null;
+        }
+      });
+    }
+    throw new Error('ask already waiting');
   }
 
   async _setCurrentFlowStep (currentFlowStep, flowStepSchema, force = false) {
+
     if (!force) {
-      const form = this._getFlowStepForm();
-      if (form && form.dirty) {
-        // eslint-disable-next-line no-useless-catch
-        await form.confirm();
-      }
+      await this._askToValidateForms();
     }
 
     this._currentFlowStep = currentFlowStep;
-
-    if (flowStepSchema && flowStepSchema.properties.scope) {
-      if (flowStepSchema.properties.scope.enum.find((scope) => ['REQUEST', 'REQUEST_CONTENT', 'RESPONSE', 'RESPONSE_CONTENT'].includes(scope)) != null) {
-        const filtered = this._currentFlowStep.flowKey === 'pre' ? ['REQUEST', 'REQUEST_CONTENT'] : ['RESPONSE', 'RESPONSE_CONTENT'];
-        flowStepSchema.properties.scope.enum = flowStepSchema.properties.scope.enum.filter((scope) => filtered.includes(scope));
-        const scope = this._currentFlowStep.step.configuration.scope;
-        if (scope == null || !flowStepSchema.properties.scope.enum.includes(scope)) {
-          this._currentFlowStep.step.configuration.scope = flowStepSchema.properties.scope.enum[0];
+    if (this._currentFlowStep != null) {
+      this._currentFlowStep._initialValues = {
+        ...this._currentFlowStep.step.configuration,
+        description: this._currentFlowStep.step.description,
+      };
+      if (flowStepSchema && flowStepSchema.properties.scope) {
+        if (flowStepSchema.properties.scope.enum.find((scope) => ['REQUEST', 'REQUEST_CONTENT', 'RESPONSE', 'RESPONSE_CONTENT'].includes(scope)) != null) {
+          const filtered = this._currentFlowStep.group === 'pre' ? ['REQUEST', 'REQUEST_CONTENT'] : ['RESPONSE', 'RESPONSE_CONTENT'];
+          flowStepSchema.properties.scope.enum = flowStepSchema.properties.scope.enum.filter((scope) => filtered.includes(scope));
+          const scope = this._currentFlowStep.step.configuration.scope;
+          if (scope == null || !flowStepSchema.properties.scope.enum.includes(scope)) {
+            this._currentFlowStep.step.configuration.scope = flowStepSchema.properties.scope.enum[0];
+          }
         }
       }
     }
@@ -574,14 +637,17 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._definition = deepClone(this._definition);
   }
 
-  _onSelectFlows ({ detail }) {
-    this._closeFlowStepForm();
-    this._updateSelectedFlows(detail.flows);
-    this._onDesign();
-    if (detail.flows.length <= 1) {
-      this._maximizeTopView();
+  async _onSelectFlows ({ detail }) {
+    try {
+      await this._closeFlowStepForm();
+      this._onCloseDocumentation();
+      this._updateSelectedFlows(detail.flows);
+      this._onDesign();
     }
-    this._onCloseDocumentation();
+    catch (e) {
+      this._currentAskConfirmation = null;
+    }
+
   }
 
   _onOpenDocumentationFromMenu ({ detail: { policy } }) {
@@ -616,8 +682,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _findFlowById (flowId) {
-    const plansFlows = this.definedPlans.map((plan) => plan.flows).reduce((acc, val) => acc.concat(val), []);
-    return [...plansFlows, ...this.definedFlows].find((flow) => flow._id === flowId);
+    let flow = this.definedFlows.find((flow) => flow._id === flowId);
+    if (flow == null) {
+      const plansFlows = this.definedPlans.map((plan) => plan.flows).reduce((acc, val) => acc.concat(val), []);
+      flow = plansFlows.find((flow) => flow._id === flowId);
+    }
+    return flow;
   }
 
   getSelectedFlow (index = 0) {
@@ -626,28 +696,35 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _onTargetPolicy ({ detail }) {
-    this._dragPolicy = detail;
+    if (this._currentAskConfirmation == null) {
+      this._dragPolicy = detail;
+    }
   }
 
   _onChangeFlowStep ({ detail }) {
     this._currentFlowStep._values = detail.values;
   }
 
-  _onSubmitFlowStep ({ detail }) {
-    delete this._currentFlowStep._values;
-    const { description, ...configuration } = detail.values;
-    this._currentFlowStep.step.description = description;
-    this._currentFlowStep.step.configuration = configuration;
-    this._currentFlowStep.step._dirty = true;
-    if (this._currentFlowStep.flow) {
-      this._currentFlowStep.flow._dirty = true;
+  _writeFlowStep (values) {
+    const { description, ...configuration } = values;
+    delete this._currentFlowStep.step._new;
+    if (this._currentFlowStep.step.description !== description || !deepEqual(this._currentFlowStep.step.configuration, configuration)) {
+      this._currentFlowStep.step.description = description;
+      this._currentFlowStep.step.configuration = configuration;
+      this._currentFlowStep.step._dirty = true;
+      if (this._currentFlowStep.flow) {
+        this._currentFlowStep.flow._dirty = true;
+      }
+      const flow = this._findFlowById(this._currentFlowStep.flow._id);
+      flow[this._currentFlowStep.group][this._currentFlowStep.position] = this._currentFlowStep.step;
+      this.isDirty = true;
     }
-    const flow = this._findFlowById(this._currentFlowStep.flow._id);
-    flow[this._currentFlowStep.flowKey][this._currentFlowStep.position] = this._currentFlowStep.step;
+  }
 
-    this.isDirty = true;
-    // Important to refresh schema-form
-    this._refresh(false);
+  async _onSubmitFlowStep ({ detail }) {
+    this._writeFlowStep(detail.values);
+    await this.requestUpdate('_definition', this._initialDefinition);
+    this.getChildren().forEach((c) => (c.requestUpdate()));
   }
 
   _onCancelFlow () {
@@ -657,7 +734,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   _onSubmitFlow ({ detail: { values } }) {
     const selectedFlow = this.getSelectedFlow();
     selectedFlow.name = values.name || '';
-    selectedFlow.description = values.description || '';
     selectedFlow.condition = values.condition || '';
     selectedFlow['path-operator'] = values['path-operator'];
     selectedFlow.methods = values.methods;
@@ -670,7 +746,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._changeTab(detail.value);
   }
 
-  _changeTabValidator ({ from, to }) {
+  async _changeTabValidator ({ from, to }) {
     if (from === 'properties') {
       const component = this.shadowRoot.querySelector('gv-properties');
       if (component.dirty) {
@@ -684,15 +760,15 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       }
     }
     else {
-      const confirmForms = Object.values(this._registeredSchemaForms)
-        .map((formId) => this.shadowRoot.querySelector(`#${formId}`))
-        .filter((form) => form && form.dirty)
-        .map((form) => form.confirm());
-      if (confirmForms) {
-        return Promise.all(confirmForms);
+      try {
+        return await this._askToValidateForms();
       }
-    }
+      catch (e) {
+        this._currentAskConfirmation = null;
+        throw e;
+      }
 
+    }
     return Promise.resolve();
   }
 
@@ -702,8 +778,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _onDragStartFlowStep (flow, { detail }) {
-    this._dropPolicy = detail;
-    this._dragPolicy = detail;
+    if (this._currentAskConfirmation == null) {
+      this._dropPolicy = detail;
+      this._dragPolicy = detail;
+    }
   }
 
   _renderFlowEmptyState () {
@@ -716,18 +794,20 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     const flow = this.getSelectedFlow(index);
     if (flow) {
       const { plan } = this._findFlowCollection(flow._id);
+      const selectedStepId = this._currentFlowStep ? this._currentFlowStep.step._id : null;
       return html`
                 <gv-flow 
                 style="height: 100%"
+                 .id="${flow._id}"
                  .flow="${flow}"
                  .plan="${plan}"
                  .policies="${this.policies}"
                  slot="content"
                  .dragPolicy="${this._dragPolicy}"
                  .dropPolicy="${this._dropPolicy}"
-                 .editableArea="${this._currentFlowStep}"
+                 .selectedStepId="${selectedStepId}"
                  @gv-flow:drag-start="${this._onDragStartFlowStep.bind(this, flow)}"
-                 @gv-flow:edit="${this._onEditFlowStep.bind(this, flow)}"
+                 @gv-flow:edit="${this._onEditFlowStep}"
                  @gv-flow:change-state="${this._onChangeFlowStepState}"
                  @gv-flow:drop="${this._onDropPolicy}" 
                  @gv-flow:delete="${this._onDeletePolicy}"></gv-flow>`;
@@ -739,7 +819,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _onFetchResources (event) {
-    const { element, regexTypes } = event.detail;
+    const { currentTarget, regexTypes } = event.detail;
     const options = this.definedResources
       .filter((resource) => regexTypes == null || new RegExp(regexTypes).test(resource.type))
       .map((resource, index) => {
@@ -753,7 +833,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           id: resource.type,
         };
       });
-    element.options = options;
+    currentTarget.options = options;
   }
 
   _renderPolicy () {
@@ -780,21 +860,31 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _onResetFlowStep () {
-    delete this._currentFlowStep._values;
-    this._getFlowStepForm().reset();
+    if (this._currentFlowStep) {
+      delete this._currentFlowStep._values;
+      this._getFlowStepForm().reset();
+    }
   }
 
   _generateFlowsId (list, force = false) {
-    return this._generateId('f', list, force);
+    return this._generateId('f', list, force, true);
   }
 
   _generatePlanFlowsId (plan, force = false) {
-    return this._generateId(plan.id, plan.flows, force);
+    return this._generateId(plan.id, plan.flows, force, true);
   }
 
-  _generateId (prefix, list, force = false) {
+  _generateId (prefix, list, force = false, isFlow = false) {
     if (list) {
       return list.map((e, index) => {
+        if (isFlow) {
+          if (e.pre) {
+            e.pre.forEach((step) => (step._id = uuid()));
+          }
+          if (e.post) {
+            e.post.forEach((step) => (step._id = uuid()));
+          }
+        }
         if (force || e._id == null) {
           return { ...e, _id: `${prefix}_${index}` };
         }
@@ -802,6 +892,18 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       });
     }
     return list;
+  }
+
+  getChildren () {
+    return [
+      ...Array.from(this.shadowRoot.querySelectorAll('gv-flow')),
+      ...Array.from(this.shadowRoot.querySelectorAll('gv-resizable-views')),
+    ];
+  }
+
+  async _getUpdateComplete () {
+    await super._getUpdateComplete();
+    await Promise.all(this.getChildren().map((e) => e.updateComplete));
   }
 
   shouldUpdate (changedProperties) {
@@ -824,10 +926,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _renderFlowStepForm () {
-    const values = this._currentFlowStep._values || {
-      ...this._currentFlowStep.step.configuration,
-      description: this._currentFlowStep.step.description,
-    };
+    const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
 
     return html`${cache(this._flowStepSchema && this._currentFlowStep
       ? html`<div class="flow-step__container">
@@ -837,6 +936,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                  .schema="${this._flowStepSchema}" 
                 .icon="design:edit"
                 has-header
+                validate-on-render
                 .values="${values}" 
                 .dirty="${this._currentFlowStep._values != null}"
                 @gv-schema-form:change="${this._onChangeFlowStep}"
@@ -850,7 +950,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                   
               </gv-schema-form>
             </div>
-        </div>` : html``)}`;
+        </div>` : '')}`;
   }
 
   _onCloseDocumentation () {
@@ -883,27 +983,35 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return this._definition && this._definition.properties ? this._definition.properties : [];
   }
 
-  _onDuplicateFlow ({ detail }) {
-    const flowId = detail.content._id;
-    const { plan, flows } = this._findFlowCollection(flowId);
-    this._addFlow(flows, this._findFlowById(flowId));
-    if (plan != null) {
-      let planIndex = null;
-      this.definedPlans.find((p, i) => {
-        if (p.id === plan.id) {
-          planIndex = i;
-          return true;
-        }
-        return false;
-      });
-      plan.flows = flows;
-      this.definedPlans[planIndex].flows = this._generatePlanFlowsId(plan, true);
-      this._updateSelectedFlows([this.definedPlans[planIndex].flows[flows.length - 1]._id]);
+  async _onDuplicateFlow ({ detail }) {
+    try {
+      await this._askToValidateForms();
+
+      const flowId = detail.content._id;
+      const { plan, flows } = this._findFlowCollection(flowId);
+      this._addFlow(flows, this._findFlowById(flowId));
+      if (plan != null) {
+        let planIndex = null;
+        this.definedPlans.find((p, i) => {
+          if (p.id === plan.id) {
+            planIndex = i;
+            return true;
+          }
+          return false;
+        });
+        plan.flows = flows;
+        this.definedPlans[planIndex].flows = this._generatePlanFlowsId(plan, true);
+        this._updateSelectedFlows([this.definedPlans[planIndex].flows[flows.length - 1]._id]);
+      }
+      else {
+        this._definition.flows = this._generateFlowsId(this._definition.flows);
+        this._updateSelectedFlows([this._definition.flows[this._definition.flows.length - 1]._id]);
+      }
     }
-    else {
-      this._definition.flows = this._generateFlowsId(this._definition.flows);
-      this._updateSelectedFlows([this._definition.flows[this._definition.flows.length - 1]._id]);
+    catch (err) {
+      this._currentAskConfirmation = null;
     }
+
   };
 
   _onChangeFlowState ({ detail }) {
@@ -911,19 +1019,31 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     flow.enabled = detail.enabled;
     flow._dirty = true;
     this.isDirty = true;
-    this._refresh();
   }
 
-  _onAddFlowPlan ({ detail }) {
-    this._addFlow(this.definedPlans[detail.planIndex].flows);
-    this.definedPlans[detail.planIndex].flows = this._generatePlanFlowsId(this.definedPlans[detail.planIndex]);
-    this._updateSelectedFlows([this.definedPlans[detail.planIndex].flows[this.definedPlans[detail.planIndex].flows.length - 1]._id]);
+  async _onAddFlowPlan ({ detail }) {
+    try {
+      await this._askToValidateForms();
+      this._addFlow(this.definedPlans[detail.planIndex].flows);
+      this.definedPlans[detail.planIndex].flows = this._generatePlanFlowsId(this.definedPlans[detail.planIndex]);
+      this._updateSelectedFlows([this.definedPlans[detail.planIndex].flows[this.definedPlans[detail.planIndex].flows.length - 1]._id]);
+    }
+    catch (err) {
+      this._currentAskConfirmation = null;
+    }
   }
 
-  _onAddFlow () {
-    this._addFlow(this._definition.flows);
-    this._definition.flows = this._generateFlowsId(this._definition.flows);
-    this._updateSelectedFlows([this._definition.flows[this._definition.flows.length - 1]._id]);
+  async _onAddFlow () {
+    try {
+      await this._askToValidateForms();
+
+      this._addFlow(this._definition.flows);
+      this._definition.flows = this._generateFlowsId(this._definition.flows);
+      this._updateSelectedFlows([this._definition.flows[this._definition.flows.length - 1]._id]);
+    }
+    catch (err) {
+      this._currentAskConfirmation = null;
+    }
   }
 
   _addFlow (collection, duplicate = null) {
@@ -940,7 +1060,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     };
     collection.push(flow);
     this.isDirty = true;
-    this._refresh();
     return collection;
   }
 
@@ -971,30 +1090,34 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return index;
   }
 
-  _onReorderFlows ({ detail: { plan } }) {
-    this.isDirty = true;
-    if (plan != null) {
-      const newOrder = this._generatePlanFlowsId(plan, true);
-      if (this.selectedFlowsId) {
-        this._updateSelectedFlows(this.selectedFlowsId.map((flowId) => {
-          const index = this._findFlowIndex(plan.flows, flowId);
-          return index != null ? newOrder[index]._id : flowId;
-        }));
+  async _onReorderFlows ({ detail: { plan } }) {
+    try {
+      await this._askToValidateForms();
+      this.isDirty = true;
+      if (plan != null) {
+        const newOrder = this._generatePlanFlowsId(plan, true);
+        if (this.selectedFlowsId) {
+          this._updateSelectedFlows(this.selectedFlowsId.map((flowId) => {
+            const index = this._findFlowIndex(plan.flows, flowId);
+            return index != null ? newOrder[index]._id : flowId;
+          }));
+        }
+        plan.flows = newOrder;
       }
-      plan.flows = newOrder;
-    }
-    else {
-      const newOrder = this._generateFlowsId(this._definition.flows, true);
-      if (this.selectedFlowsId) {
-        this._updateSelectedFlows(this.selectedFlowsId.map((flowId) => {
-          const index = this._findFlowIndex(this._definition.flows, flowId);
-          return index != null ? newOrder[index]._id : flowId;
-        }));
+      else {
+        const newOrder = this._generateFlowsId(this._definition.flows, true);
+        if (this.selectedFlowsId) {
+          this._updateSelectedFlows(this.selectedFlowsId.map((flowId) => {
+            const index = this._findFlowIndex(this._definition.flows, flowId);
+            return index != null ? newOrder[index]._id : flowId;
+          }));
+        }
+        this._definition.flows = newOrder;
       }
-      this._definition.flows = newOrder;
     }
-
-    this._refresh(false);
+    catch (err) {
+      this._currentAskConfirmation = false;
+    }
   }
 
   _onSearchPolicy ({ detail }) {
@@ -1013,10 +1136,18 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._searchFlowQuery = null;
   }
 
-  _onResetAll () {
-    this._closeFlowStepForm();
-    this.definition = deepClone(this._initialDefinition);
-    this._splitMainViews();
+  async _onResetAll () {
+    try {
+      await this._closeFlowStepForm();
+      this.definition = deepClone(this._initialDefinition);
+    }
+    catch (e) {
+      this._currentAskConfirmation = null;
+    }
+  }
+
+  _filterNotValidStep (step) {
+    return step._new !== true;
   }
 
   _removePrivateProperties (o) {
@@ -1027,32 +1158,110 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return copy;
   }
 
-  _onSaveAll () {
-    const confirmForms = Object.values(this._registeredSchemaForms)
-      .map((formId) => this.shadowRoot.querySelector(`#${formId}`))
-      .filter((form) => form && form.dirty)
+  _submitOrConfirmForms () {
+    return [...this.shadowRoot.querySelectorAll('gv-schema-form')]
+      .filter((form) => {
+        const isValid = form.isValid();
+        if (isValid) {
+          form.submit();
+        }
+        return !isValid;
+      })
       .map((form) => form.confirm());
-    Promise.all(confirmForms)
-      .then(() => {
-        const plans = this._definition.plans.map((plan) => {
-          const flows = plan.flows.map((f) => {
-            const flow = this._removePrivateProperties(f);
-            flow.pre = flow.pre.map(this._removePrivateProperties);
-            flow.post = flow.post.map(this._removePrivateProperties);
-            return flow;
-          });
-          return { ...plan, flows };
-        });
+  }
 
-        const flows = this._definition.flows.map((f) => {
+  getPropertiesElement () {
+    return this.shadowRoot.querySelector('gv-properties');
+  }
+
+  async _checkCurrentFlowStep () {
+    if (this._currentFlowStep && this.selectedFlowsId) {
+      const closePromises = this.selectedFlowsId
+        .map((flowId) => {
+          const flow = this._findFlowById(flowId);
+          const currentStep = [...flow.pre, ...flow.post].find((step) => step._id === this._currentFlowStep.step._id);
+          if (currentStep == null) {
+            return this._closeFlowStepForm(true);
+          }
+          return null;
+        })
+        .filter((p) => p !== null);
+      return Promise.all(closePromises);
+    }
+    return Promise.resolve();
+  }
+
+  saved () {
+    if (this.isDirty) {
+      this._initialDefinition = deepClone(this._definitionSaved);
+      this._definition = deepClone(this._definitionSaved);
+      this._definitionSaved = null;
+      this.isDirty = false;
+      this._checkCurrentFlowStep();
+      this.definedPlans.forEach((plan) => {
+        plan.flows.forEach((flow) => (flow._dirty = false));
+      });
+      this.definedFlows.forEach((flow) => (flow._dirty = false));
+      this.getChildren().forEach((e) => e.requestUpdate());
+    }
+  }
+
+  _buildDefinitionToSave () {
+    // Copy definition and remove invalid step
+    // Keep private properties like _id and others stuff useful for render
+    const plans = this._definition.plans.map((plan) => {
+      const flows = plan.flows
+        .map((flow) => {
+          flow.pre = flow.pre.filter(this._filterNotValidStep);
+          flow.post = flow.post.filter(this._filterNotValidStep);
+          return flow;
+        });
+      return { ...plan, flows };
+    });
+
+    const flows = this._definition.flows
+      .map((flow) => {
+        flow.pre = flow.pre.filter(this._filterNotValidStep);
+        flow.post = flow.post.filter(this._filterNotValidStep);
+        return flow;
+      });
+
+    return { ...this._definition, flows, plans };
+  }
+
+  _buildDefinitionToSend (definitionToSave) {
+    // Copy definition and remove all private properties
+    const plans = definitionToSave.plans.map((plan) => {
+      const flows = plan.flows
+        .map((f) => {
           const flow = this._removePrivateProperties(f);
           flow.pre = flow.pre.map(this._removePrivateProperties);
           flow.post = flow.post.map(this._removePrivateProperties);
           return flow;
         });
+      return { ...plan, flows };
+    });
 
-        const resources = this._definition.resources.map(this._removePrivateProperties);
-        const definition = { ...this._definition, flows, resources, plans };
+    const flows = definitionToSave.flows
+      .map((f) => {
+        const flow = this._removePrivateProperties(f);
+        flow.pre = flow.pre.map(this._removePrivateProperties);
+        flow.post = flow.post.map(this._removePrivateProperties);
+        return flow;
+      });
+
+    const resources = this._definition.resources.map(this._removePrivateProperties);
+    return { ...this._definition, flows, resources, plans };
+  }
+
+  _onSaveAll () {
+
+    this.getPropertiesElement().submit();
+
+    Promise.all(this._submitOrConfirmForms())
+      .then(() => {
+        this._definitionSaved = this._buildDefinitionToSave();
+        const definition = this._buildDefinitionToSend(this._definitionSaved);
         dispatchCustomEvent(this, 'save', { definition, services: this.services });
       })
       .catch(() => {
@@ -1107,55 +1316,74 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
              <gv-resizable-views no-overflow>
                 <div slot="top">
                   ${this._renderFlow()}
-                </div>            
-           
+                </div>
+
                 <div slot="bottom">
                   ${this._renderFlow(1, false)}
                   ${this._renderPolicy()}
+                  ${this._renderFlowForm()}
                 </div>
              </gv-resizable-views>
            <gv-policy-studio-menu
               class="right-menu"
+              ?disabled="${this._currentAskConfirmation}"
               .policies="${this._getFilteredPolicies()}"
               .selectedIds="${[this._currentPolicyId]}"
               .query="${this._searchPolicyQuery}"
               @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
               @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
               @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}">
-                  
+
               <div slot="header" class="search-policies">
-                <gv-option .options="${this._policyFilterOptions}" multiple outlined .value="${this._policyFilter}" small @gv-option:select="${this._onFilterPolicies}"></gv-option>
-                <gv-input 
+                <gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._policyFilterOptions}" multiple outlined .value="${this._policyFilter}" small @gv-option:select="${this._onFilterPolicies}"></gv-option>
+                <gv-input
                     id="search-policy"
-                    placeholder="Filter policies (Shift + Ctrl + Space)" type="search" small 
-                    @gv-input:input="${this._onSearchPolicy}" 
+                    ?disabled="${this._currentAskConfirmation}"
+                    placeholder="Filter policies (Shift + Ctrl + Space)" type="search" small
+                    @gv-input:input="${this._onSearchPolicy}"
                     @gv-input:clear="${this._onClearPolicy}"></gv-input>
               </div>
            </gv-policy-studio-menu>
          </div>`;
   }
 
-  _renderSettings () {
-    const flow = this.getSelectedFlow();
-    if (flow) {
-      const { plan } = this._findFlowCollection(flow.id);
-      const values = deepClone(flow);
-      return html`<div id="settings" slot="content" class="flow-settings" @dragover="${this._onDesign}">
-                    <gv-schema-form .schema="${this.flowSettingsForm}" 
+  _renderConfigurationForm () {
+    if (this.configurationForm) {
+      //   // const { plan } = this._findFlowCollection(flow.id);
+      //   // const values = deepClone(flow);
+      //   // return html`<div id="settings" slot="content" class="flow-settings" @dragover="${this._onDesign}">
+      //   //               <gv-schema-form .schema="${this.configurationForm}"
+      //   //                         id="settings-form"
+      //   //                         .values="${values}"
+      //   //                         has-header
+      //   //                         has-footer
+      //   //                         @gv-schema-form:cancel="${this._onCancelFlow}"
+      //   //                         @gv-schema-form:submit="${this._onSubmitFlow}">
+      //   //                   <div slot="title" class="${classMap({ 'flow-name': true, dirty: flow._dirty })}">
+      //   //                     ${getFlowName(flow, plan)}
+      //   //                   </div>
+      //   //               </gv-schema-form>
+      //   //       </div>`;
+    }
+    return html``;
+  }
+
+  _renderFlowForm () {
+    if (this.flowSchema && this._flowStepSchema == null && this.documentation == null && this.selectedFlowsId.length === 1) {
+      const flow = this.getSelectedFlow();
+      if (flow) {
+        const values = deepClone(flow);
+        return html`<div slot="content" class="flow-settings">
+                    <gv-schema-form .schema="${this.flowSchema}"
                               id="settings-form"
                               .values="${values}"
                               has-header
-                              has-footer
                               @gv-schema-form:cancel="${this._onCancelFlow}"
                               @gv-schema-form:submit="${this._onSubmitFlow}">
-                        <div slot="title" class="${classMap({ 'flow-name': true, dirty: flow._dirty })}">
-                          ${getFlowName(flow, plan)}
-                        </div>
+                        <div slot="title" class="flow-step__form-title">Flow configuration</div>          
                     </gv-schema-form>
             </div>`;
-    }
-    else {
-      return html`<div id="settings" slot="content" class="flow-settings" @dragover="${this._onDesign}">${this._renderFlowEmptyState()}</div>`;
+      }
     }
   }
 
@@ -1182,6 +1410,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               .flows="${this.filteredFlows}"
               .plans="${this.filteredPlans}"
               .selectedIds="${this.selectedFlowsId}"
+              ?disabled="${this._currentAskConfirmation}"
               sortable
               .query="${this._searchFlowQuery}"
               @gv-policy-studio-menu:reorder-flows="${this._onReorderFlows}"
@@ -1191,36 +1420,36 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               @gv-policy-studio-menu:delete-flow="${this._onDeleteFlow}"
               @gv-policy-studio-menu:duplicate-flow="${this._onDuplicateFlow}"
               @gv-policy-studio-menu:select-flows="${this._onSelectFlows}">
-              
+
                 <div slot="header" class="header-actions">
                   <div class="title">${this._definition.name}</div>
-                  <gv-option .options="${this._flowFilterOptions}" multiple outlined .value="${this._flowFilter}" small @gv-option:select="${this._onFilterFlows}"></gv-option>
-                  <gv-input id="search-flow" placeholder="Filter flows (Ctrl + Space)" type="search" small
-                    @gv-input:input="${this._onSearchFlows}" 
+                  <gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._flowFilterOptions}" multiple outlined .value="${this._flowFilter}" small @gv-option:select="${this._onFilterFlows}"></gv-option>
+                  <gv-input  ?disabled="${this._currentAskConfirmation}" id="search-flow" placeholder="Filter flows (Ctrl + Space)" type="search" small
+                    @gv-input:input="${this._onSearchFlows}"
                     @gv-input:clear="${this._onClearFlows}"></gv-input>
                 </div>
-                
+
                 <div slot="footer" class="footer-actions">
-                  <gv-button class="save" .disabled="${!this.isDirty}" @gv-button:click="${this._onSaveAll}">Save</gv-button>
-                  <gv-button link .disabled="${!this.isDirty}" @gv-button:click="${this._onResetAll}">Reset</gv-button>
+                  <gv-button class="save" .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onSaveAll}">Save</gv-button>
+                  <gv-button link .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onResetAll}">Reset</gv-button>
                 </div>
          </gv-policy-studio-menu>
 
         <gv-tabs .value="${this.tabId}" .options="${this._tabs}" @gv-tabs:change="${this._onChangeTab}" .validator="${this._changeTabValidator.bind(this)}">
             ${this._renderDesign()}
-            ${this._renderSettings()}
+            ${this._renderConfigurationForm()}
             <gv-properties id="properties" slot="content" class="properties"
-                            .provider="${this.services['dynamic-property']}"  
+                            .provider="${this.services['dynamic-property']}"
                             @gv-properties:change="${this._onPropertiesChange}"
-                            @gv-properties:save-provider="${this._onSaveProvider}" 
-                            .properties="${this.definedProperties}" 
+                            @gv-properties:save-provider="${this._onSaveProvider}"
+                            .properties="${this.definedProperties}"
                             .providers="${this.propertyProviders}"></gv-properties>
             <gv-resources id="resources" slot="content" class="resources"
-                          @gv-resources:change="${this._onResourcesChange}" 
-                          .resources="${this.definedResources}" 
+                          @gv-resources:change="${this._onResourcesChange}"
+                          .resources="${this.definedResources}"
                           .types="${this.resourceTypes}"></gv-resources>
         </gv-tabs>
-         
+
       </div>`;
   }
 

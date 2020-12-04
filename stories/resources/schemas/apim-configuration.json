@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "id": "apim-configuration",
+  "properties": {
+    "match": {
+      "title": "Best match",
+      "description": "Use best match",
+      "type": "boolean"
+    }
+  }
+}
