@@ -173,22 +173,50 @@ export class GvProperties extends KeyboardElement(LitElement) {
     return item.key == null || item.value == null || item.key.trim() === '' || item.value.trim() === '';
   }
 
+  _submitExpertMode () {
+    if (this.expert) {
+      const providerEnabled = this.provider && this.provider.enabled;
+      const manualPropertiesValue = this.shadowRoot.querySelector('#expert-input').value;
+      const dynamicProperties = this._properties.filter((prop) => providerEnabled && prop.dynamic);
+      const allProperties = `${manualPropertiesValue}\n${toNameEqualsValueString(dynamicProperties)}`;
+      const { errors } = parseRaw(allProperties);
+      if (errors.length === 0) {
+        const { variables } = parseRaw(manualPropertiesValue);
+        this.properties = [...variables, ...dynamicProperties];
+        dispatchCustomEvent(this, 'change', { properties: this.properties });
+      }
+    }
+  }
+
   _onSubmitPropertyForm ({ detail }) {
     const provider = detail.values;
     dispatchCustomEvent(this, 'save-provider', { provider });
     this.requestUpdate();
   }
 
-  _onSubmit (e) {
-    const invalidControls = [...e.target.querySelectorAll('.control')].find((control) => control.invalid);
+  submit () {
+    if (this.expert) {
+      this._submitExpertMode();
+    }
+    else {
+      this._onSubmit();
+    }
+  }
+
+  _onSubmit () {
+    const invalidControls = [...this.shadowRoot.querySelectorAll('form .control')].find((control) => control.invalid);
     if (invalidControls == null) {
       this._addProperty(this._newItem);
     }
   }
 
   _onConfigureDynamicProperties () {
-    const providers = this.providers.map((provider) => ({ label: provider.key, value: provider.id }));
-    const defaultProvider = this.providers[0];
+    const providersTitleMap = this.providers.reduce((map, provider) => {
+      map[provider.id] = provider.key;
+      return map;
+    }, {});
+
+    const providersEnum = Object.keys(providersTitleMap);
     const defaultSchema = {
       properties: {
         enabled: {
@@ -217,14 +245,19 @@ export class GvProperties extends KeyboardElement(LitElement) {
         provider: {
           type: 'string',
           title: 'Provider type',
-          enum: providers,
-          default: defaultProvider.id,
+          enum: providersEnum,
+          default: providersEnum[0],
+          'x-schema-form': {
+            titleMap: providersTitleMap,
+          },
         },
       },
       required: [
         'provider',
       ],
     };
+
+    const defaultProvider = this.providers[0];
 
     this._propertySchemaForm = {
       properties: { ...defaultSchema.properties, configuration: defaultProvider.schema },
@@ -386,7 +419,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
         properties = [...filteredProperties].splice(index, this._pageSize);
       }
 
-      return html`<form class="add-form" @submit="${this._onSubmit}">
+      return html`<form id="add-property-form" class="add-form" @submit="${this._onSubmit}">
                       <div></div>
                       <gv-input class="control" placeholder="${i18n('gv-properties.placeholder.key')}" required @gv-input:input="${this._onInputNew.bind(this, 'key')}" value="${this._newItem.key}"></gv-input>
                       <gv-input class="control" placeholder="${i18n('gv-properties.placeholder.value')}" required @gv-input:input="${this._onInputNew.bind(this, 'value')}" .value="${this._newItem.value}"></gv-input>
@@ -403,17 +436,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
   }
 
   _onChangeMode ({ detail }) {
-    if (!detail) {
-      const providerEnabled = this.provider && this.provider.enabled;
-      const manualPropertiesValue = this.shadowRoot.querySelector('#expert-input').value;
-      const dynamicProperties = this._properties.filter((prop) => providerEnabled && prop.dynamic);
-      const allProperties = `${manualPropertiesValue}\n${toNameEqualsValueString(dynamicProperties)}`;
-      const { errors } = parseRaw(allProperties);
-      if (errors.length === 0) {
-        const { variables } = parseRaw(manualPropertiesValue);
-        this.properties = [...variables, ...dynamicProperties];
-      }
-    }
+    this._submitExpertMode();
     this.expert = detail;
     this._errors = [];
     this._newItem = { key: '', value: '', _new: true };

@@ -38,6 +38,7 @@ export class GvPolicyStudioMenu extends LitElement {
       plans: { type: Object },
       selectedIds: { type: Array },
       sortable: { type: Boolean },
+      disabled: { type: Boolean, reflect: true },
       query: { type: String },
     };
   }
@@ -58,6 +59,14 @@ export class GvPolicyStudioMenu extends LitElement {
           min-width: 250px;
           display: flex;
           flex-direction: column;
+        }
+
+        :host([disabled]) {
+          opacity: 0.5;
+        }
+
+        :host([disabled]) * {
+          cursor: not-allowed;
         }
 
         .box {
@@ -145,7 +154,7 @@ export class GvPolicyStudioMenu extends LitElement {
           --gv-icon--c: #5A7684;
           --gv-icon-opacity--c: #5A7684;
         }
-        
+
         .policy-icon {
           --gv-icon--s: 40px;
           margin-right: 2px;
@@ -297,9 +306,11 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _onExpand (anchor, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.shadowRoot.querySelector(anchor).classList.toggle('open');
+    if (!this.disabled) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.shadowRoot.querySelector(anchor).classList.toggle('open');
+    }
   }
 
   _onDragStartPolicy (policy, e) {
@@ -321,11 +332,13 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _onClickFlow (flow, e) {
-    if (e.shiftKey) {
-      this._compareFlow(flow);
-    }
-    else {
-      this._selectFlow(flow);
+    if (!this.disabled) {
+      if (e.shiftKey) {
+        this._compareFlow(flow);
+      }
+      else {
+        this._selectFlow(flow);
+      }
     }
   }
 
@@ -388,6 +401,9 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _renderFlowActions (content) {
+    if (this.disabled) {
+      return html``;
+    }
     const enabled = content.enabled !== false;
     const stateLabel = enabled ? 'Disable flow ?' : 'Enable flow ?';
     return html`<div class="actions">
@@ -464,8 +480,10 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _onClickPolicy (policy) {
-    this.selectedIds = [policy.id];
-    dispatchCustomEvent(this, 'fetch-documentation', { policy });
+    if (!this.disabled) {
+      this.selectedIds = [policy.id];
+      dispatchCustomEvent(this, 'fetch-documentation', { policy });
+    }
   }
 
   _isSelected (id) {
@@ -476,7 +494,7 @@ export class GvPolicyStudioMenu extends LitElement {
     return html`<div class="${classMap({ content: true, expandable: true, open })}" id="${id}">
       ${repeat(filteredData, () => uuid(), (content, index) => html`
         <div
-          draggable="${this.sortable}" 
+          draggable="${this.sortable && !this.disabled}" 
           tabindex="0"
           @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
           @dragenter="${this._onDragEnterFlow}"
@@ -488,7 +506,7 @@ export class GvPolicyStudioMenu extends LitElement {
           class="${classMap({
       entry: true,
       flow: true,
-      sortable: this.sortable,
+      sortable: this.sortable && !this.disabled,
       selected: this.selectedIds.includes(content._id),
       child: isChild,
       disabled: content.enabled === false,
@@ -504,7 +522,7 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _isDraggable (policy) {
-    return policy.onRequest === true || policy.onResponse === true;
+    return !this.disabled && (policy.onRequest === true || policy.onResponse === true);
   }
 
   _renderPolicies (filteredData, type, isChild, id, group) {
@@ -531,8 +549,7 @@ export class GvPolicyStudioMenu extends LitElement {
       title="Show documentation of ${content.name}">
         ${content.icon == null && group != null ? html`<gv-icon class="policy-icon" shape="${this._getGroupShape(group)}"></gv-icon>` : html`<gv-image src="${content.icon}"></gv-image>`}
         <div class="policy-name">${content.name}</div>
-        ${draggable ? html`<gv-icon class="draggable-icon" shape="design:arrows"></gv-icon>`
-        : html`<gv-icon class="error-icon" title="Plugin not loaded successfully" shape="appliances:highvoltage"></gv-icon>`}
+        ${draggable ? html`<gv-icon class="draggable-icon" shape="design:arrows"></gv-icon>` : html``}
            </div>`;
     })}`;
   }
@@ -631,8 +648,8 @@ export class GvPolicyStudioMenu extends LitElement {
     return html`
           <slot name="header"></slot>
           <div class="box">
-           ${this.plans != null ? this._renderPart('flows', '', 'shopping:sale#2', this.plans, false, this._onAddFlowToPlan, 'name') : ``}
-           ${this.flows != null ? this._renderPart('flows', flowsTitle, 'shopping:box#3', this.flows, false, this._onAddFlow) : ``}
+           ${this.plans != null ? this._renderPart('flows', '', 'shopping:sale#2', this.plans, false, (this.disabled ? null : this._onAddFlowToPlan), 'name') : ``}
+           ${this.flows != null ? this._renderPart('flows', flowsTitle, 'shopping:box#3', this.flows, false, (this.disabled ? null : this._onAddFlow)) : ``}
            ${this.policies != null ? this._renderPart('policies', 'Policies', null, this.policies, true, null, this.policies.length > 0 && this.policies[0].category != null ? 'category' : null) : ''}
           </div>
           <slot name="footer"></slot>`;

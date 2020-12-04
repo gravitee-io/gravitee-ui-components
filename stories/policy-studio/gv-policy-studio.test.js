@@ -191,10 +191,10 @@ describe('P O L I C Y  S T U D I O', () => {
 
   describe('F L O W S', () => {
 
-    test('should add flow', () => {
+    test('should add flow', async () => {
       component.definition = { flows: [] };
 
-      component._onAddFlow();
+      await component._onAddFlow();
 
       expect(component.definition.flows.length).toEqual(1);
       const createdFlow = component.definition.flows[0];
@@ -205,19 +205,21 @@ describe('P O L I C Y  S T U D I O', () => {
       expect(createdFlow.pre).toEqual([]);
     });
 
-    test('should duplicate flow', (done) => {
+    test('should duplicate flow', async () => {
       const flow = { _id: 'f-1', name: 'ALL', post: [{ policy: 'rate-limit', name: 'Rate limit' }], pre: [] };
       component.definition = { flows: [flow] };
 
-      component.updateComplete.then(() => {
-        component._onDuplicateFlow({ detail: { content: { ...flow } } });
+      await component.updateComplete;
+      await component._onDuplicateFlow({ detail: { content: { ...flow } } });
 
-        const expected = { ...flow, _dirty: true, _id: expect.any(String) };
-        expect(component.definition.flows.length).toEqual(2);
-        expect(component.definition.flows[1]).toEqual(expected);
-        done();
-      });
-
+      const expected = {
+        ...flow,
+        _dirty: true,
+        _id: expect.any(String),
+        post: [{ _id: expect.any(String), policy: 'rate-limit', name: 'Rate limit' }],
+      };
+      expect(component.definition.flows.length).toEqual(2);
+      expect(component.definition.flows[1]).toEqual(expected);
     });
 
     test('should delete flow', () => {
@@ -231,7 +233,7 @@ describe('P O L I C Y  S T U D I O', () => {
 
     test('should update definition when submit schema form with updated flow', () => {
       const _id = 'foobar';
-      const flow = { _id, name: 'New flow', description: 'test', condition: '#method == "POST"' };
+      const flow = { _id, name: 'New flow', condition: '#method == "POST"' };
       component.definition = { flows: [flow] };
 
       component._onSelectFlows({ detail: { flows: [flow._id] } });
@@ -247,10 +249,48 @@ describe('P O L I C Y  S T U D I O', () => {
       expect(component.definition.flows[0]._dirty).toEqual(true);
       expect(component.definition.flows[0]._id).toEqual(_id);
       expect(component.definition.flows[0].name).toEqual(updatedFlow.name);
-      expect(component.definition.flows[0].description).toEqual(updatedFlow.description);
       expect(component.definition.flows[0]['path-operator']).toEqual({ path: '/', operator: 'STARTS_WITH' });
       expect(component.definition.flows[0].methods).toEqual(['GET', 'POST']);
       expect(component.definition.flows[0].condition).toEqual('');
+    });
+
+    test('should update definition when submit flow schema', async () => {
+      const _id = 'foobar';
+      const _stepId = 'foobar-step';
+      const step = { _id: _stepId, name: 'step', description: 'step description', configuration: {} };
+      const flow = {
+        _id,
+        name: 'New flow',
+        description: 'test',
+        condition: '#method == "POST"',
+        pre: [
+          step,
+        ],
+        post: [],
+      };
+      component.definition = { flows: [flow] };
+      await component._onSelectFlows({ detail: { flows: [flow._id] } });
+
+      const policy = policies.data.find((policy) => policy.id === 'policy-http-callout');
+      const flowStepSchema = component.buildSchema(policy);
+      const currentFlowStep = { flow, step, policy, group: 'pre', position: 0 };
+      await component._setCurrentFlowStep(currentFlowStep, flowStepSchema);
+
+      const cases = [['updated description', 'http://localhost', 'GET'], ['', 'http://localhost/api', 'POST'], ['simple description', 'http://localhost:8080', 'PUT']];
+
+      for (const [description, url, method] of cases) {
+        const values = { description, method, url };
+        await component._onSubmitFlowStep({ detail: { values } });
+
+        expect(component.definition.flows.length).toEqual(1);
+        expect(component.definition.flows[0]._id).toEqual(_id);
+        expect([...component.definition.flows[0].pre]).toMatchObject([{
+          ...step,
+          description,
+          configuration: { method, url },
+        }]);
+      }
+
     });
 
   });

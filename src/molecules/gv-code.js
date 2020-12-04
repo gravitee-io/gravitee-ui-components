@@ -32,6 +32,7 @@ import 'codemirror/addon/lint/yaml-lint';
 import 'codemirror/addon/display/placeholder';
 import { i18n } from '../lib/i18n';
 import { shapeClipboard, shapeCopied } from '../styles/shapes';
+import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 import { InputElement } from '../mixins/input-element';
 import { uuid } from '../lib/utils';
@@ -74,10 +75,11 @@ export class GvCode extends InputElement(LitElement) {
 
   render () {
     return html`
-      <div class="${classMap({ box: true })}">
+      <div class="${classMap({ box: true, 'box-invisible': this.skeleton })}">
         ${this.label ? html`<label for="code">${this.label}</label>` : ''}
         ${this.clipboard ? html`<gv-button title="${i18n('gv-code.copy')}" ?outlined="${!this._copied}" ?primary="${this._copied}" small icon="${this._clipboardIcon}"></gv-button>` : ''}
         <textarea id="${this._id}" name="code">${this.value}</textarea>
+        ${this.skeleton ? html`<div class="skeleton"></div>` : ''} 
       </div>
     `;
   }
@@ -161,6 +163,7 @@ export class GvCode extends InputElement(LitElement) {
 
   static get styles () {
     return [
+      skeleton,
       // language=CSS
       css`
         :host {
@@ -168,11 +171,30 @@ export class GvCode extends InputElement(LitElement) {
           display: block;
           margin: 0 0.2rem 0.2rem 0.2rem;
         }
+        
+        .skeleton {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          color: white;
+        
+        }
 
         .box {
           position: relative;
         }
+        
+        .box-invisible {
+          min-height: 70px;
+        }
 
+        .box-invisible > *:not(.skeleton) {
+          visibility: hidden;
+          opacity: 0;
+        }
+        
         textarea[name='code'] {
           display: none;
         }

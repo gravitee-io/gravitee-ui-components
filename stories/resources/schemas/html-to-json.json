@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "id": "urn:jsonschema:io:gravitee:policy:html2Json:HTMLToJSONTransformationPolicyConfiguration",
+  "properties": {
+    "selectors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "id": "urn:jsonschema:io:gravitee:policy:html2Json:HTMLToJSONTransformationPolicyConfiguration:Selector",
+        "properties": {
+          "jsonName": {
+            "type": "string"
+          },
+          "selector": {
+            "type": "string"
+          },
+          "array": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

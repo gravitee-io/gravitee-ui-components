@@ -50,6 +50,7 @@ export class GvOption extends LitElement {
       reverse: { type: Boolean },
       small: { type: Boolean },
       outlined: { type: Boolean },
+      disabled: { type: Boolean, reflect: true },
     };
   }
 
@@ -193,7 +194,7 @@ export class GvOption extends LitElement {
             .title="${ifDefined(option.title)}"
             .primary="${isActive}"
             .small="${this.small}"
-            .disabled="${option.disabled}"
+            .disabled="${option.disabled || this.disabled}"
             @click="${this._onClick.bind(this, option)}"
             .outlined="${outlined}"
             class="${classMap({

@@ -213,6 +213,10 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
 
   set value (value) {
     if (this.multiple) {
+      if (value == null) {
+        this._value = null;
+        this.updateState(this._value);
+      }
       if (Array.isArray(value)) {
         this._value = value;
         this.updateState(this._value);

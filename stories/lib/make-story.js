@@ -85,6 +85,13 @@ export function makeStory (...configs) {
       });
     }
 
+    _events.forEach((eventName) => {
+      container.addEventListener(eventName, (e) => {
+        // eslint-disable-next-line no-console
+        console.log(`[${eventName}]`, e.detail.values);
+      });
+    });
+
     return container;
   };
 
@@ -170,7 +177,7 @@ function assignPropsToElement (element, props = {}) {
     else if (typeof value === 'function') {
       if (name.startsWith('@')) {
         const eventName = name.substring(1);
-        element.addEventListener(eventName, value);
+        element.addEventListener(eventName, (e) => value(e, element));
       }
       else {
         element[name] = value;

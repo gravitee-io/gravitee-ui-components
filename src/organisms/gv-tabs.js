@@ -127,24 +127,27 @@ export class GvTabs extends LitElement {
     }
   }
 
+  _changeTab (from, content, value) {
+    from.classList.remove('current');
+    content.classList.add('current');
+    this.value = value;
+    dispatchCustomEvent(this, 'change', { value, from: from.id, to: content.id });
+  }
+
   _onClick ({ detail }) {
     const from = this._getContent().find((e) => e.classList.contains('current'));
     const content = this.querySelector(`#${detail.id}`);
+    this.shadowRoot.querySelector('gv-option').value = from.id;
     if (this.validator) {
-      this.shadowRoot.querySelector('gv-option').value = from.id;
       this.validator({ from: from.id, to: content.id })
         .then(() => {
-          from.classList.remove('current');
-          content.classList.add('current');
-          this.value = detail.id;
-          dispatchCustomEvent(this, 'change', { value: detail.id, from: from.id, to: content.id });
+          this._changeTab(from, content, detail.id);
         })
         .catch(() => {
-          this.shadowRoot.querySelector('gv-option').value = from.id;
         });
     }
     else {
-      dispatchCustomEvent(this, 'change', { value: detail.id, from: from.id, to: content.id });
+      this._changeTab(from, content, detail.id);
     }
 
   }

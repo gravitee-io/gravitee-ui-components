@@ -7,13 +7,9 @@
       "description": "The name of flow. If empty, the name will be generated with the path and methods",
       "type": "string"
     },
-    "description": {
-      "title": "Description",
-      "description": "The description of flow",
-      "type": "string"
-    },
     "path-operator": {
       "type": "object",
+      "title": "Path",
       "properties": {
         "operator": {
           "title": "Operator path",
@@ -69,6 +65,6 @@
       "type": "string"
     }
   },
-  "required": ["path"],
+  "required": [],
   "disabled": []
 }

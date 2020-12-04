@@ -420,7 +420,7 @@ export class GvInput extends InputElement(LitElement) {
   clear () {
     this.focus();
     this.value = '';
-    dispatchCustomEvent(this, 'clear');
+    dispatchCustomEvent(this, 'clear', this.value);
   }
 
   _renderClearIcon () {

@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit-element';
-import { get, set, del, empty, push } from 'object-path';
-
-import '../atoms/gv-input';
-import '../atoms/gv-select';
-import '../atoms/gv-switch';
-import '../molecules/gv-code';
-import '../atoms/gv-autocomplete';
+import { LitElement, html, css } from 'lit-element';
+import { get, set, del } from 'object-path';
 import { dispatchCustomEvent } from '../lib/events';
-import { deepClone, flatObject } from '../lib/utils';
+import { deepClone } from '../lib/utils';
 import { classMap } from 'lit-html/directives/class-map';
+import { Validator } from 'jsonschema';
+import { empty } from '../styles/empty';
+import './gv-schema-form-control';
 
 /**
  * Schema form component
  *
- * @fires gv-schema-form:submit - event when user submit form
+ * @fires gv-schema-form:submit - event when user submit valid form
+ * @fires gv-schema-form:error - event when user submit invalid form
  * @fires gv-schema-form:change - event when when form change
  * @fires gv-schema-form:cancel - event when user cancel form
  *
@@ -51,7 +49,9 @@ export class GvSchemaForm extends LitElement {
       _values: { type: Object, attribute: false },
       dirty: { type: Boolean, reflect: true },
       hideDeprecated: { type: Boolean, attribute: 'hide-deprecated' },
-      validate: { type: Boolean },
+      validateOnRender: { type: Boolean, attribute: 'validate-on-render' },
+      _validatorResults: { type: Object },
+      skeleton: { type: Boolean, reflect: true },
       _touch: { type: Boolean },
     };
   }
@@ -64,6 +64,11 @@ export class GvSchemaForm extends LitElement {
     this.hasHeader = false;
     this.hasFooter = false;
     this._touch = false;
+    this._validator = new Validator();
+    this._validatorResults = {};
+    this.addEventListener('gv-schema-form-control:default-value', this._onDefaultValue.bind(this));
+    this.addEventListener('gv-schema-form-control:change', this._onChange.bind(this));
+    this.addEventListener('gv-schema-form-control:autocomplete-ready', this._onAutocompleteReady.bind(this));
   }
 
   set values (values) {
@@ -80,10 +85,13 @@ export class GvSchemaForm extends LitElement {
     return this._values;
   }
 
-  reset () {
-    this._values = deepClone(this._initialValues);
+  reset (values = null) {
+    this._values = deepClone(values || this._initialValues);
     this._touch = false;
     this._setDirty(false);
+    this.getControls().forEach((s) => {
+      s.requestUpdate();
+    });
   }
 
   _onReset () {
@@ -91,23 +99,40 @@ export class GvSchemaForm extends LitElement {
     dispatchCustomEvent(this, 'reset');
   }
 
-  _onSubmit () {
-    this._initialValues = deepClone(this._values);
-    this.dirty = false;
-    this._touch = false;
-    dispatchCustomEvent(this, 'submit', { values: this._values });
+  requestValidation () {
+    clearTimeout(this._validateTimeout);
+    this._validateTimeout = setTimeout(() => {
+      this.validate();
+    }, 350);
+  }
+
+  submit () {
+    this._onSubmit();
+  }
+
+  _onSubmit (save = false) {
+    const validatorResults = this.validate();
+    if (validatorResults.valid) {
+      this._initialValues = deepClone(this._values);
+      this.dirty = false;
+      this._touch = false;
+      dispatchCustomEvent(this, 'submit', { values: this._values, validatorResults, save: save === true });
+    }
+    else {
+      dispatchCustomEvent(this, 'error', { values: this._values, validatorResults });
+    }
   }
 
   _setDirty (dirty = true) {
-    setTimeout(() => (this.dirty = !!dirty), 0);
+    this.dirty = !!dirty;
   }
 
   _setTouch (touch = true) {
-    setTimeout(() => (this._touch = !!touch), 0);
+    this._touch = !!touch;
   }
 
   confirm () {
-    if (this._touch) {
+    if (this._touch || this.validateOnRender) {
       if (this._confirm && this._confirm.promise) {
         return this._confirm.promise;
       }
@@ -118,20 +143,21 @@ export class GvSchemaForm extends LitElement {
     return Promise.resolve();
   }
 
-  _onConfirm () {
+  _onConfirmReset () {
     const { resolve } = this._confirm;
     this._confirm = null;
     this._onReset();
     this.requestUpdate().then(() => {
-      resolve();
-      // Promise.resolve(promise);
+      resolve(this);
     });
   }
 
-  _onCancelConfirm () {
-    this._values = deepClone(this._values);
-    this._confirm.reject();
+  _onConfirmEdit () {
+    this._confirm.reject(this);
     this._confirm = null;
+    // useless to force rerender
+    this.skeleton = true;
+    setTimeout(() => (this.skeleton = false));
   }
 
   _getSubmitBtn () {
@@ -142,324 +168,130 @@ export class GvSchemaForm extends LitElement {
     return this.shadowRoot.querySelector('#reset');
   }
 
-  _change () {
-    this.dirty = true;
-    this._updateActions();
-    dispatchCustomEvent(this, 'change', { target: this, values: this._values });
+  _dispatchChange () {
+    clearTimeout(this._changeTimeout);
+    this._changeTimeout = setTimeout(() => {
+      dispatchCustomEvent(this, 'change', { target: this, values: this._values });
+    }, 50);
   }
 
-  _onChange (key, control, e) {
-    this._setTouch(true);
-    // Specific case for gv-autocomplete that's returns an object with value
-    let value = e.detail && e.detail.value ? e.detail.value : e.detail;
+  _onDefaultValue ({ detail: { currentTarget, value, control } }) {
     if (control.type === 'integer' && value != null && ((value.trim && value.length > 0) || value.length > 0)) {
       value = parseInt(value, 10);
     }
-    set(this._values, key, value);
-    this._change();
+    set(this._values, currentTarget.id, value);
   }
 
-  _isCodemirror (control) {
-    return control['x-schema-form'] && control['x-schema-form'].type === 'codemirror';
-  }
-
-  _isAutocomplete (control) {
-    return control['x-schema-form'] && control['x-schema-form'].event != null;
-  }
-
-  _getElementName (control) {
-    if ((control.enum || (control.items && control.items.enum)) && !this._isAutocomplete(control)) {
-      return 'gv-select';
-    }
-    else if (control.type === 'array') {
-      return 'gv-button';
-    }
-    else if (control.type === 'boolean') {
-      return 'gv-switch';
-    }
-    else if (this._isCodemirror(control)) {
-      return 'gv-code';
-    }
-    return 'gv-input';
-  }
-
-  _onRemoveItem (containerId) {
-    // Update id's
-    const container = this.getElement(containerId);
-    let nextContainer = container.nextSibling;
-    while (nextContainer) {
-      const splittedId = nextContainer.id.split('.');
-      const index = parseInt(splittedId[splittedId.length - 1]);
-      nextContainer.querySelectorAll('.control')
-        .forEach((element) => {
-          const splitedId = element.id.split('.');
-          const indexOfIndex = splitedId.indexOf(index.toString());
-          splitedId[indexOfIndex] = index - 1;
-          element.id = splitedId.join('.');
-        });
-      nextContainer = nextContainer.nextSibling;
-    }
-    container.remove();
-    // Empty value before delete, important for array or object...
-    empty(this._values, containerId);
-    del(this._values, containerId);
-    this._change();
-  }
-
-  _onMouseEnterItem (container) {
-    const select = container.querySelectorAll(`gv-select`);
-    select.forEach((s) => s.close());
-  }
-
-  _onAddItem (key, index, control, parent, isInit, value) {
-    if (key == null || index == null) {
-      const msg = 'Cannot add item without key and index';
-      throw new Error(msg);
-    }
-    const container = document.createElement('div');
-    container.className = 'form__item';
-    container.id = `${key}.${index}`;
-    container.addEventListener('mouseleave', this._onMouseEnterItem.bind(this, container));
-
-    const labelContainer = document.createElement('div');
-    labelContainer.className = 'form__control form__control-label form__item-label';
-    const label = document.createElement('label');
-    label.innerHTML = control.items.title || `${name} item`;
-
-    const closeItemBtn = document.createElement('gv-button');
-    closeItemBtn.icon = 'general:close';
-    closeItemBtn.link = true;
-    closeItemBtn.title = `Remove from ${name}`;
-    closeItemBtn.addEventListener('gv-button:click', this._onRemoveItem.bind(this, container.id));
-    labelContainer.append(label);
-    labelContainer.append(closeItemBtn);
-    container.append(labelContainer);
-
-    const isRequired = control.items.required;
-    const isDisabled = control.items.disabled;
-    const element = this._renderControl({
-      ...control.items,
-      title: null,
-    }, value, isRequired, isDisabled, null, container.id);
-    container.appendChild(element);
-    parent.appendChild(container);
-    if (isInit === false) {
-      push(this._values, key, control.items.type === 'object' ? {} : '');
-      this._change();
-    }
-  }
-
-  _isComplexArray (control) {
-    return control.type === 'array' && !control.items.enum;
-  }
-
-  _renderControl (control, value = null, isRequired = false, isDisabled = false, error = null, key, groupContainer = null) {
-    const container = document.createElement('div');
-    const controlType = control.enum ? 'enum' : control.type;
-    container.className = `form__control form__control-${controlType}`;
-    if (control.type === 'object') {
-      if (control.title) {
-        const title = document.createElement('div');
-        title.innerHTML = control.title;
-        title.title = control.title;
-        title.className = 'form__control-group-title';
-        container.appendChild(title);
-      }
-      const keys = Object.keys(control.properties);
-      if (keys.length <= 2 && keys.find((key) => this._isCodemirror(control.properties[key])) == null) {
-        container.classList.add('form_control-inline');
-      }
-      keys.forEach((subKey) => {
-        const isRequired = control.required && control.required.includes(subKey);
-        const isDisabled = control.disabled && control.disabled.includes(subKey);
-
-        const fullKey = key != null ? `${key}.${subKey}` : subKey;
-        const error = this.errors && this.errors[key] ? this.errors[key] : null;
-        return this._renderControl(control.properties[subKey], value != null ? value[subKey] : null, isRequired, isDisabled, error, fullKey, container);
-      });
-    }
-    else if (this._isComplexArray(control)) {
-      const row = document.createElement('div');
-      row.classList.add('form__item-group-header');
-      const label = document.createElement('label');
-      label.innerHTML = control.title || '';
-      row.appendChild(label);
-      const btn = document.createElement('gv-button');
-      btn.icon = 'code:plus';
-      btn.innerHTML = 'Add';
-      btn.title = `Add to ${key}`;
-      btn.outlined = true;
-      btn.small = true;
-      btn.addEventListener('gv-button:click', () => {
-        const index = container.querySelectorAll('.form__item').length;
-        this._onAddItem(key, index, control, container);
-      });
-      row.appendChild(btn);
-      container.appendChild(row);
-      container.classList.add('form__item-group');
-      container.id = key;
-    }
-    else {
-      if (value == null) {
-        value = get(this._values, key);
-        if (value == null && control.default != null) {
-          value = control.default;
-          set(this._values, key, value);
-          if (this.validate) {
-            setTimeout(() => {
-              this._onChange(key, control, { detail: value });
-            });
-          }
-          else {
-            dispatchCustomEvent(this, 'change', { values: this._values, target: this });
-          }
-        }
-      }
-      const elementName = this._getElementName(control);
-      const element = document.createElement(elementName);
-      element.id = key;
-      element.name = key;
-      element.classList.add('control');
-
-      if (isRequired) {
-        element.required = isRequired;
-      }
-      if (isDisabled) {
-        element.disabled = isDisabled;
-      }
-      if (control.title) {
-        element.label = control.title;
-        element.title = control.title;
-      }
-
-      if (control.pattern) {
-        element.pattern = control.pattern;
-      }
-
-      if (control.type === 'integer') {
-        element.type = 'number';
-      }
-
-      if (control.enum || (control.items && control.items.enum)) {
-        if (control['x-schema-form'] && control['x-schema-form'].titleMap) {
-          element.options = control.enum.map((value) => ({
-            value,
-            label: control['x-schema-form'].titleMap[value] || value,
-          }));
-        }
-        else {
-          element.options = control.enum || control.items.enum;
-        }
-        if (control.type === 'array') {
-          element.multiple = true;
-        }
-      }
-      else if (this._isCodemirror(control)) {
-        element.options = control['x-schema-form'].codemirrorOptions;
-        if (control.default != null && element.options.value == null) {
-          element.options.value = control.default;
-        }
-        if (control.description != null) {
-          element.options.placeholder = control.description;
-        }
-      }
-
-      if (this._isAutocomplete(control)) {
-        const name = control['x-schema-form'].event.name;
-        const autocomplete = document.createElement('gv-autocomplete');
-        autocomplete.minChars = 0;
-        autocomplete.filter = true;
-        element.clearable = true;
-        autocomplete.appendChild(element);
-        dispatchCustomEvent(this, name, { element: autocomplete, ...control['x-schema-form'].event });
-        container.appendChild(autocomplete);
-        autocomplete.addEventListener('gv-autocomplete:select', this._onChange.bind(this, key, control));
+  _onChange ({ detail: { currentTarget, value, control } }) {
+    this._setTouch(true);
+    if (control.type === 'integer') {
+      if (typeof value === 'string' && value.trim().length === 0) {
+        value = null;
       }
       else {
-        container.appendChild(element);
-      }
-
-      if (control.description) {
-        if (control.type === 'boolean') {
-          element.description = control.description;
+        const intValue = Number(value).valueOf();
+        if (!isNaN(intValue)) {
+          value = intValue;
         }
         else {
-          element.placeholder = control.description;
+          value = null;
         }
       }
-
-      if (error) {
-        const err = document.createElement('div');
-        err.className = 'form__control-error';
-        err.innerHTML = error;
-        container.appendChild(err);
+    }
+    else if (control.type === 'array' && value.length === 0) {
+      value = null;
+    }
+    else if (control.type === 'string' && value.trim().length === 0) {
+      value = null;
+    }
+    else if (control.type === 'object') {
+      if (Object.keys(value).length === 0) {
+        value = null;
       }
-
-      if (value != null) {
-        setTimeout(() => {
-          if (control.type === 'boolean' || control.type === 'array') {
-            element.value = value;
-          }
-          else {
-            element.value = value.toString ? value.toString() : value;
-          }
-
-        }, 0);
-      }
-      element.addEventListener(`${elementName}:input`, this._onChange.bind(this, key, control));
-
+    }
+    if (value == null) {
+      del(this._values, currentTarget.id);
+    }
+    else {
+      set(this._values, currentTarget.id, value);
     }
 
-    if (groupContainer) {
-      groupContainer.appendChild(container);
-      return groupContainer;
-    }
+    this._validatorResults = this.validate();
+    this.dirty = true;
+    this._updateActions();
+    this._dispatchChange();
+  }
 
-    return container;
+  _onAutocompleteReady (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    dispatchCustomEvent(this, e.detail.eventName, e.detail);
+  }
+
+  async performUpdate () {
+    this.getControls().forEach((s) => {
+      s.requestUpdate();
+    });
+    super.performUpdate();
+  }
+
+  _renderControl (key) {
+    // This is require to clean cache of <gv-schema-form-control>
+    const control = { ...this.schema.properties[key] };
+    const isRequired = this.schema.required && this.schema.required.includes(key);
+    const isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
+    const value = get(this._values, key);
+    return html`<gv-schema-form-control .id="${key}" 
+                                        .errors="${this.errors}"
+                                        .control="${control}"
+                                        .skeleton="${this.skeleton}" 
+                                        .value="${value}"
+                                        ?required="${isRequired}" 
+                                        ?disabled="${isDisabled}"></gv-schema-form-control>`;
   }
 
   _renderPart () {
     if (this._confirm) {
       return html`<div class="confirm-box">
-                  <div>The configuration has not been saved and will be lost, are you sure to leave?</div>
+                  <div class="error">The configuration is not valid and cannot be saved.</div>
                   <div class="confirm-box_actions">
-                      <gv-button outlined @gv-button:click="${this._onCancelConfirm}">Cancel</gv-button>
-                      <gv-button @gv-button:click="${this._onConfirm}">Ok</gv-button>  
+                      <gv-button @gv-button:click="${this._onConfirmReset}" outlined icon="general:update" danger>Lose changes</gv-button>
+                      <gv-button @gv-button:click="${this._onConfirmEdit}" icon="design:edit">Edit</gv-button>
                   </div>
                </div>`;
     }
     const keys = this.schema.properties ? Object.keys(this.schema.properties) : [];
-    return keys.map((key) => {
-      const control = this.schema.properties[key];
-      const isRequired = this.schema.required && this.schema.required.includes(key);
-      const isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
-      const error = this.errors && this.errors[key];
-      return this._renderControl(control, null, isRequired, isDisabled, error, key);
-    });
+    return html`${keys.map((key) => this._renderControl(key))}`;
   }
 
-  getElements () {
-    return Array.from(this.shadowRoot.querySelectorAll('.control'));
+  getControls () {
+    return Array.from(this.shadowRoot.querySelectorAll('gv-schema-form-control'));
   }
 
-  getElement (id) {
+  getControl (id) {
     return this.shadowRoot.querySelector(`[id="${id}"]`);
   }
 
-  _findOptionalInvalid () {
-    return this.getElements().find((element) => {
-      if (element.updateState) {
-        element.updateState(element.value);
+  validate () {
+    if (this.schema) {
+      this._validatorResults = this._validator.validate(this._values, this.schema);
+      if (this._validatorResults.valid) {
+        this.errors = [];
       }
-      return element.invalid === true;
-    });
+      else {
+        this.errors = this._validatorResults.errors;
+      }
+      return this._validatorResults;
+    }
+
+  }
+
+  isValid () {
+    return this._validatorResults.valid;
   }
 
   canSubmit () {
-    if (this.dirty && (this.errors == null || this.errors.length === 0)) {
-      return this._findOptionalInvalid() == null;
-    }
-    return false;
+    return this._touch && this.isValid();
   }
 
   _updateActions () {
@@ -483,55 +315,28 @@ export class GvSchemaForm extends LitElement {
     }
   }
 
-  shouldUpdate (changedProperties) {
-    if (changedProperties.has('dirty') && changedProperties.size === 1) {
-      setTimeout(() => this._updateActions(), 0);
-      return false;
-    }
-    if (changedProperties.has('_touch') && changedProperties.size === 1) {
-      return false;
-    }
-    return super.shouldUpdate(changedProperties);
-  }
-
   async updated (changedProperties) {
     clearTimeout(this._updateActionsTimeout);
     if (changedProperties.has('_values')) {
-      this._updateElementsWithValues();
+      this.getControls().forEach((control) => {
+        control.value = get(this._values, control.id);
+      });
     }
+    if (changedProperties.has('_values') || changedProperties.has('schema')) {
+      if (this.validateOnRender) {
+        this.requestValidation();
+      }
+    }
+
     this._updateActionsTimeout = setTimeout(() => this._updateActions(), 0);
   }
 
   async _getUpdateComplete () {
     await super._getUpdateComplete();
-    await Promise.all(this.getElements().map((e) => e.updateComplete));
-  }
-
-  _updateElementsWithValues () {
-    Object.keys(flatObject(this._values)).forEach((key) => {
-      const element = this.getElement(key);
-      if (element) {
-        const value = get(this._values, key);
-        if (element.tagName.toLowerCase() === 'div') {
-          if (value) {
-            const control = get(this.schema.properties, key);
-            value.forEach((v, index) => {
-              this._onAddItem(key, index, control, element, true, v);
-            });
-          }
-        }
-        else {
-          element.value = value;
-        }
-
-      }
-    });
+    await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 
   render () {
-    if (this.schema == null) {
-      return html``;
-    }
     return html`<form>
                   <div class="${classMap({ container: true, confirm: this._confirm })}">
                       ${this.hasHeader === true ? html`
@@ -547,7 +352,7 @@ export class GvSchemaForm extends LitElement {
                         </div>
                       ` : ''}
                     <div class="content">
-                      ${this._renderPart()}
+                      ${this.schema != null ? this._renderPart() : html``}
                     </div>
                     ${this.hasFooter === true ? html`
                     <div class="footer">
@@ -564,162 +369,12 @@ export class GvSchemaForm extends LitElement {
 
   static get styles () {
     return [
+      empty,
       // language=CSS
       css`
         :host {
           box-sizing: border-box;
           margin: 0.2rem;
-        }
-
-        .form__control-description, .form__control-error {
-          font-size: 12px;
-          margin: 0 0.5rem;
-        }
-
-        .form__control-error {
-          color: red;
-        }
-
-        .form__item-group {
-          padding: 0 0 0.3rem 0;
-          position: relative;
-          transition: all .3s ease-in-out;
-        }
-
-        .form__item-group:hover {
-          background-color: #EFEFEF;
-        }
-
-        .form__item-group-header:before,
-        .form__item-group-header:after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          height: calc(100% - 35px);
-          border-left: 3px dotted #D9D9D9;
-        }
-
-        .form__item-group-header:before {
-          left: 0;
-        }
-
-        .form__item-group-header:after {
-          right: 0;
-        }
-
-        .form__item-group-header {
-          display: flex;
-          padding-bottom: 0.2rem;
-          margin-bottom: 0.2rem;
-          align-items: center;
-          transition: all .3s ease-in-out;
-          background-color: white;
-        }
-
-        .form__item-group-header label {
-          flex: 1;
-          margin: 0;
-        }
-
-        .form__item-group-header,
-        .form__item-group {
-          border-bottom: 1px solid #D9D9D9;
-        }
-
-        .form__item {
-          border: 1px solid #D9D9D9;
-          border-radius: 4px;
-          margin: 0.3rem 0.6rem;
-          background-color: white;
-          transition: all .3s ease-in-out;
-          z-index: 50;
-        }
-
-        .form__item:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 20px -10px #BFBFBF;
-          z-index: 60;
-        }
-
-        .form__item-label {
-          font-style: italic;
-        }
-
-        .form__control {
-          margin: 0.5rem;
-          display: flex;
-        }
-
-        .form__control-label {
-          display: flex;
-          border-bottom: 1px solid #D9D9D9;
-        }
-
-        label {
-          margin: 0.2rem;
-        }
-
-        .form__control-label label {
-          flex: 1;
-          text-transform: capitalize;
-        }
-
-        .form__control-array, .form__control-object {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .form__control-enum {
-          display: flex;
-          align-items: flex-end;
-        }
-
-        .form__control-array gv-button {
-          align-self: flex-end;
-        }
-
-        .form__control {
-          position: relative;
-        }
-
-        .form_control-inline {
-          display: flex;
-          flex-direction: row;
-          margin: 0;
-        }
-
-        .form_control-inline > * {
-          flex: 1;
-        }
-
-        .content > .form_control-inline > * {
-          margin-left: 0;
-        }
-
-        .content > .form_control-inline > *:last-child {
-          margin-right: 0;
-        }
-
-        .form__item .form_control-inline > * {
-          margin-left: 0;
-        }
-
-        .form__item .form_control-inline > *:first-child {
-          margin-left: 0.5rem;
-        }
-
-        gv-select, gv-input, gv-code, gv-switch {
-          width: 100%;
-          margin: 0.2rem 0;
-        }
-
-        gv-select:hover, gv-autocomplete:hover {
-          z-index: 70;
-        }
-
-        .form__control-group-title {
-          border-bottom: 1px solid #BFBFBF;
-          padding: 0.5rem;
         }
 
         form {
@@ -764,7 +419,7 @@ export class GvSchemaForm extends LitElement {
           min-height: 0;
         }
 
-        .content > .form__control {
+        .content > gv-schema-form-control {
           max-width: 775px;
           align-self: center;
           width: 95%;

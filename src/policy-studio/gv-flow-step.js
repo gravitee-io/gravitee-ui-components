@@ -42,6 +42,9 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
   static get properties () {
     return {
+      id: { type: String, reflect: true },
+      group: { type: String, reflect: true },
+      parent: { type: String, reflect: true },
       step: { type: Object },
       policy: { type: Object },
       editing: { type: Boolean, reflect: true },
@@ -74,7 +77,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
   _onConfirmDuplicate () {
     this._confirmDuplicate = false;
-    dispatchCustomEvent(this, 'duplicate', { step: this.step, policy: this.policy });
+    dispatchCustomEvent(this, 'duplicate', { step: this.step, policy: this.policy, target: this });
   }
 
   _onCancelDuplicate () {
@@ -82,7 +85,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
   }
 
   _onClick (e) {
-    if (!e.target.classList.contains('action')) {
+    if (!e.target.classList.contains('action') && !this.editing) {
       e.preventDefault();
       this._edit();
     }
@@ -90,7 +93,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
   _edit () {
     if (this.policy) {
-      dispatchCustomEvent(this, 'edit', { step: this.step, policy: this.policy });
+      dispatchCustomEvent(this, 'edit', { step: this.step, policy: this.policy, group: this.group });
     }
   }
 
