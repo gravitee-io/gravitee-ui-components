@@ -11,7 +11,7 @@
     "wc"
   ],
   "scripts": {
-    "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && npm run size && build-storybook -s ./assets/public",
+    "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && build-storybook -s ./assets/public",
     "check:i18n": "node tasks/check-i18n.js",
     "docs": "wca analyze src/** --format markdown --outDir .docs && wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
     "generate:dist": "node tasks/generate-dist.js",
@@ -42,6 +42,7 @@
     "highcharts": "^8.2.0",
     "highlight.js": "^9.18.1",
     "jdenticon": "^2.2.0",
+    "jsonschema": "^1.4.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
     "messageformat": "^2.3.0",

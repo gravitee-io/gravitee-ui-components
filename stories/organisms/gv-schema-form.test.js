@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { Page, querySelector, since } from '../lib/test-utils';
 import '../../src/organisms/gv-schema-form';
 import mixed from '../resources/schemas/mixed.json';
@@ -35,12 +35,10 @@ describe('S C H E M A  F O R M', () => {
     page.clear();
   });
 
-  const checkElement = (id, expectedTagName, attributes = []) => {
-    const element = component.getElement(id);
+  const checkControl = (id, attributes = []) => {
+    const element = component.getControl(id);
 
     since(`Element [id="${id}"] not found`, () => expect(element).not.toBeNull());
-    since(`Element [id="${id}"] not have class control`, () => expect(element.classList.contains('control')).toBeTruthy());
-    expect(element.tagName).toEqual(expectedTagName.toUpperCase());
 
     const expectedAttributes = Array.isArray(attributes) ? attributes : Object.keys(attributes);
 
@@ -57,25 +55,24 @@ describe('S C H E M A  F O R M', () => {
     expect(component).toEqual(querySelector('gv-schema-form'));
 
     component.updateComplete.then(() => {
-      expect(component.getElements().map((e) => e.id)).toEqual([
+      expect(component.getControls().map((e) => e.id)).toEqual([
         'body',
-        'path-operator.operator',
-        'path-operator.path',
+        'path-operator',
         'resources',
+        'attributes',
         'timeToLiveSeconds',
         'useResponseCacheHeaders',
         'select',
         'multiselect',
       ]);
 
-      checkElement('body', 'gv-code');
-      checkElement('path-operator.operator', 'gv-select');
-      checkElement('path-operator.path', 'gv-input', { type: 'text', pattern: '^/' });
-      checkElement('resources', 'gv-input', { type: 'text' });
-      checkElement('timeToLiveSeconds', 'gv-input', { type: 'number' });
-      checkElement('useResponseCacheHeaders', 'gv-switch');
-      checkElement('select', 'gv-select');
-      checkElement('multiselect', 'gv-select', ['multiple']);
+      checkControl('body');
+      checkControl('path-operator');
+      checkControl('resources');
+      checkControl('timeToLiveSeconds');
+      checkControl('useResponseCacheHeaders');
+      checkControl('select');
+      checkControl('multiselect');
       done();
     });
 
@@ -99,29 +96,25 @@ describe('S C H E M A  F O R M', () => {
 
     component.updateComplete.then(() => {
       setTimeout(() => {
-        expect(component.getElements().map((e) => e.id)).toEqual([
+        expect(component.getControls().map((e) => e.id)).toEqual([
           'body',
-          'path-operator.operator',
-          'path-operator.path',
+          'path-operator',
           'resources',
-          'attributes.0.name',
-          'attributes.0.value',
+          'attributes',
           'timeToLiveSeconds',
           'useResponseCacheHeaders',
           'select',
           'multiselect',
         ]);
 
-        checkElement('body', 'gv-code', { value: '<xml></xml>' });
-        checkElement('path-operator.operator', 'gv-select', { value: 'EQUALS', valid: true });
-        checkElement('path-operator.path', 'gv-input', { type: 'text', pattern: '^/', value: '/foobar', valid: true });
-        checkElement('resources', 'gv-input', { type: 'text', value: 'my-resource' });
-        checkElement('timeToLiveSeconds', 'gv-input', { type: 'number', value: '50', valid: true });
-        checkElement('useResponseCacheHeaders', 'gv-switch', { value: true });
-        checkElement('select', 'gv-select', { value: 'b' });
-        checkElement('multiselect', 'gv-select', { value: ['a', 'b', 'c'], valid: true });
-        checkElement('attributes.0.name', 'gv-input', { value: 'foo', valid: true });
-        checkElement('attributes.0.value', 'gv-input', { value: 'bar', valid: true });
+        checkControl('body', { value: '<xml></xml>' });
+        checkControl('path-operator', { value: { operator: 'EQUALS', path: '/foobar' } });
+        checkControl('resources', { value: 'my-resource' });
+        checkControl('timeToLiveSeconds', { value: 50 });
+        checkControl('useResponseCacheHeaders', {});
+        checkControl('select', { value: 'b' });
+        checkControl('multiselect', { value: ['a', 'b', 'c'] });
+        checkControl('attributes', { value: [{ name: 'foo', value: 'bar' }] });
         done();
       }, 0);
 
@@ -146,59 +139,30 @@ describe('S C H E M A  F O R M', () => {
 
     component.updateComplete.then(() => {
       setTimeout(() => {
-        checkElement('body', 'gv-code', { value: '<xml></xml>' });
-        checkElement('path-operator.operator', 'gv-select', { value: 'Fake value', invalid: true });
-        checkElement('path-operator.path', 'gv-input', {
-          type: 'text',
-          pattern: '^/',
-          value: 'not a path',
-          invalid: true,
-        });
-        checkElement('resources', 'gv-input', { type: 'text', value: 'my-resource' });
-        checkElement('timeToLiveSeconds', 'gv-input', { type: 'number', value: 'not number', invalid: true });
-        checkElement('useResponseCacheHeaders', 'gv-switch', { value: true });
-        checkElement('select', 'gv-select', { value: 'b' });
-        checkElement('multiselect', 'gv-select', { value: ['a', 'b', 'c'], valid: true });
-        checkElement('attributes.0.name', 'gv-input', { value: 'foo', valid: true });
-        checkElement('attributes.0.value', 'gv-input', { invalid: true });
-        checkElement('attributes.1.name', 'gv-input', { invalid: true });
-        checkElement('attributes.1.value', 'gv-input', { invalid: true });
+        checkControl('body', { value: '<xml></xml>' });
+        checkControl('path-operator', { value: { operator: 'Fake value', path: 'not a path' } });
+        checkControl('resources', { value: 'my-resource' });
+        checkControl('timeToLiveSeconds', { value: 'not number' });
+        checkControl('useResponseCacheHeaders', {});
+        checkControl('select', { value: 'b' });
+        checkControl('multiselect', { value: ['a', 'b', 'c'] });
+        checkControl('attributes', { value: [{ name: 'foo', value: '' }, {}] });
         done();
       }, 0);
     });
   });
 
-  test('should update dirty state when user change the form', () => {
+  test('should update values & dirty state when user change the form', () => {
     component.values = {
       timeToLiveSeconds: 5,
       body: '<xml></xml>',
     };
     expect(component.dirty).toBeUndefined();
-
-    component._onChange('timeToLiveSeconds', { control: 'integer' }, { detail: 6 });
+    const detail = { control: { type: 'integer' }, value: '16', currentTarget: { id: 'timeToLiveSeconds' } };
+    component._onChange({ detail });
 
     expect(component.dirty).toEqual(true);
-  });
-
-  test('should update values when user change the form', (done) => {
-    component.values = {
-      timeToLiveSeconds: 5,
-      body: '<xml></xml>',
-    };
-
-    component._onChange('timeToLiveSeconds', { control: 'integer' }, { detail: 6 });
-    component.addEventListener('gv-schema-form:change', ({ detail }) => {
-      expect(detail.values).toEqual({
-        body: '<xml></xml>',
-        // Default value
-        'path-operator': {
-          operator: 'STARTS_WITH',
-        },
-        timeToLiveSeconds: 6,
-      });
-      done();
-    });
-
+    expect(component.values.timeToLiveSeconds).toEqual(16);
   });
 
   test('should catch event when submit form', (done) => {
@@ -225,7 +189,7 @@ describe('S C H E M A  F O R M', () => {
 
     component.addEventListener('gv-schema-form:fetch-data', ({ detail }) => {
       expect(detail.name).toEqual('fetch-data');
-      expect(detail.element.tagName.toLowerCase()).toEqual('gv-autocomplete');
+      expect(detail.currentTarget.tagName.toLowerCase()).toEqual('gv-autocomplete');
       done();
     });
 
@@ -242,7 +206,6 @@ describe('S C H E M A  F O R M', () => {
     };
 
     component.updateComplete.then(() => {
-      expect(component._findOptionalInvalid()).toBeUndefined();
       component.dirty = true;
       expect(component.canSubmit()).toBeTruthy();
       done();
@@ -259,6 +222,8 @@ describe('S C H E M A  F O R M', () => {
   });
 
   test('should reset initial values', () => {
+    const preventDefault = jest.fn();
+    const stopPropagation = jest.fn();
     const values = {
       'path-operator': {
         operator: 'STARTS_WITH',
@@ -269,38 +234,36 @@ describe('S C H E M A  F O R M', () => {
     };
     component.values = deepClone(values);
 
-    const pathInput = component.getElement('path-operator.path');
-    expect(pathInput).not.toBeNull();
-    pathInput.value = '/updated-path';
-    /* global CustomEvent */
-    pathInput.dispatchEvent(new CustomEvent('gv-input:input', {
-      detail: pathInput.value,
-      bubbles: true,
-      cancelable: true,
-    }));
+    const pathOperatorControl = component.getControl('path-operator');
+    expect(pathOperatorControl).not.toBeNull();
+    pathOperatorControl._onInput({
+      preventDefault,
+      stopPropagation,
+      target: { id: 'path-operator.path' },
+      detail: '/updated-path',
+    });
 
-    const timeToLiveSeconds = component.getElement('timeToLiveSeconds');
+    const timeToLiveSeconds = component.getControl('timeToLiveSeconds');
     expect(timeToLiveSeconds).not.toBeNull();
-    timeToLiveSeconds.value = 12;
-    timeToLiveSeconds.dispatchEvent(new CustomEvent('gv-input:input', {
-      detail: timeToLiveSeconds.value,
-      bubbles: true,
-      cancelable: true,
-    }));
+    pathOperatorControl._onInput({
+      preventDefault,
+      stopPropagation,
+      target: { id: 'timeToLiveSeconds' },
+      detail: 12,
+    });
 
-    const multiselect = component.getElement('multiselect');
-    expect(multiselect).not.toBeNull();
-    multiselect.value = ['a', 'b'];
-    multiselect.dispatchEvent(new CustomEvent('gv-select:input', {
-      detail: multiselect.value,
-      bubbles: true,
-      cancelable: true,
-    }));
+    const multiselect = component.getControl('multiselect');
+    multiselect._onInput({
+      preventDefault,
+      stopPropagation,
+      target: { id: 'multiselect' },
+      detail: ['a', 'b'],
+    });
 
     expect(component.values).toEqual({
       'path-operator': {
         operator: 'STARTS_WITH',
-        path: pathInput.value,
+        path: '/updated-path',
       },
       timeToLiveSeconds: 12,
       multiselect: ['a', 'b'],
@@ -309,107 +272,6 @@ describe('S C H E M A  F O R M', () => {
     component.reset();
 
     expect(component.values).toEqual(values);
-
-  });
-
-  test('should add item to array property', (done) => {
-    const attributes = [{ name: 'foo', value: 'bar' }];
-    const values = {
-      'path-operator': {
-        path: '/my-path',
-        operator: 'STARTS_WITH',
-      },
-      timeToLiveSeconds: 5,
-      multiselect: ['a'],
-      attributes,
-    };
-    component.values = values;
-
-    component.updateComplete.then(() => {
-
-      expect(component.getElements().map((e) => e.id)).toEqual([
-        'body',
-        'path-operator.operator',
-        'path-operator.path',
-        'resources',
-        'attributes.0.name',
-        'attributes.0.value',
-        'timeToLiveSeconds',
-        'useResponseCacheHeaders',
-        'select',
-        'multiselect',
-      ]);
-
-      component.addEventListener('gv-schema-form:change', ({ detail }) => {
-        expect(detail.values).toEqual({ ...values, attributes: [{ name: 'foo', value: 'bar' }, {}] });
-        expect(component.getElements().map((e) => e.id)).toEqual([
-          'body',
-          'path-operator.operator',
-          'path-operator.path',
-          'resources',
-          'attributes.0.name',
-          'attributes.0.value',
-          'attributes.1.name',
-          'attributes.1.value',
-          'timeToLiveSeconds',
-          'useResponseCacheHeaders',
-          'select',
-          'multiselect',
-        ]);
-        done();
-      });
-
-      const parent = component.getElement('attributes');
-      component._onAddItem('attributes', 1, mixed.properties.attributes, parent, false);
-    });
-  });
-
-  test('should remove item to array property', (done) => {
-    const values = {
-      'path-operator': {
-        path: '/my-path',
-        operator: 'STARTS_WITH',
-      },
-      timeToLiveSeconds: 5,
-      multiselect: ['a'],
-      attributes: [{ name: '1', value: '1' }, { name: '2', value: '2' }, { name: '3', value: '3' }],
-    };
-    component.values = values;
-
-    component.updateComplete.then(() => {
-      expect(component.getElements().map((e) => e.id)).toEqual(
-        expect.arrayContaining([
-          'attributes.0.name',
-          'attributes.0.value',
-          'attributes.1.name',
-          'attributes.1.value',
-          'attributes.2.name',
-          'attributes.2.value']));
-
-      component.addEventListener('gv-schema-form:change', ({ detail }) => {
-        expect(detail.values).toEqual({
-          ...values,
-          attributes: [{ name: '2', value: '2' }, { name: '3', value: '3' }],
-        });
-        expect(component.getElements().map((e) => e.id)).toEqual([
-          'body',
-          'path-operator.operator',
-          'path-operator.path',
-          'resources',
-          'attributes.0.name',
-          'attributes.0.value',
-          'attributes.1.name',
-          'attributes.1.value',
-          'timeToLiveSeconds',
-          'useResponseCacheHeaders',
-          'select',
-          'multiselect',
-        ]);
-        done();
-      });
-      component._onRemoveItem('attributes.0');
-
-    });
 
   });
 

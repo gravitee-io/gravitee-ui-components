@@ -85,6 +85,13 @@ export function makeStory (...configs) {
       });
     }
 
+    _events.forEach((eventName) => {
+      container.addEventListener(eventName, (e) => {
+        // eslint-disable-next-line no-console
+        console.debug(eventName, e.detail.values);
+      });
+    });
+
     return container;
   };
 

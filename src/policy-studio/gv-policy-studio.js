@@ -739,7 +739,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _onFetchResources (event) {
-    const { element, regexTypes } = event.detail;
+    const { currentTarget, regexTypes } = event.detail;
     const options = this.definedResources
       .filter((resource) => regexTypes == null || new RegExp(regexTypes).test(resource.type))
       .map((resource, index) => {
@@ -753,7 +753,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           id: resource.type,
         };
       });
-    element.options = options;
+    currentTarget.options = options;
   }
 
   _renderPolicy () {
