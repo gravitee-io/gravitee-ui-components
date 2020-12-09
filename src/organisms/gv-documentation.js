@@ -136,6 +136,7 @@ export class GvDocumentation extends LitElement {
         if (title) {
           this._dom.element.querySelector('h1').remove();
         }
+        this._dom.element.querySelectorAll('a').forEach((link) => (link.target = '_blank'));
       }
     }
   }
