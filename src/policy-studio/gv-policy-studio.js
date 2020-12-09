@@ -707,17 +707,17 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _writeFlowStep (values) {
     const { description, ...configuration } = values;
-    delete this._currentFlowStep.step._new;
-    if (this._currentFlowStep.step.description !== description || !deepEqual(this._currentFlowStep.step.configuration, configuration)) {
-      this._currentFlowStep.step.description = description;
-      this._currentFlowStep.step.configuration = configuration;
-      this._currentFlowStep.step._dirty = true;
-      if (this._currentFlowStep.flow) {
-        this._currentFlowStep.flow._dirty = true;
-      }
+    if (this._currentFlowStep.step._new || this._currentFlowStep.step.description !== description || !deepEqual(this._currentFlowStep.step.configuration, configuration)) {
+      delete this._currentFlowStep.step._new;
       const flow = this._findFlowById(this._currentFlowStep.flow._id);
-      flow[this._currentFlowStep.group][this._currentFlowStep.position] = this._currentFlowStep.step;
+      const position = flow[this._currentFlowStep.group].findIndex((step) => step._id === this._currentFlowStep.step._id);
+      flow[this._currentFlowStep.group][position].description = description;
+      flow[this._currentFlowStep.group][position].configuration = configuration;
+      flow[this._currentFlowStep.group][position]._dirty = true;
+      flow._dirty = true;
       this.isDirty = true;
+      this._currentFlowStep.flow = flow;
+      this._currentFlowStep.step = flow[this._currentFlowStep.group][position];
     }
   }
 
