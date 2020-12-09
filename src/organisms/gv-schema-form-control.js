@@ -84,7 +84,7 @@ export class GvSchemaFormControl extends LitElement {
     element.skeleton = this.skeleton;
     element.id = this.id;
     element.name = this.id;
-    element.classList.add('control');
+    element.classList.add('form__control');
 
     if (this.value != null) {
       this._setValue(element);
@@ -296,12 +296,6 @@ export class GvSchemaFormControl extends LitElement {
 
         .form__control-description {
           margin: 0 0.5rem;
-        }
-
-        .form__control {
-          margin: 0.5rem;
-          display: flex;
-          flex-direction: column;
         }
 
         .form__control-label {
