@@ -86,3 +86,10 @@ You can configure the policy with the following options :
     "content": "<user id=\"{#request.paths[3]}\">\n\t<firstname>{#properties['firstname_' + #request.paths[3]]}</firstname>\n\t<lastname>{#properties['lastname_' + #request.paths[3]]}</lastname>\n\t<age>{(T(java.lang.Math).random() * 60).intValue()}</age>\n\t<createdAt>{(new java.util.Date()).getTime()}</createdAt>\n</user>"
 }
 ----
+
+
+=== Links
+
+https://discuss.asciidoctor.org[Discuss Asciidoctor,role=external,window=_blank]
+
+https://discuss.asciidoctor.org
