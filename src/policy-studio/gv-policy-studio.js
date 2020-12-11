@@ -48,7 +48,9 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * @attr {Object} definition - The definition of flows
  * @attr {Object} documentation - The documentation to display
  * @attr {String} selectedId - The selected policy id
- * @attr {Object} flowSettingsForm - The flow form configuration to display in gv-schema-form component
+ * @attr {Object} flowSchema - The flow form configuration to display in gv-schema-form component
+ * @attr {Object} configurationSchema - The form configuration to display in gv-schema-form component
+ * @attr {Object} configurationInformation - The information related to api configuration tab
  *
  */
 export class GvPolicyStudio extends KeyboardElement(LitElement) {
@@ -64,8 +66,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       definition: { type: Object },
       _definition: { type: Object, attribute: false },
       documentation: { type: Object },
-      configurationSchema: { type: Object },
       flowSchema: { type: Object },
+      configurationSchema: { type: Object },
+      _configurationSchema: { type: Object, attribute: false },
+      configurationInformation: { type: String },
       isDirty: { type: Boolean, attribute: 'dirty', reflect: true },
       _dragPolicy: { type: Object, attribute: false },
       _dropPolicy: { type: Object, attribute: false },
@@ -207,11 +211,28 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           width: 100%;
         }
 
-        .flow-settings {
+        .api-settings {
           display: flex;
           flex-direction: column;
           border-left: 1px solid #BFBFBF;
           height: var(--height-in-tabs);
+        }
+
+        .api-settings-information {
+          display: flex;
+          align-items: center;
+        }
+
+        .api-settings-information__icon {
+          --gv-icon--c: var(--gv-theme-color, #5A7684);
+          --gv-icon-opacity--c: var(--gv-theme-color-info-light, #64b5f6);
+        }
+
+        .api-settings-information__blockquote {
+          border-left: 1px solid var(--gv-theme-color, #5A7684);
+          margin: 15px;
+          padding-left: 15px;
+          font-size: 14px;
         }
 
         .flow-settings gv-schema-form {
@@ -287,10 +308,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     };
     this._tabs = [
       { id: 'design', title: 'Design', icon: 'navigation:exchange' },
-      // { id: 'settings', title: 'Configuration', icon: 'general:settings#2' },
       { id: 'properties', title: 'Properties', icon: 'general:settings#1' },
       { id: 'resources', title: 'Resources', icon: 'general:settings#5' },
     ];
+
     this._flowFilterOptions = [
       { id: 'api', title: 'Api', icon: 'shopping:box#3' },
       { id: 'plan', title: 'Plans', icon: 'shopping:sale#2' },
@@ -303,6 +324,18 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._policyFilter = [];
     loadAsciiDoctor();
     this.addEventListener('gv-schema-form:change', this._onSchemaFormChange);
+  }
+
+  set configurationSchema(value) {
+    if (value) {
+      this._tabs.splice(1, 0, { id: 'settings', title: 'Configuration', icon: 'general:settings#2' });
+    }
+
+    this._configurationSchema = value;
+  }
+
+  get configurationSchema() {
+    return this._configurationSchema;
   }
 
   onKeyboard () {
@@ -742,6 +775,16 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._refresh();
   }
 
+  _onCancelFlowMode () {
+    this._onDesign();
+  }
+
+  _onSubmitFlowMode ({ detail: { values } }) {
+    this._definition['flow-mode'] = values['flow-mode'] || 'DEFAULT';
+    this.isDirty = true;
+    this._refresh();
+  }
+
   _onChangeTab ({ detail }) {
     this._changeTab(detail.value);
   }
@@ -796,7 +839,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       const { plan } = this._findFlowCollection(flow._id);
       const selectedStepId = this._currentFlowStep ? this._currentFlowStep.step._id : null;
       return html`
-                <gv-flow 
+                <gv-flow
                 style="height: 100%"
                  .id="${flow._id}"
                  .flow="${flow}"
@@ -809,7 +852,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                  @gv-flow:drag-start="${this._onDragStartFlowStep.bind(this, flow)}"
                  @gv-flow:edit="${this._onEditFlowStep}"
                  @gv-flow:change-state="${this._onChangeFlowStepState}"
-                 @gv-flow:drop="${this._onDropPolicy}" 
+                 @gv-flow:drop="${this._onDropPolicy}"
                  @gv-flow:delete="${this._onDeletePolicy}"></gv-flow>`;
     }
     else if (hasEmptyState) {
@@ -931,23 +974,23 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return html`${cache(this._flowStepSchema && this._currentFlowStep
       ? html`<div class="flow-step__container">
            <div class="flow-step__form">
-             <gv-schema-form 
+             <gv-schema-form
                  .id="${FLOW_STEP_FORM_ID}"
-                 .schema="${this._flowStepSchema}" 
+                 .schema="${this._flowStepSchema}"
                 .icon="design:edit"
                 has-header
                 validate-on-render
-                .values="${values}" 
+                .values="${values}"
                 .dirty="${this._currentFlowStep._values != null}"
                 @gv-schema-form:change="${this._onChangeFlowStep}"
                 @gv-schema-form:reset="${this._onResetFlowStep}"
                 @gv-schema-form:fetch-resources="${this._onFetchResources}"
                 @gv-schema-form:submit="${this._onSubmitFlowStep}">
-                
+
                   <div slot="title" class="flow-step__form-title">${this._currentFlowStep.step.name}</div>
                   <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._closeFlowStepForm}" title="Close (esc)"></gv-button>
                   <gv-button slot="header-left" icon="home:book" ?disabled="${this.documentation != null}" outlined small @gv-button:click="${this._fetchDocumentation.bind(this, this._currentFlowStep.policy)}" title="Open documentation"></gv-button>
-                  
+
               </gv-schema-form>
             </div>
         </div>` : '')}`;
@@ -1225,7 +1268,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         flow.post = flow.post.filter(this._filterNotValidStep);
         return flow;
       });
-
     return { ...this._definition, flows, plans };
   }
 
@@ -1348,22 +1390,31 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _renderConfigurationForm () {
-    if (this.configurationForm) {
-      //   // const { plan } = this._findFlowCollection(flow.id);
-      //   // const values = deepClone(flow);
-      //   // return html`<div id="settings" slot="content" class="flow-settings" @dragover="${this._onDesign}">
-      //   //               <gv-schema-form .schema="${this.configurationForm}"
-      //   //                         id="settings-form"
-      //   //                         .values="${values}"
-      //   //                         has-header
-      //   //                         has-footer
-      //   //                         @gv-schema-form:cancel="${this._onCancelFlow}"
-      //   //                         @gv-schema-form:submit="${this._onSubmitFlow}">
-      //   //                   <div slot="title" class="${classMap({ 'flow-name': true, dirty: flow._dirty })}">
-      //   //                     ${getFlowName(flow, plan)}
-      //   //                   </div>
-      //   //               </gv-schema-form>
-      //   //       </div>`;
+    if (this.configurationSchema) {
+      const values = deepClone(this._definition);
+      return html`
+        <div id="settings" slot="content" class="api-settings" @dragover="${this._onDesign}">
+                <gv-schema-form
+                  .schema="${this.configurationSchema}"
+                  id="api-settings-form"
+                  .values="${values}"
+                  has-header
+                  has-footer
+                  @gv-schema-form:cancel="${this._onCancelFlowMode}"
+                  @gv-schema-form:submit="${this._onSubmitFlowMode}">
+                  ${!this.configurationInformation ? '' :
+
+                  html`
+                  <div class="api-settings-information" slot="title">
+                    <gv-icon class="api-settings-information__icon" title="Info" shape="code:info"></gv-icon>
+                    <blockquote class="api-settings-information__blockquote">
+                      ${this.configurationInformation}
+                    </blockquote>
+                  </div>
+
+                `}
+                </gv-schema-form>
+        </div>`;
     }
     return html``;
   }
@@ -1380,7 +1431,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                               has-header
                               @gv-schema-form:cancel="${this._onCancelFlow}"
                               @gv-schema-form:submit="${this._onSubmitFlow}">
-                        <div slot="title" class="flow-step__form-title">Flow configuration</div>          
+                        <div slot="title" class="flow-step__form-title">Flow configuration</div>
                     </gv-schema-form>
             </div>`;
       }
