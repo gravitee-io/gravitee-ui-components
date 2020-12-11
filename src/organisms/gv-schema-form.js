@@ -241,12 +241,12 @@ export class GvSchemaForm extends LitElement {
     const isRequired = this.schema.required && this.schema.required.includes(key);
     const isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
     const value = get(this._values, key);
-    return html`<gv-schema-form-control .id="${key}" 
+    return html`<gv-schema-form-control .id="${key}"
                                         .errors="${this.errors}"
                                         .control="${control}"
-                                        .skeleton="${this.skeleton}" 
+                                        .skeleton="${this.skeleton}"
                                         .value="${value}"
-                                        ?required="${isRequired}" 
+                                        ?required="${isRequired}"
                                         ?disabled="${isDisabled}"></gv-schema-form-control>`;
   }
 

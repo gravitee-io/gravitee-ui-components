@@ -50,7 +50,7 @@ const conf = {
 
 const buildDoc = (title) => {
   return `= ${title}
-      
+
 == Phase
 
 |===
@@ -62,7 +62,7 @@ const buildDoc = (title) => {
 |===
 
 == Description
-        
+
 Mock documentation in story...
 
 [source, xml]
@@ -113,7 +113,7 @@ export const Empty = makeStory(conf, {
     }),
     resourceTypes: apimResourceTypes.data,
     flowSchema: apimFlow,
-    configurationSchema: apimConfiguration,
+    apiConfigurationSchema: apimConfiguration,
     '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
     '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
   }],
@@ -130,6 +130,7 @@ export const APIM = makeStory(conf, {
     definition: apimDefinition,
     flowSchema: apimFlow,
     configurationSchema: apimConfiguration,
+    configurationInformation: 'By default, the selection of a flow is based on the operator defined in the flow itself. This operator allows either to select a flow when the path matches exactly, or when the start of the path matches. The \"Best match\" option allows you to select the flow from the path that is closest.',
     '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
     '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
   }],
