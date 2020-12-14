@@ -110,13 +110,14 @@ export class GvCode extends InputElement(LitElement) {
 
   async updated (changedProperties) {
     super.updated(changedProperties);
-    if (changedProperties.has('options') && this.options && this.options.mode) {
+    if (changedProperties.has('options') && this.options) {
       const options = this._getProcessedOptions();
-      try {
-        await import(`codemirror/mode/${options.mode}/${options.mode}`);
-      }
-      catch (er) {
-
+      if (this.options.mode != null) {
+        try {
+          await import(`codemirror/mode/${this.options.mode}/${this.options.mode}`);
+        }
+        catch (er) {
+        }
       }
 
       const textArea = this.shadowRoot.querySelector(`#${this._id}`);
@@ -171,7 +172,7 @@ export class GvCode extends InputElement(LitElement) {
           display: block;
           margin: 0 0.2rem 0.2rem 0.2rem;
         }
-        
+
         .skeleton {
           position: absolute;
           top: 0;
@@ -179,13 +180,13 @@ export class GvCode extends InputElement(LitElement) {
           right: 0;
           bottom: 0;
           color: white;
-        
+
         }
 
         .box {
           position: relative;
         }
-        
+
         .box-invisible {
           min-height: 70px;
         }
@@ -194,7 +195,7 @@ export class GvCode extends InputElement(LitElement) {
           visibility: hidden;
           opacity: 0;
         }
-        
+
         textarea[name='code'] {
           display: none;
         }
