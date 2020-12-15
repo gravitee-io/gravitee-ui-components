@@ -372,7 +372,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  set configurationSchema(value) {
+  set configurationSchema (value) {
     if (value) {
       this._tabs.splice(1, 0, { id: 'settings', title: 'Configuration', icon: 'general:settings#2' });
     }
@@ -380,7 +380,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._configurationSchema = value;
   }
 
-  get configurationSchema() {
+  get configurationSchema () {
     return this._configurationSchema;
   }
 
@@ -1521,9 +1521,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                   has-footer
                   @gv-schema-form:cancel="${this._onCancelFlowMode}"
                   @gv-schema-form:submit="${this._onSubmitFlowMode}">
-                  ${!this.configurationInformation ? '' :
+                  ${!this.configurationInformation ? ''
 
-                  html`
+                  : html`
                   <div class="api-settings-information" slot="title">
                     <gv-icon class="api-settings-information__icon" title="Info" shape="code:info"></gv-icon>
                     <blockquote class="api-settings-information__blockquote">
