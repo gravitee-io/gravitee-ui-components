@@ -130,7 +130,9 @@ export const APIM = makeStory(conf, {
     definition: apimDefinition,
     flowSchema: apimFlow,
     configurationSchema: apimConfiguration,
-    configurationInformation: 'By default, the selection of a flow is based on the operator defined in the flow itself. This operator allows either to select a flow when the path matches exactly, or when the start of the path matches. The \"Best match\" option allows you to select the flow from the path that is closest.',
+    configurationInformation: 'By default, the selection of a flow is based on the operator defined in the flow itself.'
+      + ' This operator allows either to select a flow when the path matches exactly, or when the start of the path matches.'
+      + ' The "Best match" option allows you to select the flow from the path that is closest.',
     '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
     '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
     'flows-title': 'API Flows',
