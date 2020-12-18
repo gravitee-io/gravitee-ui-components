@@ -83,7 +83,7 @@ export class GvCode extends InputElement(LitElement) {
         ${this.label ? html`<label for="code">${this.label}</label>` : ''}
         ${this.clipboard ? html`<gv-button title="${i18n('gv-code.copy')}" ?outlined="${!this._copied}" ?primary="${this._copied}" small icon="${this._clipboardIcon}"></gv-button>` : ''}
         <textarea id="${this._id}" name="code">${this.value}</textarea>
-        ${this.skeleton ? html`<div class="skeleton"></div>` : ''} 
+        ${this.skeleton ? html`<div class="skeleton"></div>` : ''}
       </div>
     `;
   }
