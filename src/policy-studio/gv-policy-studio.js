@@ -977,17 +977,17 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       return html`<gv-resizable-views direction="horizontal" no-overflow>
                     <div slot="top">${this._renderFlowStepForm()}</div>
                     <div slot="bottom">
-                      <gv-documentation .text="${this.documentation.content}" 
-                                        .image="${this.documentation.image}" 
+                      <gv-documentation .text="${this.documentation.content}"
+                                        .image="${this.documentation.image}"
                                         ?disabled="${this._currentAskConfirmation}"
                                         @gv-documentation:close="${this._onCloseDocumentation}"></gv-documentation>
                     </div>
                   </gv-resizable-views>`;
     }
     else if (this.documentation) {
-      return html`<gv-documentation .text="${this.documentation.content}" 
+      return html`<gv-documentation .text="${this.documentation.content}"
                                     .image="${this.documentation.image}"
-                                    ?disabled="${this._currentAskConfirmation}" 
+                                    ?disabled="${this._currentAskConfirmation}"
                                     @gv-documentation:close="${this._onCloseDocumentation}"></gv-documentation>`;
     }
 
@@ -1087,10 +1087,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
                   <div slot="title" class="flow-step__form-title">${this._currentFlowStep.step.name}</div>
                   <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._onCloseFlowStepForm}" title="Close (esc)"></gv-button>
-                  <gv-button slot="header-left" icon="home:book" ?disabled="${this.documentation != null}" outlined small 
-                             @gv-button:click="${this._onOpenDocumentationFromForm}" 
+                  <gv-button slot="header-left" icon="home:book" ?disabled="${this.documentation != null}" outlined small
+                             @gv-button:click="${this._onOpenDocumentationFromForm}"
                              title="Open documentation"></gv-button>
-                  
+
               </gv-schema-form>
             </div>
         </div>` : '')}`;
@@ -1608,8 +1608,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
          </gv-policy-studio-menu>
 
         <gv-tabs .value="${this.tabId}" .options="${this._tabs}"
-                  .disabled="${this._currentAskConfirmation}" 
-                  @gv-tabs:change="${this._onChangeTab}" 
+                  .disabled="${this._currentAskConfirmation}"
+                  @gv-tabs:change="${this._onChangeTab}"
                  .validator="${this._changeTabValidator.bind(this)}">
             ${this._renderDesign()}
             ${this._renderConfigurationForm()}

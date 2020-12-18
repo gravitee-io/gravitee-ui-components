@@ -162,7 +162,11 @@ export class GvSchemaFormControl extends LitElement {
       }
     }
     else if (this.isExpressionLanguage()) {
+      element.options = {};
       element.rows = 1;
+      if (this.control.description != null) {
+        element.options.placeholder = this.control.description;
+      }
     }
 
     if (this.control.description) {

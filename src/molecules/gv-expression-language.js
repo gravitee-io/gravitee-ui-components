@@ -415,7 +415,6 @@ export class GvExpressionLanguage extends LitElement {
     const options = {
       ...{
         mode: 'javascript',
-        placeholder: 'Ctrl-E or Cmd-E to insert EL',
         autoCloseTags: true,
         autoCloseBrackets: true,
         matchTags: true,
@@ -426,7 +425,8 @@ export class GvExpressionLanguage extends LitElement {
       },
       ...(this.options || {}),
     };
-    return html`<div>
+    return html`<div title="Ctrl-E or Cmd-E to insert EL">
+                  <label>${this.label}</label>
                   <gv-code .options="${options}" .value="${this.value}" rows="${this.rows}"></gv-code>
                   <div id="hint"></div>
                 </div>`;
