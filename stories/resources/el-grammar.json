@@ -1,0 +1,3444 @@
+{
+  "request": {
+    "headers": {
+      "_type": "HttpHeaders"
+    },
+    "pathParams": {
+      "_type": "MultiValueMap"
+    },
+    "method": {
+      "_type": "String"
+    },
+    "scheme": {
+      "_type": "String"
+    },
+    "pathInfos": {
+      "_type": "String[]"
+    },
+    "contextPath": {
+      "_type": "String"
+    },
+    "params": {
+      "_type": "MultiValueMap"
+    },
+    "uri": {
+      "_type": "String"
+    },
+    "version": {
+      "_type": "String"
+    },
+    "transactionId": {
+      "_type": "String"
+    },
+    "content": {
+      "_type": "String"
+    },
+    "path": {
+      "_type": "String"
+    },
+    "paths": {
+      "_type": "String[]"
+    },
+    "localAddress": {
+      "_type": "String"
+    },
+    "id": {
+      "_type": "String"
+    },
+    "pathInfo": {
+      "_type": "String"
+    },
+    "remoteAddress": {
+      "_type": "String"
+    },
+    "timestamp": {
+      "_type": "long"
+    }
+  },
+  "endpoints": {
+    "_type": "String[]"
+  },
+  "response": {
+    "headers": {
+      "_type": "HttpHeaders"
+    },
+    "content": {
+      "_type": "String"
+    },
+    "status": {
+      "_type": "int"
+    }
+  },
+  "context": {
+    "attributes": {
+      "context-path": {
+        "_type": "String"
+      },
+      "application": {
+        "_type": "String"
+      },
+      "api-key": {
+        "_type": "String"
+      },
+      "user-id": {
+        "_type": "String"
+      },
+      "api": {
+        "_type": "String"
+      },
+      "plan": {
+        "_type": "String"
+      },
+      "resolved-path": {
+        "_type": "String"
+      }
+    }
+  },
+  "_enums": {
+    "HttpHeaders": [
+      "Accept",
+      "Accept-Charset",
+      "Accept-Encoding",
+      "Accept-Language",
+      "Accept-Ranges",
+      "Access-Control-Allow-Credentials",
+      "Access-Control-Allow-Headers",
+      "Access-Control-Allow-Methods",
+      "Access-Control-Allow-Origin",
+      "Access-Control-Expose-Headers",
+      "Access-Control-Max-Age",
+      "Access-Control-Request-Headers",
+      "Access-Control-Request-Method",
+      "Age",
+      "Allow",
+      "Authorization",
+      "Cache-Control",
+      "Connection",
+      "Content-Disposition",
+      "Content-Encoding",
+      "Content-ID",
+      "Content-Language",
+      "Content-Length",
+      "Content-Location",
+      "Content-MD5",
+      "Content-Range",
+      "Content-Type",
+      "Cookie",
+      "Date",
+      "ETag",
+      "Expires",
+      "Expect",
+      "Forwarded",
+      "From",
+      "Host",
+      "If-Match",
+      "If-Modified-Since",
+      "If-None-Match",
+      "If-Unmodified-Since",
+      "Keep-Alive",
+      "Last-Modified",
+      "Location",
+      "Link",
+      "Max-Forwards",
+      "MIME-Version",
+      "Origin",
+      "Pragma",
+      "Proxy-Authenticate",
+      "Proxy-Authorization",
+      "Proxy-Connection",
+      "Range",
+      "Referer",
+      "Retry-After",
+      "Server",
+      "Set-Cookie",
+      "Set-Cookie2",
+      "TE",
+      "Trailer",
+      "Transfer-Encoding",
+      "Upgrade",
+      "User-Agent",
+      "Vary",
+      "Via",
+      "Warning",
+      "WWW-Authenticate",
+      "X-Forwarded-For",
+      "X-Forwarded-Proto",
+      "X-Forwarded-Server",
+      "X-Forwarded-Host"
+    ]
+  },
+  "_types": {
+    "HttpHeaders": {
+      "methods": [
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        },
+        {
+          "name": "containsKey",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "containsValue",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "entrySet",
+          "returnType": "Set"
+        },
+        {
+          "name": "get",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "Object"
+        },
+        {
+          "name": "getOrDefault",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            },
+            {
+              "name": "arg1",
+              "type": "Object"
+            }
+          ],
+          "returnType": "Object"
+        },
+        {
+          "name": "isEmpty",
+          "returnType": "boolean"
+        },
+        {
+          "name": "keySet",
+          "returnType": "Set"
+        },
+        {
+          "name": "size",
+          "returnType": "int"
+        },
+        {
+          "name": "values",
+          "returnType": "Collection"
+        }
+      ]
+    },
+    "Set": {
+      "methods": [
+        {
+          "name": "contains",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "isEmpty",
+          "returnType": "boolean"
+        },
+        {
+          "name": "size",
+          "returnType": "int"
+        }
+      ]
+    },
+    "String": {
+      "methods": [
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "length",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "getChars",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "char[]"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            }
+          ],
+          "returnType": "void"
+        },
+        {
+          "name": "compareTo",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "compareTo",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "indexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "indexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "indexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "indexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "boolean"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "char"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "char[]"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "char[]"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "codePoints",
+          "returnType": "IntStream"
+        },
+        {
+          "name": "isEmpty",
+          "returnType": "boolean"
+        },
+        {
+          "name": "charAt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "char"
+        },
+        {
+          "name": "codePointAt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "codePointBefore",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "codePointCount",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "offsetByCodePoints",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "getBytes",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Charset"
+            }
+          ],
+          "returnType": "byte[]"
+        },
+        {
+          "name": "getBytes",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "byte[]"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            }
+          ],
+          "returnType": "void"
+        },
+        {
+          "name": "getBytes",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "byte[]"
+        },
+        {
+          "name": "getBytes",
+          "returnType": "byte[]"
+        },
+        {
+          "name": "contentEquals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "StringBuffer"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "contentEquals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "equalsIgnoreCase",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "compareToIgnoreCase",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "regionMatches",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "boolean"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "String"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            },
+            {
+              "name": "arg4",
+              "type": "int"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "regionMatches",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "String"
+            },
+            {
+              "name": "arg2",
+              "type": "int"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "startsWith",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "startsWith",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "endsWith",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "lastIndexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "lastIndexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "lastIndexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "lastIndexOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "substring",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "substring",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "subSequence",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "CharSequence"
+        },
+        {
+          "name": "concat",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "replace",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            },
+            {
+              "name": "arg1",
+              "type": "CharSequence"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "replace",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "char"
+            },
+            {
+              "name": "arg1",
+              "type": "char"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "matches",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "contains",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "replaceFirst",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "String"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "replaceAll",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "String"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "split",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "String[]"
+        },
+        {
+          "name": "split",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "String[]"
+        },
+        {
+          "name": "join",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            },
+            {
+              "name": "arg1",
+              "type": "CharSequence[]"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "join",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            },
+            {
+              "name": "arg1",
+              "type": "Iterable"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toLowerCase",
+          "returnType": "String"
+        },
+        {
+          "name": "toLowerCase",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Locale"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toUpperCase",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Locale"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toUpperCase",
+          "returnType": "String"
+        },
+        {
+          "name": "trim",
+          "returnType": "String"
+        },
+        {
+          "name": "strip",
+          "returnType": "String"
+        },
+        {
+          "name": "stripLeading",
+          "returnType": "String"
+        },
+        {
+          "name": "stripTrailing",
+          "returnType": "String"
+        },
+        {
+          "name": "isBlank",
+          "returnType": "boolean"
+        },
+        {
+          "name": "lines",
+          "returnType": "Stream"
+        },
+        {
+          "name": "chars",
+          "returnType": "IntStream"
+        },
+        {
+          "name": "toCharArray",
+          "returnType": "char[]"
+        },
+        {
+          "name": "format",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "Object[]"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "format",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Locale"
+            },
+            {
+              "name": "arg1",
+              "type": "String"
+            },
+            {
+              "name": "arg2",
+              "type": "Object[]"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "copyValueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "char[]"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "copyValueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "char[]"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "intern",
+          "returnType": "String"
+        },
+        {
+          "name": "repeat",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        }
+      ]
+    },
+    "String[]": {
+      "methods": [
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        }
+      ]
+    },
+    "Math": {
+      "methods": [
+        {
+          "name": "abs",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "abs",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "abs",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "abs",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "sin",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "cos",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "tan",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "atan2",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "sqrt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "log",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "log10",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "pow",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "exp",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "min",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "min",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "min",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            },
+            {
+              "name": "arg1",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "min",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "max",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            },
+            {
+              "name": "arg1",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "max",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "max",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "max",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "addExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "addExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "decrementExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "decrementExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "incrementExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "incrementExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "multiplyExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "multiplyExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "multiplyExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "multiplyHigh",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "negateExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "negateExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "subtractExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "subtractExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "fma",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            },
+            {
+              "name": "arg2",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "fma",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            },
+            {
+              "name": "arg1",
+              "type": "float"
+            },
+            {
+              "name": "arg2",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "scalb",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "scalb",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "copySign",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            },
+            {
+              "name": "arg1",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "copySign",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "getExponent",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "getExponent",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "signum",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "signum",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "floorMod",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "floorMod",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "floorMod",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "asin",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "acos",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "atan",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "toRadians",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "toDegrees",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "cbrt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "IEEEremainder",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "ceil",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "floor",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "rint",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "round",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "round",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "random",
+          "returnType": "double"
+        },
+        {
+          "name": "toIntExact",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "multiplyFull",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "floorDiv",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "floorDiv",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "floorDiv",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "ulp",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "ulp",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "sinh",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "cosh",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "tanh",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "hypot",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "expm1",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "log1p",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "nextAfter",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "nextAfter",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            },
+            {
+              "name": "arg1",
+              "type": "double"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "nextUp",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "nextUp",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "nextDown",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "float"
+            }
+          ],
+          "returnType": "float"
+        },
+        {
+          "name": "nextDown",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "double"
+            }
+          ],
+          "returnType": "double"
+        },
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        }
+      ]
+    },
+    "Integer": {
+      "methods": [
+        {
+          "name": "numberOfLeadingZeros",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "numberOfTrailingZeros",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "bitCount",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "toString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        },
+        {
+          "name": "hashCode",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "min",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "max",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "reverseBytes",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "compareTo",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "compareTo",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Integer"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "byteValue",
+          "returnType": "byte"
+        },
+        {
+          "name": "shortValue",
+          "returnType": "short"
+        },
+        {
+          "name": "intValue",
+          "returnType": "int"
+        },
+        {
+          "name": "longValue",
+          "returnType": "long"
+        },
+        {
+          "name": "floatValue",
+          "returnType": "float"
+        },
+        {
+          "name": "doubleValue",
+          "returnType": "double"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "Integer"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "Integer"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "Integer"
+        },
+        {
+          "name": "toHexString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "decode",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "Integer"
+        },
+        {
+          "name": "compare",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "reverse",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "toUnsignedLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "parseInt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "parseInt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "parseInt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "int"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "sum",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "compareUnsigned",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "toUnsignedString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toUnsignedString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toOctalString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toBinaryString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "parseUnsignedInt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "parseUnsignedInt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "int"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "parseUnsignedInt",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "getInteger",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "Integer"
+            }
+          ],
+          "returnType": "Integer"
+        },
+        {
+          "name": "getInteger",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "Integer"
+        },
+        {
+          "name": "getInteger",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "Integer"
+        },
+        {
+          "name": "divideUnsigned",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "remainderUnsigned",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "highestOneBit",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "lowestOneBit",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "rotateLeft",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "rotateRight",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "signum",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        }
+      ]
+    },
+    "Long": {
+      "methods": [
+        {
+          "name": "numberOfLeadingZeros",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "numberOfTrailingZeros",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "bitCount",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "toString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        },
+        {
+          "name": "hashCode",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "min",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "max",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "reverseBytes",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "compareTo",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "compareTo",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "getLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "Long"
+        },
+        {
+          "name": "getLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "Long"
+        },
+        {
+          "name": "getLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "Long"
+            }
+          ],
+          "returnType": "Long"
+        },
+        {
+          "name": "byteValue",
+          "returnType": "byte"
+        },
+        {
+          "name": "shortValue",
+          "returnType": "short"
+        },
+        {
+          "name": "intValue",
+          "returnType": "int"
+        },
+        {
+          "name": "longValue",
+          "returnType": "long"
+        },
+        {
+          "name": "floatValue",
+          "returnType": "float"
+        },
+        {
+          "name": "doubleValue",
+          "returnType": "double"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "Long"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "Long"
+        },
+        {
+          "name": "valueOf",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "Long"
+        },
+        {
+          "name": "toHexString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "decode",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "Long"
+        },
+        {
+          "name": "compare",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "reverse",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "sum",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "compareUnsigned",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "toUnsignedString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toUnsignedString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toOctalString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "toBinaryString",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "String"
+        },
+        {
+          "name": "divideUnsigned",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "remainderUnsigned",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "highestOneBit",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "lowestOneBit",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "rotateLeft",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "rotateRight",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "signum",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "long"
+            }
+          ],
+          "returnType": "int"
+        },
+        {
+          "name": "parseLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "parseLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "parseLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "int"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "parseUnsignedLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "CharSequence"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            },
+            {
+              "name": "arg2",
+              "type": "int"
+            },
+            {
+              "name": "arg3",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "parseUnsignedLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            },
+            {
+              "name": "arg1",
+              "type": "int"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "parseUnsignedLong",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "String"
+            }
+          ],
+          "returnType": "long"
+        },
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        }
+      ]
+    },
+    "Collection": {
+      "methods": [
+        {
+          "name": "contains",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "isEmpty",
+          "returnType": "boolean"
+        },
+        {
+          "name": "size",
+          "returnType": "int"
+        }
+      ]
+    },
+    "Object": {
+      "methods": [
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        }
+      ]
+    },
+    "List": {
+      "methods": [
+        {
+          "name": "get",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "int"
+            }
+          ],
+          "returnType": "Object"
+        },
+        {
+          "name": "contains",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "isEmpty",
+          "returnType": "boolean"
+        },
+        {
+          "name": "size",
+          "returnType": "int"
+        }
+      ]
+    },
+    "Boolean": {
+      "methods": [
+        {
+          "name": "equals",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "hashCode",
+          "returnType": "int"
+        },
+        {
+          "name": "toString",
+          "returnType": "String"
+        }
+      ]
+    },
+    "Map": {
+      "methods": [
+        {
+          "name": "containsKey",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "containsValue",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "entrySet",
+          "returnType": "Set"
+        },
+        {
+          "name": "get",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "Object"
+        },
+        {
+          "name": "getOrDefault",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            },
+            {
+              "name": "arg1",
+              "type": "Object"
+            }
+          ],
+          "returnType": "Object"
+        },
+        {
+          "name": "isEmpty",
+          "returnType": "boolean"
+        },
+        {
+          "name": "keySet",
+          "returnType": "Set"
+        },
+        {
+          "name": "size",
+          "returnType": "int"
+        },
+        {
+          "name": "values",
+          "returnType": "Collection"
+        }
+      ]
+    },
+    "MultiValueMap": {
+      "methods": [
+        {
+          "name": "containsKey",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "containsValue",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "name": "entrySet",
+          "returnType": "Set"
+        },
+        {
+          "name": "get",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            }
+          ],
+          "returnType": "Object"
+        },
+        {
+          "name": "getOrDefault",
+          "params": [
+            {
+              "name": "arg0",
+              "type": "Object"
+            },
+            {
+              "name": "arg1",
+              "type": "Object"
+            }
+          ],
+          "returnType": "Object"
+        },
+        {
+          "name": "isEmpty",
+          "returnType": "boolean"
+        },
+        {
+          "name": "keySet",
+          "returnType": "Set"
+        },
+        {
+          "name": "size",
+          "returnType": "int"
+        },
+        {
+          "name": "values",
+          "returnType": "Collection"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "_type": "String[]"
+  },
+  "dictionaries": {
+    "_type": "String[]"
+  }
+}

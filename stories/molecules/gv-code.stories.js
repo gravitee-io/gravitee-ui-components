@@ -57,6 +57,15 @@ export const HTML = makeStory(conf, {
   items: [{ value: html, options: htmlOptions }],
 });
 
+const htmlOptionsSingleLine = {
+  lineWrapping: true,
+  mode: 'htmlmixed',
+};
+
+export const HTMLSingleLine = makeStory(conf, {
+  items: [{ value: html, options: htmlOptionsSingleLine, rows: 1 }],
+});
+
 const python = `@requires_authorization
 def somefunc(param1='', param2=0):
     r'''A docstring'''

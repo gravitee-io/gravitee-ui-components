@@ -3,13 +3,35 @@
   "id": "story",
   "properties": {
     "body": {
-      "title": "Body content",
+      "title": "XML content",
       "description": "The body content to attach to the request or to the response. You can also make use of freemarker templating engine to map an incoming body content to a new one.",
       "type": "string",
       "x-schema-form": {
         "type": "codemirror",
         "codemirrorOptions": {
           "placeholder": "Put the body content here",
+          "lineWrapping": true,
+          "lineNumbers": true,
+          "allowDropFileTypes": true,
+          "autoCloseTags": true,
+          "mode": "xml"
+        }
+      }
+    },
+    "el": {
+      "title": "EL input",
+      "type": "string",
+      "x-schema-form": {
+        "expression-language": true
+      }
+    },
+    "body-with-el": {
+      "title": "XML Content (accept EL)",
+      "type": "string",
+      "x-schema-form": {
+        "expression-language": true,
+        "type": "codemirror",
+        "codemirrorOptions": {
           "lineWrapping": true,
           "lineNumbers": true,
           "allowDropFileTypes": true,

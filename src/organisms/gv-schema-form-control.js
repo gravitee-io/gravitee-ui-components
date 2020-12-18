@@ -21,6 +21,7 @@ import '../atoms/gv-input-message';
 import '../atoms/gv-select';
 import '../atoms/gv-switch';
 import '../molecules/gv-code';
+import '../molecules/gv-expression-language';
 import '../atoms/gv-autocomplete';
 import '../organisms/gv-schema-form-array';
 import '../organisms/gv-schema-form-control-object';
@@ -42,6 +43,10 @@ export class GvSchemaFormControl extends LitElement {
       value: { type: Object, reflect: true },
       skeleton: { type: Boolean, reflect: true },
     };
+  }
+
+  isExpressionLanguage () {
+    return this.control['x-schema-form'] && this.control['x-schema-form']['expression-language'] != null;
   }
 
   isCodemirror () {
@@ -67,6 +72,9 @@ export class GvSchemaFormControl extends LitElement {
     }
     else if (this.control.type === 'boolean') {
       return 'gv-switch';
+    }
+    else if (this.isExpressionLanguage()) {
+      return 'gv-expression-language';
     }
     else if (this.isCodemirror()) {
       return 'gv-code';
@@ -152,6 +160,9 @@ export class GvSchemaFormControl extends LitElement {
       if (this.control.description != null) {
         element.options.placeholder = this.control.description;
       }
+    }
+    else if (this.isExpressionLanguage()) {
+      element.rows = 1;
     }
 
     if (this.control.description) {
@@ -344,7 +355,7 @@ export class GvSchemaFormControl extends LitElement {
           margin-right: 0;
         }
 
-        gv-select, gv-input, gv-code, gv-switch {
+        gv-select, gv-input, gv-code, gv-switch, gv-expression-language {
           width: 100%;
           margin: 0.2rem 0;
         }
