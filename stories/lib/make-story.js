@@ -87,7 +87,7 @@ export function makeStory (...configs) {
     _events.forEach((eventName) => {
       container.addEventListener(eventName, (e) => {
         // eslint-disable-next-line no-console
-        console.log(`[${eventName}]`, e.detail.values);
+        console.log(`[${eventName}]`, e.detail);
       });
     });
 

@@ -117,7 +117,7 @@ export const input = css`
   }
 
   /* BASE */
-  input, ::slotted(input) {
+  input, ::slotted(input), .input {
     border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
     box-sizing: border-box;
     border-radius: 4px;
@@ -134,21 +134,21 @@ export const input = css`
   }
   
   /* SIZE */
-  .large input, .large ::slotted(input) {
+  .large input, .large ::slotted(input), .large .input {
     padding: var(--input-large--p);
     font-size: var(--input-large--fz);
     line-height: var(--input-large--lh);
     height: var(--input-large--h);
   }
 
-  .medium input, .medium ::slotted(input) {
+  .medium input, .medium ::slotted(input), .medium .input {
     padding: var(--input-medium--p);
     font-size: var(--input-medium--fz);
     line-height: var(--input-medium--lh);
     height: var(--input-medium--h);
   }
 
-  .small input, .small ::slotted(input) {
+  .small input, .small ::slotted(input), .small .input {
     padding: var(--input-small--p);
     font-size: var(--input-small--fz);
     line-height: var(--input-small--lh);

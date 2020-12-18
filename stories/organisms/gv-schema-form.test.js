@@ -66,6 +66,8 @@ describe('S C H E M A  F O R M', () => {
     component.updateComplete.then(() => {
       expect(component.getControls().map((e) => e.id)).toEqual([
         'body',
+        'el',
+        'body-with-el',
         'path-operator',
         'resources',
         'attributes',
@@ -76,6 +78,8 @@ describe('S C H E M A  F O R M', () => {
       ]);
 
       checkControl('body');
+      checkControl('el');
+      checkControl('body-with-el');
       checkControl('path-operator');
       checkControl('resources');
       checkControl('timeToLiveSeconds');
@@ -91,6 +95,8 @@ describe('S C H E M A  F O R M', () => {
 
     component.values = {
       body: '<xml>foobar</xml>',
+      el: `{#request.headers['Content-Type'][0].toString()}`,
+      'body-with-el': `<xml name="{#request.headers['Content-Type'][0].toString()}"></xml>`,
       'path-operator': {
         operator: 'EQUALS',
         path: '/foobar',
@@ -108,6 +114,8 @@ describe('S C H E M A  F O R M', () => {
       setTimeout(() => {
         expect(component.getControls().map((e) => e.id)).toEqual([
           'body',
+          'el',
+          'body-with-el',
           'path-operator',
           'resources',
           'attributes',

@@ -36,6 +36,7 @@ import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
 import { InputElement } from '../mixins/input-element';
 import { uuid } from '../lib/utils';
+import { input } from '../styles/input';
 
 /**
  * Code component
@@ -44,6 +45,7 @@ import { uuid } from '../lib/utils';
  * * has @theme facet
  *
  * @fires gv-code:input - input events with the `value` on `detail`
+ * @fires gv-code:ready - event dispatch when component is ready
  *
  * @attr {String} label - code language
  * @attr {String} value - code content to be highlighted
@@ -60,6 +62,8 @@ export class GvCode extends InputElement(LitElement) {
       ...super.properties,
       options: { type: Object },
       _clipboardIcon: { type: String },
+      _codeMirror: { type: Object },
+      rows: { type: Number },
     };
   }
 
@@ -75,7 +79,7 @@ export class GvCode extends InputElement(LitElement) {
 
   render () {
     return html`
-      <div class="${classMap({ box: true, 'box-invisible': this.skeleton })}">
+      <div class="${classMap({ box: true, 'box-invisible': this.skeleton, input: this.singleLine })}">
         ${this.label ? html`<label for="code">${this.label}</label>` : ''}
         ${this.clipboard ? html`<gv-button title="${i18n('gv-code.copy')}" ?outlined="${!this._copied}" ?primary="${this._copied}" small icon="${this._clipboardIcon}"></gv-button>` : ''}
         <textarea id="${this._id}" name="code">${this.value}</textarea>
@@ -89,9 +93,44 @@ export class GvCode extends InputElement(LitElement) {
     dispatchCustomEvent(this, 'input', this.value);
   }
 
+  get singleLine () {
+    return this.rows === 1;
+  }
+
   connectedCallback () {
     super.connectedCallback();
     CodeMirror.defineInitHook((cm) => {
+
+      cm.on('beforeChange', (cm, event) => {
+        if (this.singleLine && this._id === cm.getTextArea().id) {
+
+          // Identify typing events that add a newline to the buffer.
+          const hasTypedNewline = (
+            event.origin === '+input'
+            && typeof event.text === 'object'
+            && event.text.join('') === '');
+
+          // Prevent newline characters from being added to the buffer.
+          if (hasTypedNewline) {
+            return event.cancel();
+          }
+
+          // Identify paste events.
+          const hasPastedNewline = (
+            event.origin === 'paste'
+            && typeof event.text === 'object'
+            && event.text.length > 1);
+
+          // Format pasted text to replace newlines with spaces.
+          if (hasPastedNewline) {
+            const newText = event.text.join(' ');
+            return event.update(null, null, [newText]);
+          }
+
+        }
+        return null;
+      });
+
       cm.on('change', () => {
         if (this._id === cm.getTextArea().id) {
           this._onChange(cm);
@@ -110,42 +149,19 @@ export class GvCode extends InputElement(LitElement) {
 
   async updated (changedProperties) {
     super.updated(changedProperties);
-    if (changedProperties.has('options') && this.options) {
-      const options = this._getProcessedOptions();
-      if (this.options.mode != null) {
-        try {
-          await import(`codemirror/mode/${this.options.mode}/${this.options.mode}`);
-        }
-        catch (er) {
-        }
-      }
-
-      const textArea = this.shadowRoot.querySelector(`#${this._id}`);
-      const codeMirror = CodeMirror.fromTextArea(textArea, {
-        ...options,
-        ...{
-          theme: 'mdn-like',
-          lineWrapping: true,
-          readOnly: this.readonly,
-          autofocus: this.autofocus,
-        },
-      });
-
-      if (this.value == null && this.options.placeholder) {
-        const placeholderByLines = this.options.placeholder.split('\n');
-        codeMirror.setSize(null, placeholderByLines.length * 18);
-      }
-      else {
-        codeMirror.setSize(null, null);
-      }
-    }
-
     if (changedProperties.has('label') && this.label) {
       this.screenReaderLabel = this.label;
     }
+    else if (changedProperties.has('value')) {
+      this.resize();
+    }
   }
 
-  firstUpdated () {
+  getCM () {
+    return this._codeMirror;
+  }
+
+  async firstUpdated () {
     if (this.clipboard) {
       import('clipboard-copy').then((mod) => {
         const copy = mod.default;
@@ -160,11 +176,46 @@ export class GvCode extends InputElement(LitElement) {
         });
       });
     }
+    const options = this._getProcessedOptions();
+
+    try {
+      await import(`codemirror/mode/${options.mode}/${options.mode}`);
+    }
+    catch (er) {
+
+    }
+
+    const textArea = this.shadowRoot.querySelector(`#${this._id}`);
+    this._codeMirror = CodeMirror.fromTextArea(textArea, {
+      ...options,
+      ...{
+        theme: 'mdn-like',
+        lineWrapping: true,
+        readOnly: this.readonly,
+        autofocus: this.autofocus,
+      },
+    });
+
+    dispatchCustomEvent(this, 'ready');
+  }
+
+  resize () {
+    if (this._codeMirror) {
+      const options = this._getProcessedOptions();
+      if (this.value == null && options.placeholder) {
+        const placeholderByLines = options.placeholder.split('\n');
+        this._codeMirror.setSize(null, placeholderByLines.length * 18);
+      }
+      else {
+        this._codeMirror.setSize(null, null);
+      }
+    }
   }
 
   static get styles () {
     return [
       skeleton,
+      input,
       // language=CSS
       css`
         :host {
@@ -217,13 +268,19 @@ export class GvCode extends InputElement(LitElement) {
         .CodeMirror {
           /* Set height, width, borders, and global font properties here */
           font-family: monospace;
-          min-height: 46px;
+          min-height: 34px;
           height: auto;
           max-height: 500px;
           color: black;
           direction: ltr;
-          margin-top: 0.2rem;
+        }
 
+        .small .CodeMirror {
+          min-height: 18px;
+        }
+
+        .large .CodeMirror {
+          min-height: 37px;
         }
 
         /* PADDING */
@@ -526,6 +583,10 @@ export class GvCode extends InputElement(LitElement) {
         .CodeMirror-sizer {
           position: relative;
           border-right: 50px solid transparent;
+        }
+
+        .input .CodeMirror-sizer {
+          margin-top: 7px;
         }
 
         /* The fake, visible scrollbars. Used to force redraw during scrolling
@@ -892,8 +953,78 @@ export class GvCode extends InputElement(LitElement) {
           color: inherit;
         }
 
-        .cm-s-mdn-like.CodeMirror {
-          background-image: url(data:image/png;base64,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);
+        /* Lint.css */
+        /* The lint marker gutter */
+        .CodeMirror-lint-markers {
+          width: 16px;
+        }
+
+        .CodeMirror-lint-tooltip {
+          background-color: #ffd;
+          border: 1px solid black;
+          border-radius: 4px 4px 4px 4px;
+          color: black;
+          font-family: monospace;
+          font-size: 10pt;
+          overflow: hidden;
+          padding: 2px 5px;
+          position: fixed;
+          white-space: pre;
+          white-space: pre-wrap;
+          z-index: 100;
+          max-width: 600px;
+          opacity: 0;
+          transition: opacity .4s;
+          -moz-transition: opacity .4s;
+          -webkit-transition: opacity .4s;
+          -o-transition: opacity .4s;
+          -ms-transition: opacity .4s;
+        }
+
+        .CodeMirror-lint-mark-error, .CodeMirror-lint-mark-warning {
+          background-position: left bottom;
+          background-repeat: repeat-x;
+        }
+
+        .CodeMirror-lint-mark-error {
+          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==")
+        }
+
+        .CodeMirror-lint-mark-warning {
+          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJFhQXEbhTg7YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAMklEQVQI12NkgIIvJ3QXMjAwdDN+OaEbysDA4MPAwNDNwMCwiOHLCd1zX07o6kBVGQEAKBANtobskNMAAAAASUVORK5CYII=");
+        }
+
+        .CodeMirror-lint-marker-error, .CodeMirror-lint-marker-warning {
+          background-position: center center;
+          background-repeat: no-repeat;
+          cursor: pointer;
+          display: inline-block;
+          height: 16px;
+          width: 16px;
+          vertical-align: middle;
+          position: relative;
+        }
+
+        .CodeMirror-lint-message-error, .CodeMirror-lint-message-warning {
+          padding-left: 18px;
+          background-position: top left;
+          background-repeat: no-repeat;
+        }
+
+        .CodeMirror-lint-marker-error, .CodeMirror-lint-message-error {
+          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAHlBMVEW7AAC7AACxAAC7AAC7AAAAAAC4AAC5AAD///+7AAAUdclpAAAABnRSTlMXnORSiwCK0ZKSAAAATUlEQVR42mWPOQ7AQAgDuQLx/z8csYRmPRIFIwRGnosRrpamvkKi0FTIiMASR3hhKW+hAN6/tIWhu9PDWiTGNEkTtIOucA5Oyr9ckPgAWm0GPBog6v4AAAAASUVORK5CYII=");
+        }
+
+        .CodeMirror-lint-marker-warning, .CodeMirror-lint-message-warning {
+          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAANlBMVEX/uwDvrwD/uwD/uwD/uwD/uwD/uwD/uwD/uwD6twD/uwAAAADurwD2tQD7uAD+ugAAAAD/uwDhmeTRAAAADHRSTlMJ8mN1EYcbmiixgACm7WbuAAAAVklEQVR42n3PUQqAIBBFUU1LLc3u/jdbOJoW1P08DA9Gba8+YWJ6gNJoNYIBzAA2chBth5kLmG9YUoG0NHAUwFXwO9LuBQL1giCQb8gC9Oro2vp5rncCIY8L8uEx5ZkAAAAASUVORK5CYII=");
+        }
+
+        .CodeMirror-lint-marker-multiple {
+          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAMAAADzjKfhAAAACVBMVEUAAAAAAAC/v7914kyHAAAAAXRSTlMAQObYZgAAACNJREFUeNo1ioEJAAAIwmz/H90iFFSGJgFMe3gaLZ0od+9/AQZ0ADosbYraAAAAAElFTkSuQmCC");
+          background-repeat: no-repeat;
+          background-position: right bottom;
+          width: 100%;
+          height: 100%;
         }
 
       `,
