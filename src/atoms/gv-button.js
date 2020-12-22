@@ -105,7 +105,7 @@ export class GvButton extends LitElement {
         :host(:not([link])) {
           outline: 0;
         }
-        
+
         .github {
           --gv-button--bgc: var(--github--c);
         }
@@ -148,7 +148,7 @@ export class GvButton extends LitElement {
         .button.small {
           --gv-icon--s: 16px;
         }
-        
+
         .button.small:not(.link) {
           max-height: 25px;
           min-height: 25px;
@@ -331,7 +331,7 @@ export class GvButton extends LitElement {
       default: !this.primary && !this.danger && !this.link,
       outlined: this.outlined,
       icon: this.icon || this.iconRight,
-      iconLeft: this.icon,
+      iconLeft: this._hasIconLeft(),
       iconRight: this.iconRight,
       loading: this.loading && !this.link,
       link: this.link && !this.primary && !this.danger,
@@ -382,8 +382,12 @@ export class GvButton extends LitElement {
     return '';
   }
 
+  _hasIconLeft () {
+    return (this.icon || this.loading) && !this.iconRight;
+  }
+
   _getIconLeft () {
-    if (this.icon) {
+    if (this._hasIconLeft()) {
       if (this.loading && !this.link) {
         return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
       }
