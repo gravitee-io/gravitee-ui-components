@@ -183,7 +183,7 @@ export const LoadingAndError = makeStory(conf, {
   ],
 });
 
-export const users = [
+const users = [
   { name: '', _new: true },
   { name: 'me', id: '1' },
   { name: 'someone else', id: '2' },
