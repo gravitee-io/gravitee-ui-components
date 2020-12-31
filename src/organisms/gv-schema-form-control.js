@@ -49,6 +49,10 @@ export class GvSchemaFormControl extends LitElement {
     return this.control['x-schema-form'] && this.control['x-schema-form']['expression-language'] != null;
   }
 
+  isPassword () {
+    return this.control['x-schema-form'] && this.control['x-schema-form'].type != null && this.control['x-schema-form'].type === 'password';
+  }
+
   isCodemirror () {
     return isCodemirror(this.control);
   }
@@ -167,6 +171,9 @@ export class GvSchemaFormControl extends LitElement {
       if (this.control.description != null) {
         element.options.placeholder = this.control.description;
       }
+    }
+    else if (this.isPassword()) {
+      element.type = 'password';
     }
 
     if (this.control.description) {
