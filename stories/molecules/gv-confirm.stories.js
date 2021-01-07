@@ -60,3 +60,11 @@ export const CustomIcon = makeStory(conf, {
     icon: 'food:pizza',
   }],
 });
+
+export const Disabled = makeStory(conf, {
+  items: [{ message: 'Are you sure ?', innerHTML: '<gv-button>Ask confirmation</gv-button>', disabled: true }],
+});
+
+export const DisabledFromGvButton = makeStory(conf, {
+  items: [{ message: 'Are you sure ?', innerHTML: '<gv-button disabled="true">Ask confirmation</gv-button>' }],
+});

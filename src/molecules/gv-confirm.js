@@ -34,6 +34,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} cancelLabel - the label of cancel btn
  * @attr {String} icon - the icon before message
  * @attr {String} message - the message
+ * @attr {Boolean} disabled - same as native button element `disabled` attribute
  *
  * @cssprop {Color} [--gv-confirm--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
  * @cssprop {Length} [--gv-confirm--maw=350px] - Max width
@@ -53,6 +54,8 @@ export class GvConfirm extends GvPopover {
       message: { type: String },
       icon: { type: String },
       danger: { type: Boolean, reflect: true },
+      disabled: { type: Boolean },
+      _disabled: { type: Boolean },
     };
   };
 
@@ -136,6 +139,12 @@ export class GvConfirm extends GvPopover {
     dispatchCustomEvent(this, 'ok');
   }
 
+  _open (e) {
+    if (!this._disabled) {
+      super._open(e);
+    }
+  }
+
   renderContent () {
     return html`
           <div class="message">${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<div class="text" .innerHTML="${this.message}"></div></div>
@@ -151,6 +160,31 @@ export class GvConfirm extends GvPopover {
     if (this.danger) {
       this.shadowRoot.querySelectorAll('gv-button').forEach((btn) => (btn.setAttribute('danger', '')));
     }
+    this._disabled = this._calculateIsDisabled();
+    if (this.disabled) {
+      this._reflectDisabledOnSlot();
+    }
+  }
+
+  _reflectDisabledOnSlot () {
+    const slot = this.shadowRoot.querySelector('slot');
+    const childNodes = slot.assignedNodes({ flatten: true });
+    childNodes.forEach((node) => {
+      node.disabled = true;
+      return node.disabled;
+    });
+  }
+
+  _calculateIsDisabled () {
+    const slot = this.shadowRoot.querySelector('slot');
+    const childNodes = slot.assignedNodes({ flatten: true });
+    let isSlotButtonDisabled = false;
+    childNodes.forEach((node) => {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        isSlotButtonDisabled = node.getAttribute('disabled');
+      }
+    });
+    return this.disabled || isSlotButtonDisabled;
   }
 
 }
