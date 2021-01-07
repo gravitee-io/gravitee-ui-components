@@ -171,19 +171,15 @@ export class GvConfirm extends GvPopover {
     const childNodes = slot.assignedNodes({ flatten: true });
     childNodes.forEach((node) => {
       node.disabled = true;
-      return node.disabled;
     });
   }
 
   _calculateIsDisabled () {
     const slot = this.shadowRoot.querySelector('slot');
     const childNodes = slot.assignedNodes({ flatten: true });
-    let isSlotButtonDisabled = false;
-    childNodes.forEach((node) => {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        isSlotButtonDisabled = node.getAttribute('disabled');
-      }
-    });
+    const isSlotButtonDisabled = childNodes
+      .filter((node) => node.nodeType === Node.ELEMENT_NODE)
+      .some((node) => Boolean(node.getAttribute('disabled')) === true);
     return this.disabled || isSlotButtonDisabled;
   }
 
