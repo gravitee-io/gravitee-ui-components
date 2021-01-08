@@ -35,6 +35,7 @@ const ESCAPE_KEY_CODE = 27;
  *
  * @slot style - The options style
  * @slot input - The input to wrap
+ * @slot noOption - What should be shown when there is no options to display
  *
  * @attr {Array<{value, innerHTML?}>} options - the options for search
  * @attr {String} value - selected value
@@ -131,6 +132,14 @@ export class GvAutocomplete extends LitElement {
 
         .keyboard .option:hover {
           background-color: transparent;
+        }
+
+        .show {
+          display: block;
+        }
+
+        .hide {
+          display: none;
         }
       `,
     ];
@@ -234,11 +243,23 @@ export class GvAutocomplete extends LitElement {
     return '';
   }
 
+  _hasNoOptionSlot () {
+    for (const node of this.childNodes) {
+      if (node.slot === 'noOption') {
+        return true;
+      }
+    }
+    return false;
+  }
+
   render () {
     const options = this._getFilteredOptions();
     let open = false;
     if (options && options.length > 0 && this._forceOpen) {
       open = (this.minChars === 0 || this.value.trim().length >= this.minChars);
+    }
+    if (this._hasNoOptionSlot()) {
+      open = true;
     }
 
     const classes = {
@@ -250,12 +271,13 @@ export class GvAutocomplete extends LitElement {
         ${this._renderStyle()}
         <slot></slot>
         <div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}">
-          ${repeat(options, (option) => option, (option, index) => html`
+            <slot name="noOption" class="${(!options || options.length === 0) ? 'show' : 'hide'}"></slot>
+            ${repeat(options, (option) => option, (option, index) => html`
               <div class="${classMap({ option: true })}"
                data-value="${option.value}"
                @mouseover="${() => this._onMouseOver(option, index)}"
                @click="${() => this._onSelect(option.value, option)}">${this._renderOption(option)}</div>
-          `)}
+            `)}
         </div>
     </div>`;
   }

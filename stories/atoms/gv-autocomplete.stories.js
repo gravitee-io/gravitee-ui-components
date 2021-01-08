@@ -203,3 +203,17 @@ export const CustomElement = makeStory(conf, {
       If you want to customize option rendering, you must use option object with value and innerHTML property's
     `,
 });
+
+export const NoOptionsSlot = makeStory(conf, {
+  items: [{
+    options: [],
+    innerHTML: `
+        <gv-input placeholder='Type something…'></gv-input>
+        <div slot='noOption' style='display:flex;flex-direction:row;align-items:center;justify-content:space-around'>
+            <span>No matching option found</span>
+            <gv-button @click='(e) => console.log(e)'>
+                Add one
+            </gv-button>
+        </div>`,
+  }],
+});
