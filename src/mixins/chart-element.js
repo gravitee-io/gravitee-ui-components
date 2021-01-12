@@ -20,6 +20,8 @@ import Highcharts from 'highcharts';
 import Highmaps from 'highcharts/highmaps';
 import { cache } from 'lit-html/directives/cache';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
+import ChartModuleMore from 'highcharts/highcharts-more';
+import HCSolidGauge from 'highcharts/modules/solid-gauge';
 
 /**
  * This is a mixin for ChartElement
@@ -92,6 +94,8 @@ export function ChartElement (ParentClass) {
           Highcharts.charts[i].reflow();
         }
       };
+      ChartModuleMore(Highcharts);
+      HCSolidGauge(Highcharts);
     }
 
     connectedCallback () {
@@ -117,7 +121,6 @@ export function ChartElement (ParentClass) {
     }
 
     render () {
-
       if (this._error) {
         return html`<div class="error">${i18n('gv-chart.error')}</div>`;
       }
