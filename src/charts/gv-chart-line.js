@@ -119,7 +119,7 @@ export class GvChartLine extends ChartElement(LitElement) {
           events: {
             legendItemClick: (event) => {
               event.preventDefault();
-              dispatchCustomEvent(this, 'select', event.target.options);
+              dispatchCustomEvent(this, 'select', event.target);
             },
           },
         },
@@ -134,6 +134,15 @@ export class GvChartLine extends ChartElement(LitElement) {
       },
       yAxis: { title: { text: '' } },
     };
+  }
+
+  updated (changedProperties) {
+    super.updated(changedProperties);
+    if (changedProperties.has('options')) {
+      this.getOptions().then((options) => {
+        this._additionalOptions = options;
+      });
+    }
   }
 
   firstUpdated () {

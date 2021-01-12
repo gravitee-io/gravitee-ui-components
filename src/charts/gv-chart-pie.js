@@ -34,7 +34,7 @@ export class GvChartPie extends ChartElement(LitElement) {
     let total = 0;
     if (this._series && this._series.values) {
       this.options.data.forEach((data, i) => {
-        data.y = this._series.values[Object.keys(this._series.values)[i]];
+        data.y = this._series.values[Object.keys(this._series.values)[i]] || 0;
       });
       this.options.data.forEach((d) => {
         total += d.y;
