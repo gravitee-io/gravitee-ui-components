@@ -108,6 +108,11 @@ export class GvDocumentation extends LitElement {
           min-height: 0;
           padding: 0.5rem;
         }
+
+        /* Hack for long string */
+        .hljs-string {
+          white-space: pre-wrap;
+        }
       `,
     ];
   }
