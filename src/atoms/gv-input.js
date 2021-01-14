@@ -298,8 +298,16 @@ export class GvInput extends InputElement(LitElement) {
 
       setTimeout(() => {
         const clipboardPopover = this.shadowRoot.querySelector('.clipboard__popover');
-        this.getInputElement().addEventListener('click', () => clipboardPopover.click());
-        clipboardPopover.addEventListener('click', () => this.copy(this.value));
+        this.getInputElement().addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          clipboardPopover.click();
+        });
+        clipboardPopover.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.copy(this.value);
+        });
       }, 0);
     }
     else {
