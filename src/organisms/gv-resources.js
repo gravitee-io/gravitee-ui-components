@@ -26,6 +26,7 @@ import '../atoms/gv-icon';
 import { dispatchCustomEvent } from '../lib/events';
 import { uuid } from '../lib/utils';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
+import { empty } from '../styles/empty';
 
 export class GvResources extends KeyboardElement(LitElement) {
 
@@ -38,6 +39,7 @@ export class GvResources extends KeyboardElement(LitElement) {
       _currentResource: { type: Object, attribute: false },
       _currentResourceLoading: { type: Boolean, attribute: false },
       _filter: { type: String },
+      readonly: { type: Boolean, reflect: true },
     };
   }
 
@@ -199,13 +201,23 @@ export class GvResources extends KeyboardElement(LitElement) {
     return this.types.find((resource) => resource.id === id);
   }
 
+  // For readonly mode
+  _onSelectResource ({ detail: { items } }) {
+    if (items.length > 0) {
+      this._onEditResource(items[0]);
+    }
+    else {
+      this._onCancelResourceForm();
+    }
+  }
+
   _onEditResource (resource) {
     const values = { ...resource, ...resource.configuration };
     delete values.configuration;
     const resourceType = this._findResourceById(resource.type);
     this._currentResource = {
       _id: resource._id,
-      title: 'Edit resource',
+      title: 'Resource configuration',
       type: resource.type,
       icon: 'design:edit',
       schema: this._buildResourceSchema(resourceType),
@@ -262,6 +274,7 @@ export class GvResources extends KeyboardElement(LitElement) {
                                 .icon="${this._currentResource.icon}"
                                 validate-on-render
                                 .dirty="${this._currentResource._values != null}"
+                                ?readonly="${this.readonly}"
                                 @gv-schema-form:change="${this._onChangeResourceForm}"
                                 @gv-schema-form:reset="${this._onResetResourceForm}"
                                 @gv-schema-form:submit="${this._onSubmitResourceForm}">
@@ -290,7 +303,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     else if (this.documentation) {
       return this._renderDoc();
     }
-    else {
+    else if (this.readonly !== true) {
 
       const resourceOpts = this.types.map((resource) => {
         return { id: resource.id, title: resource.name, description: resource.description, image: resource.icon };
@@ -299,6 +312,9 @@ export class GvResources extends KeyboardElement(LitElement) {
       return html`<div class="resources-bottom-container">
                         <gv-option class="resource__option" .options="${resourceOpts}" @gv-option:select="${this._onCreateResource}">
                   </div>`;
+    }
+    else if (this.readonly && this.resources.length > 0) {
+      return html`<div class="resources-bottom-container empty">You can see the resource configuration by clicking on it</div>`;
     }
   }
 
@@ -312,9 +328,10 @@ export class GvResources extends KeyboardElement(LitElement) {
 
   render () {
     const options = {
+      selectable: this.readonly,
       data: [
 
-        { field: 'name', label: 'Name', type: 'gv-input', attributes: { clipboard: true } },
+        { field: 'name', label: 'Name', type: 'gv-input', attributes: { clipboard: true, readonly: this.readonly } },
         {
           field: 'type',
           width: '50px',
@@ -334,33 +351,37 @@ export class GvResources extends KeyboardElement(LitElement) {
           title: (item) => item.enabled ? 'Click to disable' : 'Click to enable',
           width: '50px',
           attributes: {
+            readonly: this.readonly,
             'ongv-switch:input': (item, event) => this._onChangeResourceState(item, event),
-          },
-        },
-        {
-          type: 'gv-button',
-          width: '40px',
-          attributes: {
-            onClick: (item) => this._onEditResource(item),
-            title: (item) => this._currentResource && this._currentResource._id === item._id ? 'Editing' : 'Edit',
-            outlined: true,
-            icon: 'design:edit',
-            disabled: (item) => this._currentResource && this._currentResource._id === item._id,
-          },
-        },
-        {
-          type: 'gv-button',
-          width: '40px',
-          attributes: {
-            onClick: (item) => this._removeResource(item),
-            title: 'remove',
-            danger: true,
-            outlined: true,
-            icon: 'home:trash',
           },
         },
       ],
     };
+
+    if (this.readonly !== true) {
+      options.data.push({
+        type: 'gv-button',
+        width: '40px',
+        attributes: {
+          onClick: (item) => this._onEditResource(item),
+          title: (item) => this._currentResource && this._currentResource._id === item._id ? 'Editing' : 'Edit',
+          outlined: true,
+          icon: 'design:edit',
+          disabled: (item) => this._currentResource && this._currentResource._id === item._id,
+        },
+      });
+      options.data.push({
+        type: 'gv-button',
+        width: '40px',
+        attributes: {
+          onClick: (item) => this._removeResource(item),
+          title: 'remove',
+          danger: true,
+          outlined: true,
+          icon: 'home:trash',
+        },
+      });
+    }
 
     const filteredResources = this._filter != null ? this.resources.filter((resource) => {
       return (resource.name.toLowerCase() + resource.type.toLowerCase()).includes(this._filter);
@@ -383,6 +404,7 @@ export class GvResources extends KeyboardElement(LitElement) {
                             <gv-table .options="${options}"
                                 .items="${filteredResources}"
                                 emptymessage="${this._emptymessage}"
+                                @gv-table:select="${this._onSelectResource}"
                                 order="name"
                                 rowheight="50px"></gv-table>
                           </div>
@@ -396,6 +418,7 @@ export class GvResources extends KeyboardElement(LitElement) {
 
   static get styles () {
     return [
+      empty,
       // language=CSS
       css`
         :host {

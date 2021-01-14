@@ -38,6 +38,7 @@ import '../atoms/gv-switch';
  * @attr {Boolean} empty - true, if render empty state
  * @attr {Boolean} confirm - true, if render confirm state
  * @attr {Boolean} disabled - true for disabled
+ * @attr {Boolean} readonly - true if readonly
  */
 export class GvFlowStep extends withResizeObserver(LitElement) {
 
@@ -55,6 +56,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
       empty: { type: Boolean, reflect: true },
       confirm: { type: Boolean, reflect: true },
       disabled: { type: Boolean, reflect: true },
+      readonly: { type: Boolean, reflect: true },
       _small: { type: Boolean, attribute: false },
       _confirmDelete: { type: Boolean, reflect: true },
       _confirmDuplicate: { type: Boolean, reflect: true },
@@ -102,16 +104,20 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
   _onMouseEnter () {
     if (!this.disabled) {
       this.hover = true;
-      const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
-      dropdownMenu.setAttribute('open', true);
+      if (!this.readonly) {
+        const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
+        dropdownMenu.setAttribute('open', true);
+      }
     }
   }
 
   _onMouseLeave () {
     if (!this.disabled) {
       this.hover = false;
-      const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
-      dropdownMenu.removeAttribute('open');
+      if (!this.readonly) {
+        const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
+        dropdownMenu.removeAttribute('open');
+      }
     }
   }
 
@@ -155,7 +161,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
   }
 
   _renderDropdownMenu () {
-    if (this.disabled) {
+    if (this.disabled || this.readonly) {
       return html``;
     }
     const enabled = this.step.enabled !== false;
@@ -365,6 +371,11 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
         :host([hover]) .drop-area.is-assigned:not(.not-found):active {
           cursor: grabbing;
+        }
+
+        :host([readonly]) .drop-area.is-assigned:not(.not-found),
+        :host([readonly]) .drop-area.is-assigned:not(.not-found):active {
+          cursor: pointer;
         }
 
         .content {

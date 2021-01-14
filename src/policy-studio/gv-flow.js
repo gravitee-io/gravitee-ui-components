@@ -35,6 +35,7 @@ import { GvIcon } from '../atoms/gv-icon';
  * @attr {Boolean} has-policy-filter - true if policies have onRequest/onResponse properties
  * @attr {String} flowsTitle - flows menu title
  * @attr {Boolean} disabled - true for disabled
+ * @attr {Boolean} readonly - true if readonly
  */
 export class GvFlow extends LitElement {
 
@@ -49,6 +50,7 @@ export class GvFlow extends LitElement {
       disabled: { type: Boolean, reflect: true },
       hasPolicyFilter: { type: Boolean, attribute: 'has-policy-filter' },
       flowsTitle: { type: String, attribute: 'flows-title' },
+      readonly: { type: Boolean, reflect: true },
     };
   }
 
@@ -93,7 +95,7 @@ export class GvFlow extends LitElement {
   }
 
   _canDropPolicy (flowKey, policy) {
-    if (this.disabled) {
+    if (this.disabled || this.readonly) {
       return false;
     }
     if (policy != null) {
@@ -111,7 +113,7 @@ export class GvFlow extends LitElement {
   }
 
   _onDragOver (flowKey, e) {
-    if (!this.disabled) {
+    if (!this.disabled && !this.readonly) {
       if (e.dataTransfer.items.length > 0) {
         e.preventDefault();
         e.stopPropagation();
@@ -148,7 +150,7 @@ export class GvFlow extends LitElement {
   }
 
   _onDragEnd () {
-    if (!this.disabled) {
+    if (!this.disabled && !this.readonly) {
       if (this._draggablePolicyImage) {
         this._draggablePolicyImage.remove();
         this._draggablePolicyImage = null;
@@ -159,7 +161,7 @@ export class GvFlow extends LitElement {
   }
 
   _onDragStart (sourceFlowKey, flowStep, sourcePosition, e) {
-    if (!this.disabled) {
+    if (!this.disabled && !this.readonly) {
       const policy = this.findPolicy(flowStep.policy);
       if (policy != null) {
         // Simulate click on window for close all dropdown menu
@@ -301,7 +303,8 @@ export class GvFlow extends LitElement {
                                 .group="${group}"
                                 .parent="${this.flow._id}"
                                 ?disabled="${this.disabled}"
-                                .draggable="${!this.disabled}" 
+                                ?readonly="${this.readonly}"
+                                .draggable="${!this.disabled && !this.readonly}" 
                                 ?editing="${this._isEditable(step)}"
                                 @dragstart="${this._onDragStart.bind(this, group, step, position)}"
                                 @dragend="${this._onDragEnd}"

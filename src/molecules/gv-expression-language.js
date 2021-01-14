@@ -41,6 +41,9 @@ export class GvExpressionLanguage extends LitElement {
       grammar: { type: Object },
       rows: { type: Number },
       options: { type: Object, attribute: false },
+      disabled: { type: Boolean, reflect: true },
+      required: { type: Boolean, reflect: true },
+      readonly: { type: Boolean, reflect: true },
     };
   }
 
@@ -427,7 +430,13 @@ export class GvExpressionLanguage extends LitElement {
     };
     return html`<div title="Ctrl-E or Cmd-E to insert EL">
                   <label>${this.label}</label>
-                  <gv-code .options="${options}" .value="${this.value}" rows="${this.rows}"></gv-code>
+                  <gv-code .options="${options}" 
+                           .value="${this.value}" 
+                           rows="${this.rows}"
+                           ?disabled="${this.disabled}"
+                           ?readonly="${this.readonly}"
+                           ?required="${this.required}"
+                           ></gv-code>
                   <div id="hint"></div>
                 </div>`;
   }

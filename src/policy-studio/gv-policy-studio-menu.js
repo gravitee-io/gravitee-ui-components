@@ -43,6 +43,7 @@ export class GvPolicyStudioMenu extends LitElement {
       flowsTitle: { type: String, attribute: 'flows-title' },
       hasPolicyFilter: { type: Boolean, attribute: 'has-policy-filter' },
       canAdd: { type: Boolean, attribute: 'can-add' },
+      readonly: { type: Boolean },
     };
   }
 
@@ -416,9 +417,9 @@ export class GvPolicyStudioMenu extends LitElement {
     const stateLabel = enabled ? 'Disable flow ?' : 'Enable flow ?';
     return html`<div class="actions">
                   ${this.hasCompare() || this.selectedIds.includes(content._id) ? '' : html`<gv-button tabindex="0" link small icon="navigation:route" @gv-button:click="${this._compareFlow.bind(this, content)}" title="Compare"></gv-button>`}
-                  ${this.canAdd ? html`<gv-button tabindex="0" link small icon="general:duplicate" @gv-button:click="${this._onDuplicateFlow.bind(this, content)}" title="Duplicate"></gv-button>
+                  ${this.canAdd && this.readonly !== true ? html`<gv-button tabindex="0" link small icon="general:duplicate" @gv-button:click="${this._onDuplicateFlow.bind(this, content)}" title="Duplicate"></gv-button>
                   <gv-button tabindex="0" link small icon="home:trash" @gv-button:click="${this._onDeleteFlow.bind(this, content)}" title="Delete"></gv-button>` : ''}
-                  <gv-switch tabindex="0" small title="${stateLabel}" .value="${enabled}" @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"></gv-switch>
+                  ${this.readonly !== true ? html`<gv-switch tabindex="0" small title="${stateLabel}" .value="${enabled}" @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"></gv-switch>` : ''}
                 </div>`;
   }
 
