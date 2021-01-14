@@ -82,6 +82,10 @@ export class GvText extends InputElement(LitElement) {
           font-size: var(--fz);
           line-height: var(--lh);
         }
+        
+        div.textarea {
+          white-space: pre;
+        }
 
         textarea:disabled {
           cursor: default;
@@ -131,9 +135,8 @@ export class GvText extends InputElement(LitElement) {
     if (this.readonly) {
       if (this.value || this.value.trim() !== '') {
         return html`
-      <div class="${classMap(classes)}" .title=${ifDefined(this.title || this.label)}>
-            ${ifDefined(this.value)}
-      </div>
+      ${this.renderLabel()}
+      <div class="${classMap(classes)}" .title=${ifDefined(this.title || this.label)}>${ifDefined(this.value)}</div>
     `;
       }
       return '';

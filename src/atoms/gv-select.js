@@ -95,7 +95,9 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           cursor: pointer;
         }
 
-        :host([readonly]) div, :host([readonly]) input {
+        :host([readonly]) div,
+        :host([readonly]) input,
+        :host([readonly]) input:read-only:hover {
           user-select: auto;
           cursor: text;
         }
@@ -354,7 +356,9 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     const input = this.shadowRoot.querySelector('input');
     const { width } = window.getComputedStyle(input);
     const list = this.shadowRoot.querySelector('.select__list');
-    list.style.width = width;
+    if (list != null) {
+      list.style.width = width;
+    }
   }
 
   render () {

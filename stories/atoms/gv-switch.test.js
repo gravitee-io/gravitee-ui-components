@@ -39,23 +39,27 @@ describe('S W I T C H', () => {
       expect(component.checked).toEqual(false);
     });
 
-    test('should checked with Boolean.TRUE', () => {
+    test('should checked with Boolean.TRUE', async () => {
       component.value = true;
+      await component.updateComplete;
       expect(component.checked).toEqual(true);
     });
 
-    test('should not checked with Boolean.FALSE', () => {
+    test('should not checked with Boolean.FALSE', async () => {
       component.value = false;
+      await component.updateComplete;
       expect(component.checked).toEqual(false);
     });
 
-    test('should checked with string "true"', () => {
+    test('should checked with string "true"', async () => {
       component.value = 'true';
+      await component.updateComplete;
       expect(component.checked).toEqual(true);
     });
 
-    test('should not checked with string "false"', () => {
+    test('should not checked with string "false"', async () => {
       component.value = 'false';
+      await component.updateComplete;
       expect(component.checked).toEqual(false);
     });
 
