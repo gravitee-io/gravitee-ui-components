@@ -36,6 +36,7 @@ export class GvSchemaFormControl extends LitElement {
       name: { type: String, reflect: true },
       required: { type: Boolean, reflect: true },
       disabled: { type: Boolean, reflect: true },
+      readonly: { type: Boolean, reflect: true },
       title: { type: String, reflect: true },
       pattern: { type: String },
       control: { type: Object },
@@ -120,6 +121,9 @@ export class GvSchemaFormControl extends LitElement {
     }
     if (this.disabled != null) {
       element.disabled = this.disabled;
+    }
+    if (this.readonly != null) {
+      element.readonly = this.readonly;
     }
     if (this.control.title) {
       element.label = this.control.title;

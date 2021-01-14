@@ -34,6 +34,7 @@ import './gv-schema-form-control';
  * @attr {Object} values - the values of fields
  * @attr {Object} errors - the map of errors by input key
  * @attr {Boolean} validate - to force validation on first render
+ * @attr {Boolean} readonly - true if readonly
  */
 export class GvSchemaForm extends LitElement {
 
@@ -53,6 +54,7 @@ export class GvSchemaForm extends LitElement {
       _validatorResults: { type: Object },
       skeleton: { type: Boolean, reflect: true },
       _touch: { type: Boolean },
+      readonly: { type: Boolean, reflect: true },
     };
   }
 
@@ -246,6 +248,7 @@ export class GvSchemaForm extends LitElement {
                                         .control="${control}"
                                         .skeleton="${this.skeleton}"
                                         .value="${value}"
+                                        ?readonly="${this.readonly}"
                                         ?required="${isRequired}"
                                         ?disabled="${isDisabled}"></gv-schema-form-control>`;
   }
@@ -345,7 +348,7 @@ export class GvSchemaForm extends LitElement {
                           <div class="left">
                             <slot name="header-left"></slot>
                           </div>
-                          ${this.hasFooter === true ? '' : html`<div class="right">
+                          ${this.readonly === true || this.hasFooter === true ? '' : html`<div class="right">
                             <gv-button id="reset" outlined small @gv-button:click="${this._onReset}" icon="general:update" title="Reset"></gv-button>
                             <gv-button id="submit" small @gv-button:click="${this._onSubmit}" icon="code:check" .title="${this.submitLabel}"></gv-button>
                           </div> `}
@@ -354,7 +357,7 @@ export class GvSchemaForm extends LitElement {
                     <div class="content">
                       ${this.schema != null ? this._renderPart() : html``}
                     </div>
-                    ${this.hasFooter === true ? html`
+                    ${this.hasFooter === true && this.readonly !== true ? html`
                     <div class="footer">
                       <div class="left"></div>
                       <div class="right">

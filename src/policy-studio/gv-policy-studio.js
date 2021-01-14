@@ -54,6 +54,7 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * @attr {Boolean} isDirty - true if component is dirty
  * @attr {Array} selectedFlowsId - The selected flows id
  * @attr {Boolean} sortable - true if flows are sortable
+ * @attr {Boolean} readonly - true if readonly
  * @attr {Boolean} can-add - true if user can add flow
  * @attr {String} flowsTitle - flows menu title
  * @attr {Boolean} has-policy-filter - true if policies have onRequest/onResponse properties
@@ -96,6 +97,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       flowsTitle: { type: String, attribute: 'flows-title' },
       sortable: { type: Boolean },
       canAdd: { type: Boolean, attribute: 'can-add' },
+      readonly: { type: Boolean },
     };
   }
 
@@ -328,7 +330,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._policyFilter = [];
     this._flowFilter = [];
     loadAsciiDoctor();
-    this.addEventListener('gv-schema-form:change', this._onSchemaFormChange);
   }
 
   set hasProperties (value) {
@@ -919,8 +920,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _renderFlowEmptyState () {
     return html`<div slot="content" class="empty">
-                      <div>Select a flow or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one</gv-button></div>
-                  </div>`;
+                  <div>Select a flow ${this.readonly !== true ? html`or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one</gv-button>` : ''}</div>
+                </div>`;
   }
 
   _renderFlow (index = 0, hasEmptyState = true) {
@@ -940,6 +941,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                  .dragPolicy="${this._dragPolicy}"
                  .dropPolicy="${this._dropPolicy}"
                  .selectedStepId="${selectedStepId}"
+                 ?readonly="${this.readonly}"
                  ?has-policy-filter="${this._policyFilterOptions != null}"
                  flows-title="${this.flowsTitle}"
                  @gv-flow:drag-start="${this._onDragStartFlowStep.bind(this, flow)}"
@@ -1080,6 +1082,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                 validate-on-render
                 .values="${values}"
                 .dirty="${this._currentFlowStep._values != null}"
+                ?readonly="${this.readonly}"
                 @gv-schema-form:change="${this._onChangeFlowStep}"
                 @gv-schema-form:reset="${this._onResetFlowStep}"
                 @gv-schema-form:fetch-resources="${this._onFetchResources}"
@@ -1484,13 +1487,14 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                   ${this._renderFlowForm()}
                 </div>
              </gv-resizable-views>
-           <gv-policy-studio-menu
+             ${this.readonly !== true ? html`<gv-policy-studio-menu
               class="right-menu"
               ?disabled="${this._currentAskConfirmation}"
               .policies="${this._getFilteredPolicies()}"
               .selectedIds="${[this._currentPolicyId]}"
               .query="${this._searchPolicyQuery}"
               ?has-policy-filter="${this._policyFilterOptions != null}"
+              ?readonly="${this.readonly}"
               @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
               @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
               @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}">
@@ -1504,7 +1508,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                     @gv-input:input="${this._onSearchPolicy}"
                     @gv-input:clear="${this._onClearPolicy}"></gv-input>
               </div>
-           </gv-policy-studio-menu>
+           </gv-policy-studio-menu>` : ''}
          </div>`;
   }
 
@@ -1519,10 +1523,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                   .values="${values}"
                   has-header
                   has-footer
+                  ?readonly="${this.readonly}"
                   @gv-schema-form:cancel="${this._onCancelFlowMode}"
                   @gv-schema-form:submit="${this._onSubmitFlowMode}">
                   ${!this.configurationInformation ? ''
-
                   : html`
                   <div class="api-settings-information" slot="title">
                     <gv-icon class="api-settings-information__icon" title="Info" shape="code:info"></gv-icon>
@@ -1548,6 +1552,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                               id="settings-form"
                               .values="${values}"
                               has-header
+                              ?readonly="${this.readonly}"
                               @gv-schema-form:cancel="${this._onCancelFlow}"
                               @gv-schema-form:submit="${this._onSubmitFlow}">
                         <div slot="title" class="flow-step__form-title">Flow configuration</div>
@@ -1581,10 +1586,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               .plans="${this.filteredPlans}"
               .selectedIds="${this.selectedFlowsId}"
               ?disabled="${this._currentAskConfirmation}"
-              ?sortable="${this.sortable}"
+              ?sortable="${this.sortable && this.readonly !== true}"
+              ?readonly="${this.readonly}"
               flows-title="${this.flowsTitle}"
               .query="${this._searchFlowQuery}"
-              ?can-add="${this.canAdd}"
+              ?can-add="${this.canAdd && !this.readonly}"
               @gv-policy-studio-menu:reorder-flows="${this._onReorderFlows}"
               @gv-policy-studio-menu:change-flow-state="${this._onChangeFlowState}"
               @gv-policy-studio-menu:add-flow="${this._onAddFlow}"
@@ -1600,11 +1606,13 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                     @gv-input:input="${this._onSearchFlows}"
                     @gv-input:clear="${this._onClearFlows}"></gv-input>
                 </div>
-
-                <div slot="footer" class="footer-actions">
-                  <gv-button class="save" .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onSaveAll}">Save</gv-button>
-                  <gv-button link .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onResetAll}">Reset</gv-button>
-                </div>
+                
+                  ${this.readonly !== true ? html`
+                    <div slot="footer" class="footer-actions">
+                      <gv-button class="save" .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onSaveAll}">Save</gv-button>
+                      <gv-button link .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onResetAll}">Reset</gv-button>
+                    </div>` : ''}
+                
          </gv-policy-studio-menu>
 
         <gv-tabs .value="${this.tabId}" .options="${this._tabs}"
@@ -1617,10 +1625,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                             .provider="${this.services['dynamic-property']}"
                             @gv-properties:change="${this._onPropertiesChange}"
                             @gv-properties:save-provider="${this._onSaveProvider}"
+                            ?readonly="${this.readonly}"
                             .properties="${this.definedProperties}"
                             .providers="${this.propertyProviders}"></gv-properties>
             <gv-resources id="resources" slot="content" class="resources"
                           @gv-resources:change="${this._onResourcesChange}"
+                          ?readonly="${this.readonly}"
                           .resources="${this.definedResources}"
                           .types="${this.resourceTypes}"></gv-resources>
         </gv-tabs>

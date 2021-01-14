@@ -31,6 +31,7 @@ export class GvSchemaFormControlObject extends LitElement {
       title: { type: String, reflect: true },
       errors: { type: Array },
       skeleton: { type: Boolean, reflect: true },
+      readonly: { type: Boolean, reflect: true },
     };
   }
 
@@ -52,6 +53,7 @@ export class GvSchemaFormControlObject extends LitElement {
                                           .skeleton="${this.skeleton}"
                                           ?required="${isRequired}" 
                                           ?disabled="${isDisabled}"
+                                          ?readonly="${this.readonly}"
                                           class="control"></gv-schema-form-control>`;
   }
 

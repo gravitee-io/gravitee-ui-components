@@ -29,6 +29,7 @@ import { ERROR_TYPES, parseRaw, toNameEqualsValueString } from '../lib/propertie
 import { i18n } from '../lib/i18n';
 import { classMap } from 'lit-html/directives/class-map';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
+import { empty } from '../styles/empty';
 
 /**
  * A component to manage properties
@@ -59,6 +60,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
       _providerDocumentation: { type: Boolean, attribute: false },
       _showDocumentation: { type: Boolean, attribute: false },
       _textRows: { type: Number, attribute: false },
+      readonly: { type: Boolean, reflect: true },
     };
   }
 
@@ -350,7 +352,8 @@ export class GvProperties extends KeyboardElement(LitElement) {
       return html`<gv-text id="expert-input" 
                            placeholder="${i18n('gv-properties.placeholder.input')}"
                            @gv-text:input="${this._onTextInput}" 
-                           .value="${content}" 
+                           .value="${content}"
+                           ?readonly="${this.readonly}" 
                            .rows="${this._textRows}"></gv-text>
                   ${this._renderErrors(true)}`;
 
@@ -378,6 +381,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
               placeholder: i18n('gv-properties.placeholder.key'),
               name: 'key',
               required: true,
+              readonly: this.readonly,
             },
           },
           {
@@ -388,24 +392,28 @@ export class GvProperties extends KeyboardElement(LitElement) {
               name: 'value',
               placeholder: 'Property value',
               required: true,
+              readonly: this.readonly,
               disabled: (item) => item.dynamic && providerEnabled,
               'ongv-input:input': this._onInput.bind(this),
             },
           },
-          {
-            type: 'gv-button',
-            width: '40px',
-            attributes: {
-              'ongv-button:click': (item, event, target) => this._removeProperty(item, target),
-              title: 'Remove',
-              disabled: (item) => item.dynamic && providerEnabled,
-              danger: true,
-              outlined: true,
-              icon: 'home:trash',
-            },
-          },
         ],
       };
+
+      if (this.readonly !== true) {
+        options.data.push({
+          type: 'gv-button',
+          width: '40px',
+          attributes: {
+            'ongv-button:click': (item, event, target) => this._removeProperty(item, target),
+            title: 'Remove',
+            disabled: (item) => item.dynamic && providerEnabled,
+            danger: true,
+            outlined: true,
+            icon: 'home:trash',
+          },
+        });
+      }
 
       const filteredProperties = this._filter != null ? this._properties.filter((prop) => {
         return (prop.key.toLowerCase() + prop.value.toLowerCase()).includes(this._filter);
@@ -419,13 +427,17 @@ export class GvProperties extends KeyboardElement(LitElement) {
         properties = [...filteredProperties].splice(index, this._pageSize);
       }
 
-      return html`<form id="add-property-form" class="add-form" @submit="${this._onSubmit}">
+      const addPropertyForm = this.readonly !== true
+        ? html`<form id="add-property-form" class="add-form" @submit="${this._onSubmit}">
                       <div></div>
                       <gv-input class="control" placeholder="${i18n('gv-properties.placeholder.key')}" required @gv-input:input="${this._onInputNew.bind(this, 'key')}" value="${this._newItem.key}"></gv-input>
                       <gv-input class="control" placeholder="${i18n('gv-properties.placeholder.value')}" required @gv-input:input="${this._onInputNew.bind(this, 'value')}" .value="${this._newItem.value}"></gv-input>
                       <gv-button id="add-property" icon="code:plus" outlined disabled @gv-button:click="${this._addProperty.bind(this, this._newItem)}" title="${i18n('gv-properties.add')}"></gv-button>
                   </form>
-                  ${this._renderErrors()}
+                  ${this._renderErrors()}` : '';
+
+      return html`
+                  ${addPropertyForm}
                   <gv-table .options="${options}"
                             .items="${properties}"
                             noheader
@@ -513,6 +525,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
                   .values="${this.provider}"
                   .icon="design:edit"
                   has-header
+                  ?readonly="${this.readonly}"
                   @gv-schema-form:submit="${this._onSubmitPropertyForm}">
                     <div slot="title" class="properties-title">Configure dynamic properties</div>
                     <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._onClosePropertySchemaForm}" title="Close (esc)"></gv-button>
@@ -531,14 +544,34 @@ export class GvProperties extends KeyboardElement(LitElement) {
       return this._renderForm();
     }
     else {
-      return html`<div class="properties-bottom-container">
-                    ${this.provider && this.provider.enabled ? html`<div class="properties-message">
+      return html`<div class="properties-bottom-container">${this._renderDynamicConfiguration()}</div>`;
+    }
+  }
+
+  _renderDynamicConfiguration () {
+    const hasDynamicConfiguration = this.provider && this.provider.enabled;
+
+    let configureAction = '';
+    if (hasDynamicConfiguration || this.readonly !== true) {
+      configureAction = html`<gv-button 
+                            icon="tools:tools" 
+                            @gv-button:click="${this._onConfigureDynamicProperties}" 
+                            outlined .disabled="${this.expert}">Configure dynamic properties</gv-button>`;
+    }
+
+    if (hasDynamicConfiguration) {
+      return html`<div class="properties-message">
                       Dynamic properties service is actually in <code>running</code>
                       state and run each <code>${this.provider.trigger.rate} ${this.provider.trigger.unit}</code>
                       using <code>${this.provider.provider}</code> provider.
-                      </div>` : ''}  
-                    <gv-button icon="tools:tools" @gv-button:click="${this._onConfigureDynamicProperties}" outlined .disabled="${this.expert}">Configure dynamic properties</gv-button>
-                  </div>`;
+                      </div>
+                      ${configureAction}`;
+    }
+    else if (this.readonly) {
+      return html`<div class="empty">No dynamic properties service configured</div>`;
+    }
+    else {
+      return configureAction;
     }
   }
 
@@ -576,6 +609,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
 
   static get styles () {
     return [
+      empty,
       // language=CSS
       css`
         :host {

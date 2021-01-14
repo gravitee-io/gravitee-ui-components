@@ -33,6 +33,7 @@ export class GvSchemaFormArray extends LitElement {
       title: { type: String, reflect: true },
       skeleton: { type: Boolean, reflect: true },
       errors: { type: Array },
+      readonly: { type: Boolean, reflect: true },
     };
   }
 
@@ -61,9 +62,15 @@ export class GvSchemaFormArray extends LitElement {
     return html`<div class="form__item" @mouseleave="${this._onMouseLeave}">
       <div class="${classMap({ 'form__item-label': true, skeleton: this.skeleton })}">
         <label>${this.schema.title}</label>
-        <gv-button link small @gv-button:click="${this._onRemove.bind(this, index)}" icon="general:close" title="Remove"></gv-button>
+        ${this.readonly !== true ? html`<gv-button link small @gv-button:click="${this._onRemove.bind(this, index)}" icon="general:close" title="Remove"></gv-button>` : ''}
       </div>
-      <gv-schema-form-control .id="${id}" .skeleton="${this.skeleton}" .control="${control}" .value="${value}" ?required="${isRequired}" ?disabled="${isDisabled}"></gv-schema-form-control>
+      <gv-schema-form-control .id="${id}" 
+                              .skeleton="${this.skeleton}" 
+                              .control="${control}" 
+                              .value="${value}" 
+                              ?required="${isRequired}" 
+                              ?disabled="${isDisabled}"
+                              ?readonly="${this.readonly}"></gv-schema-form-control>
     </div>
     `;
   }
@@ -107,7 +114,7 @@ export class GvSchemaFormArray extends LitElement {
                   <div class="form__item-group" id="${this.id}">
                   <div class="${classMap({ 'form__item-group-header': true, skeleton: this.skeleton })}">
                       <label><span>${this.title || this.id}</span><span class="form__item-length">(${this.value.length})</span></label>
-                      <gv-button outlined small icon="code:plus" @gv-button:click="${this._onNew}">New ${this.schema.title}</gv-button>
+                      ${this.readonly !== true ? html`<gv-button outlined small icon="code:plus" @gv-button:click="${this._onNew}">New ${this.schema.title}</gv-button>` : ''}
                   </div>
                     ${this.value != null && Array.isArray(this.value) ? this.value.map((value, index) => this._renderValue(value, index)) : ''} 
                   </div>

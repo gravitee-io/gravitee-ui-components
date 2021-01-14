@@ -35,6 +35,10 @@ export const Inline = makeStory(conf, {
   items: [{ grammar, rows: 1 }],
 });
 
+export const InlineReadonly = makeStory(conf, {
+  items: [{ grammar, rows: 1, readonly: true }],
+});
+
 const options = {
   lineNumbers: true,
   allowDropFileTypes: true,
@@ -44,6 +48,10 @@ const options = {
 
 export const Multilines = makeStory(conf, {
   items: [{ grammar, options }],
+});
+
+export const MultilinesReadonly = makeStory(conf, {
+  items: [{ grammar, options, readonly: true }],
 });
 
 const groovyOptions = {
