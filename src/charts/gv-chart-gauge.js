@@ -15,15 +15,24 @@
  */
 import { LitElement } from 'lit-element';
 import { ChartElement } from '../mixins/chart-element';
+import ChartModuleMore from 'highcharts/highcharts-more';
+import Highcharts from 'highcharts';
+import HCSolidGauge from 'highcharts/modules/solid-gauge';
 
 /**
  * Gauge chart component
  *
- * @attr {Array} max - The series to display on the pie chart.
+ * @attr {number} max - The maximum value of the gauge.
  * @attr {Array} series - Array of the series to display.
  *
  */
 export class GvChartGauge extends ChartElement(LitElement) {
+
+  constructor () {
+    super();
+    ChartModuleMore(Highcharts);
+    HCSolidGauge(Highcharts);
+  }
 
   static get properties () {
     return {
@@ -55,12 +64,12 @@ export class GvChartGauge extends ChartElement(LitElement) {
         }],
       },
 
-      yAxis: {
+      yAxis: [{
         min: 0,
         max: this.max,
         lineWidth: 0,
         tickPositions: [],
-      },
+      }],
 
       plotOptions: {
         solidgauge: {
