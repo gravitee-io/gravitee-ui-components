@@ -53,6 +53,10 @@ export const disabled = makeStory(conf, {
   items: items.map((p) => ({ ...p, disabled: true })),
 });
 
+export const readonly = makeStory(conf, {
+  items: items.map((p) => ({ ...p, readonly: true })),
+});
+
 export const skeleton = makeStory(conf, {
   items: items.map((p) => ({ ...p, skeleton: true })),
 });

@@ -502,10 +502,6 @@ export class GvInput extends InputElement(LitElement) {
   }
 
   render () {
-    if (this.readonly && (this.value == null || this.value.trim() === '')) {
-      return html`<div></div>`;
-    }
-
     const classes = {
       'box-input': true,
       skeleton: this.skeleton,
