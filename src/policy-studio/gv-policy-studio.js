@@ -1407,6 +1407,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       definition = { ...definition, plans };
     }
 
+    if (this._definition.properties != null) {
+      const properties = this._definition.properties.map(this._removePrivateProperties);
+      definition = { ...definition, properties };
+    }
+
     if (this._definition.resources != null) {
       const resources = this._definition.resources.map(this._removePrivateProperties);
       definition = { ...definition, resources };
