@@ -26,12 +26,10 @@ import { withSkeletonAttribute } from './with-skeleton-attribute';
  * @mixinFunction
  */
 export function ChartElement (ParentClass) {
-
   /**
    * @mixinClass
    */
   return class extends withSkeletonAttribute(ParentClass) {
-
     static get properties () {
       return {
         /** @required */
@@ -104,8 +102,7 @@ export function ChartElement (ParentClass) {
       window.removeEventListener('resize', this._eventListener);
     }
 
-    async getOptions () {
-    }
+    async getOptions () {}
 
     updated (changedProperties) {
       super.updated(changedProperties);
@@ -117,17 +114,17 @@ export function ChartElement (ParentClass) {
     }
 
     render () {
-
       if (this._error) {
-        return html`<div class="error">${i18n('gv-chart.error')}</div>`;
+        return html` <div class="error">${i18n('gv-chart.error')}</div>`;
       }
       if (this._empty) {
-        return html`<div class="empty">${i18n('gv-chart.empty')}</div>`;
+        return html` <div class="empty">${i18n('gv-chart.empty')}</div>`;
       }
 
       const container = document.createElement('div');
       container.id = 'container';
-      container.className = this._skeleton || this._additionalOptions == null ? 'skeleton' : '';
+      container.className
+        = this._skeleton || this._additionalOptions == null ? 'skeleton' : '';
       container.classList.add('container');
 
       if (this._additionalOptions) {
@@ -150,7 +147,11 @@ export function ChartElement (ParentClass) {
           ...this._additionalOptions,
         };
 
-        const hasData = this._series && this._series.values && this._series.values[0] && this._series.values[0].data;
+        const hasData
+          = this._series
+          && this._series.values
+          && this._series.values[0]
+          && this._series.values[0].data;
         if (hasData) {
           options.series = this._series && this._series.values;
         }
