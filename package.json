@@ -26,7 +26,9 @@
     "size:dev": "nodemon -w src -x 'npm run generate:dist && npm run size'",
     "test": "jest",
     "test:coverage": "npm run test -- --collect-coverage",
-    "test:watch": "npm run test -- --watchAll"
+    "test:watch": "npm run test -- --watchAll",
+    "storybook": "npm run serve",
+    "build-storybook": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -68,6 +70,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-template-html-minifier": "^4.0.0",
     "bundle-phobia-cli": "^0.14.6",
+    "chromatic": "^5.6.0",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
