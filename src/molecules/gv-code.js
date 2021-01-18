@@ -179,7 +179,9 @@ export class GvCode extends InputElement(LitElement) {
     const options = this._getProcessedOptions();
 
     try {
-      await import(`codemirror/mode/${options.mode}/${options.mode}`);
+      if (options.mode != null) {
+        await import(`codemirror/mode/${options.mode}/${options.mode}`);
+      }
     }
     catch (er) {
 
