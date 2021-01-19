@@ -25,6 +25,22 @@ parameters:
 orbs:
   gravitee: gravitee-io/gravitee@dev:1.0.4
 
+jobs:
+  chromatic:
+    docker:
+      - image: circleci/node:lts-stretch
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Building Storybook
+          command: npm run build
+      - run:
+          name: Running Chromatic
+          command: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static
+
 workflows:
   version: 2.1
   pull_requests:
@@ -32,6 +48,12 @@ workflows:
       equal: [ pr_build, << pipeline.parameters.gio_action >> ]
     jobs:
       - gravitee/pr-build:
+          context: cicd-orchestrator
+  visual-testing:
+    when:
+      equal: [ pr_build, << pipeline.parameters.gio_action >> ]
+    jobs:
+      - chromatic:
           context: cicd-orchestrator
   release:
     # see https://circleci.com/docs/2.0/configuration-reference/#logic-statement-examples
