@@ -43,12 +43,12 @@ jobs:
 
 workflows:
   version: 2.1
-  pull_requests:
-    when:
-      equal: [ pr_build, << pipeline.parameters.gio_action >> ]
-    jobs:
-      - gravitee/pr-build:
-          context: cicd-orchestrator
+#  pull_requests:
+#    when:
+#      equal: [ pr_build, << pipeline.parameters.gio_action >> ]
+#    jobs:
+#      - gravitee/pr-build:
+#          context: cicd-orchestrator
   visual-testing:
     when:
       equal: [ pr_build, << pipeline.parameters.gio_action >> ]
