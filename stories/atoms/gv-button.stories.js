@@ -56,7 +56,7 @@ export const modesInColumn = makeStory(
   {
     ...conf,
     ...{
-      css: ` 
+      css: `
         :host {
           display: flex;
           flex-direction: column;
@@ -87,6 +87,14 @@ export const outlinedAndDisabled = makeStory(conf, {
 export const loading = makeStory(conf, {
   items: items.map((p) => ({ ...p, loading: true })),
 });
+loading.parameters = {
+  ...loading.parameters,
+  // Notifies Chromatic to pause the animations when they finish for the specific story.
+  chromatic: {
+    pauseAnimationAtEnd: true,
+    diffThreshold: 0.2,
+  },
+};
 
 export const outlinedAndLoading = makeStory(conf, {
   items: items.map((p) => ({ ...p, outlined: true, loading: true })),

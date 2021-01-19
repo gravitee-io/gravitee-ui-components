@@ -16,6 +16,7 @@
 import '../../src/atoms/gv-input';
 import notes from '../../.docs/gv-input.md';
 import { makeStory } from '../lib/make-story';
+import { loading } from './gv-button.stories';
 
 export default {
   title: 'Atoms/gv-input',
@@ -98,10 +99,20 @@ export const DisabledAndRequired = makeStory(conf, {
 export const Loading = makeStory(conf, {
   items: items.map((p) => ({ ...p, loading: true })),
 });
+Loading.parameters = {
+  ...Loading.parameters,
+  // Notifies Chromatic to pause the animations when they finish for the specific story.
+  chromatic: { pauseAnimationAtEnd: true },
+};
 
 export const LoadingAndRequired = makeStory(conf, {
   items: items.map((p) => ({ ...p, loading: true, required: true })),
 });
+LoadingAndRequired.parameters = {
+  ...LoadingAndRequired.parameters,
+  // Notifies Chromatic to pause the animations when they finish for the specific story.
+  chromatic: { pauseAnimationAtEnd: true },
+};
 
 export const Autofocus = makeStory(conf, {
   docs: `

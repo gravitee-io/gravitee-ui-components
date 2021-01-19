@@ -63,6 +63,7 @@ export default {
   component: 'gv-chart-line',
   parameters: {
     notes,
+    chromatic: { disable: true },
   },
 };
 

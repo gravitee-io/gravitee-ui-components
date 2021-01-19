@@ -62,6 +62,7 @@ export default {
   component: 'gv-chart-map',
   parameters: {
     notes,
+    chromatic: { delay: 1000 },
   },
 };
 

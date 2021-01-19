@@ -149,7 +149,7 @@ export class GvRelativeTime extends LitElement {
   }
 
   render () {
-    return html`<span title="${this.title}">${until(this._format(this._datetime, getLanguage()))}</span>`;
+    return html`<span data-chromatic="ignore" title="${this.title}">${until(this._format(this._datetime, getLanguage()))}</span>`;
   }
 
 }

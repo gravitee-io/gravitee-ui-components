@@ -23,6 +23,7 @@ export default {
   component: 'gv-stepper',
   parameters: {
     notes,
+    chromatic: { delay: 300 },
   },
 };
 
