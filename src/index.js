@@ -50,6 +50,7 @@ export { GvTree } from './molecules/gv-tree';
 export { GvDocumentation } from './organisms/gv-documentation';
 export { GvHeader } from './organisms/gv-header';
 export { GvMenu } from './organisms/gv-menu';
+export { GvNewsletterSubscription } from './organisms/gv-newsletter-subscription';
 export { GvPagination } from './organisms/gv-pagination';
 export { GvProperties } from './organisms/gv-properties';
 export { GvResizableViews } from './organisms/gv-resizable-views';
