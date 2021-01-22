@@ -36,6 +36,6 @@
   --gv-theme-skeleton-color: #BFBFBF;
   --gv-theme-homepage-background-color: #5A7684;
   --gv-theme-homepage-background-image: none;
-  --gv-theme-logo: url('/images/gravitee-logo.png');
-  --gv-theme-optional-logo: url('/images/gravitee-logo-light.png');
+  --gv-theme-logo: url('./images/gravitee-logo.png');
+  --gv-theme-optional-logo: url('./images/gravitee-logo-light.png');
 }
