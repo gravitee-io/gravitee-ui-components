@@ -55,6 +55,7 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * @attr {Array} selectedFlowsId - The selected flows id
  * @attr {Boolean} sortable - true if flows are sortable
  * @attr {Boolean} readonly - true if readonly
+ * @attr {Boolean} readonly-plans - true if plans' flows can't be modified
  * @attr {Boolean} can-add - true if user can add flow
  * @attr {String} flowsTitle - flows menu title
  * @attr {Boolean} has-policy-filter - true if policies have onRequest/onResponse properties
@@ -97,6 +98,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       sortable: { type: Boolean },
       canAdd: { type: Boolean, attribute: 'can-add' },
       readonly: { type: Boolean },
+      readonlyPlans: { type: Boolean, attribute: 'readonly-plans' },
     };
   }
 
@@ -917,13 +919,13 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  _renderFlowEmptyState () {
+  _renderFlowEmptyState (readonlyMode) {
     return html`<div slot="content" class="empty">
-                  <div>Select a flow ${this.readonly !== true ? html`or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one</gv-button>` : ''}</div>
+                  <div>Select a flow ${readonlyMode !== true ? html`or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one</gv-button>` : ''}</div>
                 </div>`;
   }
 
-  _renderFlow (index = 0, hasEmptyState = true) {
+  _renderFlow (index = 0, hasEmptyState = true, readonlyMode) {
     const flow = this.getSelectedFlow(index);
     if (flow) {
       const { plan } = this._findFlowCollection(flow._id);
@@ -940,7 +942,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                  .dragPolicy="${this._dragPolicy}"
                  .dropPolicy="${this._dropPolicy}"
                  .selectedStepId="${selectedStepId}"
-                 ?readonly="${this.readonly}"
+                 ?readonly="${readonlyMode}"
                  ?has-policy-filter="${this._policyFilterOptions != null}"
                  flows-title="${this.flowsTitle}"
                  @gv-flow:drag-start="${this._onDragStartFlowStep.bind(this, flow)}"
@@ -950,7 +952,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                  @gv-flow:delete="${this._onDeletePolicy}"></gv-flow>`;
     }
     else if (hasEmptyState) {
-      return this._renderFlowEmptyState();
+      return this._renderFlowEmptyState(readonlyMode);
     }
     return html``;
   }
@@ -973,10 +975,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     currentTarget.options = options;
   }
 
-  _renderPolicy () {
+  _renderPolicy (readonlyMode) {
     if (this._flowStepSchema && this.documentation) {
       return html`<gv-resizable-views direction="horizontal" no-overflow>
-                    <div slot="top">${this._renderFlowStepForm()}</div>
+                    <div slot="top">${this._renderFlowStepForm(readonlyMode)}</div>
                     <div slot="bottom">
                       <gv-documentation .text="${this.documentation.content}"
                                         .image="${this.documentation.image}"
@@ -993,7 +995,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
 
     else if (this._flowStepSchema) {
-      return this._renderFlowStepForm();
+      return this._renderFlowStepForm(readonlyMode);
     }
     return html``;
   }
@@ -1068,7 +1070,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  _renderFlowStepForm () {
+  _renderFlowStepForm (readonlyMode) {
     const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
     return html`${cache(this._flowStepSchema && this._currentFlowStep
       ? html`<div class="flow-step__container">
@@ -1081,7 +1083,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                 validate-on-render
                 .values="${values}"
                 .dirty="${this._currentFlowStep._values != null}"
-                ?readonly="${this.readonly}"
+                ?readonly="${readonlyMode}"
                 @gv-schema-form:change="${this._onChangeFlowStep}"
                 @gv-schema-form:reset="${this._onResetFlowStep}"
                 @gv-schema-form:fetch-resources="${this._onFetchResources}"
@@ -1477,46 +1479,46 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  _renderDesign () {
+  _renderDesign (readonlyMode) {
     return html`
-           <div id="design" slot="content" class="design">
-             <gv-resizable-views no-overflow>
-                <div slot="top">
-                  ${this._renderFlow()}
-                </div>
-
-                <div slot="bottom">
-                  ${this._renderFlow(1, false)}
-                  ${this._renderPolicy()}
-                  ${this._renderFlowForm()}
-                </div>
-             </gv-resizable-views>
-             ${this.readonly !== true ? html`<gv-policy-studio-menu
-              class="right-menu"
-              ?disabled="${this._currentAskConfirmation}"
-              .policies="${this._getFilteredPolicies()}"
-              .selectedIds="${[this._currentPolicyId]}"
-              .query="${this._searchPolicyQuery}"
-              ?has-policy-filter="${this._policyFilterOptions != null}"
-              ?readonly="${this.readonly}"
-              @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
-              @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
-              @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}">
-
-              <div slot="header" class="search-policies">
-               ${this._policyFilterOptions != null ? html`<gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._policyFilterOptions}" multiple outlined .value="${this._policyFilter}" small @gv-option:select="${this._onFilterPolicies}"></gv-option>` : ''}
-                <gv-input
-                    id="search-policy"
-                    ?disabled="${this._currentAskConfirmation}"
-                    placeholder="Filter policies (Shift + Ctrl + Space)" type="search" small
-                    @gv-input:input="${this._onSearchPolicy}"
-                    @gv-input:clear="${this._onClearPolicy}"></gv-input>
+         <div id="design" slot="content" class="design">
+           <gv-resizable-views no-overflow>
+              <div slot="top">
+                ${this._renderFlow(0, true, readonlyMode)}
               </div>
-           </gv-policy-studio-menu>` : ''}
-         </div>`;
+
+              <div slot="bottom">
+                ${this._renderFlow(1, false, readonlyMode)}
+                ${this._renderPolicy(readonlyMode)}
+                ${this._renderFlowForm(readonlyMode)}
+              </div>
+           </gv-resizable-views>
+           ${readonlyMode !== true ? html`<gv-policy-studio-menu
+            class="right-menu"
+            ?disabled="${this._currentAskConfirmation}"
+            .policies="${this._getFilteredPolicies()}"
+            .selectedIds="${[this._currentPolicyId]}"
+            .query="${this._searchPolicyQuery}"
+            ?has-policy-filter="${this._policyFilterOptions != null}"
+            ?readonly="${readonlyMode}"
+            @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
+            @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
+            @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}">
+
+            <div slot="header" class="search-policies">
+             ${this._policyFilterOptions != null ? html`<gv-option ?disabled="${this._currentAskConfirmation}" .options="${this._policyFilterOptions}" multiple outlined .value="${this._policyFilter}" small @gv-option:select="${this._onFilterPolicies}"></gv-option>` : ''}
+              <gv-input
+                  id="search-policy"
+                  ?disabled="${this._currentAskConfirmation}"
+                  placeholder="Filter policies (Shift + Ctrl + Space)" type="search" small
+                  @gv-input:input="${this._onSearchPolicy}"
+                  @gv-input:clear="${this._onClearPolicy}"></gv-input>
+            </div>
+         </gv-policy-studio-menu>` : ''}
+       </div>`;
   }
 
-  _renderConfigurationForm () {
+  _renderConfigurationForm (readonlyMode) {
     if (this.configurationSchema) {
       const values = deepClone(this._definition);
       return html`
@@ -1527,7 +1529,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                   .values="${values}"
                   has-header
                   has-footer
-                  ?readonly="${this.readonly}"
+                  ?readonly="${readonlyMode}"
                   @gv-schema-form:cancel="${this._onCancelFlowMode}"
                   @gv-schema-form:submit="${this._onSubmitFlowMode}">
                   ${!this.configurationInformation ? ''
@@ -1546,7 +1548,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return html``;
   }
 
-  _renderFlowForm () {
+  _renderFlowForm (readonlyMode) {
     if (this.flowSchema && this._flowStepSchema == null && this.documentation == null && this.selectedFlowsId.length === 1) {
       const flow = this.getSelectedFlow();
       if (flow) {
@@ -1556,7 +1558,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                               id="settings-form"
                               .values="${values}"
                               has-header
-                              ?readonly="${this.readonly}"
+                              ?readonly="${readonlyMode}"
                               @gv-schema-form:cancel="${this._onCancelFlow}"
                               @gv-schema-form:submit="${this._onSubmitFlow}">
                         <div slot="title" class="flow-step__form-title">Flow configuration</div>
@@ -1582,6 +1584,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   render () {
+    const readonlyMode = this._getReadonlyModeForDesign();
+
     return html`<div class="box">
         <gv-policy-studio-menu
               class="left-menu"
@@ -1592,6 +1596,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               ?disabled="${this._currentAskConfirmation}"
               ?sortable="${this.sortable && this.readonly !== true}"
               ?readonly="${this.readonly}"
+              ?readonlyPlans="${this.readonlyPlans}"
               flows-title="${this.flowsTitle}"
               .query="${this._searchFlowQuery}"
               ?can-add="${this.canAdd && !this.readonly}"
@@ -1610,31 +1615,31 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                     @gv-input:input="${this._onSearchFlows}"
                     @gv-input:clear="${this._onClearFlows}"></gv-input>
                 </div>
-                
+
                   ${this.readonly !== true ? html`
                     <div slot="footer" class="footer-actions">
                       <gv-button class="save" .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onSaveAll}">Save</gv-button>
                       <gv-button link .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onResetAll}">Reset</gv-button>
                     </div>` : ''}
-                
+
          </gv-policy-studio-menu>
 
         <gv-tabs .value="${this.tabId}" .options="${this._tabs}"
                   .disabled="${this._currentAskConfirmation}"
                   @gv-tabs:change="${this._onChangeTab}"
                  .validator="${this._changeTabValidator.bind(this)}">
-            ${this._renderDesign()}
-            ${this._renderConfigurationForm()}
+            ${this._renderDesign(readonlyMode)}
+            ${this._renderConfigurationForm(readonlyMode)}
             <gv-properties id="properties" slot="content" class="properties"
                             .provider="${this.services['dynamic-property']}"
                             @gv-properties:change="${this._onPropertiesChange}"
                             @gv-properties:save-provider="${this._onSaveProvider}"
-                            ?readonly="${this.readonly}"
+                            ?readonly="${readonlyMode}"
                             .properties="${this.definedProperties}"
                             .providers="${this.propertyProviders}"></gv-properties>
             <gv-resources id="resources" slot="content" class="resources"
                           @gv-resources:change="${this._onResourcesChange}"
-                          ?readonly="${this.readonly}"
+                          ?readonly="${readonlyMode}"
                           .resources="${this.definedResources}"
                           .types="${this.resourceTypes}"></gv-resources>
         </gv-tabs>
@@ -1642,6 +1647,41 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       </div>`;
   }
 
+  /**
+   * Determine if the design view should be in readonly mode or not
+   * It is in readonly mode if:
+   *  the readonly attribute is set to true
+   *  OR
+   *  the main selected flow belongs to a plan and the readonly-plans attribute is set to true
+   *  OR
+   *  the second flow for comparison belongs to a plan and the readonly-plans attribute is set to true
+   * @returns {boolean|*|{type: BooleanConstructor}|{attribute: string, type: BooleanConstructor}|{type: *}|{attribute: string, type: *}}
+   * @private
+   */
+  _getReadonlyModeForDesign () {
+    if (this.readonly) {
+      return true;
+    }
+
+    const flow = this.getSelectedFlow(0);
+    if (!flow) {
+      return false;
+    }
+
+    const { plan: flowPlan } = this._findFlowCollection(flow._id);
+    const readonlyMode = flowPlan && this.readonlyPlans;
+    if (readonlyMode) {
+      return true;
+    }
+
+    const comparedFlow = this.getSelectedFlow(1);
+    if (!comparedFlow) {
+      return false;
+    }
+
+    const { plan: comparedFlowPlan } = this._findFlowCollection(comparedFlow._id);
+    return comparedFlowPlan && this.readonlyPlans;
+  }
 }
 
 window.customElements.define('gv-policy-studio', GvPolicyStudio);
