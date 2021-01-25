@@ -44,6 +44,7 @@ export class GvPolicyStudioMenu extends LitElement {
       hasPolicyFilter: { type: Boolean, attribute: 'has-policy-filter' },
       canAdd: { type: Boolean, attribute: 'can-add' },
       readonly: { type: Boolean },
+      readonlyPlans: { type: Boolean },
     };
   }
 
@@ -409,7 +410,7 @@ export class GvPolicyStudioMenu extends LitElement {
     dispatchCustomEvent(this, 'delete-flow', { content });
   }
 
-  _renderFlowActions (content) {
+  _renderFlowActions (content, readonlyMode) {
     if (this.disabled) {
       return html``;
     }
@@ -417,9 +418,9 @@ export class GvPolicyStudioMenu extends LitElement {
     const stateLabel = enabled ? 'Disable flow ?' : 'Enable flow ?';
     return html`<div class="actions">
                   ${this.hasCompare() || this.selectedIds.includes(content._id) ? '' : html`<gv-button tabindex="0" link small icon="navigation:route" @gv-button:click="${this._compareFlow.bind(this, content)}" title="Compare"></gv-button>`}
-                  ${this.canAdd && this.readonly !== true ? html`<gv-button tabindex="0" link small icon="general:duplicate" @gv-button:click="${this._onDuplicateFlow.bind(this, content)}" title="Duplicate"></gv-button>
+                  ${this.canAdd && readonlyMode !== true ? html`<gv-button tabindex="0" link small icon="general:duplicate" @gv-button:click="${this._onDuplicateFlow.bind(this, content)}" title="Duplicate"></gv-button>
                   <gv-button tabindex="0" link small icon="home:trash" @gv-button:click="${this._onDeleteFlow.bind(this, content)}" title="Delete"></gv-button>` : ''}
-                  ${this.readonly !== true ? html`<gv-switch tabindex="0" small title="${stateLabel}" .value="${enabled}" @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"></gv-switch>` : ''}
+                  ${readonlyMode !== true ? html`<gv-switch tabindex="0" small title="${stateLabel}" .value="${enabled}" @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"></gv-switch>` : ''}
                 </div>`;
   }
 
@@ -500,10 +501,11 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _renderFlows (filteredData, type, isChild, id, open) {
+    const readonlyForFlow = isChild && this.readonlyPlans;
     return html`<div class="${classMap({ content: true, expandable: true, open })}" id="${id}">
       ${repeat(filteredData, () => uuid(), (content, index) => html`
         <div
-          draggable="${this.sortable && !this.disabled}" 
+          draggable="${this.sortable && !this.disabled && !readonlyForFlow}"
           tabindex="0"
           @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
           @dragenter="${this._onDragEnterFlow}"
@@ -515,17 +517,17 @@ export class GvPolicyStudioMenu extends LitElement {
           class="${classMap({
       entry: true,
       flow: true,
-      sortable: this.sortable && !this.disabled,
+      sortable: this.sortable && !this.disabled && !readonlyForFlow,
       selected: this.selectedIds.includes(content._id),
       child: isChild,
       disabled: content.enabled === false,
     })}">
           <div title="${content.name} | Compare with current selection (Shift + click)"
-               @click="${this._onClickFlow.bind(this, content)}" 
+               @click="${this._onClickFlow.bind(this, content)}"
                class="entry-name link">
-                 ${getFlowName(content, null, true, this.sortable, true)}
+                 ${getFlowName(content, null, true, this.sortable && !readonlyForFlow, true)}
                 </div>
-          ${this._renderFlowActions(content)}
+          ${this._renderFlowActions(content, this.readonly || readonlyForFlow)}
       `)}
         `;
   }
@@ -548,12 +550,12 @@ export class GvPolicyStudioMenu extends LitElement {
         policy: true,
         selected: this._isSelected(content.id),
         draggable,
-      })}" 
-      draggable="${draggable}" 
+      })}"
+      draggable="${draggable}"
       @mouseenter="${this._onMouseEnterPolicy.bind(this, content)}"
       @mouseleave="${this._onMouseLeavePolicy.bind(this, content)}"
-      @dragstart="${this._onDragStartPolicy.bind(this, content)}" 
-      @dragend="${this._onDragEndPolicy}"  
+      @dragstart="${this._onDragStartPolicy.bind(this, content)}"
+      @dragend="${this._onDragEndPolicy}"
       @click="${this._onClickPolicy.bind(this, content)}"
       title="Show documentation of ${content.name}">
         ${content.icon == null && group != null ? html`<gv-icon class="policy-icon" shape="${this._getGroupShape(group)}"></gv-icon>` : html`<gv-image src="${content.icon}"></gv-image>`}
@@ -655,7 +657,7 @@ export class GvPolicyStudioMenu extends LitElement {
     return html`
           <slot name="header"></slot>
           <div class="box">
-           ${this.plans != null ? this._renderPart('flows', '', 'shopping:sale#2', this.plans, false, (this.canAdd && !this.disabled ? this._onAddFlowToPlan : null), 'name') : ``}
+           ${this.plans != null ? this._renderPart('flows', '', 'shopping:sale#2', this.plans, false, (this.canAdd && !this.disabled && !this.readonlyPlans ? this._onAddFlowToPlan : null), 'name') : ``}
            ${this.flows != null ? this._renderPart('flows', this.flowsTitle, 'shopping:box#3', this.flows, false, (this.canAdd && !this.disabled ? this._onAddFlow : null)) : ``}
            ${this.policies != null ? this._renderPart('policies', 'Policies', 'communication:shield-thunder', this.policies, true, null, this.policies.length > 0 && this.policies[0].category != null ? 'category' : null) : ''}
           </div>
