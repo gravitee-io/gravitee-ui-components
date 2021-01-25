@@ -59,6 +59,19 @@ export class GvChartLine extends ChartElement(LitElement) {
         }
       });
     }
+    this.options.plotLines = this.options.plotLines ? this.options.plotLines.map((line) => {
+      return {
+        ...line,
+        events: {
+          mouseover: function () {
+            this.label.element.firstElementChild.style.visibility = 'visible';
+          },
+          mouseout: function () {
+            this.label.element.firstElementChild.style.visibility = 'hidden';
+          },
+        },
+      };
+    }) : [];
     return {
       chart: {
         type: 'areaspline',
@@ -131,6 +144,7 @@ export class GvChartLine extends ChartElement(LitElement) {
           year: '%b',
         },
         crosshair: true,
+        plotLines: [...this.options.plotLines],
       },
       yAxis: { title: { text: '' } },
     };
