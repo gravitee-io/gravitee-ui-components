@@ -92,7 +92,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       hasProperties: { type: Boolean, attribute: 'has-properties' },
       _hasProperties: { type: Boolean, attribute: false },
       hasResources: { type: Boolean, attribute: 'has-resources' },
-      hasPlans: { type: Boolean, attribute: 'has-plans' },
       hasPolicyFilter: { type: Boolean, attribute: 'has-policy-filter' },
       flowsTitle: { type: String, attribute: 'flows-title' },
       sortable: { type: Boolean },
@@ -355,9 +354,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  set hasPlans (value) {
-    if (value) {
-      this._flowFilterOptions = [
+  get _flowFilterOptions () {
+    if (this.definedPlans.length > 0) {
+      return [
         { id: 'api', title: 'Api', icon: 'shopping:box#3' },
         { id: 'plan', title: 'Plans', icon: 'shopping:sale#2' },
       ];
