@@ -21,6 +21,7 @@ import apimPolicies from '../resources/apim-policies.json';
 import amPolicies from '../resources/am-policies.json';
 import apimResourceTypes from '../resources/apim-resource-types.json';
 import apimDefinition from '../resources/apim-definition.json';
+import apimDefinitionEmptyPlans from '../resources/apim-definition-empty-plans.json';
 import amDefinition from '../resources/am-definition.json';
 import apimFlow from '../resources/schemas/apim-flow.json';
 import apimConfiguration from '../resources/schemas/apim-configuration.json';
@@ -139,7 +140,6 @@ export const APIM = makeStory(conf, {
     'has-resources': true,
     'has-properties': true,
     'has-policy-filter': true,
-    'has-plans': true,
     'can-add': true,
     sortable: true,
   }],
@@ -165,10 +165,59 @@ export const APIMReadonly = makeStory(conf, {
     'has-resources': true,
     'has-properties': true,
     'has-policy-filter': true,
-    'has-plans': true,
     'can-add': true,
     sortable: true,
     readonly: true,
+  }],
+});
+
+export const APIMWithoutPlans = makeStory(conf, {
+  items: [{
+    policies: apimPolicies.data.map((policy) => {
+      policy.icon = icon;
+      return policy;
+    }),
+    resourceTypes: apimResourceTypes.data,
+    propertyProviders: apimPropertyProviders.data,
+    definition: { ...apimDefinition, plans: [] },
+    flowSchema: apimFlow,
+    configurationSchema: apimConfiguration,
+    configurationInformation: 'By default, the selection of a flow is based on the operator defined in the flow itself.'
+      + ' This operator allows either to select a flow when the path matches exactly, or when the start of the path matches.'
+      + ' The "Best match" option allows you to select the flow from the path that is closest.',
+    '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
+    '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
+    'flows-title': 'API Flows',
+    'has-resources': true,
+    'has-properties': true,
+    'has-policy-filter': true,
+    'can-add': true,
+    sortable: true,
+  }],
+});
+
+export const APIMWithEmptyPlans = makeStory(conf, {
+  items: [{
+    policies: apimPolicies.data.map((policy) => {
+      policy.icon = icon;
+      return policy;
+    }),
+    resourceTypes: apimResourceTypes.data,
+    propertyProviders: apimPropertyProviders.data,
+    definition: apimDefinitionEmptyPlans,
+    flowSchema: apimFlow,
+    configurationSchema: apimConfiguration,
+    configurationInformation: 'By default, the selection of a flow is based on the operator defined in the flow itself.'
+      + ' This operator allows either to select a flow when the path matches exactly, or when the start of the path matches.'
+      + ' The "Best match" option allows you to select the flow from the path that is closest.',
+    '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
+    '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
+    'flows-title': 'API Flows',
+    'has-resources': true,
+    'has-properties': true,
+    'has-policy-filter': true,
+    'can-add': true,
+    sortable: true,
   }],
 });
 
