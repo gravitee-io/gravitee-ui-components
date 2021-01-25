@@ -173,8 +173,8 @@
               "description": "Step description",
               "configuration": {
                 "rate": {
-                  "limit": "10",
-                  "periodTime": "1",
+                  "limit": 10,
+                  "periodTime": 1,
                   "periodTimeUnit": "MINUTES"
                 }
               }
@@ -306,8 +306,8 @@
               "description": "Step description",
               "configuration": {
                 "rate": {
-                  "limit": "10",
-                  "periodTime": "1",
+                  "limit": 10,
+                  "periodTime": 1,
                   "periodTimeUnit": "MINUTES"
                 }
               }
