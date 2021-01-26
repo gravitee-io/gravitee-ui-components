@@ -240,15 +240,15 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     if (value && this._options && this.valid) {
       if (this.multiple) {
         if (this.required) {
-          this.valid = this._options.length > 0;
+          this.setValidity(value.length === 0, 'field is required');
         }
-        if (this.valid) {
+        if (value.length > 0 && this.valid) {
           const possibleValues = this._options.map((o) => o.value);
-          this.valid = value.some((v) => possibleValues.includes(v));
+          this.setValidity(!value.some((v) => possibleValues.includes(v)), 'value is not included in the possible values');
         }
       }
       else {
-        this.valid = this._options.find((option) => option.value === value) != null;
+        this.setValidity(this.required && this._options.find((option) => option.value === value) == null, 'value is not included in the possible values');
       }
       this.invalid = !this.valid;
     }

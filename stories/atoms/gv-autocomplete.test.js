@@ -38,7 +38,7 @@ describe('A U T O C O M P L E T E', () => {
     expect(window.customElements.get('gv-autocomplete')).toBeDefined();
     const component = querySelector('gv-autocomplete');
     expect(component).toBeDefined();
-    expect(component.innerHTML).toEqual('<gv-input no-submit="true" value=""></gv-input>');
+    expect(component.innerHTML).toEqual('<gv-input no-submit="true" valid="" value=""></gv-input>');
   });
 
   test('should catch `gv-autocomplete:search` event when input dispatch input event', (done) => {

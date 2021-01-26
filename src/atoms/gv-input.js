@@ -322,27 +322,33 @@ export class GvInput extends InputElement(LitElement) {
     this.getInputElement().id = this._id;
     this.getInputElement().addEventListener('input', this._onInput.bind(this));
     this.getInputElement().addEventListener('keyup', this._onKeyUp.bind(this));
+    this.getInputElement().addEventListener('keypress', this._onKeyPress.bind(this));
 
   }
 
   updateState (value) {
     super.updateState(value);
-    if (this.valid === true) {
+    if (this.valid === true && !this.readonly) {
       if (this._regexPattern) {
         if (value != null && value.trim() !== '') {
           const valid = value.match(this._regexPattern);
-          this.invalid = valid == null;
-          this.valid = valid != null;
-        }
-        else if (!this.required) {
-          this.invalid = false;
-          this.valid = false;
+          this.setValidity(valid == null, `field not respect the pattern ${this._regexPattern}`);
         }
       }
-      else if (this._type === 'number' && this.value != null) {
-        const value = Number(this.value).valueOf();
-        this.invalid = isNaN(value);
-        this.valid = !this.invalid;
+      else if (this._type === 'number' && value != null && (typeof value === 'number' || value.trim() !== '')) {
+        const _value = Number(value).valueOf();
+        if (isNaN(_value)) {
+          this.setValidity(true, `field is not number`);
+        }
+        else if (this.min != null && this.min > _value) {
+          this.setValidity(true, `field is < ${this.min}`);
+        }
+        else if (this.max != null && this.max < _value) {
+          this.setValidity(true, `field is > ${this.max}`);
+        }
+        else {
+          this.setValidity(false);
+        }
       }
     }
   }
@@ -351,6 +357,27 @@ export class GvInput extends InputElement(LitElement) {
     this.updateState(e.target.value);
     this.value = e.target.value;
     dispatchCustomEvent(this, 'input', this.value);
+  }
+
+  _onKeyPress (e) {
+    if (this._type === 'number') {
+      let key;
+      if (e.type === 'paste') {
+        key = e.clipboardData.getData('text/plain');
+      }
+      else {
+        key = String.fromCharCode(e.keyCode);
+      }
+
+      let regex = /[0-9]/;
+      if (this.min == null || this.min < 0) {
+        regex = /[0-9-]/;
+      }
+      if (!regex.test(key)) {
+        e.preventDefault();
+      }
+    }
+
   }
 
   _onKeyUp (e) {

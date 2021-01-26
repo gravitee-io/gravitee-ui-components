@@ -49,12 +49,10 @@ export function InputElement (ParentClass) {
             display: block;
           }
 
-          :host([invalid]) :not(.clipboard) input, :host([invalid]) :not(.clipboard) .box-icon-left, :host([invalid]) :not(.clipboard) textarea {
-            border-left: 3px solid var(--gv-theme-color-error-dark, #d32f2f);
-          }
-
-          :host([valid]) :not(.clipboard) input, :host([valid]) :not(.clipboard) .box-icon-left, :host([valid]) :not(.clipboard) textarea {
-            border-left: 3px solid var(--gv-theme-color, #5A7684);
+          :host([invalid]) :not(.clipboard) input,
+          :host([invalid]) :not(.clipboard) .box-icon-left,
+          :host([invalid]) :not(.clipboard) textarea {
+            box-shadow: inset 3px 0 0 var(--gv-theme-color-error-dark, #d32f2f);
           }
 
           :host([readonly]) :not(.clipboard) input,
@@ -72,13 +70,34 @@ export function InputElement (ParentClass) {
     constructor () {
       super();
       this._id = `gv-input-${new Date().getTime()}`;
+      this.valid = true;
+      this.invalid = false;
     }
 
     updateState (value) {
       if (this.required && !this.readonly) {
-        this.invalid = value == null || value.length === 0 || (typeof value === 'string' && value.trim() === '');
-        this.valid = !this.invalid;
+        this.setValidity(value == null || value.length === 0 || (typeof value === 'string' && value.trim() === ''), 'field is required');
       }
+      else {
+        this.setValidity();
+      }
+    }
+
+    setValidity (isInvalid = false, violation = '') {
+      const element = this.getInputElement();
+      if (element) {
+        if (isInvalid) {
+          if (violation == null || violation.trim() === '') {
+            violation = 'field is not valid';
+          }
+          element.setCustomValidity(violation);
+        }
+        else {
+          element.setCustomValidity('');
+        }
+      }
+      this.invalid = isInvalid;
+      this.valid = !this.invalid;
     }
 
     firstUpdated () {
