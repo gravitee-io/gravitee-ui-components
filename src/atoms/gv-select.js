@@ -68,7 +68,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       title: { type: String },
       name: { type: String },
       placeholder: { type: String },
-      multiple: { type: Boolean },
+      multiple: { type: Boolean, reflect: true },
       _isClosed: { type: Boolean, attribute: false },
     };
   }
@@ -93,6 +93,14 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         div, input {
           user-select: none;
           cursor: pointer;
+        }
+        
+        input {
+          text-overflow: ellipsis;
+
+          /* Required for text-overflow to do anything */
+          white-space: nowrap;
+          overflow: hidden;
         }
 
         :host([readonly]) div,
@@ -190,7 +198,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         }
 
         .medium.icon input, .large.icon input, .small.icon input {
-          padding-right: 0px;
+          padding-right: 25px;
         }
       `,
     ];
@@ -343,7 +351,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
   }
 
   selectedLabel () {
-    if (this.value) {
+    if (this.value != null) {
       const elements = this._options.filter((o) => this.isSelected(o));
       if (elements) {
         return elements.map((e) => e.label).join(', ');
@@ -372,6 +380,8 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       skeleton: this.skeleton,
       required: this.required,
     };
+
+    const selectedLabel = this.selectedLabel();
     return html`
       <div class="${classMap(classes)}">
          <div class="box-input">
@@ -380,12 +390,12 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
               id=${this._id}
               .type=${this._type}
               .name=${ifDefined(this.name)}
-              .title=${ifDefined(this.title || this.label)}
+              .title=${ifDefined(selectedLabel || this.title || this.label)}
               .required=${this.required}
               aria-required=${!!this.required}
               ?disabled=${this.disabled || this.skeleton}
               .placeholder=${ifDefined(this.placeholder)}
-              .value=${ifDefined(this.selectedLabel())}
+              .value=${selectedLabel}
               @click=${this._onClick}
               readonly="readonly">
               ${this._renderIcon()}
