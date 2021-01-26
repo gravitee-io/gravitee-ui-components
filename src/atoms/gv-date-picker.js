@@ -40,12 +40,15 @@ const locales = { en: enUS };
  * @attr {Number|Array} value - if range picker, value is an array of timestamp else is a timestamp
  * @attr {Boolean} range - if has range picker
  * @attr {Boolean} time - if has time picker
+ * @attr {String} name - name of the input
+ * @attr {Boolean} strict - in completion of time if just have time picker
  * @attr {Number} min - min timestamp
  * @attr {Number} max - max timestamp
  * @attr {Number} distanceFromNow - The distance timestamp relative to the current date. If configured, the min / max will be updated every minute.
  * @attr {String} format - date format
  * @attr {Boolean} valid - if value is valid
  * @attr {Boolean} invalid - if value is invalid
+ * @attr {Boolean} small - for a small input
  *
  * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-date-picker-hover--c=var(--gv-theme-font-color-dark, #262626)] - Hover color
@@ -58,7 +61,10 @@ export class GvDatePicker extends LitElement {
     return {
       range: { type: Boolean },
       label: { type: String },
+      name: { type: String },
       time: { type: Boolean },
+      strict: { type: Boolean },
+      small: { type: Boolean },
       value: { type: Array, reflect: true },
       min: { type: Number },
       max: { type: Number },
@@ -86,130 +92,135 @@ export class GvDatePicker extends LitElement {
     return [
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              margin: 0.2rem;
-              --gv-input-icon--bgc: transparent;
-              --gv-icon--s: 20px;
-              --date-picker-hover--bgc: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
-              --date-picker-hover--c: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
-              --date-picker-selected--bgc: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
-              --date-picker-selected--c: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-block;
+          margin: 0.2rem;
+          --gv-input-icon--bgc: transparent;
+          --gv-icon--s: 20px;
+          --date-picker-hover--bgc: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
+          --date-picker-hover--c: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
+          --date-picker-selected--bgc: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
+          --date-picker-selected--c: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
+          font-size: var(--gv-theme-font-size-m, 14px);
+        }
 
-          .box {
-              display: inline-block;
-              width: 100%;
-          }
+        :host([small]) {
+          font-size: var(--gv-theme-font-size-s, 12px);
+        }
 
-          gv-input {
-            width: 160px;
-            --gv-icon--s: 16px;
-            margin: 0;
-          }
+        .box {
+          display: inline-block;
+          width: 100%;
+        }
 
-          .time gv-input {
-              width: 205px
-          }
+        gv-input {
+          width: 160px;
+          --gv-icon--s: 16px;
+          margin: 0;
+        }
 
-          :not(.range) gv-input {
-            width: 100%;
-          }
-          
-          .range gv-input {
-              --gv-input--bds: none;
-              --gv-input--bdw: 0;
-          }
+        .time gv-input {
+          width: 205px
+        }
 
-          .time .range-input gv-input {
-              width: 150px;
-          }
+        :not(.range) gv-input {
+          width: 100%;
+        }
 
-          .range-input gv-input {
-              width: 120px;
-          }
+        .range gv-input {
+          --gv-input--bds: none;
+          --gv-input--bdw: 0;
+        }
 
-          .range.hasFrom.open gv-input:first-of-type, .range.hasFrom.open .box-icon:first-of-type {
-              border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
-          }
+        .time .range-input gv-input {
+          width: 150px;
+        }
 
-          .range.hasTo.open gv-input:last-of-type, .range.hasTo.open .box-icon:not(.box-icon-calendar) {
-              border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
-          }
+        .range-input gv-input {
+          width: 120px;
+        }
 
-          .range-input {
-              position: relative;
-              z-index: 10;
-              border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
-              border-radius: 4px;
-              margin: 0.2rem;
-              display: flex;
-          }
+        .range.hasFrom.open gv-input:first-of-type, .range.hasFrom.open .box-icon:first-of-type {
+          border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
+        }
 
-          .box-icon {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-          }
+        .range.hasTo.open gv-input:last-of-type, .range.hasTo.open .box-icon:not(.box-icon-calendar) {
+          border-bottom: 1px solid var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
+        }
 
-          .box-icon-calendar {
-              --gv-icon--s: 16px;
-              padding: 0 6px;
-          }
-          
-          .box-icon-arrow,
-          .box-icon-calendar {
-              --gv-icon--c: var(--gv-theme-neutral-color-darker);
-          }
+        .range-input {
+          position: relative;
+          z-index: 10;
+          border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          border-radius: 4px;
+          margin: 0.2rem;
+          display: flex;
+        }
 
-          .box-icon-clear {
-              --gv-icon--s: 16px;
-              padding-right: 6px;
-              width: 22px;
-          }
+        .box-icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
 
-          .box-icon-clear gv-icon {
-              cursor: pointer;
-          }
+        .box-icon-calendar {
+          --gv-icon--s: 16px;
+          padding: 0 6px;
+        }
 
-          .box.open .calendar {
-              visibility: visible;
-              opacity: 1;
-              -webkit-transform: -webkit-translateY(0%);
-              transform: translateY(0%);
-              z-index: 100;
-          }
+        .box-icon-arrow,
+        .box-icon-calendar {
+          --gv-icon--c: var(--gv-theme-neutral-color-darker);
+        }
 
-          .calendar {
-              background-color: var(--gv-theme-neutral-color-lightest, #FFFFFF);
-              color: var(--gv-theme-font-color, #262626);
-              margin: 0.2rem;
-              position: absolute;
-              box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-              border-radius: 2px;
-              display: flex;
-              cursor: pointer;
-              visibility: hidden;
-              opacity: 0;
-              -webkit-transform: -webkit-translateY(-2em);
-              transform: translateY(-2em);
-              -webkit-transition: -webkit-transform 150ms ease-in-out, opacity 150ms ease-in-out;
-              -moz-transition: all 150ms ease-in-out;
-              -ms-transition: all 150ms ease-in-out;
-              -o-transition: all 150ms ease-in-out;
-              overflow: auto;
-              position: absolute;
-          }
+        .box-icon-clear {
+          --gv-icon--s: 16px;
+          padding-right: 6px;
+          width: 22px;
+        }
 
-          :host([invalid]) .range-input {
-              border-left: 5px solid #a94442;
-              padding-left: 0;
-          }
+        .box-icon-clear gv-icon {
+          cursor: pointer;
+        }
 
-          :host([invalid]) .box-icon-calendar {
-              padding-left: 2px;
-          }
+        .box.open .calendar {
+          visibility: visible;
+          opacity: 1;
+          -webkit-transform: -webkit-translateY(0%);
+          transform: translateY(0%);
+          z-index: 100;
+        }
+
+        .calendar {
+          background-color: var(--gv-theme-neutral-color-lightest, #FFFFFF);
+          color: var(--gv-theme-font-color, #262626);
+          margin: 0.2rem;
+          position: absolute;
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+          border-radius: 2px;
+          display: flex;
+          cursor: pointer;
+          visibility: hidden;
+          opacity: 0;
+          -webkit-transform: -webkit-translateY(-2em);
+          transform: translateY(-2em);
+          -webkit-transition: -webkit-transform 150ms ease-in-out, opacity 150ms ease-in-out;
+          -moz-transition: all 150ms ease-in-out;
+          -ms-transition: all 150ms ease-in-out;
+          -o-transition: all 150ms ease-in-out;
+          overflow: auto;
+          position: absolute;
+        }
+
+        :host([invalid]) .range-input {
+          border-left: 5px solid #a94442;
+          padding-left: 0;
+        }
+
+        :host([invalid]) .box-icon-calendar {
+          padding-left: 2px;
+        }
 
       `,
     ];
@@ -218,6 +229,7 @@ export class GvDatePicker extends LitElement {
   constructor () {
     super();
     this._id = 'gv-id';
+    this.strict = false;
     this.range = false;
     this.time = false;
     this.format = 'dd/MM/yyyy';
@@ -226,6 +238,7 @@ export class GvDatePicker extends LitElement {
       this.format = format;
     }
     this.timeFormat = 'HH:mm';
+    this.strictTimeFormat = 'HH:mm:ss';
     this.handleClick = this._onClick.bind(this);
     this.handleDocumentClick = this._onDocumentClick.bind(this);
     this.disabledDates = [];
@@ -347,6 +360,8 @@ export class GvDatePicker extends LitElement {
         <div class="box-icon box-icon-calendar"><gv-icon shape=general:calendar></gv-icon></div>
         <gv-input
         id="${this._id}"
+        ?small="${this.small}"
+        ?disabled="${this.disabled}"
         @focus="${this._onFocus.bind(this, 'from')}"
         @blur="${this._onBlurForm}"
         @gv-input:submit="${this._onBlurForm}"
@@ -356,6 +371,8 @@ export class GvDatePicker extends LitElement {
         <div class="box-icon box-icon-arrow"><gv-icon shape="navigation:arrow-right"></gv-icon></div>
         <gv-input
         .placeholder="${this.dateToPlaceholder}"
+        ?small="${this.small}"
+        ?disabled="${this.disabled}"
         @focus="${this._onFocus.bind(this, 'to')}"
         @blur="${this._onBlurTo}"
         @gv-input:submit="${this._onBlurTo}"
@@ -365,7 +382,9 @@ export class GvDatePicker extends LitElement {
       : html`
         <gv-input
         id="${this._id}"
-        icon="general:calendar"
+        icon="${this.time && this.strict ? 'home:timer' : 'general:calendar'}"
+        ?small="${this.small}"
+        ?disabled="${this.disabled}"
         clearable
         .label="${this.label}"
         @focus="${this._onFocus.bind(this, null)}"
@@ -385,6 +404,7 @@ export class GvDatePicker extends LitElement {
               .min="${this._min}"
               .max="${this._max}"
               ?time="${this.time}"
+              ?small="${this.small}"
               ?prev="${true}"
               ?next="${this.time}"
               ?range="${this.range && !this.time}"
@@ -406,7 +426,8 @@ export class GvDatePicker extends LitElement {
             .disabledDates="${this.disabledDates}"
             .min="${this._min}"
             .max="${this._max}"
-             ?time="${this.time}"
+            ?time="${this.time}"
+            ?small="${this.small}"
             ?prev="${this.time}"
             ?next="${true}"
             ?range="${this.range && !this.time}"
@@ -430,6 +451,8 @@ export class GvDatePicker extends LitElement {
               .min="${this._min}"
               .max="${this._max}"
               ?time="${this.time}"
+              ?small="${this.small}"
+              ?strict="${this.strict}"
               ?prev="${true}"
               ?next="${true}"
               ?range="${this.range}"
@@ -603,6 +626,7 @@ export class GvDatePicker extends LitElement {
       this.value = this._from * 1000;
       this.invalid = isInvalid(this._from, this._min, this._max, !this.time);
     }
+    this.valid = !this.invalid;
     this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
     dispatchCustomEvent(this, 'input', this.value);
   }
@@ -621,6 +645,9 @@ export class GvDatePicker extends LitElement {
   }
 
   getFormat () {
+    if (this.time && this.strict) {
+      return this.strictTimeFormat;
+    }
     return this.time ? `${this.format} ${this.timeFormat}` : this.format;
   }
 

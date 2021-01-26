@@ -26,6 +26,7 @@
     "ok": "Oui"
   },
   "gv-date-picker": {
+    "currentTime": "L'heure courante",
     "endDate": "Date de fin",
     "format": "dd/MM/yyyy",
     "now": "Maintenant",
