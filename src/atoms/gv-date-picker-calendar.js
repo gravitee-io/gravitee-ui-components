@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 import './gv-date-picker-cell';
-import addDays from 'date-fns/esm/addDays';
-import addMonths from 'date-fns/esm/addMonths';
-import addYears from 'date-fns/esm/addYears';
-import endOfMonth from 'date-fns/esm/endOfMonth';
-import format from 'date-fns/esm/format';
-import getDay from 'date-fns/esm/getDay';
-import getMonth from 'date-fns/esm/getMonth';
-import getYear from 'date-fns/esm/getYear';
-import isAfter from 'date-fns/esm/isAfter';
-import isBefore from 'date-fns/esm/isBefore';
-import parse from 'date-fns/esm/parse';
-import setHours from 'date-fns/esm/setHours';
-import setMinutes from 'date-fns/esm/setMinutes';
-import startOfDay from 'date-fns/esm/startOfDay';
-import subMonths from 'date-fns/esm/subMonths';
-import subYears from 'date-fns/esm/subYears';
+import {
+  addDays,
+  addMonths,
+  addYears,
+  endOfMonth,
+  format,
+  getDay,
+  getMonth,
+  getYear,
+  isAfter,
+  isBefore,
+  parse,
+  setHours,
+  setMinutes,
+  startOfDay,
+  subMonths,
+  subYears,
+} from 'date-fns';
 import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
