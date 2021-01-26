@@ -30,47 +30,45 @@ const conf = {
   component: 'gv-date-picker',
   css: `
     :host {
-      height: 350px;
     }
   `,
 };
 
-export const BasicUsage = makeStory(conf, {
-  items: [{}],
-});
-
-export const MinMax = makeStory(conf, {
-  items: [{
+const items = [
+  {
+    label: 'Simple',
+  }, {
+    label: 'Simple (min-max)',
     max: Date.now(),
     min: Date.now() - (1000 * 60 * 60 * 24 * 2),
-  }],
-});
-
-export const Range = makeStory(conf, {
-  items: [{ range: true }],
-});
-
-export const Time = makeStory(conf, {
-  items: [{ time: true }],
-});
-
-export const RangeTime = makeStory(conf, {
-  items: [{ range: true, time: true }],
-});
-
-export const RangeTimeMax = makeStory(conf, {
-  items: [{
+  },
+  { label: 'Range', range: true },
+  { label: 'Time', time: true },
+  { label: 'Just time', time: true, strict: true },
+  { label: 'Range & time', range: true, time: true },
+  {
+    label: 'Range & time (min-max)',
     range: true,
     time: true,
     max: Date.now() + (1000 * 60 * 60 * 24 * 7),
     min: Date.now() - (1000 * 60 * 60 * 24 * 7),
-  }],
-});
-
-export const DistanceFromNow = makeStory(conf, {
-  items: [{
+  },
+  {
+    label: 'Distance from now',
     range: true,
     time: true,
     distanceFromNow: (1000 * 60 * 60 * 24 * 29),
-  }],
+  },
+];
+
+export const Types = makeStory(conf, {
+  items,
+});
+
+export const Small = makeStory(conf, {
+  items: items.map((item) => ({ ...item, small: true })),
+});
+
+export const Disabled = makeStory(conf, {
+  items: items.map((item) => ({ ...item, disabled: true })),
 });

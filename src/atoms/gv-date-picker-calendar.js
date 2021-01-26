@@ -79,6 +79,8 @@ export class GvDatePickerCalendar extends LitElement {
       prev: { type: Boolean },
       range: { type: Boolean },
       time: { type: Boolean },
+      small: { type: Boolean, reflect: true },
+      strict: { type: Boolean },
       year: { type: String },
       yearMode: { type: Boolean },
 
@@ -87,6 +89,7 @@ export class GvDatePickerCalendar extends LitElement {
       _hasGoToday: { type: Boolean, attribute: false },
       _hour: { type: Number, attribute: false },
       _minute: { type: Number, attribute: false },
+      _second: { type: Number, attribute: false },
       _monthsList: { type: Array, attribute: false },
       _locale: { type: Object, attribute: false },
       _from: { type: Number, attribute: false },
@@ -98,128 +101,141 @@ export class GvDatePickerCalendar extends LitElement {
     return [
       // language=CSS
       css`
-          :host {
-              display: block;
-          }
+        :host {
+          display: block;
+        }
 
-          :host > div {
-              overflow: hidden;
-          }
+        :host > div {
+          overflow: hidden;
+        }
 
-          .nav, .foot, .nav-times {
-              display: flex;
-              padding: 0.5rem;
-              height: 30px;
-          }
+        .nav, .foot, .nav-times {
+          display: flex;
+          padding: 0.5rem;
+          height: 30px;
+        }
 
-          .nav .current, .foot {
-              flex: 1;
-              display: flex;
-              justify-content: center;
-          }
+        .nav .current, .foot {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+        }
 
-          .monthName, .day {
-              text-transform: capitalize;
-          }
+        .monthName, .day {
+          text-transform: capitalize;
+        }
 
-          .foot-time {
-              justify-content: flex-end;
-          }
+        .foot-time {
+          justify-content: flex-end;
+        }
 
-          .calendar-grid {
-              display: grid;
-              grid-template-columns: repeat(7, 1fr);
-              padding: 0.5rem 0.5rem 0 0.5rem;
-          }
+        .calendar-grid {
+          display: grid;
+          grid-template-columns: repeat(7, 1fr);
+          padding: 0.5rem 0.5rem 0 0.5rem;
+        }
 
-          .calendar-grid-large {
-              grid-template-columns: repeat(3, 1fr);
-          }
+        .calendar-grid-large {
+          grid-template-columns: repeat(3, 1fr);
+        }
 
-          .header, .content {
-              display: grid;
-              grid-template-columns: repeat(2, auto);
-          }
+        .header, .content {
+          display: grid;
+          grid-template-columns: repeat(2, auto);
+        }
 
-          gv-date-picker-cell {
-              height: 32px;
-          }
+        gv-date-picker-cell {
+          height: 32px;
+        }
 
-          .calendar-grid-large gv-date-picker-cell {
-              height: 48px;
-          }
+        .calendar-grid-large gv-date-picker-cell {
+          height: 48px;
+        }
 
-          .calendar-grid, .foot, .time {
-              border-top: 1px solid var(--gv-theme-neutral-color-dark);
-          }
+        .calendar-grid, .foot, .time {
+          border-top: 1px solid var(--gv-theme-neutral-color-dark);
+        }
 
-          .nav-times {
-              justify-content: center;
-              align-items: center;
-          }
+        .nav-times {
+          justify-content: center;
+          align-items: center;
+        }
 
-          .nav-times, .time {
-              border-left: 1px solid var(--gv-theme-neutral-color-dark);
-          }
+        .nav-times, .time {
+          border-left: 1px solid var(--gv-theme-neutral-color-dark);
+        }
 
-          .day {
-              height: 32px;
-              width: 33px;
-              margin: 0;
-              padding: 0;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              font-size: 12px;
-          }
+        .day {
+          height: 32px;
+          width: 33px;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 12px;
+        }
 
-          .box-col, .times {
-              display: flex;
-          }
+        :host([small]) .day {
+          height: 25px;
+          width: 26px;
+        }
 
-          .box-col {
-              flex-direction: column;
-          }
+        .box-col, .times {
+          display: flex;
+        }
 
-          .box-col:first-of-type {
-              width: 260px;
-          }
+        .box-col {
+          flex-direction: column;
+        }
 
-          .box {
-              display: flex;
-          }
+        .box-col:first-of-type {
+          width: 260px;
+        }
 
-          .times {
-              max-height: 235px;
-              flex-direction: row;
-          }
+        :host([small]) .box-col:first-of-type {
+          width: 195px;
+        }
 
-          .time {
-              overflow-x: auto;
-              width: 50px;
-          }
+        .box {
+          display: flex;
+        }
 
-          .time > div {
-              height: 32px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-          }
+        .times {
+          max-height: 235px;
+          flex-direction: row;
+        }
 
+        .time {
+          overflow-x: auto;
+          min-width: 50px;
+          width: 100%;
+        }
 
-          .time > div:hover {
-              background: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
-              color: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
-          }
+        .time > div {
+          height: 32px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
 
-          .time > div.selected {
-              background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
-              color: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
-          }
+        :host([small]) .time > div {
+          height: 25px;
+        }
 
-          .time > div.disabled {
-              opacity: 0.4;
-          }
+        .time > div:hover {
+          background: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
+          color: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
+        }
+
+        .time > div.selected {
+          background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
+          color: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
+        }
+
+        .time > div.disabled {
+          opacity: 0.4;
+        }
 
       `];
   }
@@ -234,6 +250,7 @@ export class GvDatePickerCalendar extends LitElement {
 
     this._hours = this.computeArrayOfTime(24);
     this._minutes = this.computeArrayOfTime(60);
+    this._seconds = this.computeArrayOfTime(60);
   }
 
   set dateFrom (value) {
@@ -242,6 +259,9 @@ export class GvDatePickerCalendar extends LitElement {
       const date = new Date(this._from * 1000);
       this._hour = format(date, 'HH');
       this._minute = format(date, 'mm');
+      if (this.isStrictTime()) {
+        this._second = format(date, 'ss');
+      }
     }
   }
 
@@ -262,8 +282,8 @@ export class GvDatePickerCalendar extends LitElement {
   _renderPreviousNav () {
     if (this.prev || this.monthMode || this.yearMode) {
       return html`
-      <gv-button link icon="navigation:angle-double-left" @click="${this._onPrevYear}"></gv-button>
-      ${this.monthMode || this.yearMode ? '' : html`<gv-button link icon="navigation:angle-left" @click="${this._onPrevMonth}"></gv-button>`}
+      <gv-button link icon="navigation:angle-double-left" @click="${this._onPrevYear}" ?small="${this.small}"></gv-button>
+      ${this.monthMode || this.yearMode ? '' : html`<gv-button link icon="navigation:angle-left" ?small="${this.small}" @click="${this._onPrevMonth}"></gv-button>`}
     `;
     }
     return '';
@@ -272,8 +292,8 @@ export class GvDatePickerCalendar extends LitElement {
   _renderCurrentNav () {
     return html`
       <div class="current">
-         ${this.yearMode ? '' : html`<gv-button link @click="${this._onSelectMonth}"><span class="monthName">${until(this.computeName(this.month, this.year))}</span></gv-button>`}
-        <gv-button link @click="${this._onSelectYear}">${this.computeCurrentYearName()}</gv-button>
+         ${this.yearMode ? '' : html`<gv-button link @click="${this._onSelectMonth}" ?small="${this.small}"><span class="monthName">${until(this.computeName(this.month, this.year))}</span></gv-button>`}
+        <gv-button ?small="${this.small}" link @click="${this._onSelectYear}">${this.computeCurrentYearName()}</gv-button>
       </div>
     `;
   }
@@ -281,8 +301,8 @@ export class GvDatePickerCalendar extends LitElement {
   _renderNextNav () {
     if (this.next || this.monthMode || this.yearMode) {
       return html`
-      ${this.monthMode || this.yearMode ? '' : html`<gv-button link icon="navigation:angle-right" @click="${this._onNextMonth}"></gv-button>`}
-      <gv-button link icon="navigation:angle-double-right" @click="${this._onNextYear}"></gv-button>
+      ${this.monthMode || this.yearMode ? '' : html`<gv-button link icon="navigation:angle-right" ?small="${this.small}" @click="${this._onNextMonth}"></gv-button>`}
+      <gv-button ?small="${this.small}" link icon="navigation:angle-double-right" @click="${this._onNextYear}"></gv-button>
     `;
     }
 
@@ -312,6 +332,10 @@ export class GvDatePickerCalendar extends LitElement {
     )}`;
   }
 
+  isStrictTime () {
+    return this.time === true && this.strict === true;
+  }
+
   render () {
     const classes = {
       'calendar-grid': true,
@@ -319,8 +343,8 @@ export class GvDatePickerCalendar extends LitElement {
     };
     return html`
     <div class="box">
-      <div class="box-col">
-          <div class="nav">
+      ${this.isStrictTime() ? '' : html`<div class="box-col">
+            <div class="nav">
             ${this._renderPreviousNav()}
             ${this._renderCurrentNav()}
             ${this._renderNextNav()}
@@ -328,10 +352,9 @@ export class GvDatePickerCalendar extends LitElement {
           <div class="${classMap(classes)}">
               ${this._renderDays()}
          </div>
-
-      </div>
+      </div>`}
       ${this.time && !this.monthMode && !this.yearMode ? html`<div class="box-col">
-         <div class="nav-times">${this.getTime()}</div>
+         ${this.isStrictTime() ? '' : html`<div class="nav-times">${this.getTime()}</div>`}
          <div class="times">
               <div class="time">${this._hours && this._hours.map((val) =>
       html`<div @click="${this._onSelectHour.bind(this, val)}" class="${classMap({
@@ -345,6 +368,13 @@ export class GvDatePickerCalendar extends LitElement {
         selected: this._minute === val,
         disabled: this.isMinutesDisabled(val),
       })}">${val}</div>`)}</div>
+              
+          ${this.isStrictTime() ? html`<div class="time">${this._seconds && this._seconds.map((val) =>
+      html`<div @click="${this._onSelectSecond.bind(this, val)}" class="${classMap({
+        second: true,
+        selected: this._second === val,
+        disabled: this.isSecondsDisabled(val),
+      })}">${val}</div>`)}</div>` : ''}
          </div>
       </div>` : ''}
     </div>
@@ -355,7 +385,7 @@ export class GvDatePickerCalendar extends LitElement {
    ${this.time && !this.monthMode && !this.yearMode ? html`
     <div class="foot foot-time">
     <gv-button primary outlined small
-    @click=${this._onNow}>${i18n('gv-date-picker.now')}</gv-button>
+    @click=${this._onNow}>${this.isStrictTime() ? i18n('gv-date-picker.currentTime') : i18n('gv-date-picker.now')}</gv-button>
     <gv-button primary small
     @click=${this._onDateTimeSelected}
     .disabled="${this.disableValidation === true}">${i18n('gv-date-picker.ok')}</gv-button></div>` : ''}
@@ -363,6 +393,27 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   isMinutesDisabled (value) {
+    if (this._from && this._hour != null) {
+      const selectedDate = new Date(this._from * 1000);
+      selectedDate.setHours(parseInt(this._hour, 10), parseInt(value, 10), 0, 0);
+      if (this.min) {
+        const minDate = new Date(this.min * 1000);
+        if (isBefore(selectedDate, minDate)) {
+          return true;
+        }
+      }
+
+      if (this.max) {
+        const maxDate = new Date(this.max * 1000);
+        if (isAfter(selectedDate, maxDate)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  isSecondsDisabled (value) {
     if (this._from && this._hour != null) {
       const selectedDate = new Date(this._from * 1000);
       selectedDate.setHours(parseInt(this._hour, 10), parseInt(value, 10), 0, 0);
@@ -423,6 +474,17 @@ export class GvDatePickerCalendar extends LitElement {
         }
       }
     }, 0);
+
+    if (this.isStrictTime()) {
+      setTimeout(() => {
+        if (!this._second || this.isSecondsDisabled(this._second)) {
+          const second = this.shadowRoot.querySelector('.second:not(.disabled)');
+          if (second) {
+            this._second = second.textContent;
+          }
+        }
+      }, 0);
+    }
   }
 
   getTime () {
@@ -592,6 +654,11 @@ export class GvDatePickerCalendar extends LitElement {
     this._updateTime();
   }
 
+  _onSelectSecond (value) {
+    this._second = value;
+    this._updateTime();
+  }
+
   _onSelectMonth () {
     if (this.monthMode) {
       this._from = this._dateFrom;
@@ -628,17 +695,23 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   _onDateTimeSelected () {
-    this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.datetimeSelected } }));
+    this.value = this.datetimeSelected;
+    this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.value } }));
   }
 
   _onNow () {
     const now = new Date();
-    now.setSeconds(0, 0);
+    if (!this.isStrictTime()) {
+      now.setSeconds(0, 0);
+    }
     this._from = now.getTime() / 1000;
     this.month = format(now, 'MM');
     this.year = format(now, 'yyyy');
     this._hour = format(now, 'HH');
     this._minute = format(now, 'mm');
+    if (this.isStrictTime()) {
+      this._second = format(now, 'mm');
+    }
     this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this._from } }));
   }
 

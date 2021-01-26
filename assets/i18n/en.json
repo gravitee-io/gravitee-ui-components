@@ -26,6 +26,7 @@
     "ok": "Yes"
   },
   "gv-date-picker": {
+    "currentTime": "Current time",
     "endDate": "End date",
     "format": "MM/dd/yyyy",
     "now": "Now",
