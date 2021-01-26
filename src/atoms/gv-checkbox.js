@@ -18,6 +18,7 @@ import { classMap } from 'lit-html/directives/class-map';
 import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { dispatchCustomEvent } from '../lib/events';
+import { InputElement } from '../mixins/input-element';
 
 /**
  * A wrapper of a <checkbox> component.
@@ -38,7 +39,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @cssprop {Color} [--gv-checkbox--bgc=var(--gv-theme-color, #5A7684)] - Checked background color
  */
-export class GvCheckbox extends LitElement {
+export class GvCheckbox extends InputElement(LitElement) {
 
   static get properties () {
     return {
@@ -84,8 +85,6 @@ export class GvCheckbox extends LitElement {
 
         label {
           cursor: pointer;
-          font-weight: 600;
-          font-size: var(--gv-theme-font-size-m, 14px);
           line-height: 29px;
           padding-left: 15px;
         }
