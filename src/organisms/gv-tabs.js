@@ -21,21 +21,31 @@ import { dispatchCustomEvent } from '../lib/events';
 /**
  * Tabs component
  *
- * @slot title - The title of tabs (appears on each tabs)
- * @slot tabs - List of elements for tabs. Should have an href attribute with id of linked content
- * @slot content - Lis of elements for tabs content. Should have an id
+ * * ## Details
+ * * This component use gv-option component to generate tabs.
  *
- * @attr {String} open - the opened tab selector like #myTab
- * @attr {Boolean} disabled - true for disabled
+ * @attr {Array<id: string | {id, title?, icon?, active?, description?, label?}>} options - An array of options for gv-option sub component
+ * @slot content - List of elements for tabs content. Should have an id related to options.
+ *
+ * @attr {String} value - the opened tab id
+ * @attr {Boolean} disabled - true if disabled
+ * @attr {Boolean} small - true if you want display tabs below of title
+ * @attr {Boolean} truncate - true if you want truncate tabs title
+ * @attr {Function} validator - a function that's calls when user change tab, this is useful to validate tab change.
+ *
+ * @cssprop {Length} [--gv-tabs-options--m=0] - Tabs options margin
  */
 export class GvTabs extends LitElement {
 
   static get properties () {
     return {
       options: { type: Array },
+      _options: { type: Array, attribute: false },
       value: { type: String, reflect: true },
       validator: { type: Function },
       disabled: { type: Boolean },
+      small: { type: Boolean },
+      truncate: { type: Boolean },
     };
   }
 
@@ -72,12 +82,9 @@ export class GvTabs extends LitElement {
         }
 
         .title {
-          margin: 0 1rem;
-          color: #262626;
-          font-size: 18px;
+          flex: 1;
           display: flex;
           align-items: center;
-          flex: 1;
         }
 
         .actions {
@@ -92,8 +99,16 @@ export class GvTabs extends LitElement {
           --gv-option--bdrs: 0;
         }
 
+        :host([small]) .tabs {
+          flex-direction: column;
+        }
+
+        :host([small]) gv-option {
+          align-self: flex-end;
+        }
+
         gv-option {
-          margin: 0;
+          margin: var(--gv-tabs-options--m, 0);
         }
 
         ::slotted(gv-button) {
@@ -113,6 +128,24 @@ export class GvTabs extends LitElement {
     if (this.value == null && this.options != null && this.options.length > 0) {
       this.value = this.options[0].id;
     }
+  }
+
+  set options (options) {
+    if (options && Array.isArray(options)) {
+      this._options = options.map((option) => {
+        if (typeof option === 'string') {
+          return { id: option, title: option };
+        }
+        else if (typeof option === 'object' && option.title == null) {
+          return { id: option.id, title: option.id };
+        }
+        return option;
+      });
+    }
+  }
+
+  get options () {
+    return this._options;
   }
 
   updated () {
@@ -155,11 +188,25 @@ export class GvTabs extends LitElement {
     }
   }
 
+  get _contextualOptions () {
+    if (this.truncate) {
+      return this.options.map((option) => {
+        if (this.value !== option.id) {
+          const label = option.label || option.title;
+          return { ...option, label: label.substring(0, 1) };
+        }
+        return option;
+      });
+    }
+    return this.options;
+  }
+
   render () {
     return html`<div>
                   <div class="header">
                     <div class="tabs">
-                      <gv-option small .options="${this.options}" @gv-option:select="${this._onClick}" .value="${this.value}"></gv-option>
+                      <slot name="title" class="title"></slot>
+                      <gv-option small .options="${this._contextualOptions}" @gv-option:select="${this._onClick}" .value="${this.value}"></gv-option>
                     </div>
                   </div>
                   <slot name="content"></slot>
