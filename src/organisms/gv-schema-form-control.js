@@ -22,6 +22,7 @@ import '../atoms/gv-select';
 import '../atoms/gv-switch';
 import '../molecules/gv-code';
 import '../molecules/gv-expression-language';
+import '../molecules/gv-cron-editor';
 import '../atoms/gv-autocomplete';
 import '../organisms/gv-schema-form-array';
 import '../organisms/gv-schema-form-control-object';
@@ -48,6 +49,10 @@ export class GvSchemaFormControl extends LitElement {
 
   isExpressionLanguage () {
     return this.control['x-schema-form'] && this.control['x-schema-form']['expression-language'] != null;
+  }
+
+  isCronExpression () {
+    return this.control['x-schema-form'] && this.control['x-schema-form']['cron-expression'] === true;
   }
 
   isPassword () {
@@ -84,6 +89,10 @@ export class GvSchemaFormControl extends LitElement {
     else if (this.isCodemirror()) {
       return 'gv-code';
     }
+    else if (this.isCronExpression()) {
+      return 'gv-cron-editor';
+    }
+
     return 'gv-input';
   }
 
