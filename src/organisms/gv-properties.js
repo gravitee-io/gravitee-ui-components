@@ -226,23 +226,12 @@ export class GvProperties extends KeyboardElement(LitElement) {
           title: 'Enabled',
           description: ' This service is requiring an API deployment. Do not forget to deploy API to start dynamic-properties service.',
         },
-        trigger: {
-          type: 'object',
-          properties: {
-            rate: {
-              type: 'integer',
-              title: 'Polling frequency interval',
-            },
-            unit: {
-              type: 'string',
-              title: 'Time unit',
-              enum: ['SECONDS', 'MINUTES', 'HOURS'],
-            },
+        schedule: {
+          type: 'string',
+          title: 'Schedule',
+          'x-schema-form': {
+            'cron-expression': true,
           },
-          required: [
-            'rate',
-            'unit',
-          ],
         },
         provider: {
           type: 'string',
@@ -255,6 +244,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
         },
       },
       required: [
+        'schedule',
         'provider',
       ],
     };
@@ -562,7 +552,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
     if (hasDynamicConfiguration) {
       return html`<div class="properties-message">
                       Dynamic properties service is actually in <code>running</code>
-                      state and run each <code>${this.provider.trigger.rate} ${this.provider.trigger.unit}</code>
+                      state and run with cron expression <code>${this.provider.schedule}</code>
                       using <code>${this.provider.provider}</code> provider.
                       </div>
                       ${configureAction}`;

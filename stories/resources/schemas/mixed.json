@@ -137,6 +137,13 @@
           "c"
         ]
       }
+    },
+    "cron" :{
+      "title": "Cron expression",
+      "type": "string",
+      "x-schema-form": {
+        "cron-expression": true
+      }
     }
   },
   "required": [

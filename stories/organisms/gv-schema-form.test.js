@@ -75,6 +75,7 @@ describe('S C H E M A  F O R M', () => {
         'useResponseCacheHeaders',
         'select',
         'multiselect',
+        'cron',
       ]);
 
       checkControl('body');
@@ -107,6 +108,7 @@ describe('S C H E M A  F O R M', () => {
       select: 'b',
       multiselect: ['a', 'b', 'c'],
       attributes: [{ name: 'foo', value: 'bar' }],
+      cron: '*/30 * * * * SUN-MON',
     };
     component.requestUpdate();
 
@@ -123,6 +125,7 @@ describe('S C H E M A  F O R M', () => {
           'useResponseCacheHeaders',
           'select',
           'multiselect',
+          'cron',
         ]);
 
         checkControl('body', { value: '<xml>foobar</xml>' });
@@ -136,6 +139,7 @@ describe('S C H E M A  F O R M', () => {
         checkControl('multiselect', { value: ['a', 'b', 'c'] });
         checkControl('attributes', { value: [{ name: 'foo', value: 'bar' }] });
         checkControl('attributes.0', { value: { name: 'foo', value: 'bar' } });
+        checkControl('cron', { value: '*/30 * * * * SUN-MON' });
         done();
       }, 0);
 
