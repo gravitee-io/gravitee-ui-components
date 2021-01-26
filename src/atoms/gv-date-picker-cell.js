@@ -16,7 +16,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
-import startOfDay from 'date-fns/esm/startOfDay';
+import { startOfDay } from 'date-fns';
 import { until } from 'lit-html/directives/until';
 import { isInvalid } from '../lib/date';
 
