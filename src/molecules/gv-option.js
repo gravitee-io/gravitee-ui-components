@@ -27,7 +27,7 @@ import { styleMap } from 'lit-html/directives/style-map';
  * ## Details
  * * has @theme facet
  *
- * @attr {Array<{id, title, icon, active?, description?}>} options - An array of options.
+ * @attr {Array<{id, title, icon?, active?, description?, label?}>} options - An array of options.
  * @attr {String|Array} value - Selected value id, array with multiple option ids.
  * @attr {Boolean} multiple - If true, can choose several option
  * @attr {Boolean} reverse - If true, title and description are reversed.
@@ -203,7 +203,7 @@ export class GvOption extends LitElement {
       exit: (index === this._options.length - 1),
       description: option.description != null,
     })}">
-        ${!this._hasDescription ? option.title != null ? option.title : ''
+        ${!this._hasDescription ? option.title != null ? option.label || option.title : ''
       : html`<div class="content">
             ${option.icon ? html`<gv-icon shape="${option.icon}"></gv-icon>` : option.image ? html`<gv-image src="${option.image}"></gv-image>` : ''}
             <div class="title">${option.title}</div>
