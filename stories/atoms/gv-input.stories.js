@@ -31,8 +31,9 @@ const conf = {
 
 const items = [
   { placeholder: 'Text...', label: 'Text label' },
-  { placeholder: 'Email...', type: 'email', label: 'Email label' },
-  { placeholder: 'Number...', type: 'number', min: '1', max: '10', label: 'Number label' },
+  { placeholder: 'A valid email...', type: 'email', label: 'Email label' },
+  { placeholder: 'Number', type: 'number', label: 'Number label' },
+  { placeholder: 'Number between 1 and 10', type: 'number', min: '1', max: '10', label: 'Number label' },
   { placeholder: 'Search...', type: 'search', label: 'Search label' },
   { placeholder: 'Url...', type: 'url', label: 'Url label' },
   { placeholder: 'No Label...' },

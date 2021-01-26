@@ -213,8 +213,8 @@ export const input = css`
     opacity: 0.5;
   }
   
-
-  input:required, ::slotted(input:required) {
+  input:required, ::slotted(input:required),
+  input:invalid, ::slotted(input:invalid) {
     box-shadow: none;
   }
 
