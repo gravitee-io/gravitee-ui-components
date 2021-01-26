@@ -212,7 +212,7 @@ export class GvInput extends InputElement(LitElement) {
       }
     }
 
-    if (this.readonly || this.hasClipboard) {
+    if (this.readonly) {
       this.getInputElement().setAttribute('readonly', true);
     }
     else {
@@ -298,11 +298,13 @@ export class GvInput extends InputElement(LitElement) {
 
       setTimeout(() => {
         const clipboardPopover = this.shadowRoot.querySelector('.clipboard__popover');
-        this.getInputElement().addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          clipboardPopover.click();
-        });
+        if (this.readonly) {
+          this.getInputElement().addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            clipboardPopover.click();
+          });
+        }
         clipboardPopover.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
