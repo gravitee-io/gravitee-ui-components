@@ -255,11 +255,8 @@ export class GvAutocomplete extends LitElement {
   render () {
     const options = this._getFilteredOptions();
     let open = false;
-    if (options && options.length > 0 && this._forceOpen) {
+    if ((options && options.length > 0 && this._forceOpen) || this._hasNoOptionSlot()) {
       open = (this.minChars === 0 || this.value.trim().length >= this.minChars);
-    }
-    if (this._hasNoOptionSlot()) {
-      open = true;
     }
 
     const classes = {
