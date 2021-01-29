@@ -36,89 +36,91 @@ export const input = css`
     --input-medium--lh: 17px;
     --icon-medium--w: calc(17px + 10px + 10px);
     --input-medium--h: calc(var(--icon-medium--w) + var(--2xbdw));
-      
+
     --input-large--p: 12px 8px;
     --input-large--fz: 16px;
     --input-large--lh: 18px;
     --icon-large--w: calc(18px + 12px + 12px);
     --input-large--h: calc(var(--icon-large--w) + var(--2xbdw));
   }
-  
+
   .box-icon {
-      box-sizing: border-box;
-      height: var(--input-medium--h);
-      width: calc(var(--input-medium--h) - 4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      left: initial;
-      border-radius: 0 3px 3px 0;
+    box-sizing: border-box;
+    height: var(--input-medium--h);
+    width: calc(var(--input-medium--h) - 4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: initial;
+    border-radius: 0 3px 3px 0;
   }
-  
+
   .small .box-icon {
     height: var(--input-small--h);
     width: calc(var(--input-small--h) - 4px);
   }
-  
+
   .box-icon-left {
-      right: initial;
-      left: 0px;
-      border-radius: 3px 0 0 3px;
+    right: initial;
+    left: 0px;
+    border-radius: 3px 0 0 3px;
   }
 
   .box-icon gv-icon {
-      --gv-icon--s: 22px;
-      --gv-icon--c: var(--gv-theme-font-color-dark);
+    --gv-icon--s: 22px;
+    --gv-icon--c: var(--gv-theme-font-color-dark);
   }
 
-  .small .box-icon gv-icon {  
-      --gv-icon--s: 16px;
+  .small .box-icon gv-icon {
+    --gv-icon--s: 16px;
   }
-  
 
-  .box-icon.box-icon-clear gv-icon, :host([large]) .box-icon.box-icon-clear gv-icon {
-      width: 16px;
+  .box-icon.box-icon-clear gv-icon,
+  :host([large]) .box-icon.box-icon-clear gv-icon {
+    width: 16px;
   }
 
   .box-icon.box-icon-bgc {
-      background-color: var(--gv-input-icon--bgc, var(--gv-theme-neutral-color, #F5F5F5));
-      border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+    background-color: var(--gv-input-icon--bgc, var(--gv-theme-neutral-color, #f5f5f5));
+    border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
   }
 
   :host([large]) .box-icon {
-      height: var(--input-large--h);
-      width: var(--input-large--h);
+    height: var(--input-large--h);
+    width: var(--input-large--h);
   }
-  
+
   :host([large]) .box-icon gv-icon {
-      width: 24px;
-      --gv-icon--s: 24px;
+    width: 24px;
+    --gv-icon--s: 24px;
   }
 
   :host([small]) .box-icon {
-      height: var(--input-small--h);
-      width: var(--input-small--h);
+    height: var(--input-small--h);
+    width: var(--input-small--h);
   }
 
   :host([small]) .box-icon gv-icon {
-      width: 18px;
+    width: 18px;
   }
 
   :host([small]) .box-icon-clear gv-icon {
-      width: 14px;
+    width: 14px;
   }
-  
+
   .box-input {
     position: relative;
     line-height: 0;
   }
 
   /* BASE */
-  input, ::slotted(input), .input {
-    border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+  input,
+  ::slotted(input),
+  .input {
+    border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
     box-sizing: border-box;
     border-radius: 4px;
     font-style: normal;
@@ -129,92 +131,112 @@ export const input = css`
     -webkit-appearance: none;
   }
 
-  input::-webkit-search-decoration, ::slotted(input::-webkit-search-decoration) {
-      -webkit-appearance: none;
+  input::-webkit-search-decoration,
+  ::slotted(input::-webkit-search-decoration) {
+    -webkit-appearance: none;
   }
-  
+
   /* SIZE */
-  .large input, .large ::slotted(input), .large .input {
+  .large input,
+  .large ::slotted(input),
+  .large .input {
     padding: var(--input-large--p);
     font-size: var(--input-large--fz);
     line-height: var(--input-large--lh);
     height: var(--input-large--h);
   }
 
-  .medium input, .medium ::slotted(input), .medium .input {
+  .medium input,
+  .medium ::slotted(input),
+  .medium .input {
     padding: var(--input-medium--p);
     font-size: var(--input-medium--fz);
     line-height: var(--input-medium--lh);
     height: var(--input-medium--h);
   }
 
-  .small input, .small ::slotted(input), .small .input {
+  .small input,
+  .small ::slotted(input),
+  .small .input {
     padding: var(--input-small--p);
     font-size: var(--input-small--fz);
     line-height: var(--input-small--lh);
     height: var(--input-small--h);
   }
 
-  .large.icon input, .large.icon ::slotted(input) {
+  .large.icon input,
+  .large.icon ::slotted(input) {
     padding-right: 45px;
   }
 
-  .large.clearable input, .large.clearable ::slotted(input) {
-      padding-right: 50px;
+  .large.clearable input,
+  .large.clearable ::slotted(input) {
+    padding-right: 50px;
   }
 
-  .medium.icon input, .medium.icon ::slotted(input) {
+  .medium.icon input,
+  .medium.icon ::slotted(input) {
     padding-right: 36px;
   }
 
-  .medium.clearable input, .medium.clearable ::slotted(input) {
-      padding-right: 32px;
+  .medium.clearable input,
+  .medium.clearable ::slotted(input) {
+    padding-right: 32px;
   }
 
-  .small.icon input, .small ::slotted(input) {
+  .small.icon input,
+  .small ::slotted(input) {
     padding-right: 26px;
   }
 
-  .small.clearable inpu, .small.clearable ::slotted(input) {
-      padding-right: 22px;
+  .small.clearable inpu,
+  .small.clearable ::slotted(input) {
+    padding-right: 22px;
   }
 
-  .large.icon-left input, .large.icon-left ::slotted(input) {
+  .large.icon-left input,
+  .large.icon-left ::slotted(input) {
     padding-left: 45px;
   }
 
-  .large.clearable input, .large.clearable ::slotted(input) {
-      padding-right: 40px;
+  .large.clearable input,
+  .large.clearable ::slotted(input) {
+    padding-right: 40px;
   }
 
-  .medium.icon-left input, .medium.icon-left ::slotted(input) {
+  .medium.icon-left input,
+  .medium.icon-left ::slotted(input) {
     padding-left: 36px;
   }
 
-  .small.icon-left input, .small.icon-left ::slotted(input) {
+  .small.icon-left input,
+  .small.icon-left ::slotted(input) {
     padding-left: 26px;
   }
 
   ::-webkit-search-cancel-button {
-      -webkit-appearance: none;
+    -webkit-appearance: none;
   }
 
   /* STATES */
   :host([disabled]) {
-      --gv-icon--c: var(--gv-theme-neutral-color-darker, #D9D9D9);
+    --gv-icon--c: var(--gv-theme-neutral-color-darker, #d9d9d9);
   }
-  
+
   :host([disabled]) .box-icon-bgc {
-      background-color: transparent;
+    background-color: transparent;
   }
-  
-  :host([disabled]) input, :host([disabled]) ::slotted(input) {
+
+  :host([disabled]) input,
+  :host([disabled]) ::slotted(input) {
     cursor: default;
     opacity: 0.5;
   }
-  
-  input:required, ::slotted(input:required),
-  input:invalid, ::slotted(input:invalid) {
+
+  input:required,
+  ::slotted(input:required),
+  input:invalid,
+  ::slotted(input:invalid) {
     box-shadow: none;
   }
 

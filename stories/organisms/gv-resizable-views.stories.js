@@ -41,9 +41,20 @@ const conf = {
 };
 
 export const Vertical = makeStory(conf, {
-  items: [{ innerHTML: '<div slot="top" class="content"> <h1>TOP</h1> <p>resizable content</p> </div><div slot="bottom" class="content"> <h2>BOTTOM</h2> <p>resizable content</p> </div>' }],
+  items: [
+    {
+      innerHTML:
+        '<div slot="top" class="content"> <h1>TOP</h1> <p>resizable content</p> </div><div slot="bottom" class="content"> <h2>BOTTOM</h2> <p>resizable content</p> </div>',
+    },
+  ],
 });
 
 export const Horizontal = makeStory(conf, {
-  items: [{ direction: 'horizontal', innerHTML: '<div slot="top" class="content"> <h1>LEFT</h1> <p>resizable content</p> </div><div slot="bottom" class="content"> <h2>RIGHT</h2> <p>resizable content</p> </div>' }],
+  items: [
+    {
+      direction: 'horizontal',
+      innerHTML:
+        '<div slot="top" class="content"> <h1>LEFT</h1> <p>resizable content</p> </div><div slot="bottom" class="content"> <h2>RIGHT</h2> <p>resizable content</p> </div>',
+    },
+  ],
 });

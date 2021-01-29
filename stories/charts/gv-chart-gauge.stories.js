@@ -37,25 +37,31 @@ const conf = {
 `,
 };
 
-const series = [{
-  name: 'Environments',
-  data: [{
-    color: 'var(--gv-theme-color-info)',
-    radius: '112%',
-    innerRadius: '88%',
-    y: 2,
-  }],
-  dataLabels: [{
-    enabled: true,
-    align: 'center',
-    verticalAlign: 'middle',
-    format: '{series.name}<br>{point.y} / 3</span>',
-    borderWidth: 0,
-    style: {
-      fontSize: '16px',
-    },
-  }],
-}];
+const series = [
+  {
+    name: 'Environments',
+    data: [
+      {
+        color: 'var(--gv-theme-color-info)',
+        radius: '112%',
+        innerRadius: '88%',
+        y: 2,
+      },
+    ],
+    dataLabels: [
+      {
+        enabled: true,
+        align: 'center',
+        verticalAlign: 'middle',
+        format: '{series.name}<br>{point.y} / 3</span>',
+        borderWidth: 0,
+        style: {
+          fontSize: '16px',
+        },
+      },
+    ],
+  },
+];
 
 export const Basics = makeStory(conf, {
   items: [{ series, max: 3 }],

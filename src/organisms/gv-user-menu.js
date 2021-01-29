@@ -44,8 +44,7 @@ import { isSameRoutes } from '../lib/utils';
  * @cssprop {String} [--gv-user-menu-link--ta=right] - Text align
  */
 export class GvUserMenu extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       avatar: { type: String },
       routes: { type: Array },
@@ -55,175 +54,175 @@ export class GvUserMenu extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=css
       css`
-          :host {
-            --bdc: var(--gv-user-menu--bdc, lightgrey);
-            --c: var(--gv-user-menu--c, var(--gv-theme-font-color-dark, #262626));
-            --bgc: var(--gv-user-menu--bgc, transparent);
-            --list-bgc: var(--gv-user-menu-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-            --hover-bgc: var(--gv-user-menu-hover--bgc, var(--gv-theme-color-light, #86c3d0));
-            --gv-link-active--c: var(--gv-user-menu-hover--c, var(--gv-theme-color-dark, #28444F));
-            --gv-icon--c: var(--gv-user-menu-icon--c, var(--gv-theme-neutral-color-darkest, #000000));
-            --gv-icon--s: var(--gv-user-menu-icon--s, 16px);
-            --gv-link-a--ph: var(--gv-user-menu-link-a--ph, 0px);
-            --gv-link--ta: var(--gv-user-menu-link--ta, right);
-            user-select: none;
-          }
+        :host {
+          --bdc: var(--gv-user-menu--bdc, lightgrey);
+          --c: var(--gv-user-menu--c, var(--gv-theme-font-color-dark, #262626));
+          --bgc: var(--gv-user-menu--bgc, transparent);
+          --list-bgc: var(--gv-user-menu-list--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
+          --hover-bgc: var(--gv-user-menu-hover--bgc, var(--gv-theme-color-light, #86c3d0));
+          --gv-link-active--c: var(--gv-user-menu-hover--c, var(--gv-theme-color-dark, #28444f));
+          --gv-icon--c: var(--gv-user-menu-icon--c, var(--gv-theme-neutral-color-darkest, #000000));
+          --gv-icon--s: var(--gv-user-menu-icon--s, 16px);
+          --gv-link-a--ph: var(--gv-user-menu-link-a--ph, 0px);
+          --gv-link--ta: var(--gv-user-menu-link--ta, right);
+          user-select: none;
+        }
 
-          .user-menu {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: inline-block;
-            position: relative;
-          }
+        .user-menu {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: inline-block;
+          position: relative;
+        }
 
-          .user-menu__title {
-            background-color: var(--bgc);
-            border-left: 1px solid var(--bdc);
-            color: var(--c);
-            cursor: pointer;
-            line-height: 40px;
-            padding: 8px 24px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 175px;
-            text-shadow: var(--gv-user-menu--tsh, none);
-          }
+        .user-menu__title {
+          background-color: var(--bgc);
+          border-left: 1px solid var(--bdc);
+          color: var(--c);
+          cursor: pointer;
+          line-height: 40px;
+          padding: 8px 24px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: space-between;
+          min-width: 175px;
+          text-shadow: var(--gv-user-menu--tsh, none);
+        }
 
-          ::slotted(*) {
-            height: 40px;
-            width: 40px;
-          }
+        ::slotted(*) {
+          height: 40px;
+          width: 40px;
+        }
 
-          .user-menu__title.no-user {
-            padding: 5px 24px;
-          }
+        .user-menu__title.no-user {
+          padding: 5px 24px;
+        }
 
-          .user-menu__title gv-link {
-            --gv-link-a--ph: 0;
-            --gv-link-a--pv: 0;
-          }
+        .user-menu__title gv-link {
+          --gv-link-a--ph: 0;
+          --gv-link-a--pv: 0;
+        }
 
-          .user-menu__title span {
-            flex: 1;
-            text-align: center;
-            margin: 0 0.4rem;
-          }
+        .user-menu__title span {
+          flex: 1;
+          text-align: center;
+          margin: 0 0.4rem;
+        }
 
-          .user-menu__title > gv-icon {
-            transition: all 0.3s ease 0s;
-          }
+        .user-menu__title > gv-icon {
+          transition: all 0.3s ease 0s;
+        }
 
-          .user-menu__list {
-            position: absolute;
-            background-color: var(--list-bgc);
-            list-style: none;
-            padding: 0;
-            transition: all 0.3s ease 0s;
-            width: 100%;
-          }
+        .user-menu__list {
+          position: absolute;
+          background-color: var(--list-bgc);
+          list-style: none;
+          padding: 0;
+          transition: all 0.3s ease 0s;
+          width: 100%;
+        }
 
-          .user-menu__list__item {
-            border-left: 1px solid var(--bdc);
-            display: flex;
-            align-items: center;
-            transition: all 0.5s ease;
-            padding: 2px 30px;
-          }
+        .user-menu__list__item {
+          border-left: 1px solid var(--bdc);
+          display: flex;
+          align-items: center;
+          transition: all 0.5s ease;
+          padding: 2px 30px;
+        }
 
-          .user-menu__list__item:last-child {
-            border-bottom: 1px solid var(--bdc);
-          }
+        .user-menu__list__item:last-child {
+          border-bottom: 1px solid var(--bdc);
+        }
 
-          .user-menu__list__item:hover {
-            background-color: var(--hover-bgc);
-            border-left: 1px dotted var(--bdc);
-            font-weight: 500;
-          }
+        .user-menu__list__item:hover {
+          background-color: var(--hover-bgc);
+          border-left: 1px dotted var(--bdc);
+          font-weight: 500;
+        }
 
-          gv-link {
-            margin: 0px;
-            display: flex;
-            width: 100%;
-          }
+        gv-link {
+          margin: 0px;
+          display: flex;
+          width: 100%;
+        }
 
-          .separator {
-            border-top: 1px solid var(--bdc);
-          }
+        .separator {
+          border-top: 1px solid var(--bdc);
+        }
 
-          .active {
-            background-color: var(--gv-theme-neutral-color-dark, #D9D9D9);
-            font-weight: bold;
-          }
+        .active {
+          background-color: var(--gv-theme-neutral-color-dark, #d9d9d9);
+          font-weight: bold;
+        }
 
-          /** for animations */
-          .user-menu__list {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0%);
-            z-index: 100;
-            transition-delay: 0s, 0s, 0.2s;
-          }
+        /** for animations */
+        .user-menu__list {
+          visibility: visible;
+          opacity: 1;
+          transform: translateY(0%);
+          z-index: 100;
+          transition-delay: 0s, 0s, 0.2s;
+        }
 
-          .user-menu__list__group {
-            border-top: 1px solid var(--bdc);
-            background-color: var(--gv-theme-neutral-color-light, #EFEFEF);
-            padding-left: 0;
-          }
+        .user-menu__list__group {
+          border-top: 1px solid var(--bdc);
+          background-color: var(--gv-theme-neutral-color-light, #efefef);
+          padding-left: 0;
+        }
 
-          .user-menu__list__group__title {
-            font-size: small;
-            color: var(--gv-theme-color-darker, #383E3F);
-            border-left:  1px solid var(--bdc);
-            padding-left: 10px;
-          }
+        .user-menu__list__group__title {
+          font-size: small;
+          color: var(--gv-theme-color-darker, #383e3f);
+          border-left: 1px solid var(--bdc);
+          padding-left: 10px;
+        }
 
-          .closed .user-menu__list {
-            visibility: hidden;
-            opacity: 0;
-            transform: translateY(-2em);
-            z-index: -1;
-          }
+        .closed .user-menu__list {
+          visibility: hidden;
+          opacity: 0;
+          transform: translateY(-2em);
+          z-index: -1;
+        }
 
-          gv-icon {
-            transform: rotate(0deg);
-          }
+        gv-icon {
+          transform: rotate(0deg);
+        }
 
-          .closed gv-icon {
-            transform: rotate(-180deg);
-          }
+        .closed gv-icon {
+          transform: rotate(-180deg);
+        }
       `,
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._isClosed = true;
   }
 
-  _onClick (e) {
+  _onClick(e) {
     e.preventDefault();
     this._isClosed = !this._isClosed;
   }
 
-  _onMouseLeave () {
+  _onMouseLeave() {
     this._isClosed = true;
   }
 
-  _onSelect () {
+  _onSelect() {
     this._isClosed = true;
   }
 
-  _hasOneItem () {
+  _hasOneItem() {
     return this.username == null && this._routes && this._routes.length === 1;
   }
 
-  set routes (candidate) {
+  set routes(candidate) {
     if (candidate) {
       Promise.resolve(candidate).then((candidates) => {
         if (candidates) {
@@ -232,84 +231,84 @@ export class GvUserMenu extends LitElement {
               this._routes = futureRoutes.filter((r) => r != null);
             }
           });
-        }
-        else {
+        } else {
           this._routes = null;
         }
       });
-    }
-    else {
+    } else {
       this._routes = null;
     }
   }
 
-  _renderFirstItem () {
+  _renderFirstItem() {
     if (this._routes) {
       if (this.username) {
-        return html`<li class="user-menu__title" @click=${this._onClick} >
-            <div>
-               <slot></slot>
-            </div>
-            <span>${this.username}</span>
-            <gv-icon shape="design:triangle"></gv-icon>
-          </li>`;
-      }
-      else if (this._hasOneItem()) {
+        return html`<li class="user-menu__title" @click=${this._onClick}>
+          <div>
+            <slot></slot>
+          </div>
+          <span>${this.username}</span>
+          <gv-icon shape="design:triangle"></gv-icon>
+        </li>`;
+      } else if (this._hasOneItem()) {
         const firstItem = this._routes[0];
         return html`<li class="user-menu__title no-user" @click=${this._onClick}>
-                <gv-link .icon="${firstItem.icon}"
-                        .path="${firstItem.path}"
-                        .title="${firstItem.title}"
-                         @click=${this._onSelect}></gv-link>
-          </li>`;
+          <gv-link .icon="${firstItem.icon}" .path="${firstItem.path}" .title="${firstItem.title}" @click=${this._onSelect}></gv-link>
+        </li>`;
       }
     }
     return html``;
   }
 
-  render () {
+  render() {
     const classes = { closed: this._isClosed };
     if (this._routes) {
       return html`
-      <nav class="${classMap(classes)}">
-        <ul class="user-menu" @mouseleave=${this._onMouseLeave}>
+        <nav class="${classMap(classes)}">
+          <ul class="user-menu" @mouseleave=${this._onMouseLeave}>
+            ${this._renderFirstItem()}
 
-          ${this._renderFirstItem()}
-
-          <li class="user-menu__content">
-            <ul class="user-menu__list">
-                ${repeat(this._routes, (route) => route, (route, index) => html`
-                    ${this._hasOneItem() ? html`` : this._renderItem(route)}
-                `)}
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    `;
+            <li class="user-menu__content">
+              <ul class="user-menu__list">
+                ${repeat(
+                  this._routes,
+                  (route) => route,
+                  (route, index) => html` ${this._hasOneItem() ? html`` : this._renderItem(route)} `,
+                )}
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      `;
     }
     return html``;
   }
 
-  _renderItem (route) {
+  _renderItem(route) {
     if (route.routes) {
-      return html`<ul class="user-menu__list__group"><span class="user-menu__list__group__title">${route.title}</span>
-                ${repeat(route.routes, (childRoute) => childRoute, (childRoute, index) => html`
-                    ${this._renderItem(childRoute)}
-                `)}
+      return html`<ul class="user-menu__list__group">
+        <span class="user-menu__list__group__title">${route.title}</span>
+        ${repeat(
+          route.routes,
+          (childRoute) => childRoute,
+          (childRoute, index) => html` ${this._renderItem(childRoute)} `,
+        )}
       </ul>`;
-    }
-    else {
-      return html`<li class="user-menu__list__item ${route.separator ? 'separator' : ''} ${route.active ? 'active' : ''}" style="${route.style}">
-                      <gv-link
-                        .icon="${route.icon}"
-                        .path="${route.path}"
-                        .title="${route.title}"
-                        .target="${route.target}"
-                         @click=${this._onSelect}
-                      ></gv-link></li>`;
+    } else {
+      return html`<li
+        class="user-menu__list__item ${route.separator ? 'separator' : ''} ${route.active ? 'active' : ''}"
+        style="${route.style}"
+      >
+        <gv-link
+          .icon="${route.icon}"
+          .path="${route.path}"
+          .title="${route.title}"
+          .target="${route.target}"
+          @click=${this._onSelect}
+        ></gv-link>
+      </li>`;
     }
   }
-
 }
 
 window.customElements.define('gv-user-menu', GvUserMenu);

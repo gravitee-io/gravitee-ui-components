@@ -34,8 +34,7 @@ import { skeleton } from '../styles/skeleton';
  * @cssprop {String} [--gv-image--of=cover] - set the object-fit of image
  */
 export class GvImage extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       src: { type: String },
       skeleton: { type: Boolean, reflect: true },
@@ -45,7 +44,7 @@ export class GvImage extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -95,20 +94,19 @@ export class GvImage extends LitElement {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-
       `,
       skeleton,
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.skeleton = false;
     this._error = false;
     this._loaded = false;
   }
 
-  set src (newVal) {
+  set src(newVal) {
     const oldVal = this._src;
     this._src = newVal;
     this.requestUpdate('src', oldVal);
@@ -116,34 +114,31 @@ export class GvImage extends LitElement {
     this._loaded = false;
   }
 
-  get src () {
+  get src() {
     return this._src;
   }
 
-  _onLoad (e) {
+  _onLoad(e) {
     this._loaded = true;
     this.skeleton = false;
     dispatchCustomEvent(this, 'loaded', { src: this.src, alt: this.alt });
   }
 
-  _onError (e) {
+  _onError(e) {
     this._error = true;
     this.skeleton = false;
     this.dispatchEvent(new Event('error'), e);
   }
 
-  render () {
-    const displayText = (this.src == null || this._error);
+  render() {
+    const displayText = this.src == null || this._error;
     return html`
       <div class="wrapper ${classMap({ skeleton: this.skeleton, loaded: this._loaded, text: displayText })}">
-        <img src=${ifDefined(this.src)} @load=${this._onLoad} @error=${this._onError} alt="">
-        ${displayText ? html`
-          <div class="error-msg">${this.alt}</div>
-        ` : ''}
+        <img src=${ifDefined(this.src)} @load=${this._onLoad} @error=${this._onError} alt="" />
+        ${displayText ? html` <div class="error-msg">${this.alt}</div> ` : ''}
       </div>
     `;
   }
-
 }
 
 window.customElements.define('gv-image', GvImage);

@@ -33,17 +33,17 @@ const conf = {
 };
 
 export const BasicUsage = makeStory(conf, {
-  items: [{ label: 'Image de l\'application' }],
+  items: [{ label: "Image de l'application" }],
 });
 
 export const InitialValue = makeStory(conf, {
-  items: [{ label: 'Image de l\'application', value: [img] }],
+  items: [{ label: "Image de l'application", value: [img] }],
 });
 
 export const MimeTypesConstraint = makeStory(conf, {
-  items: [{ label: 'Image de l\'application', accept: 'image/*', except: '.svg' }],
+  items: [{ label: "Image de l'application", accept: 'image/*', except: '.svg' }],
 });
 
 export const SizeLimit = makeStory(conf, {
-  items: [{ label: 'Image de l\'application', accept: 'image/*', limit: 500000 }],
+  items: [{ label: "Image de l'application", accept: 'image/*', limit: 500000 }],
 });

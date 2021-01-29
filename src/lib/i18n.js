@@ -20,7 +20,7 @@ import 'whatwg-fetch';
  * @param {object} data - The translation data
  * @returns {string} - The translated
  */
-export function i18n (key, data) {
+export function i18n(key, data) {
   const translation = getTranslation(key);
   if (translation == null) {
     return 'unknown';
@@ -38,11 +38,10 @@ export function i18n (key, data) {
  * @param {string} key - The translation key
  * @returns {null|string|function} - The translation string or function
  */
-function getTranslation (key) {
+function getTranslation(key) {
   try {
     return key.split('.').reduce((prev, curr) => prev && prev[curr], i18n._translations[i18n._lang]);
-  }
-  catch (e) {
+  } catch (e) {
     return null;
   }
 }
@@ -56,14 +55,14 @@ i18n._messageFormatter = new MessageFormat(i18n._lang);
 /**
  * @param {string} lang - Translation language code
  */
-export function setLanguage (lang) {
+export function setLanguage(lang) {
   i18n._lang = lang;
 }
 
 /**
  * @returns {string} - Translation language code
  */
-export function getLanguage () {
+export function getLanguage() {
   return i18n._lang;
 }
 
@@ -72,14 +71,14 @@ export function getLanguage () {
  * @param {object} translations - Translation values by key
  * @param {object} label - Lang label
  */
-export function addTranslations (lang, translations, label) {
+export function addTranslations(lang, translations, label) {
   i18n._translations[lang] = { ...{ LANGUAGE: label }, ...translations };
 }
 
 /**
  * @returns {object} - All defined languages (key: human name and value: code)
  */
-export function getAvailableLanguages () {
+export function getAvailableLanguages() {
   const availableLanguages = {};
   for (const lang in i18n._translations) {
     const { LANGUAGE } = i18n._translations[lang];
@@ -88,7 +87,7 @@ export function getAvailableLanguages () {
   return availableLanguages;
 }
 
-export function loadDefaultTranslations () {
+export function loadDefaultTranslations() {
   setLanguage('en');
   return fetch(`/i18n/${i18n._lang}.json`)
     .then((response) => {

@@ -15,14 +15,12 @@
  */
 import { css, html } from 'lit-element';
 
-export function InputElement (ParentClass) {
-
+export function InputElement(ParentClass) {
   /**
    * @mixinClass
    */
   return class extends ParentClass {
-
-    static get properties () {
+    static get properties() {
       return {
         disabled: { type: Boolean, reflect: true },
         required: { type: Boolean, reflect: true },
@@ -39,7 +37,7 @@ export function InputElement (ParentClass) {
       };
     }
 
-    static get styles () {
+    static get styles() {
       return [
         // language=CSS
         css`
@@ -57,7 +55,7 @@ export function InputElement (ParentClass) {
 
           :host([readonly]) :not(.clipboard) input,
           :host([readonly]) .textarea {
-            border-left: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+            border-left: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           }
 
           :host([readonly]) input::placeholder {
@@ -67,23 +65,22 @@ export function InputElement (ParentClass) {
       ];
     }
 
-    constructor () {
+    constructor() {
       super();
       this._id = `gv-input-${new Date().getTime()}`;
       this.valid = true;
       this.invalid = false;
     }
 
-    updateState (value) {
+    updateState(value) {
       if (this.required && !this.readonly) {
         this.setValidity(value == null || value.length === 0 || (typeof value === 'string' && value.trim() === ''), 'field is required');
-      }
-      else {
+      } else {
         this.setValidity();
       }
     }
 
-    setValidity (isInvalid = false, violation = '') {
+    setValidity(isInvalid = false, violation = '') {
       const element = this.getInputElement();
       if (element) {
         if (isInvalid) {
@@ -91,8 +88,7 @@ export function InputElement (ParentClass) {
             violation = 'field is not valid';
           }
           element.setCustomValidity(violation);
-        }
-        else {
+        } else {
           element.setCustomValidity('');
         }
       }
@@ -100,31 +96,28 @@ export function InputElement (ParentClass) {
       this.valid = !this.invalid;
     }
 
-    firstUpdated () {
+    firstUpdated() {
       if (this.autofocus) {
         this.getInputElement().focus();
       }
       this.updateState(this.value);
     }
 
-    updated (changedProperties) {
+    updated(changedProperties) {
       if (changedProperties.has('value')) {
         this.updateState(this.value);
       }
     }
 
-    getInputElement () {
+    getInputElement() {
       return this.shadowRoot.querySelector('input');
     }
 
-    renderLabel () {
+    renderLabel() {
       if (this.label) {
-        return html`<label for=${this.id} title="${this.label}">${this.label}</label>
-        `;
+        return html`<label for=${this.id} title="${this.label}">${this.label}</label> `;
       }
       return '';
     }
-
   };
-
 }

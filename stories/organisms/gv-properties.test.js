@@ -20,7 +20,6 @@ import apimPropertyProvider from '../resources/apim-property-providers.json';
 import apimDefinition from '../resources/apim-definition.json';
 
 describe('P R O P E R T I E S', () => {
-
   let page;
   let component;
 
@@ -57,5 +56,4 @@ describe('P R O P E R T I E S', () => {
 
     expect(component.properties.length).toEqual(2);
   });
-
 });

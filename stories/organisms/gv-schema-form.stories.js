@@ -47,18 +47,20 @@ const conf = {
 };
 
 export const MixedEmpty = makeStory(conf, {
-  items: [{
-    title: 'Mixed Empty',
-    schema: mixed,
-    '@gv-schema-form:fetch-data': (event) => {
-      const options = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('').map((key, index) => ({ value: `This is generated with ${key}` }));
-      event.detail.currentTarget.options = options;
+  items: [
+    {
+      title: 'Mixed Empty',
+      schema: mixed,
+      '@gv-schema-form:fetch-data': (event) => {
+        const options = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('').map((key, index) => ({ value: `This is generated with ${key}` }));
+        event.detail.currentTarget.options = options;
+      },
+      'has-footer': true,
+      '@gv-expression-language:ready': ({ detail }) => {
+        detail.currentTarget.grammar = grammar;
+      },
     },
-    'has-footer': true,
-    '@gv-expression-language:ready': ({ detail }) => {
-      detail.currentTarget.grammar = grammar;
-    },
-  }],
+  ],
 });
 
 const mixedValues = {
@@ -68,7 +70,10 @@ const mixedValues = {
     operator: 'EQUALS',
   },
   resources: 'My resource',
-  attributes: [{ name: 'John', value: 'Doe' }, { name: 'Foo', value: 'Bar' }],
+  attributes: [
+    { name: 'John', value: 'Doe' },
+    { name: 'Foo', value: 'Bar' },
+  ],
   useResponseCacheHeaders: true,
   timeToLiveSeconds: 50,
   select: 'b',
@@ -76,36 +81,40 @@ const mixedValues = {
 };
 
 export const Skeleton = makeStory(conf, {
-  items: [{
-    title: 'mixed',
-    skeleton: true,
-    icon: 'design:edit',
-    values: mixedValues,
-    schema: mixed,
-    '@gv-schema-form:fetch-data': (event) => {
-      const options = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('').map((key, index) => ({ value: `This is generated with ${key}` }));
-      event.detail.currentTarget.options = options;
+  items: [
+    {
+      title: 'mixed',
+      skeleton: true,
+      icon: 'design:edit',
+      values: mixedValues,
+      schema: mixed,
+      '@gv-schema-form:fetch-data': (event) => {
+        const options = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('').map((key, index) => ({ value: `This is generated with ${key}` }));
+        event.detail.currentTarget.options = options;
+      },
+      '@gv-expression-language:ready': ({ detail }) => {
+        detail.currentTarget.grammar = grammar;
+      },
     },
-    '@gv-expression-language:ready': ({ detail }) => {
-      detail.currentTarget.grammar = grammar;
-    },
-  }],
+  ],
 });
 
 export const Mixed = makeStory(conf, {
-  items: [{
-    title: 'mixed',
-    icon: 'design:edit',
-    values: mixedValues,
-    schema: mixed,
-    '@gv-schema-form:fetch-data': (event) => {
-      const options = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('').map((key, index) => ({ value: `This is generated with ${key}` }));
-      event.detail.currentTarget.options = options;
+  items: [
+    {
+      title: 'mixed',
+      icon: 'design:edit',
+      values: mixedValues,
+      schema: mixed,
+      '@gv-schema-form:fetch-data': (event) => {
+        const options = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('').map((key, index) => ({ value: `This is generated with ${key}` }));
+        event.detail.currentTarget.options = options;
+      },
+      '@gv-expression-language:ready': ({ detail }) => {
+        detail.currentTarget.grammar = grammar;
+      },
     },
-    '@gv-expression-language:ready': ({ detail }) => {
-      detail.currentTarget.grammar = grammar;
-    },
-  }],
+  ],
 });
 
 export const HTMLToJson = makeStory(conf, {
@@ -160,7 +169,7 @@ let policies = [
 // Github rate limit: 60 request per hour
 // Useful to generate the table of policies
 // eslint-disable-next-line no-unused-vars
-async function fetchAllPolicies () {
+async function fetchAllPolicies() {
   const fakeOrEmptyPolicies = [
     // Technical repo
     'gravitee-policy-maven-archetype',
@@ -174,30 +183,29 @@ async function fetchAllPolicies () {
   ];
   const githubUrl = 'https://api.github.com/orgs/gravitee-io/repos?per_page=100&page=';
 
-  return Promise.all([fetch(`${githubUrl}1`), fetch(`${githubUrl}2`)]).then(([a, b]) => {
-    return Promise.all([a.json(), b.json()]);
-  }).then(([firstPage, secondPage]) => {
-    const repositories = [...firstPage, ...secondPage];
-    policies = [
-      'gravitee-policy-ratelimit/gravitee-policy-quota',
-      'gravitee-policy-ratelimit/gravitee-policy-ratelimit',
-      'gravitee-policy-ratelimit/gravitee-policy-spikearrest',
-      ...repositories
-        .filter((repo) =>
-          repo.archived === false
-          && repo.name.startsWith('gravitee-policy-')
-          && !fakeOrEmptyPolicies.includes(repo.name),
-        ).map(({ name }) => name),
-    ];
+  return Promise.all([fetch(`${githubUrl}1`), fetch(`${githubUrl}2`)])
+    .then(([a, b]) => {
+      return Promise.all([a.json(), b.json()]);
+    })
+    .then(([firstPage, secondPage]) => {
+      const repositories = [...firstPage, ...secondPage];
+      policies = [
+        'gravitee-policy-ratelimit/gravitee-policy-quota',
+        'gravitee-policy-ratelimit/gravitee-policy-ratelimit',
+        'gravitee-policy-ratelimit/gravitee-policy-spikearrest',
+        ...repositories
+          .filter((repo) => repo.archived === false && repo.name.startsWith('gravitee-policy-') && !fakeOrEmptyPolicies.includes(repo.name))
+          .map(({ name }) => name),
+      ];
 
-    // eslint-disable-next-line no-console
-    console.log(policies);
-  });
+      // eslint-disable-next-line no-console
+      console.log(policies);
+    });
 }
 
 // fetchAllPolicies();
 
-async function fetchSchema (autocomplete, nextBtn, policyName = null, branch = 'master') {
+async function fetchSchema(autocomplete, nextBtn, policyName = null, branch = 'master') {
   const form = autocomplete.closest('gv-schema-form');
   form.skeleton = true;
   form.schema = null;
@@ -219,13 +227,15 @@ async function fetchSchema (autocomplete, nextBtn, policyName = null, branch = '
     .then((schema) => {
       if (form) {
         form.schema = schema;
-        policies = policies.map((policy) => {
-          if (policy.value === policyName) {
-            policy.view = policy.view + 1;
-            policy.innerHTML = `${policyName} <span style="color:blue;">(view: ${policy.view})</span>`;
-          }
-          return policy;
-        }).sort((a, b) => (a.error - b.error) || (a.view - b.view));
+        policies = policies
+          .map((policy) => {
+            if (policy.value === policyName) {
+              policy.view = policy.view + 1;
+              policy.innerHTML = `${policyName} <span style="color:blue;">(view: ${policy.view})</span>`;
+            }
+            return policy;
+          })
+          .sort((a, b) => a.error - b.error || a.view - b.view);
         const available = policies.filter((p) => p.view === 0).length;
         nextBtn.innerHTML = `Next (${available})`;
         autocomplete.querySelector('gv-input').value = policyName;
@@ -250,63 +260,60 @@ async function fetchSchema (autocomplete, nextBtn, policyName = null, branch = '
       }
     })
     .finally(() => {
-
       form.updateComplete.then(() => {
         setTimeout(() => {
           nextBtn.loading = false;
           form.skeleton = false;
         }, 300);
       });
-
     });
 }
 
 export const AllPolicies = makeStory(conf, {
-  items: [{
-    skeleton: true,
-    innerHTML:
-      `<div slot="header-left" style="width: 100%; display: flex; align-items: center; justify-content: center">
+  items: [
+    {
+      skeleton: true,
+      innerHTML: `<div slot="header-left" style="width: 100%; display: flex; align-items: center; justify-content: center">
         <gv-autocomplete  minChars="0" size="10">
         <gv-input type="search" clearable placeholder="Fetch policy from Github"></gv-input>
        </gv-autocomplete>
        <gv-button outlined icon-right="media:next" style="margin:0 0.5rem"  id="next-schema">Next (${policies.length})</gv-button>
        <gv-switch title="Validate on render"></gv-switch>
       </div>`,
-    'has-header': true,
-    '@gv-schema-form:submit': ({ detail, target }) => {
-      target.values = detail.values;
+      'has-header': true,
+      '@gv-schema-form:submit': ({ detail, target }) => {
+        target.values = detail.values;
+      },
+      '@gv-autocomplete:search': (event) => {
+        const detail = event.detail;
+        const target = event.target;
+        if (detail && detail.startsWith('*')) {
+          target.options = policies;
+        } else {
+          target.options = policies.filter((policy) => policy.value.includes(detail));
+        }
+      },
+      '@gv-switch:input': ({ detail, target }, component) => {
+        if (detail) {
+          component.setAttribute('validate-on-render', true);
+        } else {
+          component.removeAttribute('validate-on-render');
+        }
+      },
+      '@click': async (e) => {
+        if (e.target && e.target.id === 'next-schema') {
+          const autocomplete = e.target.previousElementSibling;
+          fetchSchema(autocomplete, e.target);
+        }
+      },
+      '@gv-autocomplete:select': ({ detail, target }) => {
+        const policyName = detail.value;
+        const autocomplete = target;
+        fetchSchema(autocomplete, target.nextElementSibling, policyName);
+      },
+      '@gv-expression-language:ready': ({ detail }) => {
+        detail.currentTarget.grammar = grammar;
+      },
     },
-    '@gv-autocomplete:search': (event) => {
-      const detail = event.detail;
-      const target = event.target;
-      if (detail && detail.startsWith('*')) {
-        target.options = policies;
-      }
-      else {
-        target.options = policies.filter((policy) => policy.value.includes(detail));
-      }
-    },
-    '@gv-switch:input': ({ detail, target }, component) => {
-      if (detail) {
-        component.setAttribute('validate-on-render', true);
-      }
-      else {
-        component.removeAttribute('validate-on-render');
-      }
-    },
-    '@click': async (e) => {
-      if (e.target && e.target.id === 'next-schema') {
-        const autocomplete = e.target.previousElementSibling;
-        fetchSchema(autocomplete, e.target);
-      }
-    },
-    '@gv-autocomplete:select': ({ detail, target }) => {
-      const policyName = detail.value;
-      const autocomplete = target;
-      fetchSchema(autocomplete, target.nextElementSibling, policyName);
-    },
-    '@gv-expression-language:ready': ({ detail }) => {
-      detail.currentTarget.grammar = grammar;
-    },
-  }],
+  ],
 });

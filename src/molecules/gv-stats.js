@@ -31,15 +31,14 @@ import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
  * @attr {Array<any>} options - The list of options to display.
  */
 export class GvStats extends withSkeletonAttribute(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       stats: { type: Object },
       options: { type: Array },
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       // language=CSS
@@ -72,12 +71,12 @@ export class GvStats extends withSkeletonAttribute(LitElement) {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._skeletonAttribute = 'stats';
   }
 
-  _getStat (option) {
+  _getStat(option) {
     if (!this.stats) {
       return '<div></div>';
     }
@@ -102,7 +101,7 @@ export class GvStats extends withSkeletonAttribute(LitElement) {
     `;
   }
 
-  render () {
+  render() {
     if (this._error) {
       return html`<div class="error">${i18n('gv-stats.error')}</div>`;
     }
@@ -110,11 +109,12 @@ export class GvStats extends withSkeletonAttribute(LitElement) {
       return html`<div class="empty">${i18n('gv-stats.empty')}</div>`;
     }
     return html`<div class="${classMap({ stats: true, skeleton: this._skeleton })}">
-      ${repeat(this.options, (option) => option, (option) =>
-        this._getStat(option),
+      ${repeat(
+        this.options,
+        (option) => option,
+        (option) => this._getStat(option),
       )}
-      </div>
-    `;
+    </div> `;
   }
 }
 

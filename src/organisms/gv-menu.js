@@ -32,8 +32,8 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @slot right-transition - The content at right with transition
  *
  * @attr {Array} routes - definition of routes [{active: Boolean, icon: String, path: String, title: Promise<String>]
- * @cssprop {Color} [--gv-menu--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
- * @cssprop {Color} [--gv-menu--bgc=var(--gv-theme-color-dark, #28444F)] - Background color.
+ * @cssprop {Color} [--gv-menu--c=var(--gv-theme-font-color-light, #ffffff)] - Color
+ * @cssprop {Color} [--gv-menu--bgc=var(--gv-theme-color-dark, #28444f)] - Background color.
  * @cssprop {Color} [--gv-menu-link-active--bdc=var(--gv-theme-color-light, #86c3d0)] - Border bottom color of active link.
  * @cssprop {String} [--gv-menu-link-active--bds=solid] - Border bottom style of active link.
  * @cssprop {Length} [--gv-menu-link-active--bdw=0 0 3px 0] - Border bottom width of active link.
@@ -42,8 +42,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @cssprop {Length} [--gv-menu-link-a--pv=0px] - Link vertical padding
  */
 export class GvMenu extends withResizeObserver(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       /** @required **/
       routes: { type: Array },
@@ -54,148 +53,149 @@ export class GvMenu extends withResizeObserver(LitElement) {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=css
       css`
-          :host {
-              --gv-link--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
-              --gv-link-active--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
-              --gv-link--bgc: var(--gv-menu-link--bgc, transparent);
-              --gv-link-active--bgc: var(--gv-menu-link-active--bgc, transparent);
-              --gv-link-active--bdc: var(--gv-menu-link-active--bdc, var(--gv-theme-color-light, #86c3d0));
-              --gv-link-active--bds: var(--gv-menu-link-active--bds, solid);
-              --gv-link-active--bdw: var(--gv-menu-link-active--bdw, 0 0 3px 0);
-              --pr: var(--gv-theme-layout--pr, 4rem);
-              --pl: var(--gv-theme-layout--pl, 4rem);
-              box-sizing: border-box;
-              display: block;
-              font-size: var(--gv-theme-font-size-s, 12px);
-          }
+        :host {
+          --gv-link--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #ffffff));
+          --gv-link-active--c: var(--gv-menu--c, var(--gv-theme-font-color-light, #ffffff));
+          --gv-link--bgc: var(--gv-menu-link--bgc, transparent);
+          --gv-link-active--bgc: var(--gv-menu-link-active--bgc, transparent);
+          --gv-link-active--bdc: var(--gv-menu-link-active--bdc, var(--gv-theme-color-light, #86c3d0));
+          --gv-link-active--bds: var(--gv-menu-link-active--bds, solid);
+          --gv-link-active--bdw: var(--gv-menu-link-active--bdw, 0 0 3px 0);
+          --pr: var(--gv-theme-layout--pr, 4rem);
+          --pl: var(--gv-theme-layout--pl, 4rem);
+          box-sizing: border-box;
+          display: block;
+          font-size: var(--gv-theme-font-size-s, 12px);
+        }
 
-          :host([sticky]) gv-nav {
-              line-height: 1px;
-              --gv-link-icon--s: 20px;
-          }
+        :host([sticky]) gv-nav {
+          line-height: 1px;
+          --gv-link-icon--s: 20px;
+        }
 
-          :host([sticky]) .has-header gv-nav {
-              line-height: 34px;
-          }
+        :host([sticky]) .has-header gv-nav {
+          line-height: 34px;
+        }
 
-          :host([sticky]) ::slotted([slot="top"]) {
-              height: 35px;
-              transition: height 250ms ease-in-out;
-          }
+        :host([sticky]) ::slotted([slot='top']) {
+          height: 35px;
+          transition: height 250ms ease-in-out;
+        }
 
-          :host([w-lt-1024]) {
-              --pr: 5px;
-              --pl: 5px;
-          }
+        :host([w-lt-1024]) {
+          --pr: 5px;
+          --pl: 5px;
+        }
 
-          :host([w-lt-768]) .nav-container {
-              width: 100%;
-              padding-left: var(--pl);
-              --gv-link-a--pv: var(--gv-menu-link-a--pv, 0px);
-          }
+        :host([w-lt-768]) .nav-container {
+          width: 100%;
+          padding-left: var(--pl);
+          --gv-link-a--pv: var(--gv-menu-link-a--pv, 0px);
+        }
 
-          :host([w-lt-580]) .nav-container {
-              flex: auto;
-              padding-left: 0;
-          }
+        :host([w-lt-580]) .nav-container {
+          flex: auto;
+          padding-left: 0;
+        }
 
-          :host([w-lt-580]) gv-nav {
-              flex: auto;
-          }
+        :host([w-lt-580]) gv-nav {
+          flex: auto;
+        }
 
-          :host([w-lt-580]) .right {
-              flex: auto;
-          }
+        :host([w-lt-580]) .right {
+          flex: auto;
+        }
 
-          :host([w-lt-380]) .nav-container {
-              display: flex;
-              flex-direction: column-reverse;
-          }
+        :host([w-lt-380]) .nav-container {
+          display: flex;
+          flex-direction: column-reverse;
+        }
 
-          :host([w-lt-380]) gv-nav {
-              align-self: flex-start;
-              flex: 1;
-          }
+        :host([w-lt-380]) gv-nav {
+          align-self: flex-start;
+          flex: 1;
+        }
 
-          :host([w-lt-380]) .right {
-              align-self: flex-end;
-              flex: 1;
-              width: 100%;
-              padding-right: 0;
-          }
+        :host([w-lt-380]) .right {
+          align-self: flex-end;
+          flex: 1;
+          width: 100%;
+          padding-right: 0;
+        }
 
-          gv-nav {
-              display: table-cell;
-              line-height: 50px;
-              vertical-align: middle;
-          }
+        gv-nav {
+          display: table-cell;
+          line-height: 50px;
+          vertical-align: middle;
+        }
 
-          .nav-container {
-              display: grid;
-              grid-template-columns: auto auto;
-              background-color: var(--gv-menu--bgc, var(--gv-theme-color-dark, #28444F));
-              color: var(--gv-menu--c, var(--gv-theme-font-color-light, #FFFFFF));
-          }
+        .nav-container {
+          display: grid;
+          grid-template-columns: auto auto;
+          background-color: var(--gv-menu--bgc, var(--gv-theme-color-dark, #28444f));
+          color: var(--gv-menu--c, var(--gv-theme-font-color-light, #ffffff));
+        }
 
-          .has-header .nav-container {
-              width: calc(100% - 10rem);
-              padding-left: 10rem;
-              --gv-link-a--pv: 0;
-          }
+        .has-header .nav-container {
+          width: calc(100% - 10rem);
+          padding-left: 10rem;
+          --gv-link-a--pv: 0;
+        }
 
-          :host([sticky]) .has-header .nav-container {
-              width: calc(100% - 5rem);
-              padding-left: 5rem;
-              transition: all 250ms ease-in-out;
-          }
+        :host([sticky]) .has-header .nav-container {
+          width: calc(100% - 5rem);
+          padding-left: 5rem;
+          transition: all 250ms ease-in-out;
+        }
 
-          .right {
-              display: flex;
-              padding-right: var(--pr);
-              justify-content: center;
-              flex-direction: column;
-          }
+        .right {
+          display: flex;
+          padding-right: var(--pr);
+          justify-content: center;
+          flex-direction: column;
+        }
 
-          gv-nav {
-              padding-left: var(--pl);
-              transition: width 250ms ease-in-out;
-          }
+        gv-nav {
+          padding-left: var(--pl);
+          transition: width 250ms ease-in-out;
+        }
 
-          slot[name="right-transition"], slot[name="right"] {
-              display: flex;
-              justify-content: flex-end;
-              width: 100%;
-          }
+        slot[name='right-transition'],
+        slot[name='right'] {
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+        }
 
-          .right ::slotted([slot="right"]), .right ::slotted([slot="right-transition"])  {
-                align-self: center;
-          }
+        .right ::slotted([slot='right']),
+        .right ::slotted([slot='right-transition']) {
+          align-self: center;
+        }
 
-          .right ::slotted([slot="right-transition"]) {
-              transition: width 250ms ease 250ms;
-              width: 70%;
-          }
+        .right ::slotted([slot='right-transition']) {
+          transition: width 250ms ease 250ms;
+          width: 70%;
+        }
 
-          .right:focus-within ::slotted([slot="right-transition"]) {
-              animation: slide 250ms 250ms;
-              transition: width 250ms ease-in-out 250ms;
-              width: 100%;
-          }
+        .right:focus-within ::slotted([slot='right-transition']) {
+          animation: slide 250ms 250ms;
+          transition: width 250ms ease-in-out 250ms;
+          width: 100%;
+        }
 
-          .right ::slotted([slot="right"]) {
-              --gv-button--p: 7px 16px;
-              --gv-button--fz: 15px;
-          }
-
+        .right ::slotted([slot='right']) {
+          --gv-button--p: 7px 16px;
+          --gv-button--fz: 15px;
+        }
       `,
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     /** @protected */
     this._routes = [];
@@ -206,7 +206,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
     };
   }
 
-  set routes (candidate) {
+  set routes(candidate) {
     if (candidate) {
       Promise.resolve(candidate).then((candidates) => {
         if (candidates) {
@@ -215,39 +215,36 @@ export class GvMenu extends withResizeObserver(LitElement) {
               this._routes = futureRoutes;
             }
           });
-        }
-        else {
+        } else {
           this._routes = [];
         }
       });
-    }
-    else {
+    } else {
       this._routes = [];
     }
   }
 
-  onResize ({ width }) {
+  onResize({ width }) {
     if (width <= 1024) {
       this._small = true;
-    }
-    else {
+    } else {
       this._small = false;
     }
   }
 
-  render () {
+  render() {
     return html`
       <div class="${classMap({ 'has-header': this._hasHeader })}">
         <slot name="top"></slot>
         <div class="nav-container">
-            <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
-            <div class="right"><slot name="right-transition"></slot><slot name="right"></slot></div>
+          <gv-nav .routes="${this._routes}" ?small="${this._small}"></gv-nav>
+          <div class="right"><slot name="right-transition"></slot><slot name="right"></slot></div>
         </div>
       </div>
     `;
   }
 
-  updated (changedProperties) {
+  updated(changedProperties) {
     super.updated(changedProperties);
     let _header = false;
     for (const node of this.childNodes) {
@@ -262,7 +259,6 @@ export class GvMenu extends withResizeObserver(LitElement) {
     }
     this._hasHeader = _header;
   }
-
 }
 
 window.customElements.define('gv-menu', GvMenu);

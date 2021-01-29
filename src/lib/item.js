@@ -16,12 +16,11 @@
 import { getApplicationTypeIcon } from './theme';
 import { html } from 'lit-html';
 
-export function getVersion (item) {
+export function getVersion(item) {
   if (item) {
     if (item.version) {
       return item.version;
-    }
-    else if (item.applicationType) {
+    } else if (item.applicationType) {
       const icon = getApplicationTypeIcon(item.applicationType);
       return html`<gv-icon shape="${icon}"></gv-icon>`;
     }
@@ -29,92 +28,89 @@ export function getVersion (item) {
   return null;
 }
 
-export function getTitle (item) {
+export function getTitle(item) {
   if (item) {
     return item.name;
   }
   return '';
 }
 
-export function getPicture (item) {
+export function getPicture(item) {
   if (item) {
     if (item.picture) {
       return item.picture;
-    }
-    else if (item._links && item._links.picture) {
+    } else if (item._links && item._links.picture) {
       return item._links.picture;
     }
   }
   return null;
 }
 
-export function getBackground (item) {
+export function getBackground(item) {
   if (item) {
     if (item.background) {
       return item.background;
-    }
-    else if (item._links && item._links.background) {
+    } else if (item._links && item._links.background) {
       return item._links.background;
     }
   }
   return null;
 }
 
-export function getStates (item) {
+export function getStates(item) {
   if (item) {
     return item.states;
   }
   return null;
 }
 
-export function getLabels (item) {
+export function getLabels(item) {
   if (item) {
     return item.labels;
   }
   return null;
 }
 
-export function getRating (item) {
+export function getRating(item) {
   if (item) {
     return item.rating_summary;
   }
   return null;
 }
 
-export function getEntrypoints (item) {
+export function getEntrypoints(item) {
   if (item) {
     return item.entrypoints || [];
   }
   return [];
 }
 
-export function getDescription (item) {
+export function getDescription(item) {
   if (item) {
     return item.description;
   }
   return '';
 }
 
-export function getOwner (item) {
+export function getOwner(item) {
   if (item && item.owner) {
     return item.owner.display_name;
   }
   return '';
 }
 
-export function getNbApisInView (item) {
+export function getNbApisInView(item) {
   if (item && item.total_apis != null) {
     return item.total_apis;
   }
   return null;
 }
 
-export function getPictureDisplayName (item) {
+export function getPictureDisplayName(item) {
   if (item) {
     if (item.version) {
       return `${getTitle(item)}  ${item.version}`;
-    }
-    else if (item.applicationType) {
+    } else if (item.applicationType) {
       return `${getTitle(item)}  ${item.applicationType}  ${getOwner(item)}`;
     }
   }

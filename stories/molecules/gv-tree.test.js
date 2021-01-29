@@ -18,7 +18,6 @@ import { Page, querySelector } from '../lib/test-utils';
 import '../../src/molecules/gv-tree';
 
 describe('<gv-tree>', () => {
-
   let page;
   let component;
 
@@ -75,5 +74,4 @@ describe('<gv-tree>', () => {
     expect(component.items[3].expanded).toEqual(true);
     expect(requestUpdateSpy).toBeCalled();
   });
-
 });

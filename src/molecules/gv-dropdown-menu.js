@@ -26,15 +26,14 @@ import { html } from 'lit-html';
  * @attr {Boolean} right - true, if actions should at right of container when opened
  */
 export class GvDropdownMenu extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       open: { type: Boolean, reflect: true },
       right: { type: Boolean, reflect: true },
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -48,7 +47,7 @@ export class GvDropdownMenu extends LitElement {
           background-color: white;
           transition: all 300ms ease-in-out;
           border-style: solid;
-          border-color: #BFBFBF;
+          border-color: #bfbfbf;
           border-width: var(--gv-dropdown-menu--bdw, 1px 1px 1px 1px);
           z-index: 201;
           padding: var(--gv-dropdown-menu--p, 0.5rem);
@@ -73,48 +72,46 @@ export class GvDropdownMenu extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.open = false;
     this.right = false;
     this._handleDocumentClick = this._onDocumentClick.bind(this);
   }
 
-  connectedCallback () {
+  connectedCallback() {
     super.connectedCallback();
   }
 
-  disconnectedCallback () {
+  disconnectedCallback() {
     window.removeEventListener('click', this._handleDocumentClick);
     super.disconnectedCallback();
   }
 
-  _onDocumentClick () {
+  _onDocumentClick() {
     this.open = false;
     window.removeEventListener('click', this._handleDocumentClick);
   }
 
-  toggle () {
+  toggle() {
     this.open = !this.open;
     setTimeout(() => {
       if (this.open) {
         window.addEventListener('click', this._handleDocumentClick);
-      }
-      else {
+      } else {
         window.removeEventListener('click', this._handleDocumentClick);
       }
     }, 0);
   }
 
-  render () {
+  render() {
     return html`<div class="box">
-                    <slot @click="${this.toggle}"></slot>
-                    <div class="actions">
-                        <slot name="action" class="action"></slot>
-                    </div>
-                </div>`;
+      <slot @click="${this.toggle}"></slot>
+      <div class="actions">
+        <slot name="action" class="action"></slot>
+      </div>
+    </div>`;
   }
-
 }
 
 window.customElements.define('gv-dropdown-menu', GvDropdownMenu);

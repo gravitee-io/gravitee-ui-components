@@ -24,40 +24,38 @@ import { GvCardList } from './gv-card-list';
  * ## Details
  * * has @theme facet
  *
- * @cssprop {Color} [--gv-category-list--bgc-1=#CCE6EB] - Category background color 1
- * @cssprop {Color} [--gv-category-list--bgc-2=#FCF1A8] - Category background color 2
- * @cssprop {Color} [--gv-category-list--bgc-3=#D9D4F1] - Category background color 3
- * @cssprop {Color} [--gv-category-list--bgc-4=#F9C15E] - Category background color 4
- * @cssprop {Color} [--gv-category-list--bgc-5=#D4FCCD] - Category background color 5
- * @cssprop {Color} [--gv-category-list--bgc-6=#E0C8B2] - Category background color 6
+ * @cssprop {Color} [--gv-category-list--bgc-1=#cce6eb] - Category background color 1
+ * @cssprop {Color} [--gv-category-list--bgc-2=#fcf1a8] - Category background color 2
+ * @cssprop {Color} [--gv-category-list--bgc-3=#d9d4f1] - Category background color 3
+ * @cssprop {Color} [--gv-category-list--bgc-4=#f9c15e] - Category background color 4
+ * @cssprop {Color} [--gv-category-list--bgc-5=#d4fccd] - Category background color 5
+ * @cssprop {Color} [--gv-category-list--bgc-6=#e0c8b2] - Category background color 6
  */
 export class GvCategoryList extends GvCardList {
-
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       // language=CSS
       css`
         :host {
-          --bgc-1: var(--gv-category-list--bgc-1, #CCE6EB);
-          --bgc-2: var(--gv-category-list--bgc-2, #FCF1A8);
-          --bgc-3: var(--gv-category-list--bgc-3, #D9D4F1);
-          --bgc-4: var(--gv-category-list--bgc-4, #F9C15E);
-          --bgc-5: var(--gv-category-list--bgc-5, #D4FCCD);
-          --bgc-6: var(--gv-category-list--bgc-6, #E0C8B2);
+          --bgc-1: var(--gv-category-list--bgc-1, #cce6eb);
+          --bgc-2: var(--gv-category-list--bgc-2, #fcf1a8);
+          --bgc-3: var(--gv-category-list--bgc-3, #d9d4f1);
+          --bgc-4: var(--gv-category-list--bgc-4, #f9c15e);
+          --bgc-5: var(--gv-category-list--bgc-5, #d4fccd);
+          --bgc-6: var(--gv-category-list--bgc-6, #e0c8b2);
         }
       `,
     ];
   }
 
-  renderItem (item, index) {
+  renderItem(item, index) {
     return html`<gv-category class="item" .category="${item || null}" style="${this._getCategoryBackgroundColor(index)}"> </gv-category>`;
   }
 
-  _getCategoryBackgroundColor (index) {
-    return `--gv-category--bgc: var(--bgc-${index % 6 + 1})`;
+  _getCategoryBackgroundColor(index) {
+    return `--gv-category--bgc: var(--bgc-${(index % 6) + 1})`;
   }
-
 }
 
 window.customElements.define('gv-category-list', GvCategoryList);

@@ -32,8 +32,7 @@ import { getLanguage } from '../lib/i18n';
  *
  */
 export class GvChartLine extends ChartElement(LitElement) {
-
-  async getOptions () {
+  async getOptions() {
     if (this._series && this._series.values && this._series.values[0] && this._series.values[0].buckets) {
       const values = this._series.values[0].buckets.slice();
       const metadata = this._series.values[0].metadata;
@@ -51,27 +50,28 @@ export class GvChartLine extends ChartElement(LitElement) {
           this._series.values[i].name = bucket.name;
           this._series.values[i].labelPrefix = label;
           this._series.values[i].value = bucket.name;
-        }
-        else {
+        } else {
           this._series.values[i].name = label;
           this._series.values[i].labelPrefix = '';
           this._series.values[i].value = bucket.name;
         }
       });
     }
-    this.options.plotLines = this.options.plotLines ? this.options.plotLines.map((line) => {
-      return {
-        ...line,
-        events: {
-          mouseover: function () {
-            this.label.element.firstElementChild.style.visibility = 'visible';
-          },
-          mouseout: function () {
-            this.label.element.firstElementChild.style.visibility = 'hidden';
-          },
-        },
-      };
-    }) : [];
+    this.options.plotLines = this.options.plotLines
+      ? this.options.plotLines.map((line) => {
+          return {
+            ...line,
+            events: {
+              mouseover: function () {
+                this.label.element.firstElementChild.style.visibility = 'visible';
+              },
+              mouseout: function () {
+                this.label.element.firstElementChild.style.visibility = 'hidden';
+              },
+            },
+          };
+        })
+      : [];
     return {
       chart: {
         type: 'areaspline',
@@ -90,19 +90,29 @@ export class GvChartLine extends ChartElement(LitElement) {
         formatter: function () {
           const nbCol = Math.trunc(this.points.filter((p) => p.y).length / 10);
           let s = '<div><b>' + new Date(this.x).toLocaleString(getLanguage()) + '</b></div>';
-          s += '<div class="' + ((nbCol >= 2) ? 'tooltip tooltip-' + (nbCol > 5 ? 5 : nbCol) : '') + '">';
-          if (this.points.filter((point) => {
-            return point.y !== 0;
-          }).length) {
+          s += '<div class="' + (nbCol >= 2 ? 'tooltip tooltip-' + (nbCol > 5 ? 5 : nbCol) : '') + '">';
+          if (
+            this.points.filter((point) => {
+              return point.y !== 0;
+            }).length
+          ) {
             let i = 0;
             this.points.forEach((point) => {
               if (point.y) {
-                const name = ' ' + (point.series.options.labelPrefix ? point.series.options.labelPrefix + ' ' + point.series.name : point.series.name);
+                const name =
+                  ' ' + (point.series.options.labelPrefix ? point.series.options.labelPrefix + ' ' + point.series.name : point.series.name);
                 if (nbCol < 2 && i++ > 0) {
                   s += '<br />';
                 }
-                s += '<span style="margin: 1px 5px;"><span style="color:' + point.color + '">\u25CF</span>' + name + ': <b>' + (point.series.options.decimalFormat ? Highcharts.numberFormat(point.y, 2) : point.y)
-                  + (point.series.options.labelSuffix ? point.series.options.labelSuffix : '') + '</b></span>';
+                s +=
+                  '<span style="margin: 1px 5px;"><span style="color:' +
+                  point.color +
+                  '">\u25CF</span>' +
+                  name +
+                  ': <b>' +
+                  (point.series.options.decimalFormat ? Highcharts.numberFormat(point.y, 2) : point.y) +
+                  (point.series.options.labelSuffix ? point.series.options.labelSuffix : '') +
+                  '</b></span>';
               }
             });
           }
@@ -150,7 +160,7 @@ export class GvChartLine extends ChartElement(LitElement) {
     };
   }
 
-  updated (changedProperties) {
+  updated(changedProperties) {
     super.updated(changedProperties);
     if (changedProperties.has('options')) {
       this.getOptions().then((options) => {
@@ -159,7 +169,7 @@ export class GvChartLine extends ChartElement(LitElement) {
     }
   }
 
-  firstUpdated () {
+  firstUpdated() {
     this.shadowRoot.addEventListener('mousemove', (e) => {
       let chart, i, event, points;
       for (i = 0; i < Highcharts.charts.length; i++) {
@@ -167,8 +177,7 @@ export class GvChartLine extends ChartElement(LitElement) {
         if (chart && chart.pointer) {
           if (e.originalEvent) {
             event = chart.pointer.normalize(e.originalEvent);
-          }
-          else {
+          } else {
             event = chart.pointer.normalize(e);
           }
           points = chart.series.map((serie) => {
@@ -185,7 +194,7 @@ export class GvChartLine extends ChartElement(LitElement) {
         }
       }
     });
-    (Highcharts).Pointer.prototype.reset = function () {
+    Highcharts.Pointer.prototype.reset = function () {
       let chart;
       for (let i = 0; i < Highcharts.charts.length; i++) {
         chart = Highcharts.charts[i];
@@ -199,7 +208,7 @@ export class GvChartLine extends ChartElement(LitElement) {
         }
       }
     };
-    (Highcharts).Point.prototype.highlight = function (event) {
+    Highcharts.Point.prototype.highlight = function (event) {
       if (event.points.length) {
         this.series.chart.tooltip.refresh(event.points);
         this.series.chart.xAxis[0].drawCrosshair(event, this);

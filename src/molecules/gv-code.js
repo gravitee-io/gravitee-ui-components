@@ -56,8 +56,7 @@ import { input } from '../styles/input';
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  */
 export class GvCode extends InputElement(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       ...super.properties,
       options: { type: Object },
@@ -67,7 +66,7 @@ export class GvCode extends InputElement(LitElement) {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this._id = `gv-code-${uuid()}`;
     this.value = '';
@@ -77,38 +76,41 @@ export class GvCode extends InputElement(LitElement) {
     this._clipboardIcon = shapeClipboard;
   }
 
-  render () {
+  render() {
     return html`
       <div class="${classMap({ box: true, 'box-invisible': this.skeleton, input: this.singleLine })}">
         ${this.label ? html`<label for="code">${this.label}</label>` : ''}
-        ${this.clipboard ? html`<gv-button title="${i18n('gv-code.copy')}" ?outlined="${!this._copied}" ?primary="${this._copied}" small icon="${this._clipboardIcon}"></gv-button>` : ''}
+        ${this.clipboard
+          ? html`<gv-button
+              title="${i18n('gv-code.copy')}"
+              ?outlined="${!this._copied}"
+              ?primary="${this._copied}"
+              small
+              icon="${this._clipboardIcon}"
+            ></gv-button>`
+          : ''}
         <textarea id="${this._id}" name="code">${this.value}</textarea>
         ${this.skeleton ? html`<div class="skeleton"></div>` : ''}
       </div>
     `;
   }
 
-  _onChange (cm) {
+  _onChange(cm) {
     this.value = cm.getValue();
     dispatchCustomEvent(this, 'input', this.value);
   }
 
-  get singleLine () {
+  get singleLine() {
     return this.rows === 1;
   }
 
-  connectedCallback () {
+  connectedCallback() {
     super.connectedCallback();
     CodeMirror.defineInitHook((cm) => {
-
       cm.on('beforeChange', (cm, event) => {
         if (this.singleLine && this._id === cm.getTextArea().id) {
-
           // Identify typing events that add a newline to the buffer.
-          const hasTypedNewline = (
-            event.origin === '+input'
-            && typeof event.text === 'object'
-            && event.text.join('') === '');
+          const hasTypedNewline = event.origin === '+input' && typeof event.text === 'object' && event.text.join('') === '';
 
           // Prevent newline characters from being added to the buffer.
           if (hasTypedNewline) {
@@ -116,17 +118,13 @@ export class GvCode extends InputElement(LitElement) {
           }
 
           // Identify paste events.
-          const hasPastedNewline = (
-            event.origin === 'paste'
-            && typeof event.text === 'object'
-            && event.text.length > 1);
+          const hasPastedNewline = event.origin === 'paste' && typeof event.text === 'object' && event.text.length > 1;
 
           // Format pasted text to replace newlines with spaces.
           if (hasPastedNewline) {
             const newText = event.text.join(' ');
             return event.update(null, null, [newText]);
           }
-
         }
         return null;
       });
@@ -139,7 +137,7 @@ export class GvCode extends InputElement(LitElement) {
     });
   }
 
-  _getProcessedOptions () {
+  _getProcessedOptions() {
     const options = { ...this.options };
     if (options.mode === 'json') {
       options.mode = 'javascript';
@@ -147,21 +145,20 @@ export class GvCode extends InputElement(LitElement) {
     return options;
   }
 
-  async updated (changedProperties) {
+  async updated(changedProperties) {
     super.updated(changedProperties);
     if (changedProperties.has('label') && this.label) {
       this.screenReaderLabel = this.label;
-    }
-    else if (changedProperties.has('value')) {
+    } else if (changedProperties.has('value')) {
       this.resize();
     }
   }
 
-  getCM () {
+  getCM() {
     return this._codeMirror;
   }
 
-  async firstUpdated () {
+  async firstUpdated() {
     if (this.clipboard) {
       import('clipboard-copy').then((mod) => {
         const copy = mod.default;
@@ -182,10 +179,7 @@ export class GvCode extends InputElement(LitElement) {
       if (options.mode != null) {
         await import(`codemirror/mode/${options.mode}/${options.mode}`);
       }
-    }
-    catch (er) {
-
-    }
+    } catch (er) {}
 
     const textArea = this.shadowRoot.querySelector(`#${this._id}`);
     this._codeMirror = CodeMirror.fromTextArea(textArea, {
@@ -201,20 +195,19 @@ export class GvCode extends InputElement(LitElement) {
     dispatchCustomEvent(this, 'ready');
   }
 
-  resize () {
+  resize() {
     if (this._codeMirror) {
       const options = this._getProcessedOptions();
       if (this.value == null && options.placeholder) {
         const placeholderByLines = options.placeholder.split('\n');
         this._codeMirror.setSize(null, placeholderByLines.length * 18);
-      }
-      else {
+      } else {
         this._codeMirror.setSize(null, null);
       }
     }
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       input,
@@ -233,7 +226,6 @@ export class GvCode extends InputElement(LitElement) {
           right: 0;
           bottom: 0;
           color: white;
-
         }
 
         .box {
@@ -296,7 +288,8 @@ export class GvCode extends InputElement(LitElement) {
           padding: 0 4px; /* Horizontal padding of content */
         }
 
-        .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+        .CodeMirror-scrollbar-filler,
+        .CodeMirror-gutter-filler {
           background-color: white; /* The little square between H and V scrollbars */
         }
 
@@ -439,7 +432,8 @@ export class GvCode extends InputElement(LitElement) {
           color: #292;
         }
 
-        .cm-header, .cm-strong {
+        .cm-header,
+        .cm-strong {
           font-weight: bold;
         }
 
@@ -481,7 +475,8 @@ export class GvCode extends InputElement(LitElement) {
           color: #05a;
         }
 
-        .cm-s-default .cm-variable-3, .cm-s-default .cm-type {
+        .cm-s-default .cm-variable-3,
+        .cm-s-default .cm-type {
           color: #085;
         }
 
@@ -552,7 +547,7 @@ export class GvCode extends InputElement(LitElement) {
         }
 
         .CodeMirror-matchingtag {
-          background: rgba(255, 150, 0, .3);
+          background: rgba(255, 150, 0, 0.3);
         }
 
         .CodeMirror-activeline-background {
@@ -594,7 +589,10 @@ export class GvCode extends InputElement(LitElement) {
         /* The fake, visible scrollbars. Used to force redraw during scrolling
            before actual scrolling happens, thus preventing shaking and
            flickering artifacts. */
-        .CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+        .CodeMirror-vscrollbar,
+        .CodeMirror-hscrollbar,
+        .CodeMirror-scrollbar-filler,
+        .CodeMirror-gutter-filler {
           position: absolute;
           z-index: 6;
           display: none;
@@ -661,11 +659,11 @@ export class GvCode extends InputElement(LitElement) {
         }
 
         .CodeMirror-gutter-wrapper ::selection {
-          background-color: transparent
+          background-color: transparent;
         }
 
         .CodeMirror-gutter-wrapper ::-moz-selection {
-          background-color: transparent
+          background-color: transparent;
         }
 
         .CodeMirror-lines {
@@ -782,22 +780,26 @@ export class GvCode extends InputElement(LitElement) {
           cursor: crosshair;
         }
 
-        .CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection {
+        .CodeMirror-line::selection,
+        .CodeMirror-line > span::selection,
+        .CodeMirror-line > span > span::selection {
           background: #d7d4f0;
         }
 
-        .CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection {
+        .CodeMirror-line::-moz-selection,
+        .CodeMirror-line > span::-moz-selection,
+        .CodeMirror-line > span > span::-moz-selection {
           background: #d7d4f0;
         }
 
         .cm-searching {
           background-color: #ffa;
-          background-color: rgba(255, 255, 0, .4);
+          background-color: rgba(255, 255, 0, 0.4);
         }
 
         /* Used to force a border model for a node */
         .cm-force-border {
-          padding-right: .1px;
+          padding-right: 0.1px;
         }
 
         @media print {
@@ -827,11 +829,15 @@ export class GvCode extends InputElement(LitElement) {
           background: #cfc;
         }
 
-        .cm-s-mdn-like .CodeMirror-line::selection, .cm-s-mdn-like .CodeMirror-line > span::selection, .cm-s-mdn-like .CodeMirror-line > span > span::selection {
+        .cm-s-mdn-like .CodeMirror-line::selection,
+        .cm-s-mdn-like .CodeMirror-line > span::selection,
+        .cm-s-mdn-like .CodeMirror-line > span > span::selection {
           background: #cfc;
         }
 
-        .cm-s-mdn-like .CodeMirror-line::-moz-selection, .cm-s-mdn-like .CodeMirror-line > span::-moz-selection, .cm-s-mdn-like .CodeMirror-line > span > span::-moz-selection {
+        .cm-s-mdn-like .CodeMirror-line::-moz-selection,
+        .cm-s-mdn-like .CodeMirror-line > span::-moz-selection,
+        .cm-s-mdn-like .CodeMirror-line > span > span::-moz-selection {
           background: #cfc;
         }
 
@@ -841,7 +847,7 @@ export class GvCode extends InputElement(LitElement) {
 
         .cm-s-mdn-like .CodeMirror-gutters {
           background: #f8f8f8;
-          border-left: 6px solid var(--gv-theme-color, #5A7684);
+          border-left: 6px solid var(--gv-theme-color, #5a7684);
           color: #333;
         }
 
@@ -855,11 +861,11 @@ export class GvCode extends InputElement(LitElement) {
         }
 
         .cm-s-mdn-like .cm-keyword {
-          color: #6262FF;
+          color: #6262ff;
         }
 
         .cm-s-mdn-like .cm-atom {
-          color: #F90;
+          color: #f90;
         }
 
         .cm-s-mdn-like .cm-number {
@@ -867,14 +873,17 @@ export class GvCode extends InputElement(LitElement) {
         }
 
         .cm-s-mdn-like .cm-def {
-          color: #8DA6CE;
+          color: #8da6ce;
         }
 
-        .cm-s-mdn-like span.cm-variable-2, .cm-s-mdn-like span.cm-tag {
+        .cm-s-mdn-like span.cm-variable-2,
+        .cm-s-mdn-like span.cm-tag {
           color: #690;
         }
 
-        .cm-s-mdn-like span.cm-variable-3, .cm-s-mdn-like span.cm-def, .cm-s-mdn-like span.cm-type {
+        .cm-s-mdn-like span.cm-variable-3,
+        .cm-s-mdn-like span.cm-def,
+        .cm-s-mdn-like span.cm-type {
           color: #07a;
         }
 
@@ -915,7 +924,7 @@ export class GvCode extends InputElement(LitElement) {
 
         /*?*/
         .cm-s-mdn-like .cm-builtin {
-          color: #9B7536;
+          color: #9b7536;
         }
 
         /*?*/
@@ -929,11 +938,11 @@ export class GvCode extends InputElement(LitElement) {
 
         /*?*/
         .cm-s-mdn-like .cm-header {
-          color: #FF6400;
+          color: #ff6400;
         }
 
         .cm-s-mdn-like .cm-hr {
-          color: #AEAEAE;
+          color: #aeaeae;
         }
 
         .cm-s-mdn-like .cm-link {
@@ -976,27 +985,29 @@ export class GvCode extends InputElement(LitElement) {
           z-index: 100;
           max-width: 600px;
           opacity: 0;
-          transition: opacity .4s;
-          -moz-transition: opacity .4s;
-          -webkit-transition: opacity .4s;
-          -o-transition: opacity .4s;
-          -ms-transition: opacity .4s;
+          transition: opacity 0.4s;
+          -moz-transition: opacity 0.4s;
+          -webkit-transition: opacity 0.4s;
+          -o-transition: opacity 0.4s;
+          -ms-transition: opacity 0.4s;
         }
 
-        .CodeMirror-lint-mark-error, .CodeMirror-lint-mark-warning {
+        .CodeMirror-lint-mark-error,
+        .CodeMirror-lint-mark-warning {
           background-position: left bottom;
           background-repeat: repeat-x;
         }
 
         .CodeMirror-lint-mark-error {
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==")
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==');
         }
 
         .CodeMirror-lint-mark-warning {
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJFhQXEbhTg7YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAMklEQVQI12NkgIIvJ3QXMjAwdDN+OaEbysDA4MPAwNDNwMCwiOHLCd1zX07o6kBVGQEAKBANtobskNMAAAAASUVORK5CYII=");
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJFhQXEbhTg7YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAMklEQVQI12NkgIIvJ3QXMjAwdDN+OaEbysDA4MPAwNDNwMCwiOHLCd1zX07o6kBVGQEAKBANtobskNMAAAAASUVORK5CYII=');
         }
 
-        .CodeMirror-lint-marker-error, .CodeMirror-lint-marker-warning {
+        .CodeMirror-lint-marker-error,
+        .CodeMirror-lint-marker-warning {
           background-position: center center;
           background-repeat: no-repeat;
           cursor: pointer;
@@ -1007,32 +1018,33 @@ export class GvCode extends InputElement(LitElement) {
           position: relative;
         }
 
-        .CodeMirror-lint-message-error, .CodeMirror-lint-message-warning {
+        .CodeMirror-lint-message-error,
+        .CodeMirror-lint-message-warning {
           padding-left: 18px;
           background-position: top left;
           background-repeat: no-repeat;
         }
 
-        .CodeMirror-lint-marker-error, .CodeMirror-lint-message-error {
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAHlBMVEW7AAC7AACxAAC7AAC7AAAAAAC4AAC5AAD///+7AAAUdclpAAAABnRSTlMXnORSiwCK0ZKSAAAATUlEQVR42mWPOQ7AQAgDuQLx/z8csYRmPRIFIwRGnosRrpamvkKi0FTIiMASR3hhKW+hAN6/tIWhu9PDWiTGNEkTtIOucA5Oyr9ckPgAWm0GPBog6v4AAAAASUVORK5CYII=");
+        .CodeMirror-lint-marker-error,
+        .CodeMirror-lint-message-error {
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAHlBMVEW7AAC7AACxAAC7AAC7AAAAAAC4AAC5AAD///+7AAAUdclpAAAABnRSTlMXnORSiwCK0ZKSAAAATUlEQVR42mWPOQ7AQAgDuQLx/z8csYRmPRIFIwRGnosRrpamvkKi0FTIiMASR3hhKW+hAN6/tIWhu9PDWiTGNEkTtIOucA5Oyr9ckPgAWm0GPBog6v4AAAAASUVORK5CYII=');
         }
 
-        .CodeMirror-lint-marker-warning, .CodeMirror-lint-message-warning {
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAANlBMVEX/uwDvrwD/uwD/uwD/uwD/uwD/uwD/uwD/uwD6twD/uwAAAADurwD2tQD7uAD+ugAAAAD/uwDhmeTRAAAADHRSTlMJ8mN1EYcbmiixgACm7WbuAAAAVklEQVR42n3PUQqAIBBFUU1LLc3u/jdbOJoW1P08DA9Gba8+YWJ6gNJoNYIBzAA2chBth5kLmG9YUoG0NHAUwFXwO9LuBQL1giCQb8gC9Oro2vp5rncCIY8L8uEx5ZkAAAAASUVORK5CYII=");
+        .CodeMirror-lint-marker-warning,
+        .CodeMirror-lint-message-warning {
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAANlBMVEX/uwDvrwD/uwD/uwD/uwD/uwD/uwD/uwD/uwD6twD/uwAAAADurwD2tQD7uAD+ugAAAAD/uwDhmeTRAAAADHRSTlMJ8mN1EYcbmiixgACm7WbuAAAAVklEQVR42n3PUQqAIBBFUU1LLc3u/jdbOJoW1P08DA9Gba8+YWJ6gNJoNYIBzAA2chBth5kLmG9YUoG0NHAUwFXwO9LuBQL1giCQb8gC9Oro2vp5rncCIY8L8uEx5ZkAAAAASUVORK5CYII=');
         }
 
         .CodeMirror-lint-marker-multiple {
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAMAAADzjKfhAAAACVBMVEUAAAAAAAC/v7914kyHAAAAAXRSTlMAQObYZgAAACNJREFUeNo1ioEJAAAIwmz/H90iFFSGJgFMe3gaLZ0od+9/AQZ0ADosbYraAAAAAElFTkSuQmCC");
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAMAAADzjKfhAAAACVBMVEUAAAAAAAC/v7914kyHAAAAAXRSTlMAQObYZgAAACNJREFUeNo1ioEJAAAIwmz/H90iFFSGJgFMe3gaLZ0od+9/AQZ0ADosbYraAAAAAElFTkSuQmCC');
           background-repeat: no-repeat;
           background-position: right bottom;
           width: 100%;
           height: 100%;
         }
-
       `,
     ];
   }
-
 }
 
 window.customElements.define('gv-code', GvCode);

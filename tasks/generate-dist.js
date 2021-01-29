@@ -26,7 +26,7 @@ const glob = util.promisify(rawGlob);
 
 // Minify HTML inside lit-html and LitElement html`` templates
 // Minify CSS inside LitElement css`` templates
-function minifyHtmlCss (code, sourceFileName) {
+function minifyHtmlCss(code, sourceFileName) {
   return babel.transformSync(code, {
     sourceFileName,
     // Put sourcemap in the file to simplify further manipulation
@@ -38,10 +38,7 @@ function minifyHtmlCss (code, sourceFileName) {
         {
           modules: {
             'lit-html': ['html'],
-            'lit-element': [
-              'html',
-              { name: 'css', encapsulation: 'style' },
-            ],
+            'lit-element': ['html', { name: 'css', encapsulation: 'style' }],
           },
           strictCSS: true,
           htmlMinifier: {
@@ -57,7 +54,7 @@ function minifyHtmlCss (code, sourceFileName) {
   });
 }
 
-function minifyJs (code, sourceMapUrl) {
+function minifyJs(code, sourceMapUrl) {
   return Terser.minify(code, {
     module: true,
     toplevel: true,
@@ -66,10 +63,9 @@ function minifyJs (code, sourceMapUrl) {
       url: sourceMapUrl,
     },
   });
-};
+}
 
-async function run () {
-
+async function run() {
   await del('dist/**/*');
 
   const sourceFilepaths = await glob('./src/**/*.js');
@@ -83,7 +79,8 @@ async function run () {
   });
 
   for (const { src, sourceMapFilename, dst, sourceMapUrl } of filepaths) {
-    await fs.readFile(src, 'utf8')
+    await fs
+      .readFile(src, 'utf8')
       .then((code) => minifyHtmlCss(code, sourceMapFilename))
       .then(({ code }) => minifyJs(code, sourceMapUrl))
       .then(async ({ code, map }) => {

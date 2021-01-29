@@ -27,21 +27,20 @@ import './gv-card-full';
  * * has @theme facet
  */
 export class GvCardList extends withResizeObserver(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       items: { type: Array },
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.breakpoints = {
       width: [845, 1270],
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -77,26 +76,28 @@ export class GvCardList extends withResizeObserver(LitElement) {
     ];
   }
 
-  renderItem (item, index) {
+  renderItem(item, index) {
     const _item = item && item.item ? item.item : null;
     const _metrics = item && item.metrics ? item.metrics : null;
     return html`<gv-card-full class="item" .item="${_item}" .metrics="${_metrics}"> </gv-card-full>`;
   }
 
-  render () {
-
+  render() {
     if (this._error) {
       return html`<div>${i18n('gv-card-list.error')}</div>`;
     }
 
     if (this.items) {
-      return html`${repeat(this.items, (item) => item, (item, index) => this.renderItem(item, index))}`;
+      return html`${repeat(
+        this.items,
+        (item) => item,
+        (item, index) => this.renderItem(item, index),
+      )}`;
     }
     return '';
-
   }
 
-  updated (changedProperties) {
+  updated(changedProperties) {
     if (changedProperties.has('items')) {
       if (this.items && this.items.length > 0) {
         const items = this.shadowRoot.querySelectorAll('.item');
@@ -107,9 +108,7 @@ export class GvCardList extends withResizeObserver(LitElement) {
         });
       }
     }
-
   }
-
 }
 
 window.customElements.define('gv-card-list', GvCardList);

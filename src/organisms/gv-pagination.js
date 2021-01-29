@@ -35,8 +35,7 @@ import { i18n } from '../lib/i18n';
  * @cssprop {Length} [--gv-pagination-icon--s=18px] - Height and icon width
  */
 export class GvPagination extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       data: { type: Object },
       hideEmpty: { type: Boolean, attribute: 'hide-empty' },
@@ -49,31 +48,31 @@ export class GvPagination extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=css
       css`
-          .pagination {
-              --font-size: var(--gv-pagination--fz, var(--gv-theme-font-size-s, 12px));
-              font-size: var(--fz);
-              --gv-button--fz: var(--fz);
-              display: flex;
-              align-items: center;
-          }
+        .pagination {
+          --font-size: var(--gv-pagination--fz, var(--gv-theme-font-size-s, 12px));
+          font-size: var(--fz);
+          --gv-button--fz: var(--fz);
+          display: flex;
+          align-items: center;
+        }
 
-          gv-button {
-              --gv-icon--s: var(--gv-pagination-icon--s, 18px);
-              min-width: 29px;
-          }
+        gv-button {
+          --gv-icon--s: var(--gv-pagination-icon--s, 18px);
+          min-width: 29px;
+        }
 
-          gv-input {
-              width: 50px;
-          }
+        gv-input {
+          width: 50px;
+        }
       `,
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.hideEmpty = false;
     this.hasInput = false;
@@ -83,7 +82,7 @@ export class GvPagination extends LitElement {
     this.links = {};
   }
 
-  set data (data) {
+  set data(data) {
     if (data) {
       this._last = data.last;
       this._current = parseInt(data.current_page);
@@ -94,24 +93,24 @@ export class GvPagination extends LitElement {
     }
   }
 
-  _goToPage (page) {
+  _goToPage(page) {
     this._current = parseInt(page);
     dispatchCustomEvent(this, 'paginate', { page: page });
   }
 
-  _onSubmit (e) {
+  _onSubmit(e) {
     const page = e.target.value;
     this._goToPage(page);
   }
 
-  _onClickToSearch () {
+  _onClickToSearch() {
     const page = this.shadowRoot.querySelector('gv-input').value;
     if (page) {
       this._goToPage(page);
     }
   }
 
-  _renderPagination () {
+  _renderPagination() {
     const pagination = [];
     for (let i = 0; i < this._pages; i++) {
       pagination.push(i + 1);
@@ -137,30 +136,63 @@ export class GvPagination extends LitElement {
     const leftP = left.map((i) => html`<gv-button small outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
     const rightP = right.map((i) => html`<gv-button small outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
 
-    leftP.unshift(html`<gv-button small .disabled="${this.disabled || leftP.length === 0}" outlined @click="${leftP.length === 0 ? () => {} : this._goToPage.bind(this, this._current - 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-left" title="${i18n('gv-pagination.previous')}"></gv-icon>` : i18n('gv-pagination.previous')}</gv-button>`);
-    rightP.push(html`<gv-button small .disabled="${this.disabled || rightP.length === 0}" outlined @click="${rightP.length === 0 ? () => {} : this._goToPage.bind(this, this._current + 1)}">${this.widget ? html`<gv-icon shape="navigation:angle-right" title="${i18n('gv-pagination.next')}"></gv-icon>` : i18n('gv-pagination.next')}</gv-button>`);
-    return html`${this.widget ? leftP.slice(0, 1) : leftP} ${html`<gv-button .disabled="${this.disabled}" small primary>${this.widget ? this._current + ' / ' + pagination.length : this._current}</gv-button>`} ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
+    leftP.unshift(
+      html`<gv-button
+        small
+        .disabled="${this.disabled || leftP.length === 0}"
+        outlined
+        @click="${leftP.length === 0 ? () => {} : this._goToPage.bind(this, this._current - 1)}"
+        >${this.widget
+          ? html`<gv-icon shape="navigation:angle-left" title="${i18n('gv-pagination.previous')}"></gv-icon>`
+          : i18n('gv-pagination.previous')}</gv-button
+      >`,
+    );
+    rightP.push(
+      html`<gv-button
+        small
+        .disabled="${this.disabled || rightP.length === 0}"
+        outlined
+        @click="${rightP.length === 0 ? () => {} : this._goToPage.bind(this, this._current + 1)}"
+        >${this.widget
+          ? html`<gv-icon shape="navigation:angle-right" title="${i18n('gv-pagination.next')}"></gv-icon>`
+          : i18n('gv-pagination.next')}</gv-button
+      >`,
+    );
+    return html`${this.widget ? leftP.slice(0, 1) : leftP}
+    ${html`<gv-button .disabled="${this.disabled}" small primary
+      >${this.widget ? this._current + ' / ' + pagination.length : this._current}</gv-button
+    >`}
+    ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
   }
 
-  _hasData () {
+  _hasData() {
     return this._pages && this._last && this._current;
   }
 
-  _hideEmpty () {
+  _hideEmpty() {
     return this._hasData() && this.hideEmpty && this._pages < 2;
   }
 
-  render () {
+  render() {
     if (this._hasData() && !this._hideEmpty()) {
       return html`<div class="pagination">
-          ${this.hasInput ? html`<gv-input class="goto" @gv-input:submit="${this._onSubmit}" type="number" min="1" max="${this._pages}" placeholder="Page" small></gv-input>
-          <gv-button small outlined @click="${this._onClickToSearch}" icon="general:search"></gv-button>` : ''}
-          ${this._renderPagination()}
-        </div> `;
+        ${this.hasInput
+          ? html`<gv-input
+                class="goto"
+                @gv-input:submit="${this._onSubmit}"
+                type="number"
+                min="1"
+                max="${this._pages}"
+                placeholder="Page"
+                small
+              ></gv-input>
+              <gv-button small outlined @click="${this._onClickToSearch}" icon="general:search"></gv-button>`
+          : ''}
+        ${this._renderPagination()}
+      </div> `;
     }
     return html``;
   }
-
 }
 
 window.customElements.define('gv-pagination', GvPagination);

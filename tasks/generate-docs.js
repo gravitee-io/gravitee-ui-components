@@ -19,7 +19,7 @@ const util = require('util');
 
 const glob = util.promisify(rawGlob);
 
-async function run () {
+async function run() {
   const svgFilepaths = await glob('assets/icons/**/*.svg');
 
   const icons = svgFilepaths
@@ -28,7 +28,8 @@ async function run () {
       const [category, filename] = relativePath.split('/');
       const id = filename.replace('.svg', '').toLowerCase();
       return `${category}:${id}`;
-    }).sort((icon) => {
+    })
+    .sort((icon) => {
       if (icon.startsWith('general')) {
         return -1;
       }

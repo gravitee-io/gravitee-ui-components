@@ -20,7 +20,6 @@ import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
 import { Page, querySelector } from '../lib/test-utils';
 
 describe('A U T O C O M P L E T E', () => {
-
   let page;
 
   beforeEach(() => {
@@ -64,7 +63,6 @@ describe('A U T O C O M P L E T E', () => {
     input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
 
     expect(component.options).toEqual([]);
-
   });
 
   test('should catch `gv-autocomplete:search` event when input dispatch input event with empty value', (done) => {
@@ -81,5 +79,4 @@ describe('A U T O C O M P L E T E', () => {
     input.value = '';
     input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
   });
-
 });

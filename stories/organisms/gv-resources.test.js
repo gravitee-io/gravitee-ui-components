@@ -20,7 +20,6 @@ import apimResourceTypes from '../resources/apim-resource-types.json';
 import apimDefinition from '../resources/apim-definition.json';
 
 describe('R E S O U R C E S', () => {
-
   let page;
   let component;
 
@@ -107,5 +106,4 @@ describe('R E S O U R C E S', () => {
 
     expect(component.resources.length).toEqual(0);
   });
-
 });

@@ -19,8 +19,8 @@ import { makeStory } from '../lib/make-story';
 import avatar from '../../assets/images/logo.png';
 
 const title = 'Top API !';
-const comment
-  = 'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis quo con perto Montius tunc Hinc ille commotus ut iniusta perferens et indigna pra custodiam.';
+const comment =
+  'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis quo con perto Montius tunc Hinc ille commotus ut iniusta perferens et indigna pra custodiam.';
 const admin = { id: 0, display_name: 'Administrator', _links: { avatar } };
 const author = { id: 1, display_name: 'Jean Christophe' };
 const date = new Date();

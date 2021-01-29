@@ -17,9 +17,7 @@ import notes from '../../.docs/gv-chart-pie.md';
 import '../../src/charts/gv-chart-pie';
 import { makeStory, storyWait } from '../lib/make-story';
 
-const events = [
-  'gv-chart-pie:select',
-];
+const events = ['gv-chart-pie:select'];
 
 const series = {
   values: {

@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 export class Page {
-
-  constructor (tagName = 'div') {
+  constructor(tagName = 'div') {
     this._id = 'page-container';
     if (querySelector(`#${this._id}`) != null) {
       throw new Error('Cannot instantiate another page...');
-    }
-    else {
+    } else {
       this._element = window.document.createElement(tagName);
       this._element.id = this._id;
       window.document.body.appendChild(this._element);
     }
-
   }
 
-  create (componentTagName, props = {}) {
+  create(componentTagName, props = {}) {
     const element = window.document.createElement(componentTagName);
 
     for (const [key, value] of Object.entries(props)) {
@@ -39,25 +36,23 @@ export class Page {
     return element;
   }
 
-  clear () {
+  clear() {
     window.document.body.removeChild(this._element);
   }
 
-  addEventListener (type, listener) {
+  addEventListener(type, listener) {
     this._element.addEventListener(type, listener);
   }
-
 }
 
-export function querySelector (selectors) {
+export function querySelector(selectors) {
   return window.document.querySelector(selectors);
 }
 
-export function since (message, expect) {
+export function since(message, expect) {
   try {
     expect();
-  }
-  catch (e) {
+  } catch (e) {
     throw new Error(message);
   }
 }

@@ -26,13 +26,12 @@ setAsciiDoctorAsGlobal(asciidoctor, highlightJsExt);
 
 const htmlToReactParser = new HtmlToReactParser();
 
-function domToReact (element) {
+function domToReact(element) {
   return htmlToReactParser.parse(element.outerHTML);
 }
 
-export function createDocsStories (kind, stories) {
+export function createDocsStories(kind, stories) {
   stories.forEach(({ name, text, type }) => {
-
     const dom = toDom(text, type);
     storiesOf(kind + '/' + name, module)
       .addParameters({
@@ -47,15 +46,9 @@ export function createDocsStories (kind, stories) {
   });
 }
 
-createDocsStories('Welcome',
-  [
-    { name: ' Readme', text: Readme, type: 'adoc' },
-    { name: 'Contributing', text: Contributing, type: 'adoc' },
-  ],
-);
+createDocsStories('Welcome', [
+  { name: ' Readme', text: Readme, type: 'adoc' },
+  { name: 'Contributing', text: Contributing, type: 'adoc' },
+]);
 
-createDocsStories('Documentation',
-  [
-    { name: 'Theme/LearnMore', text: Theme },
-  ],
-);
+createDocsStories('Documentation', [{ name: 'Theme/LearnMore', text: Theme }]);

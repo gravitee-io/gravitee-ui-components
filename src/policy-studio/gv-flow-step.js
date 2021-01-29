@@ -41,8 +41,7 @@ import '../atoms/gv-switch';
  * @attr {Boolean} readonly - true if readonly
  */
 export class GvFlowStep extends withResizeObserver(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       id: { type: String, reflect: true },
       group: { type: String, reflect: true },
@@ -63,7 +62,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.empty = true;
     this.breakpoints = {
@@ -71,37 +70,37 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
     };
   }
 
-  onResize ({ width }) {
+  onResize({ width }) {
     this._small = width <= 200;
   }
 
-  _onDuplicate () {
+  _onDuplicate() {
     this._confirmDuplicate = true;
   }
 
-  _onConfirmDuplicate () {
+  _onConfirmDuplicate() {
     this._confirmDuplicate = false;
     dispatchCustomEvent(this, 'duplicate', { step: this.step, policy: this.policy, target: this });
   }
 
-  _onCancelDuplicate () {
+  _onCancelDuplicate() {
     this._confirmDuplicate = false;
   }
 
-  _onClick (e) {
+  _onClick(e) {
     if (!e.target.classList.contains('action') && !this.editing) {
       e.preventDefault();
       this._edit();
     }
   }
 
-  _edit () {
+  _edit() {
     if (this.policy && !this.disabled) {
       dispatchCustomEvent(this, 'edit', { step: this.step, policy: this.policy, group: this.group });
     }
   }
 
-  _onMouseEnter () {
+  _onMouseEnter() {
     if (!this.disabled) {
       this.hover = true;
       if (!this.readonly) {
@@ -111,7 +110,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
     }
   }
 
-  _onMouseLeave () {
+  _onMouseLeave() {
     if (!this.disabled) {
       this.hover = false;
       if (!this.readonly) {
@@ -121,20 +120,20 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
     }
   }
 
-  _onDelete () {
+  _onDelete() {
     this._confirmDelete = true;
   }
 
-  _onConfirmDelete () {
+  _onConfirmDelete() {
     this._confirmDelete = false;
     dispatchCustomEvent(this, 'delete', { step: this.step });
   }
 
-  _onCancelDelete () {
+  _onCancelDelete() {
     this._confirmDelete = false;
   }
 
-  updated (properties) {
+  updated(properties) {
     if (properties.has('dragging') && this.dragging === true) {
       const dropdownMenu = this.shadowRoot.querySelector('gv-dropdown-menu');
       dropdownMenu.removeAttribute('open');
@@ -144,61 +143,68 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
     }
   }
 
-  _onCancel () {
+  _onCancel() {
     this.remove();
   }
 
-  _onCopy () {
+  _onCopy() {
     dispatchCustomEvent(this, 'copy');
   }
 
-  _onMove () {
+  _onMove() {
     dispatchCustomEvent(this, 'move');
   }
 
-  _onChangeState ({ detail }) {
+  _onChangeState({ detail }) {
     dispatchCustomEvent(this, 'change-state', { step: this.step, enabled: detail });
   }
 
-  _renderDropdownMenu () {
+  _renderDropdownMenu() {
     if (this.disabled || this.readonly) {
       return html``;
     }
     const enabled = this.step.enabled !== false;
     return html`<gv-dropdown-menu right>
-                  <gv-switch slot="action" class="action" small label="${enabled ? 'Enabled' : 'Disabled'}" title="${enabled ? 'Disable policy ?' : 'Enable policy ?'}" @gv-switch:input="${this._onChangeState}" .value="${enabled}"></gv-switch>
-                  <gv-button slot="action" class="action" link small icon="general:duplicate" @gv-button:click="${this._onDuplicate}">Duplicate</gv-button>
-                  <gv-button slot="action" class="action" link small icon="home:trash" @gv-button:click="${this._onDelete}">Delete</gv-button>
-                </gv-dropdown-menu>`;
+      <gv-switch
+        slot="action"
+        class="action"
+        small
+        label="${enabled ? 'Enabled' : 'Disabled'}"
+        title="${enabled ? 'Disable policy ?' : 'Enable policy ?'}"
+        @gv-switch:input="${this._onChangeState}"
+        .value="${enabled}"
+      ></gv-switch>
+      <gv-button slot="action" class="action" link small icon="general:duplicate" @gv-button:click="${this._onDuplicate}"
+        >Duplicate</gv-button
+      >
+      <gv-button slot="action" class="action" link small icon="home:trash" @gv-button:click="${this._onDelete}">Delete</gv-button>
+    </gv-dropdown-menu>`;
   }
 
-  resetConfirm () {
+  resetConfirm() {
     this.confirm = false;
     this._confirmDelete = false;
     this._confirmDuplicate = false;
   }
 
-  render () {
+  render() {
     if (this.confirm) {
       return html`<div class="drop-area drop-area-confirm">
-                    <gv-button small @gv-button:click="${this._onCopy}">Copy</gv-button>
-                    <gv-button small @gv-button:click="${this._onMove}">Move</gv-button>
-                    <gv-button link small @gv-button:click="${this._onCancel}">Cancel</gv-button>
-             </div>`;
-    }
-    else if (this._confirmDelete) {
+        <gv-button small @gv-button:click="${this._onCopy}">Copy</gv-button>
+        <gv-button small @gv-button:click="${this._onMove}">Move</gv-button>
+        <gv-button link small @gv-button:click="${this._onCancel}">Cancel</gv-button>
+      </div>`;
+    } else if (this._confirmDelete) {
       return html`<div class="drop-area drop-area-confirm">
-                    <gv-button small danger @gv-button:click="${this._onConfirmDelete}">Delete</gv-button>
-                    <gv-button link small @gv-button:click="${this._onCancelDelete}">Cancel</gv-button>
-             </div>`;
-    }
-    else if (this._confirmDuplicate) {
+        <gv-button small danger @gv-button:click="${this._onConfirmDelete}">Delete</gv-button>
+        <gv-button link small @gv-button:click="${this._onCancelDelete}">Cancel</gv-button>
+      </div>`;
+    } else if (this._confirmDuplicate) {
       return html`<div class="drop-area drop-area-confirm">
-                    <gv-button small @gv-button:click="${this._onConfirmDuplicate}">Duplicate</gv-button>
-                    <gv-button link small @gv-button:click="${this._onCancelDuplicate}">Cancel</gv-button>
-             </div>`;
-    }
-    else if (!this.empty) {
+        <gv-button small @gv-button:click="${this._onConfirmDuplicate}">Duplicate</gv-button>
+        <gv-button link small @gv-button:click="${this._onCancelDuplicate}">Cancel</gv-button>
+      </div>`;
+    } else if (!this.empty) {
       const name = this.step ? this.step.name : '';
       const description = this.step && this.step.description ? this.step.description : '';
       const icon = this.step ? this.policy && this.policy.icon : null;
@@ -206,8 +212,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
       const notFound = this.policy == null;
       if (notFound) {
         this.title = 'Warning: policy not found in plugins folder';
-      }
-      else {
+      } else {
         this.title = description;
       }
       const classes = {
@@ -217,29 +222,28 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
         disabled: !enabled,
         'not-found': notFound,
       };
-      return html`<div class="${classMap(classes)}"
-                        @click="${this._onClick}"
-                        @mouseenter="${this._onMouseEnter}"
-                        @mouseleave="${this._onMouseLeave}">
-
-                    ${this._renderDropdownMenu()}
-                    <div class="content">
-                      ${icon ? html`<gv-image src="${icon}"></gv-image>` : html``}
-                      ${icon == null && notFound ? html`<gv-icon class="not-found__icon" shape="finance:folder-error"></gv-icon>` : ''}
-                      <div>
-                        <div class="name">${name}</div>
-                        <div class="description">${description}</div>
-                      </div>
-                    </div>
-                  </div>
-                  `;
-    }
-    else {
+      return html`<div
+        class="${classMap(classes)}"
+        @click="${this._onClick}"
+        @mouseenter="${this._onMouseEnter}"
+        @mouseleave="${this._onMouseLeave}"
+      >
+        ${this._renderDropdownMenu()}
+        <div class="content">
+          ${icon ? html`<gv-image src="${icon}"></gv-image>` : html``}
+          ${icon == null && notFound ? html`<gv-icon class="not-found__icon" shape="finance:folder-error"></gv-icon>` : ''}
+          <div>
+            <div class="name">${name}</div>
+            <div class="description">${description}</div>
+          </div>
+        </div>
+      </div> `;
+    } else {
       return html`<div class="drop-area"></div>`;
     }
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -277,7 +281,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
         :host([hover]) .drop-area {
           transform: translateY(-4px);
-          box-shadow: 0 0 0 1px #5A7684, 0 1px 3px #5A7684;
+          box-shadow: 0 0 0 1px #5a7684, 0 1px 3px #5a7684;
           border-color: transparent;
         }
 
@@ -286,10 +290,10 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
         }
 
         :host([editing]) .drop-area {
-          border-color: #5A7684;
+          border-color: #5a7684;
           transform: translateY(-4px);
-          box-shadow: 0 0 0 1px #5A7684, 0 1px 3px #5A7684;
-          transition: all .2s;
+          box-shadow: 0 0 0 1px #5a7684, 0 1px 3px #5a7684;
+          transition: all 0.2s;
         }
 
         :host([w-lt-200]) gv-image {
@@ -309,7 +313,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
         :host([empty]) .drop-area {
           position: relative;
           background-color: transparent;
-          border: 2px dashed #BFBFBF;
+          border: 2px dashed #bfbfbf;
           font-size: 14px;
         }
 
@@ -322,7 +326,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
         .drop-area {
           position: relative;
-          border: 2px dashed #BFBFBF;
+          border: 2px dashed #bfbfbf;
           border-radius: 4px;
           height: 80px;
           min-width: 80px;
@@ -336,7 +340,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
           flex-direction: column;
           --gv-button--fz: 11px;
           flex: 1;
-          transition: color 150ms ease-in-out, transform .3s ease-in-out, box-shadow .3s ease-in-out, border .3s ease-in-out;
+          transition: color 150ms ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
           background-color: white;
         }
 
@@ -415,17 +419,15 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
       `,
     ];
   }
-
 }
 
 export class PolicyDraggable {
-
-  static parse (str) {
+  static parse(str) {
     const data = JSON.parse(str);
     return new PolicyDraggable(data.policy, data.sourcePosition, data.sourceFlowKey, data.sourceFlowId, data.flowStep);
   }
 
-  constructor (policy, sourcePosition, sourceFlowKey, sourceFlowId, flowStep) {
+  constructor(policy, sourcePosition, sourceFlowKey, sourceFlowId, flowStep) {
     this.policy = policy;
     this.sourcePosition = sourcePosition;
     this.sourceFlowKey = sourceFlowKey;
@@ -433,10 +435,9 @@ export class PolicyDraggable {
     this.flowStep = flowStep;
   }
 
-  toString () {
+  toString() {
     return JSON.stringify(this);
   }
-
 }
 
 window.customElements.define('gv-flow-step', GvFlowStep);

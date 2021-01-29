@@ -18,8 +18,7 @@
 const safeParseInt = (value) => {
   if (/^\d+$/.test(value)) {
     return Number(value);
-  }
-  else {
+  } else {
     return NaN;
   }
 };
@@ -137,12 +136,10 @@ const weekdaysAlias = {
 };
 
 const hasValidWeekdays = (weekdays, alias, allowBlankDay, allowSevenAsSunday) => {
-
   // If there is a question mark, checks if the allowBlankDay flag is set
   if (allowBlankDay && isQuestionMark(weekdays)) {
     return true;
-  }
-  else if (!allowBlankDay && isQuestionMark(weekdays)) {
+  } else if (!allowBlankDay && isQuestionMark(weekdays)) {
     return false;
   }
 

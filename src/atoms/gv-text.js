@@ -41,13 +41,12 @@ import { InputElement } from '../mixins/input-element';
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  * @attr {Boolean} [autosize=false] - true if field auto resize when content change
  *
- * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
+ * @cssprop {Color} [--gv-input--bdc=var(--gv-theme-neutral-color-dark, #d9d9d9)] - Border color
  * @cssprop {Length} [--gv-text--fz=var(--gv-theme-font-size-m, 14px)] - Font size
  * @cssprop {Length} [--gv-text--lh=var(--gv-theme-font-size-m, 14px)] - Line height
  */
 export class GvText extends InputElement(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       rows: { type: Number },
       minlength: { type: Number },
@@ -56,7 +55,7 @@ export class GvText extends InputElement(LitElement) {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       skeleton,
@@ -72,7 +71,7 @@ export class GvText extends InputElement(LitElement) {
           --fz: var(--gv-text--fz, var(--gv-theme-font-size-m, 14px));
           --tmp: var(--gv-text--lh, var(--gv-theme-font-size-m, 14px));
           --lh: calc(var(--tmp) + 3px);
-          border: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          border: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           box-sizing: border-box;
           border-radius: 4px;
           outline: none;
@@ -82,14 +81,14 @@ export class GvText extends InputElement(LitElement) {
           font-size: var(--fz);
           line-height: var(--lh);
         }
-        
+
         div.textarea {
           white-space: pre;
         }
 
         textarea:disabled {
           cursor: default;
-          opacity: .5;
+          opacity: 0.5;
         }
 
         textarea:required {
@@ -110,22 +109,22 @@ export class GvText extends InputElement(LitElement) {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.rows = 10;
   }
 
-  getInputElement () {
+  getInputElement() {
     return this.shadowRoot.querySelector('textarea');
   }
 
-  _onInput (e) {
+  _onInput(e) {
     this.updateState(e.target.value);
     this.value = e.target.value;
     dispatchCustomEvent(this, 'input', this.value);
   }
 
-  render () {
+  render() {
     const classes = {
       skeleton: this.skeleton,
       required: this.required,
@@ -135,9 +134,9 @@ export class GvText extends InputElement(LitElement) {
     if (this.readonly) {
       if (this.value || this.value.trim() !== '') {
         return html`
-      ${this.renderLabel()}
-      <div class="${classMap(classes)}" .title=${ifDefined(this.title || this.label)}>${ifDefined(this.value)}</div>
-    `;
+          ${this.renderLabel()}
+          <div class="${classMap(classes)}" .title=${ifDefined(this.title || this.label)}>${ifDefined(this.value)}</div>
+        `;
       }
       return '';
     }
@@ -145,20 +144,22 @@ export class GvText extends InputElement(LitElement) {
     return html`
       <div class="box">
         ${this.renderLabel()}
-        <textarea class="${classMap(classes)}"
-            id=${this._id}
-            .name=${ifDefined(this.name)}
-            .title=${ifDefined(this.title || this.label)}
-            .required=${this.required}
-            ?readonly="${this.readonly}"
-            maxlength="${this.maxlength}"
-            minlength="${this.minlength}"
-            aria-required=${!!this.required}
-            ?disabled=${this.disabled || this.skeleton}
-            .placeholder=${ifDefined(this.placeholder)}
-            .value=${ifDefined(this.value)}
-            rows="${this.rows < rows ? rows : this.rows}"
-            @input=${this._onInput}></textarea>
+        <textarea
+          class="${classMap(classes)}"
+          id=${this._id}
+          .name=${ifDefined(this.name)}
+          .title=${ifDefined(this.title || this.label)}
+          .required=${this.required}
+          ?readonly="${this.readonly}"
+          maxlength="${this.maxlength}"
+          minlength="${this.minlength}"
+          aria-required=${!!this.required}
+          ?disabled=${this.disabled || this.skeleton}
+          .placeholder=${ifDefined(this.placeholder)}
+          .value=${ifDefined(this.value)}
+          rows="${this.rows < rows ? rows : this.rows}"
+          @input=${this._onInput}
+        ></textarea>
       </div>
     `;
   }

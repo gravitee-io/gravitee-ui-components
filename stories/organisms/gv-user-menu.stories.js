@@ -46,9 +46,7 @@ const conf = {
 
 const username = 'Richard T.';
 export const Basics = makeStory(conf, {
-  items: [
-    { routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
-  ],
+  items: [{ routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' }],
   simulations: [
     storyWait(0, ([component]) => {
       component.firstElementChild.display_name = username;
@@ -58,9 +56,7 @@ export const Basics = makeStory(conf, {
 });
 
 export const withPicture = makeStory(conf, {
-  items: [
-    { routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
-  ],
+  items: [{ routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' }],
   simulations: [
     storyWait(0, ([component]) => {
       component.firstElementChild.display_name = 'Gravatar';
@@ -71,9 +67,7 @@ export const withPicture = makeStory(conf, {
 });
 
 export const withLargePicture = makeStory(conf, {
-  items: [
-    { routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
-  ],
+  items: [{ routes, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' }],
   simulations: [
     storyWait(0, ([component]) => {
       component.firstElementChild.display_name = 'Gravatar';
@@ -104,9 +98,7 @@ const routesWithGroups = [
 ];
 
 export const withRouteGroups = makeStory(conf, {
-  items: [
-    { routes: routesWithGroups, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' },
-  ],
+  items: [{ routes: routesWithGroups, username, innerHTML: '<gv-identity-picture rounded></gv-identity-picture>' }],
   simulations: [
     storyWait(0, ([component]) => {
       component.firstElementChild.display_name = 'Gravatar';

@@ -17,24 +17,24 @@ import { css } from 'lit-element';
 
 // language=CSS
 export const zoom = css`
-    @keyframes zoomIn {
-        0% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
+  @keyframes zoomIn {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
     }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 
-    @keyframes zoomOut {
-        0% {
-            transform: scale(1);
-        }
-        100% {
-            transform: scale(0.8);
-            opacity: 0;
-        }
+  @keyframes zoomOut {
+    0% {
+      transform: scale(1);
     }
+    100% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  }
 `;

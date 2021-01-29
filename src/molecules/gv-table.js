@@ -55,16 +55,15 @@ import '../organisms/gv-pagination';
  * @attr {String} total - Total of data displayed on the table (useful with in case of pagination)
  * @attr {Boolean} skeleton - Force gv-table to be in skeleton mode
  *
- * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #5A7684)] - Selected background color
- * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Row background color on hover
- * @cssprop {Color} [--gv-table--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
- * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
+ * @cssprop {Color} [--gv-table-selected--bgc=var(--gv-theme-color, #5a7684)] - Selected background color
+ * @cssprop {Color} [--gv-table-hover--bgc=var(--gv-theme-neutral-color-lighter, #fafafa)] - Row background color on hover
+ * @cssprop {Color} [--gv-table--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
+ * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #d9d9d9)] - Border color
  * @cssprop {String} [--gv-table-header--fz=var(--gv-theme-font-size-l, 20px)] - Title font size
  * @cssprop {Length} [--gv-table-header--p=2rem 4rem] - Title padding
  */
 export class GvTable extends withResizeObserver(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       items: { type: Array },
       title: { type: String },
@@ -89,7 +88,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       link,
       skeleton,
@@ -97,10 +96,10 @@ export class GvTable extends withResizeObserver(LitElement) {
       // language=CSS
       css`
         :host {
-          --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #5A7684));
-          --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-          --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          --selected--bgc: var(--gv-table-selected--bgc, var(--gv-theme-color, #5a7684));
+          --hover-bgc: var(--gv-table-hover--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
+          --bgc: var(--gv-table--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
+          --bdc: var(--gv-table--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           display: block;
           height: 100%;
           margin: 0.2rem;
@@ -145,7 +144,8 @@ export class GvTable extends withResizeObserver(LitElement) {
           padding: 0 0.2rem;
         }
 
-        .row, .theader {
+        .row,
+        .theader {
           align-items: center;
           align-content: center;
           border-right: solid thick transparent;
@@ -167,7 +167,8 @@ export class GvTable extends withResizeObserver(LitElement) {
           box-shadow: 0 5px 3px -6px var(--bdc);
         }
 
-        .row:hover, .row.selected {
+        .row:hover,
+        .row.selected {
           background-color: var(--hover-bgc);
         }
 
@@ -225,7 +226,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._id = new Date().getTime();
     this.breakpoints = {
@@ -237,12 +238,17 @@ export class GvTable extends withResizeObserver(LitElement) {
     this._itemsProvider = [];
     this.selected = [];
     this.compareFn = (item, item2, value) => {
-      const itemData = this._getDataFromField(item, value) && this._getDataFromField(item, value).toLowerCase ? this._getDataFromField(item, value).toLowerCase() : '';
-      const itemData2 = this._getDataFromField(item2, value) && this._getDataFromField(item2, value).toLowerCase ? this._getDataFromField(item2, value).toLowerCase() : '';
+      const itemData =
+        this._getDataFromField(item, value) && this._getDataFromField(item, value).toLowerCase
+          ? this._getDataFromField(item, value).toLowerCase()
+          : '';
+      const itemData2 =
+        this._getDataFromField(item2, value) && this._getDataFromField(item2, value).toLowerCase
+          ? this._getDataFromField(item2, value).toLowerCase()
+          : '';
       if (this.order.startsWith('-')) {
         return itemData2.localeCompare(itemData);
-      }
-      else {
+      } else {
         return itemData.localeCompare(itemData2);
       }
     };
@@ -251,13 +257,13 @@ export class GvTable extends withResizeObserver(LitElement) {
     });
   }
 
-  set items (items) {
+  set items(items) {
     this._skeleton = true;
     Promise.resolve(items)
       .then((items) => {
         if (items) {
           this._itemsProvider = items.map((item, index) => {
-            item._id = (item.id == null ? index : item.id);
+            item._id = item.id == null ? index : item.id;
             return item;
           });
           this._onSortChanged();
@@ -273,11 +279,11 @@ export class GvTable extends withResizeObserver(LitElement) {
       });
   }
 
-  get items () {
+  get items() {
     return this._itemsProvider;
   }
 
-  _onSortChanged (field, e) {
+  _onSortChanged(field, e) {
     if (e) {
       e.preventDefault();
     }
@@ -295,7 +301,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     }
   }
 
-  get _items () {
+  get _items() {
     if (this._itemsProvider) {
       if (this.options && this.options.paging && this.options.paging < this._itemsProvider.length) {
         const index = (this._page - 1) * this.options.paging;
@@ -306,56 +312,51 @@ export class GvTable extends withResizeObserver(LitElement) {
     return [];
   }
 
-  _getItemId (item) {
+  _getItemId(item) {
     return item.id == null ? item._id : item.id;
   }
 
-  _onSelect (item) {
+  _onSelect(item) {
     if (!this._skeleton) {
       if (this.options.selectable) {
         const itemId = this._getItemId(item);
         if (this._isSelected(item)) {
           this.selected = this.selected.filter((id) => itemId !== id);
-        }
-        else if (this.options.selectable === 'multi') {
+        } else if (this.options.selectable === 'multi') {
           this.selected = [...this.selected, itemId];
-        }
-        else {
+        } else {
           this.selected = [itemId];
         }
         dispatchCustomEvent(this, 'select', { items: this.selectedItems, options: this.options });
-      }
-      else {
+      } else {
         dispatchCustomEvent(this, 'select', { items: [item] });
       }
     }
   }
 
-  get selectedItems () {
+  get selectedItems() {
     if (this.selected && this._itemsProvider) {
-      return this._itemsProvider
-        .filter((item) => this.selected && this.selected.includes(this._getItemId(item)));
+      return this._itemsProvider.filter((item) => this.selected && this.selected.includes(this._getItemId(item)));
     }
     return [];
   }
 
-  _onMouseEnter (item) {
+  _onMouseEnter(item) {
     if (!(this.selected && this.selected.length > 0) && !this._skeleton) {
       dispatchCustomEvent(this, 'mouseenter', { item });
     }
   }
 
-  _onMouseLeave () {
+  _onMouseLeave() {
     if (!(this.selected && this.selected.length > 0) && !this._skeleton) {
       dispatchCustomEvent(this, 'mouseleave');
     }
   }
 
-  _renderHeader (styleGridColumns) {
+  _renderHeader(styleGridColumns) {
     if (this.noheader) {
       return '';
-    }
-    else {
+    } else {
       const style = {
         ...styleGridColumns,
         ...{
@@ -364,25 +365,35 @@ export class GvTable extends withResizeObserver(LitElement) {
         },
       };
 
-      return html`
-        <div class=${classMap({ theader: true })} style=${styleMap(style)}>
-          ${this.options && this.options.data && (this._items && this._items.length) ? repeat(this.options.data, (option) => option, (option) => {
-        const orderValue = (this.order && this.order.startsWith('-')) ? this.order.substring(1) : this.order;
-        const label = this.format && option.label ? this.format(option.label) : option.label;
-        const style = typeof option.headerStyle === 'function' ? option.headerStyle(label) : option.headerStyle;
-        return html`
-                <div style="${(style || '')}">${this.order && !this.nosort ? html`
+      return html` <div class=${classMap({ theader: true })} style=${styleMap(style)}>
+        ${this.options && this.options.data && this._items && this._items.length
+          ? repeat(
+              this.options.data,
+              (option) => option,
+              (option) => {
+                const orderValue = this.order && this.order.startsWith('-') ? this.order.substring(1) : this.order;
+                const label = this.format && option.label ? this.format(option.label) : option.label;
+                const style = typeof option.headerStyle === 'function' ? option.headerStyle(label) : option.headerStyle;
+                return html` <div style="${style || ''}">
+                  ${this.order && !this.nosort
+                    ? html`
                    <gv-button link @click="${this._onSortChanged.bind(this, option.field || option.tag)}">${until(label)}</gv-button>
-                      ${orderValue === option.tag || (orderValue === option.field && option.type !== 'image') ? html`
-                        <gv-icon class=${classMap({ desc: this.order.startsWith('-') })} shape="design:triangle"></gv-icon>` : ''}
-                    </a>` : until(label)}
+                      ${
+                        orderValue === option.tag || (orderValue === option.field && option.type !== 'image')
+                          ? html` <gv-icon class=${classMap({ desc: this.order.startsWith('-') })} shape="design:triangle"></gv-icon>`
+                          : ''
+                      }
+                    </a>`
+                    : until(label)}
                 </div>`;
-      }) : ''}
-        </div>`;
+              },
+            )
+          : ''}
+      </div>`;
     }
   }
 
-  _renderIcon (item, itemIndex, option) {
+  _renderIcon(item, itemIndex, option) {
     const icon = typeof option.icon === 'function' ? option.icon(item) : option.icon;
     const iconTitle = typeof option.iconTitle === 'function' ? option.iconTitle(item) : option.iconTitle;
     if (icon) {
@@ -391,7 +402,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     return '';
   }
 
-  _renderComponent (item, itemIndex, option, value, type) {
+  _renderComponent(item, itemIndex, option, value, type) {
     if (option.condition && !option.condition(item)) {
       return '';
     }
@@ -413,20 +424,17 @@ export class GvTable extends withResizeObserver(LitElement) {
               }, 0);
             }
           });
-        }
-        else if (typeof option.attributes[attribute] === 'function') {
+        } else if (typeof option.attributes[attribute] === 'function') {
           const value = option.attributes[attribute](item);
           if (value != null) {
             element[attribute] = value;
           }
-        }
-        else {
+        } else {
           if (this.format && typeof option.attributes[attribute] === 'string') {
             this.format(option.attributes[attribute]).then((t) => {
               element[attribute] = t;
             });
-          }
-          else {
+          } else {
             element[attribute] = option.attributes[attribute];
           }
         }
@@ -442,8 +450,7 @@ export class GvTable extends withResizeObserver(LitElement) {
       const confirm = document.createElement('gv-confirm');
       if (this.format) {
         this.format(optionConfirm.msg).then((t) => (confirm.message = t));
-      }
-      else {
+      } else {
         confirm.message = optionConfirm.msg;
       }
       if (optionConfirm.danger) {
@@ -460,15 +467,13 @@ export class GvTable extends withResizeObserver(LitElement) {
     return element;
   }
 
-  _renderCell (option, item, itemIndex) {
+  _renderCell(option, item, itemIndex) {
     let value = option.field ? this._getDataFromField(item, option.field) : '';
     if (option.type === 'date' && value) {
       value = new Date(value).toLocaleDateString(getLanguage());
-    }
-    else if (option.type === 'datetime' && value) {
+    } else if (option.type === 'datetime' && value) {
       value = new Date(value).toLocaleString(getLanguage());
-    }
-    else if (option.type === 'time' && value) {
+    } else if (option.type === 'time' && value) {
       value = new Date(value).toLocaleTimeString(getLanguage());
     }
     if (option.format) {
@@ -480,69 +485,82 @@ export class GvTable extends withResizeObserver(LitElement) {
         if (option.alt) {
           if (typeof option.alt === 'function') {
             alt = option.alt(item);
-          }
-          else {
+          } else {
             alt = this._getDataFromField(item, option.alt);
           }
         }
         return this._renderImage(value, alt);
-      }
-      else if (typeof option.type === 'function') {
+      } else if (typeof option.type === 'function') {
         return this._renderComponent(item, itemIndex, option, value, option.type(item));
-      }
-      else if (option.type.startsWith('gv-')) {
+      } else if (option.type.startsWith('gv-')) {
         return this._renderComponent(item, itemIndex, option, value, option.type);
       }
     }
     return until(value);
   }
 
-  _isSelected (item) {
+  _isSelected(item) {
     return this.selected && this.selected.includes(this._getItemId(item));
   }
 
-  _renderRows (styleGridColumns) {
-    return html`
-      <div class="rows"
-        style=${styleMap({ height: this.rowsheight, 'user-select': this.options.selectable ? 'none' : '' })}
-        @mouseleave="${this._onMouseLeave.bind(this)}">
-        ${(this._items && this._items.length) ? repeat(this._items, (item) => item, (item, itemIndex) => {
-      return html`
+  _renderRows(styleGridColumns) {
+    return html` <div
+      class="rows"
+      style=${styleMap({ height: this.rowsheight, 'user-select': this.options.selectable ? 'none' : '' })}
+      @mouseleave="${this._onMouseLeave.bind(this)}"
+    >
+      ${this._items && this._items.length
+        ? repeat(
+            this._items,
+            (item) => item,
+            (item, itemIndex) => {
+              return html`
           <div class=${classMap({
-        row: true,
-        skeleton: this._skeleton,
-        selected: this._isSelected(item),
-      })} style=${styleMap({
-        ...styleGridColumns,
-        ...{
-          height: this.rowheight,
-          'grid-auto-rows': this.rowheight ? null : 'minmax(80px, auto)',
-          cursor: this.options.selectable ? 'pointer' : '',
-          'border-color': (this.options.selectable && this._isSelected(item)) ? 'var(--selected--bgc)' : '',
-        },
-      })}
+            row: true,
+            skeleton: this._skeleton,
+            selected: this._isSelected(item),
+          })} style=${styleMap({
+                ...styleGridColumns,
+                ...{
+                  height: this.rowheight,
+                  'grid-auto-rows': this.rowheight ? null : 'minmax(80px, auto)',
+                  cursor: this.options.selectable ? 'pointer' : '',
+                  'border-color': this.options.selectable && this._isSelected(item) ? 'var(--selected--bgc)' : '',
+                },
+              })}
             @click="${this._onSelect.bind(this, item)}"
             @mouseenter="${this._onMouseEnter.bind(this, item)}">
-            ${this.options && this.options.data ? repeat(this.options.data, (option) => option, (option) => {
-        const style = typeof option.style === 'function' ? option.style(item) : option.style;
-        return html`<div class="cell" style="${ifDefined(style)}">${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}${option.icon ? this._renderIcon(item, itemIndex, option) : ''}</div>
-              `;
-      }) : ''}
+            ${
+              this.options && this.options.data
+                ? repeat(
+                    this.options.data,
+                    (option) => option,
+                    (option) => {
+                      const style = typeof option.style === 'function' ? option.style(item) : option.style;
+                      return html`<div class="cell" style="${ifDefined(style)}">
+                        ${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}${option.icon
+                          ? this._renderIcon(item, itemIndex, option)
+                          : ''}
+                      </div> `;
+                    },
+                  )
+                : ''
+            }
           </div>
         </div>`;
-    }) : ''}
+            },
+          )
+        : ''}
     </div>`;
   }
 
-  _renderItems () {
+  _renderItems() {
     let widthTemplate = this.options.data.map((o) => {
       if (o.width) {
         return o.width;
-      }
-      else if (o.type === 'image') {
+      } else if (o.type === 'image') {
         return '80px';
-      }
-      else if (o.type === 'icon') {
+      } else if (o.type === 'icon') {
         return '40px';
       }
       return null;
@@ -560,14 +578,10 @@ export class GvTable extends withResizeObserver(LitElement) {
     });
 
     const styleGridColumns = { 'grid-template-columns': widthTemplate.join(' ') };
-    return html`
-      ${this._renderHeader(styleGridColumns)}
-      ${this._renderRows(styleGridColumns)}
-      ${this._renderPagination()}
-    `;
+    return html` ${this._renderHeader(styleGridColumns)} ${this._renderRows(styleGridColumns)} ${this._renderPagination()} `;
   }
 
-  _renderPagination () {
+  _renderPagination() {
     if (this.options && this.options.paging && this._itemsProvider) {
       const paginationData = {
         first: 1,
@@ -580,22 +594,20 @@ export class GvTable extends withResizeObserver(LitElement) {
     }
   }
 
-  _getDataFromField (item, field) {
+  _getDataFromField(item, field) {
     if (typeof field === 'function') {
       return field(item);
-    }
-    else {
+    } else {
       return field.split('.').reduce((p, c) => p && p[c], item);
     }
   }
 
-  _renderTag (option, item) {
+  _renderTag(option, item) {
     if (option.tag) {
       let tag;
       if (typeof option.tag === 'function') {
         tag = option.tag(item);
-      }
-      else {
+      } else {
         tag = option.format ? option.format(this._getDataFromField(item, option.tag)) : this._getDataFromField(item, option.tag);
       }
       if (tag) {
@@ -605,19 +617,19 @@ export class GvTable extends withResizeObserver(LitElement) {
     return '';
   }
 
-  _onImageLoaded () {
+  _onImageLoaded() {
     this._skeleton = false;
   }
 
-  _renderImage (picture, alt) {
+  _renderImage(picture, alt) {
     return html`<gv-identity-picture .picture="${picture}" .display_name="${alt}"></gv-identity-picture>`;
   }
 
-  updated (props) {
+  updated(props) {
     this._onSortChanged();
   }
 
-  render () {
+  render() {
     if (this._error) {
       return html`<div class="error">${i18n('gv-table.error')}</div>`;
     }
@@ -633,12 +645,17 @@ export class GvTable extends withResizeObserver(LitElement) {
 
     return html`
       <div class=${classMap(classes)} style="${styleMap({ display: this.rowsheight ? 'block' : 'flex' })}">
-        ${this.title ? html`
-          <div class="header"><h3 class="title">${this.title} ${!this._empty ? html`<span>(${this.total || (this._items && this._items.length)})</span>` : ''}</h3></div>`
-      : ''}
-        ${!this._empty && this.options && this.options.data ? this._renderItems() : html`
-            <div class="empty" style="${styleMap(emptyStyle)}">
-                ${this.emptymessage ? this.emptymessage : i18n('gv-table.empty')}
+        ${this.title
+          ? html` <div class="header">
+              <h3 class="title">
+                ${this.title} ${!this._empty ? html`<span>(${this.total || (this._items && this._items.length)})</span>` : ''}
+              </h3>
+            </div>`
+          : ''}
+        ${!this._empty && this.options && this.options.data
+          ? this._renderItems()
+          : html` <div class="empty" style="${styleMap(emptyStyle)}">
+              ${this.emptymessage ? this.emptymessage : i18n('gv-table.empty')}
             </div>`}
       </div>
     `;

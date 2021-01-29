@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-export function loadAsciiDoctor () {
+export function loadAsciiDoctor() {
   if (window._gvAsciidoctor == null) {
-    return Promise.all([import('asciidoctor'), import('asciidoctor-highlight.js')])
-      .then(([asciidoctor, highlightJsExt]) => {
-        window._gvAsciidoctor = asciidoctor.default();
-        highlightJsExt.default.register(window._gvAsciidoctor.Extensions);
-        return setAsciiDoctorAsGlobal(asciidoctor.default, highlightJsExt.default);
-      });
+    return Promise.all([import('asciidoctor'), import('asciidoctor-highlight.js')]).then(([asciidoctor, highlightJsExt]) => {
+      window._gvAsciidoctor = asciidoctor.default();
+      highlightJsExt.default.register(window._gvAsciidoctor.Extensions);
+      return setAsciiDoctorAsGlobal(asciidoctor.default, highlightJsExt.default);
+    });
   }
   return Promise.resolve(window._gvAsciidoctor);
 }
 
-export function setAsciiDoctorAsGlobal (asciidoctor, highlightJsExt) {
+export function setAsciiDoctorAsGlobal(asciidoctor, highlightJsExt) {
   if (window._gvAsciidoctor == null) {
     window._gvAsciidoctor = asciidoctor();
     highlightJsExt.register(window._gvAsciidoctor.Extensions);
@@ -34,7 +33,7 @@ export function setAsciiDoctorAsGlobal (asciidoctor, highlightJsExt) {
   return window._gvAsciidoctor;
 }
 
-export function toDom (text, type = 'adoc', small = false) {
+export function toDom(text, type = 'adoc', small = false) {
   if (window._gvAsciidoctor) {
     if (text) {
       let innerHTML = '';
@@ -45,8 +44,7 @@ export function toDom (text, type = 'adoc', small = false) {
             'source-highlighter': 'highlightjs-ext',
           },
         });
-      }
-      else {
+      } else {
         throw new Error(`Library not found for type : '${type}' | ${text}`);
       }
 
@@ -63,8 +61,7 @@ export function toDom (text, type = 'adoc', small = false) {
 
       return { title, element };
     }
-  }
-  else {
+  } else {
     console.error('Should loadAsciiDoctor before convert content');
   }
 

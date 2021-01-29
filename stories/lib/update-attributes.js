@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function updateBooleanAttributes (nodeList, attribute, value) {
+export function updateBooleanAttributes(nodeList, attribute, value) {
   if (value) {
     nodeList.forEach((e) => e.setAttribute(attribute, ''));
-  }
-  else {
+  } else {
     nodeList.forEach((e) => e.removeAttribute(attribute));
   }
 }
 
-export function updateTextAttributes (nodeList, attribute, value) {
+export function updateTextAttributes(nodeList, attribute, value) {
   nodeList.forEach((e) => e.setAttribute(attribute, value));
 }
 
-export function updateInnerText (nodeList, value) {
+export function updateInnerText(nodeList, value) {
   nodeList.forEach((e) => {
     e.innerText = value;
   });

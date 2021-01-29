@@ -54,7 +54,8 @@ export const methods = css`
     --gv-tag--c: white;
   }
 
-  .flow-path, .plan-name {
+  .flow-path,
+  .plan-name {
     margin-left: 0.2rem;
     display: flex;
     align-items: center;
@@ -63,18 +64,18 @@ export const methods = css`
   .collection-name {
     margin-right: 0.5rem;
     --gv-icon--s: 26px;
-    --gv-icon--c: #5A7684;
-    --gv-icon-opacity--c: #5A7684;
+    --gv-icon--c: #5a7684;
+    --gv-icon-opacity--c: #5a7684;
   }
-  
+
   .icon-type {
     --gv-icon--s: 26px;
-    --gv-icon--c: #383E3F;  
-    --gv-icon-opacity--c: #5A7684;
+    --gv-icon--c: #383e3f;
+    --gv-icon-opacity--c: #5a7684;
   }
 `;
 
-export function getFlowName (flow, collectionName, withMethods = true, draggable = false, compact = true) {
+export function getFlowName(flow, collectionName, withMethods = true, draggable = false, compact = true) {
   let rendering = [];
   if (flow) {
     if (draggable) {
@@ -85,32 +86,26 @@ export function getFlowName (flow, collectionName, withMethods = true, draggable
       let shape = null;
       if (flow.type.toUpperCase() === 'ROOT') {
         shape = 'home:earth';
-      }
-      else if (flow.type.toUpperCase() === 'LOGIN') {
+      } else if (flow.type.toUpperCase() === 'LOGIN') {
         shape = 'general:shield-protected';
-      }
-      else if (flow.type.toUpperCase() === 'CONSENT') {
+      } else if (flow.type.toUpperCase() === 'CONSENT') {
         shape = 'general:shield-check';
-      }
-      else if (flow.type.toUpperCase() === 'REGISTER') {
+      } else if (flow.type.toUpperCase() === 'REGISTER') {
         shape = 'communication:shield-user';
       }
 
       if (shape != null) {
         rendering = [...rendering, html`<gv-icon title="${flow.type}" shape="${shape}" class="icon-type"></gv-icon>`];
       }
-    }
-    else if (withMethods) {
-      const renderingMethods = methods.map((method) => html`<gv-tag class="${method.toUpperCase()}" >${method.toUpperCase()}</gv-tag>`);
+    } else if (withMethods) {
+      const renderingMethods = methods.map((method) => html`<gv-tag class="${method.toUpperCase()}">${method.toUpperCase()}</gv-tag>`);
       if (compact && (renderingMethods.length === 9 || renderingMethods.length === 0)) {
         rendering = [...rendering, html`<gv-tag major title="${methods.join('\n')}">ALL</gv-tag>`];
-      }
-      else if (compact && renderingMethods.length >= 3) {
+      } else if (compact && renderingMethods.length >= 3) {
         const renderingMethodsCompact = renderingMethods.slice(0, 2);
         renderingMethodsCompact.push(html`<gv-tag minor title="${methods.join('\n')}">+${renderingMethods.length - 2}</gv-tag>`);
         rendering = [...rendering, ...renderingMethodsCompact];
-      }
-      else {
+      } else {
         rendering = [...rendering, ...renderingMethods];
       }
     }
@@ -123,22 +118,18 @@ export function getFlowName (flow, collectionName, withMethods = true, draggable
     if (flow.name != null && flow.name.trim() !== '') {
       if (flow._dirty) {
         rendering.push(html`<div class="${classMap(classes)}"><mark>${flow.name}</mark></div>`);
-      }
-      else {
+      } else {
         rendering.push(html`<div class="${classMap(classes)}">${flow.name}</div>`);
       }
-    }
-    else if (flow['path-operator']) {
+    } else if (flow['path-operator']) {
       const path = flow['path-operator'].path || '/';
       if (path) {
         const pathWithOperator = flow['path-operator'].operator === 'STARTS_WITH' ? `${path.endsWith('/') ? path : `${path}/`}**` : path;
         if (flow._dirty) {
           rendering.push(html`<div class="${classMap(classes)}"><mark>${pathWithOperator}</mark></div>`);
-        }
-        else {
+        } else {
           rendering.push(html`<div class="${classMap(classes)}">${pathWithOperator}</div>`);
         }
-
       }
     }
 

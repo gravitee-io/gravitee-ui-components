@@ -35,15 +35,14 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @attr {RatingSummary} rating - Ratings of an API.
  */
 export class GvMetrics extends withSkeletonAttribute(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       metrics: { type: Object },
       _metrics: { type: Object, attribute: false },
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       link,
@@ -67,7 +66,7 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._skeletonAttribute = 'metrics';
     this.skeleton = false;
@@ -75,72 +74,74 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
     this._empty = false;
   }
 
-  _isClickable (metricName) {
+  _isClickable(metricName) {
     if (this._metrics && typeof this._metrics[metricName] === 'object') {
       return this._metrics[metricName].clickable;
     }
     return false;
   }
 
-  _getValue (metric) {
+  _getValue(metric) {
     if (typeof metric === 'object') {
       return metric.value;
     }
     return metric;
   }
 
-  _getSubscribers () {
+  _getSubscribers() {
     if (this._metrics) {
       return this._getValue(this._metrics.subscribers);
     }
     return null;
   }
 
-  _getHits () {
+  _getHits() {
     if (this._metrics) {
       return this._getValue(this._metrics.hits);
     }
     return null;
   }
 
-  _getHealth () {
+  _getHealth() {
     if (this._metrics) {
       const health = this._getValue(this._metrics.health);
       return !isNaN(health)
         ? Intl.NumberFormat.call(this, navigator.language, {
-          style: 'percent',
-          maximumFractionDigits: 2,
-        }).format(health)
-        : ''
-      ;
+            style: 'percent',
+            maximumFractionDigits: 2,
+          }).format(health)
+        : '';
     }
     return null;
   }
 
-  _getTitle (metricName) {
+  _getTitle(metricName) {
     if (this._metrics && typeof this._metrics[metricName] === 'object') {
       return this._metrics[metricName].title;
     }
     return null;
   }
 
-  _onClick (key) {
+  _onClick(key) {
     dispatchCustomEvent(this, 'click', { key });
   }
 
-  _renderMetric (key, icon, name, value) {
+  _renderMetric(key, icon, name, value) {
     const clickable = this._isClickable(key);
-    return (value || this._skeleton)
-      ? html`<gv-metric @click="${clickable ? this._onClick.bind(this, key) : null}" 
-                        .skeleton="${this._skeleton}" icon="${icon}" name="${name}" 
-                        value="${value}" 
-                        class="${classMap({ link: clickable })}"
-                        title="${ifDefined(this._getTitle(key))}"></gv-metric>`
+    return value || this._skeleton
+      ? html`<gv-metric
+          @click="${clickable ? this._onClick.bind(this, key) : null}"
+          .skeleton="${this._skeleton}"
+          icon="${icon}"
+          name="${name}"
+          value="${value}"
+          class="${classMap({ link: clickable })}"
+          title="${ifDefined(this._getTitle(key))}"
+        ></gv-metric>`
       : html``;
   }
 
-  render () {
-
+  render() {
     if (this._error) {
       return html`<div class="error">${i18n('gv-metrics.error')}</div>`;
     }
@@ -150,13 +151,12 @@ export class GvMetrics extends withSkeletonAttribute(LitElement) {
     const health = this._getHealth();
 
     return html`
-            ${this._renderMetric('subscribers', 'communication:group', i18n('gv-metrics.subscribers', { count: subscribers }), subscribers)}
-            ${this._renderMetric('hits', 'general:cursor', i18n('gv-metrics.hits', { count: hits }), hits)}
-            ${this._renderMetric('health', 'general:heart', i18n('gv-metrics.health'), health)}
-            <slot></slot>
+      ${this._renderMetric('subscribers', 'communication:group', i18n('gv-metrics.subscribers', { count: subscribers }), subscribers)}
+      ${this._renderMetric('hits', 'general:cursor', i18n('gv-metrics.hits', { count: hits }), hits)}
+      ${this._renderMetric('health', 'general:heart', i18n('gv-metrics.health'), health)}
+      <slot></slot>
     `;
   }
-
 }
 
 window.customElements.define('gv-metrics', GvMetrics);

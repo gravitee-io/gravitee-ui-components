@@ -36,8 +36,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Length} [--gv-tabs-options--m=0] - Tabs options margin
  */
 export class GvTabs extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       options: { type: Array },
       _options: { type: Array, attribute: false },
@@ -49,7 +48,7 @@ export class GvTabs extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=css
       css`
@@ -57,7 +56,7 @@ export class GvTabs extends LitElement {
           box-sizing: border-box;
         }
 
-        ::slotted([slot="content"]) {
+        ::slotted([slot='content']) {
           opacity: 0;
           box-sizing: border-box;
           transition: opacity 350ms ease-in-out;
@@ -67,7 +66,7 @@ export class GvTabs extends LitElement {
           top: -9999px;
         }
 
-        ::slotted([slot="content"].current) {
+        ::slotted([slot='content'].current) {
           opacity: 1;
           visibility: visible;
           position: relative;
@@ -77,7 +76,7 @@ export class GvTabs extends LitElement {
 
         .header {
           display: flex;
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
           box-sizing: border-box;
         }
 
@@ -114,29 +113,27 @@ export class GvTabs extends LitElement {
         ::slotted(gv-button) {
           padding-bottom: 2px;
         }
-
       `,
     ];
   }
 
-  _getContent () {
+  _getContent() {
     const content = this.shadowRoot.querySelector('slot[name="content"]');
     return content.assignedNodes();
   }
 
-  firstUpdated () {
+  firstUpdated() {
     if (this.value == null && this.options != null && this.options.length > 0) {
       this.value = this.options[0].id;
     }
   }
 
-  set options (options) {
+  set options(options) {
     if (options && Array.isArray(options)) {
       this._options = options.map((option) => {
         if (typeof option === 'string') {
           return { id: option, title: option };
-        }
-        else if (typeof option === 'object' && option.title == null) {
+        } else if (typeof option === 'object' && option.title == null) {
           return { id: option.id, title: option.id };
         }
         return option;
@@ -144,11 +141,11 @@ export class GvTabs extends LitElement {
     }
   }
 
-  get options () {
+  get options() {
     return this._options;
   }
 
-  updated () {
+  updated() {
     const content = this._getContent();
     content.forEach((c) => c.classList.remove('current'));
     if (this.value) {
@@ -156,20 +153,19 @@ export class GvTabs extends LitElement {
       if (target) {
         target.classList.add('current');
       }
-    }
-    else {
+    } else {
       content[0].classList.add('current');
     }
   }
 
-  _changeTab (from, content, value) {
+  _changeTab(from, content, value) {
     from.classList.remove('current');
     content.classList.add('current');
     this.value = value;
     dispatchCustomEvent(this, 'change', { value, from: from.id, to: content.id });
   }
 
-  _onClick ({ detail }) {
+  _onClick({ detail }) {
     if (!this.disabled) {
       const from = this._getContent().find((e) => e.classList.contains('current'));
       const content = this.querySelector(`#${detail.id}`);
@@ -179,16 +175,14 @@ export class GvTabs extends LitElement {
           .then(() => {
             this._changeTab(from, content, detail.id);
           })
-          .catch(() => {
-          });
-      }
-      else {
+          .catch(() => {});
+      } else {
         this._changeTab(from, content, detail.id);
       }
     }
   }
 
-  get _contextualOptions () {
+  get _contextualOptions() {
     if (this.truncate) {
       return this.options.map((option) => {
         if (this.value !== option.id) {
@@ -201,18 +195,17 @@ export class GvTabs extends LitElement {
     return this.options;
   }
 
-  render () {
+  render() {
     return html`<div>
-                  <div class="header">
-                    <div class="tabs">
-                      <slot name="title" class="title"></slot>
-                      <gv-option small .options="${this._contextualOptions}" @gv-option:select="${this._onClick}" .value="${this.value}"></gv-option>
-                    </div>
-                  </div>
-                  <slot name="content"></slot>
-                </div>`;
+      <div class="header">
+        <div class="tabs">
+          <slot name="title" class="title"></slot>
+          <gv-option small .options="${this._contextualOptions}" @gv-option:select="${this._onClick}" .value="${this.value}"></gv-option>
+        </div>
+      </div>
+      <slot name="content"></slot>
+    </div>`;
   }
-
 }
 
 window.customElements.define('gv-tabs', GvTabs);

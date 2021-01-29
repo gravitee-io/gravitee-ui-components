@@ -25,12 +25,12 @@ import { withSkeletonAttribute } from './with-skeleton-attribute';
  * This is a mixin for ChartElement
  * @mixinFunction
  */
-export function ChartElement (ParentClass) {
+export function ChartElement(ParentClass) {
   /**
    * @mixinClass
    */
   return class extends withSkeletonAttribute(ParentClass) {
-    static get properties () {
+    static get properties() {
       return {
         /** @required */
         series: { type: Array },
@@ -40,7 +40,7 @@ export function ChartElement (ParentClass) {
       };
     }
 
-    static get styles () {
+    static get styles() {
       return [
         ...super.styles,
         // language=CSS
@@ -82,29 +82,29 @@ export function ChartElement (ParentClass) {
       ];
     }
 
-    constructor () {
+    constructor() {
       super();
       this._skeletonAttribute = 'series';
-      this._eventListener = function eventListener () {
+      this._eventListener = function eventListener() {
         for (let i = 0; i < Highcharts.charts.length; i++) {
           Highcharts.charts[i].reflow();
         }
       };
     }
 
-    connectedCallback () {
+    connectedCallback() {
       super.connectedCallback();
       window.addEventListener('resize', this._eventListener);
     }
 
-    disconnectedCallback () {
+    disconnectedCallback() {
       super.disconnectedCallback();
       window.removeEventListener('resize', this._eventListener);
     }
 
-    async getOptions () {}
+    async getOptions() {}
 
-    updated (changedProperties) {
+    updated(changedProperties) {
       super.updated(changedProperties);
       if (changedProperties.has('_series')) {
         this.getOptions().then((options) => {
@@ -113,7 +113,7 @@ export function ChartElement (ParentClass) {
       }
     }
 
-    render () {
+    render() {
       if (this._error) {
         return html` <div class="error">${i18n('gv-chart.error')}</div>`;
       }
@@ -123,8 +123,7 @@ export function ChartElement (ParentClass) {
 
       const container = document.createElement('div');
       container.id = 'container';
-      container.className
-        = this._skeleton || this._additionalOptions == null ? 'skeleton' : '';
+      container.className = this._skeleton || this._additionalOptions == null ? 'skeleton' : '';
       container.classList.add('container');
 
       if (this._additionalOptions) {
@@ -147,11 +146,7 @@ export function ChartElement (ParentClass) {
           ...this._additionalOptions,
         };
 
-        const hasData
-          = this._series
-          && this._series.values
-          && this._series.values[0]
-          && this._series.values[0].data;
+        const hasData = this._series && this._series.values && this._series.values[0] && this._series.values[0].data;
         if (hasData) {
           options.series = this._series && this._series.values;
         }
@@ -159,8 +154,7 @@ export function ChartElement (ParentClass) {
         setTimeout(() => {
           if (options.chart.map) {
             Highmaps.mapChart(container, options);
-          }
-          else {
+          } else {
             Highcharts.chart(container, options);
           }
         });

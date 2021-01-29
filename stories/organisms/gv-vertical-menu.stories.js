@@ -19,13 +19,7 @@ import { makeStory } from '../lib/make-story';
 import { withKnobs } from '@storybook/addon-knobs';
 import logo from '../../assets/images/gravitee-logo.png';
 
-const events = [
-  'gv-link:click',
-  'gv-input:input',
-  'gv-input:submit',
-  'gv-header:subscribe',
-  'gv-header:support',
-];
+const events = ['gv-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header:subscribe', 'gv-header:support'];
 
 export default {
   title: 'Organisms/gv-vertical-menu',
@@ -50,9 +44,11 @@ const items = [{ routes }];
 
 export const Basics = makeStory(conf, { items });
 
-const itemsWithLogo = [{
-  routes: routes,
-  logo: logo,
-}];
+const itemsWithLogo = [
+  {
+    routes: routes,
+    logo: logo,
+  },
+];
 
 export const WithLogo = makeStory(conf, { items: itemsWithLogo });

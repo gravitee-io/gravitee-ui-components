@@ -36,14 +36,18 @@ const routes = [
 ];
 
 export const basics = makeStory(conf, {
-  items: [{
-    routes: routes,
-  }],
+  items: [
+    {
+      routes: routes,
+    },
+  ],
 });
 
 export const vertical = makeStory(conf, {
-  items: [{
-    routes: routes,
-    vertical: true,
-  }],
+  items: [
+    {
+      routes: routes,
+      vertical: true,
+    },
+  ],
 });

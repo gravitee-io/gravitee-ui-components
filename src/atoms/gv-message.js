@@ -30,10 +30,9 @@ import '../atoms/gv-icon';
  *
  * @attr {String} type - type of the message. Can be default, success, error, warning or info.
  * @attr {boolean} closable - determines if the message can be hidden.
-*/
+ */
 export class GvMessage extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       type: { type: String },
       closable: { type: Boolean },
@@ -41,79 +40,78 @@ export class GvMessage extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
-          :host {
-            display: block;
-            vertical-align: middle;
-          }
+        :host {
+          display: block;
+          vertical-align: middle;
+        }
 
-          .box {
-            display: flex;
-            align-items: center;
-            font-style: normal;
-            font-weight: normal;
-            line-height: normal;
-            padding: 12px 0px;
-            text-align: center;
-            width: 100%;
-          }
+        .box {
+          display: flex;
+          align-items: center;
+          font-style: normal;
+          font-weight: normal;
+          line-height: normal;
+          padding: 12px 0px;
+          text-align: center;
+          width: 100%;
+        }
 
-          .info {
-            background-color: var(--gv-theme-color-info-light, #64b5f6);
-          }
+        .info {
+          background-color: var(--gv-theme-color-info-light, #64b5f6);
+        }
 
-          .success {
-            background-color: var(--gv-theme-color-success-light, #81c784);
-          }
+        .success {
+          background-color: var(--gv-theme-color-success-light, #81c784);
+        }
 
-          .warning {
-            background-color: var(--gv-theme-color-warning-light, #ffb74d);
-          }
+        .warning {
+          background-color: var(--gv-theme-color-warning-light, #ffb74d);
+        }
 
-          .error {
-            background-color: var(--gv-theme-color-error-light, #e57373);
-          }
+        .error {
+          background-color: var(--gv-theme-color-error-light, #e57373);
+        }
 
-          .close {
-            transition: opacity 250ms ease-in-out;
-            opacity: 0;
-          }
+        .close {
+          transition: opacity 250ms ease-in-out;
+          opacity: 0;
+        }
 
-          gv-icon {
-            --gv-icon--s: 24px;
-            margin-right: 12px;
-          }
+        gv-icon {
+          --gv-icon--s: 24px;
+          margin-right: 12px;
+        }
 
-          gv-icon:hover {
-            cursor: pointer;
-          }
-          .content {
-            flex: 1 1 auto;
-            margin-left: 12px
-          }
+        gv-icon:hover {
+          cursor: pointer;
+        }
+        .content {
+          flex: 1 1 auto;
+          margin-left: 12px;
+        }
       `,
     ];
   }
 
-  _onClick () {
+  _onClick() {
     this._close = true;
     setTimeout(() => {
       dispatchCustomEvent(this, 'close');
     }, 250);
-
   }
 
-  render () {
+  render() {
     const modes = {
       box: true,
-      simple: (!this.type || (this.type !== 'info' && this.type !== 'success' && this.type !== 'error' && this.type !== 'warning')),
-      info: (this.type === 'info'),
-      warning: (this.type === 'warning'),
-      success: (this.type === 'success'),
-      error: (this.type === 'error'),
+      simple: !this.type || (this.type !== 'info' && this.type !== 'success' && this.type !== 'error' && this.type !== 'warning'),
+      info: this.type === 'info',
+      warning: this.type === 'warning',
+      success: this.type === 'success',
+      error: this.type === 'error',
       close: this._close,
     };
     return html`

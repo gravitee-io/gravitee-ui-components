@@ -29,9 +29,7 @@ const conf = {
   component: 'gv-metric',
 };
 
-const items = [
-  { icon: 'general:cursor', name: 'Hits', value: '15000' },
-];
+const items = [{ icon: 'general:cursor', name: 'Hits', value: '15000' }];
 
 export const Simple = makeStory(conf, {
   items,

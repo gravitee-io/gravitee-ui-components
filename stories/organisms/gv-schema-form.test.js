@@ -20,7 +20,6 @@ import mixed from '../resources/schemas/mixed.json';
 import { deepClone } from '../../src/lib/utils';
 
 describe('S C H E M A  F O R M', () => {
-
   let page;
   let component;
 
@@ -36,7 +35,6 @@ describe('S C H E M A  F O R M', () => {
   });
 
   const checkControl = (id, attributes = []) => {
-
     const ids = id.split('.');
     const acc = [];
     let element = component.getControl(ids[0]);
@@ -89,11 +87,9 @@ describe('S C H E M A  F O R M', () => {
       checkControl('multiselect');
       done();
     });
-
   });
 
   test('should create element with valid values', (done) => {
-
     component.values = {
       body: '<xml>foobar</xml>',
       el: `{#request.headers['Content-Type'][0].toString()}`,
@@ -142,12 +138,10 @@ describe('S C H E M A  F O R M', () => {
         checkControl('cron', { value: '*/30 * * * * SUN-MON' });
         done();
       }, 0);
-
     });
   });
 
   test('should create element with invalid values', (done) => {
-
     component.values = {
       body: '<xml></xml>',
       'path-operator': {
@@ -219,10 +213,7 @@ describe('S C H E M A  F O R M', () => {
           instance: 'no path',
           message: 'does not match pattern "^/"',
           name: 'pattern',
-          path: [
-            'path-operator',
-            'path',
-          ],
+          path: ['path-operator', 'path'],
           property: 'instance.path-operator.path',
           schema: {
             description: 'The path of flow (must start by /)',
@@ -266,7 +257,6 @@ describe('S C H E M A  F O R M', () => {
   });
 
   test('should catch custom event after create control', (done) => {
-
     component = page.create('gv-schema-form', {
       schema: mixed,
     });
@@ -276,7 +266,6 @@ describe('S C H E M A  F O R M', () => {
       expect(detail.currentTarget.tagName.toLowerCase()).toEqual('gv-autocomplete');
       done();
     });
-
   });
 
   test('should submit form when values respect constraints', (done) => {
@@ -306,7 +295,6 @@ describe('S C H E M A  F O R M', () => {
       expect(component.canSubmit()).toBeFalsy();
       done();
     });
-
   });
 
   test('should reset initial values', () => {
@@ -360,7 +348,6 @@ describe('S C H E M A  F O R M', () => {
     component.reset();
 
     expect(component.values).toEqual(values);
-
   });
 
   test('should remove value with empty string & empty array', () => {
@@ -407,7 +394,5 @@ describe('S C H E M A  F O R M', () => {
         operator: 'STARTS_WITH',
       },
     });
-
   });
-
 });

@@ -43,22 +43,26 @@ export const Basic = makeStory(conf, {
 });
 
 export const CustomLabels = makeStory(conf, {
-  items: [{
-    message: 'Are you agree to delete this comment ?',
-    innerHTML: '<gv-button outlined>Ask confirmation</gv-button>',
-    okLabel: 'I agree',
-    cancelLabel: 'Not agree',
-  }],
+  items: [
+    {
+      message: 'Are you agree to delete this comment ?',
+      innerHTML: '<gv-button outlined>Ask confirmation</gv-button>',
+      okLabel: 'I agree',
+      cancelLabel: 'Not agree',
+    },
+  ],
 });
 
 export const CustomIcon = makeStory(conf, {
-  items: [{
-    message: 'Are we going to eat pizza tomorrow?',
-    innerHTML: '<gv-button outlined>Ask confirmation</gv-button>',
-    okLabel: 'Awesome',
-    cancelLabel: 'Sorry, I prefer the pasta',
-    icon: 'food:pizza',
-  }],
+  items: [
+    {
+      message: 'Are we going to eat pizza tomorrow?',
+      innerHTML: '<gv-button outlined>Ask confirmation</gv-button>',
+      okLabel: 'Awesome',
+      cancelLabel: 'Sorry, I prefer the pasta',
+      icon: 'food:pizza',
+    },
+  ],
 });
 
 export const Disabled = makeStory(conf, {

@@ -38,19 +38,20 @@ export const basics = makeStory(conf, {
   items: [{ options, value: 'cap' }],
 });
 
-const description
-  = `<p><div>A hands-free application.</div>Using this type, you will be able to define the client_id by your own.</p>`;
+const description = `<p><div>A hands-free application.</div>Using this type, you will be able to define the client_id by your own.</p>`;
 
 export const Description = makeStory(conf, {
-  items: [{ options: options.map((p, i) => (Promise.resolve({ ...p, description: i % 2 === 0 ? description : '' }))) }],
+  items: [{ options: options.map((p, i) => Promise.resolve({ ...p, description: i % 2 === 0 ? description : '' })) }],
 });
 
 export const Multiple = makeStory(conf, {
-  items: [{
-    options: options.map((p, i) => (Promise.resolve({ ...p, description: description }))),
-    value: ['cap', 'shorts'],
-    multiple: true,
-  }],
+  items: [
+    {
+      options: options.map((p, i) => Promise.resolve({ ...p, description: description })),
+      value: ['cap', 'shorts'],
+      multiple: true,
+    },
+  ],
 });
 
 const withoutIconOptions = [
@@ -60,10 +61,12 @@ const withoutIconOptions = [
 ];
 
 export const NoIcon = makeStory(conf, {
-  items: [{
-    options: withoutIconOptions.map((p) => (Promise.resolve({ ...p, description: description }))),
-    value: 'cap',
-  }],
+  items: [
+    {
+      options: withoutIconOptions.map((p) => Promise.resolve({ ...p, description: description })),
+      value: 'cap',
+    },
+  ],
 });
 
 const times = [

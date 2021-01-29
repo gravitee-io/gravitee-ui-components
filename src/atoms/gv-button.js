@@ -51,12 +51,12 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} small - for a small input
  * @attr {Number} tabindex - tabindex of button
  *
- * @cssprop {Color} [--gv-button--bgc=var(--gv-theme-color-dark, #28444F)] - Background color
- * @cssprop {Color} [--gv-button--c=var(--gv-theme-font-color-light, #FFFFFF)] - Color
- * @cssprop {Color} [--gv-button-primary--c=var(--gv-theme-font-color-light, #FFFFFF)] - Primary color
- * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #5A7684)] - Primary background color
- * @cssprop {Color} [--gv-button-danger--c=var(--gv-theme-font-color-light, #FFFFFF)] - Danger color
- * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-danger-color, #FF5722)] - Danger background color
+ * @cssprop {Color} [--gv-button--bgc=var(--gv-theme-color-dark, #28444f)] - Background color
+ * @cssprop {Color} [--gv-button--c=var(--gv-theme-font-color-light, #ffffff)] - Color
+ * @cssprop {Color} [--gv-button-primary--c=var(--gv-theme-font-color-light, #ffffff)] - Primary color
+ * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #5a7684)] - Primary background color
+ * @cssprop {Color} [--gv-button-danger--c=var(--gv-theme-font-color-light, #ffffff)] - Danger color
+ * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-danger-color, #ff5722)] - Danger background color
  * @cssprop {Color} [--gv-button-oidc--bgc=#000000] - OIDC Social Provider button background color
  * @cssprop {Color} [--gv-button-graviteeio_am--bgc=#86c3d0] - Gravitee.io AM Social Provider button background color
  * @cssprop {Length} [--gv-button--p=7px 14px] - Padding
@@ -64,8 +64,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Length} [--gv-button--bdrs=0.15rem] - Border radius
  */
 export class GvButton extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       type: { type: String },
       danger: { type: Boolean },
@@ -86,7 +85,7 @@ export class GvButton extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -97,7 +96,7 @@ export class GvButton extends LitElement {
           vertical-align: middle;
           --gv-icon--s: 23px;
           --github--c: #444;
-          --google--c: #4285F4;
+          --google--c: #4285f4;
           --oidc--c: var(--gv-button-oidc--bgc, #000000);
           --gravitee--c: var(--gv-button-graviteeio_am--bgc, #86c3d0);
         }
@@ -125,7 +124,7 @@ export class GvButton extends LitElement {
 
         .button.graviteeio_am {
           --gv-button--bgc: var(--gravitee--c);
-          color: #383E3F;
+          color: #383e3f;
         }
 
         /* RESET */
@@ -178,26 +177,26 @@ export class GvButton extends LitElement {
 
         /* COLORS */
         .default {
-          --c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF));
-          --bgc: var(--gv-button--bgc, var(--gv-theme-color-dark, #28444F));
-          --icon--c: var(--gv-button--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --c: var(--gv-button--c, var(--gv-theme-font-color-light, #ffffff));
+          --bgc: var(--gv-button--bgc, var(--gv-theme-color-dark, #28444f));
+          --icon--c: var(--gv-button--c, var(--gv-theme-font-color-light, #ffffff));
           --gv-icon--c: var(--icon--c);
           --gv-icon-opacity--c: var(--icon--c);
         }
 
         .primary {
-          --c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
-          --bgc: var(--gv-button-primary--bgc, var(--gv-theme-color, #5A7684));
-          --icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #ffffff));
+          --bgc: var(--gv-button-primary--bgc, var(--gv-theme-color, #5a7684));
+          --icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #ffffff));
           --gv-icon--c: var(--icon--c);
           --gv-icon-opacity--c: var(--icon--c);
           font-weight: 500;
         }
 
         .danger {
-          --c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #FFFFFF));
-          --bgc: var(--gv-button-danger--bgc, var(--gv-theme-danger-color, #FF5722));
-          --icon--c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #ffffff));
+          --bgc: var(--gv-button-danger--bgc, var(--gv-theme-danger-color, #ff5722));
+          --icon--c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #ffffff));
           --gv-icon--c: var(--icon--c);
           --gv-icon-opacity--c: var(--icon--c);
         }
@@ -218,7 +217,7 @@ export class GvButton extends LitElement {
 
         :host(:focus) .button:not(.link):not(.disabled),
         :host(:hover) .button:not(.link):not(.disabled) {
-          box-shadow: 0 1px 3px var(--gv-theme-color-darker, #383E3F);
+          box-shadow: 0 1px 3px var(--gv-theme-color-darker, #383e3f);
         }
 
         :host(:active) .button {
@@ -227,7 +226,7 @@ export class GvButton extends LitElement {
 
         .button.disabled {
           cursor: default;
-          opacity: .5;
+          opacity: 0.5;
         }
 
         .button.skeleton > gv-icon {
@@ -288,20 +287,20 @@ export class GvButton extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.tabindex = 0;
     this.addEventListener('click', this._onClick.bind(this));
   }
 
-  _onKeyDown (e) {
+  _onKeyDown(e) {
     if (e.keyCode === 32 || e.keyCode === 13) {
       e.preventDefault();
       this._onClick(e);
     }
   }
 
-  _onClick (e) {
+  _onClick(e) {
     if (this.href) {
       e.preventDefault();
     }
@@ -314,7 +313,7 @@ export class GvButton extends LitElement {
     }
   }
 
-  async performUpdate () {
+  async performUpdate() {
     super.performUpdate();
     const icon = this.shadowRoot.querySelector('gv-icon');
     if (icon) {
@@ -322,7 +321,7 @@ export class GvButton extends LitElement {
     }
   }
 
-  render () {
+  render() {
     const classes = {
       button: true,
       primary: this.primary && !this.danger,
@@ -348,23 +347,19 @@ export class GvButton extends LitElement {
     }
 
     if (this.href) {
-      return html`<a
-          tabindex="-1"
-          .href="${this.href}"
-          .title="${ifDefined(this.title)}"
-          class=${classMap(classes)}>
-          ${this._getIconLeft()}
-          <slot></slot>
-          ${this._getIconRight()}
-        </a>`;
-    }
-    else {
+      return html`<a tabindex="-1" .href="${this.href}" .title="${ifDefined(this.title)}" class=${classMap(classes)}>
+        ${this._getIconLeft()}
+        <slot></slot>
+        ${this._getIconRight()}
+      </a>`;
+    } else {
       return html`<button
-          tabindex="-1"
-          type=${this.type || 'button'}
-          .title="${ifDefined(this.title)}"
+        tabindex="-1"
+        type=${this.type || 'button'}
+        .title="${ifDefined(this.title)}"
         class=${classMap(classes)}
-        .disabled=${this.disabled || this.skeleton}>
+        .disabled=${this.disabled || this.skeleton}
+      >
         ${this._getIconLeft()}
         <slot></slot>
         ${this._getIconRight()}
@@ -372,7 +367,7 @@ export class GvButton extends LitElement {
     }
   }
 
-  _getIconRight () {
+  _getIconRight() {
     if (this.iconRight) {
       if (this.loading && !this.icon && !this.link) {
         return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
@@ -382,11 +377,11 @@ export class GvButton extends LitElement {
     return '';
   }
 
-  _hasIconLeft () {
+  _hasIconLeft() {
     return (this.icon || this.loading) && !this.iconRight;
   }
 
-  _getIconLeft () {
+  _getIconLeft() {
     if (this._hasIconLeft()) {
       if (this.loading && !this.link) {
         return html`<gv-icon shape="navigation:waiting" .title="${ifDefined(this.title)}"></gv-icon>`;
@@ -396,7 +391,7 @@ export class GvButton extends LitElement {
     return '';
   }
 
-  firstUpdated () {
+  firstUpdated() {
     const slot = this.shadowRoot.querySelector('slot');
     if (slot.assignedNodes().length > 0) {
       this._hasContent = true;

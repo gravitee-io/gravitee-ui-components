@@ -19,11 +19,7 @@ import picture from '../../assets/images/logo.png';
 import background from '../../assets/images/gravitee-logo-inline.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
-const events = [
-  'gv-header:subscribe',
-  'gv-header:contact',
-  'gv-link:click',
-];
+const events = ['gv-header:subscribe', 'gv-header:contact', 'gv-link:click'];
 
 const version = 'v.1.1';
 const states = [
@@ -100,7 +96,6 @@ export const loading = makeStory(conf, {
 export const loadingAndError = makeStory(conf, {
   items: [{}],
   simulations: [
-
     storyWait(0, ([component]) => {
       component.item = new Promise((resolve, reject) => (itemResolver = reject));
     }),

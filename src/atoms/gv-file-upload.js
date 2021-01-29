@@ -36,8 +36,7 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {String} value - Reflected value of uploaded file
  **/
 export class GvFileUpload extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       label: { type: String },
       accept: { type: String },
@@ -50,29 +49,28 @@ export class GvFileUpload extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       link,
       // language=CSS
       css`
-
         :host {
           box-sizing: border-box;
           display: block;
           width: 100%;
-          color: var(--gv-theme-color-dark, #28444F);
+          color: var(--gv-theme-color-dark, #28444f);
         }
 
         .box {
           font-size: 1.25rem;
-          background-color: var(--gv-theme-neutral-color-lighter, #FAFAFA);
+          background-color: var(--gv-theme-neutral-color-lighter, #fafafa);
           position: relative;
           padding: 2rem;
           text-align: center;
           display: block;
-          border: 1px dashed #28444F;
+          border: 1px dashed #28444f;
           border-radius: 4px;
-          transition: outline-offset .15s ease-in-out, background-color .15s linear;
+          transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear;
           height: 100%;
         }
 
@@ -82,8 +80,7 @@ export class GvFileUpload extends LitElement {
           display: block;
           margin-bottom: 40px;
           --gv-icon--s: 5rem;
-          --gv-icon--c: var(--gv-theme-color-dark, #28444F);
-
+          --gv-icon--c: var(--gv-theme-color-dark, #28444f);
         }
 
         .box__file {
@@ -105,9 +102,9 @@ export class GvFileUpload extends LitElement {
         }
 
         .box.is-dragover {
-          background-color: var(--gv-theme-color-light, #28444F);
+          background-color: var(--gv-theme-color-light, #28444f);
           border: none;
-          outline: 1px dashed #28444F;
+          outline: 1px dashed #28444f;
           outline-offset: -10px;
         }
 
@@ -162,12 +159,11 @@ export class GvFileUpload extends LitElement {
         .preview:hover gv-image {
           opacity: 0.3;
         }
-
       `,
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.reader = new FileReader();
     this._files = [];
@@ -175,7 +171,7 @@ export class GvFileUpload extends LitElement {
     this._counter = 0;
   }
 
-  _onDragOver (e) {
+  _onDragOver(e) {
     e.preventDefault();
     e.stopPropagation();
     this._counter++;
@@ -183,7 +179,7 @@ export class GvFileUpload extends LitElement {
     box.classList.add('is-dragover');
   }
 
-  _onDragEnd (e) {
+  _onDragEnd(e) {
     e.preventDefault();
     e.stopPropagation();
     if (--this._counter === 0) {
@@ -192,39 +188,34 @@ export class GvFileUpload extends LitElement {
     }
   }
 
-  _onDrop (e) {
+  _onDrop(e) {
     e.preventDefault();
     e.stopPropagation();
     this.setFiles(e.dataTransfer.files);
   }
 
-  _getRegex (mimeTypes) {
-    return `(${mimeTypes.toString().replace(' ', '')
-      .replace(/,/g, '.+|')
-      .replace(/\*/g, '.+')
-      .replace('.+.+', '.+')
-    })`;
+  _getRegex(mimeTypes) {
+    return `(${mimeTypes.toString().replace(' ', '').replace(/,/g, '.+|').replace(/\*/g, '.+').replace('.+.+', '.+')})`;
   }
 
-  setFiles (files) {
+  setFiles(files) {
     const errors = [];
-    this._files = [...files]
-      .filter((file) => {
-        if (this.accept && file.type.match(this._getRegex(this.accept)) == null) {
-          errors.push({ file, error: i18n('gv-file-upload.error.typeNotAllowed') });
-          return false;
-        }
+    this._files = [...files].filter((file) => {
+      if (this.accept && file.type.match(this._getRegex(this.accept)) == null) {
+        errors.push({ file, error: i18n('gv-file-upload.error.typeNotAllowed') });
+        return false;
+      }
 
-        if (this.except && file.type.match(this._getRegex(this.except)) != null) {
-          errors.push({ file, error: i18n('gv-file-upload.error.typeNotAllowed') });
-          return false;
-        }
-        if (this.limit && file.size > parseInt(this.limit, 10)) {
-          errors.push({ file, error: i18n('gv-file-upload.error.maxSize') });
-          return false;
-        }
-        return true;
-      });
+      if (this.except && file.type.match(this._getRegex(this.except)) != null) {
+        errors.push({ file, error: i18n('gv-file-upload.error.typeNotAllowed') });
+        return false;
+      }
+      if (this.limit && file.size > parseInt(this.limit, 10)) {
+        errors.push({ file, error: i18n('gv-file-upload.error.maxSize') });
+        return false;
+      }
+      return true;
+    });
     this._errors = errors;
     if (this._errors.length > 0) {
       dispatchCustomEvent(this, 'error', { errors: this._errors });
@@ -233,13 +224,11 @@ export class GvFileUpload extends LitElement {
     const box = this.shadowRoot.querySelector('.box');
     box.classList.remove('is-dragover');
     if (this._files.length > 0) {
-
       this.reader.readAsDataURL(this._files[0]);
       this.reader.onload = (event) => {
         if (this._files[0].type.match(this._getRegex('image/*'))) {
           this._preview = event.target.result;
-        }
-        else {
+        } else {
           this._preview = null;
         }
         this.value = event.target.result;
@@ -247,14 +236,14 @@ export class GvFileUpload extends LitElement {
         dispatchCustomEvent(this, 'drop', { files: [this.value] });
       };
     }
-  };
+  }
 
-  _cancelEvent (e) {
+  _cancelEvent(e) {
     e.preventDefault();
     e.stopPropagation();
   }
 
-  _removeFile () {
+  _removeFile() {
     this._errors = [];
     this._files = [];
     this._preview = null;
@@ -263,20 +252,20 @@ export class GvFileUpload extends LitElement {
     this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
   }
 
-  _onChange (e) {
+  _onChange(e) {
     this.setFiles(e.target.files);
   }
 
-  get icon () {
+  get icon() {
     if (this._files.length > 0) {
       return 'general:clip';
     }
     return 'general:upload';
   }
 
-  render () {
-    const label = this._errors.length > 0 || this._files.length > 0
-      ? i18n('gv-file-upload.chooseAnotherFile') : i18n('gv-file-upload.chooseFile');
+  render() {
+    const label =
+      this._errors.length > 0 || this._files.length > 0 ? i18n('gv-file-upload.chooseAnotherFile') : i18n('gv-file-upload.chooseFile');
 
     const classes = {
       box: true,
@@ -284,54 +273,69 @@ export class GvFileUpload extends LitElement {
     };
 
     return html`
-    <label for="file">${this.label}</label>
-    <div class="${classMap(classes)}"
-    @drop="${this._onDrop}"
-    @ondrop="${this._onDrop}"
-    @drag="${this._cancelEvent}"
-    @dragstart="${this._cancelEvent}"
-    @dragover="${this._onDragOver}"
-    @dragenter="${this._onDragOver}"
-    @dragleave="${this._onDragEnd}"
-    @dragend="${this._onDragEnd}"
-    >
-         ${this._preview != null ? html`<gv-image .src="${this._preview}" @error="${this._onPreviewError}"></gv-image>` : ''}
-          <div class="box__input">
-            <gv-icon class="box__icon" shape="${this.icon}"></gv-icon>
-            <label for="file" class="link">
-                <strong>${label}</strong>
-                <span class="box__dragndrop">${i18n('gv-file-upload.orDragIt')}</span>
-            </label>
-            <input class="box__file" type="file" name="files[]" id="file" files="${this.files}" accept="${ifDefined(this.accept)}" @change="${this._onChange}"/>
-          </div>
+      <label for="file">${this.label}</label>
+      <div
+        class="${classMap(classes)}"
+        @drop="${this._onDrop}"
+        @ondrop="${this._onDrop}"
+        @drag="${this._cancelEvent}"
+        @dragstart="${this._cancelEvent}"
+        @dragover="${this._onDragOver}"
+        @dragenter="${this._onDragOver}"
+        @dragleave="${this._onDragEnd}"
+        @dragend="${this._onDragEnd}"
+      >
+        ${this._preview != null ? html`<gv-image .src="${this._preview}" @error="${this._onPreviewError}"></gv-image>` : ''}
+        <div class="box__input">
+          <gv-icon class="box__icon" shape="${this.icon}"></gv-icon>
+          <label for="file" class="link">
+            <strong>${label}</strong>
+            <span class="box__dragndrop">${i18n('gv-file-upload.orDragIt')}</span>
+          </label>
+          <input
+            class="box__file"
+            type="file"
+            name="files[]"
+            id="file"
+            files="${this.files}"
+            accept="${ifDefined(this.accept)}"
+            @change="${this._onChange}"
+          />
         </div>
-        ${this._files.length > 0 ? html`
-        <div class="files">
-            <gv-icon shape="general:clip"></gv-icon><div class="filename">${this._files[0].name}</div>
-            <gv-icon class="link" @click="${this._removeFile.bind(this, 0)}" shape="general:trash"></gv-icon>
-        </div>
-        ` : ''}
-        ${this._errors.length > 0 ? html`
-        <div class="files">
-            <gv-icon class="error" shape="code:stop"></gv-icon>
-            <div class="filename">${this._errors[0].file.name} <span class="error">(${this._errors[0].error})</span></div>
-        </div>
-        ` : ''}
-        ${this.value && this._files.length === 0 && this._errors.length === 0 ? html`
-        <div class="files">
-            <div class="filename"></div>
-            <gv-button link @click="${this._removeFile.bind(this, 0)}">${i18n('gv-file-upload.removePicture')}</gv-button>
-        </div>
-        ` : ''}
-
-`;
+      </div>
+      ${this._files.length > 0
+        ? html`
+            <div class="files">
+              <gv-icon shape="general:clip"></gv-icon>
+              <div class="filename">${this._files[0].name}</div>
+              <gv-icon class="link" @click="${this._removeFile.bind(this, 0)}" shape="general:trash"></gv-icon>
+            </div>
+          `
+        : ''}
+      ${this._errors.length > 0
+        ? html`
+            <div class="files">
+              <gv-icon class="error" shape="code:stop"></gv-icon>
+              <div class="filename">${this._errors[0].file.name} <span class="error">(${this._errors[0].error})</span></div>
+            </div>
+          `
+        : ''}
+      ${this.value && this._files.length === 0 && this._errors.length === 0
+        ? html`
+            <div class="files">
+              <div class="filename"></div>
+              <gv-button link @click="${this._removeFile.bind(this, 0)}">${i18n('gv-file-upload.removePicture')}</gv-button>
+            </div>
+          `
+        : ''}
+    `;
   }
 
-  _onPreviewError () {
+  _onPreviewError() {
     this.value = null;
   }
 
-  updated (changedProperties) {
+  updated(changedProperties) {
     if (changedProperties.has('value')) {
       if (this.value) {
         this._preview = this.value;
@@ -343,8 +347,7 @@ export class GvFileUpload extends LitElement {
             }
           };
         }
-      }
-      else {
+      } else {
         this._preview = null;
         this._files = [];
       }
@@ -360,7 +363,6 @@ export class GvFileUpload extends LitElement {
       img.style.top = '10px';
     }
   }
-
 }
 
 window.customElements.define('gv-file-upload', GvFileUpload);

@@ -30,8 +30,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  */
 export class GvChartMap extends ChartElement(LitElement) {
-
-  async getOptions () {
+  async getOptions() {
     const data = [];
     if (this._series && this._series.values) {
       Object.keys(this._series.values).forEach((k) => {
@@ -45,8 +44,7 @@ export class GvChartMap extends ChartElement(LitElement) {
       const zone = this.options.zone.toLowerCase();
       key = 'name';
       map = await import('@highcharts/map-collection/countries/' + zone.substring(0, 2) + '/' + zone + '-all.geo.json');
-    }
-    else {
+    } else {
       key = 'hc-a2';
       map = await import('@highcharts/map-collection/custom/world.geo.json');
     }
@@ -71,32 +69,34 @@ export class GvChartMap extends ChartElement(LitElement) {
           [1, Highcharts.Color(Highcharts.getOptions().colors[0]).brighten(-0.5).get()],
         ],
       },
-      series: [{
-        data,
-        joinBy: [key, 'key'],
-        name: this.options.name,
-        dataLabels: {
-          enabled: true,
-          formatter: function () {
-            return key === 'name' ? this.point[key] : '';
+      series: [
+        {
+          data,
+          joinBy: [key, 'key'],
+          name: this.options.name,
+          dataLabels: {
+            enabled: true,
+            formatter: function () {
+              return key === 'name' ? this.point[key] : '';
+            },
           },
-        },
-        states: {
-          hover: {
-            color: '#a4edba',
-            borderColor: 'gray',
+          states: {
+            hover: {
+              color: '#a4edba',
+              borderColor: 'gray',
+            },
           },
-        },
-        nullColor: '#eaecfd',
-        point: {
-          events: {
-            click: (event) => {
-              event.preventDefault();
-              dispatchCustomEvent(this, 'select', event.point.properties);
+          nullColor: '#eaecfd',
+          point: {
+            events: {
+              click: (event) => {
+                event.preventDefault();
+                dispatchCustomEvent(this, 'select', event.point.properties);
+              },
             },
           },
         },
-      }],
+      ],
       tooltip: {
         headerFormat: '',
         pointFormat: '<b>{point.name}:</b> {point.value}',

@@ -70,7 +70,7 @@ export const loading = makeStory(conf, {
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ }],
+  items: [{}],
   simulations: [
     storyWait(0, ([component]) => {
       component.item = new Promise((resolve, reject) => (itemResolver = reject));

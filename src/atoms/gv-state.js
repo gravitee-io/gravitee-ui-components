@@ -33,14 +33,13 @@ import { skeleton } from '../styles/skeleton';
  * @cssprop {Length} [--gv-state--bdr=17px] - Border radius
  * @cssprop {Length} [--gv-state--fz=var(--gv-theme-font-size-s, 12px)] - Font size
  * @cssprop {Length} [--gv-state--p=4px 8px] - Padding
- * @cssprop {Color} [--gv-state--bgc=#F0F5FF] - Background color
- * @cssprop {Color} [--gv-state--c=#597EF7] - Color
- * @cssprop {Color} [--gv-state-major--bgc=var(--gv-theme-color-light, #D5FDCB)] - Major background color
- * @cssprop {Color} [--gv-state-major--c=var(--gv-theme-color, #009B5B)] - Major color
+ * @cssprop {Color} [--gv-state--bgc=#f0f5ff] - Background color
+ * @cssprop {Color} [--gv-state--c=#597ef7] - Color
+ * @cssprop {Color} [--gv-state-major--bgc=var(--gv-theme-color-light, #d5fdcb)] - Major background color
+ * @cssprop {Color} [--gv-state-major--c=var(--gv-theme-color, #009b5b)] - Major color
  */
 export class GvState extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       default: { type: Boolean },
       major: { type: Boolean },
@@ -48,47 +47,46 @@ export class GvState extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       // language=CSS
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-block;
-              margin: 0.2rem;
-              vertical-align: middle;
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-block;
+          margin: 0.2rem;
+          vertical-align: middle;
+        }
 
-          div.default {
-              --bgc: var(--gv-state--bgc, #F0F5FF);
-              --c: var(--gv-state--c, #597EF7)
-          }
+        div.default {
+          --bgc: var(--gv-state--bgc, #f0f5ff);
+          --c: var(--gv-state--c, #597ef7);
+        }
 
-          div.major {
-              --bgc: var(--gv-state-major--bgc, var(--gv-theme-color-light, #D5FDCB));
-              --c: var(--gv-state-major--c, var(--gv-theme-color, #009B5B));
-          }
+        div.major {
+          --bgc: var(--gv-state-major--bgc, var(--gv-theme-color-light, #d5fdcb));
+          --c: var(--gv-state-major--c, var(--gv-theme-color, #009b5b));
+        }
 
-          div {
-              background-color: var(--bgc);
-              border-radius: var(--gv-state--bdr, 17px);
-              color: var(--c);
+        div {
+          background-color: var(--bgc);
+          border-radius: var(--gv-state--bdr, 17px);
+          color: var(--c);
 
-              --fz: var(--gv-state--fz, var(--gv-theme-font-size-s, 12px));
-              font-size: var(--fz);
-            
-              font-weight: bold;
-              text-transform: uppercase;
-              line-height: var(--fz);
-              padding: var(--gv-state--p, 4px 8px);
-          }
+          --fz: var(--gv-state--fz, var(--gv-theme-font-size-s, 12px));
+          font-size: var(--fz);
+
+          font-weight: bold;
+          text-transform: uppercase;
+          line-height: var(--fz);
+          padding: var(--gv-state--p, 4px 8px);
+        }
       `,
     ];
   }
 
-  render () {
-
+  render() {
     const modes = {
       default: !this.major,
       major: this.major,
@@ -101,7 +99,6 @@ export class GvState extends LitElement {
       </div>
     `;
   }
-
 }
 
 window.customElements.define('gv-state', GvState);

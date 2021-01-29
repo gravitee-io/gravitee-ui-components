@@ -18,9 +18,7 @@ import { Page, querySelector } from '../lib/test-utils';
 import '../../src/atoms/gv-button';
 
 describe('B U T T O N', () => {
-
   describe('<gv-button>', () => {
-
     let page;
 
     beforeEach(() => {
@@ -52,11 +50,9 @@ describe('B U T T O N', () => {
 
       expect(mockFn).toBeCalled();
     });
-
   });
 
   describe('<gv-button type="submit">', () => {
-
     let page;
 
     beforeEach(() => {
@@ -81,7 +77,5 @@ describe('B U T T O N', () => {
 
       expect(mockFn).toBeCalled();
     });
-
   });
-
 });

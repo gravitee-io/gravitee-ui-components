@@ -64,5 +64,5 @@ export const Basics = makeStory(conf, {
 });
 
 export const Empty = makeStory(conf, {
-  items: [{ }],
+  items: [{}],
 });

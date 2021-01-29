@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function wait (delay) {
+function wait(delay) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
 }
 
-export function sequence (callback) {
+export function sequence(callback) {
   setTimeout(() => callback(wait), 50);
 }

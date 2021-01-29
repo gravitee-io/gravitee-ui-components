@@ -17,11 +17,9 @@ import notes from '../../.docs/gv-chart-line.md';
 import '../../src/charts/gv-chart-line';
 import { makeStory, storyWait } from '../lib/make-story';
 
-const events = [
-  'gv-chart-line:zoom',
-];
+const events = ['gv-chart-line:zoom'];
 
-function randomArray (moreZero) {
+function randomArray(moreZero) {
   return Array.from({ length: 10 }, () => {
     const number = Math.floor(Math.random() * 1000);
     if (moreZero && number > 300) {
@@ -81,12 +79,20 @@ export const Basics = makeStory(conf, {
 });
 
 export const Synchronized = makeStory(conf, {
-  items: [{ series, options }, { series: series2, options }],
+  items: [
+    { series, options },
+    { series: series2, options },
+  ],
 });
 
 const manySeries = {
-  values: series2.values.concat(series2.values).concat(series2.values).concat(series2.values)
-    .concat(series2.values).concat(series2.values).concat(series2.values),
+  values: series2.values
+    .concat(series2.values)
+    .concat(series2.values)
+    .concat(series2.values)
+    .concat(series2.values)
+    .concat(series2.values)
+    .concat(series2.values),
 };
 export const MoreData = makeStory(conf, {
   items: [{ series: manySeries, options }],

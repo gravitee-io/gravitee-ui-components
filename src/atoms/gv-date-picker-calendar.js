@@ -63,8 +63,7 @@ import { until } from 'lit-html/directives/until';
  * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #FFFFFF)] - Selected color
  */
 export class GvDatePickerCalendar extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       dateFrom: { type: Number },
       dateTo: { type: Number },
@@ -97,7 +96,7 @@ export class GvDatePickerCalendar extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -109,19 +108,23 @@ export class GvDatePickerCalendar extends LitElement {
           overflow: hidden;
         }
 
-        .nav, .foot, .nav-times {
+        .nav,
+        .foot,
+        .nav-times {
           display: flex;
           padding: 0.5rem;
           height: 30px;
         }
 
-        .nav .current, .foot {
+        .nav .current,
+        .foot {
           flex: 1;
           display: flex;
           justify-content: center;
         }
 
-        .monthName, .day {
+        .monthName,
+        .day {
           text-transform: capitalize;
         }
 
@@ -139,7 +142,8 @@ export class GvDatePickerCalendar extends LitElement {
           grid-template-columns: repeat(3, 1fr);
         }
 
-        .header, .content {
+        .header,
+        .content {
           display: grid;
           grid-template-columns: repeat(2, auto);
         }
@@ -152,7 +156,9 @@ export class GvDatePickerCalendar extends LitElement {
           height: 48px;
         }
 
-        .calendar-grid, .foot, .time {
+        .calendar-grid,
+        .foot,
+        .time {
           border-top: 1px solid var(--gv-theme-neutral-color-dark);
         }
 
@@ -161,7 +167,8 @@ export class GvDatePickerCalendar extends LitElement {
           align-items: center;
         }
 
-        .nav-times, .time {
+        .nav-times,
+        .time {
           border-left: 1px solid var(--gv-theme-neutral-color-dark);
         }
 
@@ -181,7 +188,8 @@ export class GvDatePickerCalendar extends LitElement {
           width: 26px;
         }
 
-        .box-col, .times {
+        .box-col,
+        .times {
           display: flex;
         }
 
@@ -229,18 +237,18 @@ export class GvDatePickerCalendar extends LitElement {
         }
 
         .time > div.selected {
-          background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5A7684));
-          color: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #FFFFFF));
+          background: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5a7684));
+          color: var(--gv-date-picker-selected--c, var(--gv-theme-font-color-light, #ffffff));
         }
 
         .time > div.disabled {
           opacity: 0.4;
         }
-
-      `];
+      `,
+    ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._dayNamesOfWeek = [];
     this._monthsList = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -253,7 +261,7 @@ export class GvDatePickerCalendar extends LitElement {
     this._seconds = this.computeArrayOfTime(60);
   }
 
-  set dateFrom (value) {
+  set dateFrom(value) {
     this._from = value;
     if (this.time && this._from) {
       const date = new Date(this._from * 1000);
@@ -265,11 +273,11 @@ export class GvDatePickerCalendar extends LitElement {
     }
   }
 
-  set dateTo (value) {
+  set dateTo(value) {
     this._to = value;
   }
 
-  computeArrayOfTime (size) {
+  computeArrayOfTime(size) {
     return new Array(size).fill('').map((a, i) => {
       let time = i.toString();
       if (time.length === 1) {
@@ -279,120 +287,168 @@ export class GvDatePickerCalendar extends LitElement {
     });
   }
 
-  _renderPreviousNav () {
+  _renderPreviousNav() {
     if (this.prev || this.monthMode || this.yearMode) {
       return html`
-      <gv-button link icon="navigation:angle-double-left" @click="${this._onPrevYear}" ?small="${this.small}"></gv-button>
-      ${this.monthMode || this.yearMode ? '' : html`<gv-button link icon="navigation:angle-left" ?small="${this.small}" @click="${this._onPrevMonth}"></gv-button>`}
-    `;
+        <gv-button link icon="navigation:angle-double-left" @click="${this._onPrevYear}" ?small="${this.small}"></gv-button>
+        ${this.monthMode || this.yearMode
+          ? ''
+          : html`<gv-button link icon="navigation:angle-left" ?small="${this.small}" @click="${this._onPrevMonth}"></gv-button>`}
+      `;
     }
     return '';
   }
 
-  _renderCurrentNav () {
+  _renderCurrentNav() {
     return html`
       <div class="current">
-         ${this.yearMode ? '' : html`<gv-button link @click="${this._onSelectMonth}" ?small="${this.small}"><span class="monthName">${until(this.computeName(this.month, this.year))}</span></gv-button>`}
+        ${this.yearMode
+          ? ''
+          : html`<gv-button link @click="${this._onSelectMonth}" ?small="${this.small}"
+              ><span class="monthName">${until(this.computeName(this.month, this.year))}</span></gv-button
+            >`}
         <gv-button ?small="${this.small}" link @click="${this._onSelectYear}">${this.computeCurrentYearName()}</gv-button>
       </div>
     `;
   }
 
-  _renderNextNav () {
+  _renderNextNav() {
     if (this.next || this.monthMode || this.yearMode) {
       return html`
-      ${this.monthMode || this.yearMode ? '' : html`<gv-button link icon="navigation:angle-right" ?small="${this.small}" @click="${this._onNextMonth}"></gv-button>`}
-      <gv-button ?small="${this.small}" link icon="navigation:angle-double-right" @click="${this._onNextYear}"></gv-button>
-    `;
+        ${this.monthMode || this.yearMode
+          ? ''
+          : html`<gv-button link icon="navigation:angle-right" ?small="${this.small}" @click="${this._onNextMonth}"></gv-button>`}
+        <gv-button ?small="${this.small}" link icon="navigation:angle-double-right" @click="${this._onNextYear}"></gv-button>
+      `;
     }
-
   }
 
-  _renderDays () {
-    return html`
-    ${this._dayNamesOfWeek && this._dayNamesOfWeek.map((dayNameOfWeek) => html`<div class="day">${dayNameOfWeek}</div>`)}
-    ${this._dimensions && this._dimensions.map((dimension) => html`${dimension && dimension.map((data) => html`
-        <div>
-        ${data ? html`
-          <gv-date-picker-cell
-            .disabledDates="${this.disabledDates}"
-            .min="${this.monthMode || this.yearMode ? null : this.min}"
-            .max="${this.monthMode || this.yearMode ? null : this.max}"
-            .month="${this.month}"
-            .hoveredDate="${this.hoveredDate}"
-            .dateTo="${this._to}"
-            .dateFrom="${this._from}"
-            .data="${data}"
-            .time="${this.time}"
-            ?isCurrent="${this.isCurrentDate(data)}"
-            @gv-date-picker-cell:hover="${this._onHover}"
-            @gv-date-picker-cell:select="${this._onSelect}"></gv-date-picker-cell>
-        ` : null}
-      </div>`)}`,
+  _renderDays() {
+    return html` ${this._dayNamesOfWeek && this._dayNamesOfWeek.map((dayNameOfWeek) => html`<div class="day">${dayNameOfWeek}</div>`)}
+    ${this._dimensions &&
+    this._dimensions.map(
+      (dimension) =>
+        html`${dimension &&
+        dimension.map(
+          (data) => html` <div>
+            ${data
+              ? html`
+                  <gv-date-picker-cell
+                    .disabledDates="${this.disabledDates}"
+                    .min="${this.monthMode || this.yearMode ? null : this.min}"
+                    .max="${this.monthMode || this.yearMode ? null : this.max}"
+                    .month="${this.month}"
+                    .hoveredDate="${this.hoveredDate}"
+                    .dateTo="${this._to}"
+                    .dateFrom="${this._from}"
+                    .data="${data}"
+                    .time="${this.time}"
+                    ?isCurrent="${this.isCurrentDate(data)}"
+                    @gv-date-picker-cell:hover="${this._onHover}"
+                    @gv-date-picker-cell:select="${this._onSelect}"
+                  ></gv-date-picker-cell>
+                `
+              : null}
+          </div>`,
+        )}`,
     )}`;
   }
 
-  isStrictTime () {
+  isStrictTime() {
     return this.time === true && this.strict === true;
   }
 
-  render () {
+  render() {
     const classes = {
       'calendar-grid': true,
       'calendar-grid-large': this.monthMode || this.yearMode,
     };
     return html`
-    <div class="box">
-      ${this.isStrictTime() ? '' : html`<div class="box-col">
-            <div class="nav">
-            ${this._renderPreviousNav()}
-            ${this._renderCurrentNav()}
-            ${this._renderNextNav()}
-         </div>
-          <div class="${classMap(classes)}">
-              ${this._renderDays()}
-         </div>
-      </div>`}
-      ${this.time && !this.monthMode && !this.yearMode ? html`<div class="box-col">
-         ${this.isStrictTime() ? '' : html`<div class="nav-times">${this.getTime()}</div>`}
-         <div class="times">
-              <div class="time">${this._hours && this._hours.map((val) =>
-      html`<div @click="${this._onSelectHour.bind(this, val)}" class="${classMap({
-        hour: true,
-        selected: this._hour === val,
-        disabled: this.isHoursDisabled(val),
-      })}">${val}</div>`)}</div>
-              <div class="time">${this._minutes && this._minutes.map((val) =>
-      html`<div @click="${this._onSelectMinute.bind(this, val)}" class="${classMap({
-        minute: true,
-        selected: this._minute === val,
-        disabled: this.isMinutesDisabled(val),
-      })}">${val}</div>`)}</div>
-              
-          ${this.isStrictTime() ? html`<div class="time">${this._seconds && this._seconds.map((val) =>
-      html`<div @click="${this._onSelectSecond.bind(this, val)}" class="${classMap({
-        second: true,
-        selected: this._second === val,
-        disabled: this.isSecondsDisabled(val),
-      })}">${val}</div>`)}</div>` : ''}
-         </div>
-      </div>` : ''}
-    </div>
-   ${this.hasGoToday() ? html`
-    <div class="foot">
-        <gv-button link @click=${this.goToday}>${i18n('gv-date-picker.today')}</gv-button>
-    </div>` : ''}
-   ${this.time && !this.monthMode && !this.yearMode ? html`
-    <div class="foot foot-time">
-    <gv-button primary outlined small
-    @click=${this._onNow}>${this.isStrictTime() ? i18n('gv-date-picker.currentTime') : i18n('gv-date-picker.now')}</gv-button>
-    <gv-button primary small
-    @click=${this._onDateTimeSelected}
-    .disabled="${this.disableValidation === true}">${i18n('gv-date-picker.ok')}</gv-button></div>` : ''}
-`;
+      <div class="box">
+        ${this.isStrictTime()
+          ? ''
+          : html`<div class="box-col">
+              <div class="nav">${this._renderPreviousNav()} ${this._renderCurrentNav()} ${this._renderNextNav()}</div>
+              <div class="${classMap(classes)}">${this._renderDays()}</div>
+            </div>`}
+        ${this.time && !this.monthMode && !this.yearMode
+          ? html`<div class="box-col">
+              ${this.isStrictTime() ? '' : html`<div class="nav-times">${this.getTime()}</div>`}
+              <div class="times">
+                <div class="time">
+                  ${this._hours &&
+                  this._hours.map(
+                    (val) =>
+                      html`<div
+                        @click="${this._onSelectHour.bind(this, val)}"
+                        class="${classMap({
+                          hour: true,
+                          selected: this._hour === val,
+                          disabled: this.isHoursDisabled(val),
+                        })}"
+                      >
+                        ${val}
+                      </div>`,
+                  )}
+                </div>
+                <div class="time">
+                  ${this._minutes &&
+                  this._minutes.map(
+                    (val) =>
+                      html`<div
+                        @click="${this._onSelectMinute.bind(this, val)}"
+                        class="${classMap({
+                          minute: true,
+                          selected: this._minute === val,
+                          disabled: this.isMinutesDisabled(val),
+                        })}"
+                      >
+                        ${val}
+                      </div>`,
+                  )}
+                </div>
+
+                ${this.isStrictTime()
+                  ? html`<div class="time">
+                      ${this._seconds &&
+                      this._seconds.map(
+                        (val) =>
+                          html`<div
+                            @click="${this._onSelectSecond.bind(this, val)}"
+                            class="${classMap({
+                              second: true,
+                              selected: this._second === val,
+                              disabled: this.isSecondsDisabled(val),
+                            })}"
+                          >
+                            ${val}
+                          </div>`,
+                      )}
+                    </div>`
+                  : ''}
+              </div>
+            </div>`
+          : ''}
+      </div>
+      ${this.hasGoToday()
+        ? html` <div class="foot">
+            <gv-button link @click=${this.goToday}>${i18n('gv-date-picker.today')}</gv-button>
+          </div>`
+        : ''}
+      ${this.time && !this.monthMode && !this.yearMode
+        ? html` <div class="foot foot-time">
+            <gv-button primary outlined small @click=${this._onNow}
+              >${this.isStrictTime() ? i18n('gv-date-picker.currentTime') : i18n('gv-date-picker.now')}</gv-button
+            >
+            <gv-button primary small @click=${this._onDateTimeSelected} .disabled="${this.disableValidation === true}"
+              >${i18n('gv-date-picker.ok')}</gv-button
+            >
+          </div>`
+        : ''}
+    `;
   }
 
-  isMinutesDisabled (value) {
+  isMinutesDisabled(value) {
     if (this._from && this._hour != null) {
       const selectedDate = new Date(this._from * 1000);
       selectedDate.setHours(parseInt(this._hour, 10), parseInt(value, 10), 0, 0);
@@ -413,7 +469,7 @@ export class GvDatePickerCalendar extends LitElement {
     return false;
   }
 
-  isSecondsDisabled (value) {
+  isSecondsDisabled(value) {
     if (this._from && this._hour != null) {
       const selectedDate = new Date(this._from * 1000);
       selectedDate.setHours(parseInt(this._hour, 10), parseInt(value, 10), 0, 0);
@@ -434,7 +490,7 @@ export class GvDatePickerCalendar extends LitElement {
     return false;
   }
 
-  isHoursDisabled (value) {
+  isHoursDisabled(value) {
     if (this._from) {
       const selectedDate = new Date(this._from * 1000);
       selectedDate.setHours(parseInt(value, 10));
@@ -456,7 +512,7 @@ export class GvDatePickerCalendar extends LitElement {
     return false;
   }
 
-  _updateTime () {
+  _updateTime() {
     setTimeout(() => {
       if (!this._hour || this.isHoursDisabled(this._hour)) {
         const hour = this.shadowRoot.querySelector('.hour:not(.disabled)');
@@ -487,28 +543,33 @@ export class GvDatePickerCalendar extends LitElement {
     }
   }
 
-  getTime () {
+  getTime() {
     if (this._hour && this._minute) {
       return `${this._hour}:${this._minute}`;
     }
     return '';
   }
 
-  isCurrentDate (data) {
+  isCurrentDate(data) {
     if (this.yearMode) {
       return getYear(data.date * 1000) === getYear(this.currentDate * 1000);
-    }
-    else if (this.monthMode) {
+    } else if (this.monthMode) {
       return getMonth(data.date * 1000) === getMonth(this.currentDate * 1000);
     }
     return data.date === this.currentDate;
   }
 
-  updated (properties) {
+  updated(properties) {
     if (properties.has('year')) {
       this.dispatchEvent(new CustomEvent('year-changed', { detail: { value: this.year } }));
     }
-    if (properties.has('locale') || properties.has('year') || properties.has('month') || properties.has('monthMode') || properties.has('yearMode')) {
+    if (
+      properties.has('locale') ||
+      properties.has('year') ||
+      properties.has('month') ||
+      properties.has('monthMode') ||
+      properties.has('yearMode')
+    ) {
       this.yearAndMonthChanged(this.year, this.month);
     }
 
@@ -519,20 +580,17 @@ export class GvDatePickerCalendar extends LitElement {
     }
   }
 
-  _updateDays () {
+  _updateDays() {
     const dayNames = [];
     for (let i = 0; i < 7; i += 1) {
       dayNames.push(this.locale.localize.day(i, { width: 'short' }));
     }
     const firstDayOfWeek = this.locale.options.weekStartsOn;
     const tmp = dayNames.slice().splice(0, firstDayOfWeek);
-    this._dayNamesOfWeek = dayNames
-      .slice()
-      .splice(firstDayOfWeek, dayNames.length)
-      .concat(tmp);
+    this._dayNamesOfWeek = dayNames.slice().splice(firstDayOfWeek, dayNames.length).concat(tmp);
   }
 
-  yearAndMonthChanged (year, month) {
+  yearAndMonthChanged(year, month) {
     if (year && month && this.locale) {
       if (this.yearMode) {
         this._dayNamesOfWeek = [];
@@ -549,20 +607,20 @@ export class GvDatePickerCalendar extends LitElement {
         }
         cols.push(null);
         this._dimensions = [cols];
-      }
-      else if (this.monthMode) {
+      } else if (this.monthMode) {
         this._dayNamesOfWeek = [];
-        this._dimensions = [this._monthsList.map((month) => {
-          const startDateString = `01/${month}/${year}`;
-          const startDateFn = parse(startDateString, 'dd/MM/yyyy', new Date(), { awareOfUnicodeTokens: true });
-          return {
-            hover: false,
-            date: parseInt(format(startDateFn, 't'), 10),
-            title: this.computeName(month, this.year, 'MMM'),
-          };
-        })];
-      }
-      else {
+        this._dimensions = [
+          this._monthsList.map((month) => {
+            const startDateString = `01/${month}/${year}`;
+            const startDateFn = parse(startDateString, 'dd/MM/yyyy', new Date(), { awareOfUnicodeTokens: true });
+            return {
+              hover: false,
+              date: parseInt(format(startDateFn, 't'), 10),
+              title: this.computeName(month, this.year, 'MMM'),
+            };
+          }),
+        ];
+      } else {
         this._updateDays();
         let monthMinus = month;
         monthMinus = monthMinus.substring(monthMinus.length - 2);
@@ -620,7 +678,7 @@ export class GvDatePickerCalendar extends LitElement {
     }
   }
 
-  getYearInterval (year = this.year) {
+  getYearInterval(year = this.year) {
     let start = parseInt(year, 10);
     while (start % 10 !== 0) {
       start--;
@@ -628,7 +686,7 @@ export class GvDatePickerCalendar extends LitElement {
     return { start, end: start + 10 };
   }
 
-  computeName (month, year, _format = 'MMMM') {
+  computeName(month, year, _format = 'MMMM') {
     if (month && year) {
       const dateFn = parse(`${month}/${year}`, 'MM/yyyy', new Date());
       return format(dateFn, _format, { locale: this.locale });
@@ -636,7 +694,7 @@ export class GvDatePickerCalendar extends LitElement {
     return '';
   }
 
-  computeCurrentYearName () {
+  computeCurrentYearName() {
     if (this.yearMode) {
       const { start, end } = this.getYearInterval();
       return `${start}-${end - 1}`;
@@ -644,26 +702,25 @@ export class GvDatePickerCalendar extends LitElement {
     return this.year;
   }
 
-  _onSelectHour (value) {
+  _onSelectHour(value) {
     this._hour = value;
     this._updateTime();
   }
 
-  _onSelectMinute (value) {
+  _onSelectMinute(value) {
     this._minute = value;
     this._updateTime();
   }
 
-  _onSelectSecond (value) {
+  _onSelectSecond(value) {
     this._second = value;
     this._updateTime();
   }
 
-  _onSelectMonth () {
+  _onSelectMonth() {
     if (this.monthMode) {
       this._from = this._dateFrom;
-    }
-    else {
+    } else {
       this._dateFrom = this._from;
       this._from = null;
     }
@@ -673,11 +730,10 @@ export class GvDatePickerCalendar extends LitElement {
     dispatchCustomEvent(this, 'month-mode', { mode: this.monthMode, month: this.month, year: this.year });
   }
 
-  _onSelectYear () {
+  _onSelectYear() {
     if (this.yearMode) {
       this._from = this._dateFrom;
-    }
-    else {
+    } else {
       this._dateFrom = this._from;
       this._from = null;
     }
@@ -687,19 +743,19 @@ export class GvDatePickerCalendar extends LitElement {
     dispatchCustomEvent(this, 'year-mode', { mode: this.yearMode, month: this.month, year: this.year });
   }
 
-  get datetimeSelected () {
+  get datetimeSelected() {
     let selectedDate = new Date(this._from * 1000);
     selectedDate = setHours(selectedDate, parseInt(this._hour ? this._hour : 0, 10));
     selectedDate = setMinutes(selectedDate, parseInt(this._minute ? this._minute : 0, 10));
     return selectedDate.getTime() / 1000;
   }
 
-  _onDateTimeSelected () {
+  _onDateTimeSelected() {
     this.value = this.datetimeSelected;
     this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.value } }));
   }
 
-  _onNow () {
+  _onNow() {
     const now = new Date();
     if (!this.isStrictTime()) {
       now.setSeconds(0, 0);
@@ -715,7 +771,7 @@ export class GvDatePickerCalendar extends LitElement {
     this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this._from } }));
   }
 
-  get disableValidation () {
+  get disableValidation() {
     const date = this.datetimeSelected;
     if (date) {
       if (this.min && date < this.min) {
@@ -728,7 +784,7 @@ export class GvDatePickerCalendar extends LitElement {
     return false;
   }
 
-  _onSelect ({ detail }) {
+  _onSelect({ detail }) {
     const { date } = detail;
     if (this.yearMode) {
       this.yearMode = false;
@@ -737,49 +793,43 @@ export class GvDatePickerCalendar extends LitElement {
       const selectedDate = new Date(date * 1000);
       this.year = format(selectedDate, 'yyyy');
       dispatchCustomEvent(this, 'year-changed', { year: this.year });
-    }
-    else if (this.monthMode) {
+    } else if (this.monthMode) {
       this.monthMode = false;
       this._from = this._dateFrom;
       const selectedDate = new Date(date * 1000);
       this.month = format(selectedDate, 'MM');
       this.year = format(selectedDate, 'yyyy');
       dispatchCustomEvent(this, 'month-changed', { month: this.month, year: this.year });
-    }
-    else if (this.time) {
+    } else if (this.time) {
       this._from = date;
       this._updateTime();
-    }
-    else if (this.range) {
+    } else if (this.range) {
       if (this._from && this._to) {
         this._from = date;
         this._to = null;
         this.hoveredDate = undefined;
         this.dispatchEvent(new CustomEvent('hovered-date-changed', { detail: { value: this.hoveredDate } }));
-      }
-      else if (!this._from || (this._from && date < this._from)) {
+      } else if (!this._from || (this._from && date < this._from)) {
         this._from = date;
-      }
-      else if (!this._to || (this._to && date > this._to)) {
+      } else if (!this._to || (this._to && date > this._to)) {
         this._to = date;
       }
       this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this._from } }));
       this.dispatchEvent(new CustomEvent('date-to-changed', { detail: { value: this._to } }));
-    }
-    else {
+    } else {
       this._from = date;
       this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this._from } }));
     }
   }
 
-  _onHover (event) {
+  _onHover(event) {
     if (this.range) {
       this.hoveredDate = event.detail.date;
       this.dispatchEvent(new CustomEvent('hovered-date-changed', { detail: { value: this.hoveredDate } }));
     }
   }
 
-  _onNextMonth () {
+  _onNextMonth() {
     const month = parse(this.month, 'MM', new Date());
     const monthPlusDate = addMonths(month, 1);
     const monthPlusString = format(monthPlusDate, 'MM', { locale: this.locale });
@@ -793,7 +843,7 @@ export class GvDatePickerCalendar extends LitElement {
     }
   }
 
-  _onPrevMonth () {
+  _onPrevMonth() {
     const month = parse(this.month, 'MM', new Date());
     const monthMinusDate = subMonths(month, 1);
     const monthMinusString = format(monthMinusDate, 'MM', { locale: this.locale });
@@ -807,7 +857,7 @@ export class GvDatePickerCalendar extends LitElement {
     }
   }
 
-  _onNextYear () {
+  _onNextYear() {
     if (this.yearMode) {
       this.year = parseInt(this.year, 10) + 10;
     }
@@ -817,7 +867,7 @@ export class GvDatePickerCalendar extends LitElement {
     this.year = yearPlusString;
   }
 
-  _onPrevYear () {
+  _onPrevYear() {
     if (this.yearMode) {
       this.year = parseInt(this.year, 10) - 10;
     }
@@ -827,16 +877,15 @@ export class GvDatePickerCalendar extends LitElement {
     this.year = yearMinusString;
   }
 
-  goToday () {
+  goToday() {
     this.month = `0${getMonth(new Date()) + 1}`.slice(-2);
     this.year = getYear(new Date());
     this._onSelect({ detail: { date: new Date().getTime() / 1000 } });
   }
 
-  hasGoToday () {
+  hasGoToday() {
     return !this.range && !this.time && !this.monthMode && !this.yearMode && this._hasGoToday;
   }
-
 }
 
 window.customElements.define('gv-date-picker-calendar', GvDatePickerCalendar);

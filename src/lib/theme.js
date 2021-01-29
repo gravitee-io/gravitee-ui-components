@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function applyTheme (theme) {
+export function applyTheme(theme) {
   if (theme) {
     const logo = theme._links ? theme._links.logo : theme.logo;
     const optionalLogo = theme._links ? theme._links.optionalLogo : theme.optionalLogo;
@@ -29,14 +29,14 @@ export function applyTheme (theme) {
   }
 }
 
-export function updateImage (name, value, defaultValue) {
+export function updateImage(name, value, defaultValue) {
   setTimeout(() => {
     const propertyValue = value ? `url(${value})` : 'none';
     document.documentElement.style.setProperty(name, propertyValue);
   }, 0);
 }
 
-export function getApplicationTypeIcon (type) {
+export function getApplicationTypeIcon(type) {
   switch (type.toLowerCase()) {
     case 'browser':
     case 'web':

@@ -30,8 +30,7 @@ import { GvIcon } from '../atoms/gv-icon';
  * Policy studio menu component
  */
 export class GvPolicyStudioMenu extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       policies: { type: Array },
       flows: { type: Object },
@@ -48,18 +47,18 @@ export class GvPolicyStudioMenu extends LitElement {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.selectedIds = [];
     this.flowsTitle = 'Flows';
   }
 
-  async connectedCallback () {
+  async connectedCallback() {
     super.connectedCallback();
     this._defaultDraggableIcon = await GvIcon.getAsBase64('communication:shield-thunder');
   }
 
-  static get styles () {
+  static get styles() {
     return [
       link,
       methods,
@@ -86,14 +85,14 @@ export class GvPolicyStudioMenu extends LitElement {
         }
 
         .type {
-          background-color: #F5F5F5;
+          background-color: #f5f5f5;
           text-transform: capitalize;
           text-decoration: none;
           padding: 0.2rem;
           color: #262626;
           border-width: 1px 0 1px 0;
           border-style: solid;
-          border-color: #BFBFBF;
+          border-color: #bfbfbf;
           font-size: 15px;
           display: flex;
           align-items: center;
@@ -118,7 +117,7 @@ export class GvPolicyStudioMenu extends LitElement {
         .expandable {
           background: #fff;
           overflow: hidden;
-          transition: height, opacity, width, padding, color .250s ease-in-out;
+          transition: height, opacity, width, padding, color 0.25s ease-in-out;
           line-height: 0;
           color: transparent;
           box-sizing: border-box;
@@ -162,15 +161,15 @@ export class GvPolicyStudioMenu extends LitElement {
         .expandable-icon {
           margin-right: 2px;
           --gv-icon--s: 22px;
-          --gv-icon--c: #5A7684;
-          --gv-icon-opacity--c: #5A7684;
+          --gv-icon--c: #5a7684;
+          --gv-icon-opacity--c: #5a7684;
         }
 
         .policy-icon {
           --gv-icon--s: 40px;
           margin-right: 2px;
-          --gv-icon--c: #5A7684;
-          --gv-icon-opacity--c: #5A7684;
+          --gv-icon--c: #5a7684;
+          --gv-icon-opacity--c: #5a7684;
         }
 
         .expandable.open .entry gv-tag {
@@ -185,8 +184,8 @@ export class GvPolicyStudioMenu extends LitElement {
         }
 
         .expandable.open .entry:focus-within {
-          --gv-icon--c: #28444F;
-          color: #28444F;
+          --gv-icon--c: #28444f;
+          color: #28444f;
         }
 
         .expandable.open .entry:focus-within .actions {
@@ -210,7 +209,7 @@ export class GvPolicyStudioMenu extends LitElement {
         }
 
         gv-button {
-          --gv-icon--c: #28444F;
+          --gv-icon--c: #28444f;
         }
 
         .entry .actions > * {
@@ -245,20 +244,20 @@ export class GvPolicyStudioMenu extends LitElement {
 
         .expandable.open .entry.selected,
         .expandable.open .entry.selected .actions {
-          background-color: #F5F5F5;
+          background-color: #f5f5f5;
         }
 
         .expandable.open .entry.selected {
-          border-top: 1px dotted #BFBFBF;
-          border-bottom: 1px dotted #BFBFBF;
-          border-right: 1px dotted #BFBFBF;
+          border-top: 1px dotted #bfbfbf;
+          border-bottom: 1px dotted #bfbfbf;
+          border-right: 1px dotted #bfbfbf;
         }
 
         .dragging {
           cursor: grabbing;
           opacity: 1;
-          background-color: #F5F5F5;
-          box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+          background-color: #f5f5f5;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
           transform: none;
         }
 
@@ -300,12 +299,13 @@ export class GvPolicyStudioMenu extends LitElement {
           visibility: visible;
         }
 
-        gv-tag, gv-state {
+        gv-tag,
+        gv-state {
           --gv-tag--p: 1px 3px;
           --gv-state--p: 4px 6px;
           --gv-state--fz: 10px;
-          --gv-state--c: #28444F;
-          --gv-state--bgc: #FFFFFF;
+          --gv-state--c: #28444f;
+          --gv-state--bgc: #ffffff;
           margin: 0 1px;
         }
 
@@ -316,7 +316,7 @@ export class GvPolicyStudioMenu extends LitElement {
     ];
   }
 
-  _onExpand (anchor, e) {
+  _onExpand(anchor, e) {
     if (!this.disabled) {
       e.preventDefault();
       e.stopPropagation();
@@ -324,7 +324,7 @@ export class GvPolicyStudioMenu extends LitElement {
     }
   }
 
-  _onDragStartPolicy (policy, e) {
+  _onDragStartPolicy(policy, e) {
     e.dataTransfer.setData('text/plain', JSON.stringify({ policy }));
     const icon = policy.icon || this._defaultDraggableIcon;
     const size = 100;
@@ -333,7 +333,7 @@ export class GvPolicyStudioMenu extends LitElement {
     dispatchCustomEvent(this, 'dragstart-policy', { dataTransfer: e.dataTransfer });
   }
 
-  _onDragEndPolicy () {
+  _onDragEndPolicy() {
     if (this._draggablePolicyImage) {
       this._draggablePolicyImage.remove();
       this._draggablePolicyImage = null;
@@ -341,90 +341,121 @@ export class GvPolicyStudioMenu extends LitElement {
     dispatchCustomEvent(this, 'dragend-policy');
   }
 
-  _onClickFlow (flow, e) {
+  _onClickFlow(flow, e) {
     if (!this.disabled) {
       if (e.shiftKey) {
         this._compareFlow(flow);
-      }
-      else {
+      } else {
         this._selectFlow(flow);
       }
     }
   }
 
-  _selectFlow (flow) {
+  _selectFlow(flow) {
     this.selectedIds = [flow._id];
     dispatchCustomEvent(this, 'select-flows', { flows: this.selectedIds });
   }
 
-  _compareFlow (flow) {
+  _compareFlow(flow) {
     if (this.selectedIds.length > 0) {
       this.selectedIds = [...new Set([this.selectedIds[0], flow._id])];
       dispatchCustomEvent(this, 'select-flows', { flows: this.selectedIds });
-    }
-    else {
+    } else {
       this._selectFlow(flow);
     }
   }
 
-  _onMouseEnterPolicy (policy) {
+  _onMouseEnterPolicy(policy) {
     dispatchCustomEvent(this, 'target-policy', { policy });
   }
 
-  _onMouseLeavePolicy () {
+  _onMouseLeavePolicy() {
     dispatchCustomEvent(this, 'target-policy', null);
   }
 
-  _onMouseEnterFlow (e) {
+  _onMouseEnterFlow(e) {
     if (this._draggingFlow == null) {
       e.target.focus();
     }
   }
 
-  _onMouseLeaveFlow (e) {
+  _onMouseLeaveFlow(e) {
     if (this._draggingFlow == null) {
       e.target.blur();
     }
   }
 
-  _filter (content) {
+  _filter(content) {
     if (this.query) {
       return content.name.toLowerCase().includes(this.query.toLowerCase());
     }
     return true;
   }
 
-  hasCompare () {
+  hasCompare() {
     return this.selectedIds.length > 1;
   }
 
-  _onChangeFlowState (content, { detail }) {
+  _onChangeFlowState(content, { detail }) {
     dispatchCustomEvent(this, 'change-flow-state', { content, enabled: detail });
   }
 
-  _onDuplicateFlow (content) {
+  _onDuplicateFlow(content) {
     dispatchCustomEvent(this, 'duplicate-flow', { content });
   }
 
-  _onDeleteFlow (content) {
+  _onDeleteFlow(content) {
     dispatchCustomEvent(this, 'delete-flow', { content });
   }
 
-  _renderFlowActions (content, readonlyMode) {
+  _renderFlowActions(content, readonlyMode) {
     if (this.disabled) {
       return html``;
     }
     const enabled = content.enabled !== false;
     const stateLabel = enabled ? 'Disable flow ?' : 'Enable flow ?';
     return html`<div class="actions">
-                  ${this.hasCompare() || this.selectedIds.includes(content._id) ? '' : html`<gv-button tabindex="0" link small icon="navigation:route" @gv-button:click="${this._compareFlow.bind(this, content)}" title="Compare"></gv-button>`}
-                  ${this.canAdd && readonlyMode !== true ? html`<gv-button tabindex="0" link small icon="general:duplicate" @gv-button:click="${this._onDuplicateFlow.bind(this, content)}" title="Duplicate"></gv-button>
-                  <gv-button tabindex="0" link small icon="home:trash" @gv-button:click="${this._onDeleteFlow.bind(this, content)}" title="Delete"></gv-button>` : ''}
-                  ${readonlyMode !== true ? html`<gv-switch tabindex="0" small title="${stateLabel}" .value="${enabled}" @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"></gv-switch>` : ''}
-                </div>`;
+      ${this.hasCompare() || this.selectedIds.includes(content._id)
+        ? ''
+        : html`<gv-button
+            tabindex="0"
+            link
+            small
+            icon="navigation:route"
+            @gv-button:click="${this._compareFlow.bind(this, content)}"
+            title="Compare"
+          ></gv-button>`}
+      ${this.canAdd && readonlyMode !== true
+        ? html`<gv-button
+              tabindex="0"
+              link
+              small
+              icon="general:duplicate"
+              @gv-button:click="${this._onDuplicateFlow.bind(this, content)}"
+              title="Duplicate"
+            ></gv-button>
+            <gv-button
+              tabindex="0"
+              link
+              small
+              icon="home:trash"
+              @gv-button:click="${this._onDeleteFlow.bind(this, content)}"
+              title="Delete"
+            ></gv-button>`
+        : ''}
+      ${readonlyMode !== true
+        ? html`<gv-switch
+            tabindex="0"
+            small
+            title="${stateLabel}"
+            .value="${enabled}"
+            @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"
+          ></gv-switch>`
+        : ''}
+    </div>`;
   }
 
-  _onDragStartFlow (flow, index, event) {
+  _onDragStartFlow(flow, index, event) {
     const classList = event.target.classList;
     if (classList && classList.contains('flow')) {
       classList.remove('hover');
@@ -433,31 +464,33 @@ export class GvPolicyStudioMenu extends LitElement {
     }
   }
 
-  _onDragEnterFlow (event) {
-    if (event.target.classList && event.target.classList.contains('flow')
-      && this._draggingFlow.target.parentElement === event.target.parentElement) {
-
+  _onDragEnterFlow(event) {
+    if (
+      event.target.classList &&
+      event.target.classList.contains('flow') &&
+      this._draggingFlow.target.parentElement === event.target.parentElement
+    ) {
       if (event.target.previousSibling !== this._draggingFlow.target) {
         event.target.parentElement.insertBefore(this._draggingFlow.target, event.target);
-      }
-      else if (event.target.nextSibling) {
+      } else if (event.target.nextSibling) {
         event.target.parentElement.insertBefore(this._draggingFlow.target, event.target.nextSibling);
-      }
-      else {
+      } else {
         event.target.parentElement.appendChild(this._draggingFlow.target);
       }
       this._draggingFlow.target.classList.remove('dragging');
     }
   }
 
-  _findFlowCollection (flowId) {
+  _findFlowCollection(flowId) {
     const plan = this.plans.find((plan) => plan.flows.find((flow) => flow._id === flowId) != null);
     return { plan, flows: plan != null ? plan.flows : this.flows };
   }
 
-  _onDragEndFlow () {
+  _onDragEndFlow() {
     this._draggingFlow.target.classList.remove('dragging');
-    const index = [...this._draggingFlow.target.parentElement.querySelectorAll('.flow[draggable="true"]')].indexOf(this._draggingFlow.target);
+    const index = [...this._draggingFlow.target.parentElement.querySelectorAll('.flow[draggable="true"]')].indexOf(
+      this._draggingFlow.target,
+    );
     if (index !== this._draggingFlow.index) {
       const { plan, flows } = this._findFlowCollection(this._draggingFlow.flow._id);
       const flowToReorder = flows.splice(this._draggingFlow.index, 1)[0];
@@ -478,109 +511,123 @@ export class GvPolicyStudioMenu extends LitElement {
     }
   }
 
-  _onDragOverFlow (e) {
+  _onDragOverFlow(e) {
     e.preventDefault();
   }
 
-  _onKeyDownFlow (index, e) {
+  _onKeyDownFlow(index, e) {
     if (e.target.classList.contains('flow') && e.keyCode === 32) {
       e.preventDefault();
       this._selectFlow(index);
     }
   }
 
-  _onClickPolicy (policy) {
+  _onClickPolicy(policy) {
     if (!this.disabled) {
       this.selectedIds = [policy.id];
       dispatchCustomEvent(this, 'fetch-documentation', { policy });
     }
   }
 
-  _isSelected (id) {
+  _isSelected(id) {
     return this.selectedIds != null && this.selectedIds.includes(id);
   }
 
-  _renderFlows (filteredData, type, isChild, id, open) {
+  _renderFlows(filteredData, type, isChild, id, open) {
     const readonlyForFlow = isChild && this.readonlyPlans;
     return html`<div class="${classMap({ content: true, expandable: true, open })}" id="${id}">
-      ${repeat(filteredData, () => uuid(), (content, index) => html`
-        <div
-          draggable="${this.sortable && !this.disabled && !readonlyForFlow}"
-          tabindex="0"
-          @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
-          @dragenter="${this._onDragEnterFlow}"
-          @dragend="${this._onDragEndFlow}"
-          @dragover="${this._onDragOverFlow}"
-          @keydown="${this._onKeyDownFlow.bind(this, index)}"
-          @mouseenter="${this._onMouseEnterFlow}"
-          @mouseleave="${this._onMouseLeaveFlow}"
-          class="${classMap({
-      entry: true,
-      flow: true,
-      sortable: this.sortable && !this.disabled && !readonlyForFlow,
-      selected: this.selectedIds.includes(content._id),
-      child: isChild,
-      disabled: content.enabled === false,
-    })}">
-          <div title="${content.name} | Compare with current selection (Shift + click)"
-               @click="${this._onClickFlow.bind(this, content)}"
-               class="entry-name link">
-                 ${getFlowName(content, null, true, this.sortable && !readonlyForFlow, true)}
-                </div>
-          ${this._renderFlowActions(content, this.readonly || readonlyForFlow)}
-      `)}
-        `;
+      ${repeat(
+        filteredData,
+        () => uuid(),
+        (content, index) => html`
+          <div
+            draggable="${this.sortable && !this.disabled && !readonlyForFlow}"
+            tabindex="0"
+            @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
+            @dragenter="${this._onDragEnterFlow}"
+            @dragend="${this._onDragEndFlow}"
+            @dragover="${this._onDragOverFlow}"
+            @keydown="${this._onKeyDownFlow.bind(this, index)}"
+            @mouseenter="${this._onMouseEnterFlow}"
+            @mouseleave="${this._onMouseLeaveFlow}"
+            class="${classMap({
+              entry: true,
+              flow: true,
+              sortable: this.sortable && !this.disabled && !readonlyForFlow,
+              selected: this.selectedIds.includes(content._id),
+              child: isChild,
+              disabled: content.enabled === false,
+            })}"
+          >
+            <div
+              title="${content.name} | Compare with current selection (Shift + click)"
+              @click="${this._onClickFlow.bind(this, content)}"
+              class="entry-name link"
+            >
+              ${getFlowName(content, null, true, this.sortable && !readonlyForFlow, true)}
+            </div>
+            ${this._renderFlowActions(content, this.readonly || readonlyForFlow)}
+          </div>
+        `,
+      )}
+    </div> `;
   }
 
-  _isDraggable (policy) {
+  _isDraggable(policy) {
     return !this.disabled && (this.hasPolicyFilter !== true || policy.onRequest === true || policy.onResponse === true);
   }
 
-  _renderPolicies (filteredData, type, isChild, id, group) {
-    return html`<div id="${id}" class="${classMap({
-      content: true,
-      expandable: true,
-      open: true,
-      child: isChild,
-    })}">${filteredData.map((content) => {
-      const draggable = this._isDraggable(content);
-      return html`<div class="${classMap({
-        entry: true,
-        link: true,
-        policy: true,
-        selected: this._isSelected(content.id),
-        draggable,
+  _renderPolicies(filteredData, type, isChild, id, group) {
+    return html`<div
+      id="${id}"
+      class="${classMap({
+        content: true,
+        expandable: true,
+        open: true,
+        child: isChild,
       })}"
-      draggable="${draggable}"
-      @mouseenter="${this._onMouseEnterPolicy.bind(this, content)}"
-      @mouseleave="${this._onMouseLeavePolicy.bind(this, content)}"
-      @dragstart="${this._onDragStartPolicy.bind(this, content)}"
-      @dragend="${this._onDragEndPolicy}"
-      @click="${this._onClickPolicy.bind(this, content)}"
-      title="Show documentation of ${content.name}">
-        ${content.icon == null && group != null ? html`<gv-icon class="policy-icon" shape="${this._getGroupShape(group)}"></gv-icon>` : html`<gv-image src="${content.icon}"></gv-image>`}
-        <div class="policy-name">${content.name}</div>
-        ${draggable ? html`<gv-icon class="draggable-icon" shape="design:arrows"></gv-icon>` : html``}
-           </div>`;
-    })}`;
+    >
+      ${filteredData.map((content) => {
+        const draggable = this._isDraggable(content);
+        return html`<div
+          class="${classMap({
+            entry: true,
+            link: true,
+            policy: true,
+            selected: this._isSelected(content.id),
+            draggable,
+          })}"
+          draggable="${draggable}"
+          @mouseenter="${this._onMouseEnterPolicy.bind(this, content)}"
+          @mouseleave="${this._onMouseLeavePolicy.bind(this, content)}"
+          @dragstart="${this._onDragStartPolicy.bind(this, content)}"
+          @dragend="${this._onDragEndPolicy}"
+          @click="${this._onClickPolicy.bind(this, content)}"
+          title="Show documentation of ${content.name}"
+        >
+          ${content.icon == null && group != null
+            ? html`<gv-icon class="policy-icon" shape="${this._getGroupShape(group)}"></gv-icon>`
+            : html`<gv-image src="${content.icon}"></gv-image>`}
+          <div class="policy-name">${content.name}</div>
+          ${draggable ? html`<gv-icon class="draggable-icon" shape="design:arrows"></gv-icon>` : html``}
+        </div>`;
+      })}
+    </div>`;
   }
 
-  _getGroupShape (groupName) {
+  _getGroupShape(groupName) {
     if (groupName === 'security') {
       return 'general:shield-protected';
-    }
-    else if (groupName === 'transformation') {
+    } else if (groupName === 'transformation') {
       return 'tools:roller';
-    }
-    else if (groupName === 'performance') {
+    } else if (groupName === 'performance') {
       return 'general:thunder-move';
-    }
-    else {
+    } else {
       return 'communication:shield-thunder';
     }
   }
 
-  _renderPart (type, title, icon, data = [], hideIfEmpty, addHandler, groupKey = null, isOpen = true, isChild = false, listId) {
+  _renderPart(type, title, icon, data = [], hideIfEmpty, addHandler, groupKey = null, isOpen = true, isChild = false, listId) {
     let list;
     const filteredData = data.filter((content) => this._filter(content));
     if ((hideIfEmpty && data.length > 0) || !hideIfEmpty) {
@@ -599,45 +646,47 @@ export class GvPolicyStudioMenu extends LitElement {
             groupData = groupData[0].flows;
           }
           return html`<div class="type" @click="${this._onExpand.bind(this, anchor)}">
-                    <gv-icon class="expandable-icon" shape="${this._getGroupShape(group)}"></gv-icon>
-                    <div class="link type-name">${group || 'No category'}</div>${right}</div>
-                    ${this._renderPart(type, group, icon, groupData, hideIfEmpty, addHandler, groupKey, isOpen, true, listId)}`;
+              <gv-icon class="expandable-icon" shape="${this._getGroupShape(group)}"></gv-icon>
+              <div class="link type-name">${group || 'No category'}</div>
+              ${right}
+            </div>
+            ${this._renderPart(type, group, icon, groupData, hideIfEmpty, addHandler, groupKey, isOpen, true, listId)}`;
         })}`;
-      }
-      else {
+      } else {
         if (listId == null) {
           listId = type.replace(/\s+/g, '-').toLowerCase();
         }
         if (type === 'flows') {
           list = this._renderFlows(filteredData, type, isChild, listId, isOpen);
-        }
-        else {
+        } else {
           list = this._renderPolicies(filteredData, type, isChild, listId, title);
         }
       }
 
       if (isChild) {
         return html`${list}`;
-      }
-      else {
+      } else {
         const anchor = `#${listId}`;
         let action = '';
         if (addHandler) {
           action = html`<gv-button small link icon="code:plus" @click="${addHandler.bind(this, listId)}"></gv-button>`;
         }
         return html`<div class="type" draggable="false">
-                      ${icon ? html`<gv-icon class="expandable-icon" shape="${icon}"></gv-icon>` : ''}
-                      <div class="type-name link" @click="${this._onExpand.bind(this, anchor)}">${title}</div>${action}</div>${list}`;
+            ${icon ? html`<gv-icon class="expandable-icon" shape="${icon}"></gv-icon>` : ''}
+            <div class="type-name link" @click="${this._onExpand.bind(this, anchor)}">${title}</div>
+            ${action}
+          </div>
+          ${list}`;
       }
     }
     return html``;
   }
 
-  _getListElement (id) {
+  _getListElement(id) {
     return this.shadowRoot.querySelector(`#${id}`);
   }
 
-  _onAddFlowToPlan (index, listId, e) {
+  _onAddFlowToPlan(index, listId, e) {
     const list = this._getListElement(listId);
     list.classList.add('open');
     e.preventDefault();
@@ -645,7 +694,7 @@ export class GvPolicyStudioMenu extends LitElement {
     dispatchCustomEvent(this, 'add-flow-plan', { planIndex: index });
   }
 
-  _onAddFlow (listId, e) {
+  _onAddFlow(listId, e) {
     const list = this._getListElement(listId);
     list.classList.add('open');
     e.preventDefault();
@@ -653,17 +702,44 @@ export class GvPolicyStudioMenu extends LitElement {
     dispatchCustomEvent(this, 'add-flow');
   }
 
-  render () {
-    return html`
-          <slot name="header"></slot>
-          <div class="box">
-           ${this.plans != null ? this._renderPart('flows', '', 'shopping:sale#2', this.plans, false, (this.canAdd && !this.disabled && !this.readonlyPlans ? this._onAddFlowToPlan : null), 'name') : ``}
-           ${this.flows != null ? this._renderPart('flows', this.flowsTitle, 'shopping:box#3', this.flows, false, (this.canAdd && !this.disabled ? this._onAddFlow : null)) : ``}
-           ${this.policies != null ? this._renderPart('policies', 'Policies', 'communication:shield-thunder', this.policies, true, null, this.policies.length > 0 && this.policies[0].category != null ? 'category' : null) : ''}
-          </div>
-          <slot name="footer"></slot>`;
+  render() {
+    return html` <slot name="header"></slot>
+      <div class="box">
+        ${this.plans != null
+          ? this._renderPart(
+              'flows',
+              '',
+              'shopping:sale#2',
+              this.plans,
+              false,
+              this.canAdd && !this.disabled && !this.readonlyPlans ? this._onAddFlowToPlan : null,
+              'name',
+            )
+          : ``}
+        ${this.flows != null
+          ? this._renderPart(
+              'flows',
+              this.flowsTitle,
+              'shopping:box#3',
+              this.flows,
+              false,
+              this.canAdd && !this.disabled ? this._onAddFlow : null,
+            )
+          : ``}
+        ${this.policies != null
+          ? this._renderPart(
+              'policies',
+              'Policies',
+              'communication:shield-thunder',
+              this.policies,
+              true,
+              null,
+              this.policies.length > 0 && this.policies[0].category != null ? 'category' : null,
+            )
+          : ''}
+      </div>
+      <slot name="footer"></slot>`;
   }
-
 }
 
 window.customElements.define('gv-policy-studio-menu', GvPolicyStudioMenu);

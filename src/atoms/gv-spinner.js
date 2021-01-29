@@ -22,8 +22,7 @@ import { css, html, LitElement } from 'lit-element';
  * @cssprop {Image} [--gv-theme-loader=var(--gv-theme-loader, url('images/gravitee-loader.gif'))] - Spinner image
  */
 export class GvSpinner extends LitElement {
-
-  static get styles () {
+  static get styles() {
     return [
       // language=css
       css`
@@ -50,7 +49,7 @@ export class GvSpinner extends LitElement {
     ];
   }
 
-  render () {
+  render() {
     return html`<div class="spinner"></div>`;
   }
 }

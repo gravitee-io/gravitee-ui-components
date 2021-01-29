@@ -17,7 +17,6 @@ import { describe, expect, test } from '@jest/globals';
 import { isValidCron } from '../../src/lib/cron-expression';
 
 describe('C R O N - E X P R E S S I O N', () => {
-
   test('should validate expression with seconds', () => {
     expect(isValidCron('*/30 * * * * *', { seconds: true })).toEqual(true);
   });
@@ -29,5 +28,4 @@ describe('C R O N - E X P R E S S I O N', () => {
   test('should validate expression with days of week with alias', () => {
     expect(isValidCron('*/30 * * * * SUN-MON', { seconds: true, alias: true })).toEqual(true);
   });
-
 });

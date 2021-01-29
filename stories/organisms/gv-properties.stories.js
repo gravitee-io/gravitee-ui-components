@@ -41,14 +41,18 @@ const properties = [
 ];
 
 export const Basics = makeStory(conf, {
-  items: [{
-    properties,
-  }],
+  items: [
+    {
+      properties,
+    },
+  ],
 });
 
 export const Expert = makeStory(conf, {
-  items: [{
-    properties,
-    expert: true,
-  }],
+  items: [
+    {
+      properties,
+      expert: true,
+    },
+  ],
 });

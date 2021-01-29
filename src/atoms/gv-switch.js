@@ -36,13 +36,12 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} checked - same as native switch element `checked` attribute
  * @attr {Boolean} readonly - true if readonly
  *
- * @cssprop {Color} [--gv-switch-on--bgc=var(--gv-theme-color, #5A7684)] - On background color
- * @cssprop {Color} [--gv-switch-off--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Off background color
- * @cssprop {Color} [--gv-switch--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Switch background color
+ * @cssprop {Color} [--gv-switch-on--bgc=var(--gv-theme-color, #5a7684)] - On background color
+ * @cssprop {Color} [--gv-switch-off--bgc=var(--gv-theme-neutral-color-dark, #bfbfbf)] - Off background color
+ * @cssprop {Color} [--gv-switch--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Switch background color
  */
 export class GvSwitch extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       disabled: { type: Boolean, reflect: true },
       skeleton: { type: Boolean },
@@ -55,14 +54,14 @@ export class GvSwitch extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       // language=CSS
       css`
         :host {
-          --off-bgc: var(--gv-switch-off--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
-          --on-bgc: var(--gv-switch-on--bgc, var(--gv-theme-color, #5A7684));
+          --off-bgc: var(--gv-switch-off--bgc, var(--gv-theme-neutral-color-dark, #bfbfbf));
+          --on-bgc: var(--gv-switch-on--bgc, var(--gv-theme-color, #5a7684));
           box-sizing: border-box;
           margin: 0.2rem;
         }
@@ -141,11 +140,11 @@ export class GvSwitch extends LitElement {
         }
 
         .switch-label:before {
-          content: "";
+          content: '';
           display: block;
           width: 16px;
           margin: 0;
-          background: var(--gv-switch--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          background: var(--gv-switch--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
           position: absolute;
           top: 0;
           bottom: 0;
@@ -174,39 +173,37 @@ export class GvSwitch extends LitElement {
         }
 
         :host([disabled]) .switch-label {
-          opacity: .5;
+          opacity: 0.5;
         }
       `,
-
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._id = 'gv-id';
     this.checked = false;
   }
 
-  _onInput () {
+  _onInput() {
     if (!(this.disabled || this.skeleton || this.readonly)) {
       this.value = !this.checked;
       dispatchCustomEvent(this, 'input', this.value);
     }
   }
 
-  updated (_changedProperties) {
+  updated(_changedProperties) {
     super.updated(_changedProperties);
     if (_changedProperties.has('value')) {
       if (this.value != null && this.value.toString() === 'true') {
         this.checked = true;
-      }
-      else {
+      } else {
         this.checked = false;
       }
     }
   }
 
-  render () {
+  render() {
     const classes = {
       skeleton: this.skeleton,
       disabled: this.disabled,
@@ -215,26 +212,28 @@ export class GvSwitch extends LitElement {
     };
 
     return html`
-    <div class="container">
-
-    ${(this.label || this.description) ? html`<div class="${classMap({ labels: true, skeleton: this.skeleton })}">
-        ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
-         ${this.description ? html`<label class="switch-description">${this.description}</label>` : ''}
-      </div>` : ''}
-      <div class="switch-container">
-        <div class=${classMap(classes)}>
-          <input
-            id=${this._id}
-            type="checkbox"
-            .title=${ifDefined(this.label || this.description)}
-            ?disabled=${this.disabled || this.skeleton}
-            ?readonly="${this.readonly}"
-            ?checked=${this.checked}
-            @input=${this._onInput}>
-          <label class="switch-label" for="${this._id}"></label>
+      <div class="container">
+        ${this.label || this.description
+          ? html`<div class="${classMap({ labels: true, skeleton: this.skeleton })}">
+              ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
+              ${this.description ? html`<label class="switch-description">${this.description}</label>` : ''}
+            </div>`
+          : ''}
+        <div class="switch-container">
+          <div class=${classMap(classes)}>
+            <input
+              id=${this._id}
+              type="checkbox"
+              .title=${ifDefined(this.label || this.description)}
+              ?disabled=${this.disabled || this.skeleton}
+              ?readonly="${this.readonly}"
+              ?checked=${this.checked}
+              @input=${this._onInput}
+            />
+            <label class="switch-label" for="${this._id}"></label>
+          </div>
         </div>
       </div>
-    </div>
     `;
   }
 }

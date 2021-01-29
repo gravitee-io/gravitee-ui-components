@@ -34,7 +34,7 @@ const conf = {
 };
 
 export const Empty = makeStory(conf, {
-  items: [{ }],
+  items: [{}],
 });
 
 export const PolicyReadme = makeStory(conf, {

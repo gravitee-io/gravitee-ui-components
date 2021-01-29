@@ -1,0 +1,11 @@
+assets/
+dist/
+coverage/
+docker/
+docs/
+storybook-static/
+src/icons/shapes/
+wc/
+browserslist
+package*.json
+*.ico

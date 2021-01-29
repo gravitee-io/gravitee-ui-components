@@ -30,15 +30,19 @@ const conf = {
 };
 
 export const Basics = makeStory(conf, {
-  items: [{
-    data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 10 },
-  }],
+  items: [
+    {
+      data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 10 },
+    },
+  ],
 });
 
 export const Large = makeStory(conf, {
-  items: [{
-    data: { first: 1, last: 100, total: 100, current_page: 59, total_pages: 70 },
-  }],
+  items: [
+    {
+      data: { first: 1, last: 100, total: 100, current_page: 59, total_pages: 70 },
+    },
+  ],
 });
 
 export const Empty = makeStory(conf, {

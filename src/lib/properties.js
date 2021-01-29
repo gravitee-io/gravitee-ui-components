@@ -26,7 +26,7 @@
  */
 export const ENV_VAR_NAME_REGEX = /^[a-zA-Z0-9-_.]+$/;
 
-export function validateName (name) {
+export function validateName(name) {
   // return ENV_VAR_NAME_REGEX.test(name);
   return true;
 }
@@ -39,35 +39,35 @@ export const ERROR_TYPES = {
 };
 
 const NEW_LINE = '\n';
-const SIMPLE_QUOTE = '\'';
+const SIMPLE_QUOTE = "'";
 const EQUAL = '=';
 const SLASH = '\\';
 const SIMPLE_QUOTE_REPLACE = /([\\]*)'/g;
 const DOUBLE_QUOTE = '"';
 const DOUBLE_QUOTE_REPLACE = /([\\]*)"/g;
 
-function nextIndex (text, char, start = 0) {
+function nextIndex(text, char, start = 0) {
   let i = start;
   let escaped = false;
   while (i < text.length) {
     if (text[i] === char && !escaped) {
       return i;
     }
-    escaped = (text[i] === '\\');
+    escaped = text[i] === '\\';
     i += 1;
   }
   return i;
 }
 
-function isEmptyLine (line) {
+function isEmptyLine(line) {
   return line.trim() === '';
 }
 
-function isCommentLine (line) {
+function isCommentLine(line) {
   return line.trim().startsWith('#');
 }
 
-function getPosition (text, index) {
+function getPosition(text, index) {
   const lines = text.substring(0, index).split(NEW_LINE);
   const line = lines.length;
   const column = lines.slice(-1)[0].length;
@@ -78,7 +78,7 @@ function getPosition (text, index) {
 // it means we need to escape existing double quotes,
 // we need to do so in a way that is compatible with shells and environment variables,
 // this is why we have (slashes * 2 + 1).
-function doubleQuoteString (str) {
+function doubleQuoteString(str) {
   const escapedString = str.replace(DOUBLE_QUOTE_REPLACE, (m, slashes) => {
     return SLASH.repeat(slashes.length * 2 + 1) + DOUBLE_QUOTE;
   });
@@ -88,7 +88,7 @@ function doubleQuoteString (str) {
 // Here we must be able to reverse what doubleQuoteString() does,
 // with the same logic,
 // we also want it to work with simple quotes.
-function unquoteString (firstChar, str) {
+function unquoteString(firstChar, str) {
   if (firstChar === SIMPLE_QUOTE) {
     return str.replace(SIMPLE_QUOTE_REPLACE, (match, slashes) => {
       return SLASH.repeat((slashes.length - 1) / 2) + SIMPLE_QUOTE;
@@ -102,15 +102,13 @@ function unquoteString (firstChar, str) {
   return str;
 }
 
-export function parseRaw (rawInput = '') {
-
+export function parseRaw(rawInput = '') {
   const parsedVariables = [];
   const parsingErrors = [];
   const allNames = new Set();
 
   let startIdx = 0;
   while (startIdx < rawInput.length) {
-
     const nextNewLineIdx = nextIndex(rawInput, NEW_LINE, startIdx);
     const line = rawInput.substring(startIdx, nextNewLineIdx);
 
@@ -134,8 +132,7 @@ export function parseRaw (rawInput = '') {
 
     if (allNames.has(key)) {
       parsingErrors.push({ type: ERROR_TYPES.DUPLICATED_NAME, key, pos: getPosition(rawInput, startIdx) });
-    }
-    else {
+    } else {
       allNames.add(key);
     }
 
@@ -148,12 +145,10 @@ export function parseRaw (rawInput = '') {
       if (nextNewLineIdx > nextQuoteIdx + 1 || nextQuoteIdx + 1 > rawInput.length) {
         parsingErrors.push({ type: ERROR_TYPES.INVALID_VALUE, key, pos: getPosition(rawInput, nextQuoteIdx + 1) });
         startIdx = nextNewLineIdx + 1;
-      }
-      else {
+      } else {
         startIdx = nextQuoteIdx + 1;
       }
-    }
-    else {
+    } else {
       const value = rawInput.substring(nextEqualIdx + 1, nextNewLineIdx);
       parsedVariables.push({ key, value });
       startIdx = nextNewLineIdx + 1;
@@ -169,23 +164,21 @@ export function parseRaw (rawInput = '') {
 // automatically merges duplicated named (keeps last value)
 // automatically removes variables with invalid names
 // always double quote values (with proper escaping)
-export function toNameEqualsValueString (variables, options = {}) {
+export function toNameEqualsValueString(variables, options = {}) {
   const { addExports = false } = options;
   return variables
     .sort((a, b) => a.key.localeCompare(b.key))
     .map(({ key, value }) => {
       const quotedValue = doubleQuoteString(value);
       const nameValue = `${key}=${quotedValue}`;
-      return addExports
-        ? `export ${nameValue};`
-        : nameValue;
+      return addExports ? `export ${nameValue};` : nameValue;
     })
     .join('\n');
 }
 
 // automatically merges duplicated named (keeps last value)
 // automatically removes variables with invalid names
-export function toNameValueObject (variables) {
+export function toNameValueObject(variables) {
   const keyValueObject = {};
   variables
     .filter(({ name }) => validateName(name))

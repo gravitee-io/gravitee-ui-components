@@ -19,9 +19,9 @@ import horizontalImage from '../../assets/images/gravitee-logo.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const name = 'Supernova';
-const description
-  = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
-  + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
+const description =
+  'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, ' +
+  'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 
 const version = 'v.1.1';
 
@@ -70,10 +70,7 @@ const apiItems = [
   },
 ];
 
-const appItems = [
-  { item: application },
-  { item: application, metrics: applicationMetrics },
-];
+const appItems = [{ item: application }, { item: application, metrics: applicationMetrics }];
 
 export const Api = makeStory(conf, {
   items: apiItems,

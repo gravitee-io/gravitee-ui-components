@@ -32,8 +32,7 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {Array<{active: Boolean, icon: String, path: String, title: Promise<String>, target: String}>} routes - definition of routes
  */
 export class GvNav extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       routes: { type: Array },
       _routes: { type: Array },
@@ -43,8 +42,7 @@ export class GvNav extends LitElement {
     };
   }
 
-  static get styles () {
-
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -54,12 +52,12 @@ export class GvNav extends LitElement {
         }
 
         .vertical {
-            display: flex;
-            flex-direction: column;
+          display: flex;
+          flex-direction: column;
         }
 
         .vertical gv-link {
-            width: 100%
+          width: 100%;
         }
 
         .compact {
@@ -74,17 +72,17 @@ export class GvNav extends LitElement {
           left: 0;
           transition: transform 250ms ease-in-out, width 250ms;
         }
-      `];
+      `,
+    ];
   }
 
-  _onClick (event) {
+  _onClick(event) {
     event.stopPropagation();
     const { detail } = event;
     const { title, target } = detail;
     if (target === '_blank') {
       dispatchCustomEvent(this, 'click', detail);
-    }
-    else {
+    } else {
       if (!this._isLocked) {
         this._isLocked = true;
         let nextIndex = 0;
@@ -92,8 +90,7 @@ export class GvNav extends LitElement {
           if (route.title === title) {
             route.active = true;
             nextIndex = index;
-          }
-          else {
+          } else {
             delete route.active;
           }
           return route;
@@ -126,8 +123,7 @@ export class GvNav extends LitElement {
             this._isLocked = false;
             dispatchCustomEvent(this, 'click', detail);
           }, 250);
-        }
-        else {
+        } else {
           nextLink.setAttribute('active', true);
           this._isLocked = false;
           dispatchCustomEvent(this, 'click', detail);
@@ -136,14 +132,14 @@ export class GvNav extends LitElement {
     }
   }
 
-  constructor () {
+  constructor() {
     super();
     /** @protected */
     this._routes = [];
     this.vertical = false;
   }
 
-  set routes (routes) {
+  set routes(routes) {
     if (routes) {
       Promise.resolve(routes).then((_routes) => {
         if (!isSameRoutes(this._routes, _routes)) {
@@ -153,39 +149,44 @@ export class GvNav extends LitElement {
     }
   }
 
-  _getLink (route, index) {
-    return Promise.resolve(route).then((_route) => {
-      return html`
-            <gv-link
-            @gv-link:click=${this._onClick}
-            .active="${_route.active}"
-            .icon="${_route.icon}"
-            .path="${_route.path}"
-            .target="${_route.target}"
-            ?small="${this.small}"
-            .title="${_route.title}"
-            .help="${until(_route.help, null)}"
-            ?vertical="${this.vertical}"></gv-link>`;
-    }).catch(() => {
-      delete this._routes[index];
-    });
+  _getLink(route, index) {
+    return Promise.resolve(route)
+      .then((_route) => {
+        return html` <gv-link
+          @gv-link:click=${this._onClick}
+          .active="${_route.active}"
+          .icon="${_route.icon}"
+          .path="${_route.path}"
+          .target="${_route.target}"
+          ?small="${this.small}"
+          .title="${_route.title}"
+          .help="${until(_route.help, null)}"
+          ?vertical="${this.vertical}"
+        ></gv-link>`;
+      })
+      .catch(() => {
+        delete this._routes[index];
+      });
   }
 
-  updated (_changedProperties) {
+  updated(_changedProperties) {
     if (_changedProperties.has('_routes')) {
       this._compact = this._routes && this._routes.length > 5;
     }
   }
 
-  render () {
+  render() {
     if (this._routes) {
-      return html`<nav class="${classMap({ compact: this._compact, vertical: this.vertical })}">${repeat(this._routes, (route) => route, (route, index) =>
-        until(this._getLink(route, index), html`<gv-link skeleton .vertical="${this.vertical}"></gv-link>`),
-      )}</nav>`;
+      return html`<nav class="${classMap({ compact: this._compact, vertical: this.vertical })}">
+        ${repeat(
+          this._routes,
+          (route) => route,
+          (route, index) => until(this._getLink(route, index), html`<gv-link skeleton .vertical="${this.vertical}"></gv-link>`),
+        )}
+      </nav>`;
     }
     return html``;
   }
-
 }
 
 window.customElements.define('gv-nav', GvNav);

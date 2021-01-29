@@ -24,20 +24,17 @@ blockPreview.Preview = (pppp) => {
   return oldPreview({ ...pppp, language: 'html', isExpanded: false });
 };
 
-export function makeStory (...configs) {
-
-  const { name, docs, css, component, dom, items: rawItems = [{}], events = [], simulations = [], docsOnly = false } = Object.assign({}, ...configs);
+export function makeStory(...configs) {
+  const { name, docs, css, component, dom, items: rawItems = [{}], events = [], simulations = [], docsOnly = false } = Object.assign(
+    {},
+    ...configs,
+  );
   const customElement = customElements.tags.find((tag) => tag.name === component) || {};
-  const _events = customElement.events
-    ? [...new Set([...events, ...customElement.events.map((e) => e.name)])]
-    : events;
+  const _events = customElement.events ? [...new Set([...events, ...customElement.events.map((e) => e.name)])] : events;
 
-  const items = (typeof rawItems === 'function')
-    ? rawItems()
-    : rawItems;
+  const items = typeof rawItems === 'function' ? rawItems() : rawItems;
 
   const storyFn = () => {
-
     const container = document.createElement('div');
     const shadow = container.attachShadow({ mode: 'open' });
 
@@ -53,9 +50,7 @@ export function makeStory (...configs) {
       dom(wrapper);
       return container;
     }
-    const items = (typeof rawItems === 'function')
-      ? rawItems()
-      : rawItems;
+    const items = typeof rawItems === 'function' ? rawItems() : rawItems;
 
     const components = items.map((props) => {
       let element = document.createElement(component);
@@ -76,8 +71,7 @@ export function makeStory (...configs) {
         let value = cssProperty.default.replace(/"/g, '');
         if (cssProperty.type.toLowerCase() === 'color') {
           value = color(cssProperty.description, value);
-        }
-        else {
+        } else {
           value = text(cssProperty.description, value);
         }
         container.style.setProperty(cssProperty.name, value);
@@ -94,48 +88,43 @@ export function makeStory (...configs) {
     return container;
   };
 
-  const generatedSource = () => items
-    .map(({ innerHTML = '', ...props }) => {
-      const variables = [];
-      const allPropertiesAndAttributes = Object.entries(props)
-        .map(([name, value]) => {
-          if (value === true) {
-            return `${name}`;
-          }
-          if (typeof value === 'string' || typeof value === 'number') {
-            return `${name}=${JSON.stringify(String(value))}`;
-          }
-          if (typeof value === 'object') {
-            variables.push({ name, value });
-            const variableName = '${' + name + '}';
-            return `.${name}='${variableName}'`;
-          }
-        })
-        .filter((a) => a != null);
+  const generatedSource = () =>
+    items
+      .map(({ innerHTML = '', ...props }) => {
+        const variables = [];
+        const allPropertiesAndAttributes = Object.entries(props)
+          .map(([name, value]) => {
+            if (value === true) {
+              return `${name}`;
+            }
+            if (typeof value === 'string' || typeof value === 'number') {
+              return `${name}=${JSON.stringify(String(value))}`;
+            }
+            if (typeof value === 'object') {
+              variables.push({ name, value });
+              const variableName = '${' + name + '}';
+              return `.${name}='${variableName}'`;
+            }
+          })
+          .filter((a) => a != null);
 
-      const attrsAndProps = allPropertiesAndAttributes.length > 0
-        ? ' ' + allPropertiesAndAttributes.join(' ')
-        : '';
+        const attrsAndProps = allPropertiesAndAttributes.length > 0 ? ' ' + allPropertiesAndAttributes.join(' ') : '';
 
-      const variablesAsJavascript = variables.map(({ name, value }) => {
-        return `const ${name} = ${JSON.stringify(value, null, 2)}`;
-      });
+        const variablesAsJavascript = variables.map(({ name, value }) => {
+          return `const ${name} = ${JSON.stringify(value, null, 2)}`;
+        });
 
-      return `${variablesAsJavascript.join('\n')}\n<${component}${attrsAndProps}>${innerHTML}</${component}>`;
-    })
-    .join('\n');
+        return `${variablesAsJavascript.join('\n')}\n<${component}${attrsAndProps}>${innerHTML}</${component}>`;
+      })
+      .join('\n');
 
   const domSource = () => {
     const container = document.createElement('div');
     dom(container);
-    return container.innerHTML
-      .replace(/<!---->/g, '')
-      .trim();
+    return container.innerHTML.replace(/<!---->/g, '').trim();
   };
 
-  const mdxSource = (dom != null)
-    ? domSource()
-    : generatedSource();
+  const mdxSource = dom != null ? domSource() : generatedSource();
 
   storyFn.docs = docs;
   storyFn.css = css;
@@ -161,11 +150,11 @@ export function makeStory (...configs) {
   return storyFn;
 }
 
-export function storyWait (delay, callback) {
+export function storyWait(delay, callback) {
   return { delay, callback };
 }
 
-function assignPropsToElement (element, props = {}) {
+function assignPropsToElement(element, props = {}) {
   Object.entries(props).forEach(([name, value]) => {
     if (name === 'style' || name === 'class') {
       element.setAttribute(name, value);
@@ -175,23 +164,18 @@ function assignPropsToElement (element, props = {}) {
     }
     if (name === 'innerHTML') {
       element.innerHTML = value;
-    }
-    else if (typeof value === 'function') {
+    } else if (typeof value === 'function') {
       if (name.startsWith('@')) {
         const eventName = name.substring(1);
         element.addEventListener(eventName, (e) => value(e, element));
-      }
-      else {
+      } else {
         element[name] = value;
       }
-    }
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       element[name] = value;
-    }
-    else {
+    } else {
       element.setAttribute(name, value);
     }
-
   });
   return element;
 }

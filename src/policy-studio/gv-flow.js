@@ -38,8 +38,7 @@ import { GvIcon } from '../atoms/gv-icon';
  * @attr {Boolean} readonly - true if readonly
  */
 export class GvFlow extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       flow: { type: Object },
       plan: { type: Object },
@@ -54,31 +53,31 @@ export class GvFlow extends LitElement {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.flowsTitle = 'Flows';
     this.addEventListener('mouseleave', this._onMouseLeave);
   }
 
-  async connectedCallback () {
+  async connectedCallback() {
     super.connectedCallback();
     this._defaultDraggableIcon = await GvIcon.getAsBase64('communication:shield-thunder');
   }
 
-  _onMouseLeave () {
+  _onMouseLeave() {
     this.dragPolicy = null;
     this.dropPolicy = null;
   }
 
-  getCandidate () {
+  getCandidate() {
     return this.shadowRoot.querySelector('gv-flow-step[empty]');
   }
 
-  getFlowSteps () {
+  getFlowSteps() {
     return Array.from(this.shadowRoot.querySelectorAll('gv-flow-step'));
   }
 
-  getOrCreateCandidate () {
+  getOrCreateCandidate() {
     let candidate = this.getCandidate();
     if (!candidate) {
       candidate = document.createElement('gv-flow-step');
@@ -87,61 +86,60 @@ export class GvFlow extends LitElement {
     return candidate;
   }
 
-  removeCandidate () {
+  removeCandidate() {
     const candidate = this.getCandidate();
     if (candidate) {
       candidate.remove();
     }
   }
 
-  _canDropPolicy (flowKey, policy) {
+  _canDropPolicy(flowKey, policy) {
     if (this.disabled || this.readonly) {
       return false;
     }
     if (policy != null) {
       if (flowKey === 'pre') {
         return this.hasPolicyFilter !== true || policy.onRequest === true;
-      }
-      else if (flowKey === 'post') {
+      } else if (flowKey === 'post') {
         return this.hasPolicyFilter !== true || policy.onResponse === true;
-      }
-      else {
+      } else {
         throw new Error(`The flowkey [${flowKey}] parameter must be "pre" or "post"`);
       }
     }
     return false;
   }
 
-  _onDragOver (flowKey, e) {
+  _onDragOver(flowKey, e) {
     if (!this.disabled && !this.readonly) {
       if (e.dataTransfer.items.length > 0) {
         e.preventDefault();
         e.stopPropagation();
         if (this.dropPolicy == null) {
           this.dropPolicy = this.dragPolicy;
-        }
-        else {
+        } else {
           this.dragPolicy = this.dropPolicy;
         }
 
-        if (this.dropPolicy != null && this._canDropPolicy(flowKey, this.dropPolicy.policy) && !e.target.classList.contains('candidate') && !e.target.hasAttribute('dragging')) {
+        if (
+          this.dropPolicy != null &&
+          this._canDropPolicy(flowKey, this.dropPolicy.policy) &&
+          !e.target.classList.contains('candidate') &&
+          !e.target.hasAttribute('dragging')
+        ) {
           if (e.target.tagName.toLowerCase() === 'gv-flow-step') {
             const { x, width } = e.target.getBoundingClientRect();
             const condition = flowKey === 'post' ? e.clientX - x <= width / 2 : e.clientX - x >= width / 2;
             if (condition && !(e.target.nextElementSibling && e.target.nextElementSibling.hasAttribute('dragging'))) {
               e.target.insertAdjacentElement('afterend', this.getOrCreateCandidate());
-            }
-            else if (!(e.target.previousElementSibling && e.target.previousElementSibling.hasAttribute('dragging'))) {
+            } else if (!(e.target.previousElementSibling && e.target.previousElementSibling.hasAttribute('dragging'))) {
               e.target.insertAdjacentElement('beforebegin', this.getOrCreateCandidate());
             }
-          }
-          else if (e.target.classList && (e.target.classList.contains('drop-area-grid'))) {
+          } else if (e.target.classList && e.target.classList.contains('drop-area-grid')) {
             const dropAreas = e.target.querySelectorAll('gv-flow-step');
             if (dropAreas.length === 0) {
               e.target.prepend(this.getOrCreateCandidate());
             }
-          }
-          else {
+          } else {
             this.removeCandidate();
           }
         }
@@ -149,7 +147,7 @@ export class GvFlow extends LitElement {
     }
   }
 
-  _onDragEnd () {
+  _onDragEnd() {
     if (!this.disabled && !this.readonly) {
       if (this._draggablePolicyImage) {
         this._draggablePolicyImage.remove();
@@ -160,7 +158,7 @@ export class GvFlow extends LitElement {
     }
   }
 
-  _onDragStart (sourceFlowKey, flowStep, sourcePosition, e) {
+  _onDragStart(sourceFlowKey, flowStep, sourcePosition, e) {
     if (!this.disabled && !this.readonly) {
       const policy = this.findPolicy(flowStep.policy);
       if (policy != null) {
@@ -183,18 +181,18 @@ export class GvFlow extends LitElement {
     }
   }
 
-  async performUpdate () {
+  async performUpdate() {
     this.getFlowSteps().forEach((s) => {
       s.requestUpdate();
     });
     super.performUpdate();
   }
 
-  get draggingArea () {
+  get draggingArea() {
     return this.shadowRoot.querySelector('gv-flow-step[dragging]');
   }
 
-  _onDrop (flowKey, e) {
+  _onDrop(flowKey, e) {
     this.shadowRoot.querySelectorAll('gv-flow-step').forEach((step) => step.resetConfirm());
     e.preventDefault();
     e.stopPropagation();
@@ -249,27 +247,25 @@ export class GvFlow extends LitElement {
           candidate.remove();
           move();
         });
-      }
-      else {
+      } else {
         move();
       }
-    }
-    else if (draggingArea) {
+    } else if (draggingArea) {
       draggingArea.removeAttribute('dragging');
       this.dragPolicy = null;
       this.dropPolicy = null;
     }
   }
 
-  getFlowStep (flowKey, position) {
+  getFlowStep(flowKey, position) {
     return this.flow[flowKey][position];
   }
 
-  _onEditStep ({ detail: { step, policy, group } }) {
+  _onEditStep({ detail: { step, policy, group } }) {
     dispatchCustomEvent(this, 'edit', { flow: this.flow, step, policy, group });
   }
 
-  _onDuplicateStep (flowKey, position) {
+  _onDuplicateStep(flowKey, position) {
     const step = this.getFlowStep(flowKey, position);
     const duplicatePosition = position + 1;
     const policy = this.findPolicy(step.policy);
@@ -283,47 +279,48 @@ export class GvFlow extends LitElement {
     });
   }
 
-  _isEditable (step) {
+  _isEditable(step) {
     return this.selectedStepId && this.selectedStepId === step._id;
   }
 
-  _onDeleteStep (flowKey, position, e) {
+  _onDeleteStep(flowKey, position, e) {
     dispatchCustomEvent(this, 'delete', { flowKey, position, flowId: this.flow._id, target: e.target });
   }
 
-  _onChangeStepState (flowKey, position, { detail }) {
+  _onChangeStepState(flowKey, position, { detail }) {
     dispatchCustomEvent(this, 'change-state', { flowKey, position, flowId: this.flow._id, ...detail });
   }
 
-  _renderDropStep (group, step, position) {
+  _renderDropStep(group, step, position) {
     if (step) {
-      return html`<gv-flow-step .step="${step}" 
-                                .policy="${this.findPolicy(step.policy)}"
-                                .id="${step._id}"
-                                .group="${group}"
-                                .parent="${this.flow._id}"
-                                ?disabled="${this.disabled}"
-                                ?readonly="${this.readonly}"
-                                .draggable="${!this.disabled && !this.readonly}" 
-                                ?editing="${this._isEditable(step)}"
-                                @dragstart="${this._onDragStart.bind(this, group, step, position)}"
-                                @dragend="${this._onDragEnd}"
-                                @gv-flow-step:edit="${this._onEditStep}"
-                                @gv-flow-step:change-state="${this._onChangeStepState.bind(this, group, position)}"
-                                @gv-flow-step:delete="${this._onDeleteStep.bind(this, group, position)}"
-                                @gv-flow-step:duplicate="${this._onDuplicateStep.bind(this, group, position)}"></gv-flow-step>`;
-    }
-    else {
+      return html`<gv-flow-step
+        .step="${step}"
+        .policy="${this.findPolicy(step.policy)}"
+        .id="${step._id}"
+        .group="${group}"
+        .parent="${this.flow._id}"
+        ?disabled="${this.disabled}"
+        ?readonly="${this.readonly}"
+        .draggable="${!this.disabled && !this.readonly}"
+        ?editing="${this._isEditable(step)}"
+        @dragstart="${this._onDragStart.bind(this, group, step, position)}"
+        @dragend="${this._onDragEnd}"
+        @gv-flow-step:edit="${this._onEditStep}"
+        @gv-flow-step:change-state="${this._onChangeStepState.bind(this, group, position)}"
+        @gv-flow-step:delete="${this._onDeleteStep.bind(this, group, position)}"
+        @gv-flow-step:duplicate="${this._onDuplicateStep.bind(this, group, position)}"
+      ></gv-flow-step>`;
+    } else {
       return html``;
     }
   }
 
-  async _getUpdateComplete () {
+  async _getUpdateComplete() {
     await super._getUpdateComplete();
     await Promise.all(this.getFlowSteps().map((e) => e.updateComplete));
   }
 
-  updated (properties) {
+  updated(properties) {
     if (properties.has('data')) {
       this.onDragEnd();
     }
@@ -334,7 +331,7 @@ export class GvFlow extends LitElement {
     }
   }
 
-  onDragEnd () {
+  onDragEnd() {
     setTimeout(() => {
       this.shadowRoot.querySelector('.drop-area-grid').classList.remove('dragging');
       this.removeCandidate();
@@ -345,53 +342,53 @@ export class GvFlow extends LitElement {
     }, 0);
   }
 
-  _getLabel (flowKey) {
+  _getLabel(flowKey) {
     if (this.flow.type) {
       return html`
-          <div class="drop-box-type">${flowKey}</div>
-          <div>${this.flow.type.toUpperCase() === 'ROOT' ? 'flow' : this.flow.type}</div>
+        <div class="drop-box-type">${flowKey}</div>
+        <div>${this.flow.type.toUpperCase() === 'ROOT' ? 'flow' : this.flow.type}</div>
       `;
-    }
-    else if (flowKey === 'pre') {
+    } else if (flowKey === 'pre') {
       return 'request';
-    }
-    else if (flowKey === 'post') {
+    } else if (flowKey === 'post') {
       return 'response';
     }
     return '';
   }
 
-  get collectionName () {
+  get collectionName() {
     return this.plan != null ? this.plan.name : this.flowsTitle;
   }
 
-  render () {
+  render() {
     const preTarget = this.dragPolicy && (this.hasPolicyFilter !== true || this.dragPolicy.policy.onRequest);
     const postTarget = this.dragPolicy && (this.hasPolicyFilter !== true || this.dragPolicy.policy.onResponse);
 
-    const preForbidden = this.dragPolicy && (this.hasPolicyFilter === true && !this.dragPolicy.policy.onRequest);
-    const postForbidden = this.dragPolicy && (this.hasPolicyFilter === true && !this.dragPolicy.policy.onResponse);
+    const preForbidden = this.dragPolicy && this.hasPolicyFilter === true && !this.dragPolicy.policy.onRequest;
+    const postForbidden = this.dragPolicy && this.hasPolicyFilter === true && !this.dragPolicy.policy.onResponse;
     const hasPost = this.flow.type == null || (this.flow.type && this.flow.type.toLowerCase() !== 'root');
-    return html`<div class="box"><div class="container">
-                    <div class="header">
-                      <div class="title">${getFlowName(this.flow, this.collectionName)}</div>
-                    </div>
-                    <div class="content">
-                      <div class="flow">
-                        <div class="${classMap({ pre: true, targeted: preTarget, forbidden: preForbidden })}">
-                          <div class="arrow arrow-right"></div>
-                            <div class="drop-box" 
-                               @drop="${this._onDrop.bind(this, 'pre')}"
-                               @dragend="${this.onDragEnd}"
-                               @dragover="${this._onDragOver.bind(this, 'pre')}">
-                              <div class="drop-box-title">${preTarget ? 'drop here' : this._getLabel('pre')}</div>
-                              <div class="drop-area-grid">
-                                  ${this.flow.pre.map((flowStep, i) => this._renderDropStep('pre', flowStep, i))}
-                              </div>
-                            </div>
-                          </div>
+    return html`<div class="box">
+      <div class="container">
+        <div class="header">
+          <div class="title">${getFlowName(this.flow, this.collectionName)}</div>
+        </div>
+        <div class="content">
+          <div class="flow">
+            <div class="${classMap({ pre: true, targeted: preTarget, forbidden: preForbidden })}">
+              <div class="arrow arrow-right"></div>
+              <div
+                class="drop-box"
+                @drop="${this._onDrop.bind(this, 'pre')}"
+                @dragend="${this.onDragEnd}"
+                @dragover="${this._onDragOver.bind(this, 'pre')}"
+              >
+                <div class="drop-box-title">${preTarget ? 'drop here' : this._getLabel('pre')}</div>
+                <div class="drop-area-grid">${this.flow.pre.map((flowStep, i) => this._renderDropStep('pre', flowStep, i))}</div>
+              </div>
+            </div>
 
-                        ${hasPost ? html`
+            ${hasPost
+              ? html`
                         <div class="${classMap({ post: true, targeted: postTarget, forbidden: postForbidden })}">
                           <div class='arrow arrow-left'> </div>
                             <div class="drop-box" 
@@ -404,13 +401,15 @@ export class GvFlow extends LitElement {
                                  <div class="drop-box-title">${postTarget ? 'drop here' : this._getLabel('post')}</div>
                              </div>
                           </div>
-                        </div>` : ''}
-                      </div>
-                    </div>
-                 </div></div>`;
+                        </div>`
+              : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
   }
 
-  findPolicy (policyId) {
+  findPolicy(policyId) {
     const policy = this.policies.find((p) => p.id === policyId);
     if (policy == null) {
       // throw new Error(`Policy ${policyId} not found`);
@@ -418,7 +417,7 @@ export class GvFlow extends LitElement {
     return policy;
   }
 
-  static get styles () {
+  static get styles() {
     return [
       methods,
       // language=CSS
@@ -452,11 +451,11 @@ export class GvFlow extends LitElement {
         }
 
         .targeted .drop-area-grid {
-          border: 1px dashed #D9D9D9;
+          border: 1px dashed #d9d9d9;
         }
 
         .forbidden .drop-area-grid {
-          background-color: #EFEFEF;
+          background-color: #efefef;
           opacity: 0.2;
         }
 
@@ -466,7 +465,7 @@ export class GvFlow extends LitElement {
 
         .message {
           text-transform: uppercase;
-          color: #D9D9D9;
+          color: #d9d9d9;
           opacity: 0;
           transition: opacity 350ms ease-in-out;
           font-size: 18px;
@@ -487,14 +486,15 @@ export class GvFlow extends LitElement {
           transition: all 350ms ease-in-out;
         }
 
-        .pre, .post {
+        .pre,
+        .post {
           position: relative;
           flex: 1;
           display: flex;
         }
 
         .arrow {
-          background-color: #D9D9D9;
+          background-color: #d9d9d9;
           width: calc(100% - 50px * 2 - 1px);
           text-align: center;
           position: absolute;
@@ -509,7 +509,7 @@ export class GvFlow extends LitElement {
           height: 0;
           border-top: 40px solid transparent;
           border-bottom: 40px solid transparent;
-          border-left: 40px solid #D9D9D9;
+          border-left: 40px solid #d9d9d9;
           content: ' ';
           position: absolute;
           right: -20px;
@@ -527,7 +527,7 @@ export class GvFlow extends LitElement {
           writing-mode: vertical-lr;
           text-orientation: upright;
           text-transform: uppercase;
-          color: #BFBFBF;
+          color: #bfbfbf;
           font-size: 13px;
           font-weight: 500;
           text-align: center;
@@ -548,7 +548,7 @@ export class GvFlow extends LitElement {
           height: 0;
           border-top: 40px solid transparent;
           border-bottom: 40px solid transparent;
-          border-right: 40px solid #D9D9D9;
+          border-right: 40px solid #d9d9d9;
           content: ' ';
           position: absolute;
           left: -20px;
@@ -569,18 +569,18 @@ export class GvFlow extends LitElement {
         }
 
         .header {
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
           display: flex;
           min-height: 45px;
           margin-bottom: 0.5rem;
         }
 
         .header .title {
-          color: #28444F;
+          color: #28444f;
           font-size: 18px;
           display: flex;
           align-items: center;
-          margin: 0 .5rem;
+          margin: 0 0.5rem;
           width: 100%;
         }
 

@@ -17,15 +17,16 @@ import { css } from 'lit-element';
 
 // language=CSS
 export const link = css`
-    .link, .link:visited {
-        cursor: pointer;
-        opacity: 1;
-        transition: opacity .15s ease-in;
-        text-decoration: none;
-    }
+  .link,
+  .link:visited {
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.15s ease-in;
+    text-decoration: none;
+  }
 
-    .link:hover {
-        opacity: .7;
-        transition: opacity .15s ease-in;
-    }
+  .link:hover {
+    opacity: 0.7;
+    transition: opacity 0.15s ease-in;
+  }
 `;

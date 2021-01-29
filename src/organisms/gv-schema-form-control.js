@@ -29,8 +29,7 @@ import '../organisms/gv-schema-form-control-object';
 import { isCodemirror } from '../lib/schema-form';
 
 export class GvSchemaFormControl extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       type: { type: String },
       id: { type: String, reflect: true },
@@ -47,60 +46,54 @@ export class GvSchemaFormControl extends LitElement {
     };
   }
 
-  isExpressionLanguage () {
+  isExpressionLanguage() {
     return this.control['x-schema-form'] && this.control['x-schema-form']['expression-language'] != null;
   }
 
-  isCronExpression () {
+  isCronExpression() {
     return this.control['x-schema-form'] && this.control['x-schema-form']['cron-expression'] === true;
   }
 
-  isPassword () {
+  isPassword() {
     return this.control['x-schema-form'] && this.control['x-schema-form'].type != null && this.control['x-schema-form'].type === 'password';
   }
 
-  isCodemirror () {
+  isCodemirror() {
     return isCodemirror(this.control);
   }
 
-  isAutocomplete () {
+  isAutocomplete() {
     return this.control['x-schema-form'] && this.control['x-schema-form'].event != null;
   }
 
-  getElementName () {
+  getElementName() {
     if (this.control.type === 'object') {
       return 'gv-schema-form-control-object';
     }
     if ((this.control.enum || (this.control.items && this.control.items.enum)) && !this.isAutocomplete()) {
       return 'gv-select';
-    }
-    else if (this.isComplexArray()) {
+    } else if (this.isComplexArray()) {
       return 'gv-schema-form-array';
-    }
-    else if (this.control.type === 'array') {
+    } else if (this.control.type === 'array') {
       return 'gv-button';
-    }
-    else if (this.control.type === 'boolean') {
+    } else if (this.control.type === 'boolean') {
       return 'gv-switch';
-    }
-    else if (this.isExpressionLanguage()) {
+    } else if (this.isExpressionLanguage()) {
       return 'gv-expression-language';
-    }
-    else if (this.isCodemirror()) {
+    } else if (this.isCodemirror()) {
       return 'gv-code';
-    }
-    else if (this.isCronExpression()) {
+    } else if (this.isCronExpression()) {
       return 'gv-cron-editor';
     }
 
     return 'gv-input';
   }
 
-  isComplexArray () {
+  isComplexArray() {
     return this.control.type === 'array' && !this.control.items.enum;
   }
 
-  _renderControl () {
+  _renderControl() {
     const elementName = this.getElementName();
     const element = document.createElement(elementName);
     element.skeleton = this.skeleton;
@@ -121,8 +114,7 @@ export class GvSchemaFormControl extends LitElement {
 
     if (this.control.type === 'object') {
       element.schema = this.control;
-    }
-    else if (this.isComplexArray()) {
+    } else if (this.isComplexArray()) {
       element.schema = this.control.items;
     }
     if (this.required != null) {
@@ -137,8 +129,7 @@ export class GvSchemaFormControl extends LitElement {
     if (this.control.title) {
       element.label = this.control.title;
       element.title = this.control.title;
-    }
-    else {
+    } else {
       const tmp = this.id.split('.');
       const title = tmp[tmp.length - 1];
       if (isNaN(parseInt(title, 10))) {
@@ -161,15 +152,13 @@ export class GvSchemaFormControl extends LitElement {
           value,
           label: this.control['x-schema-form'].titleMap[value] || value,
         }));
-      }
-      else {
+      } else {
         element.options = this.control.enum || this.control.items.enum;
       }
       if (this.control.type === 'array') {
         element.multiple = true;
       }
-    }
-    else if (this.isCodemirror()) {
+    } else if (this.isCodemirror()) {
       element.options = this.control['x-schema-form'].codemirrorOptions;
       if (this.control.default != null && element.options.value == null) {
         element.options.value = this.control.default;
@@ -177,23 +166,20 @@ export class GvSchemaFormControl extends LitElement {
       if (this.control.description != null) {
         element.options.placeholder = this.control.description;
       }
-    }
-    else if (this.isExpressionLanguage()) {
+    } else if (this.isExpressionLanguage()) {
       element.options = {};
       element.rows = 1;
       if (this.control.description != null) {
         element.options.placeholder = this.control.description;
       }
-    }
-    else if (this.isPassword()) {
+    } else if (this.isPassword()) {
       element.type = 'password';
     }
 
     if (this.control.description) {
       if (this.control.type === 'boolean') {
         element.description = this.control.description;
-      }
-      else {
+      } else {
         element.placeholder = this.control.description;
       }
     }
@@ -217,27 +203,24 @@ export class GvSchemaFormControl extends LitElement {
         control: this.control,
       });
       return autocomplete;
-    }
-    else {
+    } else {
       return element;
     }
-
   }
 
-  _onInput (e) {
+  _onInput(e) {
     e.preventDefault();
     e.stopPropagation();
     let value = null;
     if (e.target.tagName === 'GV-AUTOCOMPLETE') {
       value = e.detail.value;
-    }
-    else {
+    } else {
       value = e.detail;
     }
     dispatchCustomEvent(this, 'change', { value, currentTarget: e.target, control: this.control });
   }
 
-  getControls () {
+  getControls() {
     return [
       ...Array.from(this.shadowRoot.querySelectorAll('gv-schema-form-control')),
       ...Array.from(this.shadowRoot.querySelectorAll('gv-schema-form-control-array')),
@@ -245,26 +228,25 @@ export class GvSchemaFormControl extends LitElement {
     ];
   }
 
-  getControl (id) {
+  getControl(id) {
     if (id == null) {
       id = this.id;
     }
     return this.shadowRoot.querySelector(`[id="${id}"]`);
   }
 
-  _setValue (controlElement) {
+  _setValue(controlElement) {
     if (this.value != null && controlElement != null) {
       if (this.control.type === 'boolean' || this.control.type === 'array' || this.control.type === 'object') {
         controlElement.value = this.value;
-      }
-      else {
+      } else {
         controlElement.value = this.value.toString ? this.value.toString() : this.value;
       }
     }
     return controlElement;
   }
 
-  async updated (changedProperties) {
+  async updated(changedProperties) {
     if (changedProperties.has('value')) {
       Promise.all(this.getControls().map((control) => control.updateComplete)).then(() => {
         this._setValue(this.getControl());
@@ -272,12 +254,12 @@ export class GvSchemaFormControl extends LitElement {
     }
   }
 
-  async _getUpdateComplete () {
+  async _getUpdateComplete() {
     await super._getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 
-  shouldUpdate (changedProperties) {
+  shouldUpdate(changedProperties) {
     if (changedProperties.has('errors')) {
       // Set errors to complex controls
       this.getControls().forEach((control) => {
@@ -302,25 +284,25 @@ export class GvSchemaFormControl extends LitElement {
     return super.shouldUpdate(changedProperties);
   }
 
-  render () {
+  render() {
     return html`
-        ${this._renderControl()}
-        <div class="form__control-error" id="${this.id + '-error'}"></div>
+      ${this._renderControl()}
+      <div class="form__control-error" id="${this.id + '-error'}"></div>
     `;
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
-
         :host {
           box-sizing: border-box;
           margin: 0.4rem;
           display: block;
         }
 
-        .form__control-description, .form__control-error {
+        .form__control-description,
+        .form__control-error {
           font-size: 12px;
         }
 
@@ -331,7 +313,7 @@ export class GvSchemaFormControl extends LitElement {
         .form__control-label {
           display: flex;
           flex-direction: row;
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
         }
 
         label {
@@ -343,7 +325,8 @@ export class GvSchemaFormControl extends LitElement {
           text-transform: capitalize;
         }
 
-        .form__control-array, .form__control-object {
+        .form__control-array,
+        .form__control-object {
           display: flex;
           flex-direction: column;
         }
@@ -379,18 +362,22 @@ export class GvSchemaFormControl extends LitElement {
           margin-right: 0;
         }
 
-        gv-select, gv-input, gv-code, gv-switch, gv-expression-language {
+        gv-select,
+        gv-input,
+        gv-code,
+        gv-switch,
+        gv-expression-language {
           width: 100%;
           margin: 0.2rem 0;
         }
 
-        gv-select:hover, gv-autocomplete:hover {
+        gv-select:hover,
+        gv-autocomplete:hover {
           z-index: 70;
         }
       `,
     ];
   }
-
 }
 
 window.customElements.define('gv-schema-form-control', GvSchemaFormControl);

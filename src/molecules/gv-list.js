@@ -35,14 +35,13 @@ import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
  * @attr {String} title - title of the list.
  * @attr {Boolean} clickable - true if gv-list element can be clickable.
  *
- * @cssprop {Color} [--gv-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-list--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
  * @cssprop {Length} [--gv-list-icon--s=20px] - Height and icon width
  * @cssprop {Length} [--gv-list-image--h=40px] - Image height
  * @cssprop {Length} [--gv-list-image--w=40px] - Image width
  */
 export class GvList extends withSkeletonAttribute(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       ...super.styles,
       items: { type: Object },
@@ -52,7 +51,7 @@ export class GvList extends withSkeletonAttribute(LitElement) {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       link,
@@ -63,7 +62,7 @@ export class GvList extends withSkeletonAttribute(LitElement) {
           display: inline-block;
           width: 280px;
           border-radius: 4px;
-          background-color: var(--gv-list--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          background-color: var(--gv-list--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
           --gv-icon--s: var(--gv-list-icon--s, 20px);
         }
 
@@ -87,7 +86,7 @@ export class GvList extends withSkeletonAttribute(LitElement) {
           border-bottom: 1px solid var(--gv-theme-neutral-color);
           margin: 0;
         }
-        
+
         h4 {
           font-size: var(--gv-theme-font-size-m);
           line-height: var(--gv-theme-font-size-m);
@@ -141,94 +140,88 @@ export class GvList extends withSkeletonAttribute(LitElement) {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._skeletonAttribute = 'items';
   }
 
-  _onClick (item) {
+  _onClick(item) {
     dispatchCustomEvent(this, 'click', item);
   }
 
-  _renderImage (item) {
+  _renderImage(item) {
     return html`<gv-identity-picture .picture="${getPicture(item)}" .display_name="${getPictureDisplayName(item)}"></gv-identity-picture>`;
   }
 
-  _renderStatus (subscriptions) {
+  _renderStatus(subscriptions) {
     if (subscriptions) {
       const paused = subscriptions.filter((sub) => sub.status.toUpperCase() === 'PAUSED');
       if (paused.length > 0) {
-        return html`
-        <gv-icon title="${i18n('gv-list.paused')}" shape="media:pause"></gv-icon>`;
+        return html` <gv-icon title="${i18n('gv-list.paused')}" shape="media:pause"></gv-icon>`;
       }
       const pending = subscriptions.filter((sub) => sub.status.toUpperCase() === 'PENDING');
       if (pending.length > 0) {
-        return html`
-        <gv-icon title="${i18n('gv-list.pending')}" shape="home:timer"></gv-icon>`;
+        return html` <gv-icon title="${i18n('gv-list.pending')}" shape="home:timer"></gv-icon>`;
       }
     }
     return '';
   }
 
-  _renderItem (item) {
+  _renderItem(item) {
     if (item) {
       return html`
-      <div class="item__image">${this._renderImage(item.item)}</div>
-      <div class="item__content">
-        <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.item.name} <span>${getVersion(item.item)}</span></h4>
-        <div class="item__description">${item.item.description}</div>
-      </div>
+        <div class="item__image">${this._renderImage(item.item)}</div>
+        <div class="item__content">
+          <h4 class="item__title">${this._renderStatus(item.subscriptions)}${item.item.name} <span>${getVersion(item.item)}</span></h4>
+          <div class="item__description">${item.item.description}</div>
+        </div>
       `;
     }
     return html`<p>xxxx-xxxx-xxxx-xxxx</p>`;
   }
 
-  _renderItems () {
+  _renderItems() {
     if (this._empty && !this._skeleton) {
       return '';
     }
     if (this._skeleton) {
       return html`
-      <ul class="list">
-        <h4 class="skeleton">xxxx-xxxx-xxxx-xxxx</h4>
-        <div class="scrollable-container">
+        <ul class="list">
+          <h4 class="skeleton">xxxx-xxxx-xxxx-xxxx</h4>
+          <div class="scrollable-container">
             <li class="item skeleton">${this._renderItem()}</li>
             <li class="item skeleton">${this._renderItem()}</li>
-        </div>
-      </ul>
-    `;
+          </div>
+        </ul>
+      `;
     }
     return html`
       <ul class="list">
-        <h3>
-          ${this.title ? this.title : ''}
-          ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}
-        </h3>
+        <h3>${this.title ? this.title : ''} ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}</h3>
         <div class="scrollable-container">
-        ${this._items
-          ? repeat(this._items, (item) => item, (item) => {
-              if (this.clickable) {
-                return html`<li class="${classMap({ item: true, link: true })}" @click="${this._onClick.bind(this, item)}">${this._renderItem(item)}</li>`;
-              }
-              else {
-                return html`<li class="${classMap({ item: true })}">${this._renderItem(item)}</li>`;
-              }
-            })
-          : ''
-        }
+          ${this._items
+            ? repeat(
+                this._items,
+                (item) => item,
+                (item) => {
+                  if (this.clickable) {
+                    return html`<li class="${classMap({ item: true, link: true })}" @click="${this._onClick.bind(this, item)}">
+                      ${this._renderItem(item)}
+                    </li>`;
+                  } else {
+                    return html`<li class="${classMap({ item: true })}">${this._renderItem(item)}</li>`;
+                  }
+                },
+              )
+            : ''}
         </div>
       </ul>
     `;
   }
 
-  render () {
-    return html`
-      <div>
-        ${this._error ? html`<div class="error">${i18n('gv-list.error')}</div>` : this._renderItems()}
-      </div>
-      `;
+  render() {
+    return html` <div>${this._error ? html`<div class="error">${i18n('gv-list.error')}</div>` : this._renderItems()}</div> `;
   }
-
 }
 
 window.customElements.define('gv-list', GvList);
