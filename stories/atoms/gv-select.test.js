@@ -18,9 +18,7 @@ import { Page, querySelector } from '../lib/test-utils';
 import '../../src/atoms/gv-select';
 
 describe('S E L E C T', () => {
-
   describe('<gv-select>', () => {
-
     let page;
     let component;
 
@@ -50,7 +48,6 @@ describe('S E L E C T', () => {
         expect(component.invalid).toBeFalsy();
         done();
       });
-
     });
 
     test('should has invalid attribute when value is empty and required', (done) => {
@@ -63,9 +60,6 @@ describe('S E L E C T', () => {
         expect(component.valid).toBeFalsy();
         done();
       });
-
     });
-
   });
-
 });

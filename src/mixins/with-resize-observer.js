@@ -13,37 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function withResizeObserver (ParentClass) {
-
+export function withResizeObserver(ParentClass) {
   // Load native impl or polyfill (without poluting global scope)
-  const ResizeObserverPromise = ('ResizeObserver' in window)
-    ? Promise.resolve(window.ResizeObserver)
-    : import('resize-observer-polyfill/dist/ResizeObserver.es.js').then((mod) => mod.default);
+  const ResizeObserverPromise =
+    'ResizeObserver' in window
+      ? Promise.resolve(window.ResizeObserver)
+      : import('resize-observer-polyfill/dist/ResizeObserver.es.js').then((mod) => mod.default);
 
   return class extends ParentClass {
-
-    _onResize ({ width }) {
-
+    _onResize({ width }) {
       if (this.onResize != null) {
         this.onResize({ width });
       }
       if (this.breakpoints != null) {
         this.breakpoints.width.forEach((breakpoint) => {
-
           const gteAttr = 'w-gte-' + breakpoint;
-          (breakpoint <= width)
-            ? this.setAttribute(gteAttr, '')
-            : this.removeAttribute(gteAttr);
+          breakpoint <= width ? this.setAttribute(gteAttr, '') : this.removeAttribute(gteAttr);
 
           const ltAttr = 'w-lt-' + breakpoint;
-          (width < breakpoint)
-            ? this.setAttribute(ltAttr, '')
-            : this.removeAttribute(ltAttr);
+          width < breakpoint ? this.setAttribute(ltAttr, '') : this.removeAttribute(ltAttr);
         });
       }
     }
 
-    async connectedCallback () {
+    async connectedCallback() {
       if (super.connectedCallback != null) {
         super.connectedCallback();
       }
@@ -63,7 +56,7 @@ export function withResizeObserver (ParentClass) {
       this._unobserveResize = () => ro.unobserve(this);
     }
 
-    disconnectedCallback () {
+    disconnectedCallback() {
       if (super.connectedCallback != null) {
         super.disconnectedCallback();
       }

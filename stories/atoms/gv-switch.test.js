@@ -18,9 +18,7 @@ import { Page, querySelector } from '../lib/test-utils';
 import '../../src/atoms/gv-switch';
 
 describe('S W I T C H', () => {
-
   describe('<gv-switch>', () => {
-
     let page;
     let component;
 
@@ -62,7 +60,5 @@ describe('S W I T C H', () => {
       await component.updateComplete;
       expect(component.checked).toEqual(false);
     });
-
   });
-
 });

@@ -17,9 +17,7 @@ import notes from '../../.docs/gv-chart-map.md';
 import '../../src/charts/gv-chart-map';
 import { makeStory, storyWait } from '../lib/make-story';
 
-const events = [
-  'gv-chart-map:select',
-];
+const events = ['gv-chart-map:select'];
 
 const series = {
   values: {

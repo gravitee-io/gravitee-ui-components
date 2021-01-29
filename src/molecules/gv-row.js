@@ -31,15 +31,14 @@ import { getOwner, getTitle, getDescription, getVersion } from '../lib/item';
  * @attr {Promise<any>} item - An item.
  * @attr {Boolean} small - When true, not display labels
  *
- * @cssprop {Color} [--gv-row-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hoover background color
+ * @cssprop {Color} [--gv-row-hover--bgc=var(--gv-theme-neutral-color-lighter, #fafafa)] - Hoover background color
  * @cssprop {Length} [--gv-row-hover--trf-ty=0px] - Hoover transform translateY
  * @cssprop {Length} [--gv-row-image--h=35px] - Image height
  * @cssprop {Length} [--gv-row-image--w=35px] - Image width
  *
  */
 export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
-
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       // language=CSS
@@ -47,7 +46,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
         :host {
           box-sizing: border-box;
           cursor: pointer;
-          --hover-bgc: var(--gv-row-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --hover-bgc: var(--gv-row-hover--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
           --trf-ty: var(--gv-row-hover--trf-ty, 0px);
           display: block;
         }
@@ -63,7 +62,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
         .row:hover {
           -webkit-transform: -webkit-translateY(var(--trf-ty));
           transform: translateY(var(--trf-ty));
-          background-color: var(--hover-bgc)
+          background-color: var(--hover-bgc);
         }
 
         .row:not(.error) {
@@ -81,12 +80,13 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
           margin-right: 15px;
         }
 
-        .row .name, .row .meta__owner {
+        .row .name,
+        .row .meta__owner {
           margin-bottom: 5px;
         }
 
         .row .version {
-          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          color: var(--gv-theme-neutral-color-dark, #d9d9d9);
         }
 
         .row .description {
@@ -97,7 +97,6 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
           overflow: hidden;
           text-overflow: ellipsis;
           text-after-overflow: '...';
-
         }
 
         .row .meta {
@@ -107,9 +106,9 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
         }
 
         .row .meta__owner {
-          --gv-icon--c: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          --gv-icon--c: var(--gv-theme-neutral-color-dark, #d9d9d9);
           --gv-icon--s: 16px;
-          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          color: var(--gv-theme-neutral-color-dark, #d9d9d9);
           display: flex;
         }
 
@@ -160,7 +159,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
     ];
   }
 
-  static get properties () {
+  static get properties() {
     return {
       ...super.properties,
       /** @required */
@@ -168,7 +167,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.breakpoints = {
       width: [450],
@@ -176,7 +175,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
     this.small = false;
   }
 
-  render () {
+  render() {
     const classes = {
       row: true,
       link: true,
@@ -184,27 +183,28 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
     };
     const owner = getOwner(this._item);
     return html`
-        <div class=${classMap(classes)}>
-            ${(!this._skeleton && (this._error || this._empty)) ? html`<div class="message">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>` : html`
-            <div class="${classMap({ skeleton: this._skeleton })}">${this._renderImage()}</div>
-            <div class="${classMap({ group: true, skeleton: this._skeleton })}">
-                <div class="title">            
-                    <h3 class="name">${getTitle(this._item)}</h3>
-                    <div class="version">${getVersion(this._item)}</div>
+      <div class=${classMap(classes)}>
+        ${!this._skeleton && (this._error || this._empty)
+          ? html`<div class="message">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>`
+          : html`
+              <div class="${classMap({ skeleton: this._skeleton })}">${this._renderImage()}</div>
+              <div class="${classMap({ group: true, skeleton: this._skeleton })}">
+                <div class="title">
+                  <h3 class="name">${getTitle(this._item)}</h3>
+                  <div class="version">${getVersion(this._item)}</div>
                 </div>
                 <div class="description">${getDescription(this._item)}</div>
-            </div>
-            <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
-              <div class="meta__owner">
-                ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>` : ''}
-                ${this.small !== true ? html`<div class="meta__tags">${this._renderLabels()}</div>` : ''}
-            </div>
-          </div>
-          `}
+              </div>
+              <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
+                <div class="meta__owner">
+                  ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>` : ''}
+                  ${this.small !== true ? html`<div class="meta__tags">${this._renderLabels()}</div>` : ''}
+                </div>
+              </div>
+            `}
       </div>
     `;
   }
-
 }
 
 window.customElements.define('gv-row', GvRow);

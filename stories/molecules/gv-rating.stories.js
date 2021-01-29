@@ -34,9 +34,7 @@ const conf = {
   `,
 };
 
-const items = [
-  { value: 3.3, count: 345, 'with-description': true },
-];
+const items = [{ value: 3.3, count: 345, 'with-description': true }];
 
 export const basics = makeStory(conf, {
   items,

@@ -38,22 +38,21 @@ import '../molecules/gv-metrics';
  * @attr {Promise<any>} item - an item.
  *
  * @cssprop {Color} [--gv-promote-image--bgc=var(--gv-theme-color-light, #86c3d0)] - Image background color
- * @cssprop {Color} [--gv-promote--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-promote--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
  * @cssprop {Length} [--gv-promote-image--h=300px] - Image height
  * @cssprop {Length} [--gv-promote-image--w=300px] - Image width
  * @cssprop {Length} [--gv-promote-button--p=19px 80px] - Button padding
  * @cssprop {Length} [--gv-promote-button--fz=var(--gv-theme-font-size-l, 16px)] - Button font size
  */
 export class GvPromote extends ItemResource(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       ...super.properties,
       limit: { type: Number },
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       // language=CSS
@@ -108,13 +107,13 @@ export class GvPromote extends ItemResource(LitElement) {
 
         .title .version {
           font-size: var(--gv-theme-font-size-s, 12px);
-          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          color: var(--gv-theme-neutral-color-dark, #d9d9d9);
         }
 
         .content {
           flex: 1;
           padding: 1.5rem;
-          background-color: var(--gv-promote--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          background-color: var(--gv-promote--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
           color: var(--gv-theme-font-color-dark, #262626);
           font-size: var(--gv-theme-font-size-l, 16px);
           line-height: 24px;
@@ -153,34 +152,41 @@ export class GvPromote extends ItemResource(LitElement) {
     ];
   }
 
-  _onClick () {
+  _onClick() {
     dispatchCustomEvent(this, 'click', { data: this._item, href: this.href });
   }
 
-  render () {
+  render() {
     return html`<div class="container">
-    <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
-    <div class="content">
-    ${this._error && !this._skeleton ? html`<p class="description error">${i18n('gv-promote.error')}</p>` : html`
-        ${this._empty && !this._skeleton ? html`<p class="description empty">${i18n('gv-promote.empty')}</p>` : html`
-        <div class=${classMap({ skeleton: this._skeleton, title: true })}>
-          <h2>${getTitle(this._item)}</h2>
-          <span class="version">${getVersion(this._item)}</span>
-        </div>
-        <p class=${classMap({ skeleton: this._skeleton, description: true, 'description-large': getDescription(this._item).split(' ').length > 10 })}>
-            ${truncate(getDescription(this._item), this.limit)}</p>
-        <div class=${classMap({ skeleton: this._skeleton, infos: true })}>
-            ${this._renderMetricsWithRating()}
-        </div>
-        <div class="labels">
-          ${this._renderLabels(true)}
-        </div>
-        <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}" .skeleton=${this._skeleton}>${i18n('gv-promote.view')}</gv-button>`}
-    `}
-    </div>
-</div>`;
+      <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
+      <div class="content">
+        ${this._error && !this._skeleton
+          ? html`<p class="description error">${i18n('gv-promote.error')}</p>`
+          : html`
+              ${this._empty && !this._skeleton
+                ? html`<p class="description empty">${i18n('gv-promote.empty')}</p>`
+                : html` <div class=${classMap({ skeleton: this._skeleton, title: true })}>
+                      <h2>${getTitle(this._item)}</h2>
+                      <span class="version">${getVersion(this._item)}</span>
+                    </div>
+                    <p
+                      class=${classMap({
+                        skeleton: this._skeleton,
+                        description: true,
+                        'description-large': getDescription(this._item).split(' ').length > 10,
+                      })}
+                    >
+                      ${truncate(getDescription(this._item), this.limit)}
+                    </p>
+                    <div class=${classMap({ skeleton: this._skeleton, infos: true })}>${this._renderMetricsWithRating()}</div>
+                    <div class="labels">${this._renderLabels(true)}</div>
+                    <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}" .skeleton=${this._skeleton}
+                      >${i18n('gv-promote.view')}</gv-button
+                    >`}
+            `}
+      </div>
+    </div>`;
   }
-
 }
 
 window.customElements.define('gv-promote', GvPromote);

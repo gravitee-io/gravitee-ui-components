@@ -46,13 +46,16 @@ const options = [
     key: 'rps',
     label: 'requests per second',
     color: '#ff8f2d',
-    fallback: [{
-      key: 'rpm',
-      label: 'requests per minute',
-    }, {
-      key: 'rph',
-      label: 'requests per hour',
-    }],
+    fallback: [
+      {
+        key: 'rpm',
+        label: 'requests per minute',
+      },
+      {
+        key: 'rph',
+        label: 'requests per hour',
+      },
+    ],
   },
   { key: 'count', label: 'total' },
 ];
@@ -83,16 +86,18 @@ export const WithFallback = makeStory(conf, {
 });
 
 export const BasicsNoRPX = makeStory(conf, {
-  items: [{
-    stats: {
-      count: 6,
-      min: 1,
-      max: 125,
-      avg: 32.166668,
-      sum: 193,
+  items: [
+    {
+      stats: {
+        count: 6,
+        min: 1,
+        max: 125,
+        avg: 32.166668,
+        sum: 193,
+      },
+      options,
     },
-    options,
-  }],
+  ],
 });
 
 export const Empty = makeStory(conf, {

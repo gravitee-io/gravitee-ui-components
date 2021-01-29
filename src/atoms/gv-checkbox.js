@@ -40,8 +40,7 @@ import { InputElement } from '../mixins/input-element';
  * @cssprop {Color} [--gv-checkbox--bgc=var(--gv-theme-color, #5A7684)] - Checked background color
  */
 export class GvCheckbox extends InputElement(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       disabled: { type: Boolean },
       skeleton: { type: Boolean },
@@ -52,14 +51,14 @@ export class GvCheckbox extends InputElement(LitElement) {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       // language=CSS
       css`
         :host {
           cursor: pointer;
-          --gv-icon--c: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          --gv-icon--c: var(--gv-theme-neutral-color-dark, #d9d9d9);
           --gv-icon--s: 30px;
         }
 
@@ -70,7 +69,7 @@ export class GvCheckbox extends InputElement(LitElement) {
 
         /* BASE */
         input {
-          border: 1px solid var(--gv-theme-neutral-color-dark, #D9D9D9);
+          border: 1px solid var(--gv-theme-neutral-color-dark, #d9d9d9);
           box-sizing: border-box;
           border-radius: 4px;
           outline: none;
@@ -80,7 +79,7 @@ export class GvCheckbox extends InputElement(LitElement) {
 
         input:disabled {
           cursor: default;
-          opacity: .5;
+          opacity: 0.5;
         }
 
         label {
@@ -100,7 +99,7 @@ export class GvCheckbox extends InputElement(LitElement) {
 
         gv-icon.checked {
           --gv-icon--s: 20px;
-          background-color: var(--gv-checkbox--bgc, var(--gv-theme-color, #5A7684));
+          background-color: var(--gv-checkbox--bgc, var(--gv-theme-color, #5a7684));
           display: inherit !important;
           margin: 5px;
           border-radius: 4px;
@@ -109,10 +108,11 @@ export class GvCheckbox extends InputElement(LitElement) {
 
         gv-icon:disabled {
           cursor: default;
-          opacity: .5;
+          opacity: 0.5;
         }
 
-        .disabled, .skeleton {
+        .disabled,
+        .skeleton {
           cursor: default;
         }
 
@@ -126,28 +126,30 @@ export class GvCheckbox extends InputElement(LitElement) {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._type = 'checkbox';
     this.checked = false;
     this.value = 'off';
   }
 
-  _renderLabel () {
+  _renderLabel() {
     if (this.label) {
-      return html`<label class="${classMap({
-        disabled: this.disabled,
-        skeleton: this.skeleton,
-        'checkbox-label': true,
-      })}" title="${this.label}">
+      return html`<label
+        class="${classMap({
+          disabled: this.disabled,
+          skeleton: this.skeleton,
+          'checkbox-label': true,
+        })}"
+        title="${this.label}"
+      >
         ${this.label}
-        </label>
-        `;
+      </label> `;
     }
     return '';
   }
 
-  _onInput () {
+  _onInput() {
     if (!(this.disabled || this.skeleton)) {
       this.checked = !this.checked;
       // Must dispatch events after all properties are updated
@@ -159,13 +161,13 @@ export class GvCheckbox extends InputElement(LitElement) {
     }
   }
 
-  updated (properties) {
+  updated(properties) {
     if (properties.has('checked') && (this.value === 'off' || this.value === 'on')) {
       this.value = this.checked ? 'on' : 'off';
     }
   }
 
-  render () {
+  render() {
     const classes = {
       skeleton: this.skeleton,
       disabled: this.disabled,
@@ -175,8 +177,7 @@ export class GvCheckbox extends InputElement(LitElement) {
     return html`
       <div class=${classMap(classes)}>
         <gv-icon shape="design:border" @click=${this._onInput}></gv-icon>
-        <gv-icon style="display: none;" @click=${this._onInput}
-            class=${classMap({ checked: this.checked })} shape="code:check"></gv-icon>
+        <gv-icon style="display: none;" @click=${this._onInput} class=${classMap({ checked: this.checked })} shape="code:check"></gv-icon>
         <label @click=${this._onInput}>${this._renderLabel()}</label>
       </div>
     `;

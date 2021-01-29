@@ -24,14 +24,12 @@ const minimumTimeOfSkeleton = 1000;
  * This is a mixin for withSkeletonStates
  * @mixinFunction
  */
-export function withSkeletonAttribute (ParentClass) {
-
+export function withSkeletonAttribute(ParentClass) {
   /**
    * @mixinClass
    */
   return class extends ParentClass {
-
-    static get properties () {
+    static get properties() {
       return {
         /** @required */
         _invisible: { type: Boolean, reflect: true },
@@ -41,7 +39,7 @@ export function withSkeletonAttribute (ParentClass) {
       };
     }
 
-    static get styles () {
+    static get styles() {
       return [
         skeleton,
         empty,
@@ -49,11 +47,12 @@ export function withSkeletonAttribute (ParentClass) {
         css`
           :host([_invisible]) {
             visibility: hidden;
-          }`,
+          }
+        `,
       ];
     }
 
-    constructor () {
+    constructor() {
       super();
       this._invisible = true;
       this._skeleton = false;
@@ -61,7 +60,7 @@ export function withSkeletonAttribute (ParentClass) {
       this._empty = false;
     }
 
-    updated (changedProperties) {
+    updated(changedProperties) {
       if (this._skeletonAttribute != null && changedProperties.has(this._skeletonAttribute)) {
         this._error = false;
         const start = new Date().getTime();
@@ -76,19 +75,17 @@ export function withSkeletonAttribute (ParentClass) {
         Promise.resolve(attribute)
           .then((value) => {
             clearTimeout(timer);
-            if (end && (end - start) < minimumTimeOfSkeleton) {
+            if (end && end - start < minimumTimeOfSkeleton) {
               setTimeout(() => {
                 this[this._skeletonAttribute] = value;
               }, minimumTimeOfSkeleton - (end - start));
-            }
-            else {
+            } else {
               this._invisible = value === undefined;
               this._skeleton = value === null;
               if (value) {
                 if (Array.isArray(value)) {
                   this._empty = value.length === 0;
-                }
-                else {
+                } else {
                   this._empty = Object.keys(value).length === 0;
                 }
                 this[`_${this._skeletonAttribute}`] = value;
@@ -97,12 +94,11 @@ export function withSkeletonAttribute (ParentClass) {
           })
           .catch((err) => {
             clearTimeout(timer);
-            if (end && (end - start) < minimumTimeOfSkeleton) {
+            if (end && end - start < minimumTimeOfSkeleton) {
               setTimeout(() => {
                 this[this._skeletonAttribute] = Promise.reject(err);
               }, minimumTimeOfSkeleton - (end - start));
-            }
-            else {
+            } else {
               this._error = true;
               this._skeleton = false;
               this._empty = false;
@@ -110,9 +106,6 @@ export function withSkeletonAttribute (ParentClass) {
             }
           });
       }
-
     }
-
   };
-
 }

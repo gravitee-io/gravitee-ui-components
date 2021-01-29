@@ -49,7 +49,8 @@ export const Colors = () => {
   return container;
 };
 
-const loremIpsum = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.';
+const loremIpsum =
+  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
 export const FontSizes = () => {
   const fonts = gvTheme.cssProperties.filter((cssProperty) => cssProperty.name.includes('font-size'));
@@ -71,11 +72,19 @@ export const FontSizes = () => {
 
 const images = gvTheme.cssProperties
   .filter((cssProperty) => cssProperty.type.toLowerCase() === 'image')
-  .map((prop) => ({ src: prop.default.replace(/"/g, '').replace(/url\('/, '').replace(/'\)/, ''), alt: prop.description, title: prop.description }));
+  .map((prop) => ({
+    src: prop.default
+      .replace(/"/g, '')
+      .replace(/url\('/, '')
+      .replace(/'\)/, ''),
+    alt: prop.description,
+    title: prop.description,
+  }));
 
-export const Images = makeStory({
-  component: 'gv-image',
-  css: `
+export const Images = makeStory(
+  {
+    component: 'gv-image',
+    css: `
     :host {
       display: flex;
       flex-wrap: wrap;
@@ -89,7 +98,8 @@ export const Images = makeStory({
       margin: 1rem;
     }
   `,
-},
-{
-  items: images,
-});
+  },
+  {
+    items: images,
+  },
+);

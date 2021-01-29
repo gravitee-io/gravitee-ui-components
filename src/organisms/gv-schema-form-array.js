@@ -24,8 +24,7 @@ import { skeleton } from '../styles/skeleton';
  *
  */
 export class GvSchemaFormArray extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       schema: { type: Object },
       value: { type: Array },
@@ -37,24 +36,24 @@ export class GvSchemaFormArray extends LitElement {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.value = [];
   }
 
-  _onNew () {
+  _onNew() {
     const newValue = this.schema.type === 'object' ? {} : '';
     this.value = [...this.value, newValue];
     dispatchCustomEvent(this, 'input', this.value);
   }
 
-  _onRemove (index) {
+  _onRemove(index) {
     this.value.splice(index, 1, null);
     this.value = this.value.filter((e) => e != null);
     dispatchCustomEvent(this, 'input', this.value);
   }
 
-  _renderValue (value, index) {
+  _renderValue(value, index) {
     const isRequired = this.schema.required;
     const isDisabled = this.schema.disabled;
     const id = `${this.id}.${index}`;
@@ -62,25 +61,34 @@ export class GvSchemaFormArray extends LitElement {
     return html`<div class="form__item" @mouseleave="${this._onMouseLeave}">
       <div class="${classMap({ 'form__item-label': true, skeleton: this.skeleton })}">
         <label>${this.schema.title}</label>
-        ${this.readonly !== true ? html`<gv-button link small @gv-button:click="${this._onRemove.bind(this, index)}" icon="general:close" title="Remove"></gv-button>` : ''}
+        ${this.readonly !== true
+          ? html`<gv-button
+              link
+              small
+              @gv-button:click="${this._onRemove.bind(this, index)}"
+              icon="general:close"
+              title="Remove"
+            ></gv-button>`
+          : ''}
       </div>
-      <gv-schema-form-control .id="${id}" 
-                              .skeleton="${this.skeleton}" 
-                              .control="${control}" 
-                              .value="${value}" 
-                              ?required="${isRequired}" 
-                              ?disabled="${isDisabled}"
-                              ?readonly="${this.readonly}"></gv-schema-form-control>
-    </div>
-    `;
+      <gv-schema-form-control
+        .id="${id}"
+        .skeleton="${this.skeleton}"
+        .control="${control}"
+        .value="${value}"
+        ?required="${isRequired}"
+        ?disabled="${isDisabled}"
+        ?readonly="${this.readonly}"
+      ></gv-schema-form-control>
+    </div> `;
   }
 
-  _onMouseLeave () {
+  _onMouseLeave() {
     const select = this.shadowRoot.querySelectorAll(`gv-select`);
     select.forEach((s) => s.close());
   }
 
-  getControls () {
+  getControls() {
     return [
       ...Array.from(this.shadowRoot.querySelectorAll('gv-schema-form-control')),
       ...Array.from(this.shadowRoot.querySelectorAll('gv-schema-form-control-array')),
@@ -88,16 +96,16 @@ export class GvSchemaFormArray extends LitElement {
     ];
   }
 
-  getControl (id) {
+  getControl(id) {
     return this.shadowRoot.querySelector(`[id="${id}"]`);
   }
 
-  async _getUpdateComplete () {
+  async _getUpdateComplete() {
     await super._getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 
-  shouldUpdate (changedProperties) {
+  shouldUpdate(changedProperties) {
     if (changedProperties.has('errors')) {
       this.getControls().forEach((control) => {
         control.errors = this.errors;
@@ -106,48 +114,50 @@ export class GvSchemaFormArray extends LitElement {
     return super.shouldUpdate(changedProperties);
   }
 
-  render () {
+  render() {
     if (this.schema == null) {
       return html``;
     }
     return html`<div class="form__control-array">
-                  <div class="form__item-group" id="${this.id}">
-                  <div class="${classMap({ 'form__item-group-header': true, skeleton: this.skeleton })}">
-                      <label><span>${this.title || this.id}</span><span class="form__item-length">(${this.value.length})</span></label>
-                      ${this.readonly !== true ? html`<gv-button outlined small icon="code:plus" @gv-button:click="${this._onNew}">New ${this.schema.title}</gv-button>` : ''}
-                  </div>
-                    ${this.value != null && Array.isArray(this.value) ? this.value.map((value, index) => this._renderValue(value, index)) : ''} 
-                  </div>
+      <div class="form__item-group" id="${this.id}">
+        <div class="${classMap({ 'form__item-group-header': true, skeleton: this.skeleton })}">
+          <label><span>${this.title || this.id}</span><span class="form__item-length">(${this.value.length})</span></label>
+          ${this.readonly !== true
+            ? html`<gv-button outlined small icon="code:plus" @gv-button:click="${this._onNew}">New ${this.schema.title}</gv-button>`
+            : ''}
+        </div>
+        ${this.value != null && Array.isArray(this.value) ? this.value.map((value, index) => this._renderValue(value, index)) : ''}
+      </div>
     </div>`;
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       // language=CSS
       css`
         .form__item-length {
           font-size: 12px;
-          color: #BFBFBF;
+          color: #bfbfbf;
           margin: 0 0.2rem;
         }
 
         .form__item-group {
           position: relative;
-          transition: all .3s ease-in-out;
+          transition: all 0.3s ease-in-out;
         }
 
         .form__item-group:hover {
-          background-color: #EFEFEF;
+          background-color: #efefef;
         }
 
         .form__item-group-header:before,
         .form__item-group-header:after {
-          content: "";
+          content: '';
           position: absolute;
           bottom: 0;
           height: calc(100% - 35px);
-          border-left: 3px dotted #D9D9D9;
+          border-left: 3px dotted #d9d9d9;
         }
 
         .form__item-group-required > .form__item-group-header:before,
@@ -168,7 +178,7 @@ export class GvSchemaFormArray extends LitElement {
           padding-bottom: 0.2rem;
           margin-bottom: 0.2rem;
           align-items: center;
-          transition: all .3s ease-in-out;
+          transition: all 0.3s ease-in-out;
           background-color: white;
         }
 
@@ -179,21 +189,21 @@ export class GvSchemaFormArray extends LitElement {
 
         .form__item-group-header,
         .form__item-group {
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
         }
 
         .form__item {
-          border: 1px solid #D9D9D9;
+          border: 1px solid #d9d9d9;
           border-radius: 4px;
           margin: 0.5rem;
           background-color: white;
-          transition: all .3s ease-in-out;
+          transition: all 0.3s ease-in-out;
           z-index: 50;
         }
 
         .form__item:hover {
           transform: translateY(-2px);
-          box-shadow: 0 10px 20px -10px #BFBFBF;
+          box-shadow: 0 10px 20px -10px #bfbfbf;
           z-index: 60;
         }
 
@@ -201,7 +211,7 @@ export class GvSchemaFormArray extends LitElement {
           font-style: italic;
           display: flex;
           flex-direction: row;
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
           padding: 0.5rem;
         }
 
@@ -219,7 +229,6 @@ export class GvSchemaFormArray extends LitElement {
       `,
     ];
   }
-
 }
 
 window.customElements.define('gv-schema-form-array', GvSchemaFormArray);

@@ -34,9 +34,7 @@ const conf = {
   `,
 };
 
-const items = [
-  { innerHTML: 'The cake is a lie' },
-];
+const items = [{ innerHTML: 'The cake is a lie' }];
 
 export const Default = makeStory(conf, {
   items: items.map((p) => ({ ...p })),
@@ -66,6 +64,9 @@ export const WithHtml = makeStory(conf, {
   items: items.map((p) => ({ innerHTML: '<b>Some text</b> with a <a href="#">link</a>' })),
 });
 
-export const ClosableWithButton = makeStory({ ...conf, events: ['gv-button:click'] }, {
-  items: items.map((p) => ({ innerHTML: 'hello <gv-button>toto</gv-button>', closable: true })),
-});
+export const ClosableWithButton = makeStory(
+  { ...conf, events: ['gv-button:click'] },
+  {
+    items: items.map((p) => ({ innerHTML: 'hello <gv-button>toto</gv-button>', closable: true })),
+  },
+);

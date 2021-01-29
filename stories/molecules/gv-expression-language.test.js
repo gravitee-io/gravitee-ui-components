@@ -19,7 +19,6 @@ import '../../src/molecules/gv-expression-language';
 import grammar from '../resources/el-grammar.json';
 
 describe('<gv-expression-language>', () => {
-
   let page;
   let component;
 
@@ -62,22 +61,20 @@ describe('<gv-expression-language>', () => {
     expect(component.getCurrentEl(12)).toBeNull();
 
     component.value = ` {#request} {#response.headers[#headers['application/json']] == ''} `;
-    expect(component.getCurrentEl(13))
-      .toEqual({
-        caretPosition: 13,
-        el: '{#response.headers[#headers[\'application/json\']] == \'\'}',
-        end: 67,
-        start: 12,
-      });
+    expect(component.getCurrentEl(13)).toEqual({
+      caretPosition: 13,
+      el: `{#response.headers[#headers['application/json']] == ''}`,
+      end: 67,
+      start: 12,
+    });
 
     component.value = `{#response.headers.getFirst('')}`;
-    expect(component.getCurrentEl(28))
-      .toEqual({
-        caretPosition: 28,
-        el: `{#response.headers.getFirst('')}`,
-        end: 32,
-        start: 0,
-      });
+    expect(component.getCurrentEl(28)).toEqual({
+      caretPosition: 28,
+      el: `{#response.headers.getFirst('')}`,
+      end: 32,
+      start: 0,
+    });
 
     component.value = `println 'Hello'                                 
 
@@ -85,13 +82,12 @@ describe('<gv-expression-language>', () => {
      {#request} {#response.headers[#headers['application/json']] == ''} 
      println "2^6==power(6)"`;
 
-    expect(component.getCurrentEl(28, 3))
-      .toEqual({
-        caretPosition: 28,
-        el: '{#response.headers[#headers[\'application/json\']] == \'\'}',
-        end: 71,
-        start: 16,
-      });
+    expect(component.getCurrentEl(28, 3)).toEqual({
+      caretPosition: 28,
+      el: `{#response.headers[#headers['application/json']] == ''}`,
+      end: 71,
+      start: 16,
+    });
   });
 
   test('should analyse EL with caret position', () => {
@@ -145,12 +141,14 @@ describe('<gv-expression-language>', () => {
         },
       ],
     });
-    expect(component.analyse({
-      caretPosition: 11,
-      el: '{#request.head}',
-      end: 17,
-      start: 1,
-    })).toEqual({
+    expect(
+      component.analyse({
+        caretPosition: 11,
+        el: '{#request.head}',
+        end: 17,
+        start: 1,
+      }),
+    ).toEqual({
       key: 'request.',
       sentence: '#request.',
       words: [
@@ -164,12 +162,14 @@ describe('<gv-expression-language>', () => {
         },
       ],
     });
-    expect(component.analyse({
-      caretPosition: 13,
-      el: '{#request.head}',
-      end: 17,
-      start: 1,
-    })).toEqual({
+    expect(
+      component.analyse({
+        caretPosition: 13,
+        el: '{#request.head}',
+        end: 17,
+        start: 1,
+      }),
+    ).toEqual({
       key: 'request.he',
       sentence: '#request.he',
       words: [
@@ -183,33 +183,36 @@ describe('<gv-expression-language>', () => {
         },
       ],
     });
-    expect(component.analyse({
-      caretPosition: 40,
-      el: '{#response.headers[#headers[\'application/json\']] == \'\'}',
-      end: 17,
-      start: 1,
-    }))
-      .toEqual({
-        key: 'headers',
-        sentence: '#response.headers[#headers[\'applicatio',
-        words: [
-          {
-            fn: false,
-            term: '#response',
-          },
-          {
-            fn: false,
-            term: 'headers[#headers[\'applicatio',
-          },
-        ],
-      });
+    expect(
+      component.analyse({
+        caretPosition: 40,
+        el: `{#response.headers[#headers['application/json']] == ''}`,
+        end: 17,
+        start: 1,
+      }),
+    ).toEqual({
+      key: 'headers',
+      sentence: "#response.headers[#headers['applicatio",
+      words: [
+        {
+          fn: false,
+          term: '#response',
+        },
+        {
+          fn: false,
+          term: "headers[#headers['applicatio",
+        },
+      ],
+    });
 
-    expect(component.analyse({
-      caretPosition: 43,
-      el: '{#request.headers.getFirst("Content-Type")}',
-      end: 45,
-      start: 1,
-    })).toEqual({
+    expect(
+      component.analyse({
+        caretPosition: 43,
+        el: '{#request.headers.getFirst("Content-Type")}',
+        end: 45,
+        start: 1,
+      }),
+    ).toEqual({
       key: 'request.headers',
       sentence: '#request.headers',
       words: [
@@ -270,8 +273,8 @@ describe('<gv-expression-language>', () => {
     expect(component.getGrammar({ key: 'response.' })).toEqual({
       list: [
         {
-          displayText: 'headers[\'\'][0]',
-          text: '.headers[\'\'][0]',
+          displayText: "headers[''][0]",
+          text: ".headers[''][0]",
         },
         {
           displayText: 'content',
@@ -286,8 +289,8 @@ describe('<gv-expression-language>', () => {
     expect(component.getGrammar({ key: 'response.hea' })).toEqual({
       list: [
         {
-          displayText: 'headers[\'\'][0]',
-          text: 'headers[\'\'][0]',
+          displayText: "headers[''][0]",
+          text: "headers[''][0]",
         },
         {
           displayText: 'content',
@@ -299,7 +302,6 @@ describe('<gv-expression-language>', () => {
         },
       ],
     });
-
   });
 
   test('should get type by id', () => {
@@ -319,68 +321,74 @@ describe('<gv-expression-language>', () => {
 
   test('should find return type', () => {
     expect(component.findReturnType('FakeType', [])).toBeUndefined();
-    expect(component.findReturnType('HttpHeaders', [
-      {
-        fn: false,
-        term: '#request',
-      },
-      {
-        fn: false,
-        term: 'headers',
-      },
-      {
-        fn: false,
-        term: '',
-      },
-    ])).toEqual(component.getType('HttpHeaders'));
-    expect(component.findReturnType('MultiValueMap', [
-      {
-        fn: false,
-        term: '#request',
-      },
-      {
-        fn: false,
-        term: 'headers',
-      },
-      {
-        fn: true,
-        term: 'get',
-      },
-    ])).toEqual(component.getType('Object'));
-    expect(component.findReturnType('MultiValueMap', [
-      {
-        fn: false,
-        term: '#request',
-      },
-      {
-        fn: false,
-        term: 'headers',
-      },
-      {
-        fn: true,
-        term: 'get',
-      },
-      {
-        fn: true,
-        term: 'toString',
-      },
-    ])).toEqual(component.getType('String'));
+    expect(
+      component.findReturnType('HttpHeaders', [
+        {
+          fn: false,
+          term: '#request',
+        },
+        {
+          fn: false,
+          term: 'headers',
+        },
+        {
+          fn: false,
+          term: '',
+        },
+      ]),
+    ).toEqual(component.getType('HttpHeaders'));
+    expect(
+      component.findReturnType('MultiValueMap', [
+        {
+          fn: false,
+          term: '#request',
+        },
+        {
+          fn: false,
+          term: 'headers',
+        },
+        {
+          fn: true,
+          term: 'get',
+        },
+      ]),
+    ).toEqual(component.getType('Object'));
+    expect(
+      component.findReturnType('MultiValueMap', [
+        {
+          fn: false,
+          term: '#request',
+        },
+        {
+          fn: false,
+          term: 'headers',
+        },
+        {
+          fn: true,
+          term: 'get',
+        },
+        {
+          fn: true,
+          term: 'toString',
+        },
+      ]),
+    ).toEqual(component.getType('String'));
 
-    expect(component.findReturnType('MultiValueMap', [
-      {
-        fn: false,
-        term: '#request',
-      },
-      {
-        fn: false,
-        term: 'headers',
-      },
-      {
-        fn: true,
-        term: 'containsKey',
-      },
-    ])).toEqual(component.getType('boolean'));
-
+    expect(
+      component.findReturnType('MultiValueMap', [
+        {
+          fn: false,
+          term: '#request',
+        },
+        {
+          fn: false,
+          term: 'headers',
+        },
+        {
+          fn: true,
+          term: 'containsKey',
+        },
+      ]),
+    ).toEqual(component.getType('boolean'));
   });
-
 });

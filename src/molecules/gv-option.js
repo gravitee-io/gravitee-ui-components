@@ -39,8 +39,7 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @cssprop {Length} [--gv-option-button--maw=200px] - Button max width
  */
 export class GvOption extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       options: { type: Array },
       _options: { type: Array, attribute: false },
@@ -54,7 +53,7 @@ export class GvOption extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -84,7 +83,7 @@ export class GvOption extends LitElement {
         gv-button:not(.description) {
           margin: 0;
           --gv-button--bdrs: 0;
-          --gv-button--bgc: var(--gv-option--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
+          --gv-button--bgc: var(--gv-option--bgc, var(--gv-theme-neutral-color-dark, #bfbfbf));
         }
 
         gv-button:not(.description).entry {
@@ -129,42 +128,40 @@ export class GvOption extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.multiple = false;
     this.reverse = false;
   }
 
-  _onClick (option) {
+  _onClick(option) {
     this.setValue(option);
     dispatchCustomEvent(this, 'select', option);
     this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
   }
 
-  async performUpdate () {
+  async performUpdate() {
     this.shadowRoot.querySelectorAll('gv-button').forEach((btn) => btn.performUpdate());
     return super.performUpdate();
   }
 
-  setValue (option) {
+  setValue(option) {
     if (option) {
       if (this.multiple) {
         if (this.value.includes(option.id)) {
           this.value = this.value.filter((optId) => {
             return optId !== option.id;
           });
-        }
-        else {
+        } else {
           this.value = [...this.value, option.id];
         }
-      }
-      else {
+      } else {
         this.value = option.id;
       }
     }
   }
 
-  set options (options) {
+  set options(options) {
     if (options) {
       Promise.all(options).then((_options) => {
         this._options = _options;
@@ -173,61 +170,72 @@ export class GvOption extends LitElement {
     }
   }
 
-  isActive (option) {
+  isActive(option) {
     if (this.value) {
       if (this.multiple) {
         return this.value.includes(option.id);
-      }
-      else {
+      } else {
         return this.value === option.id;
       }
     }
     return false;
   }
 
-  _renderOption (option, index) {
+  _renderOption(option, index) {
     const isActive = this.isActive(option);
     const outlined = this.outlined || (!isActive && this._hasDescription);
-    return html`<gv-button 
-            .icon=${ifDefined(!this._hasDescription ? option.icon : null)} 
-            .iconRight=${ifDefined(!option.icon && option.iconRight ? option.iconRight : null)} 
-            .title="${ifDefined(option.title)}"
-            .primary="${isActive}"
-            .small="${this.small}"
-            .disabled="${option.disabled || this.disabled}"
-            @click="${this._onClick.bind(this, option)}"
-            .outlined="${outlined}"
-            class="${classMap({
-      active: isActive,
-      entry: index === 0,
-      exit: (index === this._options.length - 1),
-      description: option.description != null,
-    })}">
-        ${!this._hasDescription ? option.title != null ? option.label || option.title : ''
-      : html`<div class="content">
-            ${option.icon ? html`<gv-icon shape="${option.icon}"></gv-icon>` : option.image ? html`<gv-image src="${option.image}"></gv-image>` : ''}
+    return html`<gv-button
+      .icon=${ifDefined(!this._hasDescription ? option.icon : null)}
+      .iconRight=${ifDefined(!option.icon && option.iconRight ? option.iconRight : null)}
+      .title="${ifDefined(option.title)}"
+      .primary="${isActive}"
+      .small="${this.small}"
+      .disabled="${option.disabled || this.disabled}"
+      @click="${this._onClick.bind(this, option)}"
+      .outlined="${outlined}"
+      class="${classMap({
+        active: isActive,
+        entry: index === 0,
+        exit: index === this._options.length - 1,
+        description: option.description != null,
+      })}"
+    >
+      ${!this._hasDescription
+        ? option.title != null
+          ? option.label || option.title
+          : ''
+        : html`<div class="content">
+            ${option.icon
+              ? html`<gv-icon shape="${option.icon}"></gv-icon>`
+              : option.image
+              ? html`<gv-image src="${option.image}"></gv-image>`
+              : ''}
             <div class="title">${option.title}</div>
             <div class="description-content" .innerHTML="${option.description}"></div>
-            
-</div>`}
-</gv-button>`;
+          </div>`}
+    </gv-button>`;
   }
 
-  render () {
+  render() {
     if (this._options) {
       const classes = {
         box: true,
         description: this._hasDescription,
         reverse: this.reverse,
       };
-      return html`<div class="${classMap(classes)}" style="${styleMap({ 'grid-template-columns': `repeat(${this._options.length}, auto)` })}">
-${repeat(this._options, (option) => option, (option, index) =>
-        html`${this._renderOption(option, index)}`,
-      )}</div>`;
+      return html`<div
+        class="${classMap(classes)}"
+        style="${styleMap({ 'grid-template-columns': `repeat(${this._options.length}, auto)` })}"
+      >
+        ${repeat(
+          this._options,
+          (option) => option,
+          (option, index) => html`${this._renderOption(option, index)}`,
+        )}
+      </div>`;
     }
     return html``;
   }
-
 }
 
 window.customElements.define('gv-option', GvOption);

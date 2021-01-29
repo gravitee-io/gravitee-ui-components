@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function truncate (text, limit = 250, suffix = '...') {
+export function truncate(text, limit = 250, suffix = '...') {
   return text && text.length > limit ? `${text.substring(0, limit)}${suffix}` : text;
 }
 
-export function isSameRoutes (routes, futureRoutes) {
+export function isSameRoutes(routes, futureRoutes) {
   if (routes && futureRoutes) {
     return JSON.stringify(routes.map((r) => r.path + r.active)) === JSON.stringify(futureRoutes.map((r) => r.path + r.active));
   }
   return false;
 }
 
-export function appendDraggableImage (src, size = 100) {
+export function appendDraggableImage(src, size = 100) {
   // Usefull when image src is svg
   const image = new Image();
   image.src = src;
@@ -39,11 +39,11 @@ export function appendDraggableImage (src, size = 100) {
   return div;
 }
 
-export function flatDeep (arr) {
+export function flatDeep(arr) {
   return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val) : val), []);
-};
+}
 
-export function flatObject (obj, prefix = '') {
+export function flatObject(obj, prefix = '') {
   return Object.keys(obj).reduce((acc, k) => {
     const pre = prefix.length ? prefix + '.' : '';
     if (Array.isArray(obj[k])) acc[pre + k] = obj[k];
@@ -53,22 +53,22 @@ export function flatObject (obj, prefix = '') {
   }, {});
 }
 
-export function deepClone (obj) {
+export function deepClone(obj) {
   if (obj) {
     return JSON.parse(JSON.stringify(obj));
   }
   return obj;
 }
 
-export function uuid () {
+export function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 }
 
-export function deepEqual (object1, object2) {
+export function deepEqual(object1, object2) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
 
@@ -88,6 +88,6 @@ export function deepEqual (object1, object2) {
   return true;
 }
 
-export function isObject (object) {
+export function isObject(object) {
   return object != null && typeof object === 'object';
 }

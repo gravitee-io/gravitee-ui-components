@@ -1,18 +1,19 @@
 module.exports = {
-  'extends': 'standard',
-  'rules': {
+  extends: ['standard', 'prettier'],
+  rules: {
     'arrow-parens': ['error', 'always'],
-    'brace-style': ['error', 'stroustrup'],
+    'brace-style': ['error', '1tbs'],
     'comma-dangle': ['error', 'always-multiline'],
-    'import/extensions': ['error', 'always', {'js': 'never'}],
-    'line-comment-position': ['error', {'position': 'above'}],
-    'no-console': ['error',  { 'allow': ['warn', 'error'] }],
-    'operator-linebreak': ['error', 'before'],
+    'import/extensions': ['error', 'always', { js: 'never' }],
+    indent: 'off',
+    'line-comment-position': ['error', { position: 'above' }],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'padded-blocks': 'off',
-    'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
-    'semi': ['error', 'always'],
+    'space-before-function-paren': 'off',
+    quotes: ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
+    semi: ['error', 'always'],
   },
   globals: {
-    'Event': 'readonly'
-  }
+    Event: 'readonly',
+  },
 };

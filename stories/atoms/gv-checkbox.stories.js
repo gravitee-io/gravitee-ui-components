@@ -17,10 +17,7 @@ import '../../src/atoms/gv-checkbox';
 import notes from '../../.docs/gv-checkbox.md';
 import { makeStory } from '../lib/make-story';
 
-const items = [
-  { innerHTML: 'Default' },
-  { innerHTML: 'With label', label: 'Default with label' },
-];
+const items = [{ innerHTML: 'Default' }, { innerHTML: 'With label', label: 'Default with label' }];
 
 export default {
   title: 'Atoms/gv-checkbox',

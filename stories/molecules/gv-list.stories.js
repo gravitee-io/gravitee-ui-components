@@ -48,7 +48,7 @@ export const empty = makeStory(conf, {
 });
 
 export const loading = makeStory(conf, {
-  items: [{ items: new Promise(() => ([])), 'with-dc': true }],
+  items: [{ items: new Promise(() => []), 'with-dc': true }],
   simulations: [
     storyWait(2000, ([component]) => {
       component.items = items;
@@ -58,7 +58,7 @@ export const loading = makeStory(conf, {
 });
 
 export const loadingAndError = makeStory(conf, {
-  items: [{ items: new Promise(() => ([])), resources: {}, 'with-dc': true }],
+  items: [{ items: new Promise(() => []), resources: {}, 'with-dc': true }],
   simulations: [
     storyWait(2000, ([component]) => {
       component.items = Promise.reject(new Error());

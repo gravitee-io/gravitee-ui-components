@@ -47,13 +47,12 @@ const ESCAPE_KEY_CODE = 27;
  * in the filtered set; Otherwise, it will be excluded.
  * the option will be included in the filtered set; Otherwise, it will be excluded.
  *
- * @cssprop {Color} [--gv-autocomplete-hover--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Hover background color
- * @cssprop {Color} [--gv-autocomplete--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-autocomplete-hover--bgc=var(--gv-theme-neutral-color-lighter, #fafafa)] - Hover background color
+ * @cssprop {Color} [--gv-autocomplete--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
  * @cssprop {Color} [--gv-autocomplete--c=var(--gv-theme-font-color, #262626)] - Color
  */
 export class GvAutocomplete extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       options: { type: Array, reflect: true },
       value: { type: String, reflect: true },
@@ -66,7 +65,7 @@ export class GvAutocomplete extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -94,11 +93,11 @@ export class GvAutocomplete extends LitElement {
         }
 
         .options {
-          background-color: var(--gv-autocomplete--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          background-color: var(--gv-autocomplete--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
           color: var(--gv-autocomplete--c, var(--gv-theme-font-color, #262626));
           margin: 0.2rem;
           position: absolute;
-          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #f5f5f5), 0 1px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
           border-radius: 2px;
           display: block;
           width: 100%;
@@ -126,8 +125,10 @@ export class GvAutocomplete extends LitElement {
           background-color: transparent;
         }
 
-        .option:hover, .option.hover, .keyboard .option.hover:hover {
-          background-color: var(--gv-autocomplete-hover--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+        .option:hover,
+        .option.hover,
+        .keyboard .option.hover:hover {
+          background-color: var(--gv-autocomplete-hover--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
         }
 
         .keyboard .option:hover {
@@ -145,7 +146,7 @@ export class GvAutocomplete extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._options = [];
     this._candidateIndex = -1;
@@ -156,38 +157,36 @@ export class GvAutocomplete extends LitElement {
     this.size = 5;
   }
 
-  set options (options) {
+  set options(options) {
     this._options = options;
   }
 
-  get options () {
+  get options() {
     return this._options;
   }
 
-  reset () {
+  reset() {
     this._getInput().reset();
     this._options = [];
   }
 
-  _getFilteredOptions () {
+  _getFilteredOptions() {
     if (this.filter && this.value && this.value.length >= this.minChars && this.value !== '*') {
       if (typeof this.filter === 'function') {
         return this._options.filter((option) => {
           return this.filter(this.value, option);
         });
-      }
-      else {
+      } else {
         return this._options.filter((option) => {
           return option.value.indexOf(this.value) !== -1;
         });
       }
-    }
-    else {
+    } else {
       return this._options;
     }
   }
 
-  _onInput (event) {
+  _onInput(event) {
     clearTimeout(this._cancellableTimeout);
     this.value = event.target.value;
     if (this.value != null && this.value.trim().length >= this.minChars) {
@@ -195,13 +194,12 @@ export class GvAutocomplete extends LitElement {
         this._forceOpen = true;
         dispatchCustomEvent(this, 'search', this.value);
       }, 200);
-    }
-    else {
+    } else {
       this.options = [];
     }
   }
 
-  _onSelect (value, option) {
+  _onSelect(value, option) {
     if (option == null) {
       option = this._options.find((option) => {
         return option.value === value;
@@ -212,17 +210,17 @@ export class GvAutocomplete extends LitElement {
     dispatchCustomEvent(this, 'select', option);
   }
 
-  _onMouseOver () {
+  _onMouseOver() {
     this.shadowRoot.firstElementChild.classList.remove('keyboard');
     this._clearHover();
     this._shouldSelect = true;
   }
 
-  _onMouseLeave () {
+  _onMouseLeave() {
     this._shouldSelect = false;
   }
 
-  _renderOption (option) {
+  _renderOption(option) {
     if (option.element) {
       return option.element;
     }
@@ -234,7 +232,7 @@ export class GvAutocomplete extends LitElement {
     return option.value;
   }
 
-  _renderStyle () {
+  _renderStyle() {
     if (this.style) {
       const wrapper = document.createElement('div');
       wrapper.innerHTML = unsafeCSS(this.style);
@@ -243,7 +241,7 @@ export class GvAutocomplete extends LitElement {
     return '';
   }
 
-  _hasNoOptionSlot () {
+  _hasNoOptionSlot() {
     for (const node of this.childNodes) {
       if (node.slot === 'noOption') {
         return true;
@@ -252,38 +250,45 @@ export class GvAutocomplete extends LitElement {
     return false;
   }
 
-  render () {
+  render() {
     const options = this._getFilteredOptions();
     let open = false;
     if ((options && options.length > 0 && this._forceOpen) || this._hasNoOptionSlot()) {
-      open = (this.minChars === 0 || this.value.trim().length >= this.minChars);
+      open = this.minChars === 0 || this.value.trim().length >= this.minChars;
     }
 
     const classes = {
       options: true,
       open,
     };
-    return html`
-        <div class="container">
-        ${this._renderStyle()}
-        <slot></slot>
-        <div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}">
-            <slot name="noOption" class="${(!options || options.length === 0) ? 'show' : 'hide'}"></slot>
-            ${repeat(options, (option) => option, (option, index) => html`
-              <div class="${classMap({ option: true })}"
-               data-value="${option.value}"
-               @mouseover="${() => this._onMouseOver(option, index)}"
-               @click="${() => this._onSelect(option.value, option)}">${this._renderOption(option)}</div>
-            `)}
-        </div>
+    return html` <div class="container">
+      ${this._renderStyle()}
+      <slot></slot>
+      <div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}">
+        <slot name="noOption" class="${!options || options.length === 0 ? 'show' : 'hide'}"></slot>
+        ${repeat(
+          options,
+          (option) => option,
+          (option, index) => html`
+            <div
+              class="${classMap({ option: true })}"
+              data-value="${option.value}"
+              @mouseover="${() => this._onMouseOver(option, index)}"
+              @click="${() => this._onSelect(option.value, option)}"
+            >
+              ${this._renderOption(option)}
+            </div>
+          `,
+        )}
+      </div>
     </div>`;
   }
 
-  _clearHover () {
+  _clearHover() {
     this.shadowRoot.querySelectorAll('.option.hover').forEach((o) => o.classList.remove('hover'));
   }
 
-  _updateHover () {
+  _updateHover() {
     this._clearHover();
     if (this._candidateIndex > -1) {
       this.shadowRoot.firstElementChild.classList.add('keyboard');
@@ -300,7 +305,7 @@ export class GvAutocomplete extends LitElement {
     }
   }
 
-  _onKeydown (e) {
+  _onKeydown(e) {
     switch (e.keyCode) {
       case ENTER_KEY_CODE: {
         const options = this.shadowRoot.querySelectorAll('.option');
@@ -350,17 +355,17 @@ export class GvAutocomplete extends LitElement {
     }
   }
 
-  _onFocus () {
+  _onFocus() {
     this._forceOpen = true;
   }
 
-  _onBlur () {
+  _onBlur() {
     if (this._shouldSelect === false) {
       this._forceOpen = false;
     }
   }
 
-  _getInput () {
+  _getInput() {
     for (const node of this.childNodes) {
       if (node.slot === 'input') {
         return node;
@@ -369,11 +374,11 @@ export class GvAutocomplete extends LitElement {
     return this.firstElementChild;
   }
 
-  _onClear (event) {
+  _onClear(event) {
     this.value = event.target.value;
   }
 
-  updated () {
+  updated() {
     setTimeout(() => {
       const firstOption = this.shadowRoot.querySelector('.option');
       if (firstOption) {
@@ -385,7 +390,7 @@ export class GvAutocomplete extends LitElement {
     }, 0);
   }
 
-  firstUpdated () {
+  firstUpdated() {
     this._handlers = {
       input: this._onInput.bind(this),
       focus: this._onFocus.bind(this),
@@ -404,7 +409,7 @@ export class GvAutocomplete extends LitElement {
     }
   }
 
-  disconnectedCallback () {
+  disconnectedCallback() {
     if (this._handlers) {
       this.shadowRoot.removeEventListener('input', this._handlers.input);
       this.shadowRoot.removeEventListener('keydown', this._handlers.keydown);
@@ -415,7 +420,6 @@ export class GvAutocomplete extends LitElement {
     }
     super.disconnectedCallback();
   }
-
 }
 
 window.customElements.define('gv-autocomplete', GvAutocomplete);

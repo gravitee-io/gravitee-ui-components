@@ -28,7 +28,7 @@ const options = {
 };
 
 const UNITS = [
-  { unit: 'year', duration: 1000 * 60 * 60 * 24 * (365.25) },
+  { unit: 'year', duration: 1000 * 60 * 60 * 24 * 365.25 },
   { unit: 'month', duration: 1000 * 60 * 60 * 24 * (365.25 / 12) },
   { unit: 'week', duration: 1000 * 60 * 60 * 24 * 7 },
   { unit: 'day', duration: 1000 * 60 * 60 * 24 },
@@ -47,8 +47,7 @@ const UNITS = [
  * @prop {Boolean} noFuture - Whether a date in future is allowed or not (useful when not sync).
  */
 export class GvRelativeTime extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       datetime: { type: String },
       title: { type: String, reflect: true },
@@ -58,19 +57,18 @@ export class GvRelativeTime extends LitElement {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this._formatter = null;
   }
 
-  getFormatter () {
+  getFormatter() {
     return new Promise((resolve, reject) => {
       if (this._formatter == null) {
         if ('RelativeTimeFormat' in Intl) {
           this._formatter = Intl.RelativeTimeFormat;
           resolve(this._formatter);
-        }
-        else {
+        } else {
           Promise.all([
             import('@formatjs/intl-relativetimeformat/polyfill'),
             ...Object.values(getAvailableLanguages()).map((_lang) => {
@@ -86,22 +84,20 @@ export class GvRelativeTime extends LitElement {
               reject(new Error('Cannot load @formatjs/intl-relativetimeformat/polyfill'));
             });
         }
-      }
-      else {
+      } else {
         resolve(this._formatter);
       }
     });
-
   }
 
-  set datetime (value) {
+  set datetime(value) {
     value = this.noFuture ? this._formatDateInThePast(value) : value;
     const dtf = new Intl.DateTimeFormat(getLanguage(), options);
     this.title = dtf.format(new Date(value));
     this._datetime = value;
   }
 
-  _formatDateInThePast (date) {
+  _formatDateInThePast(date) {
     // to avoid to have date in the future in case of desynchronization between browser and server
     if (date) {
       const now = new Date();
@@ -112,7 +108,7 @@ export class GvRelativeTime extends LitElement {
     return date;
   }
 
-  async _format (dateStr, lang) {
+  async _format(dateStr, lang) {
     const Formatter = await this.getFormatter();
     const format = (value, unit) => {
       if (!isNaN(value)) {
@@ -132,7 +128,7 @@ export class GvRelativeTime extends LitElement {
     return format(Math.round(diff / 1000), 'second');
   }
 
-  connectedCallback () {
+  connectedCallback() {
     if (this.updateIntervalId == null) {
       setTimeout(() => {
         this.performUpdate();
@@ -143,15 +139,14 @@ export class GvRelativeTime extends LitElement {
     }
   }
 
-  disconnectedCallback () {
+  disconnectedCallback() {
     clearInterval(this.updateIntervalId);
     this.updateIntervalId = null;
   }
 
-  render () {
+  render() {
     return html`<span title="${this.title}">${until(this._format(this._datetime, getLanguage()))}</span>`;
   }
-
 }
 
 window.customElements.define('gv-relative-time', GvRelativeTime);

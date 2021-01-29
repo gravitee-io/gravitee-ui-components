@@ -27,8 +27,7 @@ import { until } from 'lit-html/directives/until';
  * @cssprop {Length} [--gv-icon--s=32px] - Height and width
  */
 export class GvIcon extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       /**
        * This is a shape, an concatenation of category name and icon name.
@@ -40,11 +39,11 @@ export class GvIcon extends LitElement {
     };
   }
 
-  static get excludedShapes () {
+  static get excludedShapes() {
     return ['thirdparty:google', 'thirdparty:graviteeio_am'];
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -69,10 +68,11 @@ export class GvIcon extends LitElement {
         svg:not(.no-color) *:not([opacity]) {
           fill: var(--color);
         }
-      `];
+      `,
+    ];
   }
 
-  static async getAsBase64 (name) {
+  static async getAsBase64(name) {
     await this._load(name);
     const [shape, icon] = name.split(':');
     const tmp = document.createElement('div');
@@ -80,7 +80,7 @@ export class GvIcon extends LitElement {
     return `data:image/svg+xml;base64,${window.btoa(new XMLSerializer().serializeToString(tmp.firstChild))}`;
   }
 
-  static async _load (name) {
+  static async _load(name) {
     const [shape] = name.split(':');
     if (window.GvIcons == null) {
       window.GvIcons = {};
@@ -90,22 +90,20 @@ export class GvIcon extends LitElement {
     }
   }
 
-  static async _getIcon (name) {
+  static async _getIcon(name) {
     await this._load(name);
     const [shape, icon] = name.split(':');
     if (shape && window.GvIcons[shape]) {
       return new TemplateResult([window.GvIcons[shape][icon]], [], 'html');
-    }
-    else {
+    } else {
       console.error(`Cannot find shape "${shape}". Show Gravitee.io Components documentation.`);
     }
     return '?';
   }
 
-  render () {
+  render() {
     return html`${until(GvIcon._getIcon(this.shape), '')}`;
   }
-
 }
 
 window.customElements.define('gv-icon', GvIcon);

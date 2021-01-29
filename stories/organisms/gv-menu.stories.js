@@ -18,13 +18,7 @@ import notes from '../../.docs/gv-menu.md';
 import horizontalImage from '../../assets/images/gravitee-logo.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
-const events = [
-  'gv-link:click',
-  'gv-input:input',
-  'gv-input:submit',
-  'gv-header:subscribe',
-  'gv-header:support',
-];
+const events = ['gv-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header:subscribe', 'gv-header:support'];
 
 export default {
   title: 'Organisms/gv-menu',
@@ -51,17 +45,21 @@ export const Basics = makeStory(conf, { items });
 export const Empty = makeStory(conf, { items: [{}] });
 
 export const RightSlot = makeStory(conf, {
-  items: [{
-    routes: routes,
-    innerHTML: '<gv-button slot="right" primary icon="code:plus">Create an app</gv-button>',
-  }],
+  items: [
+    {
+      routes: routes,
+      innerHTML: '<gv-button slot="right" primary icon="code:plus">Create an app</gv-button>',
+    },
+  ],
 });
 
 export const TopSlot = makeStory(conf, {
-  items: [{
-    routes: routes,
-    innerHTML: '<gv-header slot="top" can-subscribe></gv-header>',
-  }],
+  items: [
+    {
+      routes: routes,
+      innerHTML: '<gv-header slot="top" can-subscribe></gv-header>',
+    },
+  ],
   simulations: [
     storyWait(0, ([component]) => {
       component.firstElementChild.item = {
@@ -84,18 +82,23 @@ export const TopSlot = makeStory(conf, {
 });
 
 export const RightTransitionSlot = makeStory(conf, {
-  items: [{
-    routes: routes,
-    innerHTML: '<gv-input slot="right-transition" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
-  }],
+  items: [
+    {
+      routes: routes,
+      innerHTML: '<gv-input slot="right-transition" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
+    },
+  ],
 });
 
 export const TopRightTransitionSlot = makeStory(conf, {
-  items: [{
-    routes: routes,
-    innerHTML: '<gv-header slot="top" can-subscribe></gv-header>'
-      + '<gv-input slot="right-transition" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
-  }],
+  items: [
+    {
+      routes: routes,
+      innerHTML:
+        '<gv-header slot="top" can-subscribe></gv-header>' +
+        '<gv-input slot="right-transition" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
+    },
+  ],
   simulations: [
     storyWait(0, ([component]) => {
       component.firstElementChild.item = {
@@ -124,14 +127,14 @@ const options = [
 ];
 
 export const TopRightSlot = makeStory(conf, {
-  items: [{
-    routes: routes,
-    innerHTML: '<gv-header slot="top" can-subscribe></gv-header>'
-      + '<gv-select slot="right"></gv-select>',
-  }],
+  items: [
+    {
+      routes: routes,
+      innerHTML: '<gv-header slot="top" can-subscribe></gv-header>' + '<gv-select slot="right"></gv-select>',
+    },
+  ],
   simulations: [
     storyWait(0, ([component]) => {
-
       component.querySelector('gv-select').options = options;
 
       component.firstElementChild.item = {

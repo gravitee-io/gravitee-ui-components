@@ -36,9 +36,7 @@ const conf = {
   `,
 };
 
-const items = [
-  {},
-];
+const items = [{}];
 
 export const basic = makeStory(conf, {
   items,

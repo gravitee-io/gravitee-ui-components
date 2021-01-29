@@ -19,8 +19,7 @@ import { toDom } from '../lib/text-format';
 import { empty } from '../styles/empty';
 
 export class GvDocumentation extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       text: { type: String },
       type: { type: String },
@@ -30,7 +29,7 @@ export class GvDocumentation extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       empty,
       // language=CSS
@@ -42,7 +41,7 @@ export class GvDocumentation extends LitElement {
 
         .header {
           display: flex;
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
           box-sizing: border-box;
           min-height: 45px;
           --gv-icon--s: 26px;
@@ -63,7 +62,7 @@ export class GvDocumentation extends LitElement {
         }
 
         .header .title {
-          color: #28444F;
+          color: #28444f;
           font-size: 18px;
           display: flex;
           position: absolute;
@@ -117,23 +116,23 @@ export class GvDocumentation extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.type = 'adoc';
   }
 
-  _onCloseDocumentation () {
+  _onCloseDocumentation() {
     dispatchCustomEvent(this, 'close');
   }
 
-  _renderIcon () {
+  _renderIcon() {
     if (this.image) {
       return html`<gv-image src="${this.image}"></gv-image>`;
     }
     return html`<gv-icon shape="code:question"></gv-icon>`;
   }
 
-  async updated (props) {
+  async updated(props) {
     if (props.has('text')) {
       this._dom = await toDom(this.text, this.type, true);
       if (this._dom) {
@@ -146,22 +145,34 @@ export class GvDocumentation extends LitElement {
     }
   }
 
-  render () {
+  render() {
     let title = '';
     let content;
     if (this._dom) {
       title = this._dom.title;
       content = this._dom.element;
-    }
-    else {
-      content = html`<div class="empty"><div>Sorry, the documentation was not found. </div><div>See the documentation about plugins.</div></div>`;
+    } else {
+      content = html`<div class="empty">
+        <div>Sorry, the documentation was not found.</div>
+        <div>See the documentation about plugins.</div>
+      </div>`;
     }
     return html`<link rel="stylesheet" href="css/documentation.css">
                   <div class="container">  
                     <div class="header">
                       <div class="title">${title}</div>
                         <div class="left">
-                          ${this.disabled ? html`` : html`<gv-button icon="general:close" outlined small @gv-button:click="${this._onCloseDocumentation}" title="Close"></gv-button>`}
+                          ${
+                            this.disabled
+                              ? html``
+                              : html`<gv-button
+                                  icon="general:close"
+                                  outlined
+                                  small
+                                  @gv-button:click="${this._onCloseDocumentation}"
+                                  title="Close"
+                                ></gv-button>`
+                          }
                         </div>
                         <div class="right">
                           ${this._renderIcon()}
@@ -174,7 +185,6 @@ export class GvDocumentation extends LitElement {
                   </div>
                   `;
   }
-
 }
 
 window.customElements.define('gv-documentation', GvDocumentation);

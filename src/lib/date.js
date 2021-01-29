@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function isInvalid (date, min, max, noTime = true, disabledDates = []) {
+export function isInvalid(date, min, max, noTime = true, disabledDates = []) {
   if (date) {
     if (min) {
       const minDate = new Date(min * 1000);

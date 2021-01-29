@@ -34,5 +34,4 @@ describe('D A T E P I C K E R', () => {
     const component = querySelector('gv-date-picker');
     expect(component).toBeDefined();
   });
-
 });

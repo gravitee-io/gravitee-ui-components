@@ -18,7 +18,6 @@ import { Page, querySelector } from '../lib/test-utils';
 import '../../src/molecules/gv-cron-editor';
 
 describe('<gv-cron-editor>', () => {
-
   let page;
   const DEFAULT_VALUE = '*/60 * * * * *';
 
@@ -39,5 +38,4 @@ describe('<gv-cron-editor>', () => {
     expect(component).toBeDefined();
     expect(component.value).toEqual(DEFAULT_VALUE);
   });
-
 });

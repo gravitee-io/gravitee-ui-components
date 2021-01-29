@@ -30,31 +30,21 @@ const conf = {
 };
 
 export const Basics = makeStory(conf, {
-  items: [
-    {},
-  ],
+  items: [{}],
 });
 
 export const InputDisabled = makeStory(conf, {
-  items: [
-    { email: 'alreadyprovided@mail.com', disabled: true },
-  ],
+  items: [{ email: 'alreadyprovided@mail.com', disabled: true }],
 });
 
 export const OneTagline = makeStory(conf, {
-  items: [
-    { taglines: ['Only one tagline'] },
-  ],
+  items: [{ taglines: ['Only one tagline'] }],
 });
 
 export const TwoTagline = makeStory(conf, {
-  items: [
-    { taglines: ['One tagline', 'And one more'] },
-  ],
+  items: [{ taglines: ['One tagline', 'And one more'] }],
 });
 
 export const MoreTagline = makeStory(conf, {
-  items: [
-    { taglines: ['One tagline', 'And one more', 'And one more', 'And one more', 'And one more'] },
-  ],
+  items: [{ taglines: ['One tagline', 'And one more', 'And one more', 'And one more', 'And one more'] }],
 });

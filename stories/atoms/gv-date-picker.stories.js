@@ -37,10 +37,11 @@ const conf = {
 const items = [
   {
     label: 'Simple',
-  }, {
+  },
+  {
     label: 'Simple (min-max)',
     max: Date.now(),
-    min: Date.now() - (1000 * 60 * 60 * 24 * 2),
+    min: Date.now() - 1000 * 60 * 60 * 24 * 2,
   },
   { label: 'Range', range: true },
   { label: 'Time', time: true },
@@ -50,14 +51,14 @@ const items = [
     label: 'Range & time (min-max)',
     range: true,
     time: true,
-    max: Date.now() + (1000 * 60 * 60 * 24 * 7),
-    min: Date.now() - (1000 * 60 * 60 * 24 * 7),
+    max: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    min: Date.now() - 1000 * 60 * 60 * 24 * 7,
   },
   {
     label: 'Distance from now',
     range: true,
     time: true,
-    distanceFromNow: (1000 * 60 * 60 * 24 * 29),
+    distanceFromNow: 1000 * 60 * 60 * 24 * 29,
   },
 ];
 

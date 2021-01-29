@@ -42,9 +42,9 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @cssprop {Length} [--gv-link-a--pv=15px] - Vertical padding for the inner <a> tag
  * @cssprop {Length} [--gv-link-a--ph=15px] - Horizontal padding for the inner <a> tag
  * @cssprop {Color} [--gv-link--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-link-active--c=var(--gv-theme-font-color-light, #FFFFFF)] - Active color
+ * @cssprop {Color} [--gv-link-active--c=var(--gv-theme-font-color-light, #ffffff)] - Active color
  * @cssprop {Color} [--gv-link--bgc=transparent] - Background color
- * @cssprop {Color} [--gv-link-active--bgc=var(--gv-theme-color-dark, #28444F)] - Active background color
+ * @cssprop {Color} [--gv-link-active--bgc=var(--gv-theme-color-dark, #28444f)] - Active background color
  * @cssprop {Color} [--gv-link-active--bdc=none] - Active border color
  * @cssprop {String} [--gv-link-active--bds=none] - Active border style
  * @cssprop {Length} [--gv-link-active--bdw=none] - Active border width
@@ -54,8 +54,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
  * @cssprop {Length} [--gv-link-icon--s=24px] - Height and icon width
  */
 export class GvLink extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       active: { type: Boolean, reflect: true },
       icon: { type: String },
@@ -69,95 +68,96 @@ export class GvLink extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       link,
       // language=css
       css`
-          :host {
-              box-sizing: border-box;
-              display: inline-flex;
-              vertical-align: middle;
-              --gv-icon--s: var(--gv-link-icon--s, 24px);
-              --link-active--c: var(--gv-link-active--c, var(--gv-theme-font-color-light, #FFFFFF));
-              --link--c: var(--gv-link--c, var(--gv-theme-font-color-dark, #262626));
-              --pv: var(--gv-link-a--pv, 15px);
-              --ph: var(--gv-link-a--ph, 15px);
-          }
+        :host {
+          box-sizing: border-box;
+          display: inline-flex;
+          vertical-align: middle;
+          --gv-icon--s: var(--gv-link-icon--s, 24px);
+          --link-active--c: var(--gv-link-active--c, var(--gv-theme-font-color-light, #ffffff));
+          --link--c: var(--gv-link--c, var(--gv-theme-font-color-dark, #262626));
+          --pv: var(--gv-link-a--pv, 15px);
+          --ph: var(--gv-link-a--ph, 15px);
+        }
 
-          a {
-            opacity: 1;
-            padding: var(--pv) var(--ph);
-            color: var(--link--c);
-            background-color: var(--gv-link--bgc, transparent);
-            width: 100%;
-            display: inline-flex;
-            align-content: center;
-            text-align: var(--gv-link--ta, center);
-            text-shadow: var(--gv-link--tsh, none);
-            border-color: var(--gv-link--bgc, transparent);
-            border-style: var(--gv-link-active--bds, none);
-            border-width: var(--gv-link-active--bdw, none);
-          }
+        a {
+          opacity: 1;
+          padding: var(--pv) var(--ph);
+          color: var(--link--c);
+          background-color: var(--gv-link--bgc, transparent);
+          width: 100%;
+          display: inline-flex;
+          align-content: center;
+          text-align: var(--gv-link--ta, center);
+          text-shadow: var(--gv-link--tsh, none);
+          border-color: var(--gv-link--bgc, transparent);
+          border-style: var(--gv-link-active--bds, none);
+          border-width: var(--gv-link-active--bdw, none);
+        }
 
-          a > * {
-              flex: 1;
-              align-self: center;
-          }
+        a > * {
+          flex: 1;
+          align-self: center;
+        }
 
-          .active {
-              color: var(--link-active--c);
-              background-color: var(--gv-link-active--bgc, var(--gv-theme-color-dark, #28444F));
-              border-color: var(--gv-link-active--bdc, none);
-          }
+        .active {
+          color: var(--link-active--c);
+          background-color: var(--gv-link-active--bgc, var(--gv-theme-color-dark, #28444f));
+          border-color: var(--gv-link-active--bdc, none);
+        }
 
-          .link.active:hover {
-            opacity: 1;
-          }
+        .link.active:hover {
+          opacity: 1;
+        }
 
-          a span, a gv-icon {
-              align-self: center;
-          }
+        a span,
+        a gv-icon {
+          align-self: center;
+        }
 
-          a span {
-              flex: 1;
-              align-self: center;
-              white-space: nowrap;
-              margin: 0.3rem 0.5rem;
-              text-decoration: var(--gv-link--td, none);
-          }
+        a span {
+          flex: 1;
+          align-self: center;
+          white-space: nowrap;
+          margin: 0.3rem 0.5rem;
+          text-decoration: var(--gv-link--td, none);
+        }
 
-          a.small span {
-              margin: 0.3rem 0;
-              width: 0;
-              visibility: hidden;
-          }
+        a.small span {
+          margin: 0.3rem 0;
+          width: 0;
+          visibility: hidden;
+        }
 
-          .help {
-              margin: 0 0.2rem;
-              opacity: 0.5;
-              font-size: var(--gv-theme-font-size-xs, 10px);
-          }
+        .help {
+          margin: 0 0.2rem;
+          opacity: 0.5;
+          font-size: var(--gv-theme-font-size-xs, 10px);
+        }
 
-          .help::before {
-              content: '('
-          }
+        .help::before {
+          content: '(';
+        }
 
-          .help::after {
-              content: ')'
-          }
+        .help::after {
+          content: ')';
+        }
 
-          .skeleton {
-              min-width: 100px;
-              margin: 0 0.2rem;
-              opacity: 0.5;
-          }
+        .skeleton {
+          min-width: 100px;
+          margin: 0 0.2rem;
+          opacity: 0.5;
+        }
       `,
       skeleton,
     ];
   }
 
-  async _onClick (e) {
+  async _onClick(e) {
     e.preventDefault();
     dispatchCustomEvent(this, 'click', {
       active: this.active,
@@ -168,23 +168,32 @@ export class GvLink extends LitElement {
     });
   }
 
-  set title (value) {
-    Promise.resolve(value).then((title) => {
-      this._title = title;
-    }).catch((e) => {});
+  set title(value) {
+    Promise.resolve(value)
+      .then((title) => {
+        this._title = title;
+      })
+      .catch((e) => {});
   }
 
-  render () {
+  render() {
     const classes = {
-      active: this.active, link: true, skeleton: this.skeleton, small: this.small,
+      active: this.active,
+      link: true,
+      skeleton: this.skeleton,
+      small: this.small,
     };
-    const iconStyle = this.active ? { '--gv-icon--c': 'var(--link-active--c)', '--gv-icon-opacity--c': 'var(--link-active--c)' } : { '--gv-icon--c': 'var(--link--c)', '--gv-icon-opacity--c': 'var(--link--c)' };
+    const iconStyle = this.active
+      ? { '--gv-icon--c': 'var(--link-active--c)', '--gv-icon-opacity--c': 'var(--link-active--c)' }
+      : { '--gv-icon--c': 'var(--link--c)', '--gv-icon-opacity--c': 'var(--link--c)' };
     return html`
-      <a @click=${this._onClick}
-      class="${classMap(classes)}"
-      .href="${ifDefined(this.path)}"
-      .target="${ifDefined(this.target)}"
-      ?title="${until(this._title, '')}">
+      <a
+        @click=${this._onClick}
+        class="${classMap(classes)}"
+        .href="${ifDefined(this.path)}"
+        .target="${ifDefined(this.target)}"
+        ?title="${until(this._title, '')}"
+      >
         ${this.icon ? html`<gv-icon shape=${this.icon} style=${styleMap(iconStyle)}></gv-icon>` : ''}
         <span>${until(this._title, '')}${this.help ? html`<span class="help">${until(this.help, '')}</span>` : ''}</span>
       </a>

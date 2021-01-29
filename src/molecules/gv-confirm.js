@@ -36,12 +36,11 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} message - the message
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  *
- * @cssprop {Color} [--gv-confirm--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
+ * @cssprop {Color} [--gv-confirm--bgc=var(--gv-theme-neutral-color-lighter, #fafafa)] - Background color
  * @cssprop {Length} [--gv-confirm--maw=350px] - Max width
  */
 export class GvConfirm extends GvPopover {
-
-  static get properties () {
+  static get properties() {
     return {
       /**
        * @default i18n: gv-confirm.cancel
@@ -57,9 +56,9 @@ export class GvConfirm extends GvPopover {
       disabled: { type: Boolean },
       _disabled: { type: Boolean },
     };
-  };
+  }
 
-  static get styles () {
+  static get styles() {
     return [
       GvPopover.styles,
       // language=CSS
@@ -71,11 +70,11 @@ export class GvConfirm extends GvPopover {
         }
 
         :host([danger]) .message gv-icon {
-          --gv-icon--c: var(--gv-theme-color-danger, #FF5722);
+          --gv-icon--c: var(--gv-theme-color-danger, #ff5722);
         }
 
         .popover {
-          --bgc: var(--gv-confirm--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
+          --bgc: var(--gv-confirm--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
           --maw: var(--gv-confirm--maw, 350px);
         }
 
@@ -107,7 +106,7 @@ export class GvConfirm extends GvPopover {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.event = 'click';
     this.arrow = true;
@@ -117,48 +116,51 @@ export class GvConfirm extends GvPopover {
     this.okLabel = i18n('gv-confirm.ok');
   }
 
-  connectedCallback () {
+  connectedCallback() {
     super.connectedCallback();
     window.addEventListener('resize', this._closeHandler);
     window.addEventListener('scroll', this._closeHandler);
   }
 
-  disconnectedCallback () {
+  disconnectedCallback() {
     window.removeEventListener('resize', this._closeHandler);
     window.removeEventListener('scroll', this._closeHandler);
     super.disconnectedCallback();
   }
 
-  _onCancel () {
+  _onCancel() {
     this.close();
     dispatchCustomEvent(this, 'cancel');
   }
 
-  _onOk () {
+  _onOk() {
     this.close();
     dispatchCustomEvent(this, 'ok');
   }
 
-  _open (e) {
+  _open(e) {
     if (!this._disabled) {
       super._open(e);
     }
   }
 
-  renderContent () {
+  renderContent() {
     return html`
-          <div class="message">${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<div class="text" .innerHTML="${this.message}"></div></div>
-          <div class="actions">
-            <gv-button primary small outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>
-            <gv-button primary small @click="${this._onOk}">${this.okLabel}</gv-button>
-          </div>
-       `;
+      <div class="message">
+        ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}
+        <div class="text" .innerHTML="${this.message}"></div>
+      </div>
+      <div class="actions">
+        <gv-button primary small outlined @click="${this._onCancel}">${this.cancelLabel}</gv-button>
+        <gv-button primary small @click="${this._onOk}">${this.okLabel}</gv-button>
+      </div>
+    `;
   }
 
-  firstUpdated (changedProperties) {
+  firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
     if (this.danger) {
-      this.shadowRoot.querySelectorAll('gv-button').forEach((btn) => (btn.setAttribute('danger', '')));
+      this.shadowRoot.querySelectorAll('gv-button').forEach((btn) => btn.setAttribute('danger', ''));
     }
     this._disabled = this._calculateIsDisabled();
     if (this.disabled) {
@@ -166,7 +168,7 @@ export class GvConfirm extends GvPopover {
     }
   }
 
-  _reflectDisabledOnSlot () {
+  _reflectDisabledOnSlot() {
     const slot = this.shadowRoot.querySelector('slot');
     const childNodes = slot.assignedNodes({ flatten: true });
     childNodes.forEach((node) => {
@@ -174,7 +176,7 @@ export class GvConfirm extends GvPopover {
     });
   }
 
-  _calculateIsDisabled () {
+  _calculateIsDisabled() {
     const slot = this.shadowRoot.querySelector('slot');
     const childNodes = slot.assignedNodes({ flatten: true });
     const isSlotButtonDisabled = childNodes
@@ -182,7 +184,6 @@ export class GvConfirm extends GvPopover {
       .some((node) => Boolean(node.getAttribute('disabled')) === true);
     return this.disabled || isSlotButtonDisabled;
   }
-
 }
 
 window.customElements.define('gv-confirm', GvConfirm);

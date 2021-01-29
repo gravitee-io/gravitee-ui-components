@@ -36,8 +36,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  */
 export class GvNewsletterSubscription extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       title: { type: String },
       header: { type: String },
@@ -54,7 +53,7 @@ export class GvNewsletterSubscription extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=css
       css`
@@ -115,8 +114,8 @@ export class GvNewsletterSubscription extends LitElement {
           height: 20%;
           margin-top: 20px;
           padding: 10px 0;
-          color: var(--gv-theme-color-darker, #383E3F);
-          border-bottom: solid 1px var(--gv-theme-color-darker, #383E3F);
+          color: var(--gv-theme-color-darker, #383e3f);
+          border-bottom: solid 1px var(--gv-theme-color-darker, #383e3f);
         }
 
         .newsletter__tagline {
@@ -128,7 +127,7 @@ export class GvNewsletterSubscription extends LitElement {
           height: 100%;
           font-weight: bold;
           padding: 0 15px;
-          border-right: solid 1px var(--gv-theme-color-darker, #383E3F);
+          border-right: solid 1px var(--gv-theme-color-darker, #383e3f);
         }
 
         .newsletter__tagline.last {
@@ -158,7 +157,7 @@ export class GvNewsletterSubscription extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.header = 'Customers process over 1 billion requests through the gravitee.io gateway in just one week';
     this.title = 'Community of api masters';
@@ -174,7 +173,7 @@ export class GvNewsletterSubscription extends LitElement {
     this.linkedinUrl = 'https://www.linkedin.com/company/gravitee-io/';
   }
 
-  render () {
+  render() {
     return html`
         <div class="newsletter-container">
           <div class="newsletter__header">
@@ -205,17 +204,19 @@ export class GvNewsletterSubscription extends LitElement {
               ${this.subscribeLabel}
             </gv-button>
           </div>
-          ${this.taglines.length > 0 ? html`
-          <div class="newsletter__taglines">
-            ${this.taglines.map((item, i, arr) => html`
-              <div class="newsletter__tagline ${i === arr.length - 1 ? 'last' : ''}">
-                <div class="newsletter__tagline-text">
-                  ${item}
-                </div>
-              </div>
-            `)}
-          </div>`
-          : ''}
+          ${
+            this.taglines.length > 0
+              ? html` <div class="newsletter__taglines">
+                  ${this.taglines.map(
+                    (item, i, arr) => html`
+                      <div class="newsletter__tagline ${i === arr.length - 1 ? 'last' : ''}">
+                        <div class="newsletter__tagline-text">${item}</div>
+                      </div>
+                    `,
+                  )}
+                </div>`
+              : ''
+          }
           <div class="newsletter__skip">
             <gv-button @click="${this._onSkip}"
                        provider="graviteeio_am"
@@ -249,19 +250,19 @@ export class GvNewsletterSubscription extends LitElement {
     `;
   }
 
-  _onSubscribe () {
+  _onSubscribe() {
     dispatchCustomEvent(this, 'subscribe', this.email);
   }
 
-  _onSkip () {
+  _onSkip() {
     dispatchCustomEvent(this, 'skip');
   }
 
-  _navigateSocial (url) {
+  _navigateSocial(url) {
     window.open(url, '_blank');
   }
 
-  _onInputChange (e) {
+  _onInputChange(e) {
     this._invalid = e.target.invalid;
     this.email = e.detail;
   }

@@ -29,12 +29,11 @@ import './gv-icon';
  * @attr {String} value - the value of the metric
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
  *
- * @cssprop {Color} [--gv-metric--c=var(--gv-theme-color, #5A7684)] - Color
+ * @cssprop {Color} [--gv-metric--c=var(--gv-theme-color, #5a7684)] - Color
  * @cssprop {Length} [--gv-metric-icon--s=24px] - Height and icon width
  */
 export class GvMetric extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       icon: { type: String },
       name: { type: String },
@@ -43,18 +42,17 @@ export class GvMetric extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
-
         :host {
           box-sizing: border-box;
         }
 
         .metric {
           --gv-icon--s: var(--gv-metric-icon--s, 24px);
-          --gv-icon--c: var(--gv-metric--c, var(--gv-theme-color, #5A7684));
+          --gv-icon--c: var(--gv-metric--c, var(--gv-theme-color, #5a7684));
           min-width: 75px;
           height: 100%;
           width: 100%;
@@ -92,8 +90,7 @@ export class GvMetric extends LitElement {
     ];
   }
 
-  render () {
-
+  render() {
     const modes = {
       skeleton: this.skeleton,
       metric: true,
@@ -102,21 +99,19 @@ export class GvMetric extends LitElement {
     return html`
       <div class=${classMap(modes)}>
         ${this.value
-      ? html`
-            <div class="icon">
-              <gv-icon shape="${this.icon}"></gv-icon>
-            </div>
-            <div class="metric-data">
-              <div class="metric-value">${this.value}</div>
-              <div class="metric-name">${this.name}</div>
-            </div>
+          ? html`
+              <div class="icon">
+                <gv-icon shape="${this.icon}"></gv-icon>
+              </div>
+              <div class="metric-data">
+                <div class="metric-value">${this.value}</div>
+                <div class="metric-name">${this.name}</div>
+              </div>
             `
-      : ''
-    }
+          : ''}
       </div>
     `;
   }
-
 }
 
 window.customElements.define('gv-metric', GvMetric);

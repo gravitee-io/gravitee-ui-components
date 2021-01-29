@@ -24,52 +24,46 @@ export const KEYS = {
   Space: '32',
 };
 
-export function KeyboardElement (ParentClass) {
-
+export function KeyboardElement(ParentClass) {
   /**
    * @mixinClass
    */
   return class extends ParentClass {
-
-    constructor () {
+    constructor() {
       super();
       this._controller = {};
       this._handleKeyDown = this._onKeyDown.bind(this);
       this._handleKeyUp = this._onKeyUp.bind(this);
     }
 
-    connectedCallback () {
+    connectedCallback() {
       super.connectedCallback();
       window.addEventListener('keydown', this._handleKeyDown);
       window.addEventListener('keyup', this._handleKeyUp);
     }
 
-    disconnectedCallback () {
+    disconnectedCallback() {
       window.removeEventListener('keydown', this._handleKeyDown);
       window.removeEventListener('keyup', this._handleKeyUp);
       super.disconnectedCallback();
     }
 
-    _onKeyDown (e) {
+    _onKeyDown(e) {
       this._controller[e.keyCode] = true;
       this.onKeyboard(this._controller);
     }
 
-    _onKeyUp (e) {
+    _onKeyUp(e) {
       if (this._controller[e.keyCode]) {
         this._controller[e.keyCode] = null;
       }
     }
 
-    isPressed (...keys) {
-      return keys.find((key) => (this._controller[key] == null)) == null;
+    isPressed(...keys) {
+      return keys.find((key) => this._controller[key] == null) == null;
     }
 
     // abstract
-    onKeyboard (controller) {
-
-    }
-
+    onKeyboard(controller) {}
   };
-
 }

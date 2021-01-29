@@ -40,19 +40,18 @@ import { getVersion, getTitle, getDescription } from '../lib/item';
  * @attr {Promise<Object>} item - An item.
  * @attr {Promise<Metrics>} metrics - A Metrics.
  *
- * @cssprop {Color} [--gv-card-full--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-card-full--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
  * @cssprop {Length} [--gv-card-full-image--h=65px] - Image height
  * @cssprop {Length} [--gv-card-full-image--w=110px] - Image width
  */
 export class GvCardFull extends ItemResource(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       metrics: { type: Object },
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       // language=CSS
@@ -80,16 +79,16 @@ export class GvCardFull extends ItemResource(LitElement) {
           flex-direction: column;
           height: 250px;
           border-radius: 4px;
-          background-color: var(--gv-card-full--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          background-color: var(--gv-card-full--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
           color: var(--gv-theme-font-color-dark, #262626);
           padding: 16px;
-          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-          transition: transform .3s;
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #f5f5f5), 0 1px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          transition: transform 0.3s;
         }
 
         .card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 20px 40px -14px var(--gv-theme-neutral-color-dark, #BFBFBF);
+          box-shadow: 0 20px 40px -14px var(--gv-theme-neutral-color-dark, #bfbfbf);
           cursor: pointer;
         }
 
@@ -117,7 +116,7 @@ export class GvCardFull extends ItemResource(LitElement) {
         }
 
         .version {
-          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          color: var(--gv-theme-neutral-color-dark, #d9d9d9);
           padding: 10px 8px;
           font-size: var(--gv-theme-font-size-s, 12px);
         }
@@ -134,7 +133,7 @@ export class GvCardFull extends ItemResource(LitElement) {
 
         .infos {
           display: flex;
-          border-bottom: 1px solid var(--gv-theme-neutral-color-dark, #D9D9D9);
+          border-bottom: 1px solid var(--gv-theme-neutral-color-dark, #d9d9d9);
           padding: 0.5rem 0;
           justify-content: flex-end;
         }
@@ -154,55 +153,52 @@ export class GvCardFull extends ItemResource(LitElement) {
           padding: 0 16px;
         }
 
-        .error .labels, .error .infos, .error .states {
+        .error .labels,
+        .error .infos,
+        .error .states {
           visibility: hidden;
         }
-
       `,
       skeleton,
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.limit = 150;
   }
 
-  _onClick (e) {
+  _onClick(e) {
     if (!this._empty && !this._error && !this._skeleton && !e.target.tagName.toLowerCase().startsWith('gv-metrics')) {
       dispatchCustomEvent(this, 'click', this._item);
     }
   }
 
-  render () {
+  render() {
     const title = getTitle(this._item);
     const classes = { error: this._error || this._empty, card: true };
     return html`<div class="${classMap(classes)}" title="${title}" @click="${this._onClick}">
-        <div class="${classMap({ skeleton: this._skeleton })}">
-            <div class="${classMap({ image: true })}">${this._renderImage()}</div>
-            <div class="content">
-                <div class="${classMap({ title: true })}">${title}</div>
-                <div class="states">
-                ${this._renderStates()}
-                </div>
-            </div>
-            <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${getVersion(this._item)}</span></div>
+      <div class="${classMap({ skeleton: this._skeleton })}">
+        <div class="${classMap({ image: true })}">${this._renderImage()}</div>
+        <div class="content">
+          <div class="${classMap({ title: true })}">${title}</div>
+          <div class="states">${this._renderStates()}</div>
         </div>
-        <div class="${classMap({ skeleton: this._skeleton, description: true })}">
-            ${truncate(this._error ? i18n('gv-card-full.error') : this._empty ? i18n('gv-card-full.empty') : getDescription(this._item), this.limit)}
-        </div>
-        <span class="${classMap({ skeleton: this._skeleton })}">
-          <div class="infos">
-            ${this._renderMetricsWithRating()}
-          </div>
+        <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${getVersion(this._item)}</span></div>
+      </div>
+      <div class="${classMap({ skeleton: this._skeleton, description: true })}">
+        ${truncate(
+          this._error ? i18n('gv-card-full.error') : this._empty ? i18n('gv-card-full.empty') : getDescription(this._item),
+          this.limit,
+        )}
+      </div>
+      <span class="${classMap({ skeleton: this._skeleton })}">
+        <div class="infos">${this._renderMetricsWithRating()}</div>
 
-          <div class="labels">
-            ${this._renderLabels(true)}
-          </div>
-        </span>
-</div>`;
+        <div class="labels">${this._renderLabels(true)}</div>
+      </span>
+    </div>`;
   }
-
 }
 
 window.customElements.define('gv-card-full', GvCardFull);

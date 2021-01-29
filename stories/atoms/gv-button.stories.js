@@ -64,9 +64,11 @@ export const modesInColumn = makeStory(
         }
 `,
     },
-  }, {
+  },
+  {
     items,
-  });
+  },
+);
 
 export const small = makeStory(conf, {
   items: items.map((p) => ({ ...p, small: true })),

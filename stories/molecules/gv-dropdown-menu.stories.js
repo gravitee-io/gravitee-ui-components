@@ -37,8 +37,10 @@ const conf = {
 };
 
 export const Basic = makeStory(conf, {
-  items: [{
-    innerHTML: '<gv-button link icon="general:other#1"></gv-button>'
-      + '<div slot="action">foobar</div>' + '<div slot="action">foobar</div>',
-  }],
+  items: [
+    {
+      innerHTML:
+        '<gv-button link icon="general:other#1"></gv-button>' + '<div slot="action">foobar</div>' + '<div slot="action">foobar</div>',
+    },
+  ],
 });

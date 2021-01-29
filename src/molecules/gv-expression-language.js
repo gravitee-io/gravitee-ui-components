@@ -34,8 +34,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Object} options -  options based on codemirror https://codemirror.net/doc/manual.html#config
  */
 export class GvExpressionLanguage extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       value: { type: String, reflect: true },
       grammar: { type: Object },
@@ -47,19 +46,19 @@ export class GvExpressionLanguage extends LitElement {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.addEventListener('gv-code:ready', this._onReady);
     this.addEventListener('gv-code:input', this._onInput);
   }
 
-  connectedCallback () {
+  connectedCallback() {
     super.connectedCallback();
     // Experimental
     // CodeMirror.registerHelper('lint', 'javascript', this._lintValidator);
   }
 
-  _onReady (event) {
+  _onReady(event) {
     event.preventDefault();
     event.stopPropagation();
     const codeElement = this.codeElement;
@@ -99,7 +98,7 @@ export class GvExpressionLanguage extends LitElement {
   //   return [];
   // }
 
-  getPreviousKey (key) {
+  getPreviousKey(key) {
     if (key != null && key.indexOf('.') > -1) {
       const keys = key.split('.');
       // Remove last element
@@ -109,29 +108,29 @@ export class GvExpressionLanguage extends LitElement {
     return null;
   }
 
-  getType (typeId) {
+  getType(typeId) {
     if (this.grammar != null) {
       return get(this.grammar, `_types.${typeId}`);
     }
     return null;
   }
 
-  getEnum (typeId) {
+  getEnum(typeId) {
     if (this.grammar != null) {
       return get(this.grammar, `_enums.${typeId}`);
     }
     return null;
   }
 
-  isArray (typeId) {
+  isArray(typeId) {
     return typeId && typeId.match(/[a-zA-Z]*\[\]$/g);
   }
 
-  isMap (typeId) {
+  isMap(typeId) {
     return ['Map', 'HttpHeaders', 'MultiValueMap'].includes(typeId);
   }
 
-  buildMethods (methods, methodName = '') {
+  buildMethods(methods, methodName = '') {
     const prefix = methodName == null || methodName.trim() === '' ? '.' : '';
     const list = methods
       .filter(({ name }) => name.startsWith(methodName))
@@ -144,8 +143,8 @@ export class GvExpressionLanguage extends LitElement {
     return { list };
   }
 
-  buildEnum (candidate, parameter) {
-    parameter = (parameter || '');
+  buildEnum(candidate, parameter) {
+    parameter = parameter || '';
     const prefix = `'`;
     const typeEnum = this.getEnum(candidate._type);
     if (typeEnum != null) {
@@ -160,18 +159,18 @@ export class GvExpressionLanguage extends LitElement {
     return { list: [] };
   }
 
-  isFunction (term) {
+  isFunction(term) {
     if (term != null) {
       return term.match(/\({1}.*\)$/g) != null;
     }
     return false;
   }
 
-  findMethod (type, methodName) {
+  findMethod(type, methodName) {
     return type.methods.find(({ name }) => name === methodName);
   }
 
-  findReturnType (typeId, words = []) {
+  findReturnType(typeId, words = []) {
     const fns = words.filter(({ fn }) => fn);
     let type = this.getType(typeId);
     if (fns.length > 0) {
@@ -182,49 +181,49 @@ export class GvExpressionLanguage extends LitElement {
           type = this.getType(method.returnType);
         }
       });
-    }
-    else if (words.length > 1 && words[words.length - 2].term.endsWith(']')) {
+    } else if (words.length > 1 && words[words.length - 2].term.endsWith(']')) {
       if (this.isMap(typeId)) {
         return this.getType('String');
-      }
-      else if (this.isArray(typeId)) {
+      } else if (this.isArray(typeId)) {
         return this.getType(typeId.replaceAll(/\[]/g, ''));
       }
     }
     return type;
   }
 
-  insertOrSuggest (codemirror) {
+  insertOrSuggest(codemirror) {
     const cursor = codemirror.getCursor();
     const caretPosition = cursor.ch;
     const currentEL = this.getCurrentEl(caretPosition, cursor.line);
     if (currentEL != null) {
       this._suggest();
-    }
-    else {
+    } else {
       const pos = { line: cursor.line };
       const data = '{#}';
       codemirror.replaceRange(data, pos, pos);
       codemirror.setCursor(cursor.line, caretPosition + 2);
     }
-
   }
 
-  isHttpHeader (candidate, key) {
-    return candidate && key && candidate._type === 'HttpHeaders'
-      && key.match(/headers$/g)
-      && key.match('/headers\\[(.*)\\]\\[(.*)\\]$/g') == null;
+  isHttpHeader(candidate, key) {
+    return (
+      candidate &&
+      key &&
+      candidate._type === 'HttpHeaders' &&
+      key.match(/headers$/g) &&
+      key.match('/headers\\[(.*)\\]\\[(.*)\\]$/g') == null
+    );
   }
 
-  getEnumTerm (term) {
-    if (term.match(/\['[a-z-_]*$/ig)) {
+  getEnumTerm(term) {
+    if (term.match(/\['[a-z-_]*$/gi)) {
       const splitted = term.split(`['`);
       return splitted[splitted.length - 1];
     }
     return null;
   }
 
-  getGrammar ({ sentence = null, key = null, words = [], fn = [] }) {
+  getGrammar({ sentence = null, key = null, words = [], fn = [] }) {
     let grammar = [];
     let prefix = '';
     if (sentence && sentence.match(/^#[a-zA-Z]*/g)) {
@@ -277,19 +276,17 @@ export class GvExpressionLanguage extends LitElement {
     return { list };
   }
 
-  getSuffix (candidate) {
+  getSuffix(candidate) {
     if (this.isArray(candidate._type)) {
       return '[]';
-    }
-    else if (this.isMap(candidate._type)) {
+    } else if (this.isMap(candidate._type)) {
       return `[''][0]`;
-    }
-    else {
+    } else {
       return '';
     }
   }
 
-  getCurrentEl (caretPosition, line = 0) {
+  getCurrentEl(caretPosition, line = 0) {
     if (this.value != null) {
       const value = this.value.split('\n')[line];
 
@@ -310,7 +307,7 @@ export class GvExpressionLanguage extends LitElement {
     return null;
   }
 
-  analyse ({ el, start, caretPosition }) {
+  analyse({ el, start, caretPosition }) {
     const end = caretPosition - start >= 1 ? caretPosition - start : 1;
     const expressions = el.slice(1, end).trim().split('.');
     let sentence = '';
@@ -319,8 +316,7 @@ export class GvExpressionLanguage extends LitElement {
       let term = '';
       if (fn) {
         term = k.split('(')[0];
-      }
-      else {
+      } else {
         term = k;
         sentence += `.${k}`;
       }
@@ -340,15 +336,15 @@ export class GvExpressionLanguage extends LitElement {
     return { sentence, key, words };
   }
 
-  get codeElement () {
+  get codeElement() {
     return this.shadowRoot.querySelector('gv-code');
   }
 
-  canMoveCursor () {
+  canMoveCursor() {
     return !['Backspace', 'Delete'].includes(this._lastKeyDown);
   }
 
-  _suggest () {
+  _suggest() {
     const codeElement = this.codeElement;
     const codemirror = codeElement.getCM();
     const cursor = codemirror.getCursor();
@@ -360,18 +356,16 @@ export class GvExpressionLanguage extends LitElement {
       if (this.canMoveCursor() && (sentence.endsWith('()') || sentence.endsWith('[]'))) {
         codemirror.setCursor(cursor.line, caretPosition - 1);
         this._suggest();
-      }
-      else if (this.canMoveCursor() && sentence.endsWith(`[''][0]`)) {
+      } else if (this.canMoveCursor() && sentence.endsWith(`[''][0]`)) {
         codemirror.setCursor(cursor.line, caretPosition - 5);
         this._suggest();
-      }
-      else {
+      } else {
         this._doSuggest(list);
       }
     }
   }
 
-  _onInput (event) {
+  _onInput(event) {
     event.preventDefault();
     event.stopPropagation();
     this.value = event.detail;
@@ -379,42 +373,45 @@ export class GvExpressionLanguage extends LitElement {
     dispatchCustomEvent(this, 'input', this.value);
   }
 
-  _doSuggest (suggestions = [], prefix = '#') {
+  _doSuggest(suggestions = [], prefix = '#') {
     if (suggestions == null) {
       suggestions = [];
     }
     const code = this.codeElement;
     const hint = this.shadowRoot.querySelector('#hint');
     const codemirror = code.getCM();
-    CodeMirror.showHint(codemirror, () => {
-      const cursor = codemirror.getCursor();
-      const token = codemirror.getTokenAt(cursor);
-      const start = token.start;
-      const end = cursor.ch;
-      const line = cursor.line;
-      const currentWord = token.string;
-      let _suggestions = [];
-      if (currentWord.startsWith(prefix)) {
-        _suggestions = suggestions.map((item) => {
-          return { ...item, text: `${prefix}${item.text}` };
-        });
-      }
-      else {
-        _suggestions = suggestions;
-      }
+    CodeMirror.showHint(
+      codemirror,
+      () => {
+        const cursor = codemirror.getCursor();
+        const token = codemirror.getTokenAt(cursor);
+        const start = token.start;
+        const end = cursor.ch;
+        const line = cursor.line;
+        const currentWord = token.string;
+        let _suggestions = [];
+        if (currentWord.startsWith(prefix)) {
+          _suggestions = suggestions.map((item) => {
+            return { ...item, text: `${prefix}${item.text}` };
+          });
+        } else {
+          _suggestions = suggestions;
+        }
 
-      const list = _suggestions.filter((item) => {
-        return item.text.indexOf(currentWord) >= 0;
-      });
-      return {
-        list: list.length ? list : _suggestions,
-        from: CodeMirror.Pos(line, start),
-        to: CodeMirror.Pos(line, end),
-      };
-    }, { completeSingle: false, container: hint });
+        const list = _suggestions.filter((item) => {
+          return item.text.indexOf(currentWord) >= 0;
+        });
+        return {
+          list: list.length ? list : _suggestions,
+          from: CodeMirror.Pos(line, start),
+          to: CodeMirror.Pos(line, end),
+        };
+      },
+      { completeSingle: false, container: hint },
+    );
   }
 
-  render () {
+  render() {
     const options = {
       ...{
         mode: 'javascript',
@@ -429,19 +426,20 @@ export class GvExpressionLanguage extends LitElement {
       ...(this.options || {}),
     };
     return html`<div title="Ctrl-E or Cmd-E to insert EL">
-                  <label>${this.label}</label>
-                  <gv-code .options="${options}" 
-                           .value="${this.value}" 
-                           rows="${this.rows}"
-                           ?disabled="${this.disabled}"
-                           ?readonly="${this.readonly}"
-                           ?required="${this.required}"
-                           ></gv-code>
-                  <div id="hint"></div>
-                </div>`;
+      <label>${this.label}</label>
+      <gv-code
+        .options="${options}"
+        .value="${this.value}"
+        rows="${this.rows}"
+        ?disabled="${this.disabled}"
+        ?readonly="${this.readonly}"
+        ?required="${this.required}"
+      ></gv-code>
+      <div id="hint"></div>
+    </div>`;
   }
 
-  static get styles () {
+  static get styles() {
     return [
       input,
       // language=CSS
@@ -464,9 +462,9 @@ export class GvExpressionLanguage extends LitElement {
           margin: 0;
           padding: 2px;
 
-          -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
-          -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
-          box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+          -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+          -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
           border-radius: 3px;
           border: 1px solid silver;
 
@@ -486,13 +484,12 @@ export class GvExpressionLanguage extends LitElement {
         }
 
         li.CodeMirror-hint-active {
-          background: var(--gv-theme-color, #5A7684);
+          background: var(--gv-theme-color, #5a7684);
           color: white;
-        }`,
-
+        }
+      `,
     ];
   }
-
 }
 
 window.customElements.define('gv-expression-language', GvExpressionLanguage);

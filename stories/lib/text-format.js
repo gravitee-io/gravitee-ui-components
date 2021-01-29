@@ -52,9 +52,7 @@ const md = new MarkdownIt({
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(lang, str).value;
-      }
-      catch (__) {
-      }
+      } catch (__) {}
     }
 
     // use external default escaping
@@ -62,8 +60,7 @@ const md = new MarkdownIt({
   },
 });
 
-export function markdownToDom (markdownText) {
-
+export function markdownToDom(markdownText) {
   const html = md.render(markdownText);
 
   const element = document.createElement('div');
@@ -77,12 +74,11 @@ export function markdownToDom (markdownText) {
   return { title, element };
 }
 
-export function toDom (text, type) {
+export function toDom(text, type) {
   let innerHTML = '';
   if (type === 'adoc') {
     innerHTML = asciidoctor().convert(text, { attributes: { showtitle: true } });
-  }
-  else {
+  } else {
     innerHTML = md.render(text);
   }
 
@@ -97,6 +93,6 @@ export function toDom (text, type) {
   return { title, element };
 }
 
-export function domToReact (element) {
+export function domToReact(element) {
   return htmlToReactParser.parse(element.outerHTML);
 }

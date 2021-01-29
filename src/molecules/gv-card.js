@@ -30,11 +30,10 @@ import { getVersion, getTitle } from '../lib/item';
  *
  * @attr {Promise<any>} item - An item.
  *
- * @cssprop {Color} [--gv-card--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
+ * @cssprop {Color} [--gv-card--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
  */
 export class GvCard extends ItemResource(LitElement) {
-
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       // language=CSS
@@ -61,15 +60,15 @@ export class GvCard extends ItemResource(LitElement) {
           max-width: 144px;
           min-height: 144px;
           border-radius: 2px;
-          background-color: var(--gv-card--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          background-color: var(--gv-card--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
           color: var(--gv-theme-font-color-dark, #262626);
-          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #F5F5F5), 0 1px 3px var(--gv-theme-neutral-color-dark, #BFBFBF);
-          transition: all .3s;
+          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #f5f5f5), 0 1px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          transition: all 0.3s;
         }
 
         .card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 10px 20px -10px var(--gv-theme-neutral-color-dark, #BFBFBF);
+          box-shadow: 0 10px 20px -10px var(--gv-theme-neutral-color-dark, #bfbfbf);
           cursor: pointer;
         }
 
@@ -103,7 +102,7 @@ export class GvCard extends ItemResource(LitElement) {
         }
 
         .version {
-          color: var(--gv-theme-neutral-color-dark, #D9D9D9);
+          color: var(--gv-theme-neutral-color-dark, #d9d9d9);
           top: 0.4rem;
           right: 0.4rem;
           position: absolute;
@@ -113,25 +112,22 @@ export class GvCard extends ItemResource(LitElement) {
     ];
   }
 
-  render () {
+  render() {
     const title = getTitle(this._item);
     return html`<div class="card" title="${title}">
-    <span class="${classMap({ skeleton: this._skeleton, version: true })}" >${getVersion(this._item)}</span>
-    <div class="${classMap({ image: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
+      <span class="${classMap({ skeleton: this._skeleton, version: true })}">${getVersion(this._item)}</span>
+      <div class="${classMap({ image: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
 
-    <div class="${classMap({ content: true, empty: this._error || this._empty })}">
-        ${(this._error || this._empty) ? html`
-        <span>${this._error ? i18n('gv-card.error') : i18n('gv-card.empty')}</span>
-        ` : html`
-        <div class="${classMap({ skeleton: this._skeleton })}">
-            <span class="title">${title}</span>
-        </div>
-        <div>${this._renderStates()}</div>`
-    }
-    </div>
-</div>`;
+      <div class="${classMap({ content: true, empty: this._error || this._empty })}">
+        ${this._error || this._empty
+          ? html` <span>${this._error ? i18n('gv-card.error') : i18n('gv-card.empty')}</span> `
+          : html` <div class="${classMap({ skeleton: this._skeleton })}">
+                <span class="title">${title}</span>
+              </div>
+              <div>${this._renderStates()}</div>`}
+      </div>
+    </div>`;
   }
-
 }
 
 window.customElements.define('gv-card', GvCard);

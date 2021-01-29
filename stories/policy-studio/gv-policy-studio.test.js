@@ -21,7 +21,6 @@ import resourceTypes from '../resources/apim-resource-types.json';
 import '../../src/policy-studio/gv-policy-studio';
 
 describe('P O L I C Y  S T U D I O', () => {
-
   let page, component;
 
   beforeEach(() => {
@@ -36,7 +35,6 @@ describe('P O L I C Y  S T U D I O', () => {
   });
 
   describe('C O M M O N', () => {
-
     test('should create element', () => {
       expect(window.customElements.get('gv-policy-studio')).toBeDefined();
       const element = querySelector('gv-policy-studio');
@@ -94,7 +92,6 @@ describe('P O L I C Y  S T U D I O', () => {
         expect(component.updated.mock.calls.length).toBe(0);
         done();
       });
-
     });
 
     test('should not updated when _dropPolicy change', (done) => {
@@ -106,13 +103,10 @@ describe('P O L I C Y  S T U D I O', () => {
         expect(component.updated.mock.calls.length).toBe(0);
         done();
       });
-
     });
-
   });
 
   describe('A P I M', () => {
-
     beforeEach(() => {
       component.definition = definition;
     });
@@ -139,7 +133,6 @@ describe('P O L I C Y  S T U D I O', () => {
         });
         done();
       });
-
     });
 
     test('should delete flow from plan', () => {
@@ -151,7 +144,6 @@ describe('P O L I C Y  S T U D I O', () => {
 
       expect(component.definition.plans[1].flows.length).toEqual(2);
       expect(component.definition.flows.length).toEqual(3);
-
     });
 
     test('should add flow plan', (done) => {
@@ -173,9 +165,7 @@ describe('P O L I C Y  S T U D I O', () => {
           expect(createdFlow._id).toBeDefined();
           done();
         });
-
       });
-
     });
 
     test('should create element with definition', () => {
@@ -186,11 +176,9 @@ describe('P O L I C Y  S T U D I O', () => {
       expect(component.definedResources[0]._id).toBeDefined();
       expect(component.selectedFlowsId.length).toEqual(1);
     });
-
   });
 
   describe('F L O W S', () => {
-
     test('should add flow', async () => {
       component.definition = { flows: [] };
 
@@ -263,9 +251,7 @@ describe('P O L I C Y  S T U D I O', () => {
         name: 'New flow',
         description: 'test',
         condition: '#method == "POST"',
-        pre: [
-          step,
-        ],
+        pre: [step],
         post: [],
       };
       component.definition = { flows: [flow] };
@@ -276,7 +262,11 @@ describe('P O L I C Y  S T U D I O', () => {
       const currentFlowStep = { flow, step, policy, group: 'pre', position: 0 };
       await component._setCurrentFlowStep(currentFlowStep, flowStepSchema);
 
-      const cases = [['updated description', 'http://localhost', 'GET'], ['', 'http://localhost/api', 'POST'], ['simple description', 'http://localhost:8080', 'PUT']];
+      const cases = [
+        ['updated description', 'http://localhost', 'GET'],
+        ['', 'http://localhost/api', 'POST'],
+        ['simple description', 'http://localhost:8080', 'PUT'],
+      ];
 
       for (const [description, url, method] of cases) {
         const values = { description, method, url };
@@ -284,15 +274,14 @@ describe('P O L I C Y  S T U D I O', () => {
 
         expect(component.definition.flows.length).toEqual(1);
         expect(component.definition.flows[0]._id).toEqual(_id);
-        expect([...component.definition.flows[0].pre]).toMatchObject([{
-          ...step,
-          description,
-          configuration: { method, url },
-        }]);
+        expect([...component.definition.flows[0].pre]).toMatchObject([
+          {
+            ...step,
+            description,
+            configuration: { method, url },
+          },
+        ]);
       }
-
     });
-
   });
-
 });

@@ -29,10 +29,7 @@ const conf = {
   component: 'gv-text',
 };
 
-const items = [
-  { rows: 3 },
-  { label: 'Your request', placeholder: 'Explain your request...', rows: 3 },
-];
+const items = [{ rows: 3 }, { label: 'Your request', placeholder: 'Explain your request...', rows: 3 }];
 
 export const basics = makeStory(conf, {
   items,

@@ -29,8 +29,7 @@ import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 import { empty } from '../styles/empty';
 
 export class GvResources extends KeyboardElement(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       resources: { type: Array },
       _resources: { type: Array, attribute: false },
@@ -43,7 +42,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.resources = [];
     this.types = [];
@@ -51,7 +50,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     this._emptymessage = 'No resource';
   }
 
-  onKeyboard () {
+  onKeyboard() {
     if (this.isPressed(KEYS.Esc)) {
       this._onCancelResourceForm();
     }
@@ -63,7 +62,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     }
   }
 
-  firstUpdated () {
+  firstUpdated() {
     const views = this.shadowRoot.querySelector('gv-resizable-views');
     if (views != null) {
       views.updateComplete.then(() => {
@@ -72,15 +71,15 @@ export class GvResources extends KeyboardElement(LitElement) {
     }
   }
 
-  set resources (resources) {
+  set resources(resources) {
     this._resources = this._generateId(resources);
   }
 
-  get resources () {
+  get resources() {
     return this._resources;
   }
 
-  _generateId (list) {
+  _generateId(list) {
     if (list) {
       return list.map((e) => {
         if (e._id == null) {
@@ -92,35 +91,35 @@ export class GvResources extends KeyboardElement(LitElement) {
     return list;
   }
 
-  _getResizableViews () {
+  _getResizableViews() {
     return this.shadowRoot.querySelector('gv-resizable-views');
   }
 
-  _maximizeTopView () {
+  _maximizeTopView() {
     this._getResizableViews().resize(60, 40);
   }
 
-  _maximizeBottomView () {
+  _maximizeBottomView() {
     this._getResizableViews().maximizeBottom();
   }
 
-  _splitMainViews () {
+  _splitMainViews() {
     this._getResizableViews().split();
   }
 
-  _onCancelResourceForm () {
+  _onCancelResourceForm() {
     this._currentResource = null;
     this.documentation = null;
     this._maximizeTopView();
   }
 
-  _removeResource (item) {
+  _removeResource(item) {
     this.resources = this.resources.filter((resource) => resource._id !== item._id);
     this._onCancelResourceForm();
     dispatchCustomEvent(this, 'change', { resources: this.resources });
   }
 
-  _buildResourceSchema (resourceType) {
+  _buildResourceSchema(resourceType) {
     const defaultSchema = {
       properties: {
         name: {
@@ -139,7 +138,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     };
   }
 
-  _onCreateResource ({ detail }) {
+  _onCreateResource({ detail }) {
     this._currentResourceLoading = true;
     const defaultResourceType = this.types.find((type) => type.id === detail.id);
     const schema = this._buildResourceSchema(defaultResourceType);
@@ -156,7 +155,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     setTimeout(() => (this._currentResourceLoading = false), 600);
   }
 
-  _onSubmitResourceForm ({ detail }) {
+  _onSubmitResourceForm({ detail }) {
     delete this._currentResource._values;
     const { type } = this._currentResource;
     const { _id, name, ...configuration } = detail.values;
@@ -176,8 +175,7 @@ export class GvResources extends KeyboardElement(LitElement) {
         }
       });
       this.resources[index] = { ...this.resources[index], ...resource };
-    }
-    else {
+    } else {
       if (this.resources == null) {
         this.resources = [];
       }
@@ -189,29 +187,28 @@ export class GvResources extends KeyboardElement(LitElement) {
     dispatchCustomEvent(this, 'change', { resources: this.resources });
   }
 
-  _onChangeResourceForm ({ detail }) {
+  _onChangeResourceForm({ detail }) {
     this._currentResource._values = detail.values;
   }
 
-  _onResetResourceForm () {
+  _onResetResourceForm() {
     delete this._currentResource._values;
   }
 
-  _findResourceById (id) {
+  _findResourceById(id) {
     return this.types.find((resource) => resource.id === id);
   }
 
   // For readonly mode
-  _onSelectResource ({ detail: { items } }) {
+  _onSelectResource({ detail: { items } }) {
     if (items.length > 0) {
       this._onEditResource(items[0]);
-    }
-    else {
+    } else {
       this._onCancelResourceForm();
     }
   }
 
-  _onEditResource (resource) {
+  _onEditResource(resource) {
     const values = { ...resource, ...resource.configuration };
     delete values.configuration;
     const resourceType = this._findResourceById(resource.type);
@@ -228,24 +225,24 @@ export class GvResources extends KeyboardElement(LitElement) {
     this._onFetchDocumentation();
   }
 
-  _onCloseDocumentation () {
+  _onCloseDocumentation() {
     this.documentation = null;
   }
 
-  _getCurrentResourceType () {
+  _getCurrentResourceType() {
     return this._currentResource ? this._findResourceById(this._currentResource.type) : null;
   }
 
-  _onFetchDocumentation () {
+  _onFetchDocumentation() {
     dispatchCustomEvent(this, 'fetch-documentation', { target: this, resourceType: this._getCurrentResourceType() });
   }
 
-  get dirty () {
+  get dirty() {
     const form = this.shadowRoot.querySelector('gv-schema-form');
     return form && form.dirty;
   }
 
-  confirm () {
+  confirm() {
     const form = this.shadowRoot.querySelector('gv-schema-form');
     if (form) {
       return form.confirm().then(() => this._onCancelResourceForm());
@@ -253,7 +250,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     return Promise.resolve();
   }
 
-  _onChangeResourceState (item, event) {
+  _onChangeResourceState(item, event) {
     let index = null;
     this.resources.find((r, i) => {
       if (r._id === item._id) {
@@ -264,47 +261,61 @@ export class GvResources extends KeyboardElement(LitElement) {
     dispatchCustomEvent(this, 'change', { resources: this.resources });
   }
 
-  _renderForm () {
+  _renderForm() {
     const values = { ...this._currentResource.values, ...this._currentResource._values };
     return html`<gv-schema-form
-                                .schema="${this._currentResource.schema}"
-                                .values="${values}" 
-                                submitLabel="${this._currentResource.submitLabel}"
-                                 has-header
-                                .icon="${this._currentResource.icon}"
-                                validate-on-render
-                                .dirty="${this._currentResource._values != null}"
-                                ?readonly="${this.readonly}"
-                                @gv-schema-form:change="${this._onChangeResourceForm}"
-                                @gv-schema-form:reset="${this._onResetResourceForm}"
-                                @gv-schema-form:submit="${this._onSubmitResourceForm}">
-                  <div slot="title" class="form-title">${this._currentResource.title}</div>
-                  <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._onCancelResourceForm}" title="Close (esc)"></gv-button>
-                  <gv-button slot="header-left" icon="home:book" ?disabled="${this.documentation != null}" outlined small @gv-button:click="${this._onFetchDocumentation}" title="Open documentation"></gv-button>
-                </gv-schema-form>`;
+      .schema="${this._currentResource.schema}"
+      .values="${values}"
+      submitLabel="${this._currentResource.submitLabel}"
+      has-header
+      .icon="${this._currentResource.icon}"
+      validate-on-render
+      .dirty="${this._currentResource._values != null}"
+      ?readonly="${this.readonly}"
+      @gv-schema-form:change="${this._onChangeResourceForm}"
+      @gv-schema-form:reset="${this._onResetResourceForm}"
+      @gv-schema-form:submit="${this._onSubmitResourceForm}"
+    >
+      <div slot="title" class="form-title">${this._currentResource.title}</div>
+      <gv-button
+        slot="header-left"
+        icon="general:close"
+        outlined
+        small
+        @gv-button:click="${this._onCancelResourceForm}"
+        title="Close (esc)"
+      ></gv-button>
+      <gv-button
+        slot="header-left"
+        icon="home:book"
+        ?disabled="${this.documentation != null}"
+        outlined
+        small
+        @gv-button:click="${this._onFetchDocumentation}"
+        title="Open documentation"
+      ></gv-button>
+    </gv-schema-form>`;
   }
 
-  _renderDoc () {
-    return html`<gv-documentation .text="${this.documentation.content}" .image="${this.documentation.image}" @gv-documentation:close="${this._onCloseDocumentation}"></gv-documentation>`;
+  _renderDoc() {
+    return html`<gv-documentation
+      .text="${this.documentation.content}"
+      .image="${this.documentation.image}"
+      @gv-documentation:close="${this._onCloseDocumentation}"
+    ></gv-documentation>`;
   }
 
-  _renderBottom () {
+  _renderBottom() {
     if (this.documentation && this._currentResource) {
       return html` <gv-resizable-views direction="horizontal" no-overflow>
-                      <div slot="top">${this._renderForm()}</div>
-                      <div slot="bottom">
-                        ${this._renderDoc()}
-                      </div>
-                   </gv-resizable-views>`;
-    }
-    else if (this._currentResource) {
+        <div slot="top">${this._renderForm()}</div>
+        <div slot="bottom">${this._renderDoc()}</div>
+      </gv-resizable-views>`;
+    } else if (this._currentResource) {
       return this._renderForm();
-    }
-    else if (this.documentation) {
+    } else if (this.documentation) {
       return this._renderDoc();
-    }
-    else if (this.readonly !== true) {
-
+    } else if (this.readonly !== true) {
       const resourceOpts = this.types.map((resource) => {
         return { id: resource.id, title: resource.name, description: resource.description, image: resource.icon };
       });
@@ -312,25 +323,23 @@ export class GvResources extends KeyboardElement(LitElement) {
       return html`<div class="resources-bottom-container">
                         <gv-option class="resource__option" .options="${resourceOpts}" @gv-option:select="${this._onCreateResource}">
                   </div>`;
-    }
-    else if (this.readonly && this.resources.length > 0) {
+    } else if (this.readonly && this.resources.length > 0) {
       return html`<div class="resources-bottom-container empty">You can see the resource configuration by clicking on it</div>`;
     }
   }
 
-  _onSearchResource ({ detail }) {
+  _onSearchResource({ detail }) {
     this._filter = detail;
   }
 
-  _onClearResource () {
+  _onClearResource() {
     this._filter = null;
   }
 
-  render () {
+  render() {
     const options = {
       selectable: this.readonly,
       data: [
-
         { field: 'name', label: 'Name', type: 'gv-input', attributes: { clipboard: true, readonly: this.readonly } },
         {
           field: 'type',
@@ -348,7 +357,7 @@ export class GvResources extends KeyboardElement(LitElement) {
         {
           field: 'enabled',
           type: 'gv-switch',
-          title: (item) => item.enabled ? 'Click to disable' : 'Click to enable',
+          title: (item) => (item.enabled ? 'Click to disable' : 'Click to enable'),
           width: '50px',
           attributes: {
             readonly: this.readonly,
@@ -364,7 +373,7 @@ export class GvResources extends KeyboardElement(LitElement) {
         width: '40px',
         attributes: {
           onClick: (item) => this._onEditResource(item),
-          title: (item) => this._currentResource && this._currentResource._id === item._id ? 'Editing' : 'Edit',
+          title: (item) => (this._currentResource && this._currentResource._id === item._id ? 'Editing' : 'Edit'),
           outlined: true,
           icon: 'design:edit',
           disabled: (item) => this._currentResource && this._currentResource._id === item._id,
@@ -383,40 +392,49 @@ export class GvResources extends KeyboardElement(LitElement) {
       });
     }
 
-    const filteredResources = this._filter != null ? this.resources.filter((resource) => {
-      return (resource.name.toLowerCase() + resource.type.toLowerCase()).includes(this._filter);
-    }) : this.resources;
+    const filteredResources =
+      this._filter != null
+        ? this.resources.filter((resource) => {
+            return (resource.name.toLowerCase() + resource.type.toLowerCase()).includes(this._filter);
+          })
+        : this.resources;
 
     return html`<div class="resources">
-                  <gv-resizable-views no-overflow>
-                    <div slot="top" class="box">
-                      <div class="container">
-                        <div class="header">
-                          <div class="title">
-                            Manage global resources <span>(${this.resources.length})</span>
-                          </div>
-                          <gv-input id="search-resource" class="search-input" placeholder="Filter resources (Shift + Ctrl + Space)" type="search" small 
-                                    @gv-input:input="${this._onSearchResource}" 
-                                    @gv-input:clear="${this._onClearResource}"></gv-input>
-                        </div>
-                        <div class="content">
-                          <div class="table-container">
-                            <gv-table .options="${options}"
-                                .items="${filteredResources}"
-                                emptymessage="${this._emptymessage}"
-                                @gv-table:select="${this._onSelectResource}"
-                                order="name"
-                                rowheight="50px"></gv-table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div slot="bottom">${this._renderBottom()}</div>
-                  </gv-resizable-views>
-                </div>`;
+      <gv-resizable-views no-overflow>
+        <div slot="top" class="box">
+          <div class="container">
+            <div class="header">
+              <div class="title">Manage global resources <span>(${this.resources.length})</span></div>
+              <gv-input
+                id="search-resource"
+                class="search-input"
+                placeholder="Filter resources (Shift + Ctrl + Space)"
+                type="search"
+                small
+                @gv-input:input="${this._onSearchResource}"
+                @gv-input:clear="${this._onClearResource}"
+              ></gv-input>
+            </div>
+            <div class="content">
+              <div class="table-container">
+                <gv-table
+                  .options="${options}"
+                  .items="${filteredResources}"
+                  emptymessage="${this._emptymessage}"
+                  @gv-table:select="${this._onSelectResource}"
+                  order="name"
+                  rowheight="50px"
+                ></gv-table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div slot="bottom">${this._renderBottom()}</div>
+      </gv-resizable-views>
+    </div>`;
   }
 
-  static get styles () {
+  static get styles() {
     return [
       empty,
       // language=CSS
@@ -440,16 +458,16 @@ export class GvResources extends KeyboardElement(LitElement) {
         }
 
         .header {
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
           display: flex;
           min-height: 45px;
           align-items: center;
-          margin-bottom: .5rem;
-          padding: 0 .5rem;
+          margin-bottom: 0.5rem;
+          padding: 0 0.5rem;
         }
 
         .header .title {
-          color: #28444F;
+          color: #28444f;
           font-size: 18px;
           display: flex;
           align-items: flex-end;
@@ -524,11 +542,9 @@ export class GvResources extends KeyboardElement(LitElement) {
         .resource__option {
           --gv-option-button--maw: 175px;
         }
-
       `,
     ];
   }
-
 }
 
 window.customElements.define('gv-resources', GvResources);

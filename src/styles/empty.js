@@ -17,19 +17,20 @@ import { css } from 'lit-element';
 
 // language=CSS
 export const empty = css`
-    .empty, .error {
-      align-items: center;
-      box-sizing: border-box;
-      color: var(--gv-theme-font-color-dark);
-      font-size: var(--gv-theme-font-size-l, 20px);
-      font-weight: bold;
-      height: 100%;
-      opacity: 0.5;
-      padding: 3rem;
-      text-align: center;
-      width: 100%;
-      justify-content: center;
-      display: flex;
-      flex-direction: column;
-    }
+  .empty,
+  .error {
+    align-items: center;
+    box-sizing: border-box;
+    color: var(--gv-theme-font-color-dark);
+    font-size: var(--gv-theme-font-size-l, 20px);
+    font-weight: bold;
+    height: 100%;
+    opacity: 0.5;
+    padding: 3rem;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
 `;

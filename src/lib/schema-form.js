@@ -13,6 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function isCodemirror (control) {
+export function isCodemirror(control) {
   return control['x-schema-form'] && control['x-schema-form'].type === 'codemirror';
 }

@@ -35,12 +35,11 @@ const MAX_RATE = 5;
  * @attr {Boolean} readonly - readonly mode
  * @attr {Boolean} with-description - if true, show rate description on hover
  *
- * @cssprop {Color} [--gv-rating--c=var(--gv-theme-color, #5A7684)] - Color
+ * @cssprop {Color} [--gv-rating--c=var(--gv-theme-color, #5a7684)] - Color
  * @cssprop {Length} [--gv-rating--s=13px] - Size
  */
 export class GvRating extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       value: { type: Number, reflect: true },
       count: { type: String },
@@ -51,12 +50,12 @@ export class GvRating extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
         :host {
-          --gv-icon--c: var(--gv-rating--c, var(--gv-theme-color, #5A7684));
+          --gv-icon--c: var(--gv-rating--c, var(--gv-theme-color, #5a7684));
           --size: var(--gv-rating--s, 13px);
           --gv-icon--s: var(--size);
 
@@ -64,7 +63,8 @@ export class GvRating extends LitElement {
           cursor: default;
         }
 
-        .content, .rate {
+        .content,
+        .rate {
           justify-content: space-evenly;
           display: inline-flex;
           align-items: flex-end;
@@ -120,7 +120,7 @@ export class GvRating extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.value = 0;
     this.count = 0;
@@ -129,11 +129,11 @@ export class GvRating extends LitElement {
     this.isSelected = false;
   }
 
-  _getTitle () {
+  _getTitle() {
     return `${this._getAverage()}/${MAX_RATE}`;
   }
 
-  _onMouseEnter (index) {
+  _onMouseEnter(index) {
     this._candidate = index + 1;
     if (this.withDescription) {
       switch (this._candidate) {
@@ -153,25 +153,24 @@ export class GvRating extends LitElement {
           this.description = i18n('gv-rating.description-5');
           break;
       }
-
     }
   }
 
-  _onMouseOut () {
+  _onMouseOut() {
     this._candidate = -1;
     if (this.withDescription && !this.isSelected) {
       this.description = null;
     }
   }
 
-  _onClick (index) {
+  _onClick(index) {
     this._candidate = -1;
     this.isSelected = true;
     this.value = index + 1;
     this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
   }
 
-  _getAverage () {
+  _getAverage() {
     const _value = parseFloat(this.value);
     if (_value >= 0 && _value <= MAX_RATE) {
       return _value;
@@ -179,16 +178,19 @@ export class GvRating extends LitElement {
     return 0;
   }
 
-  _renderStar (star, index) {
+  _renderStar(star, index) {
     if (this.readonly) {
       return html`<gv-icon shape="general:${star}"></gv-icon>`;
-    }
-    else {
-      return html`<gv-icon @mouseenter=${this._onMouseEnter.bind(this, index)} @click=${this._onClick.bind(this, index)} shape="general:${star}"></gv-icon>`;
+    } else {
+      return html`<gv-icon
+        @mouseenter=${this._onMouseEnter.bind(this, index)}
+        @click=${this._onClick.bind(this, index)}
+        shape="general:${star}"
+      ></gv-icon>`;
     }
   }
 
-  render () {
+  render() {
     const average = this._getAverage();
     let trunc = average * 1;
 
@@ -200,42 +202,44 @@ export class GvRating extends LitElement {
     for (let star = 1; star <= MAX_RATE; star += 1) {
       if (trunc >= star) {
         stars.push('star');
-      }
-      else if (trunc >= star - 0.7) {
+      } else if (trunc >= star - 0.7) {
         stars.push('half-star');
-      }
-      else {
+      } else {
         stars.push('no-star');
       }
     }
 
     return html`
       <div class="${classMap({ skeleton: this.skeleton, edit: !this.readonly, content: true })}">
-      <div class="${classMap({ content: true })}">
-        <div class="${classMap({ rate: true })}">
-        <div class="icon" title="${this._getTitle()}">
-          ${this.withDescription ? html`<div class="description">${this.description}</div>` : ''}
-          ${repeat(stars, (star) => star, (star, index) => html`
-            ${this._renderStar(star, index)}
-          `)}
-        </div>
-        ${this.count ? html`<div>
-          <div class="info-title">${this.count || ''}</div>
-          <div class="info-subtitle">${this._getCountTitle()}</div>
-        </div>` : ''}
+        <div class="${classMap({ content: true })}">
+          <div class="${classMap({ rate: true })}">
+            <div class="icon" title="${this._getTitle()}">
+              ${this.withDescription ? html`<div class="description">${this.description}</div>` : ''}
+              ${repeat(
+                stars,
+                (star) => star,
+                (star, index) => html` ${this._renderStar(star, index)} `,
+              )}
+            </div>
+            ${this.count
+              ? html`<div>
+                  <div class="info-title">${this.count || ''}</div>
+                  <div class="info-subtitle">${this._getCountTitle()}</div>
+                </div>`
+              : ''}
+          </div>
         </div>
       </div>
-      </div>
-`;
+    `;
   }
 
-  firstUpdated () {
+  firstUpdated() {
     if (!this.readonly) {
       this.shadowRoot.querySelector('.edit').addEventListener('mouseout', this._onMouseOut.bind(this));
     }
   }
 
-  _getCountTitle () {
+  _getCountTitle() {
     if (this.count) {
       if (this.count > 1) {
         return i18n('gv-rating.notes');

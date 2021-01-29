@@ -27,14 +27,13 @@ import HCSolidGauge from 'highcharts/modules/solid-gauge';
  *
  */
 export class GvChartGauge extends ChartElement(LitElement) {
-
-  constructor () {
+  constructor() {
     super();
     ChartModuleMore(Highcharts);
     HCSolidGauge(Highcharts);
   }
 
-  static get properties () {
+  static get properties() {
     return {
       /** @required */
       max: { type: Number },
@@ -42,7 +41,7 @@ export class GvChartGauge extends ChartElement(LitElement) {
     };
   }
 
-  async getOptions () {
+  async getOptions() {
     this._empty = false;
     return {
       chart: {
@@ -56,20 +55,24 @@ export class GvChartGauge extends ChartElement(LitElement) {
       pane: {
         startAngle: 0,
         endAngle: 360,
-        background: [{
-          outerRadius: '112%',
-          innerRadius: '88%',
-          backgroundColor: 'transparent',
-          borderWidth: 0,
-        }],
+        background: [
+          {
+            outerRadius: '112%',
+            innerRadius: '88%',
+            backgroundColor: 'transparent',
+            borderWidth: 0,
+          },
+        ],
       },
 
-      yAxis: [{
-        min: 0,
-        max: this.max,
-        lineWidth: 0,
-        tickPositions: [],
-      }],
+      yAxis: [
+        {
+          min: 0,
+          max: this.max,
+          lineWidth: 0,
+          tickPositions: [],
+        },
+      ],
 
       plotOptions: {
         solidgauge: {

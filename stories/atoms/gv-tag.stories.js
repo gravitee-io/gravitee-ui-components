@@ -33,7 +33,6 @@ const items = [
   { innerHTML: 'User Experience' },
   { innerHTML: 'User Experience', minor: true },
   { innerHTML: 'User Experience', major: true },
-
 ];
 
 export const Basics = makeStory(conf, {

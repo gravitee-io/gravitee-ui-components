@@ -35,22 +35,14 @@ const formatCssProperty = (cssProperty) => {
   return cssProperty;
 };
 
-async function run () {
-
-  await del([
-    'assets/css/github-markdown-css',
-    'assets/css/highlight.js',
-  ]);
+async function run() {
+  await del(['assets/css/github-markdown-css', 'assets/css/highlight.js']);
 
   fs.copy('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
   fs.copy('node_modules/highlight.js/styles/github-gist.css', 'assets/css/highlight.js/github-gist.css');
 
   const sourceFilepaths = await glob('./src/**/*.js', {
-    ignore: [
-      './src/lib/*.js',
-      './src/styles/*.js',
-      './src/studio-policy/*.js',
-    ],
+    ignore: ['./src/lib/*.js', './src/styles/*.js', './src/studio-policy/*.js'],
   });
 
   await del([filepath, themeFilepath, cssFilepath]);
@@ -60,7 +52,6 @@ async function run () {
   let themableElements = [];
   let index = 1;
   for (const src of sourceFilepaths) {
-
     const code = await fs.readFile(src, 'utf8');
     const { results, program } = wca.analyzeText(code, { config: { features: ['cssproperty'] } });
     const output = wca.transformAnalyzerResult('json', results, program);
@@ -68,8 +59,7 @@ async function run () {
     if (tag && tag.name && tag.name === 'gv-theme') {
       gvTheme = tag;
       delete gvTheme.description;
-    }
-    else if (tag && tag.description && tag.description.includes('@theme')) {
+    } else if (tag && tag.description && tag.description.includes('@theme')) {
       const cssProperties = tag.cssProperties;
       if (cssProperties) {
         const matches = code.match(/var\(--gv[a-zA-Z-, 0-9.#();'/]*\)/g);
@@ -92,9 +82,10 @@ async function run () {
               const foundProp = cssProperties.find((p) => p.name === codeProp.name);
               if (!foundProp) {
                 console.warn(`${tag.name} | ${codeProp.name} is used but not documented (default value:${codeProp.value})`);
-              }
-              else if (foundProp.default !== `${codeProp.value}`) {
-                throw new Error(`${tag.name} | ${codeProp.name} default value is not up to date (in doc:|${foundProp.default}| / in code:|${codeProp.value}|)`);
+              } else if (foundProp.default !== `${codeProp.value}`) {
+                throw new Error(
+                  `${tag.name} | ${codeProp.name} default value is not up to date (in doc:|${foundProp.default}| / in code:|${codeProp.value}|)`,
+                );
               }
             });
         }
@@ -108,28 +99,33 @@ async function run () {
           if ((cssProperty.name.endsWith('--c') || cssProperty.name.endsWith('--bgc')) && cssProperty.type.toLowerCase() !== 'color') {
             throw new Error(`${tag.name} | ${cssProperty.name} should have Color type`);
           }
-          if (cssProperty.default && cssProperty.type.toLowerCase() !== 'length' && (cssProperty.default.endsWith('px"') || cssProperty.default.endsWith('em"'))) {
+          if (
+            cssProperty.default &&
+            cssProperty.type.toLowerCase() !== 'length' &&
+            (cssProperty.default.endsWith('px"') || cssProperty.default.endsWith('em"'))
+          ) {
             throw new Error(`${tag.name} | ${cssProperty.name} should have Length type`);
           }
-
         });
         const doc = wca.transformAnalyzerResult('markdown', results, program);
         const markdownProperties = doc.split('## CSS Custom Properties')[1];
         input.push(`# ${index++}. ${tag.name}`);
         input.push(markdownProperties);
         themableElements = themableElements.concat(tag);
-      }
-      else {
+      } else {
         console.warn(`warning: ${tag.name} doesn't have css properties ?`);
       }
     }
   }
 
   const gvThemeProperties = gvTheme.cssProperties.map((cssProperty) => {
-    themableElements.forEach(
-      (element) => element.cssProperties.filter((prop) => prop.default === cssProperty.default && prop.default !== '"none"').forEach((prop) => {
-        console.warn(`warning: Please use theme property ${cssProperty.name} for ${prop.name}=${prop.default}`);
-      }));
+    themableElements.forEach((element) =>
+      element.cssProperties
+        .filter((prop) => prop.default === cssProperty.default && prop.default !== '"none"')
+        .forEach((prop) => {
+          console.warn(`warning: Please use theme property ${cssProperty.name} for ${prop.name}=${prop.default}`);
+        }),
+    );
     return formatCssProperty(cssProperty);
   });
 

@@ -19,7 +19,6 @@ import '../../src/policy-studio/gv-flow';
 import policies from '../resources/apim-policies.json';
 
 describe('F L O W', () => {
-
   let page, component;
 
   beforeEach(() => {
@@ -45,8 +44,7 @@ describe('F L O W', () => {
     expect.assertions(1);
     try {
       component._canDropPolicy('foobar', {});
-    }
-    catch (e) {
+    } catch (e) {
       expect(e).toBeDefined();
     }
   });
@@ -70,14 +68,10 @@ describe('F L O W', () => {
     expect(target).not.toBeNull();
     const event = {
       dataTransfer: {
-        items: [
-          {},
-        ],
+        items: [{}],
       },
-      preventDefault: () => {
-      },
-      stopPropagation: () => {
-      },
+      preventDefault: () => {},
+      stopPropagation: () => {},
       target,
     };
     component.dropPolicy = { policy: { onRequest: true } };
@@ -85,5 +79,4 @@ describe('F L O W', () => {
 
     expect(component.getCandidate()).not.toBeNull();
   });
-
 });

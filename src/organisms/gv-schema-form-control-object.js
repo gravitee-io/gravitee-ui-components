@@ -22,8 +22,7 @@ import { skeleton } from '../styles/skeleton';
  * Schema form control object component
  */
 export class GvSchemaFormControlObject extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       schema: { type: Object },
       value: { type: Object, reflect: true },
@@ -35,29 +34,31 @@ export class GvSchemaFormControlObject extends LitElement {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.value = [];
   }
 
-  _renderPart (subKey) {
+  _renderPart(subKey) {
     const isRequired = this.schema.required && this.schema.required.includes(subKey);
     const isDisabled = this.schema.disabled && this.schema.disabled.includes(subKey);
 
     const fullKey = this.id != null ? `${this.id}.${subKey}` : subKey;
     const control = { ...this.schema.properties[subKey] };
     const value = this.value != null ? this.value[subKey] : null;
-    return html`<gv-schema-form-control .id="${fullKey}"
-                                          .control="${control}" 
-                                          .value="${value}" 
-                                          .skeleton="${this.skeleton}"
-                                          ?required="${isRequired}" 
-                                          ?disabled="${isDisabled}"
-                                          ?readonly="${this.readonly}"
-                                          class="control"></gv-schema-form-control>`;
+    return html`<gv-schema-form-control
+      .id="${fullKey}"
+      .control="${control}"
+      .value="${value}"
+      .skeleton="${this.skeleton}"
+      ?required="${isRequired}"
+      ?disabled="${isDisabled}"
+      ?readonly="${this.readonly}"
+      class="control"
+    ></gv-schema-form-control>`;
   }
 
-  getControls () {
+  getControls() {
     return [
       ...Array.from(this.shadowRoot.querySelectorAll('gv-schema-form-control')),
       ...Array.from(this.shadowRoot.querySelectorAll('gv-schema-form-control-array')),
@@ -65,18 +66,17 @@ export class GvSchemaFormControlObject extends LitElement {
     ];
   }
 
-  getControl (id) {
+  getControl(id) {
     return this.shadowRoot.querySelector(`[id="${id}"]`);
   }
 
-  async _getUpdateComplete () {
+  async _getUpdateComplete() {
     await super._getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 
-  shouldUpdate (changedProperties) {
+  shouldUpdate(changedProperties) {
     if (changedProperties.has('errors')) {
-
       this.getControls().forEach((control) => {
         control.errors = this.errors;
       });
@@ -84,7 +84,7 @@ export class GvSchemaFormControlObject extends LitElement {
     return super.shouldUpdate(changedProperties);
   }
 
-  render () {
+  render() {
     const keys = Object.keys(this.schema.properties);
     const classes = {
       'form__control-object': true,
@@ -96,24 +96,23 @@ export class GvSchemaFormControlObject extends LitElement {
       skeleton: this.skeleton,
     };
     return html`<div class="${classMap(classes)}">
-                  ${this.title ? html`<div class="${classMap(titleClasses)}" title="${this.title}">${this.title}</div>` : ''}
-                  ${keys.map((key) => this._renderPart(key))}
-               </div>`;
+      ${this.title ? html`<div class="${classMap(titleClasses)}" title="${this.title}">${this.title}</div>` : ''}
+      ${keys.map((key) => this._renderPart(key))}
+    </div>`;
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       // language=CSS
       css`
         .form__control-group-title {
-          border-bottom: 1px solid #BFBFBF;
+          border-bottom: 1px solid #bfbfbf;
           padding: 0.5rem 0;
         }
       `,
     ];
   }
-
 }
 
 window.customElements.define('gv-schema-form-control-object', GvSchemaFormControlObject);

@@ -23,30 +23,29 @@ import '../atoms/gv-icon';
  * @attr {String} level - level of message ['info', 'error', 'warning']
  */
 export class GvInputMessage extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       level: { type: String },
       _level: { type: String, attribute: false },
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this._level = 'warning';
   }
 
-  set level (level) {
+  set level(level) {
     if (['error', 'info', 'warning'].includes(level)) {
       this._level = level;
     }
   }
 
-  render () {
+  render() {
     return html`<div class="box"><gv-icon class="${this._level}" shape="code:${this._level}"></gv-icon><slot></slot></div>`;
   }
 
-  static get styles () {
+  static get styles() {
     return [
       // language=CSS
       css`
@@ -80,7 +79,6 @@ export class GvInputMessage extends LitElement {
       `,
     ];
   }
-
 }
 
 window.customElements.define('gv-input-message', GvInputMessage);

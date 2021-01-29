@@ -18,7 +18,6 @@ import { get, set } from 'object-path';
 import { flatObject } from '../../src/lib/utils';
 
 describe('U T I L S', () => {
-
   test('should get simple property with path', () => {
     const a = { b: { c: { d: { e: 'Foobar' } } } };
     expect(get(a, 'b.c.d.e')).toEqual('Foobar');
@@ -70,5 +69,4 @@ describe('U T I L S', () => {
 
     expect(get(flatObj, 'multiselect')).toEqual(['a', 'b', 'c']);
   });
-
 });

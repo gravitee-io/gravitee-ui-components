@@ -30,7 +30,7 @@ const { extractFromCode } = require('i18n-extract');
 const glob = util.promisify(rawGlob);
 const translationsByLang = { en, fr };
 
-async function getUsedKeys (sourceFilepaths) {
+async function getUsedKeys(sourceFilepaths) {
   const usedKeysByFile = {};
   for (const src of sourceFilepaths) {
     const code = await fs.readFile(src, 'utf8');
@@ -40,15 +40,11 @@ async function getUsedKeys (sourceFilepaths) {
   return usedKeysByFile;
 }
 
-async function run () {
-
+async function run() {
   let errors = false;
 
   const sourceFilepaths = await glob('./src/*/*.js', {
-    ignore: [
-      './src/lib/*.js',
-      './src/styles/*.js',
-    ],
+    ignore: ['./src/lib/*.js', './src/styles/*.js'],
   });
 
   const usedKeysByFile = await getUsedKeys(sourceFilepaths);
@@ -65,29 +61,22 @@ async function run () {
 
       if (missingKeys.length !== 0) {
         errors = true;
-        const formattedLog = missingKeys
-          .map((k) => `  MISSING (${lang}): ${k}`)
-          .join('\n');
+        const formattedLog = missingKeys.map((k) => `  MISSING (${lang}): ${k}`).join('\n');
         console.warn(formattedLog);
       }
     });
   });
 
   // UNUSED KEYS
-  const allUsedKeys = Object.values(usedKeysByFile)
-    .reduce((a, b) => [...a, ...b]);
+  const allUsedKeys = Object.values(usedKeysByFile).reduce((a, b) => [...a, ...b]);
   Object.entries(translationsByLang).forEach(([lang, translations]) => {
-
     const translationsKeys = getDeepKeys(translations);
 
-    const unusedKeys = translationsKeys
-      .filter((key) => !allUsedKeys.includes(key));
+    const unusedKeys = translationsKeys.filter((key) => !allUsedKeys.includes(key));
 
     if (unusedKeys.length !== 0) {
       errors = true;
-      const formattedLog = unusedKeys
-        .map((k) => `  UNUSED (${lang}): ${k}`)
-        .join('\n');
+      const formattedLog = unusedKeys.map((k) => `  UNUSED (${lang}): ${k}`).join('\n');
       console.warn(formattedLog);
     }
   });
@@ -96,16 +85,17 @@ async function run () {
     process.exit(1);
   }
 
-  function getDeepKeys (obj) {
+  function getDeepKeys(obj) {
     let keys = [];
     for (var key in obj) {
       if (typeof obj[key] === 'object') {
         const subkeys = getDeepKeys(obj[key]);
-        keys = keys.concat(subkeys.map((subkey) => {
-          return key + '.' + subkey;
-        }));
-      }
-      else if (typeof obj[key] === 'string') {
+        keys = keys.concat(
+          subkeys.map((subkey) => {
+            return key + '.' + subkey;
+          }),
+        );
+      } else if (typeof obj[key] === 'string') {
         keys.push(key);
       }
     }
@@ -113,5 +103,4 @@ async function run () {
   }
 }
 
-run()
-  .catch(console.error);
+run().catch(console.error);

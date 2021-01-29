@@ -19,7 +19,6 @@ import '../../src/molecules/gv-code';
 import { shapeClipboard } from '../../src/styles/shapes';
 
 describe('<gv-code>', () => {
-
   let page;
   const DEFAULT_VALUE = 'FOOBAR';
 

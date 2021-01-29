@@ -53,8 +53,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-light, #EFEFEF)] - Selected background color
  */
 export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
-
-  static get properties () {
+  static get properties() {
     return {
       ...super.properties,
       options: { type: Array },
@@ -73,7 +72,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       ...super.styles,
       skeleton,
@@ -82,15 +81,16 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       // language=CSS
       css`
         .box {
-          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
-          --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
+          --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
           --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #86c3d0));
-          --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #EFEFEF));
+          --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #efefef));
           position: relative;
         }
 
-        div, input {
+        div,
+        input {
           user-select: none;
           cursor: pointer;
 
@@ -98,7 +98,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           border-color: var(--bdc);
           color: var(--c);
         }
-        
+
         input {
           text-overflow: ellipsis;
 
@@ -154,7 +154,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           width: 100%;
           cursor: pointer;
           z-index: 110;
-          box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+          box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
           max-height: 340px;
           overflow: auto;
         }
@@ -175,7 +175,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         }
 
         .select__list__item.disabled {
-          opacity: .5;
+          opacity: 0.5;
         }
 
         .select__list__item.disabled:hover {
@@ -205,14 +205,16 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           border-left: 1px dotted var(--bdc);
         }
 
-        .medium.icon input, .large.icon input, .small.icon input {
+        .medium.icon input,
+        .large.icon input,
+        .small.icon input {
           padding-right: 25px;
         }
       `,
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this._type = 'text';
     this._isClosed = true;
@@ -220,17 +222,17 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     this._handleDocumentClick = this._onDocumentClick.bind(this);
   }
 
-  connectedCallback () {
+  connectedCallback() {
     super.connectedCallback();
     window.addEventListener('click', this._handleDocumentClick);
   }
 
-  disconnectedCallback () {
+  disconnectedCallback() {
     window.removeEventListener('click', this._handleDocumentClick);
     super.disconnectedCallback();
   }
 
-  set value (value) {
+  set value(value) {
     if (this.multiple) {
       if (value == null) {
         this._value = null;
@@ -240,18 +242,17 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         this._value = value;
         this.updateState(this._value);
       }
-    }
-    else {
+    } else {
       this._value = value;
       this.updateState(this._value);
     }
   }
 
-  get value () {
+  get value() {
     return this._value;
   }
 
-  updateState (value) {
+  updateState(value) {
     super.updateState(value);
     if (value && this._options && this.valid) {
       if (this.multiple) {
@@ -262,23 +263,25 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           const possibleValues = this._options.map((o) => o.value);
           this.setValidity(!value.some((v) => possibleValues.includes(v)), 'value is not included in the possible values');
         }
-      }
-      else {
-        this.setValidity(this.required && this._options.find((option) => option.value === value) == null, 'value is not included in the possible values');
+      } else {
+        this.setValidity(
+          this.required && this._options.find((option) => option.value === value) == null,
+          'value is not included in the possible values',
+        );
       }
       this.invalid = !this.valid;
     }
   }
 
-  close () {
+  close() {
     this._isClosed = true;
   }
 
-  _onDocumentClick () {
+  _onDocumentClick() {
     this._isClosed = true;
-  };
+  }
 
-  _onClick (e) {
+  _onClick(e) {
     if (!this.disabled && !this.skeleton) {
       e.preventDefault();
       e.stopPropagation();
@@ -289,7 +292,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     }
   }
 
-  _onSelect (option, e) {
+  _onSelect(option, e) {
     e.stopPropagation();
     if (option.disabled !== true) {
       if (this.multiple) {
@@ -301,18 +304,15 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           if (index > -1) {
             if (typeof this.value === 'string') {
               this.value = [];
-            }
-            else {
+            } else {
               this.value.splice(index, 1);
               this.value = [...this.value];
             }
           }
-        }
-        else {
+        } else {
           this.value = [...this.value, e.target.dataset.value];
         }
-      }
-      else {
+      } else {
         this.value = e.target.dataset.value;
         this._isClosed = !this._isClosed;
       }
@@ -322,35 +322,34 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     }
   }
 
-  _onClear () {
+  _onClear() {
     this.value = [];
     dispatchCustomEvent(this, 'select', this.value);
     dispatchCustomEvent(this, 'input', this.value);
     this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
   }
 
-  _renderIcon () {
+  _renderIcon() {
     if (this.readonly) {
       return '';
     }
     if (this.multiple && this.value != null && this.value.length > 0) {
       return html`<div class="box-icon">
-                  <gv-icon class="link" shape="code:error" @click=${this._onClear}></gv-icon>
-                </div>`;
+        <gv-icon class="link" shape="code:error" @click=${this._onClear}></gv-icon>
+      </div>`;
     }
 
     return html`<div class="box-icon">
-                  <gv-icon class="link" shape="design:triangle" @click=${this._onClick}></gv-icon>
-                </div>`;
+      <gv-icon class="link" shape="design:triangle" @click=${this._onClick}></gv-icon>
+    </div>`;
   }
 
-  set options (options) {
+  set options(options) {
     if (options) {
       this._options = options.map((option) => {
         if (typeof option !== 'object') {
           return { value: option, label: option };
-        }
-        else if (!option.label) {
+        } else if (!option.label) {
           return { value: option.value, label: option.value };
         }
         return option;
@@ -358,7 +357,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     }
   }
 
-  selectedLabel () {
+  selectedLabel() {
     if (this.value != null) {
       const elements = this._options.filter((o) => this.isSelected(o));
       if (elements) {
@@ -368,7 +367,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     return '';
   }
 
-  onResize () {
+  onResize() {
     const input = this.shadowRoot.querySelector('input');
     const { width } = window.getComputedStyle(input);
     const list = this.shadowRoot.querySelector('.select__list');
@@ -377,12 +376,12 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     }
   }
 
-  render () {
+  render() {
     const classes = {
       box: true,
       closed: this._isClosed,
       large: this.large,
-      medium: (this.medium || (!this.large && !this.small)),
+      medium: this.medium || (!this.large && !this.small),
       small: this.small,
       icon: true,
       skeleton: this.skeleton,
@@ -392,39 +391,52 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     const selectedLabel = this.selectedLabel();
     return html`
       <div class="${classMap(classes)}">
-         <div class="box-input">
-            ${this.renderLabel()}
-            <input
-              id=${this._id}
-              .type=${this._type}
-              .name=${ifDefined(this.name)}
-              .title=${ifDefined(selectedLabel || this.title || this.label)}
-              .required=${this.required}
-              aria-required=${!!this.required}
-              ?disabled=${this.disabled || this.skeleton}
-              .placeholder=${ifDefined(this.placeholder)}
-              .value=${selectedLabel}
-              @click=${this._onClick}
-              readonly="readonly">
-              ${this._renderIcon()}
-         </div>
-       ${this.readonly ? '' : html`
-        <ul class="${classMap(Object.assign({ select__list: true }))}">
-          ${this._options && repeat(this._options, (option) => option, (option) => html`
-            <li class="${classMap({
-      select__list__item: true,
-      selected: this.isSelected(option),
-      disabled: option.disabled,
-    })}"
-            @click=${this._onSelect.bind(this, option)} data-value="${option.value}" .title="${ifDefined(option.title)}">${option.label}</li>
-          `)}
-        </ul>`}
+        <div class="box-input">
+          ${this.renderLabel()}
+          <input
+            id=${this._id}
+            .type=${this._type}
+            .name=${ifDefined(this.name)}
+            .title=${ifDefined(selectedLabel || this.title || this.label)}
+            .required=${this.required}
+            aria-required=${!!this.required}
+            ?disabled=${this.disabled || this.skeleton}
+            .placeholder=${ifDefined(this.placeholder)}
+            .value=${selectedLabel}
+            @click=${this._onClick}
+            readonly="readonly"
+          />
+          ${this._renderIcon()}
+        </div>
+        ${this.readonly
+          ? ''
+          : html` <ul class="${classMap(Object.assign({ select__list: true }))}">
+              ${this._options &&
+              repeat(
+                this._options,
+                (option) => option,
+                (option) => html`
+                  <li
+                    class="${classMap({
+                      select__list__item: true,
+                      selected: this.isSelected(option),
+                      disabled: option.disabled,
+                    })}"
+                    @click=${this._onSelect.bind(this, option)}
+                    data-value="${option.value}"
+                    .title="${ifDefined(option.title)}"
+                  >
+                    ${option.label}
+                  </li>
+                `,
+              )}
+            </ul>`}
       </div>
     `;
   }
 
-  isSelected (option) {
-    return this.multiple ? (this.value && this.value.includes(option.value)) : ('' + this.value) === ('' + option.value);
+  isSelected(option) {
+    return this.multiple ? this.value && this.value.includes(option.value) : '' + this.value === '' + option.value;
   }
 }
 

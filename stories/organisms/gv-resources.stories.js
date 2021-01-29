@@ -46,16 +46,17 @@ const fetchDocumentation = (event) => {
   if (detail && detail.resourceType) {
     const title = `${detail.resourceType.name} documentation`;
     component.documentation = { title, content: 'Imported from Github' };
-  }
-  else {
+  } else {
     component.documentation = null;
   }
 };
 
 export const APIM = makeStory(conf, {
-  items: [{
-    resources: apimDefinition.resources,
-    types: apimResourceTypes.data,
-    '@gv-resources:fetch-documentation': fetchDocumentation.bind(this),
-  }],
+  items: [
+    {
+      resources: apimDefinition.resources,
+      types: apimResourceTypes.data,
+      '@gv-resources:fetch-documentation': fetchDocumentation.bind(this),
+    },
+  ],
 });

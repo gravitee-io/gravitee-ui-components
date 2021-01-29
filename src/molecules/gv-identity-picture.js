@@ -34,8 +34,7 @@ import '../atoms/gv-image';
  * @cssprop {Color} [--gv-identity-picture-notification--bgc=var(--gv-theme-color-light, #86c3d0)] - Notification background color
  */
 export class GvIdentityPicture extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       picture: { type: String },
       display_name: { type: String },
@@ -46,7 +45,7 @@ export class GvIdentityPicture extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       // language=CSS
@@ -60,7 +59,8 @@ export class GvIdentityPicture extends LitElement {
           text-align: center;
         }
 
-        svg, .skeleton {
+        svg,
+        .skeleton {
           width: auto;
           height: auto;
           max-width: 100%;
@@ -73,8 +73,9 @@ export class GvIdentityPicture extends LitElement {
           --gv-image--of: contain;
         }
 
-        :host([rounded]) gv-image, :host([rounded]) svg {
-          border: 2px solid var(--gv-theme-neutral-color-lighter, #FAFAFA);
+        :host([rounded]) gv-image,
+        :host([rounded]) svg {
+          border: 2px solid var(--gv-theme-neutral-color-lighter, #fafafa);
           border-radius: 50%;
           box-sizing: border-box;
           --gv-image--of: cover;
@@ -92,29 +93,29 @@ export class GvIdentityPicture extends LitElement {
     ];
   }
 
-  _onError () {
+  _onError() {
     this._error = true;
   }
 
-  _toNumber (size) {
+  _toNumber(size) {
     return parseInt(size.replace('px', ''), 10);
   }
 
-  _onLoaded () {
+  _onLoaded() {
     this._error = false;
   }
 
-  _getMaxSize (width, height) {
+  _getMaxSize(width, height) {
     return Math.min(this._toNumber(width), this._toNumber(height));
   }
 
-  updated (properties) {
+  updated(properties) {
     if (properties.has('picture')) {
       this._error = false;
     }
   }
 
-  render () {
+  render() {
     const { width, height } = window.getComputedStyle(this);
     if ((!this.picture || this._error) && width && height) {
       const size = this._getMaxSize(width, height);
@@ -133,12 +134,14 @@ export class GvIdentityPicture extends LitElement {
       return html`${container}`;
     }
     return html`
-      <gv-image src="${this.picture}"
+      <gv-image
+        src="${this.picture}"
         alt="${this.display_name}"
         title="${this.display_name}"
         @error="${this._onError}"
-        @gv-image:loaded="${this._onLoaded}"></gv-image>
-        ${this.notification ? html`<span class="notification" style="${styleMap({ left: width })}"></span>` : ''}
+        @gv-image:loaded="${this._onLoaded}"
+      ></gv-image>
+      ${this.notification ? html`<span class="notification" style="${styleMap({ left: width })}"></span>` : ''}
     `;
   }
 }

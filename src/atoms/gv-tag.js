@@ -42,13 +42,13 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Length} [--gv-tag--bdr=4px] - Border radius
  * @cssprop {String} [--gv-tag--bsw=none] - Box shadow
  *
- * @cssprop {Color} [--gv-tag--bgc=var(--gv-theme-neutral-color-lighter, #FAFAFA)] - Background color
- * @cssprop {Color} [--gv-tag-major--bgc=var(--gv-theme-color, #5A7684)] - Major background color
- * @cssprop {Color} [--gv-tag-minor--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Minor background color
+ * @cssprop {Color} [--gv-tag--bgc=var(--gv-theme-neutral-color-lighter, #fafafa)] - Background color
+ * @cssprop {Color} [--gv-tag-major--bgc=var(--gv-theme-color, #5a7684)] - Major background color
+ * @cssprop {Color} [--gv-tag-minor--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Minor background color
  *
- * @cssprop {Color} [--gv-tag--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
- * @cssprop {Color} [--gv-tag-major--bdc=var(--gv-theme-color, #5A7684)] - Major border color
- * @cssprop {Color} [--gv-tag-minor--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Minor border color
+ * @cssprop {Color} [--gv-tag--bdc=var(--gv-theme-neutral-color-dark, #d9d9d9)] - Border color
+ * @cssprop {Color} [--gv-tag-major--bdc=var(--gv-theme-color, #5a7684)] - Major border color
+ * @cssprop {Color} [--gv-tag-minor--bdc=var(--gv-theme-neutral-color-dark, #d9d9d9)] - Minor border color
 
  * @cssprop {String} [--gv-tag--bds=solid] - Border style
  * @cssprop {String} [--gv-tag-major--bds=solid] - Major border style
@@ -59,13 +59,12 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Length} [--gv-tag-minor--bdw=1px] - Minor border width
  *
  * @cssprop {Color} [--gv-tag--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-tag-major--c=var(--gv-theme-font-color-light, #FFFFFF)] - Major color
+ * @cssprop {Color} [--gv-tag-major--c=var(--gv-theme-font-color-light, #ffffff)] - Major color
  * @cssprop {Color} [--gv-tag-minor--c=var(--gv-theme-font-color-dark, #262626)] - Minor color
  * @cssprop {Length} [--gv-tag-icon--s=18px] - Height and icon width
  */
 export class GvTag extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       icon: { type: String },
       iconRight: { type: String, attribute: 'icon-right' },
@@ -76,7 +75,7 @@ export class GvTag extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       skeleton,
       link,
@@ -90,27 +89,27 @@ export class GvTag extends LitElement {
         }
 
         div.default {
-          --bgc: var(--gv-tag--bgc, var(--gv-theme-neutral-color-lighter, #FAFAFA));
-          --bdc: var(--gv-tag--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          --bgc: var(--gv-tag--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
+          --bdc: var(--gv-tag--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           --bds: var(--gv-tag--bds, solid);
           --bdw: var(--gv-tag--bdw, 1px);
           --c: var(--gv-tag--c, var(--gv-theme-font-color-dark, #262626));
         }
 
         div.major {
-          --bgc: var(--gv-tag-major--bgc, var(--gv-theme-color, #5A7684));
-          --bdc: var(--gv-tag-major--bdc, var(--gv-theme-color, #5A7684));
+          --bgc: var(--gv-tag-major--bgc, var(--gv-theme-color, #5a7684));
+          --bdc: var(--gv-tag-major--bdc, var(--gv-theme-color, #5a7684));
           --bds: var(--gv-tag-major--bds, solid);
           --bdw: var(--gv-tag-major--bdw, 1px);
-          --c: var(--gv-tag-major--c, var(--gv-theme-font-color-light, #FFFFFF));
+          --c: var(--gv-tag-major--c, var(--gv-theme-font-color-light, #ffffff));
         }
 
         div.minor {
-          --bgc: var(--gv-tag-minor--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
-          --bdc: var(--gv-tag-minor--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
+          --bgc: var(--gv-tag-minor--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
+          --bdc: var(--gv-tag-minor--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           --bds: var(--gv-tag-minor--bds, dashed);
           --bdw: var(--gv-tag-minor--bdw, 1px);
-          --c: var(--gv-tag-minor--c, var(--gv-theme-font-color-dark, #262626))
+          --c: var(--gv-tag-minor--c, var(--gv-theme-font-color-dark, #262626));
         }
 
         div {
@@ -140,14 +139,14 @@ export class GvTag extends LitElement {
     ];
   }
 
-  _onTagClick (e) {
+  _onTagClick(e) {
     if (this.clickable) {
       e.stopPropagation();
       dispatchCustomEvent(this, 'click', {});
     }
   }
 
-  render () {
+  render() {
     const modes = {
       default: !this.major && !this.minor,
       major: this.major,
@@ -158,13 +157,12 @@ export class GvTag extends LitElement {
 
     return html`
       <div class=${classMap(modes)} @click="${this._onTagClick}">
-         ${this.icon
-      ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<slot></slot>${this.iconRight
-      ? html`<gv-icon shape="${this.iconRight}"></gv-icon>` : ''}
+        ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<slot></slot>${this.iconRight
+          ? html`<gv-icon shape="${this.iconRight}"></gv-icon>`
+          : ''}
       </div>
     `;
   }
-
 }
 
 window.customElements.define('gv-tag', GvTag);

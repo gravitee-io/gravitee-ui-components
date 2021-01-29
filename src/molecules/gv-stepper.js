@@ -32,17 +32,16 @@ import { i18n } from '../lib/i18n';
  * @attr {Array} steps - Array of step {title: string, description: string, valid: boolean, invalid: boolean}
  * @attr {Boolean} [disabled=false] - Indicate if stepper is disabled
  *
- * @cssprop {Color} [--gv-stepper-valid--bgc=var(--gv-theme-color, #5A7684)] - Valid background color
- * @cssprop {Color} [--gv-stepper-passed--bdc=var(--gv-theme-color-light,#86c3d0)] - Passed border color
- * @cssprop {Color} [--gv-stepper--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Background color
- * @cssprop {Color} [--gv-stepper--bdc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Border color
- * @cssprop {Color} [--gv-stepper--c=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Color
+ * @cssprop {Color} [--gv-stepper-valid--bgc=var(--gv-theme-color, #5a7684)] - Valid background color
+ * @cssprop {Color} [--gv-stepper-passed--bdc=var(--gv-theme-color-light, #86c3d0)] - Passed border color
+ * @cssprop {Color} [--gv-stepper--bgc=var(--gv-theme-neutral-color-dark, #bfbfbf)] - Background color
+ * @cssprop {Color} [--gv-stepper--bdc=var(--gv-theme-neutral-color-dark, #bfbfbf)] - Border color
+ * @cssprop {Color} [--gv-stepper--c=var(--gv-theme-neutral-color-dark, #bfbfbf)] - Color
  * @cssprop {Color} [--gv-stepper-passed--c=#595959] - Passed color
  * @cssprop {Length} [--gv-stepper-icon--s=32px] - Height and icon width
  */
 export class GvStepper extends LitElement {
-
-  static get properties () {
+  static get properties() {
     return {
       current: { type: Number, reflect: true },
       steps: { type: Array },
@@ -51,19 +50,19 @@ export class GvStepper extends LitElement {
     };
   }
 
-  static get styles () {
+  static get styles() {
     return [
       link,
       // language=CSS
       css`
         :host {
           box-sizing: border-box;
-          --passed--bgc: var(--gv-stepper-valid--bgc, var(--gv-theme-color, #5A7684));
-          --passed--bdc: var(--gv-stepper-passed--bdc, var(--gv-theme-color-light,#86c3d0));
-          --bdc: var(--gv-stepper--bdc, var(--gv-theme-neutral-color-dark, #BFBFBF));
-          --bgc: var(--gv-stepper--bgc, var(--gv-theme-neutral-color-dark, #BFBFBF));
+          --passed--bgc: var(--gv-stepper-valid--bgc, var(--gv-theme-color, #5a7684));
+          --passed--bdc: var(--gv-stepper-passed--bdc, var(--gv-theme-color-light, #86c3d0));
+          --bdc: var(--gv-stepper--bdc, var(--gv-theme-neutral-color-dark, #bfbfbf));
+          --bgc: var(--gv-stepper--bgc, var(--gv-theme-neutral-color-dark, #bfbfbf));
           --passed--c: var(--gv-stepper-passed--c, #595959);
-          --c: var(--gv-stepper--c, var(--gv-theme-neutral-color-dark, #BFBFBF));
+          --c: var(--gv-stepper--c, var(--gv-theme-neutral-color-dark, #bfbfbf));
         }
 
         .stepper {
@@ -198,7 +197,7 @@ export class GvStepper extends LitElement {
     ];
   }
 
-  constructor () {
+  constructor() {
     super();
     this.current = 0;
     this._steps = [];
@@ -206,14 +205,14 @@ export class GvStepper extends LitElement {
     this._empty = true;
   }
 
-  _onClick (index) {
+  _onClick(index) {
     if (this.disabled !== true) {
       this.current = index + 1;
       dispatchCustomEvent(this, 'change', { current: this.current });
     }
   }
 
-  async performUpdate () {
+  async performUpdate() {
     await Promise.all([this.steps, this.current])
       .then(([steps, current]) => {
         this._steps = steps.map((step, _index) => {
@@ -230,7 +229,7 @@ export class GvStepper extends LitElement {
     super.performUpdate();
   }
 
-  _getIcon (step) {
+  _getIcon(step) {
     if (step.invalid) {
       return html`<div class="circle invalid"><gv-icon shape="code:error"></gv-icon></div>`;
     }
@@ -240,7 +239,7 @@ export class GvStepper extends LitElement {
     return html`<div class="round"></div>`;
   }
 
-  _getStep (step, index) {
+  _getStep(step, index) {
     const classes = {
       passed: step.passed,
       valid: step.valid,
@@ -256,19 +255,19 @@ export class GvStepper extends LitElement {
     return html`
       <div class="${classMap(classes)}" @click="${this._onClick.bind(this, index)}" title="${step.title}">
         <div class="graph">
-             <div class="border"></div>
-             ${this._getIcon(step)}
-             <div class="border"></div>
+          <div class="border"></div>
+          ${this._getIcon(step)}
+          <div class="border"></div>
         </div>
         <div class="${classMap(contentClasses)}">
-             <div class="title">${step.title}</div>
-             <div class="description">${step.description}</div>
+          <div class="title">${step.title}</div>
+          <div class="description">${step.description}</div>
         </div>
       </div>
     `;
   }
 
-  render () {
+  render() {
     if (this._error) {
       return html`<div class="error">${i18n('gv-stepper.error')}</div>`;
     }
@@ -277,13 +276,13 @@ export class GvStepper extends LitElement {
     }
     const classes = { stepper: true, disabled: this.disabled };
     return html`<div class="${classMap(classes)}">
-      ${repeat(this._steps, (step) => step, (step, index) =>
-      this._getStep(step, index),
-    )}
-      </div>
-    `;
+      ${repeat(
+        this._steps,
+        (step) => step,
+        (step, index) => this._getStep(step, index),
+      )}
+    </div> `;
   }
-
 }
 
 window.customElements.define('gv-stepper', GvStepper);

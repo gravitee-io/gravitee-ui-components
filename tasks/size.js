@@ -23,19 +23,17 @@ const path = require('path');
 const table = require('text-table');
 const { fetchPackageStats } = require('bundle-phobia-cli/src/fetch-package-stats.js');
 
-function isImportExportNode (node) {
-  return (node.type === 'ExportNamedDeclaration' || node.type === 'ImportDeclaration')
-    && node.source != null;
+function isImportExportNode(node) {
+  return (node.type === 'ExportNamedDeclaration' || node.type === 'ImportDeclaration') && node.source != null;
 }
 
-function isInternalDep (node) {
-  return (node.source.value[0] === '.');
+function isInternalDep(node) {
+  return node.source.value[0] === '.';
 }
 
 const depsCache = {};
 
-async function findDeps (sourceFileName) {
-
+async function findDeps(sourceFileName) {
   if (depsCache[sourceFileName] != null) {
     return depsCache[sourceFileName];
   }
@@ -53,21 +51,15 @@ async function findDeps (sourceFileName) {
   if (fileNameWithExtension.endsWith('.js')) {
     const ast = await babel.parseAsync(fileContents, {
       sourceFileName: fileNameWithExtension,
-      plugins: [
-        '@babel/plugin-syntax-dynamic-import',
-      ],
+      plugins: ['@babel/plugin-syntax-dynamic-import'],
     });
 
     const rawDeps = ast.program.body.filter((node) => isImportExportNode(node));
-    const rawInternalDeps = rawDeps
-      .filter((node) => isInternalDep(node))
-      .map((node) => path.join(sourceDir, node.source.value));
+    const rawInternalDeps = rawDeps.filter((node) => isInternalDep(node)).map((node) => path.join(sourceDir, node.source.value));
 
     internalDeps = await Promise.all(rawInternalDeps.map((dep) => findDeps(dep)));
 
-    externalDeps = rawDeps
-      .filter((node) => !isInternalDep(node))
-      .map((node) => ({ name: node.source.value }));
+    externalDeps = rawDeps.filter((node) => !isInternalDep(node)).map((node) => ({ name: node.source.value }));
   }
 
   const result = {
@@ -83,75 +75,69 @@ async function findDeps (sourceFileName) {
   return result;
 }
 
-function getComponentName (name, componentList) {
-  return (componentList == null || componentList.includes(name))
-    ? `<${path.parse(name).name}>`
-    : name;
+function getComponentName(name, componentList) {
+  return componentList == null || componentList.includes(name) ? `<${path.parse(name).name}>` : name;
 }
 
-function getTotalSize (file) {
+function getTotalSize(file) {
   if (file.size == null) {
     return { raw: 0, gzip: 0 };
-  }
-  else {
+  } else {
     return file.deps
       .map((d) => getTotalSize(d))
-      .reduce((acc, size) => ({
-        raw: acc.raw + size.raw,
-        gzip: acc.gzip + size.gzip,
-      }), file.size);
+      .reduce(
+        (acc, size) => ({
+          raw: acc.raw + size.raw,
+          gzip: acc.gzip + size.gzip,
+        }),
+        file.size,
+      );
   }
 }
 
-function reducePromises (acc, prom, i, all) {
+function reducePromises(acc, prom, i, all) {
   if (i === all.length - 1) {
     return Promise.all(all);
   }
 }
 
-async function run () {
-
-  const externalDeps = await Object
-    .entries(pkg.dependencies)
+async function run() {
+  const externalDeps = await Object.entries(pkg.dependencies)
     .map(([name, version]) => {
       return fetchPackageStats(name).catch(() => ({ name }));
     })
     .reduce(reducePromises)
     .then((allDeps) => {
-      return allDeps.map((d, i) => ([`[${i}]`, d.name, d.size || '?', d.gzip || '?', '', '']));
+      return allDeps.map((d, i) => [`[${i}]`, d.name, d.size || '?', d.gzip || '?', '', '']);
     });
 
-  const externalDepsList = externalDeps
-    .map(([, name]) => name);
+  const externalDepsList = externalDeps.map(([, name]) => name);
 
   const mainSource = 'dist/src/index.js';
   const depTree = await findDeps(mainSource);
 
   const componentList = depTree.deps.map((a) => a.name);
-  const otherDepsList = Object
-    .values(depsCache)
+  const otherDepsList = Object.values(depsCache)
     .filter((d) => !componentList.includes(d.name) && d.name !== 'dist/src/index.js')
     .map((d) => d.name);
 
-  const otherDeps = Object
-    .values(depsCache)
+  const otherDeps = Object.values(depsCache)
     .filter((d) => !componentList.includes(d.name) && d.name !== 'dist/src/index.js')
     .map((d, i) => {
       const name = d.name.replace(/^dist\//, '');
       return [`(${i})`, name, d.size.raw, d.size.gzip];
     });
 
-  const components = depTree.deps
-    .map((a, i) => {
-      return [
-        `<${i}>`,
-        getComponentName(a.name, componentList),
-        a.size.raw,
-        a.size.gzip,
-        getTotalSize(a).raw,
-        getTotalSize(a).gzip,
-        a.deps.map((d) => {
-
+  const components = depTree.deps.map((a, i) => {
+    return [
+      `<${i}>`,
+      getComponentName(a.name, componentList),
+      a.size.raw,
+      a.size.gzip,
+      getTotalSize(a).raw,
+      getTotalSize(a).gzip,
+      a.deps
+        .map((d) => {
           const name = externalDepsList.find((n) => d.name.startsWith(n)) || d.name;
 
           if (externalDepsList.includes(name)) {
@@ -167,12 +153,12 @@ async function run () {
           }
 
           return name.replace(/^dist\//, '');
-        }).join(' '),
-      ];
-    });
+        })
+        .join(' '),
+    ];
+  });
 
   const displayTable = [
-
     ['ID', 'NAME', 'raw', 'gzip', 'raw', 'gzip'],
     ['--', '---------', '-----', '-----', '-----', '-----'],
     ...externalDeps,
@@ -186,5 +172,4 @@ async function run () {
   console.log(table(displayTable, { align: ['r', 'l', 'r', 'r', 'r', 'r'] }));
 }
 
-run()
-  .catch(console.error);
+run().catch(console.error);

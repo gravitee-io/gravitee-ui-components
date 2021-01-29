@@ -26,9 +26,9 @@ const states = [
   { value: 'running', major: true },
 ];
 const owner = { display_name: 'Garry Marshall' };
-const description
-  = 'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, '
-  + 'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
+const description =
+  'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, ' +
+  'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 const labels = ['brta', 'custom', 'web'];
 const api = {
   name: 'Long Supernova',
@@ -69,11 +69,7 @@ const conf = {
   `,
 };
 
-const apiItems = [
-  { name, owner },
-  api,
-  { name: 'Comet Api.', picture, version, states, owner, labels, description, running: true },
-];
+const apiItems = [{ name, owner }, api, { name: 'Comet Api.', picture, version, states, owner, labels, description, running: true }];
 
 const apiOptions = {
   selectable: true,
@@ -149,25 +145,27 @@ export const pagination = makeStory(conf, {
 });
 
 export const components = makeStory(conf, {
-  items: [{
-    items: [{ name: 'input', value: 'Value' }],
-    options: {
-      data: [
-        { field: 'name', label: 'Name' },
-        { field: 'value', label: 'Component', type: 'gv-input', attributes: { clipboard: true } },
-        { label: 'List', type: 'gv-select', attributes: { options: ['Admin', 'Owner'] } },
-        { label: 'Button', type: 'gv-button', attributes: { innerHTML: 'Click me !' } },
-        {
-          label: 'Confirm',
-          type: 'gv-confirm',
-          attributes: {
-            message: 'Please confirm your click',
-            innerHTML: '<gv-button danger>Click & confirm!</gv-button>',
+  items: [
+    {
+      items: [{ name: 'input', value: 'Value' }],
+      options: {
+        data: [
+          { field: 'name', label: 'Name' },
+          { field: 'value', label: 'Component', type: 'gv-input', attributes: { clipboard: true } },
+          { label: 'List', type: 'gv-select', attributes: { options: ['Admin', 'Owner'] } },
+          { label: 'Button', type: 'gv-button', attributes: { innerHTML: 'Click me !' } },
+          {
+            label: 'Confirm',
+            type: 'gv-confirm',
+            attributes: {
+              message: 'Please confirm your click',
+              innerHTML: '<gv-button danger>Click & confirm!</gv-button>',
+            },
           },
-        },
-      ],
+        ],
+      },
     },
-  }],
+  ],
 });
 
 export const empty = makeStory(conf, {
@@ -201,7 +199,7 @@ export const dynamicRows = makeStory(conf, {
             label: 'Name',
             type: (item) => (item._new ? 'gv-input' : 'label'),
             attributes: {
-              innerHTML: (item) => item._new ? '' : item.name,
+              innerHTML: (item) => (item._new ? '' : item.name),
               required: true,
             },
           },

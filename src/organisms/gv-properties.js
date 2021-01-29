@@ -43,8 +43,7 @@ import { empty } from '../styles/empty';
  * @attr {Boolean} expert - For display expert mode by default
  */
 export class GvProperties extends KeyboardElement(LitElement) {
-
-  static get properties () {
+  static get properties() {
     return {
       properties: { type: Array },
       _properties: { type: Array, attribute: false },
@@ -64,7 +63,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
     };
   }
 
-  constructor () {
+  constructor() {
     super();
     this.properties = [];
     this.types = [];
@@ -79,7 +78,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
     this._errors = [];
   }
 
-  onKeyboard () {
+  onKeyboard() {
     if (this.isPressed(KEYS.Esc)) {
       this._onClosePropertySchemaForm();
     }
@@ -91,44 +90,44 @@ export class GvProperties extends KeyboardElement(LitElement) {
     }
   }
 
-  set properties (properties) {
+  set properties(properties) {
     this._properties = properties.sort((a, b) => a.key.localeCompare(b.key));
   }
 
-  get properties () {
+  get properties() {
     return this._properties;
   }
 
-  _getResizableViews () {
+  _getResizableViews() {
     return this.shadowRoot.querySelector('gv-resizable-views');
   }
 
-  _maximizeTopView () {
+  _maximizeTopView() {
     const views = this._getResizableViews();
     if (views) {
       views.maximizeTop(95, 5);
     }
   }
 
-  _maximizeBottomView () {
+  _maximizeBottomView() {
     const views = this._getResizableViews();
     if (views) {
       views.resize(30, 70);
     }
   }
 
-  _splitMainViews () {
+  _splitMainViews() {
     const views = this._getResizableViews();
     if (views) {
       views.split();
     }
   }
 
-  _isNewLineTable (line) {
+  _isNewLineTable(line) {
     return line._new === true;
   }
 
-  _onInputNew (name, event) {
+  _onInputNew(name, event) {
     const target = event.target;
     this._newItem[name] = event.detail;
     const { errors } = parseRaw(toNameEqualsValueString([...this.properties, this._newItem]));
@@ -137,17 +136,14 @@ export class GvProperties extends KeyboardElement(LitElement) {
       const btn = this.shadowRoot.querySelector('gv-button#add-property');
       if (errors.length > 0 || this._disabledNewLine(this._newItem)) {
         btn.setAttribute('disabled', true);
-      }
-      else {
+      } else {
         btn.removeAttribute('disabled');
       }
       if (name === 'key') {
         if (errors.length === 0) {
           target.removeAttribute('invalid');
           target.setAttribute('valid', true);
-
-        }
-        else {
+        } else {
           target.removeAttribute('valid');
           target.setAttribute('invalid', true);
         }
@@ -155,27 +151,27 @@ export class GvProperties extends KeyboardElement(LitElement) {
     }, 0);
   }
 
-  _onInput () {
+  _onInput() {
     dispatchCustomEvent(this, 'change', { properties: this.properties });
   }
 
-  _addProperty (item) {
+  _addProperty(item) {
     delete item._new;
     this.properties = [item, ...this._properties];
     this._newItem = { key: '', value: '', _new: true };
     dispatchCustomEvent(this, 'change', { properties: this.properties });
   }
 
-  _removeProperty (item) {
+  _removeProperty(item) {
     this._properties = this._properties.filter((property) => property.key !== item.key);
     dispatchCustomEvent(this, 'change', { properties: this.properties });
   }
 
-  _disabledNewLine (item) {
+  _disabledNewLine(item) {
     return item.key == null || item.value == null || item.key.trim() === '' || item.value.trim() === '';
   }
 
-  _submitExpertMode () {
+  _submitExpertMode() {
     if (this.expert) {
       const providerEnabled = this.provider && this.provider.enabled;
       const manualPropertiesValue = this.shadowRoot.querySelector('#expert-input').value;
@@ -190,29 +186,28 @@ export class GvProperties extends KeyboardElement(LitElement) {
     }
   }
 
-  _onSubmitPropertyForm ({ detail }) {
+  _onSubmitPropertyForm({ detail }) {
     const provider = detail.values;
     dispatchCustomEvent(this, 'save-provider', { provider });
     this.requestUpdate();
   }
 
-  submit () {
+  submit() {
     if (this.expert) {
       this._submitExpertMode();
-    }
-    else {
+    } else {
       this._onSubmit();
     }
   }
 
-  _onSubmit () {
+  _onSubmit() {
     const invalidControls = [...this.shadowRoot.querySelectorAll('form .control')].find((control) => control.invalid);
     if (invalidControls == null) {
       this._addProperty(this._newItem);
     }
   }
 
-  _onConfigureDynamicProperties () {
+  _onConfigureDynamicProperties() {
     const providersTitleMap = this.providers.reduce((map, provider) => {
       map[provider.id] = provider.key;
       return map;
@@ -243,10 +238,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
           },
         },
       },
-      required: [
-        'schedule',
-        'provider',
-      ],
+      required: ['schedule', 'provider'],
     };
 
     const defaultProvider = this.providers[0];
@@ -259,26 +251,26 @@ export class GvProperties extends KeyboardElement(LitElement) {
     this._maximizeBottomView();
   }
 
-  _onClosePropertySchemaForm () {
+  _onClosePropertySchemaForm() {
     this._propertySchemaForm = null;
     this._maximizeTopView();
   }
 
-  _onSearchProperty ({ detail }) {
+  _onSearchProperty({ detail }) {
     this._filter = detail;
     this._onClosePropertySchemaForm();
   }
 
-  _onClearProperty () {
+  _onClearProperty() {
     this._filter = null;
     this._onClosePropertySchemaForm();
   }
 
-  get _errors () {
+  get _errors() {
     return this._formattedErrors;
   }
 
-  set _errors (rawErrors) {
+  set _errors(rawErrors) {
     this._formattedErrors = rawErrors.map(({ type, key, pos }) => {
       if (type === ERROR_TYPES.INVALID_NAME) {
         return {
@@ -308,7 +300,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
     });
   }
 
-  _onTextInput ({ detail }) {
+  _onTextInput({ detail }) {
     const providerEnabled = this.provider && this.provider.enabled;
     const dynamicProperties = this._properties.filter((prop) => providerEnabled && prop.dynamic);
     const allProperties = `${detail}\n${toNameEqualsValueString(dynamicProperties)}`;
@@ -320,45 +312,53 @@ export class GvProperties extends KeyboardElement(LitElement) {
     }
   }
 
-  _renderErrors (withLine = false) {
+  _renderErrors(withLine = false) {
     if (this._formattedErrors.length > 0) {
-      return html`<div class="${classMap({ 'add-form-error': true, 'add-form-error_expert': this.expert })}"><div></div><div class="error-list">
-          ${this._formattedErrors.map(({ line, msg }) => html`
-            <gv-input-message>${withLine ? html`<strong .innerHTML="${i18n('gv-properties.errors.line')} ${line}:&nbsp;"></strong>` : ''} <span .innerHTML="${msg}"></span></gv-input-message>
-          `)}
-        </div></div>`;
+      return html`<div class="${classMap({ 'add-form-error': true, 'add-form-error_expert': this.expert })}">
+        <div></div>
+        <div class="error-list">
+          ${this._formattedErrors.map(
+            ({ line, msg }) => html`
+              <gv-input-message
+                >${withLine ? html`<strong .innerHTML="${i18n('gv-properties.errors.line')} ${line}:&nbsp;"></strong>` : ''}
+                <span .innerHTML="${msg}"></span
+              ></gv-input-message>
+            `,
+          )}
+        </div>
+      </div>`;
     }
     return html``;
   }
 
-  _renderTable () {
+  _renderTable() {
     const providerEnabled = this.provider && this.provider.enabled;
     if (this.expert) {
       this._computeTextRows();
 
-      const expertProperties = providerEnabled ? this._properties.filter((prop) => (!(providerEnabled && prop.dynamic))) : this._properties;
-      const content = expertProperties.map((prop) => (`${prop.key}="${prop.value}"`)).join('\n');
+      const expertProperties = providerEnabled ? this._properties.filter((prop) => !(providerEnabled && prop.dynamic)) : this._properties;
+      const content = expertProperties.map((prop) => `${prop.key}="${prop.value}"`).join('\n');
 
-      return html`<gv-text id="expert-input" 
-                           placeholder="${i18n('gv-properties.placeholder.input')}"
-                           @gv-text:input="${this._onTextInput}" 
-                           .value="${content}"
-                           ?readonly="${this.readonly}" 
-                           .rows="${this._textRows}"></gv-text>
-                  ${this._renderErrors(true)}`;
-
-    }
-    else {
+      return html`<gv-text
+          id="expert-input"
+          placeholder="${i18n('gv-properties.placeholder.input')}"
+          @gv-text:input="${this._onTextInput}"
+          .value="${content}"
+          ?readonly="${this.readonly}"
+          .rows="${this._textRows}"
+        ></gv-text>
+        ${this._renderErrors(true)}`;
+    } else {
       const options = {
         data: [
           {
             field: 'dynamic',
             label: 'Dynamic',
             width: '40px',
-            type: (item) => item.dynamic && providerEnabled ? 'gv-icon' : 'div',
+            type: (item) => (item.dynamic && providerEnabled ? 'gv-icon' : 'div'),
             attributes: {
-              shape: (item) => item.dynamic && providerEnabled ? 'code:time-schedule' : '',
-              title: (item) => item.dynamic && providerEnabled ? 'Dynamic properties service is actually in running' : '',
+              shape: (item) => (item.dynamic && providerEnabled ? 'code:time-schedule' : ''),
+              title: (item) => (item.dynamic && providerEnabled ? 'Dynamic properties service is actually in running' : ''),
               style: 'justify-content: center;',
             },
           },
@@ -405,9 +405,12 @@ export class GvProperties extends KeyboardElement(LitElement) {
         });
       }
 
-      const filteredProperties = this._filter != null ? this._properties.filter((prop) => {
-        return (prop.key.toLowerCase() + prop.value.toLowerCase()).includes(this._filter);
-      }) : this._properties;
+      const filteredProperties =
+        this._filter != null
+          ? this._properties.filter((prop) => {
+              return (prop.key.toLowerCase() + prop.value.toLowerCase()).includes(this._filter);
+            })
+          : this._properties;
       let properties = [...filteredProperties];
       if (this._paginationData) {
         this._paginationData.last = Math.ceil(filteredProperties.length / this._pageSize);
@@ -417,27 +420,42 @@ export class GvProperties extends KeyboardElement(LitElement) {
         properties = [...filteredProperties].splice(index, this._pageSize);
       }
 
-      const addPropertyForm = this.readonly !== true
-        ? html`<form id="add-property-form" class="add-form" @submit="${this._onSubmit}">
-                      <div></div>
-                      <gv-input class="control" placeholder="${i18n('gv-properties.placeholder.key')}" required @gv-input:input="${this._onInputNew.bind(this, 'key')}" value="${this._newItem.key}"></gv-input>
-                      <gv-input class="control" placeholder="${i18n('gv-properties.placeholder.value')}" required @gv-input:input="${this._onInputNew.bind(this, 'value')}" .value="${this._newItem.value}"></gv-input>
-                      <gv-button id="add-property" icon="code:plus" outlined disabled @gv-button:click="${this._addProperty.bind(this, this._newItem)}" title="${i18n('gv-properties.add')}"></gv-button>
-                  </form>
-                  ${this._renderErrors()}` : '';
+      const addPropertyForm =
+        this.readonly !== true
+          ? html`<form id="add-property-form" class="add-form" @submit="${this._onSubmit}">
+                <div></div>
+                <gv-input
+                  class="control"
+                  placeholder="${i18n('gv-properties.placeholder.key')}"
+                  required
+                  @gv-input:input="${this._onInputNew.bind(this, 'key')}"
+                  value="${this._newItem.key}"
+                ></gv-input>
+                <gv-input
+                  class="control"
+                  placeholder="${i18n('gv-properties.placeholder.value')}"
+                  required
+                  @gv-input:input="${this._onInputNew.bind(this, 'value')}"
+                  .value="${this._newItem.value}"
+                ></gv-input>
+                <gv-button
+                  id="add-property"
+                  icon="code:plus"
+                  outlined
+                  disabled
+                  @gv-button:click="${this._addProperty.bind(this, this._newItem)}"
+                  title="${i18n('gv-properties.add')}"
+                ></gv-button>
+              </form>
+              ${this._renderErrors()}`
+          : '';
 
-      return html`
-                  ${addPropertyForm}
-                  <gv-table .options="${options}"
-                            .items="${properties}"
-                            noheader
-                            nosort
-                            order="key"
-                            rowheight="50px"></gv-table>`;
+      return html` ${addPropertyForm}
+        <gv-table .options="${options}" .items="${properties}" noheader nosort order="key" rowheight="50px"></gv-table>`;
     }
   }
 
-  _onChangeMode ({ detail }) {
+  _onChangeMode({ detail }) {
     this._submitExpertMode();
     this.expert = detail;
     this._errors = [];
@@ -445,13 +463,13 @@ export class GvProperties extends KeyboardElement(LitElement) {
     this._onClosePropertySchemaForm();
   }
 
-  _onPaginate ({ detail }) {
+  _onPaginate({ detail }) {
     this._paginationData.current_page = detail.page;
     this._onClosePropertySchemaForm();
     this.requestUpdate();
   }
 
-  updated (props) {
+  updated(props) {
     if (props.has('_properties') || props.has('_pageSize')) {
       this._paginationData = {
         first: 1,
@@ -463,44 +481,64 @@ export class GvProperties extends KeyboardElement(LitElement) {
     }
   }
 
-  _onChangePageSize ({ detail }) {
+  _onChangePageSize({ detail }) {
     this._pageSize = Number(detail).valueOf();
     this._onClosePropertySchemaForm();
   }
 
-  _renderTableForm () {
+  _renderTableForm() {
     return html`<div class="container">
-                  <div class="header">
-                    <div class="title">
-                      Manage global properties <span>(${this._properties ? this._properties.length : 0})</span>
-                    </div>
-                    <gv-switch small .description="${this.expert ? 'Expert' : 'Simple'}" .value="${this.expert}" @gv-switch:input="${this._onChangeMode}"></gv-switch>
-                    <gv-input id="search-property" placeholder="Filter properties (Shift + Ctrl + Space)" type="search" small
-                              class="search-input"
-                              .disabled="${this.expert}"
-                              @gv-input:input="${this._onSearchProperty}"
-                              @gv-input:clear="${this._onClearProperty}"></gv-input>
-                    <gv-select class="page-size__select" @gv-select:input="${this._onChangePageSize}" small .options="${this._pageSizes}" .value="${this._pageSize}" .disabled="${this.expert || this._paginationData == null}"></gv-select>
-                    <gv-pagination @gv-pagination:paginate="${this._onPaginate}" .disabled="${this.expert || this._paginationData == null}" .data="${this._paginationData}" widget></gv-pagination>
-                  </div>
-                  <div class="content"><div class="form-content">${this._renderTable()}</div></div>
-                </div>`;
+      <div class="header">
+        <div class="title">Manage global properties <span>(${this._properties ? this._properties.length : 0})</span></div>
+        <gv-switch
+          small
+          .description="${this.expert ? 'Expert' : 'Simple'}"
+          .value="${this.expert}"
+          @gv-switch:input="${this._onChangeMode}"
+        ></gv-switch>
+        <gv-input
+          id="search-property"
+          placeholder="Filter properties (Shift + Ctrl + Space)"
+          type="search"
+          small
+          class="search-input"
+          .disabled="${this.expert}"
+          @gv-input:input="${this._onSearchProperty}"
+          @gv-input:clear="${this._onClearProperty}"
+        ></gv-input>
+        <gv-select
+          class="page-size__select"
+          @gv-select:input="${this._onChangePageSize}"
+          small
+          .options="${this._pageSizes}"
+          .value="${this._pageSize}"
+          .disabled="${this.expert || this._paginationData == null}"
+        ></gv-select>
+        <gv-pagination
+          @gv-pagination:paginate="${this._onPaginate}"
+          .disabled="${this.expert || this._paginationData == null}"
+          .data="${this._paginationData}"
+          widget
+        ></gv-pagination>
+      </div>
+      <div class="content"><div class="form-content">${this._renderTable()}</div></div>
+    </div>`;
   }
 
-  _fetchDocumentation () {
+  _fetchDocumentation() {
     this._showDocumentation = true;
   }
 
-  _hideDocumentation () {
+  _hideDocumentation() {
     this._showDocumentation = false;
   }
 
-  get dirty () {
+  get dirty() {
     const form = this.shadowRoot.querySelector('gv-schema-form');
     return form && form.dirty;
   }
 
-  confirm () {
+  confirm() {
     const form = this.shadowRoot.querySelector('gv-schema-form');
     if (form) {
       return form.confirm().then(() => this._onClosePropertySchemaForm());
@@ -508,68 +546,86 @@ export class GvProperties extends KeyboardElement(LitElement) {
     return Promise.resolve();
   }
 
-  _renderForm () {
+  _renderForm() {
     return html`<gv-schema-form
-                  slot="top"
-                  .schema="${this._propertySchemaForm}"
-                  .values="${this.provider}"
-                  .icon="design:edit"
-                  has-header
-                  ?readonly="${this.readonly}"
-                  @gv-schema-form:submit="${this._onSubmitPropertyForm}">
-                    <div slot="title" class="properties-title">Configure dynamic properties</div>
-                    <gv-button slot="header-left" icon="general:close" outlined small @gv-button:click="${this._onClosePropertySchemaForm}" title="Close (esc)"></gv-button>
-                    <gv-button slot="header-left" icon="home:book" ?disabled="${this._showDocumentation}" outlined small @gv-button:click="${this._fetchDocumentation}" title="Open documentation"></gv-button>
-               </gv-schema-form>`;
+      slot="top"
+      .schema="${this._propertySchemaForm}"
+      .values="${this.provider}"
+      .icon="design:edit"
+      has-header
+      ?readonly="${this.readonly}"
+      @gv-schema-form:submit="${this._onSubmitPropertyForm}"
+    >
+      <div slot="title" class="properties-title">Configure dynamic properties</div>
+      <gv-button
+        slot="header-left"
+        icon="general:close"
+        outlined
+        small
+        @gv-button:click="${this._onClosePropertySchemaForm}"
+        title="Close (esc)"
+      ></gv-button>
+      <gv-button
+        slot="header-left"
+        icon="home:book"
+        ?disabled="${this._showDocumentation}"
+        outlined
+        small
+        @gv-button:click="${this._fetchDocumentation}"
+        title="Open documentation"
+      ></gv-button>
+    </gv-schema-form>`;
   }
 
-  _renderBottom () {
+  _renderBottom() {
     if (this._propertySchemaForm && this._showDocumentation) {
       return html`<gv-resizable-views no-overflow direction="horizontal">
-                    ${this._renderForm()}
-                    <gv-documentation slot="bottom" .text="${this._providerDocumentation}" @gv-documentation:close="${this._hideDocumentation}"></gv-documentation>
-                  </gv-resizable-views>`;
-    }
-    else if (this._propertySchemaForm) {
+        ${this._renderForm()}
+        <gv-documentation
+          slot="bottom"
+          .text="${this._providerDocumentation}"
+          @gv-documentation:close="${this._hideDocumentation}"
+        ></gv-documentation>
+      </gv-resizable-views>`;
+    } else if (this._propertySchemaForm) {
       return this._renderForm();
-    }
-    else {
+    } else {
       return html`<div class="properties-bottom-container">${this._renderDynamicConfiguration()}</div>`;
     }
   }
 
-  _renderDynamicConfiguration () {
+  _renderDynamicConfiguration() {
     const hasDynamicConfiguration = this.provider && this.provider.enabled;
 
     let configureAction = '';
     if (hasDynamicConfiguration || this.readonly !== true) {
-      configureAction = html`<gv-button 
-                            icon="tools:tools" 
-                            @gv-button:click="${this._onConfigureDynamicProperties}" 
-                            outlined .disabled="${this.expert}">Configure dynamic properties</gv-button>`;
+      configureAction = html`<gv-button
+        icon="tools:tools"
+        @gv-button:click="${this._onConfigureDynamicProperties}"
+        outlined
+        .disabled="${this.expert}"
+        >Configure dynamic properties</gv-button
+      >`;
     }
 
     if (hasDynamicConfiguration) {
       return html`<div class="properties-message">
-                      Dynamic properties service is actually in <code>running</code>
-                      state and run with cron expression <code>${this.provider.schedule}</code>
-                      using <code>${this.provider.provider}</code> provider.
-                      </div>
-                      ${configureAction}`;
-    }
-    else if (this.readonly) {
+          Dynamic properties service is actually in <code>running</code> state and run with cron expression
+          <code>${this.provider.schedule}</code> using <code>${this.provider.provider}</code> provider.
+        </div>
+        ${configureAction}`;
+    } else if (this.readonly) {
       return html`<div class="empty">No dynamic properties service configured</div>`;
-    }
-    else {
+    } else {
       return configureAction;
     }
   }
 
-  _onMove () {
+  _onMove() {
     this._computeTextRows();
   }
 
-  _computeTextRows () {
+  _computeTextRows() {
     const parent = this.shadowRoot.querySelector('.content');
     if (parent) {
       const { height } = parent.getBoundingClientRect();
@@ -578,26 +634,22 @@ export class GvProperties extends KeyboardElement(LitElement) {
     }
   }
 
-  render () {
+  render() {
     if (this.providers && this.providers.length > 0) {
       return html`<div class="properties">
-                    <gv-resizable-views no-overflow @gv-resizable-views:move="${this._onMove}"  @gv-resizable-views:resize="${this._onMove}">
-                      <div slot="top" class="box">${this._renderTableForm()}</div>
-                      <div slot="bottom">
-                        ${this._renderBottom()}    
-                      </div>
-                    </gv-resizable-views>
-                  </div>`;
-    }
-    else {
+        <gv-resizable-views no-overflow @gv-resizable-views:move="${this._onMove}" @gv-resizable-views:resize="${this._onMove}">
+          <div slot="top" class="box">${this._renderTableForm()}</div>
+          <div slot="bottom">${this._renderBottom()}</div>
+        </gv-resizable-views>
+      </div>`;
+    } else {
       return html`<div class="properties">
-                    <div class="table-box">${this._renderTableForm()}</div>
-                  </div>`;
+        <div class="table-box">${this._renderTableForm()}</div>
+      </div>`;
     }
-
   }
 
-  static get styles () {
+  static get styles() {
     return [
       empty,
       // language=CSS
@@ -626,7 +678,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
 
         .table-box {
           width: 100%;
-          border-left: 1px solid #BFBFBF;
+          border-left: 1px solid #bfbfbf;
           display: flex;
         }
 
@@ -649,16 +701,16 @@ export class GvProperties extends KeyboardElement(LitElement) {
         }
 
         .header {
-          border-bottom: 1px solid #D9D9D9;
+          border-bottom: 1px solid #d9d9d9;
           display: flex;
           min-height: 45px;
           align-items: center;
-          margin-bottom: .5rem;
-          padding: 0 .5rem;
+          margin-bottom: 0.5rem;
+          padding: 0 0.5rem;
         }
 
         .header .title {
-          color: #28444F;
+          color: #28444f;
           font-size: 18px;
           display: flex;
           align-items: flex-end;
@@ -716,11 +768,12 @@ export class GvProperties extends KeyboardElement(LitElement) {
           margin: 0 1rem;
         }
 
-        .add-form, .add-form-error {
+        .add-form,
+        .add-form-error {
           display: grid;
           box-sizing: border-box;
           margin: 0.2rem;
-          border-right: solid thick transparent
+          border-right: solid thick transparent;
         }
 
         .add-form {
@@ -766,7 +819,6 @@ export class GvProperties extends KeyboardElement(LitElement) {
       `,
     ];
   }
-
 }
 
 window.customElements.define('gv-properties', GvProperties);

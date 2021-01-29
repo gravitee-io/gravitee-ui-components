@@ -88,11 +88,9 @@ export const Skeleton = makeStory(conf, {
   items: items.map((p) => ({ ...p, skeleton: true })),
 });
 
-const hundredOptions = Array.from(Array(100), (x, index) => index + 1).map(
-  (i) => {
-    return { label: `Application ${i}`, value: `${i}` };
-  },
-);
+const hundredOptions = Array.from(Array(100), (x, index) => index + 1).map((i) => {
+  return { label: `Application ${i}`, value: `${i}` };
+});
 
 export const HundredOptions = makeStory(conf, {
   items: items.map((p) => ({ ...p, options: hundredOptions })),
