@@ -30,6 +30,11 @@ export default {
 const conf = {
   component: 'gv-chart-gauge',
   events,
+  css: `
+  :host {
+    height: 300px;
+  }
+`,
 };
 
 const series = [{
@@ -53,5 +58,20 @@ const series = [{
 }];
 
 export const Basics = makeStory(conf, {
+  items: [{ series, max: 3 }],
+});
+
+const confWithBackground = {
+  component: 'gv-chart-gauge',
+  events,
+  css: `
+  :host {
+    height: 300px;
+    background: var(--gv-theme-neutral-color, #F5F5F5);
+  }
+`,
+};
+
+export const WithColorfulBackground = makeStory(confWithBackground, {
   items: [{ series, max: 3 }],
 });
