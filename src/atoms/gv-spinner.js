@@ -19,8 +19,7 @@ import { css, html, LitElement } from 'lit-element';
  * Spinner component
  *
  * ## Details
- * * has @theme facet
- *
+ * @cssprop {Image} [--gv-theme-loader=var(--gv-theme-loader, url('images/gravitee-loader.gif'))] - Spinner image
  */
 export class GvSpinner extends LitElement {
 
@@ -42,7 +41,7 @@ export class GvSpinner extends LitElement {
           position: relative;
           height: 100%;
           width: 100%;
-          background-image: var(--gv-theme-loader);
+          background-image: var(--gv-theme-loader, url('images/gravitee-loader.gif'));
           background-size: 200px;
           background-repeat: no-repeat;
           background-position: center center;
