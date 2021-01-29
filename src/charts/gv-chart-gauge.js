@@ -47,8 +47,8 @@ export class GvChartGauge extends ChartElement(LitElement) {
     return {
       chart: {
         type: 'solidgauge',
+        backgroundColor: 'transparent',
       },
-
       tooltip: {
         enabled: false,
       },
@@ -59,7 +59,7 @@ export class GvChartGauge extends ChartElement(LitElement) {
         background: [{
           outerRadius: '112%',
           innerRadius: '88%',
-          backgroundColor: '#fff',
+          backgroundColor: 'transparent',
           borderWidth: 0,
         }],
       },
