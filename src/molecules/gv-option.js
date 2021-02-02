@@ -37,6 +37,7 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @cssprop {Color} [--gv-option--bgc=var(--gv-theme-neutral-color-dark, #bfbfbf)] - Background color
  * @cssprop {Length} [--gv-option--bdrs=0.15rem] - Border radius
  * @cssprop {Length} [--gv-option-button--maw=200px] - Button max width
+ * @cssprop {Length} [--gv-option-icon--s=64px] - Icon size
  */
 export class GvOption extends LitElement {
   static get properties() {
@@ -96,7 +97,7 @@ export class GvOption extends LitElement {
 
         .content {
           white-space: pre-line;
-          --gv-icon--s: 64px;
+          --gv-icon--s: var(--gv-option-icon--s, 64px);
           display: flex;
           flex-direction: column;
           align-items: center;
