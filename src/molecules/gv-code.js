@@ -50,6 +50,7 @@ import { input } from '../styles/input';
  * @attr {String} label - code language
  * @attr {String} value - code content to be highlighted
  * @attr {options} Object - options based on codemirror https://codemirror.net/doc/manual.html#config
+ * @attr {String} placeholder - an example value to display in the input when empty
  *
  * @attr {Boolean} [clipboard=false]- true if field has clipboard button
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
@@ -142,6 +143,10 @@ export class GvCode extends InputElement(LitElement) {
     if (options.mode === 'json') {
       options.mode = 'javascript';
     }
+    if (this.placeholder) {
+      options.placeholder = this.placeholder;
+    }
+
     return options;
   }
 
