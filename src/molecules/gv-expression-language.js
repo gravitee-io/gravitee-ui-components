@@ -375,6 +375,7 @@ export class GvExpressionLanguage extends LitElement {
     this.value = event.detail;
     this._suggest();
     dispatchCustomEvent(this, 'input', this.value);
+    this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
   }
 
   _doSuggest(suggestions = [], prefix = '#') {
