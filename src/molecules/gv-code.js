@@ -155,6 +155,10 @@ export class GvCode extends InputElement(LitElement) {
     if (changedProperties.has('label') && this.label) {
       this.screenReaderLabel = this.label;
     } else if (changedProperties.has('value')) {
+      if (this.getCM() != null && this.getCM().getValue() !== this.value) {
+        const value = this.value != null ? this.value : '';
+        this.getCM().setValue(value);
+      }
       this.resize();
     }
   }
