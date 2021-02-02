@@ -821,6 +821,13 @@
           "type": "length",
           "default": "200px",
           "value": "200px"
+        },
+        {
+          "name": "--gv-option-icon--s",
+          "description": "Icon size",
+          "type": "length",
+          "default": "64px",
+          "value": "64px"
         }
       ]
     },
