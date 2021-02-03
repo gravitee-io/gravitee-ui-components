@@ -20,7 +20,6 @@ import '../atoms/gv-image';
 import { appendDraggableImage, uuid } from '../lib/utils';
 import { PolicyDraggable } from './gv-flow-step';
 import { getFlowName, methods } from '../lib/studio';
-import { GvIcon } from '../atoms/gv-icon';
 
 /**
  * Flow component
@@ -57,11 +56,6 @@ export class GvFlow extends LitElement {
     super();
     this.flowsTitle = 'Flows';
     this.addEventListener('mouseleave', this._onMouseLeave);
-  }
-
-  async connectedCallback() {
-    super.connectedCallback();
-    this._defaultDraggableIcon = await GvIcon.getAsBase64('communication:shield-thunder');
   }
 
   _onMouseLeave() {
@@ -173,7 +167,7 @@ export class GvFlow extends LitElement {
         e.dataTransfer.setData('text/plain', this.dropPolicy.toString());
         if (policy) {
           const size = 100;
-          this._draggablePolicyImage = appendDraggableImage(policy.icon || this._defaultDraggableIcon, size);
+          this._draggablePolicyImage = appendDraggableImage(policy.icon, size);
           e.dataTransfer.setDragImage(this._draggablePolicyImage, size / 2, size / 2);
         }
         dispatchCustomEvent(this, 'drag-start', this.dropPolicy);

@@ -18,61 +18,43 @@ const fs = require('fs-extra');
 const rawGlob = require('glob');
 const util = require('util');
 const SVGO = require('svgo');
-const pascalCase = require('pascal-case');
+const svgstore = require('svgstore');
 
 const glob = util.promisify(rawGlob);
 const svgo = new SVGO({
-  plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill:none', 'path:fill:none'] } }],
+  plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill', 'path:fill'] } }],
 });
+const svgoThirdparty = new SVGO({ plugins: [{ removeXMLNS: true }, { removeDimensions: true }] });
 // {attrs: 'fill:none|stroke|fill-rule|clip-rule|width|height'}
 const iconsByShape = {};
 
 async function run() {
-  const svgFilepaths = await glob('assets/icons/**/*.svg');
-
+  const svgFilepaths = await glob('.files/icons/**/*.svg');
   for (const src of svgFilepaths) {
-    const relativePath = src.replace('assets/icons/', '');
+    const relativePath = src.replace('.files/icons/', '');
     const [category, filename] = relativePath.split('/');
     // eslint-disable-next-line no-console
     console.log(`Parse ${src}`);
     iconsByShape[category] = iconsByShape[category] || {};
     const id = filename.replace('.svg', '').toLowerCase();
     const code = await fs.readFile(src, 'utf8');
-    iconsByShape[category][id] = await svgo
-      .optimize(code)
-      .then((optimizeCode) => optimizeCode.data.replace('<svg>', '').replace('</svg>', ''));
+    const svgOptimized = await (category === 'thirdparty' ? svgoThirdparty : svgo).optimize(code);
+    const svgContent = svgOptimized.data.replace('opacity=', 'style="fill: var(--opacity, #fff)" opacity=');
+    iconsByShape[category][id] = svgContent;
   }
 
-  iconsByShape.thirdparty.google = iconsByShape.thirdparty.google.replace('svg', 'svg class="no-color"');
-  iconsByShape.thirdparty.graviteeio_am = iconsByShape.thirdparty.graviteeio_am.replace('svg', 'svg class="no-color"');
-  iconsByShape.thirdparty.http = iconsByShape.thirdparty.http.replace('svg', 'svg class="no-color"');
-  iconsByShape.thirdparty.jdbc = iconsByShape.thirdparty.jdbc.replace('svg', 'svg class="no-color"');
-  iconsByShape.thirdparty.microsoft = iconsByShape.thirdparty.microsoft.replace('svg', 'svg class="no-color"');
-  iconsByShape.thirdparty.mongodb = iconsByShape.thirdparty.mongodb.replace('svg', 'svg class="no-color"');
-
-  await del('src/icons/shapes');
-  await fs.mkdir('src/icons/shapes', { recursive: true });
-
+  await del('assets/icons');
+  await fs.mkdir('assets/icons', { recursive: true });
   // Generate shapes
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
-    const shapeName = pascalCase(`${shapeId}Shapes`);
     // eslint-disable-next-line no-console
-    console.log(`Generate ${shapeName}`);
-    await fs.writeFile(
-      `src/icons/shapes/${shapeId}.js`,
-      `export const ${shapeName} = ${JSON.stringify(icons)};
-window.GvIcons = window.GvIcons || {};
-window.GvIcons['${shapeId}'] = ${shapeName};
-`,
-    );
+    console.log(`Generate ${shapeId}`);
+    const store = svgstore();
+    for (const iconId in icons) {
+      store.add(iconId, icons[iconId]);
+    }
+    await fs.writeFile(`assets/icons/${shapeId}.svg`, store);
   }
-
-  // Generate icons.json
-  const icons = Object.entries(iconsByShape)
-    .sort(([shapeId]) => (shapeId === 'general' ? -1 : 0))
-    .map(([shapeId, iconsByShape]) => Object.keys(iconsByShape).map((icon) => `${shapeId}:${icon}`));
-
-  await fs.writeFile('.docs/icons.json', JSON.stringify({ icons: [].concat(...icons) }));
 }
 
 run()

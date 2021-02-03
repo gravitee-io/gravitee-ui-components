@@ -24,17 +24,25 @@ export function isSameRoutes(routes, futureRoutes) {
   return false;
 }
 
-export function appendDraggableImage(src, size = 100) {
+export function appendDraggableImage(src, size = 100, defaultIcon = 'communication:shield-thunder') {
   // Usefull when image src is svg
-  const image = new Image();
-  image.src = src;
-  image.style = `width:${size}px;height:${size}px`;
   const div = document.createElement('div');
   div.style.position = 'fixed';
   div.style.left = '-999px';
   div.style.top = '-999px';
   div.style.zIndex = 1000;
-  div.appendChild(image);
+  if (src != null) {
+    const image = new Image();
+    image.src = src;
+    image.style = `width:${size}px;height:${size}px`;
+    div.appendChild(image);
+  } else {
+    const svgElem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', defaultIcon);
+    svgElem.appendChild(useElem);
+    div.appendChild(svgElem);
+  }
   document.body.appendChild(div);
   return div;
 }
