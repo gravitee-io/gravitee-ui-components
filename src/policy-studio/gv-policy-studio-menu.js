@@ -24,7 +24,6 @@ import './gv-flow-step';
 import { getFlowName, methods } from '../lib/studio';
 import { repeat } from 'lit-html/directives/repeat';
 import { appendDraggableImage, uuid } from '../lib/utils';
-import { GvIcon } from '../atoms/gv-icon';
 
 /**
  * Policy studio menu component
@@ -51,11 +50,6 @@ export class GvPolicyStudioMenu extends LitElement {
     super();
     this.selectedIds = [];
     this.flowsTitle = 'Flows';
-  }
-
-  async connectedCallback() {
-    super.connectedCallback();
-    this._defaultDraggableIcon = await GvIcon.getAsBase64('communication:shield-thunder');
   }
 
   static get styles() {
@@ -326,9 +320,8 @@ export class GvPolicyStudioMenu extends LitElement {
 
   _onDragStartPolicy(policy, e) {
     e.dataTransfer.setData('text/plain', JSON.stringify({ policy }));
-    const icon = policy.icon || this._defaultDraggableIcon;
     const size = 100;
-    this._draggablePolicyImage = appendDraggableImage(icon, size);
+    this._draggablePolicyImage = appendDraggableImage(policy.icon, size);
     e.dataTransfer.setDragImage(this._draggablePolicyImage, size / 2, size / 2);
     dispatchCustomEvent(this, 'dragstart-policy', { dataTransfer: e.dataTransfer });
   }

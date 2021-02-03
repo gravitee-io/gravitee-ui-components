@@ -20,11 +20,11 @@ const util = require('util');
 const glob = util.promisify(rawGlob);
 
 async function run() {
-  const svgFilepaths = await glob('assets/icons/**/*.svg');
+  const svgFilepaths = await glob('.files/icons/**/*.svg');
 
   const icons = svgFilepaths
     .map((src) => {
-      const relativePath = src.replace('assets/icons/', '');
+      const relativePath = src.replace('.files/icons/', '');
       const [category, filename] = relativePath.split('/');
       const id = filename.replace('.svg', '').toLowerCase();
       return `${category}:${id}`;

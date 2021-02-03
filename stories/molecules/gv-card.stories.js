@@ -15,10 +15,10 @@
  */
 import notes from '../../.docs/gv-card.md';
 import '../../src/molecules/gv-card';
-import horizontalImage from '../../assets/images/gravitee-logo.png';
+import horizontalImage from '../../assets/images/gravitee-logo-inline.png';
 import picture from '../../assets/images/logo.png';
 import { makeStory, storyWait } from '../lib/make-story';
-import logo from '../../assets/icons/thirdparty/graviteeio_am.svg';
+import logo from '../../assets/images/gravitee-logo.png';
 
 export default {
   title: 'Molecules/gv-card',

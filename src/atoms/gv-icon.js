@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement, TemplateResult } from 'lit-element';
-import { until } from 'lit-html/directives/until';
+import { css, LitElement, html } from 'lit-element';
+import { directive } from 'lit-html';
+import { classMap } from 'lit-html/directives/class-map';
 
 /**
  * An icon
@@ -43,6 +44,17 @@ export class GvIcon extends LitElement {
     return ['thirdparty:google', 'thirdparty:graviteeio_am'];
   }
 
+  canCustomize() {
+    return ![
+      'thirdparty:google',
+      'thirdparty:graviteeio_am',
+      'thirdparty:http',
+      'thirdparty:jdbc',
+      'thirdparty:microsoft',
+      'thirdparty:mongodb',
+    ].includes(this.shape);
+  }
+
   static get styles() {
     return [
       // language=CSS
@@ -59,50 +71,25 @@ export class GvIcon extends LitElement {
         svg {
           height: var(--size);
           width: var(--size);
-        }
-
-        svg:not(.no-color) *[opacity] {
-          fill: var(--opacity);
-        }
-
-        svg:not(.no-color) *:not([opacity]) {
           fill: var(--color);
         }
       `,
     ];
   }
 
-  static async getAsBase64(name) {
-    await this._load(name);
-    const [shape, icon] = name.split(':');
-    const tmp = document.createElement('div');
-    tmp.innerHTML = window.GvIcons[shape][icon];
-    return `data:image/svg+xml;base64,${window.btoa(new XMLSerializer().serializeToString(tmp.firstChild))}`;
-  }
-
-  static async _load(name) {
-    const [shape] = name.split(':');
-    if (window.GvIcons == null) {
-      window.GvIcons = {};
-    }
-    if (shape && window.GvIcons[shape] == null) {
-      await import(`../icons/shapes/${shape}.js`);
-    }
-  }
-
-  static async _getIcon(name) {
-    await this._load(name);
-    const [shape, icon] = name.split(':');
-    if (shape && window.GvIcons[shape]) {
-      return new TemplateResult([window.GvIcons[shape][icon]], [], 'html');
-    } else {
-      console.error(`Cannot find shape "${shape}". Show Gravitee.io Components documentation.`);
-    }
-    return '?';
+  static getHref(shape) {
+    const [category, icon] = shape.split(':');
+    return `./icons/${category}.svg#${icon}`;
   }
 
   render() {
-    return html`${until(GvIcon._getIcon(this.shape), '')}`;
+    const namespaced = directive((namespace, value) => (part) => {
+      part.committer.element.setAttributeNS(namespace, part.committer.name, value);
+    });
+    const xlinkNamespace = 'http://www.w3.org/1999/xlink';
+    return html`<svg class="${classMap({ 'no-color': !this.canCustomize() })}">
+      <use xlink:href="${namespaced(xlinkNamespace, GvIcon.getHref(this.shape))}" />
+    </svg>`;
   }
 }
 
