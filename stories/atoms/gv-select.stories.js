@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import "../../src/atoms/gv-select";
-import notes from "../../.docs/gv-select.md";
-import { makeStory } from "../lib/make-story";
+import '../../src/atoms/gv-select';
+import notes from '../../.docs/gv-select.md';
+import { makeStory } from '../lib/make-story';
 
 export default {
-  title: "Atoms/gv-select",
-  component: "gv-select",
+  title: 'Atoms/gv-select',
+  component: 'gv-select',
   parameters: {
     notes,
   },
 };
 
 const conf = {
-  component: "gv-select",
+  component: 'gv-select',
   css: `
     :host {
       height: 250px;
@@ -40,18 +40,18 @@ const conf = {
 };
 
 const options = [
-  { label: "Application 1", value: "1" },
-  { label: "Application 2", value: "2" },
-  { label: "Application 3", value: "3" },
-  { value: "4" },
-  "Application 5",
+  { label: 'Application 1', value: '1' },
+  { label: 'Application 2', value: '2' },
+  { label: 'Application 3', value: '3' },
+  { value: '4' },
+  'Application 5',
 ];
 
 const items = [
   { options },
   {
-    label: "Associer une application",
-    placeholder: "Trouver une application",
+    label: 'Associer une application',
+    placeholder: 'Trouver une application',
     options,
   },
 ];
@@ -91,7 +91,7 @@ export const Skeleton = makeStory(conf, {
 const hundredOptions = Array.from(Array(100), (x, index) => index + 1).map(
   (i) => {
     return { label: `Application ${i}`, value: `${i}` };
-  }
+  },
 );
 
 export const HundredOptions = makeStory(conf, {
@@ -107,7 +107,7 @@ export const SingleOption = makeStory(conf, {
 });
 
 const darkConf = {
-  component: "gv-select",
+  component: 'gv-select',
   css: `
     :host {
       height: 250px;

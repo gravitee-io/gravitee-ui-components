@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from "lit-element";
-import "../molecules/gv-nav";
-import "../atoms/gv-image";
-import { isSameRoutes } from "../lib/utils";
+import { css, html, LitElement } from 'lit-element';
+import '../molecules/gv-nav';
+import '../atoms/gv-image';
+import { isSameRoutes } from '../lib/utils';
 
 /**
  * A vertical menu
@@ -27,7 +27,7 @@ import { isSameRoutes } from "../lib/utils";
  *
  */
 export class GvVerticalMenu extends LitElement {
-  static get properties() {
+  static get properties () {
     return {
       /** @required **/
       routes: { type: Array },
@@ -36,7 +36,7 @@ export class GvVerticalMenu extends LitElement {
     };
   }
 
-  static get styles() {
+  static get styles () {
     return [
       // language=css
       css`
@@ -96,13 +96,13 @@ export class GvVerticalMenu extends LitElement {
     ];
   }
 
-  constructor() {
+  constructor () {
     super();
     /** @protected */
     this._routes = [];
   }
 
-  set routes(candidate) {
+  set routes (candidate) {
     if (candidate) {
       Promise.resolve(candidate).then((candidates) => {
         if (candidates) {
@@ -111,19 +111,21 @@ export class GvVerticalMenu extends LitElement {
               this._routes = futureRoutes.filter((r) => r != null);
             }
           });
-        } else {
+        }
+        else {
           this._routes = null;
         }
       });
-    } else {
+    }
+    else {
       this._routes = null;
     }
   }
 
-  render() {
+  render () {
     return html`
       <div class="menu-container">
-        ${this.logo ? html`<gv-image .src="${this.logo}"></gv-image>` : ""}
+        ${this.logo ? html`<gv-image .src="${this.logo}"></gv-image>` : ''}
         <div class="nav-container">
           <gv-nav .routes="${this._routes}" vertical></gv-nav>
         </div>
@@ -132,4 +134,4 @@ export class GvVerticalMenu extends LitElement {
   }
 }
 
-window.customElements.define("gv-vertical-menu", GvVerticalMenu);
+window.customElements.define('gv-vertical-menu', GvVerticalMenu);
