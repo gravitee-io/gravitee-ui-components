@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../src/atoms/gv-select';
-import notes from '../../.docs/gv-select.md';
-import { makeStory } from '../lib/make-story';
+import "../../src/atoms/gv-select";
+import notes from "../../.docs/gv-select.md";
+import { makeStory } from "../lib/make-story";
 
 export default {
-  title: 'Atoms/gv-select',
-  component: 'gv-select',
+  title: "Atoms/gv-select",
+  component: "gv-select",
   parameters: {
     notes,
   },
 };
 
 const conf = {
-  component: 'gv-select',
+  component: "gv-select",
   css: `
     :host {
       height: 250px;
     }
-    
+
     gv-select {
       width: 100%;
       max-width: 500px;
@@ -40,16 +40,20 @@ const conf = {
 };
 
 const options = [
-  { label: 'Application 1', value: '1' },
-  { label: 'Application 2', value: '2' },
-  { label: 'Application 3', value: '3' },
-  { value: '4' },
-  'Application 5',
+  { label: "Application 1", value: "1" },
+  { label: "Application 2", value: "2" },
+  { label: "Application 3", value: "3" },
+  { value: "4" },
+  "Application 5",
 ];
 
 const items = [
   { options },
-  { label: 'Associer une application', placeholder: 'Trouver une application', options },
+  {
+    label: "Associer une application",
+    placeholder: "Trouver une application",
+    options,
+  },
 ];
 
 export const Simple = makeStory(conf, {
@@ -84,9 +88,11 @@ export const Skeleton = makeStory(conf, {
   items: items.map((p) => ({ ...p, skeleton: true })),
 });
 
-const hundredOptions = Array.from(Array(100), (x, index) => index + 1).map((i) => {
-  return { label: `Application ${i}`, value: `${i}` };
-});
+const hundredOptions = Array.from(Array(100), (x, index) => index + 1).map(
+  (i) => {
+    return { label: `Application ${i}`, value: `${i}` };
+  }
+);
 
 export const HundredOptions = makeStory(conf, {
   items: items.map((p) => ({ ...p, options: hundredOptions })),
@@ -98,4 +104,28 @@ export const MultipleSelection = makeStory(conf, {
 
 export const SingleOption = makeStory(conf, {
   items: items.map((p) => ({ ...p, options: [options[0]], required: true })),
+});
+
+const darkConf = {
+  component: "gv-select",
+  css: `
+    :host {
+      height: 250px;
+      background-color: var(--gv-theme-color-dark);
+
+    }
+
+    gv-select {
+      width: 100%;
+      max-width: 500px;
+
+      --gv-select--bgc: var(--gv-theme-color-dark);
+      --gv-select--bdc: var(--gv-theme-color-dark);
+      --gv-select--c: var(--gv-theme-neutral-color-light);
+    }
+  `,
+};
+
+export const SimpleOnDarkBackground = makeStory(darkConf, {
+  items,
 });

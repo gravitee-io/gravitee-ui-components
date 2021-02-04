@@ -1264,7 +1264,7 @@
           "name": "--gv-select--bdc",
           "description": "Border color",
           "type": "color",
-          "default": "var(--gv-theme-neutral-color, #F5F5F5)",
+          "default": "var(--gv-theme-neutral-color-dark, #D9D9D)",
           "value": ""
         },
         {

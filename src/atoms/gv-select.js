@@ -47,7 +47,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {Boolean} multiple - enable multiple selection
  *
  * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
- * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color, #F5F5F5)] - Border color
+ * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color-dark, #D9D9D)] - Border color
  * @cssprop {Color} [--gv-select--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-light, #EFEFEF)] - Selected background color
@@ -82,7 +82,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       // language=CSS
       css`
         .box {
-          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color, #F5F5F5));
+          --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color-dark, #D9D9D9));
           --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
           --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #FFFFFF));
           --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #86c3d0));
@@ -93,6 +93,10 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         div, input {
           user-select: none;
           cursor: pointer;
+
+          background-color: transparent;
+          border-color: var(--bdc);
+          color: var(--c);
         }
         
         input {
@@ -112,6 +116,10 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
 
         input:read-only:hover {
           cursor: pointer;
+        }
+
+        .box-icon gv-icon {
+          --gv-icon--c: var(--c);
         }
 
         gv-icon {
