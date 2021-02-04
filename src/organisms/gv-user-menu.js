@@ -136,6 +136,10 @@ export class GvUserMenu extends LitElement {
             padding: 2px 30px;
           }
 
+          .user-menu__list__item:last-child {
+            border-bottom: 1px solid var(--bdc);
+          }
+
           .user-menu__list__item:hover {
             background-color: var(--hover-bgc);
             border-left: 1px dotted var(--bdc);
