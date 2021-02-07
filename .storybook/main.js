@@ -4,6 +4,8 @@ const { merge } = require('webpack-merge');
 const maxAssetSize = 1024 * 1024;
 
 module.exports = {
+  stories: ['../stories/**/*.stories.@(js|mdx)'],
+
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-knobs',

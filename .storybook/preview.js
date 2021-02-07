@@ -1,19 +1,19 @@
-import {configure, addDecorator, addParameters, setCustomElements} from '@storybook/web-components';
-import {withKnobs} from '@storybook/addon-knobs';
+import { configure, setCustomElements } from '@storybook/web-components';
+import { withKnobs } from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.generated.css';
 import '../assets/css/documentation.css';
-import {i18nKnob} from '../stories/lib/i18n-knob';
+import { i18nKnob } from '../stories/lib/i18n-knob';
 import customElements from '../.docs/custom-elements.json';
 
-
-addDecorator(withKnobs({
-  escapeHTML: false,
-}));
-
-addDecorator((storyFn) => {
-  i18nKnob();
-  return storyFn();
-});
+export const decorators = [
+  withKnobs({
+    escapeHTML: false,
+  }),
+  (storyFn) => {
+    i18nKnob();
+    return storyFn();
+  }
+]
 
 const viewports = {};
 Array
@@ -32,7 +32,7 @@ Array
 
 const KIND_SORT = ['welcome', 'documentation', 'atoms', 'molecules', 'organisms', 'charts', 'policy'];
 
-addParameters({
+export const parameters = {
   options: {
     docs: {
       iframeHeight: '200px',
@@ -43,13 +43,13 @@ addParameters({
       if (a[1].kind !== b[1].kind) {
         const aKind = KIND_SORT.indexOf(a[1].id.split('-')[0]) + a[1].kind;
         const bKind = KIND_SORT.indexOf(b[1].id.split('-')[0]) + b[1].kind;
-        return aKind.localeCompare(bKind, undefined, {numeric: true});
+        return aKind.localeCompare(bKind, undefined, { numeric: true });
       }
       return -1;
     }
   },
-  viewport: {viewports},
-});
+  viewport: { viewports },
+};
 
 function addDefaultValue(def) {
   def.defaultValue = def.default;
