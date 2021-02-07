@@ -5,16 +5,13 @@ const maxAssetSize = 1024 * 1024;
 
 module.exports = {
   addons: [
-    '@storybook/addon-actions',
-    '@storybook/addon-docs',
-    '@storybook/addon-knobs/register',
+    '@storybook/addon-essentials',
+    '@storybook/addon-knobs',
     '@storybook/addon-a11y',
-    '@storybook/addon-viewport/register',
   ],
 
-  webpackFinal: async (config, { configType }) => {
+  webpackFinal: async (config) => {
     return merge(config, {
-
       module: {
         rules: [
           {
