@@ -2,17 +2,26 @@ import { configure, setCustomElements } from '@storybook/web-components';
 import { withKnobs } from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.generated.css';
 import '../assets/css/documentation.css';
-import { i18nKnob } from '../stories/lib/i18n-knob';
+import { defaultLanguages, i18nDecorator, languages } from '../stories/lib/i18n-decorator';
 import customElements from '../.docs/custom-elements.json';
+
+export const globalTypes = {
+  locale: {
+    name: 'Language',
+    description: 'Language used to translate component texts.',
+    defaultValue: defaultLanguages,
+    toolbar: {
+      icon: 'globe',
+      items: languages.map(({ key, label, icon }) => ({ value: key, right: icon, title: label }))
+    },
+  },
+};
 
 export const decorators = [
   withKnobs({
     escapeHTML: false,
   }),
-  (storyFn) => {
-    i18nKnob();
-    return storyFn();
-  }
+  i18nDecorator
 ]
 
 const viewports = {};
