@@ -17,7 +17,7 @@ import * as en from '../../assets/i18n/en.json';
 import * as fr from '../../assets/i18n/fr.json';
 import { addTranslations, getAvailableLanguages, getLanguage, setLanguage } from '../../src/lib/i18n';
 import { color, select } from '@storybook/addon-knobs';
-import { forceReRender } from '@storybook/html';
+import { forceReRender } from '@storybook/web-components';
 
 // NOTE: this project could be interesting but it's not ready (no npm package and install via github fails)
 // https://github.com/CodeByAlex/storybook-i18n-addon
