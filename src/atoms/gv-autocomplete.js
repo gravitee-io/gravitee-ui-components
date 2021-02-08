@@ -39,7 +39,7 @@ const ESCAPE_KEY_CODE = 27;
  * @slot input - The input to wrap
  * @slot noOption - What should be shown when there is no options to display
  *
- * @attr {Array<{value, innerHTML?}>} options - the options for search
+ * @attr {Array.<{value: String, innerHTML?: String}>} options - the options for search
  * @attr {String} value - selected value
  * @attr {String} style - css if you want custom options rendered
  * @attr {Number} minChars - minimum of characters for launch search and show results

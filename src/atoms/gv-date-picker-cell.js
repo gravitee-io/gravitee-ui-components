@@ -29,7 +29,7 @@ import { isInvalid } from '../lib/date';
  * @fires gv-date-picker-cell:select - Custom event when user select cell
  * @fires gv-date-picker-cell:hover - Custom event when user hover cell
  *
- * @attr {Object<{date,title}>} data - data to display
+ * @attr {Object.<{date:Number,title:String}>} data - data to display
  * @attr {Boolean} selected - if data is selected
  * @attr {Boolean} hovered - if data is hovered
  * @attr {Boolean} disabled - if data is disabled

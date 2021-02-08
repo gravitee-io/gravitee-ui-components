@@ -1,5 +1,4 @@
 import { setCustomElements } from '@storybook/web-components';
-import { withKnobs } from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.generated.css';
 import '../assets/css/documentation.css';
 import { defaultLanguages, i18nDecorator, languages } from '../stories/lib/i18n-decorator';
@@ -17,12 +16,7 @@ export const globalTypes = {
   },
 };
 
-export const decorators = [
-  withKnobs({
-    escapeHTML: false,
-  }),
-  i18nDecorator,
-];
+export const decorators = [i18nDecorator];
 
 const viewports = {};
 Array.from(new Array(10)).map((_, i) => {

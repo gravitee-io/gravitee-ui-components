@@ -35,7 +35,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @slot - The content of the button (text or HTML)
  *
- * @attr {String} type - the type of the button
+ * @attr {Enum{button|submit}} type - the type of the button
  * @attr {Boolean} primary - set button UI mode to primary
  * @attr {Boolean} danger - set button UI mode to danger
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
@@ -298,6 +298,7 @@ export class GvButton extends LitElement {
   constructor() {
     super();
     this.tabindex = 0;
+    this.type = 'button';
     this.addEventListener('click', this._onClick.bind(this));
   }
 
