@@ -32,9 +32,9 @@ import { isSameRoutes } from '../lib/utils';
  * @attr {String} avatar - url of the user avatar
  *
  * @cssprop {Color} [--gv-user-menu--c=var(--gv-theme-font-color-dark, #262626)] - Color
- * @cssprop {Color} [--gv-user-menu-hover--c=var(--gv-theme-color-dark, #28444F)] - Hover color
+ * @cssprop {Color} [--gv-user-menu-hover--c=var(--gv-theme-color-dark, #28444f)] - Hover color
  * @cssprop {Color} [--gv-user-menu--bgc=transparent] - Background color
- * @cssprop {Color} [--gv-user-menu-list--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - List background color
+ * @cssprop {Color} [--gv-user-menu-list--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - List background color
  * @cssprop {Color} [--gv-user-menu-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-user-menu--bdc=lightgrey] - Border color
  * @cssprop {String} [--gv-user-menu--tsh=none] - Text shadow

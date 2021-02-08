@@ -47,8 +47,8 @@ const locales = { en: enUS };
  *
  * @cssprop {Color} [--gv-date-picker-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
  * @cssprop {Color} [--gv-date-picker-hover--c=var(--gv-theme-font-color-dark, #262626)] - Hover color
- * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #5A7684)] - Selected background color
- * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #FFFFFF)] - Selected color
+ * @cssprop {Color} [--gv-date-picker-selected--bgc=var(--gv-theme-color, #5a7684)] - Selected background color
+ * @cssprop {Color} [--gv-date-picker-selected--c=var(--gv-theme-font-color-light, #ffffff)] - Selected color
  */
 export class GvDatePicker extends LitElement {
   static get properties() {

@@ -46,11 +46,11 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {String} placeholder - an example value to display in the select when empty
  * @attr {Boolean} multiple - enable multiple selection
  *
- * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #FFFFFF)] - Background color
- * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color-dark, #D9D9D9)] - Border color
+ * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
+ * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color-dark, #d9d9d9)] - Border color
  * @cssprop {Color} [--gv-select--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
- * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-light, #EFEFEF)] - Selected background color
+ * @cssprop {Color} [--gv-select-selected--bgc=var(--gv-theme-neutral-color-light, #efefef)] - Selected background color
  */
 export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
   static get properties() {

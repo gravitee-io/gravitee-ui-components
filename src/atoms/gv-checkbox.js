@@ -37,7 +37,7 @@ import { InputElement } from '../mixins/input-element';
  * @attr {String} label - label of the checkbox
  * @attr {String} title - title of the checkbox
  *
- * @cssprop {Color} [--gv-checkbox--bgc=var(--gv-theme-color, #5A7684)] - Checked background color
+ * @cssprop {Color} [--gv-checkbox--bgc=var(--gv-theme-color, #5a7684)] - Checked background color
  */
 export class GvCheckbox extends InputElement(LitElement) {
   static get properties() {

@@ -34,7 +34,7 @@ import { styleMap } from 'lit-html/directives/style-map';
  * @attr {Boolean} small - If true, use small button for options
  * @attr {Boolean} outlined - If true, use outlined button for options
  *
- * @cssprop {Color} [--gv-option--bgc=var(--gv-theme-neutral-color-dark, #BFBFBF)] - Background color
+ * @cssprop {Color} [--gv-option--bgc=var(--gv-theme-neutral-color-dark, #bfbfbf)] - Background color
  * @cssprop {Length} [--gv-option--bdrs=0.15rem] - Border radius
  * @cssprop {Length} [--gv-option-button--maw=200px] - Button max width
  */
