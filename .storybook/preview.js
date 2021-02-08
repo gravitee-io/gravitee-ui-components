@@ -12,7 +12,7 @@ export const globalTypes = {
     defaultValue: defaultLanguages,
     toolbar: {
       icon: 'globe',
-      items: languages.map(({ key, label, icon }) => ({ value: key, right: icon, title: label }))
+      items: languages.map(({ key, label, icon }) => ({ value: key, right: icon, title: label })),
     },
   },
 };
@@ -21,23 +21,21 @@ export const decorators = [
   withKnobs({
     escapeHTML: false,
   }),
-  i18nDecorator
-]
+  i18nDecorator,
+];
 
 const viewports = {};
-Array
-  .from(new Array(10))
-  .map((_, i) => {
-    const w = 350 + i * 100;
-    viewports['w' + w] = {
-      type: 'desktop',
-      name: w + 'px',
-      styles: {
-        width: w + 'px',
-        height: '90%',
-      },
-    };
-  });
+Array.from(new Array(10)).map((_, i) => {
+  const w = 350 + i * 100;
+  viewports['w' + w] = {
+    type: 'desktop',
+    name: w + 'px',
+    styles: {
+      width: w + 'px',
+      height: '90%',
+    },
+  };
+});
 
 const KIND_SORT = ['welcome', 'documentation', 'atoms', 'molecules', 'organisms', 'charts', 'policy'];
 
@@ -55,7 +53,7 @@ export const parameters = {
         return aKind.localeCompare(bKind, undefined, { numeric: true });
       }
       return -1;
-    }
+    },
   },
   viewport: { viewports },
 };
@@ -73,7 +71,6 @@ setCustomElements(customElements);
 
 const stories = require.context('../stories', true, /\.stories\.(js|mdx)$/);
 const docs = require.context('../docs', true, /\.mdx$/);
-
 
 // Force full reload instead of HMR for Web Components
 // https://github.com/storybookjs/storybook/tree/next/app/web-components
