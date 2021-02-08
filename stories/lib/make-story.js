@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { color, text } from '@storybook/addon-knobs';
 import { sequence } from './sequence';
 import customElements from '../../.docs/custom-elements.json';
 
@@ -34,7 +33,7 @@ export function makeStory(...configs) {
 
   const items = typeof rawItems === 'function' ? rawItems() : rawItems;
 
-  const storyFn = () => {
+  const storyFn = (args) => {
     const container = document.createElement('div');
     const shadow = container.attachShadow({ mode: 'open' });
 
@@ -55,6 +54,7 @@ export function makeStory(...configs) {
     const components = items.map((props) => {
       let element = document.createElement(component);
       element = assignPropsToElement(element, props);
+      element = assignArgsToElement(customElement, element, args);
       shadow.appendChild(element);
       return element;
     });
@@ -68,12 +68,7 @@ export function makeStory(...configs) {
 
     if (customElement.cssProperties) {
       customElement.cssProperties.forEach((cssProperty) => {
-        let value = cssProperty.default.replace(/"/g, '');
-        if (cssProperty.type.toLowerCase() === 'color') {
-          value = color(cssProperty.description, value);
-        } else {
-          value = text(cssProperty.description, value);
-        }
+        const value = args[cssProperty.name] != null ? args[cssProperty.name] : cssProperty.default.replace(/"/g, '');
         container.style.setProperty(cssProperty.name, value);
       });
     }
@@ -155,6 +150,40 @@ export function makeStory(...configs) {
     storyFn.parameters.chromatic = { disable: automaticallyDisableChromatic };
   }
 
+  const argTypes = {};
+  if (customElement.attributes) {
+    customElement.attributes.forEach((attr) => {
+      let options = [];
+      let type = attr.type.toLowerCase();
+      if (type.startsWith('enum')) {
+        options = type.replace('enum{', '').replace('}', '').split('|');
+        type = 'select';
+      } else if (type.startsWith('string')) {
+        type = 'text';
+      } else if (type.startsWith('length') || type.startsWith('number')) {
+        type = 'number';
+      } else if (type.startsWith('array') || type.startsWith('object')) {
+        type = 'object';
+      } else if (type.startsWith('boolean')) {
+        type = 'boolean';
+      } else if (type.startsWith('promise')) {
+        type = 'object';
+      }
+      argTypes[attr.name] = { control: { type }, options };
+    });
+  }
+  if (customElement.cssProperties) {
+    customElement.cssProperties.forEach((cssProperty) => {
+      const value = cssProperty.default.replace(/"/g, '');
+      let type = 'text';
+      if (cssProperty.type.toLowerCase() === 'color') {
+        type = 'color';
+      }
+      argTypes[cssProperty.name] = { control: { type, value } };
+    });
+  }
+
+  storyFn.argTypes = argTypes;
   if (name != null) {
     storyFn.name = name;
   }
@@ -189,5 +218,25 @@ function assignPropsToElement(element, props = {}) {
       element.setAttribute(name, value);
     }
   });
+  return element;
+}
+
+function assignArgsToElement(customElement, element, args = {}) {
+  Object.keys(args)
+    .filter((arg) => !arg.startsWith('--gv-'))
+    .forEach((arg) => {
+      const argType = customElement.attributes.find((t) => t.name === arg);
+      const value = args[arg];
+      if (argType) {
+        const isBoolean = argType.type.toLowerCase().startsWith('boolean');
+        if (isBoolean && value === true) {
+          element.setAttribute(arg, '');
+        } else if (!isBoolean && value != null) {
+          element.setAttribute(arg, value);
+        } else {
+          element.removeAttribute(arg);
+        }
+      }
+    });
   return element;
 }
