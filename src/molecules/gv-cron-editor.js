@@ -201,6 +201,10 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
     const {
       detail: { to },
     } = event;
+    if (to === 'pro') {
+      // Needs to be done first otherwise `value` is overridden before using it
+      this._state.pro.value = this.value;
+    }
     this.mode = to;
     this.generate();
     if (this.mode === 'pro') {
