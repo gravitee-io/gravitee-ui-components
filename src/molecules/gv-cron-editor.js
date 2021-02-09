@@ -369,7 +369,7 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           </div>
 
           <div slot="content" id="monthly" class="tab-content">
-            <span>On</span>
+            <span>On the</span>
             <gv-input
               small
               type="number"
@@ -379,7 +379,8 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
               class="request-update"
               .value="${this._state.monthly.day}"
             ></gv-input>
-            <span><sup>${this._getDaySuffix(this._state.monthly.day)}</sup> day of every</span>
+            <span><sup>${this._getDaySuffix(this._state.monthly.day)}</sup> </span>
+            <span>day of every</span>
             <gv-input small type="number" min="1" max="12" name="monthly.month" .value="${this._state.monthly.month}"></gv-input>
             <span>month(s) at</span>
             <gv-date-picker small time strict name="monthly.time" .value="${this._state.monthly.time}"></gv-date-picker>
@@ -398,7 +399,8 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
               class="request-update"
               .value="${this._state.yearly.day}"
             ></gv-input>
-            <span><sup>${this._getDaySuffix(this._state.yearly.day)}</sup> day</span>
+            <span><sup>${this._getDaySuffix(this._state.yearly.day)}</sup></span>
+            <span>day</span>
             <gv-date-picker small time strict name="yearly.time" .value="${this._state.yearly.time}"></gv-date-picker>
           </div>
 
@@ -610,7 +612,6 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
 
         sup {
           display: inline-block;
-          width: 16px;
           font-size: var(--gv-theme-font-size-s, 12px);
         }
 
