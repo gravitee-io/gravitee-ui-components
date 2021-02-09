@@ -35,7 +35,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @attr {String} label - cron editor label
  * @attr {String} value - cron expression
- * @attr {String} mode - the opened mode (if have value, the export mode will be open)
+ * @attr {String} mode - the opened mode (if no value is set, the pro mode will be opened)
  *
  * @attr {Boolean} [clipboard=false]- true if field has clipboard button
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
