@@ -87,14 +87,14 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
     this.mode = 'pro';
     this._state = {
       seconds: {
-        seconds: 0,
+        seconds: 1,
       },
       minutes: {
-        minutes: 0,
+        minutes: 1,
         seconds: 0,
       },
       hourly: {
-        hours: 0,
+        hours: 1,
         minutes: 0,
         seconds: 0,
       },
@@ -317,20 +317,20 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
 
           <div slot="content" id="seconds" class="tab-content">
             <span>Every</span>
-            <gv-input small type="number" min="0" name="seconds.seconds" .value="${this._state.seconds.seconds}"></gv-input>
+            <gv-input small type="number" min="1" name="seconds.seconds" .value="${this._state.seconds.seconds}"></gv-input>
             <span>second(s)</span>
           </div>
 
           <div slot="content" id="minutes" class="tab-content">
             <span>Every</span>
-            <gv-input small type="number" min="0" name="minutes.minutes" .value="${this._state.minutes.minutes}"></gv-input>
+            <gv-input small type="number" min="1" name="minutes.minutes" .value="${this._state.minutes.minutes}"></gv-input>
             <span>minute(s) on second</span>
             <gv-input small type="number" min="0" max="59" name="minutes.seconds" .value="${this._state.minutes.seconds}"></gv-input>
           </div>
 
           <div slot="content" id="hourly" class="tab-content">
             <span>Every</span>
-            <gv-input small type="number" min="0" name="hourly.hours" .value="${this._state.hourly.hours}"></gv-input>
+            <gv-input small type="number" min="1" name="hourly.hours" .value="${this._state.hourly.hours}"></gv-input>
             <span>hour(s) on minute</span>
             <gv-input small type="number" min="0" max="59" name="hourly.minutes" .value="${this._state.hourly.minutes}"></gv-input>
             <span>and second</span>
