@@ -306,13 +306,7 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           @gv-tabs:change="${this._onChangeTab.bind(this)}"
         >
           <div slot="title" class="generated-expression">
-            <gv-input
-              name="pro.value"
-              autofocus
-              .value="${this.value}"
-              id="cron-input"
-              placeholder="* */30 * * * * (Every 30 min)"
-            ></gv-input>
+            <gv-input name="pro.value" .value="${this.value}" id="cron-input" placeholder="* */30 * * * * (Every 30 min)"></gv-input>
           </div>
 
           <div slot="content" id="seconds" class="tab-content">
