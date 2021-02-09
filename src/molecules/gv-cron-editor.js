@@ -119,6 +119,7 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
       },
       pro: {
         value: '',
+        displayDetails: false,
       },
     };
 
@@ -293,6 +294,63 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
     return '';
   }
 
+  displayProDetails() {
+    this._state.pro.displayDetails = !this._state.pro.displayDetails;
+    this.requestUpdate();
+  }
+
+  renderProDetails() {
+    if (this._state.pro.displayDetails) {
+      return html` <div>
+        <div>Rules for:</div>
+        <div>
+          ${repeat(
+            this._docs,
+            (doc) => doc.id,
+            (doc) => {
+              const isCurrent = doc.id === this._currentDocumentationId;
+              return html`<gv-tag
+                @gv-tag:click="${this._onOpenDocumentation.bind(this, doc.id)}"
+                ?clickable="${!isCurrent}"
+                ?major="${isCurrent}"
+                ?minor="${!isCurrent}"
+                >${doc.label}</gv-tag
+              >`;
+            },
+          )}
+        </div>
+        <ul class="help">
+          <li>
+            <small>Allowed characters: <code>${this.allowedChar}</code></small>
+          </li>
+          <li>
+            <small>Allowed values: <code>${this.allowedValues}</code></small>
+          </li>
+        </ul>
+        <div>Examples:</div>
+        <ul class="help">
+          <li>
+            <small><code>*</code>: for each unit (0, 1, 2, 3...)</small>
+          </li>
+          <li>
+            <small><code>5,8</code>: units 5 and 8</small>
+          </li>
+          <li>
+            <small><code>2-5</code>: units from 2 to 5 (2, 3, 4, 5)</small>
+          </li>
+          <li>
+            <small><code>*/3</code>: every 3 units (0, 3, 6, 9...)</small>
+          </li>
+          <li>
+            <small><code>10-20/3</code>: every 3 units, between the tenth and the twentieth (10, 13, 16, 19)</small>
+          </li>
+        </ul>
+      </div>`;
+    }
+
+    return '';
+  }
+
   render() {
     return html`<div>
       ${this.renderLabel()}
@@ -405,47 +463,12 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           </div>
 
           <div slot="content" id="pro" class="tab-content tab-content_pro">
-            <div>
-              ${repeat(
-                this._docs,
-                (doc) => doc.id,
-                (doc) => {
-                  const isCurrent = doc.id === this._currentDocumentationId;
-                  return html`<gv-tag
-                    @gv-tag:click="${this._onOpenDocumentation.bind(this, doc.id)}"
-                    ?clickable="${!isCurrent}"
-                    ?major="${isCurrent}"
-                    ?minor="${!isCurrent}"
-                    >${doc.label}</gv-tag
-                  >`;
-                },
-              )}
-            </div>
-            <ul>
-              <li>
-                <small>Allowed characters: <code>${this.allowedChar}</code></small>
-              </li>
-              <li>
-                <small>Allowed values: <code>${this.allowedValues}</code></small>
-              </li>
-            </ul>
-            <ul class="help">
-              <li>
-                <small><code>*</code>: for each unit (0, 1, 2, 3...)</small>
-              </li>
-              <li>
-                <small><code>5,8</code>: units 5 and 8</small>
-              </li>
-              <li>
-                <small><code>2-5</code>: units from 2 to 5 (2, 3, 4, 5)</small>
-              </li>
-              <li>
-                <small><code>*/3</code>: every 3 units (0, 3, 6, 9...)</small>
-              </li>
-              <li>
-                <small><code>10-20/3</code>: every 3 units, between the tenth and the twentieth (10, 13, 16, 19)</small>
-              </li>
-            </ul>
+            <gv-button link small class="tab-content_pro-details_btn" @click="${this.displayProDetails}">
+              ${this._state.pro.displayDetails
+                ? 'Hide information about cron rules and examples'
+                : 'Display information about cron rules and examples'}
+            </gv-button>
+            ${this.renderProDetails()}
           </div>
         </gv-tabs>
       </div>
@@ -568,6 +591,10 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           align-items: normal;
           --gv-icon--s: 18px;
           padding: 0.2rem;
+        }
+
+        .tab-content_pro-details_btn {
+          --gv-button--fz: 12px;
         }
 
         .tab-content_pro > * {
