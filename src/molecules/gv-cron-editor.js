@@ -308,7 +308,7 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           <div slot="title" class="generated-expression">
             <gv-input
               name="pro.value"
-              autofocus
+              .autofocus="${this.autofocus}"
               .value="${this.value}"
               id="cron-input"
               placeholder="* */30 * * * * (Every 30 min)"
