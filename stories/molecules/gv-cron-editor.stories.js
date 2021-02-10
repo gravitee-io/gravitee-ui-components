@@ -22,6 +22,8 @@ export default {
   component: 'gv-cron-editor',
   parameters: {
     notes,
+    // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
+    a11y: { disable: true },
   },
 };
 
@@ -37,4 +39,8 @@ export const Simple = makeStory(conf, {
 
 export const WithValue = makeStory(conf, {
   items: [{ value: '30 10 */5 * * MON-FRI' }],
+});
+
+export const WithAutomaticModeSelection = makeStory(conf, {
+  items: [{ value: '*/25 * * * * *' }],
 });

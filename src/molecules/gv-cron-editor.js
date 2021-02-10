@@ -35,7 +35,7 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @attr {String} label - cron editor label
  * @attr {String} value - cron expression
- * @attr {String} mode - the opened mode (if have value, the export mode will be open)
+ * @attr {String} mode - the opened mode (if no value is set, the pro mode will be opened)
  *
  * @attr {Boolean} [clipboard=false]- true if field has clipboard button
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
@@ -84,17 +84,16 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
       'November',
       'December',
     ];
-    this.mode = 'pro';
     this._state = {
       seconds: {
-        seconds: 0,
+        seconds: 1,
       },
       minutes: {
-        minutes: 0,
+        minutes: 1,
         seconds: 0,
       },
       hourly: {
-        hours: 0,
+        hours: 1,
         minutes: 0,
         seconds: 0,
       },
@@ -119,6 +118,7 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
       },
       pro: {
         value: '',
+        displayDetails: false,
       },
     };
 
@@ -134,6 +134,31 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
     this._currentDocumentationId = this._docs[0].id;
     this._handleChange = this._onChange.bind(this);
     this._small = false;
+  }
+
+  tryToComputeAndInitModeFromValue() {
+    if (!this.value || this.mode) {
+      this.mode = this.mode || 'pro';
+      return;
+    }
+    const [seconds, minutes, hours, days, month, year] = this.value.split(' ');
+
+    if (days !== '*' || month !== '*' || year !== '*') {
+      // Theses cases are not simple to handle so just ignore them for now
+      this.mode = 'pro';
+    } else if (hours !== '*') {
+      this.mode = 'hourly';
+      this._state.hourly.hours = Number(hours.replace('*/', ''));
+      this._state.hourly.minutes = Number(minutes.replace('*/', ''));
+      this._state.hourly.seconds = Number(seconds.replace('*/', ''));
+    } else if (minutes !== '*') {
+      this.mode = 'minutes';
+      this._state.minutes.minutes = Number(minutes.replace('*/', ''));
+      this._state.minutes.seconds = Number(seconds.replace('*/', ''));
+    } else if (seconds !== '*') {
+      this.mode = 'seconds';
+      this._state.seconds.seconds = Number(seconds.replace('*/', ''));
+    }
   }
 
   onResize({ width }) {
@@ -158,6 +183,8 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
   }
 
   async firstUpdated() {
+    this.tryToComputeAndInitModeFromValue();
+
     // Give the browser a chance to paint
     // eslint-disable-next-line promise/param-names
     await new Promise((r) => setTimeout(r, 0));
@@ -200,6 +227,10 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
     const {
       detail: { to },
     } = event;
+    if (to === 'pro') {
+      // Needs to be done first otherwise `value` is overridden before using it
+      this._state.pro.value = this.value;
+    }
     this.mode = to;
     this.generate();
     if (this.mode === 'pro') {
@@ -293,6 +324,67 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
     return '';
   }
 
+  displayProDetails() {
+    this._state.pro.displayDetails = !this._state.pro.displayDetails;
+    this.requestUpdate();
+  }
+
+  renderProDetails() {
+    if (this._state.pro.displayDetails) {
+      return html`<div class="tab-content_pro-pane_container">
+        <div class="tab-content_pro-pane">
+          <div>Rules for:</div>
+          <div>
+            ${repeat(
+              this._docs,
+              (doc) => doc.id,
+              (doc) => {
+                const isCurrent = doc.id === this._currentDocumentationId;
+                return html` <gv-tag
+                  @gv-tag:click="${this._onOpenDocumentation.bind(this, doc.id)}"
+                  ?clickable="${!isCurrent}"
+                  ?major="${isCurrent}"
+                  ?minor="${!isCurrent}"
+                  >${doc.label}</gv-tag
+                >`;
+              },
+            )}
+          </div>
+          <ul class="help">
+            <li>
+              <small>Allowed characters: <code>${this.allowedChar}</code></small>
+            </li>
+            <li>
+              <small>Allowed values: <code>${this.allowedValues}</code></small>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content_pro-pane">
+          <div>Examples:</div>
+          <ul class="help">
+            <li>
+              <small><code>*</code>: for each unit (0, 1, 2, 3...)</small>
+            </li>
+            <li>
+              <small><code>5,8</code>: units 5 and 8</small>
+            </li>
+            <li>
+              <small><code>2-5</code>: units from 2 to 5 (2, 3, 4, 5)</small>
+            </li>
+            <li>
+              <small><code>*/3</code>: every 3 units (0, 3, 6, 9...)</small>
+            </li>
+            <li>
+              <small><code>10-20/3</code>: every 3 units, between the tenth and the twentieth (10, 13, 16, 19)</small>
+            </li>
+          </ul>
+        </div>
+      </div>`;
+    }
+
+    return '';
+  }
+
   render() {
     return html`<div>
       ${this.renderLabel()}
@@ -308,7 +400,7 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           <div slot="title" class="generated-expression">
             <gv-input
               name="pro.value"
-              autofocus
+              .autofocus="${this.autofocus}"
               .value="${this.value}"
               id="cron-input"
               placeholder="* */30 * * * * (Every 30 min)"
@@ -317,20 +409,20 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
 
           <div slot="content" id="seconds" class="tab-content">
             <span>Every</span>
-            <gv-input small type="number" min="0" name="seconds.seconds" .value="${this._state.seconds.seconds}"></gv-input>
+            <gv-input small type="number" min="1" name="seconds.seconds" .value="${this._state.seconds.seconds}"></gv-input>
             <span>second(s)</span>
           </div>
 
           <div slot="content" id="minutes" class="tab-content">
             <span>Every</span>
-            <gv-input small type="number" min="0" name="minutes.minutes" .value="${this._state.minutes.minutes}"></gv-input>
+            <gv-input small type="number" min="1" name="minutes.minutes" .value="${this._state.minutes.minutes}"></gv-input>
             <span>minute(s) on second</span>
             <gv-input small type="number" min="0" max="59" name="minutes.seconds" .value="${this._state.minutes.seconds}"></gv-input>
           </div>
 
           <div slot="content" id="hourly" class="tab-content">
             <span>Every</span>
-            <gv-input small type="number" min="0" name="hourly.hours" .value="${this._state.hourly.hours}"></gv-input>
+            <gv-input small type="number" min="1" name="hourly.hours" .value="${this._state.hourly.hours}"></gv-input>
             <span>hour(s) on minute</span>
             <gv-input small type="number" min="0" max="59" name="hourly.minutes" .value="${this._state.hourly.minutes}"></gv-input>
             <span>and second</span>
@@ -369,7 +461,7 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           </div>
 
           <div slot="content" id="monthly" class="tab-content">
-            <span>On</span>
+            <span>On the</span>
             <gv-input
               small
               type="number"
@@ -379,7 +471,8 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
               class="request-update"
               .value="${this._state.monthly.day}"
             ></gv-input>
-            <span><sup>${this._getDaySuffix(this._state.monthly.day)}</sup> day of every</span>
+            <span><sup>${this._getDaySuffix(this._state.monthly.day)}</sup> </span>
+            <span>day of every</span>
             <gv-input small type="number" min="1" max="12" name="monthly.month" .value="${this._state.monthly.month}"></gv-input>
             <span>month(s) at</span>
             <gv-date-picker small time strict name="monthly.time" .value="${this._state.monthly.time}"></gv-date-picker>
@@ -398,52 +491,18 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
               class="request-update"
               .value="${this._state.yearly.day}"
             ></gv-input>
-            <span><sup>${this._getDaySuffix(this._state.yearly.day)}</sup> day</span>
+            <span><sup>${this._getDaySuffix(this._state.yearly.day)}</sup></span>
+            <span>day</span>
             <gv-date-picker small time strict name="yearly.time" .value="${this._state.yearly.time}"></gv-date-picker>
           </div>
 
           <div slot="content" id="pro" class="tab-content tab-content_pro">
-            <div>
-              ${repeat(
-                this._docs,
-                (doc) => doc.id,
-                (doc) => {
-                  const isCurrent = doc.id === this._currentDocumentationId;
-                  return html`<gv-tag
-                    @gv-tag:click="${this._onOpenDocumentation.bind(this, doc.id)}"
-                    ?clickable="${!isCurrent}"
-                    ?major="${isCurrent}"
-                    ?minor="${!isCurrent}"
-                    >${doc.label}</gv-tag
-                  >`;
-                },
-              )}
-            </div>
-            <ul>
-              <li>
-                <small>Allowed characters: <code>${this.allowedChar}</code></small>
-              </li>
-              <li>
-                <small>Allowed values: <code>${this.allowedValues}</code></small>
-              </li>
-            </ul>
-            <ul class="help">
-              <li>
-                <small><code>*</code>: for each unit (0, 1, 2, 3...)</small>
-              </li>
-              <li>
-                <small><code>5,8</code>: units 5 and 8</small>
-              </li>
-              <li>
-                <small><code>2-5</code>: units from 2 to 5 (2, 3, 4, 5)</small>
-              </li>
-              <li>
-                <small><code>*/3</code>: every 3 units (0, 3, 6, 9...)</small>
-              </li>
-              <li>
-                <small><code>10-20/3</code>: every 3 units, between the tenth and the twentieth (10, 13, 16, 19)</small>
-              </li>
-            </ul>
+            <gv-button link small class="tab-content_pro-details_btn" @click="${this.displayProDetails}">
+              ${this._state.pro.displayDetails
+                ? 'Hide information about cron rules and examples'
+                : 'Display information about cron rules and examples'}
+            </gv-button>
+            ${this.renderProDetails()}
           </div>
         </gv-tabs>
       </div>
@@ -568,6 +627,19 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           padding: 0.2rem;
         }
 
+        .tab-content_pro-details_btn {
+          --gv-button--fz: 12px;
+        }
+
+        .tab-content_pro-pane_container {
+          display: flex;
+          flex-direction: row;
+        }
+
+        .tab-content_pro-pane {
+          flex: auto;
+        }
+
         .tab-content_pro > * {
           margin: 0.2rem;
         }
@@ -610,7 +682,6 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
 
         sup {
           display: inline-block;
-          width: 16px;
           font-size: var(--gv-theme-font-size-s, 12px);
         }
 
