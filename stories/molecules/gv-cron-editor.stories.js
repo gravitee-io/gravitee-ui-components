@@ -40,3 +40,7 @@ export const Simple = makeStory(conf, {
 export const WithValue = makeStory(conf, {
   items: [{ value: '30 10 */5 * * MON-FRI' }],
 });
+
+export const WithAutomaticModeSelection = makeStory(conf, {
+  items: [{ value: '*/25 * * * * *' }],
+});
