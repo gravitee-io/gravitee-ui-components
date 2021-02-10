@@ -331,50 +331,54 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
 
   renderProDetails() {
     if (this._state.pro.displayDetails) {
-      return html` <div>
-        <div>Rules for:</div>
-        <div>
-          ${repeat(
-            this._docs,
-            (doc) => doc.id,
-            (doc) => {
-              const isCurrent = doc.id === this._currentDocumentationId;
-              return html`<gv-tag
-                @gv-tag:click="${this._onOpenDocumentation.bind(this, doc.id)}"
-                ?clickable="${!isCurrent}"
-                ?major="${isCurrent}"
-                ?minor="${!isCurrent}"
-                >${doc.label}</gv-tag
-              >`;
-            },
-          )}
+      return html`<div class="tab-content_pro-pane_container">
+        <div class="tab-content_pro-pane">
+          <div>Rules for:</div>
+          <div>
+            ${repeat(
+              this._docs,
+              (doc) => doc.id,
+              (doc) => {
+                const isCurrent = doc.id === this._currentDocumentationId;
+                return html` <gv-tag
+                  @gv-tag:click="${this._onOpenDocumentation.bind(this, doc.id)}"
+                  ?clickable="${!isCurrent}"
+                  ?major="${isCurrent}"
+                  ?minor="${!isCurrent}"
+                  >${doc.label}</gv-tag
+                >`;
+              },
+            )}
+          </div>
+          <ul class="help">
+            <li>
+              <small>Allowed characters: <code>${this.allowedChar}</code></small>
+            </li>
+            <li>
+              <small>Allowed values: <code>${this.allowedValues}</code></small>
+            </li>
+          </ul>
         </div>
-        <ul class="help">
-          <li>
-            <small>Allowed characters: <code>${this.allowedChar}</code></small>
-          </li>
-          <li>
-            <small>Allowed values: <code>${this.allowedValues}</code></small>
-          </li>
-        </ul>
-        <div>Examples:</div>
-        <ul class="help">
-          <li>
-            <small><code>*</code>: for each unit (0, 1, 2, 3...)</small>
-          </li>
-          <li>
-            <small><code>5,8</code>: units 5 and 8</small>
-          </li>
-          <li>
-            <small><code>2-5</code>: units from 2 to 5 (2, 3, 4, 5)</small>
-          </li>
-          <li>
-            <small><code>*/3</code>: every 3 units (0, 3, 6, 9...)</small>
-          </li>
-          <li>
-            <small><code>10-20/3</code>: every 3 units, between the tenth and the twentieth (10, 13, 16, 19)</small>
-          </li>
-        </ul>
+        <div class="tab-content_pro-pane">
+          <div>Examples:</div>
+          <ul class="help">
+            <li>
+              <small><code>*</code>: for each unit (0, 1, 2, 3...)</small>
+            </li>
+            <li>
+              <small><code>5,8</code>: units 5 and 8</small>
+            </li>
+            <li>
+              <small><code>2-5</code>: units from 2 to 5 (2, 3, 4, 5)</small>
+            </li>
+            <li>
+              <small><code>*/3</code>: every 3 units (0, 3, 6, 9...)</small>
+            </li>
+            <li>
+              <small><code>10-20/3</code>: every 3 units, between the tenth and the twentieth (10, 13, 16, 19)</small>
+            </li>
+          </ul>
+        </div>
       </div>`;
     }
 
@@ -625,6 +629,15 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
 
         .tab-content_pro-details_btn {
           --gv-button--fz: 12px;
+        }
+
+        .tab-content_pro-pane_container {
+          display: flex;
+          flex-direction: row;
+        }
+
+        .tab-content_pro-pane {
+          flex: auto;
         }
 
         .tab-content_pro > * {
