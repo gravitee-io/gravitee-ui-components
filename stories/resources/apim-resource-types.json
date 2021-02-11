@@ -6,33 +6,33 @@
       "description": "Cache resource",
       "version": "1.2.0",
       "schema": {
-        "type" : "object",
-        "id" : "urn:jsonschema:io:gravitee:resource:cache:configuration:CacheResourceConfiguration",
-        "properties" : {
-          "name" : {
+        "type": "object",
+        "id": "urn:jsonschema:io:gravitee:resource:cache:configuration:CacheResourceConfiguration",
+        "properties": {
+          "name": {
             "title": "Cache name",
             "description": "The name of the cache.",
-            "type" : "string",
+            "type": "string",
             "default": "my-cache"
           },
-          "timeToIdleSeconds" : {
+          "timeToIdleSeconds": {
             "title": "Time to idle (in seconds)",
-            "type" : "integer",
+            "type": "integer",
             "description": "The maximum number of seconds an element can exist in the cache without being accessed. The element expires at this limit and will no longer be returned from the cache. The default value is 0, which means no timeToIdle (TTI) eviction takes place (infinite lifetime).",
             "default": 0,
             "minimum": 0
           },
-          "timeToLiveSeconds" : {
+          "timeToLiveSeconds": {
             "title": "Time to live (in seconds)",
-            "type" : "integer",
+            "type": "integer",
             "description": "The maximum number of seconds an element can exist in the cache regardless of use. The element expires at this limit and will no longer be returned from the cache. The default value is 0, which means no timeToLive (TTL) eviction takes place (infinite lifetime).",
             "default": 0,
             "minimum": 0
           },
-          "maxEntriesLocalHeap" : {
+          "maxEntriesLocalHeap": {
             "title": "Max entries on heap",
             "description": "The maximum objects to be held in local heap memory (0 = no limit).",
-            "type" : "integer",
+            "type": "integer",
             "default": 1000,
             "minimum": 0
           }
@@ -150,6 +150,56 @@
         },
         "required": [
           "oauthResource"
+        ]
+      }
+    },
+    {
+      "id": "custom",
+      "name": "Custom",
+      "description": "Custom resource",
+      "version": "1.0.0",
+      "schema": {
+        "type": "object",
+        "id": "urn:jsonschema:custom:CustomConfiguration",
+        "properties": {
+          "url": {
+            "title": "Custom URL",
+            "description": "Custom URL",
+            "type": "string",
+            "default": ""
+          },
+          "authUrl": {
+            "title": "Custom Authentication URL",
+            "description": "Custom Authentication",
+            "type": "string",
+            "default": ""
+          },
+          "clientId": {
+            "title": "Client ID",
+            "description": "Client ID",
+            "type": "string",
+            "default": ""
+          },
+          "secrets": {
+            "title": "Client Secrets",
+            "type": "string",
+            "x-schema-form": {
+              "type": "codemirror",
+              "codemirrorOptions": {
+                "placeholder": "Place your client secrets",
+                "lineWrapping": false,
+                "lineNumbers": true,
+                "allowDropFileTypes": false,
+                "autoCloseTags": true,
+                "mode": "javascript"
+              }
+            }
+          }
+        },
+        "required": [
+          "url",
+          "authUrl",
+          "secrets"
         ]
       }
     }
