@@ -36,10 +36,19 @@ const formatCssProperty = (cssProperty) => {
 };
 
 async function run() {
-  await del(['assets/css/github-markdown-css', 'assets/css/highlight.js']);
-
+  await del(['assets/css/github-markdown-css', 'assets/css/highlight.js', 'assets/css/codemirror']);
   fs.copy('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
   fs.copy('node_modules/highlight.js/styles/github-gist.css', 'assets/css/highlight.js/github-gist.css');
+  fs.mkdir('assets/css/codemirror');
+
+  Promise.all([
+    fs.readFile('node_modules/codemirror/lib/codemirror.css', 'utf8'),
+    fs.readFile('node_modules/codemirror/addon/lint/lint.css', 'utf8'),
+    fs.readFile('node_modules/codemirror/theme/mdn-like.css', 'utf8'),
+  ]).then(([base, lint, theme]) => {
+    const themeWithoutImage = theme.replace(/.*background-image.*/g, '');
+    return fs.writeFile('assets/css/codemirror/all.css', [base, lint, themeWithoutImage].join('\n'));
+  });
 
   const sourceFilepaths = await glob('./src/**/*.js', {
     ignore: ['./src/lib/*.js', './src/styles/*.js', './src/studio-policy/*.js'],

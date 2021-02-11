@@ -26,6 +26,8 @@ export default {
   component: 'gv-schema-form',
   parameters: {
     notes,
+    // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
+    a11y: { disable: true },
   },
 };
 

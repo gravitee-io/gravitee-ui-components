@@ -63,8 +63,9 @@
             <exclude>coverage/**</exclude>
             <exclude>dist/**</exclude>
             <exclude>.*/**</exclude>
-            <exclude>assets/css/github-markdown-css/github-markdown.css</exclude>
-            <exclude>assets/css/highlight.js/github-gist.css</exclude>
+            <exclude>assets/css/github-markdown-css/**</exclude>
+            <exclude>assets/css/highlight.js/**</exclude>
+            <exclude>assets/css/codemirror/**</exclude>
           </excludes>
         </configuration>
       </plugin>
