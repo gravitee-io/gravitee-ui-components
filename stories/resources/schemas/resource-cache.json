@@ -30,10 +30,5 @@
       "minimum": 0
     }
   },
-  "required": [
-    "name",
-    "timeToIdleSeconds",
-    "timeToLiveSeconds",
-    "maxEntriesLocalHeap"
-  ]
+  "required": ["name", "timeToIdleSeconds", "timeToLiveSeconds", "maxEntriesLocalHeap"]
 }

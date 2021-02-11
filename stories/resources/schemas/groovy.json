@@ -1,11 +1,11 @@
 {
-  "type" : "object",
-  "id" : "urn:jsonschema:io:gravitee:policy:groovy:configuration:GroovyPolicyConfiguration",
-  "properties" : {
-    "onRequestScript" : {
+  "type": "object",
+  "id": "urn:jsonschema:io:gravitee:policy:groovy:configuration:GroovyPolicyConfiguration",
+  "properties": {
+    "onRequestScript": {
       "title": "On-request script",
       "description": "Groovy script to evaluate during the OnRequest phase.",
-      "type" : "string",
+      "type": "string",
       "x-schema-form": {
         "type": "codemirror",
         "codemirrorOptions": {
@@ -18,10 +18,10 @@
         }
       }
     },
-    "onResponseScript" : {
+    "onResponseScript": {
       "title": "On-response script",
       "description": "Groovy script to evaluate during the OnResponse phase.",
-      "type" : "string",
+      "type": "string",
       "x-schema-form": {
         "type": "codemirror",
         "codemirrorOptions": {
@@ -34,10 +34,10 @@
         }
       }
     },
-    "onRequestContentScript" : {
+    "onRequestContentScript": {
       "title": "On-request content script",
       "description": "Groovy script to evaluate during the 'request-content' phase. <br> Useful to transform request content",
-      "type" : "string",
+      "type": "string",
       "x-schema-form": {
         "type": "codemirror",
         "codemirrorOptions": {
@@ -50,10 +50,10 @@
         }
       }
     },
-    "onResponseContentScript" : {
+    "onResponseContentScript": {
       "title": "On-response content script",
       "description": "Groovy script to evaluate during the 'response-content' phase. <br> Useful to transform response content",
-      "type" : "string",
+      "type": "string",
       "x-schema-form": {
         "type": "codemirror",
         "codemirrorOptions": {

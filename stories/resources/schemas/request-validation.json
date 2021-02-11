@@ -1,19 +1,19 @@
 {
-  "type" : "object",
-  "id" : "urn:jsonschema:io:gravitee:policy:requestvalidation:configuration:RequestValidationPolicyConfiguration",
-  "properties" : {
-    "scope" : {
+  "type": "object",
+  "id": "urn:jsonschema:io:gravitee:policy:requestvalidation:configuration:RequestValidationPolicyConfiguration",
+  "properties": {
+    "scope": {
       "title": "Scope",
       "description": "Execute policy on <strong>request</strong> or <strong>request-content</strong> phase.",
-      "type" : "string",
+      "type": "string",
       "default": "REQUEST",
-      "enum" : [ "REQUEST", "REQUEST_CONTENT" ],
+      "enum": ["REQUEST", "REQUEST_CONTENT"],
       "deprecated": true
     },
-    "status" : {
+    "status": {
       "title": "Status Code",
       "description": "HTTP Status Code send to the consumer in case of validation issues",
-      "type" : "string",
+      "type": "string",
       "default": "400",
       "enum": [
         "100",
@@ -117,66 +117,58 @@
         }
       }
     },
-    "rules" : {
-      "type" : "array",
-      "title" : "Rules",
-      "items" : {
-        "type" : "object",
-        "title" : "Rule",
-        "id" : "urn:jsonschema:io:gravitee:policy:requestvalidation:Rule",
-        "properties" : {
-          "input" : {
-            "type" : "string",
+    "rules": {
+      "type": "array",
+      "title": "Rules",
+      "items": {
+        "type": "object",
+        "title": "Rule",
+        "id": "urn:jsonschema:io:gravitee:policy:requestvalidation:Rule",
+        "properties": {
+          "input": {
+            "type": "string",
             "title": "Field value",
             "description": "The input value to validate (supports EL)"
           },
-          "isRequired" : {
-            "type" : "boolean",
+          "isRequired": {
+            "type": "boolean",
             "title": "Required",
             "description": "If true, check the pattern always. If false check the pattern, only if this one is present in the request",
             "default": true
           },
-          "constraint" : {
-            "type" : "object",
-            "title" : "Constraint",
-            "id" : "urn:jsonschema:io:gravitee:policy:requestvalidation:Constraint",
-            "properties" : {
-              "type" : {
-                "type" : "string",
-                "enum" : [ "NOT_NULL", "MIN", "MAX", "MAIL", "DATE", "PATTERN", "SIZE", "ENUM" ],
+          "constraint": {
+            "type": "object",
+            "title": "Constraint",
+            "id": "urn:jsonschema:io:gravitee:policy:requestvalidation:Constraint",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["NOT_NULL", "MIN", "MAX", "MAIL", "DATE", "PATTERN", "SIZE", "ENUM"],
                 "default": "NOT_NULL",
                 "title": "Type",
                 "description": "The constraint rule to apply to the field value.<ul><li>NOT_NULL: Field value is required</li><li>MIN: Field number value is greater or equals than parameter</li><li>MAX: Field number value is lower or equals than parameter</li><li>MAIL: Field value is a valid email</li><li>PATTERN: Field value is valid according to the pattern parameter</li><li>DATE: Field value is valid according to the date format parameter</li><li>SIZE: Field value length is between min and max parameters</li><li>ENUM: Field value included in ENUM</li><ul/>"
               },
-              "parameters" : {
-                "type" : "array",
+              "parameters": {
+                "type": "array",
                 "title": "Parameters",
-                "items" : {
-                  "type" : "string",
+                "items": {
+                  "type": "string",
                   "title": "Parameter",
                   "description": "Must be defined for MIN, MAX, DATE or PATTERN constraints (supports EL)"
                 }
               },
-              "message" : {
-                "type" : "string",
+              "message": {
+                "type": "string",
                 "title": "Message template",
                 "description": "Set a message template to override the default one. (Example: <i>'%s' must be higher or equals to '%s'</i>)"
               }
             },
-            "required": [
-              "type"
-            ]
+            "required": ["type"]
           }
         },
-        "required": [
-          "input",
-          "constraint"
-        ]
+        "required": ["input", "constraint"]
       }
     }
   },
-  "required": [
-    "status",
-    "rules"
-  ]
+  "required": ["status", "rules"]
 }

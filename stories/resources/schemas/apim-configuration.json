@@ -6,7 +6,7 @@
       "title": "Flow Mode",
       "description": "The flow mode",
       "type": "string",
-      "enum": [ "default", "best_match" ],
+      "enum": ["default", "best_match"],
       "default": "default",
       "x-schema-form": {
         "titleMap": {

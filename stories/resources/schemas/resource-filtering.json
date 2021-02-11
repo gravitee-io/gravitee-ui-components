@@ -19,15 +19,13 @@
             "title": "Methods",
             "description": "HTTP Methods",
             "type": "array",
-            "items" : {
-              "type" : "string",
-              "enum" : [ "CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE" ]
+            "items": {
+              "type": "string",
+              "enum": ["CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE"]
             }
           }
         },
-        "required": [
-          "pattern"
-        ]
+        "required": ["pattern"]
       }
     },
     "blacklist": {
@@ -47,15 +45,13 @@
             "title": "Methods",
             "description": "HTTP Methods",
             "type": "array",
-            "items" : {
-              "type" : "string",
-              "enum" : [ "CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE" ]
+            "items": {
+              "type": "string",
+              "enum": ["CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE"]
             }
           }
         },
-        "required": [
-          "pattern"
-        ]
+        "required": ["pattern"]
       }
     }
   }

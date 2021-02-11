@@ -15,10 +15,7 @@
           "title": "Operator path",
           "description": "The operator path",
           "type": "string",
-          "enum": [
-            "EQUALS",
-            "STARTS_WITH"
-          ],
+          "enum": ["EQUALS", "STARTS_WITH"],
           "default": "STARTS_WITH",
           "x-schema-form": {
             "titleMap": {
@@ -35,28 +32,15 @@
           "default": "/"
         }
       },
-      "required": [
-        "path",
-        "operator"
-      ]
+      "required": ["path", "operator"]
     },
     "methods": {
       "title": "Methods",
       "description": "The HTTP methods of flow (ALL if empty)",
       "type": "array",
       "items": {
-        "type" : "string",
-        "enum": [
-          "CONNECT",
-          "DELETE",
-          "GET",
-          "HEAD",
-          "OPTIONS",
-          "PATCH",
-          "POST",
-          "PUT",
-          "TRACE"
-        ]
+        "type": "string",
+        "enum": ["CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE"]
       }
     },
     "condition": {
