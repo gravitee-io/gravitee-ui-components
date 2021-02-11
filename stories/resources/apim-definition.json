@@ -7,17 +7,7 @@
       "name": "All",
       "condition": "",
       "enabled": true,
-      "methods": [
-        "GET",
-        "HEAD",
-        "POST",
-        "PUT",
-        "DELETE",
-        "CONNECT",
-        "OPTIONS",
-        "TRACE",
-        "PATCH"
-      ],
+      "methods": ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
       "path-operator": {
         "path": "/",
         "operator": "STARTS_WITH"
@@ -79,10 +69,7 @@
         "operator": "EQUALS"
       },
       "enabled": false,
-      "methods": [
-        "POST",
-        "PUT"
-      ],
+      "methods": ["POST", "PUT"],
       "condition": "",
       "pre": [
         {
@@ -110,9 +97,7 @@
         "operator": "STARTS_WITH"
       },
       "enabled": true,
-      "methods": [
-        "GET"
-      ],
+      "methods": ["GET"],
       "condition": "",
       "pre": [
         {
@@ -149,17 +134,7 @@
         {
           "name": "All",
           "enabled": true,
-          "methods": [
-            "GET",
-            "HEAD",
-            "POST",
-            "PUT",
-            "DELETE",
-            "CONNECT",
-            "OPTIONS",
-            "TRACE",
-            "PATCH"
-          ],
+          "methods": ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
           "path-operator": {
             "path": "/",
             "operator": "STARTS_WITH"
@@ -222,10 +197,7 @@
             "operator": "STARTS_WITH"
           },
           "enabled": true,
-          "methods": [
-            "POST",
-            "PUT"
-          ],
+          "methods": ["POST", "PUT"],
           "condition": "",
           "pre": [
             {
@@ -253,9 +225,7 @@
             "operator": "EQUALS"
           },
           "enabled": true,
-          "methods": [
-            "GET"
-          ],
+          "methods": ["GET"],
           "condition": "",
           "pre": [
             {
@@ -337,26 +307,21 @@
               "name": "URL Rewriting",
               "enabled": true,
               "description": "Description of the URL Rewriting Gravitee Policy",
-              "configuration": {
-              }
+              "configuration": {}
             },
             {
               "policy": "xml-json",
               "name": "XML to JSON",
               "enabled": true,
               "description": "Step description",
-              "configuration": {
-              }
+              "configuration": {}
             }
           ]
         },
         {
           "name": "Api 1",
           "enabled": true,
-          "methods": [
-            "POST",
-            "PUT"
-          ],
+          "methods": ["POST", "PUT"],
           "condition": "",
           "pre": [
             {
@@ -364,8 +329,7 @@
               "name": "XML to JSON",
               "enabled": true,
               "description": "Step description",
-              "configuration": {
-              }
+              "configuration": {}
             }
           ],
           "post": [
@@ -374,17 +338,14 @@
               "name": "JSON to XML",
               "enabled": true,
               "description": "Step description",
-              "configuration": {
-              }
+              "configuration": {}
             }
           ]
         },
         {
           "name": "Api 2",
           "enabled": true,
-          "methods": [
-            "GET"
-          ],
+          "methods": ["GET"],
           "condition": "",
           "pre": [
             {
@@ -392,16 +353,14 @@
               "name": "Transform Query Parameters",
               "enabled": true,
               "description": "Description of the Transform Query Parameters Policy",
-              "configuration": {
-              }
+              "configuration": {}
             },
             {
               "policy": "url-rewriting",
               "name": "URL Rewriting",
               "enabled": true,
               "description": "Description of the URL Rewriting Gravitee Policy",
-              "configuration": {
-              }
+              "configuration": {}
             }
           ],
           "post": [
@@ -410,8 +369,7 @@
               "name": "JSON to XML",
               "enabled": true,
               "description": "Step description",
-              "configuration": {
-              }
+              "configuration": {}
             }
           ]
         }

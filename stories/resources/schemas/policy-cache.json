@@ -1,44 +1,41 @@
 {
-  "type" : "object",
-  "id" : "urn:jsonschema:io:gravitee:policy:cache:configuration:CachePolicyConfiguration",
-  "properties" : {
-    "cacheName" : {
+  "type": "object",
+  "id": "urn:jsonschema:io:gravitee:policy:cache:configuration:CachePolicyConfiguration",
+  "properties": {
+    "cacheName": {
       "title": "Cache name",
       "description": "The cache resource used to store the element.",
-      "type" : "string",
-      "x-schema-form" : {
-        "event" : {
+      "type": "string",
+      "x-schema-form": {
+        "event": {
           "name": "fetch-resources",
           "types": ["cache"]
         }
       }
     },
-    "key" : {
+    "key": {
       "title": "Key",
       "description": "The key used to store the element (support EL).",
-      "type" : "string"
+      "type": "string"
     },
-    "timeToLiveSeconds" : {
+    "timeToLiveSeconds": {
       "title": "Time to live (in seconds)",
       "default": 600,
       "description": "Time to live of the element put in cache (Default to 10 minutes).",
-      "type" : "integer"
+      "type": "integer"
     },
-    "useResponseCacheHeaders" : {
+    "useResponseCacheHeaders": {
       "title": "Use response headers",
       "description": "Time to live based on 'Cache-Control' and / or 'Expires' headers from response.",
-      "type" : "boolean"
+      "type": "boolean"
     },
-    "scope" : {
+    "scope": {
       "title": "Scope",
       "description": "Cached response can be set for a single consumer (application) or for all consumers.<br><strong>WARNING:</strong> Please be aware that by using an \"API\" scope, data will be shared between all consumers!",
-      "type" : "string",
+      "type": "string",
       "default": "APPLICATION",
-      "enum" : [ "API", "APPLICATION" ]
+      "enum": ["API", "APPLICATION"]
     }
   },
-  "required": [
-    "cacheName",
-    "timeToLiveSeconds"
-  ]
+  "required": ["cacheName", "timeToLiveSeconds"]
 }

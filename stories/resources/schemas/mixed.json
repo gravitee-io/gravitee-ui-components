@@ -47,10 +47,7 @@
           "title": "Operator path",
           "description": "The operator path",
           "type": "string",
-          "enum": [
-            "EQUALS",
-            "STARTS_WITH"
-          ],
+          "enum": ["EQUALS", "STARTS_WITH"],
           "default": "STARTS_WITH",
           "x-schema-form": {
             "titleMap": {
@@ -66,10 +63,7 @@
           "pattern": "^/"
         }
       },
-      "required": [
-        "path",
-        "operator"
-      ]
+      "required": ["path", "operator"]
     },
     "resources": {
       "title": "Async list of resource",
@@ -100,10 +94,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "value"
-        ]
+        "required": ["name", "value"]
       }
     },
     "timeToLiveSeconds": {
@@ -120,25 +111,17 @@
     "select": {
       "title": "Simple select",
       "type": "string",
-      "enum": [
-        "a",
-        "b",
-        "c"
-      ]
+      "enum": ["a", "b", "c"]
     },
     "multiselect": {
       "title": "Multi select",
       "type": "array",
-      "items" : {
-        "type" : "string",
-        "enum": [
-          "a",
-          "b",
-          "c"
-        ]
+      "items": {
+        "type": "string",
+        "enum": ["a", "b", "c"]
       }
     },
-    "cron" :{
+    "cron": {
       "title": "Cron expression",
       "type": "string",
       "x-schema-form": {
@@ -146,8 +129,5 @@
       }
     }
   },
-  "required": [
-    "multiselect",
-    "timeToLiveSeconds"
-  ]
+  "required": ["multiselect", "timeToLiveSeconds"]
 }

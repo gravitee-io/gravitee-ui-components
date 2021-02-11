@@ -7,17 +7,7 @@
       "name": "All",
       "condition": "",
       "enabled": true,
-      "methods": [
-        "GET",
-        "HEAD",
-        "POST",
-        "PUT",
-        "DELETE",
-        "CONNECT",
-        "OPTIONS",
-        "TRACE",
-        "PATCH"
-      ],
+      "methods": ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
       "path-operator": {
         "path": "/",
         "operator": "STARTS_WITH"
@@ -79,10 +69,7 @@
         "operator": "EQUALS"
       },
       "enabled": false,
-      "methods": [
-        "POST",
-        "PUT"
-      ],
+      "methods": ["POST", "PUT"],
       "condition": "",
       "pre": [
         {
@@ -110,9 +97,7 @@
         "operator": "STARTS_WITH"
       },
       "enabled": true,
-      "methods": [
-        "GET"
-      ],
+      "methods": ["GET"],
       "condition": "",
       "pre": [
         {

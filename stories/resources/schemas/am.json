@@ -11,12 +11,7 @@
       "title": "Type",
       "description": "The type of flow",
       "type": "string",
-      "enum": [
-        "ROOT",
-        "LOGIN",
-        "CONSENT",
-        "REGISTER"
-      ]
+      "enum": ["ROOT", "LOGIN", "CONSENT", "REGISTER"]
     },
     "condition": {
       "title": "Condition",
@@ -25,8 +20,5 @@
     }
   },
   "required": [],
-  "disabled": [
-    "type",
-    "condition"
-  ]
+  "disabled": ["type", "condition"]
 }

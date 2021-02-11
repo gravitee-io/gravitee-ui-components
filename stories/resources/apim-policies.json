@@ -91,16 +91,10 @@
             "description": "Cached response can be set for a single consumer (application) or for all consumers.<br><strong>WARNING:</strong> Please be aware that by using an \"API\" scope, data will be shared between all consumers!",
             "type": "string",
             "default": "APPLICATION",
-            "enum": [
-              "API",
-              "APPLICATION"
-            ]
+            "enum": ["API", "APPLICATION"]
           }
         },
-        "required": [
-          "cacheName",
-          "timeToLiveSeconds"
-        ]
+        "required": ["cacheName", "timeToLiveSeconds"]
       }
     },
     {
@@ -185,17 +179,7 @@
             "description": "HTTP method to invoke the endpoint.",
             "type": "string",
             "default": "GET",
-            "enum": [
-              "GET",
-              "POST",
-              "PUT",
-              "DELETE",
-              "PATCH",
-              "HEAD",
-              "CONNECT",
-              "OPTIONS",
-              "TRACE"
-            ]
+            "enum": ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "CONNECT", "OPTIONS", "TRACE"]
           },
           "url": {
             "title": "URL",
@@ -219,10 +203,7 @@
                 }
               }
             },
-            "required": [
-              "name",
-              "value"
-            ]
+            "required": ["name", "value"]
           },
           "body": {
             "title": "Request body",
@@ -257,10 +238,7 @@
                 }
               }
             },
-            "required": [
-              "name",
-              "value"
-            ]
+            "required": ["name", "value"]
           },
           "exitOnError": {
             "title": "Exit on error",
@@ -398,12 +376,7 @@
             }
           }
         },
-        "required": [
-          "url",
-          "method",
-          "variables",
-          "exitOnError"
-        ]
+        "required": ["url", "method", "variables", "exitOnError"]
       }
     },
     {
@@ -610,22 +583,13 @@
                 "type": "string",
                 "title": "Time unit",
                 "default": "SECONDS",
-                "enum": [
-                  "SECONDS",
-                  "MINUTES"
-                ]
+                "enum": ["SECONDS", "MINUTES"]
               }
             },
-            "required": [
-              "limit",
-              "periodTime",
-              "periodTimeUnit"
-            ]
+            "required": ["limit", "periodTime", "periodTimeUnit"]
           }
         },
-        "required": [
-          "rate"
-        ]
+        "required": ["rate"]
       }
     },
     {
@@ -739,10 +703,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "name",
-                "value"
-              ]
+              "required": ["name", "value"]
             }
           }
         }
@@ -914,14 +875,7 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "NOT_NULL",
-                        "MIN",
-                        "MAX",
-                        "MAIL",
-                        "PATTERN",
-                        "SIZE"
-                      ],
+                      "enum": ["NOT_NULL", "MIN", "MAX", "MAIL", "PATTERN", "SIZE"],
                       "default": "NOT_NULL",
                       "title": "Type",
                       "description": "The constraint rule to apply to the field value.<ul><li>NOT_NULL: Field value is required</li><li>MIN: Field number value is greater or equals than parameter</li><li>MAX: Field number value is lower or equals than parameter</li><li>MAIL: Field value is a valid email</li><li>PATTERN: Field value is valid according to the pattern parameter</li><li>SIZE: Field value length is between min and max parameters</li><ul/>"
@@ -941,22 +895,14 @@
                       "description": "Set a message template to override the default one. (Example: <i>'%s' must be higher or equals to '%s'</i>)"
                     }
                   },
-                  "required": [
-                    "type"
-                  ]
+                  "required": ["type"]
                 }
               },
-              "required": [
-                "input",
-                "constraint"
-              ]
+              "required": ["input", "constraint"]
             }
           }
         },
-        "required": [
-          "status",
-          "rules"
-        ]
+        "required": ["status", "rules"]
       }
     },
     {

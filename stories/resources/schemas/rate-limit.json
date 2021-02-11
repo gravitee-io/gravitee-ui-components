@@ -38,20 +38,11 @@
           "type": "string",
           "title": "Time unit",
           "default": "SECONDS",
-          "enum": [
-            "SECONDS",
-            "MINUTES"
-          ]
+          "enum": ["SECONDS", "MINUTES"]
         }
       },
-      "required": [
-        "limit",
-        "periodTime",
-        "periodTimeUnit"
-      ]
+      "required": ["limit", "periodTime", "periodTimeUnit"]
     }
   },
-  "required": [
-    "rate"
-  ]
+  "required": ["rate"]
 }
