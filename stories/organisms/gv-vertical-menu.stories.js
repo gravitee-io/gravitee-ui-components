@@ -38,6 +38,7 @@ const routes = [
   { path: '#', title: 'Categories', icon: 'layout:layout-arrange' },
   { path: '#', title: 'Featured', active: true, icon: 'home:flower#2' },
   { path: '#', title: 'Starred', icon: 'home:flower#1' },
+  { path: '#', title: 'My very long category that breaks the menu', icon: 'cooking:cooking-book' },
   { path: '#', title: 'Trendings', icon: 'appliances:fan' },
 ];
 const items = [{ routes }];

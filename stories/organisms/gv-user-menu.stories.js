@@ -23,6 +23,7 @@ const routes = [
   { path: 'https://gravitee.io', title: 'External link', icon: 'communication:share', separator: true, target: '_blank' },
   { path: '#', title: 'My account', icon: 'general:user' },
   { path: '#', title: 'My apis', icon: 'cooking:cooking-book' },
+  { path: '#', title: 'My very long category that breaks the menu', icon: 'cooking:cooking-book' },
   { path: '#', title: 'My apps', icon: 'cooking:bowl' },
   { path: '#', title: Promise.resolve('logout'), icon: 'home:door-open', separator: true },
 ];
