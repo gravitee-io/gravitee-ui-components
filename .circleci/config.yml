@@ -65,6 +65,23 @@ jobs:
       - run:
           name: Build
           command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+            - storybook-static
+
+  chromatic:
+    executor:
+      class: medium
+      name: node-lts
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build
+          command: ls -la storybook-static && ls -la dist
 
 workflows:
   version: 2.1
@@ -77,3 +94,11 @@ workflows:
       - build:
           requires:
             - install
+      - trigger-chromatic:
+          type: approval
+          requires:
+            - build
+            - lint-test
+      - chromatic:
+          requires:
+            - trigger-chromatic
