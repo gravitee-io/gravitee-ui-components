@@ -141,23 +141,25 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
       this.mode = this.mode || 'pro';
       return;
     }
-    const [seconds, minutes, hours, days, month, year] = this.value.split(' ');
+    const [seconds, minutes, hours] = this.value.split(' ');
 
-    if (days !== '*' || month !== '*' || year !== '*') {
-      // Theses cases are not simple to handle so just ignore them for now
-      this.mode = 'pro';
-    } else if (hours !== '*') {
+    if (/\d+ \d+ \*\/\d+ \* \* \*/.test(this.value)) {
+      // Match: `1 42 */15 * * *`
       this.mode = 'hourly';
       this._state.hourly.hours = Number(hours.replace('*/', ''));
-      this._state.hourly.minutes = Number(minutes.replace('*/', ''));
-      this._state.hourly.seconds = Number(seconds.replace('*/', ''));
-    } else if (minutes !== '*') {
+      this._state.hourly.minutes = Number(minutes);
+      this._state.hourly.seconds = Number(seconds);
+    } else if (/\d+ \*\/\d+ \* \* \* \*/.test(this.value)) {
+      // Match: `1 */15 * * * *`
       this.mode = 'minutes';
       this._state.minutes.minutes = Number(minutes.replace('*/', ''));
-      this._state.minutes.seconds = Number(seconds.replace('*/', ''));
-    } else if (seconds !== '*') {
+      this._state.minutes.seconds = Number(seconds);
+    } else if (/\*\/\d+ \* \* \* \* \*/.test(this.value)) {
+      // Match: `*/15 * * * * *`
       this.mode = 'seconds';
       this._state.seconds.seconds = Number(seconds.replace('*/', ''));
+    } else {
+      this.mode = 'pro';
     }
   }
 

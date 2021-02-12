@@ -42,5 +42,5 @@ export const WithValue = makeStory(conf, {
 });
 
 export const WithAutomaticModeSelection = makeStory(conf, {
-  items: [{ value: '*/25 * * * * *' }],
+  items: [{ value: '*/25 * * * * *' }, { value: '2 */25 * * * *' }, { value: '1 3 */25 * * *' }, { value: '* * */25 * * *' }],
 });
