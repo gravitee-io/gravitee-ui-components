@@ -74,7 +74,6 @@ export class GvLink extends LitElement {
       // language=css
       css`
         :host {
-          box-sizing: border-box;
           display: inline-flex;
           vertical-align: middle;
           --gv-icon--s: var(--gv-link-icon--s, 24px);
@@ -82,6 +81,12 @@ export class GvLink extends LitElement {
           --link--c: var(--gv-link--c, var(--gv-theme-font-color-dark, #262626));
           --pv: var(--gv-link-a--pv, 15px);
           --ph: var(--gv-link-a--ph, 15px);
+        }
+
+        *,
+        *:before,
+        *:after {
+          box-sizing: border-box;
         }
 
         a {
@@ -100,7 +105,6 @@ export class GvLink extends LitElement {
         }
 
         a > * {
-          flex: 1;
           align-self: center;
         }
 
@@ -125,6 +129,8 @@ export class GvLink extends LitElement {
           white-space: nowrap;
           margin: 0.3rem 0.5rem;
           text-decoration: var(--gv-link--td, none);
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         a.small span {

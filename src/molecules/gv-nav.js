@@ -51,6 +51,10 @@ export class GvNav extends LitElement {
           transition: all 150ms ease-in-out;
         }
 
+        gv-link {
+          --gv-link--ta: end;
+        }
+
         .vertical {
           display: flex;
           flex-direction: column;
