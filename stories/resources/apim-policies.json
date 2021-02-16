@@ -250,7 +250,10 @@
             "title": "Error condition",
             "description": "The condition which will be verified to end the request (support EL).",
             "default": "{#calloutResponse.status >= 400 and #calloutResponse.status <= 599}",
-            "type": "string"
+            "type": "string",
+            "x-schema-form": {
+              "expression-language": true
+            }
           },
           "errorStatusCode": {
             "title": "Error status code",

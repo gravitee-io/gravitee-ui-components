@@ -121,6 +121,7 @@ export class GvCode extends InputElement(LitElement) {
           lineWrapping: true,
           readOnly: this.readonly,
           autofocus: this.autofocus,
+          scrollbarStyle: this.singleLine ? null : 'native',
         },
       });
 
@@ -305,8 +306,40 @@ export class GvCode extends InputElement(LitElement) {
           border-left: 6px solid var(--gv-theme-color, #5a7684);
         }
 
-        .input .CodeMirror {
-          height: auto;
+        /** Overwrite code mirror for input style **/
+        .input {
+          --input-medium--p: 11px 5px 9px;
+        }
+
+        .input .CodeMirror-lines {
+          padding: 0;
+        }
+
+        .medium .input .CodeMirror {
+          height: var(--input-medium--lh);
+        }
+
+        .small .input .CodeMirror {
+          height: var(--input-small--lh);
+        }
+
+        .large .input .CodeMirror {
+          height: var(--input-large--lh);
+        }
+
+        .input pre.CodeMirror-line,
+        .input pre.CodeMirror-line-like {
+          white-space: nowrap;
+        }
+
+        .input .CodeMirror-sizer {
+          height: 28px;
+          border: 0;
+        }
+
+        .input .CodeMirror-scroll {
+          width: 100%;
+          overflow: hidden !important;
         }
       `,
     ];
