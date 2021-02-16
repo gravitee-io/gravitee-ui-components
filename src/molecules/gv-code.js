@@ -53,6 +53,10 @@ import { empty } from '../styles/empty';
  * @attr {String} value - code content to be highlighted
  * @attr {options} Object - options based on codemirror https://codemirror.net/doc/manual.html#config
  * @attr {String} placeholder - an example value to display in the input when empty
+ * @attr {Number} rows - number of rows of the text element
+ * @attr {Boolean} large - for a large input (only if the field has one row)
+ * @attr {Boolean} medium - for a medium input (only if the field has one row) (Default)
+ * @attr {Boolean} small - for a small input (only if the field has one row)
  *
  * @attr {Boolean} [clipboard=false]- true if field has clipboard button
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
@@ -135,21 +139,25 @@ export class GvCode extends InputElement(LitElement) {
         class="${classMap({
           box: true,
           'box-invisible': this.skeleton,
-          input: this.singleLine,
+          large: this.large,
+          medium: this.medium || (!this.large && !this.small),
+          small: this.small,
         })}"
       >
-        ${this.label ? html`<label for="code">${this.label}</label>` : ''}
-        ${this.clipboard
-          ? html`<gv-button
-              title="${i18n('gv-code.copy')}"
-              ?outlined="${!this._copied}"
-              ?primary="${this._copied}"
-              small
-              icon="${this._clipboardIcon}"
-            ></gv-button>`
-          : ''}
-        <textarea id="${this._id}" name="code">${this.value}</textarea>
-        ${this.skeleton ? html`<div class="skeleton"></div>` : ''}
+        <div class="${classMap({ input: this.singleLine })}">
+          ${this.label ? html`<label for="code">${this.label}</label>` : ''}
+          ${this.clipboard
+            ? html`<gv-button
+                title="${i18n('gv-code.copy')}"
+                ?outlined="${!this._copied}"
+                ?primary="${this._copied}"
+                small
+                icon="${this._clipboardIcon}"
+              ></gv-button>`
+            : ''}
+          <textarea id="${this._id}" name="code">${this.value}</textarea>
+          ${this.skeleton ? html`<div class="skeleton"></div>` : ''}
+        </div>
       </div>
     `;
   }
@@ -295,6 +303,10 @@ export class GvCode extends InputElement(LitElement) {
 
         .cm-s-mdn-like .CodeMirror-gutters {
           border-left: 6px solid var(--gv-theme-color, #5a7684);
+        }
+
+        .input .CodeMirror {
+          height: auto;
         }
       `,
     ];
