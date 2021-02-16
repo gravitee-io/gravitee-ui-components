@@ -36,13 +36,11 @@
           }
         },
         {
-          "policy": "transform-headers",
-          "name": "Add HTTP headers",
+          "policy": "policy-http-callout",
+          "name": "HTTP Callout",
           "enabled": true,
           "description": "Step description",
-          "configuration": {
-            "add-headers": "...."
-          }
+          "configuration": {}
         }
       ],
       "post": [

@@ -32,7 +32,7 @@ const conf = {
 };
 
 export const Inline = makeStory(conf, {
-  items: [{ grammar, rows: 1 }],
+  items: [{ grammar, rows: 1, value: '{#calloutResponse.status >= 400 and #calloutResponse.status <= 500}' }],
 });
 
 export const InlineReadonly = makeStory(conf, {

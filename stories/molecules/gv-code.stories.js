@@ -42,7 +42,15 @@ const shell = `curl -X POST "https://api-market-place.ai.ovh.net/sound-spleeter/
      -o splitted_output.zip`;
 
 export const ReadonlyShell = makeStory(conf, {
-  items: [{ value: shell, options: shellOptions, readonly: true, label: 'Readonly curl example with clipboard', clipboard: true }],
+  items: [
+    {
+      value: shell,
+      options: shellOptions,
+      readonly: true,
+      label: 'Readonly curl example with clipboard',
+      clipboard: true,
+    },
+  ],
 });
 
 const html = `<span>A simple example of the live sample system in action.</span><div><div>Hello world! Welcome to Gravitee</div></div>`;
@@ -239,4 +247,16 @@ const textOptions = {
 
 export const Text = makeStory(conf, {
   items: [{ value: textSrc, options: textOptions }],
+});
+
+const inputOptions = {
+  placeholder: 'Put the body content here',
+  mode: 'text',
+};
+
+const inputSrc =
+  "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+
+export const Input = makeStory(conf, {
+  items: [{ value: inputSrc, options: inputOptions, rows: 1 }],
 });
