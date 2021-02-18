@@ -536,6 +536,13 @@
           "type": "length",
           "default": "2rem 4rem",
           "value": "2rem 4rem"
+        },
+        {
+          "name": "--gv-table-rows--ov",
+          "description": "Overflow on table",
+          "type": "string",
+          "default": "auto",
+          "value": "auto"
         }
       ]
     },

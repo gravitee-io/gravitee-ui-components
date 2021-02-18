@@ -61,6 +61,7 @@ import '../organisms/gv-pagination';
  * @cssprop {Color} [--gv-table--bdc=var(--gv-theme-neutral-color-dark, #d9d9d9)] - Border color
  * @cssprop {String} [--gv-table-header--fz=var(--gv-theme-font-size-l, 20px)] - Title font size
  * @cssprop {Length} [--gv-table-header--p=2rem 4rem] - Title padding
+ * @cssprop {String} [--gv-table-rows--ov=auto] - Overflow on table
  */
 export class GvTable extends withResizeObserver(LitElement) {
   static get properties() {
@@ -117,6 +118,7 @@ export class GvTable extends withResizeObserver(LitElement) {
         .rows {
           -ms-overflow-style: none;
           scrollbar-width: none;
+          overflow: var(--gv-table-rows--ov, auto);
           flex: 1;
           height: 100%;
           transition: height 250ms ease-in-out;

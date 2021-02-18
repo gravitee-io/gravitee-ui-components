@@ -457,6 +457,10 @@ export class GvResources extends KeyboardElement(LitElement) {
           width: 100%;
         }
 
+        gv-table {
+          --gv-table-rows--ov: none;
+        }
+
         .header {
           border-bottom: 1px solid #d9d9d9;
           display: flex;
