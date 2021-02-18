@@ -297,6 +297,11 @@ export class GvCode extends InputElement(LitElement) {
           z-index: 10;
         }
 
+        /** Enable autoresize: https://codemirror.net/demo/resize.html **/
+        .CodeMirror {
+          height: auto;
+        }
+
         /** Overwrite code mirror colors **/
         :host([invalid]) .cm-s-mdn-like .CodeMirror-gutters {
           border-color: var(--gv-theme-color-error-dark, #d32f2f);
