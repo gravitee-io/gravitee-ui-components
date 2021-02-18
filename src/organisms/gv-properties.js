@@ -685,6 +685,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
         gv-table {
           height: auto;
           flex: 1;
+          --gv-table-rows--ov: none;
         }
 
         .properties-title {
