@@ -16,7 +16,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { get, set, del } from 'object-path';
 import { dispatchCustomEvent } from '../lib/events';
-import { deepClone } from '../lib/utils';
+import { deepClone, deepEqual } from '../lib/utils';
 import { classMap } from 'lit-html/directives/class-map';
 import { Validator } from 'jsonschema';
 import { empty } from '../styles/empty';
@@ -35,6 +35,7 @@ import './gv-schema-form-control';
  * @attr {Object} errors - the map of errors by input key
  * @attr {Boolean} validate - to force validation on first render
  * @attr {Boolean} readonly - true if readonly
+ * @attr {Boolean} scrollable - useful for making content scrollable with fixed headers / footers
  */
 export class GvSchemaForm extends LitElement {
   static get properties() {
@@ -54,6 +55,7 @@ export class GvSchemaForm extends LitElement {
       skeleton: { type: Boolean, reflect: true },
       _touch: { type: Boolean },
       readonly: { type: Boolean, reflect: true },
+      scrollable: { type: Boolean, reflect: true },
     };
   }
 
@@ -73,12 +75,14 @@ export class GvSchemaForm extends LitElement {
   }
 
   set values(values) {
-    if (values) {
-      this._initialValues = { ...values };
-    } else {
-      this._initialValues = {};
+    if (!deepEqual(this._values, values)) {
+      if (values) {
+        this._initialValues = { ...values };
+      } else {
+        this._initialValues = {};
+      }
+      this._values = deepClone(this._initialValues);
     }
-    this._values = deepClone(this._initialValues);
   }
 
   get values() {
@@ -329,7 +333,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   render() {
-    return html`<form>
+    return html`<form class="${classMap({ scrollable: this.scrollable })}">
       <div class="${classMap({ container: true, confirm: this._confirm })}">
         ${this.hasHeader === true
           ? html`
@@ -391,9 +395,12 @@ export class GvSchemaForm extends LitElement {
         }
 
         form {
-          position: absolute;
           display: flex;
           flex-direction: column;
+        }
+
+        form.scrollable {
+          position: absolute;
           width: 100%;
           top: 0;
           bottom: 0;
@@ -419,12 +426,8 @@ export class GvSchemaForm extends LitElement {
 
         .content {
           flex-grow: 1;
-
-          overflow: auto;
-
           display: flex;
           flex-direction: column;
-
           align-self: center;
           width: 100%;
 
@@ -433,8 +436,16 @@ export class GvSchemaForm extends LitElement {
         }
 
         .content > gv-schema-form-control {
-          max-width: 775px;
           align-self: center;
+          width: 100%;
+        }
+
+        form.scrollable .content {
+          overflow: auto;
+        }
+
+        form.scrollable .content > gv-schema-form-control {
+          max-width: 775px;
           width: 95%;
         }
 
@@ -456,9 +467,13 @@ export class GvSchemaForm extends LitElement {
 
         .footer {
           display: flex;
-          justify-content: center;
+          justify-content: space-between;
           padding: 1rem;
           border-top: 1px solid #d9d9d9;
+        }
+
+        form.scrollable .footer {
+          justify-content: center;
         }
 
         .footer .left,

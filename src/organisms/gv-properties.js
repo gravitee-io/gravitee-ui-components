@@ -549,6 +549,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
   _renderForm() {
     return html`<gv-schema-form
       slot="top"
+      scrollable
       .schema="${this._propertySchemaForm}"
       .values="${this.provider}"
       .icon="design:edit"

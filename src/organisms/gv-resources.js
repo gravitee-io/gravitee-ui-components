@@ -264,6 +264,7 @@ export class GvResources extends KeyboardElement(LitElement) {
   _renderForm() {
     const values = { ...this._currentResource.values, ...this._currentResource._values };
     return html`<gv-schema-form
+      scrollable
       .schema="${this._currentResource.schema}"
       .values="${values}"
       submitLabel="${this._currentResource.submitLabel}"
