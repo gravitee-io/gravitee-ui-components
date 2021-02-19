@@ -31,6 +31,7 @@ export function InputElement(ParentClass) {
         title: { type: String },
         name: { type: String },
         placeholder: { type: String },
+        description: { type: String },
         autofocus: { type: Boolean },
         invalid: { type: Boolean, reflect: true },
         valid: { type: Boolean, reflect: true },
@@ -111,6 +112,16 @@ export function InputElement(ParentClass) {
 
     getInputElement() {
       return this.shadowRoot.querySelector('input');
+    }
+
+    get offsetHeight() {
+      if (this.description != null) {
+        const element = this.shadowRoot.querySelector('.description');
+        if (element != null) {
+          return super.offsetHeight - element.offsetHeight;
+        }
+      }
+      return super.offsetHeight;
     }
 
     renderLabel() {

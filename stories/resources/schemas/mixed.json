@@ -21,6 +21,7 @@
     "el": {
       "title": "EL input",
       "type": "string",
+      "description": "Add an Expression Language",
       "x-schema-form": {
         "expression-language": true
       }

@@ -245,4 +245,9 @@ export const input = css`
     line-height: 15px;
     padding: 0 0 0.2rem 0;
   }
+
+  .description {
+    opacity: 0.6;
+    font-size: var(--gv-theme-font-size-s, 12px);
+  }
 `;

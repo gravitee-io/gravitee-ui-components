@@ -160,6 +160,7 @@ export class GvCode extends InputElement(LitElement) {
           ${this.skeleton ? html`<div class="skeleton"></div>` : ''}
         </div>
       </div>
+      ${this.description != null ? html`<div class="description" .innerHTML="${this.description}"></div>` : ''}
     `;
   }
 

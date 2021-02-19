@@ -68,6 +68,10 @@ export const IconLeft = makeStory(conf, {
   items: items.map((p) => ({ ...p, 'icon-left': 'general:search' })),
 });
 
+export const Description = makeStory(conf, {
+  items: items.map((p) => ({ ...p, description: 'This is an awesome description' })),
+});
+
 export const Disabled = makeStory(conf, {
   items: items.map((p) => ({ ...p, disabled: true })),
 });
