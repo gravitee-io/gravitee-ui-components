@@ -58,6 +58,7 @@ export const MixedEmpty = makeStory(conf, {
         event.detail.currentTarget.options = options;
       },
       'has-footer': true,
+      scrollable: true,
       '@gv-expression-language:ready': ({ detail }) => {
         detail.currentTarget.grammar = grammar;
       },
@@ -283,6 +284,7 @@ export const AllPolicies = makeStory(conf, {
        <gv-switch title="Validate on render"></gv-switch>
       </div>`,
       'has-header': true,
+      scrollable: true,
       '@gv-schema-form:submit': ({ detail, target }) => {
         target.values = detail.values;
       },

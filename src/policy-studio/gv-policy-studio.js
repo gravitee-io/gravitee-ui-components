@@ -1067,6 +1067,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                 .values="${values}"
                 .dirty="${this._currentFlowStep._values != null}"
                 ?readonly="${readonlyMode}"
+                scrollable
                 @gv-schema-form:change="${this._onChangeFlowStep}"
                 @gv-schema-form:reset="${this._onResetFlowStep}"
                 @gv-schema-form:fetch-resources="${this._onFetchResources}"
@@ -1529,6 +1530,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           .values="${values}"
           has-header
           has-footer
+          scrollable
           ?readonly="${readonlyMode}"
           @gv-schema-form:cancel="${this._onCancelFlowMode}"
           @gv-schema-form:submit="${this._onSubmitFlowMode}"
@@ -1558,6 +1560,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
             id="settings-form"
             .values="${values}"
             has-header
+            scrollable
             ?readonly="${readonlyMode}"
             @gv-schema-form:cancel="${this._onCancelFlow}"
             @gv-schema-form:submit="${this._onSubmitFlow}"
