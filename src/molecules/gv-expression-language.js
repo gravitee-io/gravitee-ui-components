@@ -31,6 +31,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {String} value - the value of the input
  * @attr {String} label - label of the input
  * @attr {String} placeholder - an example value to display in the input when empty
+ * @attr {String} description - a description
  * @attr {Object} grammar - Grammar for expression languages
  * @attr {Number} rows - Number of rows, if rows=1 the field will look like an input text
  * @attr {Object} options -  options based on codemirror https://codemirror.net/doc/manual.html#config
@@ -40,6 +41,7 @@ export class GvExpressionLanguage extends LitElement {
     return {
       label: { type: String },
       placeholder: { type: String },
+      description: { type: String },
       value: { type: String, reflect: true },
       grammar: { type: Object },
       rows: { type: Number },
@@ -440,6 +442,7 @@ export class GvExpressionLanguage extends LitElement {
         ?readonly="${this.readonly}"
         ?required="${this.required}"
         .placeholder="${this.placeholder}"
+        .description="${this.description}"
       ></gv-code>
       <div id="hint"></div>
     </div>`;

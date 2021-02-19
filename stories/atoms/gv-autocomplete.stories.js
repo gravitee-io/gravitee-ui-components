@@ -48,7 +48,7 @@ const conf = {
 export const BasicUsage = makeStory(conf, {
   items: [
     {
-      innerHTML: '<gv-input placeholder="Type something..."></gv-input>',
+      innerHTML: '<gv-input placeholder="Type something..." description="Try to type something"></gv-input>',
       '@gv-autocomplete:search': (event) => {
         const detail = event.detail;
         const component = event.target;

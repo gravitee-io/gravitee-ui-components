@@ -18,6 +18,7 @@ import { html } from 'lit-html';
 import { dispatchCustomEvent } from '../lib/events';
 import { repeat } from 'lit-html/directives/repeat';
 import { classMap } from 'lit-html/directives/class-map';
+import { styleMap } from 'lit-html/directives/style-map';
 
 const ENTER_KEY_CODE = 13;
 const DOWN_ARROW_KEY_CODE = 40;
@@ -257,6 +258,12 @@ export class GvAutocomplete extends LitElement {
       open = this.minChars === 0 || this.value.trim().length >= this.minChars;
     }
 
+    const input = this._getInput();
+    let top = 0;
+    if (input != null) {
+      top = input.offsetHeight;
+    }
+
     const classes = {
       options: true,
       open,
@@ -264,7 +271,7 @@ export class GvAutocomplete extends LitElement {
     return html` <div class="container">
       ${this._renderStyle()}
       <slot></slot>
-      <div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}">
+      <div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}" style="${styleMap({ top: `${top}px` })}">
         <slot name="noOption" class="${!options || options.length === 0 ? 'show' : 'hide'}"></slot>
         ${repeat(
           options,

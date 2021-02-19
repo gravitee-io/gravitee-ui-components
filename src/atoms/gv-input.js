@@ -42,6 +42,7 @@ import { shapeClipboard, shapeCopied } from '../styles/shapes';
  * @attr {String} title - title of the input
  * @attr {String} name - name of the input
  * @attr {String} placeholder - an example value to display in the input when empty
+ * @attr {String} description - a description
  * @attr {String} type - type of the input, can be text (Default), password, email, search, number, url.
  * @attr {Boolean} clipboard - for readonly input with clipboard
  * @attr {Boolean} large - for a large input
@@ -83,6 +84,7 @@ export class GvInput extends InputElement(LitElement) {
       clearable: { type: Boolean },
       noSubmit: { type: Boolean, attribute: 'no-submit' },
       pattern: { type: String, reflect: true },
+      description: { type: String },
       _type: { type: String, attribute: false },
     };
   }
@@ -545,6 +547,7 @@ export class GvInput extends InputElement(LitElement) {
         <slot></slot>
         ${this._renderClearIcon()} ${this._renderIcon()} ${this._renderPasswordIcon()}
       </div>
+      ${this.description != null ? html`<div class="description" .innerHTML="${this.description}"></div>` : ''}
     `;
   }
 }

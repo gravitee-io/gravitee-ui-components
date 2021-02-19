@@ -164,24 +164,20 @@ export class GvSchemaFormControl extends LitElement {
         element.options.value = this.control.default;
       }
       if (this.control.description != null) {
-        element.options.placeholder = this.control.description;
+        // element.options.placeholder = this.control.description;
       }
     } else if (this.isExpressionLanguage()) {
       element.options = {};
       element.rows = 1;
       if (this.control.description != null) {
-        element.options.placeholder = this.control.description;
+        // element.options.placeholder = this.control.description;
       }
     } else if (this.isPassword()) {
       element.type = 'password';
     }
 
     if (this.control.description) {
-      if (this.control.type === 'boolean') {
-        element.description = this.control.description;
-      } else {
-        element.placeholder = this.control.description;
-      }
+      element.description = this.control.description;
     }
 
     element.addEventListener(`${elementName}:input`, this._onInput.bind(this));
@@ -307,7 +303,7 @@ export class GvSchemaFormControl extends LitElement {
         }
 
         .form__control-description {
-          margin: 0 0.5rem;
+          opacity: 0.8;
         }
 
         .form__control-label {

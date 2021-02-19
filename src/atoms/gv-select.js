@@ -44,6 +44,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {String} title - title of the select
  * @attr {String} name - name of the select
  * @attr {String} placeholder - an example value to display in the select when empty
+ * @attr {String} description - a description
  * @attr {Boolean} multiple - enable multiple selection
  *
  * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
@@ -67,6 +68,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       title: { type: String },
       name: { type: String },
       placeholder: { type: String },
+      description: { type: String },
       multiple: { type: Boolean, reflect: true },
       _isClosed: { type: Boolean, attribute: false },
     };
@@ -432,6 +434,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
               )}
             </ul>`}
       </div>
+      ${this.description != null ? html`<div class="description" .innerHTML="${this.description}"></div>` : ''}
     `;
   }
 
