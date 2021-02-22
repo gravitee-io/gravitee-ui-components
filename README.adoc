@@ -1,6 +1,138 @@
-= Gravitee.io UI Components
+= Welcome to Gravitee.io UI Components
 
-== Install
+== User guide
+
+If you want to use our awesome Gravitee components to your webapp
+
+```bash
+npm install --save @gravitee/ui-components
+```
+
+=== Configuration
+
+Our components are based on a set of files to manage **icons**, **images**, **i18n** or even for **CSS**.
+When we publish the dist folder, we also publish the assets, you can get them in folder `@gravitee/ui-components/assets`.
+To use them in an application, it's necessary to add some configuration to expose the folders on the correct paths
+
+**webpack.conf.js**
+```js
+const CopyPlugin = require("copy-webpack-plugin");
+
+module.exports = {
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: "node_modules/@gravitee/ui-components/assets/images", to: "images" },
+        { from: "node_modules/@gravitee/ui-components/assets/css", to: "css" },
+        { from: "node_modules/@gravitee/ui-components/assets/svg", to: "svg" },
+        { from: "node_modules/@gravitee/ui-components/assets/i18n", to: "i18n" },
+      ],
+    }),
+  ],
+};
+```
+
+**angular.json**
+```json
+
+  "architect": {
+    "build": {
+      "builder": "@angular-devkit/build-angular:browser",
+      "options": {
+        "index": "src/index.html",
+        "main": "src/main.ts",
+        "assets": [
+          "src/favicon.ico",
+          "src/favicon.png",
+          "src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/@gravitee/ui-components/assets/images",
+            "output": "images/"
+          },
+          {
+            "glob": "**/*.css",
+            "input": "node_modules/@gravitee/ui-components/assets/css",
+            "output": "css/"
+          },
+          {
+            "glob": "**/*.svg",
+            "input": "node_modules/@gravitee/ui-components/assets/icons",
+             "output": "icons/"
+          },
+          {
+            "glob": "**/*.json",
+            "input": "node_modules/@gravitee/ui-components/assets/i18n",
+            "output": "i18n/"
+          }
+```
+
+=== I18n
+
+Some components use i18n, if you didn't need it, you can load the default `EN` translations when your app starts.
+
+```js
+import { loadDefaultTranslations } from '@gravitee/ui-components/src/lib/i18n';
+
+loadDefaultTranslations();
+```
+
+
+=== Using in Angular app
+
+**First import the component**
+```js
+import { FormGroup, FormControl } from '@angular/forms';
+
+import '@gravitee/ui-components/wc/gv-input';
+import '@gravitee/ui-components/wc/gv-button';
+```
+
+**Use in template, like an simple HTML element**
+
+```html
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div>
+      <gv-input
+          autofocus
+          name="username"
+          formControlName="username"
+          ngDefaultControl
+          gvControl
+          icon-left="communication:shield-user">
+      </gv-input>
+      <gv-input
+          type="password"
+          name="password"
+          formControlName="password"
+          ngDefaultControl
+          gvControl
+          icon-left="general:shield-protected">
+      </gv-input>
+    </div>
+
+    <div>
+      <gv-button
+          class="signin"
+          primary
+          icon="navigation:sign-in"
+          type="submit">Login</gv-button>
+    </div>
+
+</form>
+```
+
+=== Upgrade
+
+Read the changelog and
+
+```
+npm install --save @gravitee/ui-components@{version}
+```
+
+== Developers guide
+
+=== Install
 
 - Install http://nodejs.org[nodejs], it comes with http://npmjs.org[npm]
 - Then install node modules with:
@@ -8,7 +140,7 @@
 npm install
 ```
 
-== Tasks
+=== Tasks
 
 If you wanna start the storybook on dev mode :
 ```
