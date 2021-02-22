@@ -222,6 +222,9 @@ describe('S C H E M A  F O R M', () => {
             pattern: '^/',
             title: 'Path',
             type: 'string',
+            'x-schema-form': {
+              placeholder: '/my-path',
+            },
           },
           stack: 'instance.path-operator.path does not match pattern "^/"',
         },

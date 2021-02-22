@@ -58,6 +58,10 @@ export class GvSchemaFormControl extends LitElement {
     return this.control['x-schema-form'] && this.control['x-schema-form'].type != null && this.control['x-schema-form'].type === 'password';
   }
 
+  getPlaceholder() {
+    return this.control['x-schema-form'] && this.control['x-schema-form'].placeholder ? this.control['x-schema-form'].placeholder : null;
+  }
+
   isCodemirror() {
     return isCodemirror(this.control);
   }
@@ -146,6 +150,8 @@ export class GvSchemaFormControl extends LitElement {
       element.type = 'number';
     }
 
+    const placeholder = this.getPlaceholder();
+
     if (this.control.enum || (this.control.items && this.control.items.enum)) {
       if (this.control['x-schema-form'] && this.control['x-schema-form'].titleMap) {
         element.options = this.control.enum.map((value) => ({
@@ -163,21 +169,23 @@ export class GvSchemaFormControl extends LitElement {
       if (this.control.default != null && element.options.value == null) {
         element.options.value = this.control.default;
       }
-      if (this.control.description != null) {
-        // element.options.placeholder = this.control.description;
-      }
     } else if (this.isExpressionLanguage()) {
       element.options = {};
       element.rows = 1;
-      if (this.control.description != null) {
-        // element.options.placeholder = this.control.description;
-      }
     } else if (this.isPassword()) {
       element.type = 'password';
     }
 
     if (this.control.description) {
       element.description = this.control.description;
+    }
+
+    if (placeholder != null) {
+      if (this.isExpressionLanguage() || this.isCodemirror()) {
+        element.options.placeholder = placeholder;
+      } else {
+        element.placeholder = placeholder;
+      }
     }
 
     element.addEventListener(`${elementName}:input`, this._onInput.bind(this));

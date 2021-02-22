@@ -15,7 +15,8 @@
           "allowDropFileTypes": true,
           "autoCloseTags": true,
           "mode": "xml"
-        }
+        },
+        "placeholder": "<xml></xml>"
       }
     },
     "el": {
@@ -23,7 +24,8 @@
       "type": "string",
       "description": "Add an Expression Language",
       "x-schema-form": {
-        "expression-language": true
+        "expression-language": true,
+        "placeholder": "{#request.headers['content-type'][0] == 'application/json'}"
       }
     },
     "body-with-el": {
@@ -61,7 +63,10 @@
           "title": "Path",
           "description": "The path of flow (must start by /)",
           "type": "string",
-          "pattern": "^/"
+          "pattern": "^/",
+          "x-schema-form": {
+            "placeholder": "/my-path"
+          }
         }
       },
       "required": ["path", "operator"]
