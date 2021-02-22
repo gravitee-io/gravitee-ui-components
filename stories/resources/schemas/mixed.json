@@ -76,6 +76,16 @@
         }
       }
     },
+    "another-list-resources": {
+      "title": "Async list of resource",
+      "description": "Special field that's dispatch an event after add in DOM, usefull for async load",
+      "type": "string",
+      "x-schema-form": {
+        "event": {
+          "name": "fetch-data"
+        }
+      }
+    },
     "attributes": {
       "type": "array",
       "title": "Assign context attributes",

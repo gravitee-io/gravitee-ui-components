@@ -33,6 +33,7 @@ const ESCAPE_KEY_CODE = 27;
  *
  * @fires gv-autocomplete:search - Custom event when user search value
  * @fires gv-autocomplete:select - Custom event when user select value
+ * @fires gv-autocomplete:opened - Custom event after opened autocomplete
  *
  * @slot style - The options style
  * @slot input - The input to wrap
@@ -62,7 +63,7 @@ export class GvAutocomplete extends LitElement {
       filter: { type: Boolean | Function },
       size: { type: Number },
       _options: { type: Array, attribute: false },
-      _forceOpen: { type: Boolean },
+      _forceOpen: { type: Boolean, attribute: false },
     };
   }
 
@@ -156,6 +157,7 @@ export class GvAutocomplete extends LitElement {
     this.style = '';
     this.filter = false;
     this.size = 5;
+    this._handleOpened = this._onOpened.bind(this);
   }
 
   set options(options) {
@@ -192,7 +194,7 @@ export class GvAutocomplete extends LitElement {
     this.value = event.target.value;
     if (this.value != null && this.value.trim().length >= this.minChars) {
       this._cancellableTimeout = setTimeout(() => {
-        this._forceOpen = true;
+        this._open();
         dispatchCustomEvent(this, 'search', this.value);
       }, 200);
     } else {
@@ -207,7 +209,7 @@ export class GvAutocomplete extends LitElement {
       });
     }
     this.value = this._getInput().value = value;
-    this._forceOpen = false;
+    this._close();
     dispatchCustomEvent(this, 'select', option);
   }
 
@@ -324,7 +326,7 @@ export class GvAutocomplete extends LitElement {
           this._onSelect(candidate.getAttribute('data-value'));
           this._updateHover();
         }
-        this._forceOpen = false;
+        this._close();
         break;
       }
 
@@ -362,13 +364,23 @@ export class GvAutocomplete extends LitElement {
     }
   }
 
-  _onFocus() {
+  _open() {
     this._forceOpen = true;
+    dispatchCustomEvent(this, 'opened', { target: this });
+  }
+
+  _close() {
+    this._forceOpen = false;
+  }
+
+  _onFocus() {
+    this._open();
   }
 
   _onBlur() {
+    // Important when using custom HTML in options
     if (this._shouldSelect === false) {
-      this._forceOpen = false;
+      this._close();
     }
   }
 
@@ -416,6 +428,17 @@ export class GvAutocomplete extends LitElement {
     }
   }
 
+  _onOpened({ detail }) {
+    if (detail.target !== this) {
+      this._close();
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('gv-autocomplete:opened', this._handleOpened);
+  }
+
   disconnectedCallback() {
     if (this._handlers) {
       this.shadowRoot.removeEventListener('input', this._handlers.input);
@@ -425,6 +448,7 @@ export class GvAutocomplete extends LitElement {
       input.removeEventListener('blur', this._handlers.blur);
       input.removeEventListener('gv-input:clear', this._handlers.clear);
     }
+    window.removeEventListener('gv-autocomplete:open', this._handleOpened);
     super.disconnectedCallback();
   }
 }

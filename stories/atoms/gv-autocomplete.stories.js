@@ -38,6 +38,8 @@ const conf = {
   css: `
     :host {
       height: 175px;
+      display: flex;
+      flex-direction: column;
     }
     gv-autocomplete {
       width: 350px;
