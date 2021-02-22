@@ -17,7 +17,7 @@ import { storiesOf } from '@storybook/web-components';
 import { setAsciiDoctorAsGlobal, toDom } from '../../src/lib/text-format';
 import Readme from '../../README.adoc';
 import Contributing from '../../CONTRIBUTING.adoc';
-import Theme from '../../docs/theme.md';
+import Icons from '../../docs/icons.md';
 import { Parser as HtmlToReactParser } from 'html-to-react';
 import asciidoctor from 'asciidoctor';
 import highlightJsExt from 'asciidoctor-highlight.js';
@@ -46,9 +46,9 @@ export function createDocsStories(kind, stories) {
   });
 }
 
-createDocsStories('Welcome', [
-  { name: ' Readme', text: Readme, type: 'adoc' },
+createDocsStories('Documentation', [
+  { name: ' Welcome', text: Readme, type: 'adoc' },
   { name: 'Contributing', text: Contributing, type: 'adoc' },
+  { name: 'Theme/Icons', text: Icons },
+  // { name: 'Theme/LearnMore', text: Theme },
 ]);
-
-createDocsStories('Documentation', [{ name: 'Theme/LearnMore', text: Theme }]);
