@@ -124,17 +124,21 @@ import '@gravitee/ui-components/wc/gv-button';
 
 === Upgrade
 
-Read the changelog and
+Read the changelog and be careful with breaking changes or notes about upgrade of dependencies.
 
+And install the desired {version}:
 ```
 npm install --save @gravitee/ui-components@{version}
 ```
+
+TIP: You can clean the **package-lock.json** and remove duplicate depencies with `npm run dedupe`
 
 == Developers guide
 
 === Install
 
-- Install http://nodejs.org[nodejs], it comes with http://npmjs.org[npm]
+- Install https://github.com/nvm-sh/nvm[nvm]
+- Use with `nvm use` or install with `nvm install` the node version declared in `.nvmrc`
 - Then install node modules with:
 ```
 npm install
