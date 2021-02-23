@@ -24,6 +24,7 @@ export default {
   component: 'gv-chart-gauge',
   parameters: {
     notes,
+    chromatic: { disable: true },
   },
 };
 

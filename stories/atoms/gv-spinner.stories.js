@@ -23,6 +23,7 @@ export default {
   component: 'gv-spinner',
   parameters: {
     notes,
+    chromatic: { disable: true },
   },
 };
 

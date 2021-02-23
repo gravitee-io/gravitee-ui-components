@@ -60,6 +60,7 @@ export default {
   component: 'gv-chart-map',
   parameters: {
     notes,
+    chromatic: { disable: true },
   },
 };
 

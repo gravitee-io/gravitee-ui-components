@@ -23,7 +23,7 @@ const comment =
   'Hinc ille commotus ut iniusta perferens et indigna pra custodiam protectoribus mandaverat fidis quo con perto Montius tunc Hinc ille commotus ut iniusta perferens et indigna pra custodiam.';
 const admin = { id: 0, display_name: 'Administrator', _links: { avatar } };
 const author = { id: 1, display_name: 'Jean Christophe' };
-const date = new Date();
+const date = new Date('2018-08-08');
 const dateInTheFutur = new Date(new Date().getTime() + 1000 * 60 * 60);
 const answers = [
   { author, comment: 'Awesome !', date: dateInTheFutur },
