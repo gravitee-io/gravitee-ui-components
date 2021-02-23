@@ -80,8 +80,8 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Build
-          command: ls -la storybook-static && ls -la dist
+          name: Running Chromatic
+          command: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static
 
 workflows:
   version: 2.1
