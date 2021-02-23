@@ -37,7 +37,7 @@ const STEPS = [1, 5, 10, 20, 30, 45];
 export default {
   title: 'Atoms/gv-relative-time',
   component: 'gv-relative-time',
-  parameters: { notes },
+  parameters: { notes, chromatic: { disable: true } },
   excludeStories: ['createDateAgo'],
 };
 
@@ -80,3 +80,7 @@ export const monthsAgo = makeStory(conf, {
 export const yearsAgo = makeStory(conf, {
   items: () => STEPS.map((years) => ({ datetime: createDateAgo({ years }) })),
 });
+yearsAgo.parameters = {
+  ...yearsAgo.parameters,
+  chromatic: { disable: false },
+};

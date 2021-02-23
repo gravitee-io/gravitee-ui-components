@@ -56,7 +56,7 @@ export const modesInColumn = makeStory(
   {
     ...conf,
     ...{
-      css: ` 
+      css: `
         :host {
           display: flex;
           flex-direction: column;

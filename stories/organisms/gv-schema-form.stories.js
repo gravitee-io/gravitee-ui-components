@@ -319,3 +319,7 @@ export const AllPolicies = makeStory(conf, {
     },
   ],
 });
+AllPolicies.parameters = {
+  ...AllPolicies.parameters,
+  chromatic: { disable: true },
+};

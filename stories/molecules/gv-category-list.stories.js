@@ -65,6 +65,7 @@ export default {
   component: 'gv-category-list',
   parameters: {
     notes,
+    chromatic: { delay: 2500 },
   },
 };
 

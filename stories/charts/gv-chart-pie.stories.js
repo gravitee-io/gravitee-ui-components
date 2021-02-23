@@ -45,6 +45,7 @@ export default {
   component: 'gv-chart-pie',
   parameters: {
     notes,
+    chromatic: { disable: true },
   },
 };
 
