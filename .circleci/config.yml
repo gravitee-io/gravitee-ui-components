@@ -45,7 +45,10 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Run linters
+          name: Run CommitLint
+          command: npm run lint:commit
+      - run:
+          name: Run Prettier and ESLint
           command: npm run lint
       - run:
           name: Run unit tests
