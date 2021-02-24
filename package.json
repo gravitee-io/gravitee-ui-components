@@ -1,6 +1,6 @@
 {
   "name": "@gravitee/ui-components",
-  "version": "1.0.25",
+  "version": "1.0.26-SNAPSHOT",
   "description": "",
   "main": "src/index.js",
   "files": [
