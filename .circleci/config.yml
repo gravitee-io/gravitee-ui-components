@@ -67,7 +67,7 @@ jobs:
           at: .
       - run:
           name: Build
-          command: npm run build
+          command: NODE_OPTIONS=--max_old_space_size=3072 npm run build
       - persist_to_workspace:
           root: .
           paths:
