@@ -36,6 +36,7 @@ export { GvExpressionLanguage } from './molecules/gv-expression-language';
 export { GvIdentityPicture } from './molecules/gv-identity-picture';
 export { GvList } from './molecules/gv-list';
 export { GvMetrics } from './molecules/gv-metrics';
+export { GvModal } from './molecules/gv-modal';
 export { GvNav } from './molecules/gv-nav';
 export { GvOption } from './molecules/gv-option';
 export { GvPlans } from './molecules/gv-plans';
