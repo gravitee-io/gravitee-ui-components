@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  secrethub: secrethub/cli@1.1
+
 executors:
   node-lts:
     parameters:
@@ -75,12 +78,14 @@ jobs:
     executor:
       class: medium
       name: node-lts
+    environment:
+      CHROMATIC_PROJECT_TOKEN: 'secrethub://graviteeio/cicd/graviteebot/chromatic_project_token'
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - run:
-          name: Running Chromatic
+      - secrethub/exec:
+          step-name: Running Chromatic
           command: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static
 
 workflows:
@@ -103,6 +108,7 @@ workflows:
             branches:
               ignore: master
       - chromatic:
+          context: gravitee-qa
           requires:
             - build
             - trigger-chromatic
