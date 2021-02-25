@@ -59,7 +59,7 @@ jobs:
 
   build:
     executor:
-      class: medium
+      class: large
       name: node-lts
     steps:
       - checkout
@@ -88,6 +88,31 @@ jobs:
           step-name: Running Chromatic
           command: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static
 
+  release:
+    executor:
+      class: small
+      name: node-lts
+    environment:
+      NPM_TOKEN: secrethub://graviteeio/cicd/graviteebot/infra/npm_token
+      GITHUB_TOKEN: secrethub://graviteeio/cicd/graviteebot/github_personal_access_token
+      GIT_AUTHOR_NAME: secrethub://graviteeio/cicd/graviteebot/git/user/name
+      GIT_AUTHOR_EMAIL: secrethub://graviteeio/cicd/graviteebot/git/user/email
+      GIT_COMMITTER_NAME: secrethub://graviteeio/cicd/graviteebot/git/user/name
+      GIT_COMMITTER_EMAIL: secrethub://graviteeio/cicd/graviteebot/git/user/email
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "ac:88:23:8f:c6:0f:7d:f0:fc:df:73:20:34:56:02:6c"
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Setup SSH Keys
+          command: ssh-add -D && ssh-add ~/.ssh/id_rsa_ac88238fc60f7df0fcdf73203456026c
+      - secrethub/exec:
+          step-name: 🚀 Release the Kraken
+          command: npm run release
+
 workflows:
   version: 2.1
   validate:
@@ -112,3 +137,11 @@ workflows:
           requires:
             - build
             - trigger-chromatic
+      - release:
+          context: gravitee-qa
+          requires:
+            - build
+            - lint-test
+          filters:
+            branches:
+              only: master
