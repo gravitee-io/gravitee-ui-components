@@ -1,10 +1,3 @@
-# [[secure]](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.0.25...v[secure]) (2021-02-25)
-
-
-### Features
-
-* commit to make the first automatic release using semantic-release ([c09cd6f](https://github.com/gravitee-io/gravitee-ui-components/commit/c09cd6f1f0265b37d1ff1c941dacefbefcdef023))
-
 ## <small>1.0.25 (2021-02-24)</small>
 
 * doc: improve documentation ([6cee73b](https://github.com/gravitee-io/gravitee-ui-components/commit/6cee73b))
