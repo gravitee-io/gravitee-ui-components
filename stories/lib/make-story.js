@@ -126,13 +126,6 @@ export function makeStory(...configs) {
 
   const mdxSource = dom != null ? domSource() : generatedSource();
 
-  // Disable Chromatic for stories with `skeleton` or `loading` properties or
-  // with async process using `simulations` fields. Otherwise there are some
-  // false positive changes related to animation etc
-  const hasItemWithLoadingAttribute = items.some((item) => item.loading);
-  const hasItemWithSkeletonAttribute = items.some((item) => item.skeleton);
-  const automaticallyDisableChromatic = simulations.length > 0 || hasItemWithLoadingAttribute || hasItemWithSkeletonAttribute;
-
   storyFn.docs = docs;
   storyFn.css = css;
   storyFn.component = component;
@@ -148,8 +141,18 @@ export function makeStory(...configs) {
     storySource: {
       source: mdxSource,
     },
-    chromatic: { disable: automaticallyDisableChromatic },
   };
+
+  // Disable Chromatic for stories with `skeleton` or `loading` properties or
+  // with async process using `simulations` fields. Otherwise there are some
+  // false positive changes related to animation etc
+  const hasItemWithLoadingAttribute = items.some((item) => item.loading);
+  const hasItemWithSkeletonAttribute = items.some((item) => item.skeleton);
+  const automaticallyDisableChromatic = simulations.length > 0 || hasItemWithLoadingAttribute || hasItemWithSkeletonAttribute;
+
+  if (automaticallyDisableChromatic === true) {
+    storyFn.parameters.chromatic = { disable: automaticallyDisableChromatic };
+  }
 
   if (name != null) {
     storyFn.name = name;
