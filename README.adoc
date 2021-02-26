@@ -219,3 +219,19 @@ npm link
 cd ../my-project
 npm link @gravitee/ui-components
 ```
+
+== Contributing
+
+You think Gravitee.io is awesome and want to contribute to the project?
+Here are few https://github.com/gravitee-io/gravitee-ui-components/blob/master/CONTRIBUTING.adoc[guidelines]  that should help you get started.
+
+== Copyright
+
+Copyright (C) 2015 The Gravitee team (http://gravitee.io)
+Licensed under the Apache License, Version 2.0 (the "License");
+
+See the https://github.com/gravitee-io/gravitee-ui-components/blob/master/LICENSE.txt[LICENSE] file for details.
+
+== Changelog
+
+Refer to the https://github.com/gravitee-io/gravitee-ui-components/blob/master/CHANGELOG.md[CHANGELOG] for a complete list of changes.

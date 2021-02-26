@@ -109,6 +109,7 @@ async function run() {
   fs.copy('assets/i18n', 'dist/assets/i18n');
   fs.copy('assets/icons', 'dist/assets/icons');
   fs.copy('package.json', 'dist/package.json');
+  fs.copy('README.adoc', 'dist/README.adoc');
 }
 
 run().catch(console.error);
