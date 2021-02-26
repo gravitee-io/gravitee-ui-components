@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.1.1...v1.2.0) (2021-02-26)
+
+
+### Bug Fixes
+
+* **gv-autocomplete:** remove overlap when has several autocomplete ([d8b9849](https://github.com/gravitee-io/gravitee-ui-components/commit/d8b98496435cde588f5c08aaeb6135511e2c5410))
+* **gv-schema-form:** use good propery for placeholder ([72e516a](https://github.com/gravitee-io/gravitee-ui-components/commit/72e516a4b2f004ec0053696fbfee182b959e0411))
+
+
+### Features
+
+* **gv-schema-form:** add an option to make only the content scrollable ([f234882](https://github.com/gravitee-io/gravitee-ui-components/commit/f234882c9a10ab2796eb38cdbe78bc886550ae9e)), closes [gravitee-io/issues#2298](https://github.com/gravitee-io/issues/issues/2298)
+* **inputs:** add description text below the inputs ([2517e7d](https://github.com/gravitee-io/gravitee-ui-components/commit/2517e7d1b8bcb1c8cacd05069abaed4c83d7b149))
+
 ## [1.1.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.1.0...v1.1.1) (2021-02-26)
 
 
