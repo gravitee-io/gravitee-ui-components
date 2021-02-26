@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.1.0...v1.1.1) (2021-02-26)
+
+
+### Bug Fixes
+
+* add `disable` flag to chromatic only when it is computed to `true` ([e70c829](https://github.com/gravitee-io/gravitee-ui-components/commit/e70c829aeb7d983eeca184c4d64c01dcf3fb8711))
+
 # [1.1.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.0.25...v1.1.0) (2021-02-26)
 
 
