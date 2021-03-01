@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.2.0...v1.3.0) (2021-03-01)
+
+
+### Features
+
+* add gv-modal ([d8b2620](https://github.com/gravitee-io/gravitee-ui-components/commit/d8b2620d92d6b15036fb3113ba89dc9206dd7832))
+
 # [1.2.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.1.1...v1.2.0) (2021-02-26)
 
 
