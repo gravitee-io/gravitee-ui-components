@@ -38,7 +38,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
