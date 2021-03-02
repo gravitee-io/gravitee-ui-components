@@ -1,7 +1,9 @@
 {
   "name": "@gravitee/ui-components",
-  "version": "1.1.0",
-  "description": "",
+  "version": "0.0.0",
+  "description": "Gravitee.io UI Components library, based on Web Components",
+  "license": "Apache-2.0",
+  "author": "",
   "main": "src/index.js",
   "files": [
     "assets/css",
@@ -36,18 +38,15 @@
     "test:coverage": "npm run test -- --collect-coverage",
     "test:watch": "npm run test -- --watchAll"
   },
-  "keywords": [],
-  "author": "",
-  "license": "Apache-2.0",
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "dependencies": {
     "@formatjs/intl-relativetimeformat": "^4.5.9",
