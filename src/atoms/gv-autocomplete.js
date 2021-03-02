@@ -256,7 +256,8 @@ export class GvAutocomplete extends LitElement {
   render() {
     const options = this._getFilteredOptions();
     let open = false;
-    if ((options && options.length > 0 && this._forceOpen) || this._hasNoOptionSlot()) {
+
+    if (options && options.length > 0 && this._forceOpen) {
       open = this.minChars === 0 || this.value.trim().length >= this.minChars;
     }
 
@@ -270,11 +271,16 @@ export class GvAutocomplete extends LitElement {
       options: true,
       open,
     };
+
     return html` <div class="container">
       ${this._renderStyle()}
       <slot></slot>
+      ${this._hasNoOptionSlot() && this._forceOpen
+        ? html`<div class="options open" style="${styleMap({ top: `${top}px` })}">
+            <slot name="noOption" class="${!options || options.length === 0 ? 'show' : 'hide'}"></slot>
+          </div>`
+        : ''}
       <div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}" style="${styleMap({ top: `${top}px` })}">
-        <slot name="noOption" class="${!options || options.length === 0 ? 'show' : 'hide'}"></slot>
         ${repeat(
           options,
           (option) => option,

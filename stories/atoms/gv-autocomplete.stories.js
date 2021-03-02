@@ -226,18 +226,22 @@ export const CustomElement = makeStory(conf, {
     `,
 });
 
+const users = [{ value: 'John' }, { value: 'Jack' }, { value: 'Jane' }, { value: 'Steeve' }, { value: 'Tony' }, { value: 'Axel' }];
 export const NoOptionsSlot = makeStory(conf, {
   items: [
     {
-      options: [],
+      options: users,
       innerHTML: `
-        <gv-input placeholder='Type something…'></gv-input>
+        <gv-input placeholder='Type some unavailable option like Jim…'></gv-input>
         <div slot='noOption' style='display:flex;flex-direction:row;align-items:center;justify-content:space-around'>
             <span>No matching option found</span>
-            <gv-button @click='(e) => console.log(e)'>
-                Add one
-            </gv-button>
+            <gv-button>Add one</gv-button>
         </div>`,
+      '@gv-autocomplete:search': (event) => {
+        const detail = event.detail;
+        const component = event.target;
+        component.options = users.filter((user) => user.value.includes(detail));
+      },
     },
   ],
 });
