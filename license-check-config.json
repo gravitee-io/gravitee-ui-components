@@ -1,0 +1,44 @@
+{
+  "ignore": [
+    "*",
+    "node/**",
+    "node_modules/**",
+    "**/*.svg",
+    "storybook-static/**",
+    "wc/**",
+    "docs/**",
+    "docker/**",
+    "index.js",
+    "src/index.js",
+    "**/*.generated.*",
+    "coverage/**",
+    "dist/**",
+    ".*/**",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/*.adoc",
+    "assets/css/github-markdown-css/**",
+    "assets/css/highlight.js/**",
+    "assets/css/codemirror/**",
+    "assets/css/asciidoctor/**"
+  ],
+  "license": "LICENSE_TEMPLATE.txt",
+  "licenseFormats": {
+    "js|ts|css|scss|less|php|as|c|java|cpp|go|cto|acl": {
+      "prepend": "/*",
+      "append": " */",
+      "eachLine": {
+        "prepend": " * "
+      }
+    },
+    "txt": {}
+  },
+  "defaultFormat": {
+    "prepend": "/*",
+    "append": " */",
+    "eachLine": {
+      "prepend": " * "
+    }
+  },
+  "regexIdentifier": "###"
+}
