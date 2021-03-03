@@ -124,6 +124,7 @@ workflows:
           type: approval
           requires:
             - build
+            - lint-test
           # Ignore this manual step and trigger chromatic automatically on `master`
           filters:
             branches:
