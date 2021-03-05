@@ -104,6 +104,21 @@ export const SingleOption = makeStory(conf, {
   items: items.map((p) => ({ ...p, options: [options[0]], required: true })),
 });
 
+export const SimpleOnDarkBackground = makeStory(
+  {
+    component: 'gv-select',
+    css: `
+    :host {
+      height: 250px;
+      background-color: var(--gv-theme-color-dark);
+    }
+  `,
+  },
+  {
+    items,
+  },
+);
+
 const darkConf = {
   component: 'gv-select',
   css: `
@@ -117,13 +132,15 @@ const darkConf = {
       width: 100%;
       max-width: 500px;
 
-      --gv-select--bgc: var(--gv-theme-color-dark);
+      --gv-select--bgc: transparent;
+      --gv-select--list-bgc: transparent;
       --gv-select--bdc: var(--gv-theme-color-dark);
       --gv-select--c: var(--gv-theme-neutral-color-light);
+      --gv-select-selected--bgc: var(--gv-theme-color-dark);
     }
   `,
 };
 
-export const SimpleOnDarkBackground = makeStory(darkConf, {
+export const TransparentOnDarkBackground = makeStory(darkConf, {
   items,
 });

@@ -1275,6 +1275,13 @@
           "value": ""
         },
         {
+          "name": "--gv-select--list-bgc",
+          "description": "List items background color",
+          "type": "color",
+          "default": "var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #ffffff))",
+          "value": ""
+        },
+        {
           "name": "--gv-select--bdc",
           "description": "Border color",
           "type": "color",

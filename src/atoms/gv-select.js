@@ -48,6 +48,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
  * @attr {Boolean} multiple - enable multiple selection
  *
  * @cssprop {Color} [--gv-select--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
+ * @cssprop {Color} [--gv-select--list-bgc=var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #ffffff))] - List items background color
  * @cssprop {Color} [--gv-select--bdc=var(--gv-theme-neutral-color-dark, #d9d9d9)] - Border color
  * @cssprop {Color} [--gv-select--c=var(--gv-theme-font-color-dark, #262626)] - Color
  * @cssprop {Color} [--gv-select-hover--bgc=var(--gv-theme-color-light, #86c3d0)] - Hover background color
@@ -86,6 +87,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           --bdc: var(--gv-select--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           --c: var(--gv-select--c, var(--gv-theme-font-color-dark, #262626));
           --bgc: var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #ffffff));
+          --bgc-list: var(--gv-select--list-bgc, var(--gv-select--bgc, var(--gv-theme-neutral-color-lightest, #ffffff)));
           --hover-bgc: var(--gv-select-hover--bgc, var(--gv-theme-color-light, #86c3d0));
           --selected-bgc: var(--gv-select-selected--bgc, var(--gv-theme-neutral-color-light, #efefef));
           position: relative;
@@ -94,14 +96,14 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         div,
         input {
           user-select: none;
-          cursor: pointer;
-
-          background-color: transparent;
-          border-color: var(--bdc);
           color: var(--c);
+
+          cursor: pointer;
         }
 
         input {
+          background-color: var(--bgc);
+          border-color: var(--bdc);
           text-overflow: ellipsis;
 
           /* Required for text-overflow to do anything */
@@ -148,7 +150,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           color: var(--c);
           list-style: none;
           position: fixed;
-          background-color: var(--bgc);
+          background-color: var(--bgc-list);
           list-style: none;
           padding: 0;
           transition: all 0.3s ease 0s;
