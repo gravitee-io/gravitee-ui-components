@@ -147,7 +147,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         .select__list {
           color: var(--c);
           list-style: none;
-          position: absolute;
+          position: fixed;
           background-color: var(--bgc);
           list-style: none;
           padding: 0;
