@@ -40,13 +40,17 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
     }
   },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "lint-staged": {
+    "*": "npm run lint:license:fix"
   },
   "dependencies": {
     "@formatjs/intl-relativetimeformat": "^4.5.9",
@@ -107,6 +111,7 @@
     "i18n-extract": "^0.6.7",
     "jest": "^26.4.2",
     "license-check-and-add": "^4.0.2",
+    "lint-staged": "^10.5.4",
     "markdown-it": "^10.0.0",
     "node-static": "^0.7.11",
     "nodemon": "^2.0.2",
