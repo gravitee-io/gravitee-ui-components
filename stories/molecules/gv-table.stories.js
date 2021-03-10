@@ -185,6 +185,7 @@ const users = [
   { name: '', _new: true },
   { name: 'me', id: '1' },
   { name: 'someone else', id: '2' },
+  { name: 'select', id: '3', _select: true },
 ];
 
 export const dynamicRows = makeStory(conf, {
@@ -197,10 +198,11 @@ export const dynamicRows = makeStory(conf, {
           {
             field: 'name',
             label: 'Name',
-            type: (item) => (item._new ? 'gv-input' : 'label'),
+            type: (item) => (item._new ? 'gv-input' : item._select ? 'gv-select' : 'label'),
             attributes: {
               innerHTML: (item) => (item._new ? '' : item.name),
               required: true,
+              options: (item) => (item._select ? ['Foo', 'Bar', 'Baz'] : null),
             },
           },
           {
