@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.3.1...v1.3.2) (2021-03-11)
+
+
+### Bug Fixes
+
+* gv-select default background should be white ([227dc03](https://github.com/gravitee-io/gravitee-ui-components/commit/227dc037868c80c41eb5979d1ed65294265e51b6))
+
 ## [1.3.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.3.0...v1.3.1) (2021-03-10)
 
 
