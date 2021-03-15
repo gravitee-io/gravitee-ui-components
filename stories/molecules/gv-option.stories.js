@@ -38,6 +38,18 @@ export const basics = makeStory(conf, {
   items: [{ options, value: 'cap' }],
 });
 
+export const icons = makeStory(conf, {
+  items: [
+    {
+      options: [
+        { id: 'foo', icon: 'layout:layout-4-blocks' },
+        { id: 'bar', icon: 'layout:layout-horizontal' },
+      ],
+      value: 'foo',
+    },
+  ],
+});
+
 const description = `<p><div>A hands-free application.</div>Using this type, you will be able to define the client_id by your own.</p>`;
 
 export const Description = makeStory(conf, {

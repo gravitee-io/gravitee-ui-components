@@ -26,7 +26,7 @@ const items = [
   { innerHTML: 'Link href', link: true, href: 'https://gravitee.io/' },
   { innerHTML: 'Default', icon: 'cooking:dish' },
   { icon: 'cooking:dish' },
-  { innerHTML: 'Default href', icon: 'cooking:dish', href: 'https://gravitee.io/' },
+  { innerHTML: 'Default href', icon: 'navigation:angle-right', href: 'https://gravitee.io/' },
   { innerHTML: 'Primary', primary: true, icon: 'cooking:dish' },
   { innerHTML: 'Danger', danger: true, icon: 'cooking:dish' },
   { innerHTML: 'Default', 'icon-right': 'code:plus' },

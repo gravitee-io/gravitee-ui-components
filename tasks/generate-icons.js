@@ -22,7 +22,7 @@ const svgstore = require('svgstore');
 
 const glob = util.promisify(rawGlob);
 const svgo = new SVGO({
-  plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill', 'path:fill'] } }],
+  plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill', 'path:fill', 'rect:fill'] } }],
 });
 const svgoThirdparty = new SVGO({ plugins: [{ removeXMLNS: true }, { removeDimensions: true }] });
 // {attrs: 'fill:none|stroke|fill-rule|clip-rule|width|height'}
