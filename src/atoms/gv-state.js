@@ -27,7 +27,10 @@ import { skeleton } from '../styles/skeleton';
  *
  * @slot - The content of the state (text or HTML)
  *
+ * @attr {Boolean} error - enable error mode
  * @attr {Boolean} major - enable major mode
+ * @attr {Boolean} success - enable success mode
+ * @attr {Boolean} warn - enable warn mode
  * @attr {Boolean} skeleton -  enable skeleton screen UI pattern (loading hint)
  *
  * @cssprop {Length} [--gv-state--bdr=17px] - Border radius
@@ -37,13 +40,22 @@ import { skeleton } from '../styles/skeleton';
  * @cssprop {Color} [--gv-state--c=#597ef7] - Color
  * @cssprop {Color} [--gv-state-major--bgc=var(--gv-theme-color-light, #d5fdcb)] - Major background color
  * @cssprop {Color} [--gv-state-major--c=var(--gv-theme-color, #009b5b)] - Major color
+ * @cssprop {Color} [--gv-state-success--bgc=var(--gv-theme-color-success-light, #81c784)] - Success background color
+ * @cssprop {Color} [--gv-state-success--c=var(--gv-theme-neutral-color-lightest, #ffffff)] - Success color
+ * @cssprop {Color} [--gv-state-error--bgc=var(--gv-theme-color-error-light, #e57373)] - Error background color
+ * @cssprop {Color} [--gv-state-error--c=var(--gv-theme-neutral-color-lightest, #ffffff)] - Error color
+ * @cssprop {Color} [--gv-state-warn--bgc=var(--gv-theme-color-warning-light, #ffb74d)] - Warn background color
+ * @cssprop {Color} [--gv-state-warn--c=var(--gv-theme-neutral-color-lightest, #ffffff)] - Warn color
  */
 export class GvState extends LitElement {
   static get properties() {
     return {
       default: { type: Boolean },
+      error: { type: Boolean },
       major: { type: Boolean },
       skeleton: { type: Boolean },
+      success: { type: Boolean },
+      warn: { type: Boolean },
     };
   }
 
@@ -64,9 +76,24 @@ export class GvState extends LitElement {
           --c: var(--gv-state--c, #597ef7);
         }
 
+        div.error {
+          --bgc: var(--gv-state-error--bgc, var(--gv-theme-color-error-light, #e57373));
+          --c: var(--gv-state-error--c, var(--gv-theme-neutral-color-lightest, #ffffff));
+        }
+
         div.major {
           --bgc: var(--gv-state-major--bgc, var(--gv-theme-color-light, #d5fdcb));
           --c: var(--gv-state-major--c, var(--gv-theme-color, #009b5b));
+        }
+
+        div.success {
+          --bgc: var(--gv-state-success--bgc, var(--gv-theme-color-success-light, #81c784));
+          --c: var(--gv-state-success--c, var(--gv-theme-neutral-color-lightest, #ffffff));
+        }
+
+        div.warn {
+          --bgc: var(--gv-state-warn--bgc, var(--gv-theme-color-warning-light, #ffb74d));
+          --c: var(--gv-state-warn--c, var(--gv-theme-neutral-color-lightest, #ffffff));
         }
 
         div {
@@ -88,9 +115,12 @@ export class GvState extends LitElement {
 
   render() {
     const modes = {
-      default: !this.major,
+      default: !this.major && !this.error && !this.success && !this.warn,
+      error: this.error,
       major: this.major,
       skeleton: this.skeleton,
+      success: this.success,
+      warn: this.warn,
     };
 
     return html`
