@@ -77,8 +77,8 @@ export function uuid() {
 }
 
 export function deepEqual(object1, object2) {
-  const keys1 = Object.keys(object1);
-  const keys2 = Object.keys(object2);
+  const keys1 = object1 != null ? Object.keys(object1) : [];
+  const keys2 = object2 != null ? Object.keys(object2) : [];
 
   if (keys1.length !== keys2.length) {
     return false;
