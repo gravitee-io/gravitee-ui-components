@@ -15,7 +15,7 @@
  */
 import { describe, test, expect } from '@jest/globals';
 import { get, set } from 'object-path';
-import { flatObject } from '../../src/lib/utils';
+import { deepEqual, flatObject } from '../../src/lib/utils';
 
 describe('U T I L S', () => {
   test('should get simple property with path', () => {
@@ -68,5 +68,13 @@ describe('U T I L S', () => {
     });
 
     expect(get(flatObj, 'multiselect')).toEqual(['a', 'b', 'c']);
+  });
+
+  test('should compare objects', () => {
+    expect(deepEqual({ a: '1', child: { b: '2' } }, { a: '1', child: { b: '2' } })).toEqual(true);
+  });
+
+  test('should compare null objects', () => {
+    expect(deepEqual(null, null)).toEqual(true);
   });
 });
