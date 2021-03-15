@@ -38,9 +38,10 @@ const routes = [
   { path: '#', title: 'Starred', icon: 'home:flower#1' },
   { path: '#', title: 'Trendings', icon: 'appliances:fan' },
 ];
-const items = [{ routes }];
 
-export const Basics = makeStory(conf, { items });
+export const Basics = makeStory(conf, { items: [{ routes }] });
+
+export const Sticky = makeStory(conf, { items: [{ routes, sticky: true }] });
 
 export const Empty = makeStory(conf, { items: [{}] });
 
@@ -58,6 +59,35 @@ export const TopSlot = makeStory(conf, {
     {
       routes: routes,
       innerHTML: '<gv-header slot="top" can-subscribe></gv-header>',
+    },
+  ],
+  simulations: [
+    storyWait(0, ([component]) => {
+      component.firstElementChild.item = {
+        name: 'Long Supernova',
+        picture: horizontalImage,
+        version: 'v.1.1',
+        states: [
+          { value: 'beta', minor: true },
+          { value: 'running', major: true },
+        ],
+      };
+
+      component.firstElementChild.breadcrumbs = [
+        { path: '#', title: 'Catalog' },
+        { path: '#', title: 'Categories' },
+        { path: '#', title: 'My API' },
+      ];
+    }),
+  ],
+});
+
+export const TopSlotSticky = makeStory(conf, {
+  items: [
+    {
+      routes: routes,
+      innerHTML: '<gv-header slot="top" can-subscribe></gv-header>',
+      sticky: true,
     },
   ],
   simulations: [

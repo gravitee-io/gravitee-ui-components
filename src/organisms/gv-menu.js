@@ -73,7 +73,7 @@ export class GvMenu extends withResizeObserver(LitElement) {
         }
 
         :host([sticky]) gv-nav {
-          line-height: 1px;
+          line-height: 14px;
           --gv-link-icon--s: 20px;
         }
 
@@ -82,7 +82,6 @@ export class GvMenu extends withResizeObserver(LitElement) {
         }
 
         :host([sticky]) ::slotted([slot='top']) {
-          height: 35px;
           transition: height 250ms ease-in-out;
         }
 
