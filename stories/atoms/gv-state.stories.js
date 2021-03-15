@@ -29,7 +29,14 @@ const conf = {
   component: 'gv-state',
 };
 
-const items = [{ innerHTML: 'beta' }, { innerHTML: 'running', major: true }];
+const items = [
+  { innerHTML: 'beta' },
+  { innerHTML: 'running', major: true },
+
+  { innerHTML: 'error', error: true },
+  { innerHTML: 'success', success: true },
+  { innerHTML: 'warn', warn: true },
+];
 
 export const Basics = makeStory(conf, {
   items,
