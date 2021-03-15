@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.3.2...v1.3.3) (2021-03-15)
+
+
+### Bug Fixes
+
+* let compare null objects ([57d54b6](https://github.com/gravitee-io/gravitee-ui-components/commit/57d54b6e3d309b254016a7c686ff221938dac006)), closes [gravitee-io/issues#5230](https://github.com/gravitee-io/issues/issues/5230)
+
 ## [1.3.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.3.1...v1.3.2) (2021-03-11)
 
 
