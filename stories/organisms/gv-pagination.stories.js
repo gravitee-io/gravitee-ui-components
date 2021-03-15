@@ -48,3 +48,12 @@ export const Large = makeStory(conf, {
 export const Empty = makeStory(conf, {
   items: [{}],
 });
+
+export const Widget = makeStory(conf, {
+  items: [
+    {
+      data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 10 },
+      widget: true,
+    },
+  ],
+});

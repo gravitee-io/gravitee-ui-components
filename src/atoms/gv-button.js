@@ -167,11 +167,11 @@ export class GvButton extends LitElement {
           width: 100%;
         }
 
-        .button.iconLeft slot {
+        .button.iconLeft:not(.noContent) slot {
           margin-left: 7px;
         }
 
-        .button.iconRight slot {
+        .button.iconRight:not(.noContent) slot {
           margin-right: 7px;
         }
 
@@ -393,9 +393,11 @@ export class GvButton extends LitElement {
 
   firstUpdated() {
     const slot = this.shadowRoot.querySelector('slot');
-    if (slot.assignedNodes().length > 0) {
-      this._hasContent = true;
-    }
+    this._hasContent =
+      slot
+        .assignedNodes()
+        .map((node) => node.textContent)
+        .filter((text) => text.trim() !== '').length > 0;
     this.addEventListener('keydown', this._onKeyDown);
   }
 }
