@@ -44,7 +44,7 @@ const conf = {
     }
 
     gv-modal {
-      --gv-modal-width: 600px;
+      --gv-modal--w: 600px;
     }
   `,
 };

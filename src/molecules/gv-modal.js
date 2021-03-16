@@ -22,24 +22,21 @@ import { dispatchCustomEvent } from '../lib/events';
  *
  * @fires gv-modal:closed - Event fired when modal is closed.
  *
- * @cssprop {Length} [--gv-modal-animation-duration=0.3s ] - Duration of the animation
- * @cssprop {Length} [--gv-modal-z-index=100 ] - z-index for modal
- * @cssprop {Color} [--gv-modal-bgc=rgba(30, 30, 30, 0.6) ] - Modal background color
- * @cssprop {Length} [--gv-modal-content-z-index=101 ] - z-index for modal content
- * @cssprop {Length} [--gv-modal-width=280px ] - model width
- * @cssprop {Length} [--gv-modal-min-width=250px ] - modal min-width
- * @cssprop {Length} [--gv-modal-max-width=100vw ] - modal max-width
- * @cssprop {Length} [--gv-modal-height=auto ] - modal height
- * @cssprop {Length} [--gv-modal-min-height=auto ] - modal min height
- * @cssprop {Length} [--gv-modal-max-height=100vh ] - modal max height
- * @cssprop {Color} [--gv-modal-content-bgc=var(--gv-theme-neutral-color-light, #efefef) ] - Modal content background color
- * @cssprop {Length} [--gv-modal-content-shadow-displacement=0px ] - Modal shadow displacement
- * @cssprop {Length} [--gv-modal-content-shadow-blur=16px ] - Modal shadow blur
- * @cssprop {Color} [--gv-modal-content-shadow-color=#383e3f ] - Modal shadow color
- * @cssprop {Length} [--gv-modal-border-radius=4px ] - Modal border radius
- * @cssprop {Length} [--gv-modal-content-padding=1em ] - Modal content padding
- * @cssprop {Length} [--gv-modal-close-icon-s=24px ] - Modal close icon size
- * @cssprop {Color} [--gv-modal-close-icon-c=red ] - Modal close icon size
+ * @cssprop {Length} [--gv-modal--anim-duration=0.3s] - Duration of the animation
+ * @cssprop {Length} [--gv-modal--z=100] - z-index for modal
+ * @cssprop {Color} [--gv-modal--bgc=rgba(30, 30, 30, 0.6)] - Modal background color
+ * @cssprop {Length} [--gv-modal-content--z=101] - z-index for modal content
+ * @cssprop {Length} [--gv-modal--w=280px] - model width
+ * @cssprop {Length} [--gv-modal--miw=250px] - modal min-width
+ * @cssprop {Length} [--gv-modal--maw=100vw] - modal max-width
+ * @cssprop {Length} [--gv-modal--h=auto] - modal height
+ * @cssprop {Length} [--gv-modal--mih=auto] - modal min height
+ * @cssprop {Length} [--gv-modal--mah=100vh] - modal max height
+ * @cssprop {Color} [--gv-modal-content--bgc=var(--gv-theme-neutral-color-light, #efefef)] - Modal content background color
+ * @cssprop {String} [--gv-modal--bxsh=0px 0px 16px #383e3f] - Modal box shadow
+ * @cssprop {Length} [--gv-modal--bdrs=4px] - Modal border radius
+ * @cssprop {Length} [--gv-modal--p=1em] - Modal content padding
+ * @cssprop {Length} [--gv-modal-close-icon--s=24px] - Modal close icon size
  */
 export class GvModal extends LitElement {
   static get properties() {
@@ -91,28 +88,27 @@ export class GvModal extends LitElement {
           height: 100vh;
           width: 100vw;
           display: none;
-          transition: opacity var(--gv-modal-animation-duration, 0.3s) ease-in;
-          -webkit-transition: opacity var(--gv-modal-animation-duration, 0.3s) ease-in;
+          transition: opacity var(--gv-modal--anim-duration, 0.3s) ease-in;
+          -webkit-transition: opacity var(--gv-modal--anim-duration, 0.3s) ease-in;
           align-items: center;
           justify-content: center;
-          z-index: var(--gv-modal-z-index, 100);
-          background-color: var(--gv-modal-bgc, rgba(30, 30, 30, 0.6));
+          z-index: var(--gv-modal--z, 100);
+          background-color: var(--gv-modal--bgc, rgba(30, 30, 30, 0.6));
         }
         .content {
           display: block;
           position: relative;
-          z-index: var(--gv-modal-content-z-index, 101);
-          width: var(--gv-modal-width, 280px);
-          min-width: var(--gv-modal-min-width, 250px);
-          max-width: var(--gv-modal-max-width, 100vw);
-          height: var(--gv-modal-height, auto);
-          min-height: var(--gv-modal-min-height, auto);
-          max-height: var(--gv-modal-max-height, 100vh);
-          background-color: var(--gv-modal-content-bgc, var(--gv-theme-neutral-color-light, #efefef));
-          box-shadow: var(--gv-modal-content-shadow-displacement, 0px) var(--gv-modal-content-shadow-displacement, 0px)
-            var(--gv-modal-content-shadow-blur, 16px) var(--gv-modal-content-shadow-color, #383e3f);
-          border-radius: var(--gv-modal-border-radius, 4px);
-          padding: var(--gv-modal-content-padding, 1em);
+          z-index: var(--gv-modal-content--z, 101);
+          width: var(--gv-modal--w, 280px);
+          min-width: var(--gv-modal--miw, 250px);
+          max-width: var(--gv-modal--maw, 100vw);
+          height: var(--gv-modal--h, auto);
+          min-height: var(--gv-modal--mih, auto);
+          max-height: var(--gv-modal--mah, 100vh);
+          background-color: var(--gv-modal-content--bgc, var(--gv-theme-neutral-color-light, #efefef));
+          box-shadow: var(--gv-modal--bxsh, 0px 0px 16px #383e3f);
+          border-radius: var(--gv-modal--bdrs, 4px);
+          padding: var(--gv-modal--p, 1em);
         }
         article {
           overflow: auto;
@@ -141,9 +137,7 @@ export class GvModal extends LitElement {
           font-size: large;
         }
         gv-icon {
-          --gv-icon--s: var(--gv-modal-close-icon-s, 24px);
-          --gv-icon--c: var(--gv-modal-close-icon-c, red);
-
+          --gv-icon--s: var(--gv-modal-close-icon--s, 24px);
           display: inline-block;
           z-index: 1002;
           cursor: pointer;
