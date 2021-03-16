@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.4.1...v2.0.0) (2021-03-16)
+
+
+### Bug Fixes
+
+* **gv-modal:** remove red color of close icon ([ebde976](https://github.com/gravitee-io/gravitee-ui-components/commit/ebde976f631720b35239d9fda89212d9e55d64e6))
+* **gv-option:** resolve display with icons & without text ([909fa76](https://github.com/gravitee-io/gravitee-ui-components/commit/909fa768578c466394ad51a132dd79999ef633a5)), closes [gravitee-io/issues#5234](https://github.com/gravitee-io/issues/issues/5234)
+
+
+### BREAKING CHANGES
+
+* **gv-modal:** use naming convention for var css, read the component documentation for new names
+
 ## [1.4.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.4.0...v1.4.1) (2021-03-16)
 
 
