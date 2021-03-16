@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.4.0...v1.4.1) (2021-03-16)
+
+
+### Bug Fixes
+
+* **gv-menu:** resolve sticky mode ([0422353](https://github.com/gravitee-io/gravitee-ui-components/commit/0422353e475f91d38b54ab12a1a9b17ed7317f3c)), closes [gravitee-io/issues#5233](https://github.com/gravitee-io/issues/issues/5233)
+
 # [1.4.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.3.3...v1.4.0) (2021-03-16)
 
 
