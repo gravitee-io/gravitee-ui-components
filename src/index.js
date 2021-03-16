@@ -44,6 +44,7 @@ export { GvPopover } from './molecules/gv-popover';
 export { GvPromote } from './molecules/gv-promote';
 export { GvRatingList } from './molecules/gv-rating-list';
 export { GvRating } from './molecules/gv-rating';
+export { GvRowExpandable } from './molecules/gv-row-expandable';
 export { GvRow } from './molecules/gv-row';
 export { GvStats } from './molecules/gv-stats';
 export { GvStepper } from './molecules/gv-stepper';
