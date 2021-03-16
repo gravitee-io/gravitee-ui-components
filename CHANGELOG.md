@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.3.3...v1.4.0) (2021-03-16)
+
+
+### Features
+
+* **gv-state:** handle new state ([b73f0cf](https://github.com/gravitee-io/gravitee-ui-components/commit/b73f0cf218582aa41c3fb14599d4c2635cbacb79))
+
 ## [1.3.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.3.2...v1.3.3) (2021-03-15)
 
 
