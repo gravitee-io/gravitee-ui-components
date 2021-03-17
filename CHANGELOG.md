@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.1.0...v2.1.1) (2021-03-17)
+
+
+### Bug Fixes
+
+* **i18:** use relative url to load default translation ([a318fe4](https://github.com/gravitee-io/gravitee-ui-components/commit/a318fe4b2cac704fb7337e542d52807846276839))
+
 # [2.1.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.0.0...v2.1.0) (2021-03-17)
 
 
