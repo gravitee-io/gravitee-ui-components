@@ -113,6 +113,35 @@ export function ItemResource (ParentClass) {
       return '';
     }
 
+    _renderQualityGauge() {
+      if (this._item && !this._item.applicationType && this._item.categories) {
+        const qualityCategory = this._item.categories.find(c => c.indexOf('adm-quality-score-' !== -1));
+        let score = 0
+        switch (qualityCategory) {
+          case 'adm-quality-score-1':
+            score = 95;
+            break;
+          case 'adm-quality-score-2':
+            score = 85;
+            break;
+          case 'adm-quality-score-3':
+            score = 65;
+            break;
+          case 'adm-quality-score-4':
+            score = 55;
+            break;
+          case 'adm-quality-score-5':
+            score = 30;
+            break;
+          default:
+            score = 0;
+            break;
+        }
+        return html`<gv-quality-gauge .percent="${score}"></gv-quality-gauge>`;
+      }
+      return '';
+    }
+
   };
 
 }

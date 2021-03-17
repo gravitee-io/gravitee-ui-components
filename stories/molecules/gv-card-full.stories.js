@@ -36,6 +36,7 @@ const api = Promise.resolve({
   states,
   labels,
   rating_summary: ratingSummary,
+  categories: ['adm-quality-score-1']
 });
 const application = Promise.resolve({ name: `${name} app`, description, applicationType: 'Web' });
 

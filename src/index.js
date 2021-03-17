@@ -12,6 +12,7 @@ export { GvInput } from './atoms/gv-input';
 export { GvLink } from './atoms/gv-link';
 export { GvMessage } from './atoms/gv-message';
 export { GvMetric } from './atoms/gv-metric';
+export { GvQualityGauge } from './atoms/gv-quality-gauge';
 export { GvRelativeTime } from './atoms/gv-relative-time';
 export { GvSelect } from './atoms/gv-select';
 export { GvSpinner } from './atoms/gv-spinner';
@@ -67,3 +68,4 @@ export { GvFlow } from './policy-studio/gv-flow';
 export { GvPolicyStudioMenu } from './policy-studio/gv-policy-studio-menu';
 export { GvPolicyStudio } from './policy-studio/gv-policy-studio';
 export { GvTheme } from './theme/gv-theme';
+export { GvQualityGauge } from './atoms/gv-quality-gauge'

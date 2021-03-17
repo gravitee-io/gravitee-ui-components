@@ -1,0 +1,1 @@
+import '../src/atoms/gv-quality-gauge';
