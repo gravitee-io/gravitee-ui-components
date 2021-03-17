@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.0.0...v2.1.0) (2021-03-17)
+
+
+### Features
+
+* add a new component gv-row-expendable ([c2adc06](https://github.com/gravitee-io/gravitee-ui-components/commit/c2adc068c78f58967685e4afe8abe3e7b87d8866))
+
 # [2.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v1.4.1...v2.0.0) (2021-03-16)
 
 
