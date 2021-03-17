@@ -89,7 +89,7 @@ export function getAvailableLanguages() {
 
 export function loadDefaultTranslations() {
   setLanguage('en');
-  return fetch(`/i18n/${i18n._lang}.json`)
+  return fetch(`i18n/${i18n._lang}.json`)
     .then((response) => {
       return response.json();
     })
