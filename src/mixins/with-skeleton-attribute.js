@@ -63,6 +63,7 @@ export function withSkeletonAttribute(ParentClass) {
     updated(changedProperties) {
       if (this._skeletonAttribute != null && changedProperties.has(this._skeletonAttribute)) {
         this._error = false;
+        this._empty = false;
         const start = new Date().getTime();
         let end = null;
         const timer = setTimeout(() => {
