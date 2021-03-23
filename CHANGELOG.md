@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.1.1...v2.2.0) (2021-03-23)
+
+
+### Features
+
+* dashboard of all alerts ([fc344a6](https://github.com/gravitee-io/gravitee-ui-components/commit/fc344a662285cc0acabbf1e9c50ef2e8da3ea095))
+
 ## [2.1.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.1.0...v2.1.1) (2021-03-17)
 
 
