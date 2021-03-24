@@ -202,6 +202,10 @@ export class GvButton extends LitElement {
         }
 
         /* MODES */
+        :host([skeleton]) .button:not(.link) {
+          border-color: var(--gv-theme-skeleton-color, #bfbfbf);
+        }
+
         .button:not(.link) {
           background-color: var(--bgc);
           border-color: var(--bgc);
@@ -280,6 +284,10 @@ export class GvButton extends LitElement {
 
         button.link {
           text-decoration: underline;
+        }
+
+        :host([skeleton]) .link {
+          color: transparent;
         }
       `,
       skeleton,
