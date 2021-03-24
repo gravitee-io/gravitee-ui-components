@@ -157,6 +157,9 @@ export class GvPromote extends ItemResource(LitElement) {
   }
 
   render() {
+    if (this._invisible) {
+      return '';
+    }
     return html`<div class="container">
       <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
       <div class="content">
@@ -180,7 +183,7 @@ export class GvPromote extends ItemResource(LitElement) {
                     </p>
                     <div class=${classMap({ skeleton: this._skeleton, infos: true })}>${this._renderMetricsWithRating()}</div>
                     <div class="labels">${this._renderLabels(true)}</div>
-                    <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}" .skeleton=${this._skeleton}
+                    <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}"
                       >${i18n('gv-promote.view')}</gv-button
                     >`}
             `}
