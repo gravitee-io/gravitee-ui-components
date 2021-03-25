@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.2.0...v2.2.1) (2021-03-25)
+
+
+### Bug Fixes
+
+* **gv-button:** rendering problem with skeleton mode ([5767007](https://github.com/gravitee-io/gravitee-ui-components/commit/5767007c6beb2283ba0c29e45d6dd767f64df8c2)), closes [#311](https://github.com/gravitee-io/gravitee-ui-components/issues/311)
+
 # [2.2.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.1.1...v2.2.0) (2021-03-23)
 
 
