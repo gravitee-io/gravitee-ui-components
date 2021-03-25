@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.2.1...v2.2.2) (2021-03-25)
+
+
+### Bug Fixes
+
+* **gv-promote:** resolve blink when loading new data ([684a954](https://github.com/gravitee-io/gravitee-ui-components/commit/684a954ded70aedadebe66e57f4c43fc5389f5e8)), closes [#313](https://github.com/gravitee-io/gravitee-ui-components/issues/313)
+
 ## [2.2.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.2.0...v2.2.1) (2021-03-25)
 
 
