@@ -21,6 +21,8 @@ export function applyTheme(theme) {
     updateImage('--gv-theme-logo', logo, `url('/images/gravitee-logo.png')`);
     updateImage('--gv-theme-optional-logo', optionalLogo, `url('/images/gravitee-logo-light.png')`);
     updateImage('--gv-theme-homepage-background-image', backgroundImage, `none`);
+    const favicon = theme._links ? theme._links.favicon : theme.favicon;
+    updateFavicon(favicon, 'images/gravitee-favicon.png');
     theme.definition.data.forEach((component) => {
       component.css.forEach((cssProperty) => {
         document.documentElement.style.setProperty(cssProperty.name, cssProperty.value);
@@ -34,6 +36,16 @@ export function updateImage(name, value, defaultValue) {
     const propertyValue = value ? `url(${value})` : 'none';
     document.documentElement.style.setProperty(name, propertyValue);
   }, 0);
+}
+
+export function updateFavicon(value, defaultValue) {
+  let link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  }
+  link.href = value || defaultValue;
 }
 
 export function getApplicationTypeIcon(type) {
