@@ -38,4 +38,5 @@
   --gv-theme-homepage-background-image: none;
   --gv-theme-logo: url('/images/gravitee-logo.png');
   --gv-theme-optional-logo: url('/images/gravitee-logo-light.png');
+  --gv-theme-favicon: /images/gravitee-favicon.png;
 }
