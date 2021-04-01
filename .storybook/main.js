@@ -4,9 +4,21 @@ const { merge } = require('webpack-merge');
 const maxAssetSize = 1024 * 1024;
 
 module.exports = {
-  stories: ['../stories/**/*.stories.@(js|mdx)'],
+  // To reactivate when Storybook 6.3 with new WC support will be out
+  // For now there is conflict with `configure(stories, module);` done in
+  // preview.js
+  // stories: ['../stories/**/*.stories.@(js|mdx)'],
 
-  addons: ['@storybook/addon-essentials', '@storybook/addon-knobs', '@storybook/addon-a11y'],
+  addons: [
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        controls: false,
+      },
+    },
+    '@storybook/addon-knobs',
+    '@storybook/addon-a11y',
+  ],
 
   webpackFinal: async (config) => {
     return merge(config, {
