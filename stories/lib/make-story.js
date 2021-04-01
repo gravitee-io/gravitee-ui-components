@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as blockPreview from '@storybook/components/dist/blocks/Preview';
+import * as blockPreview from '@storybook/components/dist/esm/blocks/Preview';
 import { color, text } from '@storybook/addon-knobs';
 import { sequence } from './sequence';
 import customElements from '../../.docs/custom-elements.json';
