@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.2.2...v2.3.0) (2021-04-07)
+
+
+### Features
+
+* **portal:** allows to change favicon ([692bc83](https://github.com/gravitee-io/gravitee-ui-components/commit/692bc83b9b8c508156f2f39e9d0e987fb77212a9)), closes [gravitee-io/issues#4855](https://github.com/gravitee-io/issues/issues/4855)
+
 ## [2.2.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.2.1...v2.2.2) (2021-03-25)
 
 
