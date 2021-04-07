@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as blockPreview from '@storybook/components/dist/esm/blocks/Preview';
 import { color, text } from '@storybook/addon-knobs';
 import { sequence } from './sequence';
 import customElements from '../../.docs/custom-elements.json';
-
-// Force html in preview examples
-const oldPreview = blockPreview.Preview;
-blockPreview.Preview = (pppp) => {
-  return oldPreview({ ...pppp, language: 'html', isExpanded: false });
-};
 
 export function makeStory(...configs) {
   const { name, docs, css, component, dom, items: rawItems = [{}], events = [], simulations = [], docsOnly = false } = Object.assign(
