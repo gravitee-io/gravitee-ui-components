@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.0...v2.3.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* **gv-select:** fix display of option list in scrollable parent ([6608595](https://github.com/gravitee-io/gravitee-ui-components/commit/6608595ebadc4feab4438956a068e49ac584dae1))
+
 # [2.3.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.2.2...v2.3.0) (2021-04-07)
 
 
