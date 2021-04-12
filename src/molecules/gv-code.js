@@ -173,10 +173,17 @@ export class GvCode extends InputElement(LitElement) {
     return this.rows === 1;
   }
 
+  disconnectedCallback() {
+    if (this._codeMirror != null) {
+      this._codeMirror.off('beforeChange', this._handlers.beforeChange);
+      this._codeMirror.off('change', this._handlers.change);
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback();
-    CodeMirror.defineInitHook((cm) => {
-      cm.on('beforeChange', (cm, event) => {
+    this._handlers = {
+      beforeChange: (cm, event) => {
         if (this.singleLine && this._id === cm.getTextArea().id) {
           // Identify typing events that add a newline to the buffer.
           const hasTypedNewline = event.origin === '+input' && typeof event.text === 'object' && event.text.join('') === '';
@@ -196,13 +203,16 @@ export class GvCode extends InputElement(LitElement) {
           }
         }
         return null;
-      });
-
-      cm.on('change', () => {
+      },
+      change: (cm) => {
         if (this._id === cm.getTextArea().id) {
           this._onChange(cm);
         }
-      });
+      },
+    };
+    CodeMirror.defineInitHook((cm) => {
+      cm.on('beforeChange', this._handlers.beforeChange);
+      cm.on('change', this._handlers.change);
     });
   }
 
