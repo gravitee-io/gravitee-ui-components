@@ -4,10 +4,7 @@ const { merge } = require('webpack-merge');
 const maxAssetSize = 1024 * 1024;
 
 module.exports = {
-  // To reactivate when Storybook 6.3 with new WC support will be out
-  // For now there is conflict with `configure(stories, module);` done in
-  // preview.js
-  // stories: ['../stories/**/*.stories.@(js|mdx)'],
+  stories: ['../stories/**/*.stories.@(js|mdx)'],
 
   addons: [
     {
