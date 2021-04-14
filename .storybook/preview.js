@@ -1,4 +1,4 @@
-import { configure, setCustomElements } from '@storybook/web-components';
+import { setCustomElements } from '@storybook/web-components';
 import { withKnobs } from '@storybook/addon-knobs';
 import '../assets/css/gravitee-theme.generated.css';
 import '../assets/css/documentation.css';
@@ -68,18 +68,3 @@ customElements.tags.forEach((tagDefinition) => {
 });
 
 setCustomElements(customElements);
-
-const stories = require.context('../stories', true, /\.stories\.(js|mdx)$/);
-const docs = require.context('../docs', true, /\.mdx$/);
-
-// Force full reload instead of HMR for Web Components
-// https://github.com/storybookjs/storybook/tree/next/app/web-components
-
-configure(stories, module);
-if (module.hot) {
-  module.hot.accept([stories.id, docs.id], (...a) => {
-    const currentLocationHref = window.location.href;
-    window.history.pushState(null, null, currentLocationHref);
-    window.location.reload();
-  });
-}
