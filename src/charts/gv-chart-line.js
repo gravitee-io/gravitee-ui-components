@@ -57,16 +57,22 @@ export class GvChartLine extends ChartElement(LitElement) {
         }
       });
     }
+    const that = this;
     this.options.plotLines = this.options.plotLines
       ? this.options.plotLines.map((line) => {
-          return {
+
+        return {
             ...line,
             events: {
-              mouseover: function () {
-                this.label.element.firstElementChild.style.visibility = 'visible';
+              click: function() {
+                const label = this.label.element.firstElementChild;
+                dispatchCustomEvent(that, 'plotline-click', {label});
               },
-              mouseout: function () {
-                this.label.element.firstElementChild.style.visibility = 'hidden';
+              mouseover: function () {
+                const label = this.label.element.firstElementChild;
+                label.addEventListener('click', (e) => {
+                  dispatchCustomEvent(that, 'plotline-click', {label});
+                }, { once: true })
               },
             },
           };

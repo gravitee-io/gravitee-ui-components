@@ -78,6 +78,10 @@ export function ChartElement(ParentClass) {
           .tooltip-5 {
             grid-template-columns: repeat(5, 1fr);
           }
+
+          .highcharts-plot-line, .highcharts-plot-line-label {
+            cursor: pointer;
+          }
         `,
       ];
     }
