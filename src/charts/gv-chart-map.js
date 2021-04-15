@@ -21,7 +21,11 @@ import Highcharts from 'highcharts';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**
- * Map chart component
+ * Map chart component.
+ *
+ * ⚠️ This component is based on `@highcharts/map-collection`.
+ * To use this component in your project be sure the dependency is installed or
+ * install it with: `npm install @highcharts/map-collection --save`
  *
  * @fires gv-chart-map:select - Custom event with selected value
  *
