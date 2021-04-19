@@ -24,6 +24,10 @@ import { getLanguage } from '../lib/i18n';
 /**
  * Line chart component
  *
+ * ⚠️ This component is based on `highcharts`.
+ * To use this component in your project be sure the dependency is installed or
+ * install it with: `npm install highcharts --save`
+ *
  * @fires gv-chart-line:zoom - Custom event with zoomed timeframe
  * @fires gv-chart-line:select - Custom event with selected value
  *

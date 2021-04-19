@@ -22,6 +22,10 @@ import { dispatchCustomEvent } from '../lib/events';
 /**
  * Pie chart component
  *
+ * ⚠️ This component is based on `highcharts`.
+ * To use this component in your project be sure the dependency is installed or
+ * install it with: `npm install highcharts --save`
+ *
  * @fires gv-chart-pie:select - Custom event with selected value
  *
  * @attr {Array} series - The series to display on the pie chart.

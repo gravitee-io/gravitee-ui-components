@@ -22,6 +22,10 @@ import HCSolidGauge from 'highcharts/modules/solid-gauge';
 /**
  * Gauge chart component
  *
+ * ⚠️ This component is based on `highcharts`.
+ * To use this component in your project be sure the dependency is installed or
+ * install it with: `npm install highcharts --save`
+ *
  * @attr {number} max - The maximum value of the gauge.
  * @attr {Array} series - Array of the series to display.
  *
