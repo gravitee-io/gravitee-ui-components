@@ -1,3 +1,10 @@
+## [2.3.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.2...v2.3.3) (2021-04-19)
+
+
+### Bug Fixes
+
+* **gv-code:** remove listeners when disconnect callback ([bc6cc0f](https://github.com/gravitee-io/gravitee-ui-components/commit/bc6cc0f1a0c85a4999e384447759eb6b35cebe20)), closes [gravitee-io/issues#5364](https://github.com/gravitee-io/issues/issues/5364)
+
 ## [2.3.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.1...v2.3.2) (2021-04-19)
 
 
