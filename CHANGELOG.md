@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.1...v2.3.2) (2021-04-19)
+
+
+### Bug Fixes
+
+* **gv-autocomplete:** close options panel when selecting option ([37c3d37](https://github.com/gravitee-io/gravitee-ui-components/commit/37c3d37ee4f94632a7aba744624b1b3c0b6acde6)), closes [#296](https://github.com/gravitee-io/gravitee-ui-components/issues/296)
+
 ## [2.3.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.0...v2.3.1) (2021-04-08)
 
 
