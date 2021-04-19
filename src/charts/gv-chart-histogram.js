@@ -19,6 +19,10 @@ import { ChartElement } from '../mixins/chart-element';
 /**
  * Histogram chart component
  *
+ * ⚠️ This component is based on `highcharts`.
+ * To use this component in your project be sure the dependency is installed or
+ * install it with: `npm install highcharts --save`
+ *
  * @attr {Array} series - The series to display on the histogram chart.
  * @attr {Object} options - The list of options to display.
  *
