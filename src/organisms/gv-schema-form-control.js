@@ -264,7 +264,7 @@ export class GvSchemaFormControl extends LitElement {
   }
 
   shouldUpdate(changedProperties) {
-    if (changedProperties.has('errors')) {
+    if (changedProperties.has('errors') && this.errors != null) {
       // Set errors to complex controls
       this.getControls().forEach((control) => {
         control.errors = this.errors;
