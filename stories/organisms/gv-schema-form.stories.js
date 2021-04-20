@@ -62,6 +62,7 @@ export const MixedEmpty = makeStory(conf, {
       '@gv-expression-language:ready': ({ detail }) => {
         detail.currentTarget.grammar = grammar;
       },
+      'validate-on-render': true,
     },
   ],
 });
@@ -116,6 +117,7 @@ export const Mixed = makeStory(conf, {
       '@gv-expression-language:ready': ({ detail }) => {
         detail.currentTarget.grammar = grammar;
       },
+      'validate-on-render': true,
     },
   ],
 });

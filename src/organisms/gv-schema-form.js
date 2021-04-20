@@ -107,6 +107,7 @@ export class GvSchemaForm extends LitElement {
     clearTimeout(this._validateTimeout);
     this._validateTimeout = setTimeout(() => {
       this.validate();
+      this._updateActions();
     }, 350);
   }
 
@@ -158,9 +159,7 @@ export class GvSchemaForm extends LitElement {
   _onConfirmEdit() {
     this._confirm.reject(this);
     this._confirm = null;
-    // useless to force rerender
-    this.skeleton = true;
-    setTimeout(() => (this.skeleton = false));
+    this._updateChildren(this.validateOnRender);
   }
 
   _getSubmitBtn() {
@@ -280,8 +279,8 @@ export class GvSchemaForm extends LitElement {
       } else {
         this.errors = this._validatorResults.errors;
       }
-      return this._validatorResults;
     }
+    return this._validatorResults;
   }
 
   isValid() {
@@ -311,6 +310,16 @@ export class GvSchemaForm extends LitElement {
     }
   }
 
+  _updateChildren(withValidation) {
+    if (withValidation) {
+      this._validatorResults = {};
+      this.errors = null;
+      this.requestValidation();
+    } else {
+      this._updateActionsTimeout = setTimeout(() => this._updateActions(), 0);
+    }
+  }
+
   async updated(changedProperties) {
     clearTimeout(this._updateActionsTimeout);
     if (changedProperties.has('_values')) {
@@ -318,13 +327,7 @@ export class GvSchemaForm extends LitElement {
         control.value = get(this._values, control.id);
       });
     }
-    if (changedProperties.has('_values') || changedProperties.has('schema')) {
-      if (this.validateOnRender) {
-        this.requestValidation();
-      }
-    }
-
-    this._updateActionsTimeout = setTimeout(() => this._updateActions(), 0);
+    this._updateChildren(this.validateOnRender && (changedProperties.has('_values') || changedProperties.has('schema')));
   }
 
   async _getUpdateComplete() {
