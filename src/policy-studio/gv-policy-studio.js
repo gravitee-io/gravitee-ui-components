@@ -815,7 +815,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       const flow = this._findFlowById(this._currentFlowStep.flow._id);
       const position = flow[this._currentFlowStep.group].findIndex((step) => step._id === this._currentFlowStep.step._id);
       flow[this._currentFlowStep.group][position].description = description;
-      flow[this._currentFlowStep.group][position].configuration = configuration;
+      flow[this._currentFlowStep.group][position].configuration = deepClone(configuration);
       delete flow[this._currentFlowStep.group][position]._new;
       flow[this._currentFlowStep.group][position]._dirty = true;
       flow._dirty = true;
