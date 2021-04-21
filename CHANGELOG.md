@@ -1,3 +1,11 @@
+## [2.3.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.3...v2.3.4) (2021-04-21)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** clone policy configuration when submit form ([18d4d45](https://github.com/gravitee-io/gravitee-ui-components/commit/18d4d45e3d4f0fb09da9e1767036fc829f8076d6)), closes [gravitee-io/issues#5336](https://github.com/gravitee-io/issues/issues/5336)
+* **gv-schema-form:** fix rerender with validation in policy studio ([a05ee4a](https://github.com/gravitee-io/gravitee-ui-components/commit/a05ee4abc16077abceea4529de992a5b34d71475)), closes [gravitee-io/issue#5351](https://github.com/gravitee-io/issue/issues/5351)
+
 ## [2.3.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.2...v2.3.3) (2021-04-19)
 
 
