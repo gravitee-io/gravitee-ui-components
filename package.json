@@ -25,7 +25,6 @@
     "lint:commit": "commitlint --from $(git describe --tags --abbrev=0) --to HEAD --verbose",
     "lint:license": "license-check-and-add check -f license-check-config.json",
     "lint:license:fix": "license-check-and-add add -f license-check-config.json -r $(date +%Y)",
-    "postpublish": "cp -r package.json ..",
     "prettier": "prettier --check \"**/*.{js,html,css,json}\"",
     "prettier:fix": "prettier --write \"**/*.{js,html,css,json}\"",
     "release": "semantic-release",
