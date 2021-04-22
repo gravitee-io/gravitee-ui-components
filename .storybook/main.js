@@ -26,6 +26,11 @@ module.exports = {
             use: ['asciidoc-loader'],
             include: path.resolve(__dirname, '../'),
           },
+          {
+            test: /\.html$/i,
+            loader: 'ignore-loader',
+            include: /node_modules\/codemirror/,
+          },
         ],
       },
       optimization: {
