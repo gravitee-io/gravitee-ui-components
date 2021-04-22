@@ -1,3 +1,10 @@
+## [2.3.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.4...v2.3.5) (2021-04-22)
+
+
+### Bug Fixes
+
+* resolve install on windows ([6c2a1ee](https://github.com/gravitee-io/gravitee-ui-components/commit/6c2a1ee3420f735106788b18c48407a4339ee8d6)), closes [gravitee-io/issues#5195](https://github.com/gravitee-io/issues/issues/5195)
+
 ## [2.3.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.3...v2.3.4) (2021-04-21)
 
 
