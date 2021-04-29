@@ -34,6 +34,7 @@ export { GvCode } from './molecules/gv-code';
 export { GvConfirm } from './molecules/gv-confirm';
 export { GvCronEditor } from './molecules/gv-cron-editor';
 export { GvDropdownMenu } from './molecules/gv-dropdown-menu';
+export { GvExpandable } from './molecules/gv-expandable';
 export { GvExpressionLanguage } from './molecules/gv-expression-language';
 export { GvIdentityPicture } from './molecules/gv-identity-picture';
 export { GvList } from './molecules/gv-list';
