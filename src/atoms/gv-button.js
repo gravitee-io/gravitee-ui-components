@@ -400,13 +400,17 @@ export class GvButton extends LitElement {
   }
 
   firstUpdated() {
+    this.addEventListener('keydown', this._onKeyDown);
+  }
+
+  updated(_changedProperties) {
+    super.updated(_changedProperties);
     const slot = this.shadowRoot.querySelector('slot');
     this._hasContent =
       slot
         .assignedNodes()
         .map((node) => node.textContent)
         .filter((text) => text.trim() !== '').length > 0;
-    this.addEventListener('keydown', this._onKeyDown);
   }
 }
 

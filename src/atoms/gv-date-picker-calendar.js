@@ -215,6 +215,7 @@ export class GvDatePickerCalendar extends LitElement {
         }
 
         .time {
+          scroll-behavior: smooth;
           overflow-x: auto;
           min-width: 50px;
           width: 100%;
@@ -575,7 +576,7 @@ export class GvDatePickerCalendar extends LitElement {
 
     if (properties.has('_hour') || properties.has('_minute')) {
       this.shadowRoot.querySelectorAll('.selected').forEach((time) => {
-        time.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        time.parentNode.scrollTop = time.offsetTop - time.parentNode.offsetTop;
       });
     }
   }
@@ -744,6 +745,9 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   get datetimeSelected() {
+    if (this.isStrictTime() && this._from == null) {
+      this._from = new Date().valueOf() / 1000;
+    }
     let selectedDate = new Date(this._from * 1000);
     selectedDate = setHours(selectedDate, parseInt(this._hour ? this._hour : 0, 10));
     selectedDate = setMinutes(selectedDate, parseInt(this._minute ? this._minute : 0, 10));

@@ -28,10 +28,12 @@
   "gv-date-picker": {
     "currentTime": "Current time",
     "endDate": "End date",
+    "endTime": "End time",
     "format": "MM/dd/yyyy",
     "now": "Now",
     "ok": "Ok",
     "startDate": "Start date",
+    "startTime": "Start time",
     "today": "Today"
   },
   "gv-file-upload": {
