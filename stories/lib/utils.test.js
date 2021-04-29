@@ -77,4 +77,16 @@ describe('U T I L S', () => {
   test('should compare null objects', () => {
     expect(deepEqual(null, null)).toEqual(true);
   });
+
+  test('should compare numbers arrays', () => {
+    expect(deepEqual([1, 2], [1, 2])).toEqual(true);
+  });
+
+  test('should compare string arrays', () => {
+    expect(deepEqual([2, 1], [1, 2])).toEqual(false);
+  });
+
+  test('should compare string arrays without order', () => {
+    expect(deepEqual([2, 1], [1, 2], true)).toEqual(true);
+  });
 });

@@ -76,23 +76,33 @@ export function uuid() {
   });
 }
 
-export function deepEqual(object1, object2) {
-  const keys1 = object1 != null ? Object.keys(object1) : [];
-  const keys2 = object2 != null ? Object.keys(object2) : [];
+export function deepEqual(a, b, withoutOrder = false) {
+  if (Array.isArray(a) && Array.isArray(b) && withoutOrder) {
+    if (a.length !== b.length) return false;
+    const uniqueValues = new Set([...a, ...b]);
+    for (const v of uniqueValues) {
+      const aCount = a.filter((e) => e === v).length;
+      const bCount = b.filter((e) => e === v).length;
+      if (aCount !== bCount) return false;
+    }
+    return true;
+  }
+
+  const keys1 = a != null ? Object.keys(a) : [];
+  const keys2 = b != null ? Object.keys(b) : [];
 
   if (keys1.length !== keys2.length) {
     return false;
   }
 
   for (const key of keys1) {
-    const val1 = object1[key];
-    const val2 = object2[key];
+    const val1 = a[key];
+    const val2 = b[key];
     const areObjects = isObject(val1) && isObject(val2);
     if ((areObjects && !deepEqual(val1, val2)) || (!areObjects && val1 !== val2)) {
       return false;
     }
   }
-
   return true;
 }
 
