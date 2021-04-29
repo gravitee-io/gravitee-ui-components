@@ -14,50 +14,74 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
+import { link } from '../styles/link';
+import { classMap } from 'lit-html/directives/class-map';
+import { dispatchCustomEvent } from '../lib/events';
 
 /**
  * Expandable row
  *
- * @attr {Boolean} open - When true, opens details by default
+ * @fires gv-expandable-row:toggle - When user toggle row
  *
+ * @attr {Boolean} open - When true, opens details by default
+ * @attr {String} icon - An optional icon to show open feature
+ * @attr {String} icon-opened -  An optional icon to show close feature
+ * @attr {Boolean} only-summary - When true, only summary is clickable for toggle row
+ *
+ * @cssprop {String} [--gv-row-expandable--bdb=var(--gv-row-expandable--bdb, thin solid var(--gv-theme-color, #5a7684)] - Border bottom
  */
 export class GvRowExpandable extends LitElement {
   constructor() {
     super();
     this.open = false;
+    this.icon = 'general:other#2';
+    this.iconOpened = 'general:other#2';
+    this.onlySummary = false;
   }
 
   static get properties() {
     return {
-      open: { type: 'boolean' },
+      open: { type: Boolean, reflect: true },
+      icon: { type: String },
+      iconOpened: { type: String, attribute: 'icon-opened' },
+      onlySummary: { type: Boolean, attribute: 'only-summary' },
     };
   }
 
   static get styles() {
     return [
+      link,
       // language=CSS
       css`
         :host {
           box-sizing: border-box;
         }
 
-        .row {
+        .box {
           padding: 0.2rem;
-          cursor: pointer;
           line-height: 23px;
-          border-bottom: thin solid var(--gv-theme-color, #5a7684);
+          border-bottom: var(--gv-row-expandable--bdb, thin solid var(--gv-theme-color, #5a7684));
         }
 
-        .row:hover {
+        .box.link:hover {
           background-color: var(--gv-theme-neutral-color, #f5f5f5);
         }
 
-        .closed {
-          display: none;
+        :host([open]) .details {
+          visibility: visible;
+          opacity: 1;
+          height: 100%;
         }
 
-        .opened {
+        .details {
           display: block;
+          visibility: hidden;
+          opacity: 0;
+          -webkit-transition: -webkit-transform 150ms ease-in-out, opacity 150ms ease-in-out;
+          -moz-transition: all 150ms ease-in-out;
+          -ms-transition: all 150ms ease-in-out;
+          -o-transition: all 150ms ease-in-out;
+          height: 0px;
         }
 
         .summary {
@@ -71,30 +95,31 @@ export class GvRowExpandable extends LitElement {
           align-self: center;
           margin-left: 5px;
           --gv-icon--s: 16px;
-          background-color: var(--gv-theme-neutral-color-light, #efefef);
-        }
-
-        .show-more:hover {
-          background-color: var(--gv-theme-neutral-color-dark, #d9d9d9);
         }
       `,
     ];
   }
 
-  _onClick() {
+  _onClick(event) {
+    if (this.onlySummary) {
+      const summary = this.shadowRoot.querySelector('.summary');
+      if (!summary.contains(event.target)) {
+        return;
+      }
+    }
     this.open = !this.open;
+    dispatchCustomEvent(this, 'toggle', { open: this.open });
   }
 
   render() {
-    const toggleCss = this.open ? 'opened' : 'closed';
-
-    return html`<div class="row" @click=${this._onClick}>
-      <div class="summary">
+    const icon = this.open ? this.iconOpened : this.icon;
+    return html`<div class="${classMap({ box: true, link: !this.onlySummary })}" @click=${this._onClick}>
+      <div class="${classMap({ summary: true, link: this.onlySummary })}">
         <slot name="summary"></slot>
 
-        <gv-icon shape="general:other#2" class="show-more"></gv-icon>
+        <gv-icon shape="${icon}" class="show-more"></gv-icon>
       </div>
-      <slot name="details" class="details ${toggleCss}"></slot>
+      <slot name="details" class="details"></slot>
     </div>`;
   }
 }

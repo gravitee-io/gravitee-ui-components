@@ -16,7 +16,8 @@
 
 import notes from '../../.docs/gv-row-expandable.md';
 import '../../src/molecules/gv-row-expandable';
-import { makeStory } from '../lib/make-story';
+import { makeStory, storyWait } from '../lib/make-story';
+import mixed from '../resources/schemas/mixed.json';
 
 const conf = {
   component: 'gv-row-expandable',
@@ -118,5 +119,30 @@ export const WithComponents = makeStory(conf, {
         </div>
       `,
     },
+  ],
+});
+
+export const Custom = makeStory(conf, {
+  items: [
+    {
+      innerHTML: `
+        <div slot="summary">Complex form</div>
+      `,
+      icon: 'navigation:angle-left',
+      'icon-opened': 'navigation:angle-down',
+      'only-summary': '',
+    },
+  ],
+  simulations: [
+    storyWait(0, ([component]) => {
+      const form = document.createElement('gv-schema-form');
+      form.schema = mixed;
+      const container = document.createElement('div');
+      container.slot = 'details';
+      container.style.padding = '0.5rem';
+      container.style.display = 'flex';
+      container.appendChild(form);
+      component.appendChild(container);
+    }),
   ],
 });
