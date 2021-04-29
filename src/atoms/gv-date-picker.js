@@ -91,7 +91,7 @@ export class GvDatePicker extends LitElement {
           display: inline-block;
           margin: 0.2rem;
           --gv-input-icon--bgc: transparent;
-          --gv-icon--s: 20px;
+          --gv-icon--s: 22px;
           --date-picker-hover--bgc: var(--gv-date-picker-hover--bgc, var(--gv-theme-color-light, #86c3d0));
           --date-picker-hover--c: var(--gv-date-picker-hover--c, var(--gv-theme-font-color-dark, #262626));
           --date-picker-selected--bgc: var(--gv-date-picker-selected--bgc, var(--gv-theme-color, #5a7684));
@@ -110,7 +110,6 @@ export class GvDatePicker extends LitElement {
 
         gv-input {
           width: 160px;
-          --gv-icon--s: 16px;
           margin: 0;
         }
 
@@ -161,13 +160,11 @@ export class GvDatePicker extends LitElement {
         }
 
         .box-icon-calendar {
-          --gv-icon--s: 16px;
           padding: 0 6px;
         }
 
         .box-icon-arrow,
         .box-icon-calendar {
-          --gv-icon--c: var(--gv-theme-neutral-color-darker);
         }
 
         .box-icon-clear {
@@ -308,13 +305,19 @@ export class GvDatePicker extends LitElement {
   }
 
   get dateFromPlaceholder() {
+    if (this.range && this.time && this.strict) {
+      return i18n('gv-date-picker.startTime');
+    }
     if (this.range) {
-      return i18n('gv-date-picker.startDate');
+      return i18n('gv-date-picker.endTime');
     }
     return this.getFormat();
   }
 
   get dateToPlaceholder() {
+    if (this.range && this.time && this.strict) {
+      return i18n('gv-date-picker.endTime');
+    }
     if (this.range) {
       return i18n('gv-date-picker.endDate');
     }
@@ -403,6 +406,7 @@ export class GvDatePicker extends LitElement {
                     .min="${this._min}"
                     .max="${this._max}"
                     ?time="${this.time}"
+                    ?strict="${this.strict}"
                     ?small="${this.small}"
                     ?prev="${true}"
                     ?next="${this.time}"
@@ -429,6 +433,7 @@ export class GvDatePicker extends LitElement {
                     .min="${this._min}"
                     .max="${this._max}"
                     ?time="${this.time}"
+                    ?strict="${this.strict}"
                     ?small="${this.small}"
                     ?prev="${this.time}"
                     ?next="${true}"
@@ -564,11 +569,6 @@ export class GvDatePicker extends LitElement {
         this._month = (getMonth(date) + 1).toString();
         this._year = getYear(date).toString();
         this._from = date.getTime() / 1000;
-        // if (this.time) {
-        //  this._hour = date.getHours().toString();
-        //  this._minute = date.getHours().toString();
-        // }
-
         this.invalid = isInvalid(this._from, this._min, this._max, !this.time);
       }
     }

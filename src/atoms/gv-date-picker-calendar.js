@@ -215,6 +215,7 @@ export class GvDatePickerCalendar extends LitElement {
         }
 
         .time {
+          scroll-behavior: smooth;
           overflow-x: auto;
           min-width: 50px;
           width: 100%;
@@ -575,7 +576,7 @@ export class GvDatePickerCalendar extends LitElement {
 
     if (properties.has('_hour') || properties.has('_minute')) {
       this.shadowRoot.querySelectorAll('.selected').forEach((time) => {
-        time.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        time.parentNode.scrollTop = time.offsetTop - time.parentNode.offsetTop;
       });
     }
   }
