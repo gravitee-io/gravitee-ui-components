@@ -22,34 +22,29 @@ const series = {
     {
       name: '9ec7b0e2-a649-40a3-87b0-e2a649e0a377',
       color: '#5cb85c',
-      data: [100.0, 80.0, 90.0, 100.0, 0, 0, 0, 20.0, 30.0, 50.0, 60.0, 70.0, 0],
+      data: [100.0, 80.0, 90.0, 100.0, 0, 0, 0, 20.0, 30.0, 50.0, 60.0, 70.0, 0, 90.0, 100.0, 0, 0, 0, 20.0, 30.0, 50.0, 60.0, 70.0, 0],
     },
   ],
 };
 
 const options = {
-  yAxisTitle: 'Availability (%)',
   title: 'Global availability',
   subtitle: 'Global availability including results of all health-checked endpoints (see below).',
-  min: 0,
-  max: 100,
-  data: {
-    name: 'timestamp',
-    values: [
-      '20. Apr',
-      '21. Apr',
-      '22. Apr',
-      '23. Apr',
-      '24. Apr',
-      '26. Apr',
-      '27. Apr',
-      '28. Apr',
-      '29. Apr',
-      '30. Apr',
-      '1. May',
-      '2. May',
-      '3. May',
-    ],
+  yAxis: {
+    min: 0,
+    max: 100,
+    title: {
+      text: 'Availability',
+    },
+    labels: {
+      format: '{value}%',
+    },
+  },
+  plotOptions: {
+    series: {
+      pointInterval: 12500,
+      pointStart: 1620283750000,
+    },
   },
 };
 
@@ -88,7 +83,7 @@ export const Loading = makeStory(conf, {
       component.options = options;
     }),
 
-    storyWait(750, () => {
+    storyWait(1500, () => {
       seriesResolver(series);
     }),
   ],

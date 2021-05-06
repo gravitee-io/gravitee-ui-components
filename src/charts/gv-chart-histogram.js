@@ -25,20 +25,16 @@ import { ChartElement } from '../mixins/chart-element';
  */
 export class GvChartHistogram extends ChartElement(LitElement) {
   async getOptions() {
-    let categories = [];
-    let yAxisTitle;
+    let yAxis;
     let title;
     let subtitle;
-    let max;
-    let min = 0;
+    let plotOptions;
 
     if (this.options) {
-      yAxisTitle = this.options.yAxisTitle;
+      yAxis = this.options.yAxis;
       title = this.options.title;
       subtitle = this.options.subtitle;
-      categories = this.options.data.values || [];
-      min = this.options.min;
-      max = this.options.max;
+      plotOptions = this.options.plotOptions;
     }
 
     if (this._series && this._series.values && this._series.values.length === 0) {
@@ -48,6 +44,7 @@ export class GvChartHistogram extends ChartElement(LitElement) {
     return {
       chart: {
         type: 'column',
+        backgroundColor: 'transparent',
       },
       title: {
         text: title,
@@ -61,24 +58,17 @@ export class GvChartHistogram extends ChartElement(LitElement) {
       },
       series: this._series.values,
       xAxis: {
-        categories: categories,
+        type: 'datetime',
+        dateTimeLabelFormats: {
+          month: '%e. %b',
+          year: '%b',
+        },
       },
       legend: {
         enabled: false,
       },
-      yAxis: {
-        min,
-        max,
-        title: {
-          text: yAxisTitle,
-        },
-      },
-      plotOptions: {
-        column: {
-          pointPadding: 0.2,
-          borderWidth: 0,
-        },
-      },
+      yAxis,
+      plotOptions,
       tooltip: {
         pointFormat: 'Value: <b>{point.y}</b>',
       },
