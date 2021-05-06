@@ -58,7 +58,7 @@
     "clipboard-copy": "^3.1.0",
     "codemirror": "^5.59.2",
     "date-fns": "^2.16.1",
-    "highcharts": "^8.2.0",
+    "highcharts": "^9.0.0",
     "highlight.js": "^10.4.0",
     "jdenticon": "^2.2.0",
     "jsonschema": "^1.4.0",
