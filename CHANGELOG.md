@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.4.0...v2.5.0) (2021-05-07)
+
+
+### Features
+
+* **gv-chart-histogram:** improve histogram chart options usage ([6a27d7a](https://github.com/gravitee-io/gravitee-ui-components/commit/6a27d7ac46616abcac9cd7015f42e98fbc34e85c))
+
 # [2.4.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.3.5...v2.4.0) (2021-05-05)
 
 
