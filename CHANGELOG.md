@@ -1,3 +1,5 @@
+# [2.6.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.5.0...v2.6.0) (2021-05-07)
+
 # [2.5.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.4.0...v2.5.0) (2021-05-07)
 
 
