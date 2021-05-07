@@ -65,3 +65,7 @@ invalidSteps[0].invalid = true;
 export const withInvalidStep = makeStory(conf, {
   items: [{ steps: invalidSteps, current: 3 }],
 });
+withInvalidStep.parameters = {
+  ...withInvalidStep.parameters,
+  chromatic: { disable: true },
+};
