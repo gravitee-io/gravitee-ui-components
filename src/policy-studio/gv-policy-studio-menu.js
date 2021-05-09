@@ -633,7 +633,13 @@ export class GvPolicyStudioMenu extends LitElement {
           const anchor = `#${listId}`;
           let right = html`<gv-state>${groupData.length}</gv-state>`;
           if (addHandler) {
-            right = html`<gv-button small link icon="code:plus" @click="${addHandler.bind(this, index, listId)}"></gv-button>`;
+            right = html`<gv-button
+              small
+              outlined
+              icon="code:plus"
+              title="Add new flow"
+              @click="${addHandler.bind(this, index, listId)}"
+            ></gv-button>`;
           }
           if (type === 'flows') {
             groupData = groupData[0].flows;
@@ -662,7 +668,13 @@ export class GvPolicyStudioMenu extends LitElement {
         const anchor = `#${listId}`;
         let action = '';
         if (addHandler) {
-          action = html`<gv-button small link icon="code:plus" @click="${addHandler.bind(this, listId)}"></gv-button>`;
+          action = html`<gv-button
+            small
+            outlined
+            icon="code:plus"
+            title="Add new flow"
+            @click="${addHandler.bind(this, listId)}"
+          ></gv-button>`;
         }
         return html`<div class="type" draggable="false">
             ${icon ? html`<gv-icon class="expandable-icon" shape="${icon}"></gv-icon>` : ''}

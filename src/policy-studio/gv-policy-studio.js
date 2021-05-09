@@ -72,10 +72,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       definition: { type: Object },
       _definition: { type: Object, attribute: false },
       documentation: { type: Object },
-      flowSchema: { type: Object },
-      configurationSchema: { type: Object },
+      flowSchema: { type: Object, attribute: 'flow-schema' },
+      configurationSchema: { type: Object, attribute: 'configuration-schema' },
       _configurationSchema: { type: Object, attribute: false },
-      configurationInformation: { type: String },
+      configurationInformation: { type: String, attribute: 'configuration-information' },
       isDirty: { type: Boolean, attribute: 'dirty', reflect: true },
       _dragPolicy: { type: Object, attribute: false },
       _dropPolicy: { type: Object, attribute: false },
@@ -841,6 +841,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     selectedFlow.condition = values.condition || '';
     selectedFlow['path-operator'] = values['path-operator'];
     selectedFlow.methods = values.methods;
+    selectedFlow.consumers = values.consumers;
     selectedFlow._dirty = true;
     this.isDirty = true;
     this._refresh();

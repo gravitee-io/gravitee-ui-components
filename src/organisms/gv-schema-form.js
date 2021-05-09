@@ -71,7 +71,7 @@ export class GvSchemaForm extends LitElement {
     this._validatorResults = {};
     this.addEventListener('gv-schema-form-control:default-value', this._onDefaultValue.bind(this));
     this.addEventListener('gv-schema-form-control:change', this._onChange.bind(this));
-    this.addEventListener('gv-schema-form-control:autocomplete-ready', this._onAutocompleteReady.bind(this));
+    this.addEventListener('gv-schema-form-control:control-ready', this._onControlReady.bind(this));
   }
 
   set values(values) {
@@ -218,7 +218,7 @@ export class GvSchemaForm extends LitElement {
     this._dispatchChange();
   }
 
-  _onAutocompleteReady(e) {
+  _onControlReady(e) {
     e.stopPropagation();
     e.preventDefault();
     dispatchCustomEvent(this, e.detail.eventName, e.detail);
