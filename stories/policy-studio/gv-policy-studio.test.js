@@ -245,7 +245,7 @@ describe('P O L I C Y  S T U D I O', () => {
     test('should update definition when submit flow schema', async () => {
       const _id = 'foobar';
       const _stepId = 'foobar-step';
-      const step = { _id: _stepId, name: 'step', description: 'step description', configuration: {} };
+      const step = { _id: _stepId, name: 'step', description: 'step description', configuration: {}, policy: 'api-key' };
       const flow = {
         _id,
         name: 'New flow',

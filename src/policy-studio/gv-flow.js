@@ -406,7 +406,7 @@ export class GvFlow extends LitElement {
   findPolicy(policyId) {
     const policy = this.policies.find((p) => p.id === policyId);
     if (policy == null) {
-      // throw new Error(`Policy ${policyId} not found`);
+      throw new Error(`Policy ${policyId} not found`);
     }
     return policy;
   }

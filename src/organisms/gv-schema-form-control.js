@@ -67,7 +67,7 @@ export class GvSchemaFormControl extends LitElement {
   }
 
   isAutocomplete() {
-    return this.control['x-schema-form'] && this.control['x-schema-form'].event != null;
+    return this.control['x-schema-form'] && this.control['x-schema-form'].event != null && this.control.type === 'string';
   }
 
   getElementName() {
@@ -153,13 +153,14 @@ export class GvSchemaFormControl extends LitElement {
     const placeholder = this.getPlaceholder();
 
     if (this.control.enum || (this.control.items && this.control.items.enum)) {
+      const options = this.control.enum || this.control.items.enum;
       if (this.control['x-schema-form'] && this.control['x-schema-form'].titleMap) {
-        element.options = this.control.enum.map((value) => ({
+        element.options = options.map((value) => ({
           value,
           label: this.control['x-schema-form'].titleMap[value] || value,
         }));
       } else {
-        element.options = this.control.enum || this.control.items.enum;
+        element.options = options;
       }
       if (this.control.type === 'array') {
         element.multiple = true;
@@ -190,6 +191,7 @@ export class GvSchemaFormControl extends LitElement {
 
     element.addEventListener(`${elementName}:input`, this._onInput.bind(this));
 
+    let currentTarget;
     if (this.isAutocomplete()) {
       const autocomplete = document.createElement('gv-autocomplete');
       autocomplete.minChars = 0;
@@ -198,18 +200,21 @@ export class GvSchemaFormControl extends LitElement {
       autocomplete.id = this.id;
       autocomplete.appendChild(element);
       autocomplete.addEventListener(`gv-autocomplete:select`, this._onInput.bind(this));
-      const name = this.control['x-schema-form'].event.name;
       element.addEventListener(`gv-input:clear`, this._onInput.bind(this));
-      dispatchCustomEvent(this, 'autocomplete-ready', {
+      currentTarget = autocomplete;
+    } else {
+      currentTarget = element;
+    }
+    if (this.control['x-schema-form'] != null && this.control['x-schema-form'].event != null) {
+      const name = this.control['x-schema-form'].event.name;
+      dispatchCustomEvent(this, 'control-ready', {
         ...this.control['x-schema-form'].event,
-        currentTarget: autocomplete,
+        currentTarget,
         eventName: name,
         control: this.control,
       });
-      return autocomplete;
-    } else {
-      return element;
     }
+    return currentTarget;
   }
 
   _onInput(e) {
