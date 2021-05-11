@@ -1,5 +1,9 @@
 # [2.8.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.7.0...v2.8.0) (2021-05-11)
 
+### Miscellaneous
+
+* **deps:** bump hosted-git-info from 2.8.8 to 2.8.9 ([e0f6219](https://github.com/gravitee-io/gravitee-ui-components/commit/e0f6219371531bd18d9546bd0fe449665af09ab6))
+
 # [2.7.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.6.0...v2.7.0) (2021-05-11)
 
 
@@ -10,6 +14,8 @@
 * **lib:** add support to use deepEqual on Array without order consideration ([a062dc0](https://github.com/gravitee-io/gravitee-ui-components/commit/a062dc05fb2925cb8e8ab36b22d1b07a4801a6f3)), closes [gravitee-io/issues#4894](https://github.com/gravitee-io/issues/issues/4894)
 
 # [2.6.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.5.0...v2.6.0) (2021-05-07)
+
+Same as 2.5.0, was triggered after a change in the release config.
 
 # [2.5.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.4.0...v2.5.0) (2021-05-07)
 
