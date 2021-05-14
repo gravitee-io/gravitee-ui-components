@@ -38,6 +38,10 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
 /**
  *  Studio Policy component
  *
+ * ⚠️ This component is based on `asciidoctor`, `highlight.js` and `asciidoctor-highlight.js`.
+ * To use this component in your project be sure the dependencies are installed or
+ * install them with: `npm install asciidoctor highlight.js asciidoctor-highlight.js --save`
+ *
  * @fires gv-policy-studio:select-policy - Select policy event
  * @fires gv-policy-studio:save - When request savet
  *
