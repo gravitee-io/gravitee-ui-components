@@ -56,12 +56,9 @@
   },
   "dependencies": {
     "@formatjs/intl-relativetimeformat": "^4.5.9",
-    "asciidoctor": "^2.2.0",
-    "asciidoctor-highlight.js": "^0.3.0",
     "clipboard-copy": "^3.1.0",
     "codemirror": "^5.59.2",
     "date-fns": "^2.16.1",
-    "highlight.js": "^10.4.0",
     "jdenticon": "^2.2.0",
     "jsonschema": "^1.4.0",
     "lit-element": "^2.5.1",
@@ -86,6 +83,8 @@
     "@storybook/theming": "6.3.0-alpha.43",
     "@storybook/web-components": "6.3.0-alpha.43",
     "asciidoc-loader": "^0.2.0",
+    "asciidoctor": "^2.2.4",
+    "asciidoctor-highlight.js": "^0.3.0",
     "babel-jest": "^26.3.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-template-html-minifier": "^4.0.0",
@@ -106,6 +105,7 @@
     "glob": "^7.1.4",
     "gzip-size": "^5.1.1",
     "highcharts": "^9.1.0",
+    "highlight.js": "^10.7.2",
     "html-loader": "^0.5.5",
     "html-to-react": "^1.4.2",
     "husky": "^4.3.8",
@@ -129,14 +129,26 @@
     "webpack-merge": "^5.4.1"
   },
   "peerDependencies": {
+    "asciidoctor": "^2.0.0",
+    "asciidoctor-highlight.js": "^0.3.0",
     "@highcharts/map-collection": "^1.0.0",
-    "highcharts": "^8.0.0 || ^9.0.0"
+    "highcharts": "^8.0.0 || ^9.0.0",
+    "highlight.js": "^10.7.0"
   },
   "peerDependenciesMeta": {
+    "asciidoctor": {
+      "optional": true
+    },
+    "asciidoctor-highlight.js": {
+      "optional": true
+    },
     "@highcharts/map-collection": {
       "optional": true
     },
     "highcharts": {
+      "optional": true
+    },
+    "highlight.js": {
       "optional": true
     }
   }
