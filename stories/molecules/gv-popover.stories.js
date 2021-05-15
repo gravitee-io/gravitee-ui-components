@@ -38,7 +38,7 @@ const conf = {
       justify-content: space-around;
       align-items: center;
     }
-  
+
     gv-popover {
       border: 1px solid red;
       --gv-popover--bgc: #262626;
@@ -65,16 +65,12 @@ export const InlineArrow = makeStory(conf, {
   ],
 });
 
-const largeContent =
-  '<h2 slot="popover">Ola = Bonjour !</h2>' +
-  '<p slot="popover">Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page' +
-  " avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années" +
-  ' 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre' +
-  " spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté" +
-  " à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans" +
-  ' les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus' +
-  ' récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMa</p>' +
-  '<gv-tag slot="popover">Hello</gv-tag><gv-tag slot="popover">i18n</gv-tag>';
+const largeContent = `<div style="text-align:center" slot="popover">
+  <h2 >Ola = Bonjour !</h2>
+  <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMa</p>
+  <gv-tag>Hello</gv-tag>
+  <button>i18n</button>
+</div>`;
 
 export const Large = makeStory(conf, {
   items: [
@@ -95,7 +91,7 @@ export const Large = makeStory(conf, {
     {
       innerHTML: `<span> Left </span>${largeContent}`,
       large: true,
-      position: 'left',
+      position: 'right',
     },
   ],
 });
@@ -117,12 +113,13 @@ export const LargeArrow = makeStory(conf, {
     {
       innerHTML: `<span> Bottom </span>${largeContent}`,
       large: true,
+      position: 'bottom',
       arrow: true,
     },
     {
       innerHTML: `<span> Left </span>${largeContent}`,
       large: true,
-      position: 'left',
+      position: 'right',
       arrow: true,
     },
   ],
@@ -131,29 +128,9 @@ export const LargeArrow = makeStory(conf, {
 export const AutoPosition = makeStory(conf, {
   items: [
     {
-      innerHTML: `<span> Top </span>${largeContent}`,
-      position: 'top',
-      large: true,
-      arrow: true,
-      auto: true,
-    },
-    {
-      innerHTML: `<span> Right </span>${largeContent}`,
-      large: true,
-      position: 'right',
-      arrow: true,
-      auto: true,
-    },
-    {
-      innerHTML: `<span> Bottom </span>${largeContent}`,
-      large: true,
-      arrow: true,
-      auto: true,
-    },
-    {
       innerHTML: `<span> Left </span>${largeContent}`,
       large: true,
-      position: 'left',
+      position: 'right',
       arrow: true,
       auto: true,
     },

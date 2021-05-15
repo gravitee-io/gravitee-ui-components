@@ -16,6 +16,7 @@
 import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import { classMap } from 'lit-html/directives/class-map';
+import { createPopper } from '@popperjs/core';
 
 /**
  * Popover component
@@ -31,7 +32,6 @@ import { classMap } from 'lit-html/directives/class-map';
  * @attr {String} large - Large popover
  * @attr {String} width - The width of popover
  * @attr {String} position - The position top, right, bottom or left
- * @attr {Boolean} auto - to let the component choose the position
  *
  * @cssprop {Color} [--gv-popover--bgc=var(--gv-theme-neutral-color-lighter, #fafafa)] - Background color
  * @cssprop {Color} [--gv-popover--c=var(--gv-theme-font-color-dark, #262626)] - Color
@@ -49,8 +49,8 @@ export class GvPopover extends LitElement {
       large: { type: Boolean, reflect: true },
       width: { type: String },
       position: { type: String, reflect: true },
-      auto: { type: Boolean },
-      _opened: { type: Boolean, attribute: false },
+      invoker: { property: false },
+      tooltip: { property: false },
     };
   }
 
@@ -66,89 +66,7 @@ export class GvPopover extends LitElement {
         }
 
         .popover {
-          --bgc: var(--gv-popover--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
-          color: var(--gv-popover--c, var(--gv-theme-font-color-dark, #262626));
-          position: absolute;
-          background-color: var(--bgc);
-          padding: var(--gv-popover--p, 0.5rem);
-          border-radius: 4px;
-          z-index: 1000;
-          margin: 0 auto;
-          text-align: center;
           width: auto;
-          box-sizing: content-box;
-        }
-
-        :host([position='bottom']) .popover {
-          top: calc(100% + 0.4rem);
-          transform: translateX(-50%);
-          left: 50%;
-          box-shadow: 1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5), 0 2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
-        }
-
-        :host([position='bottom'][arrow]) .popover {
-          top: calc(100% + 0.4rem + 10px);
-        }
-
-        :host([position='bottom'][arrow]) .arrow {
-          top: calc(100% - 8px);
-          transform: translateX(-50%);
-          left: 50%;
-        }
-
-        :host([position='top']) .popover {
-          bottom: calc(100% + 0.4rem);
-          transform: translateX(-50%);
-          left: 50%;
-          box-shadow: 1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5), 0 -2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
-        }
-
-        :host([position='top'][arrow]) .popover {
-          bottom: calc(100% + 0.4rem + 10px);
-        }
-
-        :host([position='top'][arrow]) .arrow {
-          bottom: calc(100% - 8px);
-          transform: translateX(-50%) rotate(180deg);
-          left: 50%;
-        }
-
-        :host([position='left']) .popover {
-          top: 50%;
-          transform: translateY(-50%);
-          right: calc(100% + 0.4rem);
-          box-shadow: -1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5), -1px 2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
-        }
-
-        :host([position='left'][arrow]) .popover {
-          right: calc(100% + 0.4rem + 10px);
-        }
-
-        :host([position='left'][arrow]) .arrow {
-          top: 50%;
-          transform: translateY(-50%) rotate(90deg);
-          right: calc(100% - 8px);
-        }
-
-        :host([position='right']) .popover {
-          top: 50%;
-          transform: translateY(-50%);
-          left: calc(100% + 0.4rem);
-          box-shadow: 1px 0 0 1px var(--gv-theme-neutral-color, #f5f5f5), 1px 1px 1px var(--gv-theme-neutral-color-dark, #bfbfbf);
-        }
-
-        :host([position='right'][arrow]) .popover {
-          left: calc(100% + 0.4rem + 10px);
-        }
-
-        :host([position='right'][arrow]) .arrow {
-          left: calc(100% - 8px);
-          top: 50%;
-          transform: translateY(-50%) rotate(-90deg);
-        }
-
-        .inline .popover {
-          white-space: nowrap;
         }
 
         :host([small]) .popover {
@@ -163,46 +81,55 @@ export class GvPopover extends LitElement {
           width: 500px;
         }
 
-        .content {
-          width: 100%;
+        #tooltip {
+          --bgc: var(--gv-popover--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
+          color: var(--gv-popover--c, var(--gv-theme-font-color-dark, #262626));
+          background-color: var(--bgc);
+          border-radius: 4px;
+          z-index: 1000;
+          box-sizing: content-box;
+
+          padding: var(--gv-popover--p, 0.5rem);
+          display: none;
         }
 
-        .popover,
-        .arrow {
-          opacity: 0;
-          visibility: hidden;
-          transition: opacity 0.3s ease-in-out;
-        }
-
-        .open .popover,
-        .open .arrow {
+        #tooltip[data-show] {
           display: block;
-          opacity: 1;
-          visibility: visible;
         }
 
-        .close .popover,
-        .close .arrow {
-        }
-
-        .arrow {
-          width: 25px;
-          height: 25px;
-          z-index: 101;
-          position: absolute;
-          overflow: hidden;
-        }
-
-        .arrow:after {
-          content: '';
+        #arrow,
+        #arrow::before {
           position: absolute;
           width: 12px;
           height: 12px;
-          background: var(--gv-popover--bgc, var(--gv-theme-neutral-color-lighter, #fafafa));
+          z-index: 101;
+          background: inherit;
+        }
+
+        #arrow {
+          visibility: hidden;
+        }
+
+        #arrow::before {
+          visibility: visible;
+          content: '';
           transform: rotate(45deg);
-          top: 19px;
-          left: 6px;
-          border: 1px solid var(--gv-popover--bdc, var(--gv-theme-neutral-color, #f5f5f5));
+        }
+
+        #tooltip[data-popper-placement^='top'] > #arrow {
+          bottom: -4px;
+        }
+
+        #tooltip[data-popper-placement^='bottom'] > #arrow {
+          top: -4px;
+        }
+
+        #tooltip[data-popper-placement^='left'] > #arrow {
+          right: -4px;
+        }
+
+        #tooltip[data-popper-placement^='right'] > #arrow {
+          left: -4px;
         }
       `,
     ];
@@ -210,142 +137,78 @@ export class GvPopover extends LitElement {
 
   constructor() {
     super();
-    this.event = 'mouseover';
-    this._closeHandler = this._close.bind(this);
-    this.delay = 0;
-    this.arrow = false;
-    this.position = 'bottom';
-    this.auto = false;
   }
 
-  _open(e) {
-    if (this.event === 'click') {
-      window.removeEventListener(this.event, this._closeHandler);
-    }
-    this._opened = true;
-    if (this.event === 'click') {
-      setTimeout(() => window.addEventListener(this.event, this._closeHandler));
-    }
+  hide() {
+    this.tooltip.removeAttribute('data-show');
+    this.popperInstance.update();
+  }
+
+  show() {
+    this.tooltip.setAttribute('data-show', '');
+
+    // We need to tell Popper to update the tooltip position
+    // after we show the tooltip, otherwise it will be incorrect
+    this.popperInstance.update();
 
     if (this.delay > 0) {
-      setTimeout(() => this._close({}), this.delay);
+      setTimeout(() => this.hide(), this.delay);
     }
   }
 
-  close() {
-    this._close({});
-  }
+  firstUpdated() {
+    this.invoker = this.shadowRoot.getElementById('invoker');
+    this.tooltip = this.shadowRoot.getElementById('tooltip');
 
-  _close(e) {
-    if (this._opened && (e.target !== this.firstElementChild || this.event !== 'click')) {
-      const openElement = this.shadowRoot.querySelector('.open');
-      openElement.classList.add('close');
-      setTimeout(() => {
-        openElement.classList.remove('close');
-        this._opened = false;
-      }, 200);
-    }
-  }
+    this.popperInstance = createPopper(this.invoker, this.tooltip, {
+      placement: this.position || 'auto',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 10],
+          },
+        },
+      ],
+    });
 
-  render() {
-    const inline = this.width == null && !this.small && !this.medium && !this.large;
-    const classes = { open: this._opened, content: true, inline };
-    return html` <div class="${classMap(classes)}">
-      <slot></slot>
-      ${this.arrow ? html`<div class="arrow"></div>` : ''}
-      <div class="popover">${this.renderContent()}</div>
-    </div>`;
-  }
+    const showEvents = this.event ? [this.event] : ['mouseenter', 'focus'];
+    const hideEvents = this.event ? [] : ['mouseleave', 'blur'];
 
-  renderContent() {
-    return html`<slot name="popover"></slot>`;
-  }
+    showEvents.forEach((event) => {
+      this.invoker.addEventListener(event, (e) => {
+        this.isPopoverVisible = true;
+        this.show();
+      });
+      this.tooltip.addEventListener(event, (e) => {
+        this.isPopoverVisible = true;
+        this.show();
+      });
+    });
 
-  firstUpdated(_changedProperties) {
-    setTimeout(() => {
-      this.addEventListener(this.event, this._open.bind(this));
-      if (this.event.startsWith('mouse') && this.delay === 0) {
-        this.addEventListener('mouseleave', this._close.bind(this));
-      }
+    hideEvents.forEach((event) => {
+      this.invoker.addEventListener(event, (e) => {
+        this.isPopoverVisible = false;
+
+        setTimeout(() => {
+          if (!this.isPopoverVisible) {
+            //  this.hide();
+          }
+        }, 50);
+      });
     });
   }
 
-  _getContentSize() {
-    const popover = this.shadowRoot.querySelector('.popover');
-    return {
-      width: popover.offsetWidth,
-      height: popover.offsetHeight,
-    };
-  }
-
-  _getPositionPadding() {
-    return 10;
-  }
-
-  _getCenterPosition() {
-    return {
-      x: this.target.x + this.target.width / 2 + window.scrollX,
-      y: this.target.y + this.target.height / 2 + window.scrollY,
-    };
-  }
-
-  _updatePosition() {
-    if (this.position != null && this.auto) {
-      const popover = this.shadowRoot.querySelector('.popover');
-      if (popover) {
-        this.target = this.firstElementChild.getBoundingClientRect();
-        if (
-          (this.position === 'top' && !this._hasTopSpace()) ||
-          (this.position === 'bottom' && !this._hasBottomSpace()) ||
-          (this.position === 'left' && !this._hasLeftSpace()) ||
-          (this.position === 'right' && !this._hasRightSpace())
-        ) {
-          const index = [this._hasTopSpace(), this._hasRightSpace(), this._hasBottomSpace(), this._hasLeftSpace()].indexOf(true);
-          if (index > -1) {
-            this.position = ['top', 'right', 'bottom', 'left'][index];
-          }
-        }
-      }
-    }
-  }
-
-  _getMaxX() {
-    return window.innerWidth - this._getPositionPadding();
-  }
-
-  _getMaxY() {
-    return window.innerHeight - this._getPositionPadding();
-  }
-
-  _hasBottomSpace() {
-    const y = this.target.y + this.target.height + this._getContentSize().height + this._getPositionPadding();
-
-    return y <= this._getMaxY();
-  }
-
-  _hasRightSpace() {
-    const y = this.target.x + this.target.width + this._getContentSize().width + this._getPositionPadding();
-
-    return y <= this._getMaxX();
-  }
-
-  _hasTopSpace() {
-    const y = this.target.y - this._getContentSize().height - this._getPositionPadding();
-
-    return y >= this._getPositionPadding();
-  }
-
-  _hasLeftSpace() {
-    const y = this.target.x - this._getContentSize().width - this._getPositionPadding();
-
-    return y >= this._getPositionPadding();
-  }
-
-  updated(props) {
-    if (props.has('width')) {
-      this.shadowRoot.querySelector('.popover').style.setProperty('width', this.width);
-    }
-    this._updatePosition();
+  render() {
+    return html`
+      <div id="invoker" aria-describedby="tooltip">
+        <slot></slot>
+        <div id="tooltip" role="tooltip" class="popover">
+          ${this.arrow ? html`<div id="arrow" data-popper-arrow></div>` : ''}
+          <slot class="popover" name="popover"></slot>
+        </div>
+      </div>
+    `;
   }
 }
 
