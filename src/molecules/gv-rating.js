@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { css, LitElement, html } from 'lit-element';
-import { repeat } from 'lit-html/directives/repeat';
+import { css, LitElement, html } from 'lit';
+import { repeat } from 'lit/directives/repeat';
 import '../atoms/gv-icon';
 import { skeleton } from '../styles/skeleton';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 import { i18n } from '../lib/i18n';
 
 const MAX_RATE = 5;

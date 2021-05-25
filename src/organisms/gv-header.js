@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from 'lit-element';
+import { css, html, LitElement } from 'lit';
 import '../atoms/gv-button';
 import '../atoms/gv-tag';
 import { i18n } from '../lib/i18n';
 import { isSameRoutes } from '../lib/utils';
-import { repeat } from 'lit-html/directives/repeat';
-import { until } from 'lit-html/directives/until';
+import { repeat } from 'lit/directives/repeat';
+import { until } from 'lit/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 import { ItemResource } from '../mixins/item-resource';
 import { getNbApisInView, getBackground, getTitle, getVersion } from '../lib/item';
-import { styleMap } from 'lit-html/directives/style-map';
+import { styleMap } from 'lit/directives/style-map';
 
 /**
  * Header component
