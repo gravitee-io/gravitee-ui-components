@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import { get, set, del } from 'object-path';
 import { dispatchCustomEvent } from '../lib/events';
 import { deepClone, deepEqual } from '../lib/utils';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 import { Validator } from 'jsonschema';
 import { empty } from '../styles/empty';
 import './gv-schema-form-control';

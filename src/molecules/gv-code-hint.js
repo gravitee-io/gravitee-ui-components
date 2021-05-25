@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
+import { css, LitElement } from 'lit';
 import { html } from 'lit-html';
 
 /**

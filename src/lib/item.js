@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { getApplicationTypeIcon } from './theme';
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 export function getVersion(item) {
   if (item) {
