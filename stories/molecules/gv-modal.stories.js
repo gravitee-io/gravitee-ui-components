@@ -17,7 +17,7 @@ import '../../src/molecules/gv-modal';
 import '../../src/atoms/gv-input';
 import '../../src/atoms/gv-button';
 import { makeStory } from '../lib/make-story';
-import { html } from 'lit-element';
+import { html } from 'lit';
 
 export default {
   title: 'Molecules/gv-modal',

@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { css, LitElement, html } from 'lit';
 import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-input';
 import '../atoms/gv-input-message';
@@ -139,10 +138,6 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
     element.name = this.id;
     element.skeleton = this.skeleton;
     element.classList.add('form__control');
-
-    if (this.value != null) {
-      this._setValue(element);
-    }
     if (this.value == null && this.control.default != null) {
       this.value = this.control.default;
       dispatchCustomEvent(this, 'default-value', { value: this.value, currentTarget: element, control: this.control });
@@ -302,8 +297,8 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
     }
   }
 
-  async _getUpdateComplete() {
-    await super._getUpdateComplete();
+  async getUpdateComplete() {
+    await super.getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 

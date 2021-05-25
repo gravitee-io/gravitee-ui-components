@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 import { getLanguage, getAvailableLanguages } from '../lib/i18n';
-import { LitElement } from 'lit-element';
-import { until } from 'lit-html/directives/until';
-import { html } from 'lit-html';
+import { LitElement, html } from 'lit';
+import { until } from 'lit/directives/until';
 import { shouldPolyfill as shouldPolyfillIntlRelativeTimeFormat } from '@formatjs/intl-relativetimeformat/should-polyfill';
 
 const options = {
@@ -132,6 +131,7 @@ export class GvRelativeTime extends LitElement {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     if (this.updateIntervalId == null) {
       setTimeout(() => {
         this.performUpdate();
@@ -143,6 +143,7 @@ export class GvRelativeTime extends LitElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     clearInterval(this.updateIntervalId);
     this.updateIntervalId = null;
   }

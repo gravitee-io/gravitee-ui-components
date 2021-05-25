@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from 'lit-element';
+import { css, html, LitElement } from 'lit';
 import { canInline, canGrid } from '../lib/schema-form';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 import { skeleton } from '../styles/skeleton';
 import '../molecules/gv-expandable';
 import { UpdateAfterBrowser } from '../mixins/update-after-browser';
@@ -78,8 +78,8 @@ export class GvSchemaFormControlObject extends UpdateAfterBrowser(LitElement) {
     return this.shadowRoot.querySelector(`[id="${id}"]`);
   }
 
-  async _getUpdateComplete() {
-    await super._getUpdateComplete();
+  async getUpdateComplete() {
+    await super.getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 

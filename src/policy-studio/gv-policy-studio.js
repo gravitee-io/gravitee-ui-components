@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from 'lit-element';
+import { css, html, LitElement } from 'lit';
 import { methods } from '../lib/studio';
 import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-button';
@@ -29,7 +29,7 @@ import './gv-flow';
 import './gv-flow-step';
 import './gv-policy-studio-menu';
 import { empty } from '../styles/empty';
-import { cache } from 'lit-html/directives/cache';
+import { cache } from 'lit/directives/cache';
 import { deepClone, deepEqual } from '../lib/utils';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 
@@ -1062,8 +1062,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     ];
   }
 
-  async _getUpdateComplete() {
-    await super._getUpdateComplete();
+  async getUpdateComplete() {
+    await super.getUpdateComplete();
     await Promise.all(this.getChildren().map((e) => e.updateComplete));
   }
 

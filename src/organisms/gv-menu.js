@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import '../molecules/gv-nav';
 import { isSameRoutes } from '../lib/utils';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**

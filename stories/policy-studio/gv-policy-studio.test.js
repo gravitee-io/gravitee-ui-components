@@ -208,10 +208,10 @@ describe('P O L I C Y  S T U D I O', () => {
         disabled: [],
       };
 
-      component.updateComplete.then(() => {
-        component._onAddFlowPlan({ detail: { planIndex: 1 } });
-
-        component.updateComplete.then(() => {
+      component.updateComplete
+        .then(() => component._onAddFlowPlan({ detail: { planIndex: 1 } }))
+        .then(() => component.updateComplete)
+        .then(() => {
           expect(component.definition.plans[1].flows.length).toEqual(4);
 
           const createdFlow = component.definition.plans[1].flows[3];
@@ -226,7 +226,6 @@ describe('P O L I C Y  S T U D I O', () => {
           expect(createdFlow.type).not.toBeDefined();
           done();
         });
-      });
     });
 
     test('should create element with definition', () => {
