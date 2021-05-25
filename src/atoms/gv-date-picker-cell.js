@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map';
+import { LitElement, html, css } from 'lit';
+import { classMap } from 'lit/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { startOfDay } from 'date-fns';
-import { until } from 'lit-html/directives/until';
+import { until } from 'lit/directives/until';
 import { isInvalid } from '../lib/date';
 
 /**

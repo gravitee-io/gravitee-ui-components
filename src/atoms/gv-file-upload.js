@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { css, LitElement, html } from 'lit';
 import { link } from '../styles/link';
 import { dispatchCustomEvent } from '../lib/events';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined';
 import { i18n } from '../lib/i18n';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 
 /**
  * File upload

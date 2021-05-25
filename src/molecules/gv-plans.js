@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit-html/directives/class-map';
-import { css, LitElement } from 'lit-element';
+import { classMap } from 'lit/directives/class-map';
+import { css, LitElement, html } from 'lit';
 import { dispatchCustomEvent } from '../lib/events';
 import { getCssVar, hexToRGB } from '../lib/style';
-import { html } from 'lit-html';
+
 import { i18n } from '../lib/i18n';
 import { link } from '../styles/link';
-import { repeat } from 'lit-html/directives/repeat';
+import { repeat } from 'lit/directives/repeat';
 import { skeleton } from '../styles/skeleton';
 import { empty } from '../styles/empty';
-import { styleMap } from 'lit-html/directives/style-map';
+import { styleMap } from 'lit/directives/style-map';
 import './../atoms/gv-icon';
 
 /**

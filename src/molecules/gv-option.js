@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit-element';
+import { css, LitElement, html } from 'lit';
 import '../atoms/gv-button';
-import { repeat } from 'lit-html/directives/repeat';
-import { classMap } from 'lit-html/directives/class-map';
+import { repeat } from 'lit/directives/repeat';
+import { classMap } from 'lit/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
-import { ifDefined } from 'lit-html/directives/if-defined';
-import { styleMap } from 'lit-html/directives/style-map';
+import { ifDefined } from 'lit/directives/if-defined';
+import { styleMap } from 'lit/directives/style-map';
 
 /**
  * Option component
