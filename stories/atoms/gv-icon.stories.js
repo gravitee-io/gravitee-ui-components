@@ -15,9 +15,9 @@
  */
 import '../../src/atoms/gv-icon';
 import { icons } from '../../.docs/icons.json';
-import { html } from 'lit-html';
-import { styleMap } from 'lit-html/directives/style-map';
-import { repeat } from 'lit-html/directives/repeat';
+import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map';
+import { repeat } from 'lit/directives/repeat';
 
 export default {
   title: 'Atoms/gv-icon',

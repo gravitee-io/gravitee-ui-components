@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import { get, set, del } from 'object-path';
 import { dispatchCustomEvent } from '../lib/events';
 import { deepClone, deepEqual } from '../lib/utils';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
+import { repeat } from 'lit/directives/repeat';
 import { Validator } from 'jsonschema';
 import { empty } from '../styles/empty';
 import './gv-schema-form-control';
@@ -286,6 +287,7 @@ export class GvSchemaForm extends LitElement {
     const isWriteOnly = control.writeOnly === true;
     const value = get(this._values, key);
     return html`<gv-schema-form-control
+      data-a="dd"
       .id="${key}"
       .errors="${this.errors}"
       .control="${control}"
@@ -393,7 +395,7 @@ export class GvSchemaForm extends LitElement {
     }
     const keys = this.schema.properties ? Object.keys(this.schema.properties) : [];
     this._ignoreProperties = [];
-    return html`${keys.map((key) => this._renderControl(key))}`;
+    return repeat(keys, (key) => this._renderControl(key));
   }
 
   getControls() {
@@ -483,8 +485,8 @@ export class GvSchemaForm extends LitElement {
     this._updateChildren(this.validateOnRender && (changedProperties.has('_values') || changedProperties.has('schema')));
   }
 
-  async _getUpdateComplete() {
-    await super._getUpdateComplete();
+  async getUpdateComplete() {
+    await super.getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 

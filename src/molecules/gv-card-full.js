@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from 'lit-element';
+import { css, html, LitElement } from 'lit';
 import { skeleton } from '../styles/skeleton';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-button';
 import '../molecules/gv-metrics';

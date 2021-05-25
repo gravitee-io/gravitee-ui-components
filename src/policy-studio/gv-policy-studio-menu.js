@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import { link } from '../styles/link';
 import { dispatchCustomEvent } from '../lib/events';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 import '../atoms/gv-image';
 import '../atoms/gv-state';
 import '../molecules/gv-popover';
 import './gv-flow-step';
 import { getFlowName, methods } from '../lib/studio';
-import { repeat } from 'lit-html/directives/repeat';
+import { repeat } from 'lit/directives/repeat';
 import { appendDraggableImage, uuid } from '../lib/utils';
 
 /**
