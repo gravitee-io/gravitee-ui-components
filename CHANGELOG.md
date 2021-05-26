@@ -1,3 +1,10 @@
+# [2.9.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.8.0...v2.9.0) (2021-05-26)
+
+
+### Features
+
+* **management:** platform policies ([2000aed](https://github.com/gravitee-io/gravitee-ui-components/commit/2000aed9c41dfdc248f8d3df6267ac774d2afbf9)), closes [gravitee-io/issues#4460](https://github.com/gravitee-io/issues/issues/4460)
+
 # [2.8.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.7.0...v2.8.0) (2021-05-11)
 
 ### Miscellaneous
