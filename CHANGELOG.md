@@ -1,3 +1,10 @@
+## [2.9.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.9.0...v2.9.1) (2021-05-27)
+
+
+### Bug Fixes
+
+* **management:** platform policies rollback error throwing when no policy ([fbf75af](https://github.com/gravitee-io/gravitee-ui-components/commit/fbf75aff87b7b8c45a0f9ab5066a0cb8615848ec))
+
 # [2.9.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.8.0...v2.9.0) (2021-05-26)
 
 
