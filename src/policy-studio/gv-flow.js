@@ -385,7 +385,7 @@ export class GvFlow extends LitElement {
               ? html`
                         <div class="${classMap({ post: true, targeted: postTarget, forbidden: postForbidden })}">
                           <div class='arrow arrow-left'> </div>
-                            <div class="drop-box" 
+                            <div class="drop-box"
                                  @drop="${this._onDrop.bind(this, 'post')}"
                                  @dragend="${this.onDragEnd}"
                                  @dragover="${this._onDragOver.bind(this, 'post')}">
@@ -406,7 +406,7 @@ export class GvFlow extends LitElement {
   findPolicy(policyId) {
     const policy = this.policies.find((p) => p.id === policyId);
     if (policy == null) {
-      throw new Error(`Policy ${policyId} not found`);
+      // throw new Error(`Policy ${policyId} not found`);
     }
     return policy;
   }
