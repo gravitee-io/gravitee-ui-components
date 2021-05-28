@@ -40,6 +40,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} danger - set button UI mode to danger
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} outlined - set button UI as outlined (white background instead of filled color)
+ * @attr {Boolean} texted - set button UI as texted (no background no outline)
  * @attr {Boolean} link - set button UI mode to link
  * @attr {String} href - If is defined gv-button will be rendered as a <a> with `href`
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
@@ -71,6 +72,7 @@ export class GvButton extends LitElement {
       disabled: { type: Boolean },
       primary: { type: Boolean },
       outlined: { type: Boolean },
+      texted: { type: Boolean },
       link: { type: Boolean },
       href: { type: String },
       skeleton: { type: Boolean },
@@ -118,7 +120,8 @@ export class GvButton extends LitElement {
           --gv-button-icon--c: #fff;
         }
 
-        .oidc.outlined {
+        .oidc.outlined,
+        .oidc.texted {
           --gv-button-icon--c: var(--oidc--c);
         }
 
@@ -142,6 +145,7 @@ export class GvButton extends LitElement {
           align-items: center;
           text-align: center;
           outline: 0;
+          transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .button.small {
@@ -180,6 +184,8 @@ export class GvButton extends LitElement {
           --c: var(--gv-button--c, var(--gv-theme-font-color-light, #ffffff));
           --bgc: var(--gv-button--bgc, var(--gv-theme-color-dark, #28444f));
           --icon--c: var(--gv-button--c, var(--gv-theme-font-color-light, #ffffff));
+          --hover-c: hsla(200, 29%, 40%, 0.2);
+          --active-c: hsla(200, 29%, 40%, 0.4);
           --gv-icon--c: var(--icon--c);
           --gv-icon-opacity--c: var(--icon--c);
         }
@@ -190,6 +196,8 @@ export class GvButton extends LitElement {
           --icon--c: var(--gv-button-primary--c, var(--gv-theme-font-color-light, #ffffff));
           --gv-icon--c: var(--icon--c);
           --gv-icon-opacity--c: var(--icon--c);
+          --hover-c: hsla(200, 29%, 40%, 0.2);
+          --active-c: hsla(200, 29%, 40%, 0.4);
           font-weight: 500;
         }
 
@@ -198,6 +206,8 @@ export class GvButton extends LitElement {
           --bgc: var(--gv-button-danger--bgc, var(--gv-theme-danger-color, #ff5722));
           --icon--c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #ffffff));
           --gv-icon--c: var(--icon--c);
+          --hover-c: hsla(14, 100%, 57%, 0.15);
+          --active-c: hsla(14, 100%, 57%, 0.35);
           --gv-icon-opacity--c: var(--icon--c);
         }
 
@@ -219,13 +229,42 @@ export class GvButton extends LitElement {
           --gv-icon-opacity--c: var(--bgc);
         }
 
-        :host(:focus) .button:not(.link):not(.disabled),
-        :host(:hover) .button:not(.link):not(.disabled) {
-          box-shadow: 0 1px 3px var(--gv-theme-color-darker, #383e3f);
+        .button.texted {
+          background-color: var(--c);
+          color: var(--bgc);
+          border: 1px solid #00000000;
+          --gv-icon--c: var(--bgc);
+          --gv-icon-opacity--c: var(--bgc);
         }
 
-        :host(:active) .button {
-          box-shadow: none;
+        :host(:active:hover) .button.texted:not(.link):not(.disabled),
+        :host(:active:focus) .button.texted:not(.link):not(.disabled) {
+          border: 1px solid var(--bgc);
+          transition: all 75ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :host(:active:hover) .button.outlined:not(.link):not(.disabled),
+        :host(:active:focus) .button.outlined:not(.link):not(.disabled) {
+          background-color: var(--active-c);
+          transition: all 75ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :host(:active:hover) .button:not(.link):not(.outlined):not(.texted):not(.disabled),
+        :host(:active:focus) .button:not(.link):not(.outlined):not(.texted):not(.disabled) {
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+          transition: all 75ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :host(:focus) .button:not(.link):not(.outlined):not(.texted):not(.disabled),
+        :host(:hover) .button:not(.link):not(.outlined):not(.texted):not(.disabled) {
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        :host(:focus) .button.outlined:not(.disabled),
+        :host(:hover) .button.outlined:not(.disabled),
+        :host(:focus) .button.texted:not(.disabled),
+        :host(:hover) .button.texted:not(.disabled) {
+          background-color: var(--hover-c);
         }
 
         .button.disabled {
@@ -238,9 +277,9 @@ export class GvButton extends LitElement {
         }
 
         /* TRANSITIONS */
-        .button {
-          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-          transition: all 75ms ease-in-out;
+        .button:not(.link):not(.outlined):not(.texted):not(.disabled) {
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+          transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* We can do this because we set a visible focus state */
@@ -337,6 +376,7 @@ export class GvButton extends LitElement {
       skeleton: this.skeleton && !this.link,
       default: !this.primary && !this.danger && !this.link,
       outlined: this.outlined,
+      texted: this.texted,
       icon: this.icon || this.iconRight,
       iconLeft: this._hasIconLeft(),
       iconRight: this.iconRight,
