@@ -117,6 +117,9 @@ export const Mixed = makeStory(conf, {
       '@gv-expression-language:ready': ({ detail }) => {
         detail.currentTarget.grammar = grammar;
       },
+      '@gv-schema-form:change': ({ detail }) => {
+        detail.target.values = detail.values;
+      },
       'validate-on-render': true,
     },
   ],
