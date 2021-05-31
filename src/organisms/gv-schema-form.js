@@ -235,7 +235,14 @@ export class GvSchemaForm extends LitElement {
     // This is require to clean cache of <gv-schema-form-control>
     const control = { ...this.schema.properties[key] };
     const isRequired = this.schema.required && this.schema.required.includes(key);
-    const isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
+
+    let isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
+    const condition = control['x-schema-form'] && control['x-schema-form'].disabled;
+    if (!isDisabled && condition) {
+      // test 'x-scheam-form.disabled' only if the field isn't explicitly defined into the 'disabled' array
+      isDisabled = this._evaluateDisabledCondition(condition);
+    }
+
     const value = get(this._values, key);
     return html`<gv-schema-form-control
       .id="${key}"
@@ -247,6 +254,62 @@ export class GvSchemaForm extends LitElement {
       ?required="${isRequired}"
       ?disabled="${isDisabled}"
     ></gv-schema-form-control>`;
+  }
+
+  _evaluateDisabledCondition(condition) {
+    if (!Array.isArray(condition)) {
+      // condition isn't an array, ignore the condition
+      console.warn("'disable' attribute of 'x-schema-form' should be an array");
+      return false;
+    }
+
+    let result = true;
+    for (const operation of condition) {
+      // operation only have one operator with a single object containing operand values
+      const operator = Object.keys(operation)[0];
+      switch (operator) {
+        case '$neq':
+          result = result && this._evaluateNotEqualsCondition(operation);
+          break;
+        case '$eq':
+          result = result && this._evaluateEqualsCondition(operation);
+          break;
+        case '$nodef':
+          result = result && this._evaluateNotDefCondition(operation);
+          break;
+        case '$def':
+          result = result && this._evaluateDefCondition(operation);
+          break;
+        default:
+          console.warn("Unsupported operator '" + operator + "' on disable condition");
+          result = false;
+          break;
+      }
+    }
+
+    return result;
+  }
+
+  _evaluateNotEqualsCondition(condition) {
+    return !this._evaluateEqualsCondition(condition);
+  }
+
+  _evaluateEqualsCondition(condition) {
+    const operator = Object.keys(condition)[0];
+    const operands = condition[operator];
+    const modelAttribute = Object.keys(operands)[0];
+    const testValue = operands[modelAttribute];
+    return get(this._values, modelAttribute) === testValue;
+  }
+
+  _evaluateNotDefCondition(condition) {
+    const operator = Object.keys(condition)[0];
+    const modelAttribute = condition[operator];
+    return get(this._values, modelAttribute) === undefined || get(this._values, modelAttribute) === null;
+  }
+
+  _evaluateDefCondition(condition) {
+    return !this._evaluateNotDefCondition(condition);
   }
 
   _renderPart() {

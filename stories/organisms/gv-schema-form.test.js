@@ -34,6 +34,22 @@ describe('S C H E M A  F O R M', () => {
     page.clear();
   });
 
+  const mixedControls = [
+    'body',
+    'el',
+    'body-with-el',
+    'path-operator',
+    'resources',
+    'another-list-resources',
+    'attributes',
+    'timeToLiveSeconds',
+    'useResponseCacheHeaders',
+    'select',
+    'multiselect',
+    'cron',
+    'disabled',
+  ];
+
   const checkControl = (id, attributes = []) => {
     const ids = id.split('.');
     const acc = [];
@@ -62,20 +78,7 @@ describe('S C H E M A  F O R M', () => {
     expect(component).toEqual(querySelector('gv-schema-form'));
 
     component.updateComplete.then(() => {
-      expect(component.getControls().map((e) => e.id)).toEqual([
-        'body',
-        'el',
-        'body-with-el',
-        'path-operator',
-        'resources',
-        'another-list-resources',
-        'attributes',
-        'timeToLiveSeconds',
-        'useResponseCacheHeaders',
-        'select',
-        'multiselect',
-        'cron',
-      ]);
+      expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
       checkControl('body');
       checkControl('el');
@@ -106,25 +109,13 @@ describe('S C H E M A  F O R M', () => {
       multiselect: ['a', 'b', 'c'],
       attributes: [{ name: 'foo', value: 'bar' }],
       cron: '*/30 * * * * SUN-MON',
+      disabled: 'Simple Test',
     };
     component.requestUpdate();
 
     component.updateComplete.then(() => {
       setTimeout(() => {
-        expect(component.getControls().map((e) => e.id)).toEqual([
-          'body',
-          'el',
-          'body-with-el',
-          'path-operator',
-          'resources',
-          'another-list-resources',
-          'attributes',
-          'timeToLiveSeconds',
-          'useResponseCacheHeaders',
-          'select',
-          'multiselect',
-          'cron',
-        ]);
+        expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
         checkControl('body', { value: '<xml>foobar</xml>' });
         checkControl('path-operator', { value: { operator: 'EQUALS', path: '/foobar' } });
@@ -138,6 +129,46 @@ describe('S C H E M A  F O R M', () => {
         checkControl('attributes', { value: [{ name: 'foo', value: 'bar' }] });
         checkControl('attributes.0', { value: { name: 'foo', value: 'bar' } });
         checkControl('cron', { value: '*/30 * * * * SUN-MON' });
+        checkControl('disabled', { value: 'Simple Test' });
+        done();
+      }, 0);
+    });
+  });
+
+  test('should disable element if "select" is "a"', (done) => {
+    component.values = {
+      select: 'a',
+      disabled: 'Simple Test',
+    };
+    component.requestUpdate();
+
+    component.updateComplete.then(() => {
+      setTimeout(() => {
+        expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
+
+        checkControl('disabled', { value: 'Simple Test' });
+
+        expect(component.getControl('disabled').disabled).toBeTruthy();
+        done();
+      }, 0);
+    });
+  });
+
+  test('should not disable element if "select" is not "a"', (done) => {
+    component.values = {
+      select: 'b',
+      disabled: 'Simple Test',
+    };
+    component.requestUpdate();
+
+    component.updateComplete.then(() => {
+      setTimeout(() => {
+        expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
+
+        checkControl('disabled', { value: 'Simple Test' });
+
+        expect(component.getControl('disabled').disabled).toBeFalsy();
+
         done();
       }, 0);
     });
