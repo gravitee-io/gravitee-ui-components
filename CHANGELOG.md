@@ -1,3 +1,54 @@
+# [3.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.9.1...v3.0.0) (2021-05-31)
+
+
+### chore
+
+* move @highcharts/map-collection to peerDependencies ([0b73f1c](https://github.com/gravitee-io/gravitee-ui-components/commit/0b73f1c58810f523aac7b345ea02e7b2724628ae))
+* move asciidoctor, asciidoctor-highlight.js and highlight to peerDependencies ([bef1847](https://github.com/gravitee-io/gravitee-ui-components/commit/bef184733864eba172ce336d52fd53d3f87e49a2))
+* move highcharts to peerDependencies ([39525e3](https://github.com/gravitee-io/gravitee-ui-components/commit/39525e368bda496b3e686c7051b3bd5362682b75))
+
+
+### BREAKING CHANGES
+
+* Some dependencies are no longer shipped with this package.
+So project using asciidoc related components must install the dependencies directly.
+To do so, after updating `@gravitee/ui-components`, just run:
+```bash
+npm i asciidoctor asciidoctor-highlight.js highlight
+yarn add asciidoctor asciidoctor-highlight.js highlight
+```
+
+This has been done in order to:
+- ensure we are using the version from user's project and avoid having duplicated versions
+- reduce the size of this package by making these dependencies optional peer dependencies.
+And so allow skipping them for project not using any AsciiDoc related components.
+* The dependency `highcharts` is no longer shipped with `@gravitee/ui-components.
+So project using any map chart must install the dependency directly.
+To do so, after updating `@gravitee/ui-components`, just run:
+```bash
+npm i highcharts
+yarn add highcharts
+```
+
+This has been done in order to:
+ - ensure we are using the version from user's project and avoid having duplicated versions
+ - reduce the size of this package by making this dependency an optional peer dependency.
+ And so allow skipping this dependency for project not using any map charts.
+* The dependency `@highcharts/map-collection` is no longer shipped with this package.
+
+So project using any map chart must install the dependency directly.
+To do so, after updating `@gravitee/ui-components`, just run:
+
+```bash
+npm i @highcharts/map-collection
+yarn add @highcharts/map-collection
+```
+
+This has been done in order to:
+ - ensure we are using the version from user's project and avoid having duplicated versions
+ - reduce the size of this package by making this dependency an optional peer dependency.
+ And so allow skipping this dependency for project not using any map charts.
+
 ## [2.9.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.9.0...v2.9.1) (2021-05-27)
 
 
