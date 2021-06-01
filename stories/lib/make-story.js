@@ -18,10 +18,17 @@ import { sequence } from './sequence';
 import customElements from '../../.docs/custom-elements.json';
 
 export function makeStory(...configs) {
-  const { name, docs, css, component, dom, items: rawItems = [{}], events = [], simulations = [], docsOnly = false } = Object.assign(
-    {},
-    ...configs,
-  );
+  const {
+    name,
+    docs,
+    css,
+    component,
+    dom,
+    items: rawItems = [{}],
+    events = [],
+    simulations = [],
+    docsOnly = false,
+  } = Object.assign({}, ...configs);
   const customElement = customElements.tags.find((tag) => tag.name === component) || {};
   const _events = customElement.events ? [...new Set([...events, ...customElement.events.map((e) => e.name)])] : events;
 
