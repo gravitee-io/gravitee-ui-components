@@ -28,6 +28,7 @@ describe('P O L I C Y  S T U D I O', () => {
     component = page.create('gv-policy-studio', {});
     component.policies = policies.data;
     component.resourceTypes = resourceTypes.data;
+    component.flowSchema = {};
   });
 
   afterEach(() => {
@@ -151,6 +152,61 @@ describe('P O L I C Y  S T U D I O', () => {
       expect(component.getSelectedFlow()).toBeDefined();
       expect(component._tabId).toEqual('design');
 
+      component.flowSchema = {
+        type: 'object',
+        id: 'apim',
+        properties: {
+          name: {
+            title: 'Name',
+            description: 'The name of flow. If empty, the name will be generated with the path and methods',
+            type: 'string',
+          },
+          'path-operator': {
+            type: 'object',
+            title: 'Path',
+            properties: {
+              operator: {
+                title: 'Operator path',
+                description: 'The operator path',
+                type: 'string',
+                enum: ['EQUALS', 'STARTS_WITH'],
+                default: 'STARTS_WITH',
+                'x-schema-form': {
+                  titleMap: {
+                    EQUALS: 'Equals',
+                    STARTS_WITH: 'Starts with',
+                  },
+                },
+              },
+              path: {
+                title: 'Path',
+                description: 'The path of flow (must start by /)',
+                type: 'string',
+                pattern: '^/',
+                default: '/',
+              },
+            },
+            required: ['path', 'operator'],
+          },
+          methods: {
+            title: 'Methods',
+            description: 'The HTTP methods of flow (ALL if empty)',
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: ['CONNECT', 'DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT', 'TRACE'],
+            },
+          },
+          condition: {
+            title: 'Condition',
+            description: 'The extra condition of flow',
+            type: 'string',
+          },
+        },
+        required: [],
+        disabled: [],
+      };
+
       component.updateComplete.then(() => {
         component._onAddFlowPlan({ detail: { planIndex: 1 } });
 
@@ -163,6 +219,10 @@ describe('P O L I C Y  S T U D I O', () => {
           expect(createdFlow.post).toEqual([]);
           expect(createdFlow.pre).toEqual([]);
           expect(createdFlow._id).toBeDefined();
+          expect(createdFlow['path-operator']).toBeDefined();
+          expect(createdFlow['path-operator'].operator).toBeDefined();
+          expect(createdFlow['path-operator'].path).toBeDefined();
+          expect(createdFlow.type).not.toBeDefined();
           done();
         });
       });
@@ -181,6 +241,32 @@ describe('P O L I C Y  S T U D I O', () => {
   describe('F L O W S', () => {
     test('should add flow', async () => {
       component.definition = { flows: [] };
+      component.flowSchema = {
+        type: 'object',
+        id: 'am',
+        properties: {
+          name: {
+            title: 'Name',
+            description: 'The name of flow. If empty, the name will be generated with the path and methods',
+            type: 'string',
+            default: 'New Flow',
+          },
+          type: {
+            title: 'Type',
+            description: 'The type of flow',
+            type: 'string',
+            default: 'ROOT',
+            enum: ['ROOT', 'LOGIN', 'CONSENT', 'REGISTER'],
+          },
+          condition: {
+            title: 'Condition',
+            description: 'The condition of flow',
+            type: 'string',
+          },
+        },
+        required: [],
+        disabled: [],
+      };
 
       await component._onAddFlow();
 
@@ -188,9 +274,11 @@ describe('P O L I C Y  S T U D I O', () => {
       const createdFlow = component.definition.flows[0];
       expect(createdFlow._dirty).toEqual(true);
       expect(createdFlow._id).toBeDefined();
-      expect(createdFlow.name).toEqual('');
+      expect(createdFlow.name).toEqual('New Flow');
       expect(createdFlow.post).toEqual([]);
       expect(createdFlow.pre).toEqual([]);
+      expect(createdFlow.type).toEqual('ROOT');
+      expect(createdFlow['path-operator']).not.toBeDefined();
     });
 
     test('should duplicate flow', async () => {
@@ -239,7 +327,6 @@ describe('P O L I C Y  S T U D I O', () => {
       expect(component.definition.flows[0].name).toEqual(updatedFlow.name);
       expect(component.definition.flows[0]['path-operator']).toEqual({ path: '/', operator: 'STARTS_WITH' });
       expect(component.definition.flows[0].methods).toEqual(['GET', 'POST']);
-      expect(component.definition.flows[0].condition).toEqual('');
     });
 
     test('should update definition when submit flow schema', async () => {

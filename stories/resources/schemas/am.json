@@ -1,16 +1,18 @@
 {
   "type": "object",
-  "id": "apim",
+  "id": "am",
   "properties": {
     "name": {
       "title": "Name",
       "description": "The name of flow. If empty, the name will be generated with the path and methods",
-      "type": "string"
+      "type": "string",
+      "default": "New Flow"
     },
     "type": {
       "title": "Type",
       "description": "The type of flow",
       "type": "string",
+      "default": "ROOT",
       "enum": ["ROOT", "LOGIN", "CONSENT", "REGISTER"]
     },
     "condition": {
@@ -20,5 +22,5 @@
     }
   },
   "required": [],
-  "disabled": ["type", "condition"]
+  "disabled": []
 }
