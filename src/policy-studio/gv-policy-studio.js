@@ -841,12 +841,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _onSubmitFlow({ detail: { values } }) {
     const selectedFlow = this.getSelectedFlow();
-    selectedFlow.name = values.name || '';
-    selectedFlow.condition = values.condition || '';
-    selectedFlow['path-operator'] = values['path-operator'];
-    selectedFlow.methods = values.methods;
-    selectedFlow.consumers = values.consumers;
-    selectedFlow._dirty = true;
+    Object.assign(selectedFlow, values, { _dirty: true });
     this.isDirty = true;
     this._refresh();
   }
@@ -1196,21 +1191,46 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   _addFlow(collection, duplicate = null) {
     const flow =
       duplicate == null
-        ? {
-            name: '',
-            pre: [],
-            post: [],
-            _dirty: true,
-            'path-operator': { path: '/', operator: 'STARTS_WITH' },
-          }
+        ? this._createFlowFromSchema()
         : {
             ...duplicate,
             _id: null,
             _dirty: true,
           };
+
     collection.push(flow);
     this.isDirty = true;
     return collection;
+  }
+
+  _createFlowFromSchema() {
+    const newFlow = {
+      name: '',
+      pre: [],
+      post: [],
+      _dirty: true,
+    };
+
+    return this._instantiate(this.flowSchema.properties, newFlow);
+  }
+
+  _instantiate(propertiesDefinition, initiator = {}) {
+    const property = { ...initiator };
+
+    if (propertiesDefinition) {
+      for (const key of Object.keys(propertiesDefinition)) {
+        const entry = propertiesDefinition[key];
+
+        if (entry.type === 'object') {
+          property[key] = this._instantiate(entry.properties, (initiator = {}));
+        }
+        if (entry.default !== undefined) {
+          property[key] = entry.default;
+        }
+      }
+    }
+
+    return property;
   }
 
   _deleteFlow(collection, flow) {

@@ -277,3 +277,18 @@ export const AM = makeStory(conf, {
     },
   ],
 });
+
+export const AMEditable = makeStory(conf, {
+  items: [
+    {
+      policies: amPolicies.data.map((policy) => {
+        policy.icon = icon;
+        return policy;
+      }),
+      definition: amDefinition,
+      flowSchema: amForm,
+      '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
+      'can-add': true,
+    },
+  ],
+});
