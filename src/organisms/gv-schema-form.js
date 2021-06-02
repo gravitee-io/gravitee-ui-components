@@ -235,13 +235,7 @@ export class GvSchemaForm extends LitElement {
     // This is require to clean cache of <gv-schema-form-control>
     const control = { ...this.schema.properties[key] };
     const isRequired = this.schema.required && this.schema.required.includes(key);
-
-    let isDisabled = this.schema.disabled && this.schema.disabled.includes(key);
-    const condition = control['x-schema-form'] && control['x-schema-form'].disabled;
-    if (!isDisabled && condition) {
-      // test 'x-scheam-form.disabled' only if the field isn't explicitly defined into the 'disabled' array
-      isDisabled = this._evaluateDisabledCondition(condition);
-    }
+    const isDisabled = (this.schema.disabled && this.schema.disabled.includes(key)) || this._evaluateCondition(control, 'disabled');
 
     const value = get(this._values, key);
     return html`<gv-schema-form-control
@@ -256,10 +250,14 @@ export class GvSchemaForm extends LitElement {
     ></gv-schema-form-control>`;
   }
 
-  _evaluateDisabledCondition(condition) {
+  _evaluateCondition(control, conditionKey) {
+    if (control['x-schema-form'] == null || control['x-schema-form'][conditionKey] == null) {
+      return false;
+    }
+    const condition = control['x-schema-form'][conditionKey];
     if (!Array.isArray(condition)) {
       // condition isn't an array, ignore the condition
-      console.warn("'disable' attribute of 'x-schema-form' should be an array");
+      console.warn(`'${conditionKey}' attribute of 'x-schema-form' should be an array`);
       return false;
     }
 
@@ -281,7 +279,7 @@ export class GvSchemaForm extends LitElement {
           result = result && this._evaluateDefCondition(operation);
           break;
         default:
-          console.warn("Unsupported operator '" + operator + "' on disable condition");
+          console.warn(`Unsupported operator '${operator}' on disable condition`);
           result = false;
           break;
       }

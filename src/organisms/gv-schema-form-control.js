@@ -46,6 +46,13 @@ export class GvSchemaFormControl extends LitElement {
     };
   }
 
+  constructor() {
+    super();
+    // When form has errors, the control is not update to conserve the error state.
+    // This list is used to force the update of properties even in error case.
+    this._observedProperties = ['disabled', 'readonly', 'required'];
+  }
+
   isExpressionLanguage() {
     return this.control['x-schema-form'] && this.control['x-schema-form']['expression-language'] != null;
   }
@@ -97,12 +104,22 @@ export class GvSchemaFormControl extends LitElement {
     return this.control.type === 'array' && !this.control.items.enum;
   }
 
+  _updateProperties(element) {
+    if (element != null) {
+      this._observedProperties.forEach((property) => {
+        if (this[property] != null) {
+          element[property] = this[property];
+        }
+      });
+    }
+  }
+
   _renderControl() {
     const elementName = this.getElementName();
     const element = document.createElement(elementName);
-    element.skeleton = this.skeleton;
     element.id = this.id;
     element.name = this.id;
+    element.skeleton = this.skeleton;
     element.classList.add('form__control');
 
     if (this.value != null) {
@@ -121,15 +138,9 @@ export class GvSchemaFormControl extends LitElement {
     } else if (this.isComplexArray()) {
       element.schema = this.control.items;
     }
-    if (this.required != null) {
-      element.required = this.required;
-    }
-    if (this.disabled != null) {
-      element.disabled = this.disabled;
-    }
-    if (this.readonly != null) {
-      element.readonly = this.readonly;
-    }
+
+    this._updateProperties(element);
+
     if (this.control.title) {
       element.label = this.control.title;
       element.title = this.control.title;
@@ -269,6 +280,10 @@ export class GvSchemaFormControl extends LitElement {
   }
 
   shouldUpdate(changedProperties) {
+    if (this._observedProperties.find((property) => changedProperties.has(property)) != null) {
+      this._updateProperties(this.getControl());
+    }
+
     if (changedProperties.has('errors') && this.errors != null) {
       // Set errors to complex controls
       this.getControls().forEach((control) => {

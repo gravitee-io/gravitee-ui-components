@@ -145,7 +145,7 @@
       }
     },
     "disabled": {
-      "title": "Disbaled field if 'Simple select' is 'a'",
+      "title": "Disabled field if 'Simple select' is 'a'",
       "type": "string",
       "x-schema-form": {
         "disabled": [{ "$def": "select" }, { "$eq": { "select": "a" } }]
