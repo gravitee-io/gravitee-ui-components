@@ -56,7 +56,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Color} [--gv-button-primary--c=var(--gv-theme-font-color-light, #ffffff)] - Primary color
  * @cssprop {Color} [--gv-button-primary--bgc=var(--gv-theme-color, #5a7684)] - Primary background color
  * @cssprop {Color} [--gv-button-danger--c=var(--gv-theme-font-color-light, #ffffff)] - Danger color
- * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-danger-color, #ff5722)] - Danger background color
+ * @cssprop {Color} [--gv-button-danger--bgc=var(--gv-theme-color-danger, #ff5722)] - Danger background color
  * @cssprop {Color} [--gv-button-oidc--bgc=#000000] - OIDC Social Provider button background color
  * @cssprop {Color} [--gv-button-graviteeio_am--bgc=#86c3d0] - Gravitee.io AM Social Provider button background color
  * @cssprop {Length} [--gv-button--p=7px 14px] - Padding
@@ -195,7 +195,7 @@ export class GvButton extends LitElement {
 
         .danger {
           --c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #ffffff));
-          --bgc: var(--gv-button-danger--bgc, var(--gv-theme-danger-color, #ff5722));
+          --bgc: var(--gv-button-danger--bgc, var(--gv-theme-color-danger, #ff5722));
           --icon--c: var(--gv-button-danger--c, var(--gv-theme-font-color-light, #ffffff));
           --gv-icon--c: var(--icon--c);
           --gv-icon-opacity--c: var(--icon--c);

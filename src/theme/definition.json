@@ -1685,7 +1685,7 @@
           "name": "--gv-button-danger--bgc",
           "description": "Danger background color",
           "type": "color",
-          "default": "var(--gv-theme-danger-color, #ff5722)",
+          "default": "var(--gv-theme-color-danger, #ff5722)",
           "value": ""
         },
         {
