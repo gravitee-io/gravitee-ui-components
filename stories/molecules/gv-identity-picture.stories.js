@@ -15,8 +15,7 @@
  */
 import '../../src/molecules/gv-identity-picture';
 import notes from '../../.docs/gv-identity-picture.md';
-import logo from '../../assets/images/logo.png';
-import bigImage from '../../assets/images/gravitee-logo-inline.png';
+import avatar from '../../assets/images/avatar.png';
 import { makeStory } from '../lib/make-story';
 
 export default {
@@ -42,7 +41,7 @@ export const identicon = makeStory(conf, {
 });
 
 export const picture = makeStory(conf, {
-  items: [{ display_name: 'Gravatar', picture: bigImage }],
+  items: [{ display_name: 'Gravatar', picture: avatar }],
 });
 
 export const identiconRounded = makeStory(conf, {
@@ -50,7 +49,7 @@ export const identiconRounded = makeStory(conf, {
 });
 
 export const pictureRounded = makeStory(conf, {
-  items: [{ display_name: 'Gravatar', picture: bigImage, rounded: true }],
+  items: [{ display_name: 'Gravatar', picture: avatar, rounded: true }],
 });
 
 export const identiconNotification = makeStory(conf, {
@@ -58,5 +57,5 @@ export const identiconNotification = makeStory(conf, {
 });
 
 export const pictureNotification = makeStory(conf, {
-  items: [{ display_name: 'Gravatar', picture: logo, notification: true, rounded: true }],
+  items: [{ display_name: 'Gravatar', picture: avatar, notification: true, rounded: true }],
 });

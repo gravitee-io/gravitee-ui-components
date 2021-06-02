@@ -16,7 +16,7 @@
 import '../../src/atoms/gv-file-upload';
 import notes from '../../.docs/gv-file-upload.md';
 import { makeStory } from '../lib/make-story';
-import img from '../../assets/images/gravitee-logo-inline.png';
+import img from '../../assets/images/gravitee-logo-white.svg';
 
 export default {
   title: 'Atoms/gv-file-upload',

@@ -15,8 +15,8 @@
  */
 import notes from '../../.docs/gv-header.md';
 import '../../src/organisms/gv-header';
-import picture from '../../assets/images/logo.png';
-import background from '../../assets/images/gravitee-logo-inline.png';
+import picture from '../../assets/images/avatar.png';
+import background from '../../assets/images/gravitee-logo-white.svg';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const events = ['gv-header:subscribe', 'gv-header:contact', 'gv-link:click'];

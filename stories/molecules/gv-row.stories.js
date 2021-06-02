@@ -15,8 +15,8 @@
  */
 import notes from '../../.docs/gv-row.md';
 import '../../src/molecules/gv-row';
-import horizontalImage from '../../assets/images/gravitee-logo.png';
-import picture from '../../assets/images/logo.png';
+import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
+import picture from '../../assets/images/avatar.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const name = 'Supernova';

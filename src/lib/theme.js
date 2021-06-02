@@ -18,8 +18,8 @@ export function applyTheme(theme) {
     const logo = theme._links ? theme._links.logo : theme.logo;
     const optionalLogo = theme._links ? theme._links.optionalLogo : theme.optionalLogo;
     const backgroundImage = theme._links ? theme._links.backgroundImage : theme.backgroundImage;
-    updateImage('--gv-theme-logo', logo, `url('/images/gravitee-logo.png')`);
-    updateImage('--gv-theme-optional-logo', optionalLogo, `url('/images/gravitee-logo-light.png')`);
+    updateImage('--gv-theme-logo', logo, `url('/images/gravitee-logo-cyan.svg')`);
+    updateImage('--gv-theme-optional-logo', optionalLogo, `url('/images/gravitee-logo-white.svg')`);
     updateImage('--gv-theme-homepage-background-image', backgroundImage, `none`);
     const favicon = theme._links ? theme._links.favicon : theme.favicon;
     updateFavicon(favicon, 'images/gravitee-favicon.png');
