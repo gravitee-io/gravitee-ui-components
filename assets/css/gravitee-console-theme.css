@@ -1,0 +1,63 @@
+/*
+ * Copyright (C) 2021 The Gravitee team (http://gravitee.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* Theme overrides for the Consoles */
+:root {
+    --gv-theme-color-darker: #1b1d3c;
+    --gv-theme-color-dark: #1b475d;
+    --gv-theme-color: #1ecad3;
+    --gv-theme-color-light: #a9bbca;
+    --gv-theme-color-danger: #be1818;
+    --gv-theme-color-error-dark: #6a1718;
+    --gv-theme-color-error: #da1a1b;
+    --gv-theme-color-error-light: #e57373;
+    --gv-theme-color-info-dark: #0000ff;
+    --gv-theme-color-info: #2b58e8;
+    --gv-theme-color-info-light: #57b9e6;
+    --gv-theme-color-success-dark: #388e3c;
+    --gv-theme-color-success: #4caf50;
+    --gv-theme-color-success-light: #81c784;
+    --gv-theme-color-warning-dark: #f57c00;
+    --gv-theme-color-warning: #ff9100;
+    --gv-theme-color-warning-light: #ffb74d;
+    --gv-theme-neutral-color-darkest: #000000;
+    --gv-theme-neutral-color-darker: #c6c6c6;
+    --gv-theme-neutral-color-dark: #dadada;
+    --gv-theme-neutral-color: #e3e3e3;
+    --gv-theme-neutral-color-light: #ededed;
+    --gv-theme-neutral-color-lighter: #f6f6f6;
+    --gv-theme-neutral-color-lightest: #fbfbfb;
+    --gv-theme-font-color-dark: #262626;
+    --gv-theme-font-color-light: #ffffff;
+    --gv-theme-font-family: 'Libre Franklin';
+    --gv-theme-font-size-xs: 10px;
+    --gv-theme-font-size-s: 12px;
+    --gv-theme-font-size-m: 14px;
+    --gv-theme-font-size-l: 16px;
+    --gv-theme-font-size-xl: 26px;
+    --gv-theme-font-size-xxl: 30px;
+    --gv-theme-homepage-background-height: 400px;
+    --gv-theme-skeleton-color: #bfbfbf;
+    --gv-theme-homepage-background-color: #111c4e;
+    --gv-theme-homepage-background-image: none;
+    --gv-theme-logo: url('/images/gravitee-logo-cyan.svg');
+    --gv-theme-optional-logo: url('/images/gravitee-logo-white.svg');
+
+    /* Component Specific Overrides (not part of the default theme) */
+    --gv-theme-background-gradient: rgb(1, 0, 2)
+    linear-gradient(180deg, rgba(1, 0, 2, 1) 0%, rgba(23, 12, 102, 1) 55%, rgba(25, 139, 183, 1) 100%);
+    --gv-button-primary--bgc: var(--gv-theme-color-darker);
+    --gv-input-invalid--bxshc: var(--gv-theme-color-error);
+}
