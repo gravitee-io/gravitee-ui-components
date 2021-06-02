@@ -51,7 +51,7 @@ export function InputElement(ParentClass) {
           :host([invalid]) :not(.clipboard) input,
           :host([invalid]) :not(.clipboard) .box-icon-left,
           :host([invalid]) :not(.clipboard) textarea {
-            box-shadow: inset 3px 0 0 var(--gv-theme-color-error-dark, #d32f2f);
+            box-shadow: inset 3px 0 0 var(--gv-input-invalid--bxshc, var(--gv-theme-color-error, #da1a1b));
           }
 
           :host([readonly]) :not(.clipboard) input,
