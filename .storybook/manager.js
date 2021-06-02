@@ -1,6 +1,6 @@
 import { addons } from '@storybook/addons';
 import { create } from '@storybook/theming/create';
-import brandImage from '../assets/images/gravitee-logo-inline.png';
+import brandImage from '../assets/images/gravitee-logo-dark-blue.svg';
 
 const graviteeTheme = create({
   base: 'light',

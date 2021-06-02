@@ -15,7 +15,7 @@
  */
 import notes from '../../.docs/gv-list.md';
 import '../../src/molecules/gv-list';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/avatar.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const api1 = { name: 'Long Supernova', description: 'short description about items', version: '1.0.0' };

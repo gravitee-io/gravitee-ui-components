@@ -15,7 +15,7 @@
  */
 import notes from '../../.docs/gv-card-full.md';
 import '../../src/molecules/gv-card-full';
-import horizontalImage from '../../assets/images/gravitee-logo.png';
+import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const name = 'Supernova';

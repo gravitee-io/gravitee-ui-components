@@ -16,7 +16,7 @@
 import '../../src/molecules/gv-category-list';
 import notes from '../../.docs/gv-category-list.md';
 import { makeStory, storyWait } from '../lib/make-story';
-import horizontalImage from '../../assets/images/gravitee-logo.png';
+import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 
 const name = 'Supernova';
 const description =

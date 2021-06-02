@@ -17,7 +17,7 @@ import '../../src/organisms/gv-vertical-menu';
 import notes from '../../.docs/gv-vertical-menu.md';
 import { makeStory } from '../lib/make-story';
 import { withKnobs } from '@storybook/addon-knobs';
-import logo from '../../assets/images/gravitee-logo.png';
+import logo from '../../assets/images/gravitee-g-logo-cyan.svg';
 
 const events = ['gv-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header:subscribe', 'gv-header:support'];
 

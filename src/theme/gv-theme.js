@@ -66,8 +66,8 @@ import { applyTheme } from '../lib/theme';
  * @cssprop {Color} [--gv-theme-homepage-background-color=#5A7684] - Homepage background color
  *
  * @cssprop {Image} [--gv-theme-homepage-background-image=none] - Background image
- * @cssprop {Image} [--gv-theme-logo=url('/images/gravitee-logo.png')] - Logo
- * @cssprop {Image} [--gv-theme-optional-logo=url('/images/gravitee-logo-light.png')] - Optional logo
+ * @cssprop {Image} [--gv-theme-logo=url('/images/gravitee-logo-cyan.svg')] - Logo
+ * @cssprop {Image} [--gv-theme-optional-logo=url('/images/gravitee-logo-white.svg')] - Optional logo
  * @cssprop {Image} [--gv-theme-favicon='/images/gravitee-favicon.png'] - Favicon
  *
  */
@@ -127,8 +127,8 @@ export class GvTheme extends LitElement {
           --gv-theme-homepage-background-image: var(--gv-theme-homepage-background-image, none);
           --gv-theme-homepage-background-color: var(--gv-theme-homepage-background-color, #5a7684);
           --gv-theme-homepage-background-height: var(--gv-theme-homepage-background-height, 400px);
-          --gv-theme-logo: var(--gv-theme-logo, url('/images/gravitee-logo.png'));
-          --gv-theme-optional-logo: var(--gv-theme-optional-logo, url('/images/gravitee-logo-light.png'));
+          --gv-theme-logo: var(--gv-theme-logo, url('/images/gravitee-logo-cyan.svg'));
+          --gv-theme-optional-logo: var(--gv-theme-optional-logo, url('/images/gravitee-logo-white.svg'));
           --gv-theme-favicon: var(--gv-theme-favicon, '/images/gravitee-favicon.png');
         }
       `,

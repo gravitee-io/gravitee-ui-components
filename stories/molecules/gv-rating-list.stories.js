@@ -16,7 +16,7 @@
 import '../../src/molecules/gv-rating-list';
 import notes from '../../.docs/gv-rating-list.md';
 import { makeStory } from '../lib/make-story';
-import avatar from '../../assets/images/logo.png';
+import avatar from '../../assets/images/avatar.png';
 
 const title = 'Top API !';
 const comment =

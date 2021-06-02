@@ -16,7 +16,7 @@
 import '../../src/molecules/gv-category-list';
 import notes from '../../.docs/gv-category-list.md';
 import { makeStory, storyWait } from '../lib/make-story';
-import picture from '../../assets/images/logo.png';
+import picture from '../../assets/images/avatar.png';
 
 const description =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';

@@ -16,8 +16,8 @@
 import '../../src/atoms/gv-image';
 import notes from '../../.docs/gv-image.md';
 import '../../src/atoms/gv-icon';
-import logo from '../../assets/images/gravitee-logo.png';
-import logoImage from '../../assets/images/gravitee-logo-inline.png';
+import logoImage from '../../assets/images/gravitee-logo-cyan.svg';
+import logo from '../../assets/images/gravitee-g-logo-cyan.svg';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const items = [

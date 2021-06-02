@@ -15,8 +15,8 @@
  */
 import '../../src/organisms/gv-user-menu';
 import notes from '../../.docs/gv-user-menu.md';
-import bigImage from '../../assets/images/gravitee-logo.png';
-import avatarSrc from '../../assets/images/logo.png';
+import bigImage from '../../assets/images/gravitee-logo-cyan.svg';
+import avatarSrc from '../../assets/images/avatar.png';
 import { makeStory, storyWait } from '../lib/make-story';
 
 const routes = [
