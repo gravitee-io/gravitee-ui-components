@@ -274,8 +274,8 @@ export class GvSchemaFormControl extends LitElement {
     }
   }
 
-  async _getUpdateComplete() {
-    await super._getUpdateComplete();
+  async getUpdateComplete() {
+    await super.getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 
