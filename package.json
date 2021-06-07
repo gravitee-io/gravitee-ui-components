@@ -90,7 +90,7 @@
     "babel-plugin-template-html-minifier": "4.1.0",
     "bundle-phobia-cli": "0.14.13",
     "chromatic": "5.9.0",
-    "del": "5.1.0",
+    "del": "6.0.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-config-standard": "14.1.1",
