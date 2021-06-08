@@ -103,7 +103,7 @@
     "fs-extra": "10.0.0",
     "github-markdown-css": "4.0.0",
     "glob": "7.1.7",
-    "gzip-size": "5.1.1",
+    "gzip-size": "6.0.0",
     "highcharts": "9.1.1",
     "highlight.js": "10.7.3",
     "html-loader": "0.5.5",
