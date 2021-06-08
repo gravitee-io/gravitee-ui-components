@@ -168,12 +168,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     };
 
     if (detail.values._id != null) {
-      let index = -1;
-      this.resources.find((r, i) => {
-        if (r._id === resource._id) {
-          index = i;
-        }
-      });
+      const index = this.resources.findIndex((r) => r._id === resource._id);
       this.resources[index] = { ...this.resources[index], ...resource };
     } else {
       if (this.resources == null) {
@@ -251,12 +246,7 @@ export class GvResources extends KeyboardElement(LitElement) {
   }
 
   _onChangeResourceState(item, event) {
-    let index = null;
-    this.resources.find((r, i) => {
-      if (r._id === item._id) {
-        index = i;
-      }
-    });
+    const index = this.resources.find((r) => r._id === item._id);
     this.resources[index] = { ...this.resources[index], enabled: item.enabled };
     dispatchCustomEvent(this, 'change', { resources: this.resources });
   }

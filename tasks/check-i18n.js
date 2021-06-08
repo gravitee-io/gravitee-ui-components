@@ -87,7 +87,7 @@ async function run() {
 
   function getDeepKeys(obj) {
     let keys = [];
-    for (var key in obj) {
+    for (const key in obj) {
       if (typeof obj[key] === 'object') {
         const subkeys = getDeepKeys(obj[key]);
         keys = keys.concat(

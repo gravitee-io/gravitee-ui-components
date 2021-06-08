@@ -105,6 +105,7 @@ export function makeStory(...configs) {
               const variableName = '${' + name + '}';
               return `.${name}='${variableName}'`;
             }
+            return null;
           })
           .filter((a) => a != null);
 

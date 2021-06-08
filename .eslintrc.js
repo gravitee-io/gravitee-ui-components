@@ -11,6 +11,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     quotes: ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
     semi: ['error', 'always'],
+    'accessor-pairs': 'off',
   },
   globals: {
     Event: 'readonly',
