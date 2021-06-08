@@ -121,7 +121,7 @@
     "semantic-release": "17.4.3",
     "svgo": "2.3.0",
     "svgstore": "3.0.0-2",
-    "terser": "4.8.0",
+    "terser": "5.7.0",
     "text-table": "0.2.0",
     "web-component-analyzer": "1.1.6",
     "webpack-env": "0.8.0",
