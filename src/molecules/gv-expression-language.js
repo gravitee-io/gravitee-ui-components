@@ -16,6 +16,7 @@
 import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
 import '../molecules/gv-code';
+import '../molecules/gv-code-hint';
 import CodeMirror from 'codemirror/lib/codemirror';
 import 'codemirror/addon/hint/show-hint';
 import { get } from 'object-path';
@@ -54,6 +55,7 @@ export class GvExpressionLanguage extends LitElement {
 
   constructor() {
     super();
+    this.hintId = 'gv-expression-language_hint';
     this.addEventListener('gv-code:ready', this._onReady);
     this.addEventListener('gv-code:input', this._onInput);
   }
@@ -62,6 +64,14 @@ export class GvExpressionLanguage extends LitElement {
     super.connectedCallback();
     // Experimental
     // CodeMirror.registerHelper('lint', 'javascript', this._lintValidator);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    const hintElement = document.querySelector(`#${this.hintId}`);
+    if (hintElement != null) {
+      hintElement.parent.removeChild(hintElement);
+    }
   }
 
   _onReady(event) {
@@ -76,6 +86,7 @@ export class GvExpressionLanguage extends LitElement {
     });
     codemirror.on('keydown', (cm, event) => {
       this._lastKeyDown = event.key;
+      this._getOrCreateHint().requestUpdate();
     });
     dispatchCustomEvent(this, 'ready', { currentTarget: this });
   }
@@ -380,12 +391,24 @@ export class GvExpressionLanguage extends LitElement {
     this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
   }
 
+  _getOrCreateHint() {
+    let element = document.querySelector(`#${this.hintId}`);
+    if (element == null) {
+      element = document.createElement('gv-code-hint');
+      element.id = this.hintId;
+      document.body.appendChild(element);
+    } else {
+      element.requestUpdate();
+    }
+    return element;
+  }
+
   _doSuggest(suggestions = [], prefix = '#') {
     if (suggestions == null) {
       suggestions = [];
     }
     const code = this.codeElement;
-    const hint = this.shadowRoot.querySelector('#hint');
+    const hint = this._getOrCreateHint();
     const codemirror = code.getCM();
     CodeMirror.showHint(
       codemirror,
@@ -444,7 +467,6 @@ export class GvExpressionLanguage extends LitElement {
         .placeholder="${this.placeholder}"
         .description="${this.description}"
       ></gv-code>
-      <div id="hint"></div>
     </div>`;
   }
 
@@ -460,41 +482,6 @@ export class GvExpressionLanguage extends LitElement {
         gv-code {
           margin: 0;
           font-size: 14px;
-        }
-
-        .CodeMirror-hints {
-          position: absolute;
-          z-index: 80;
-          overflow: hidden;
-          list-style: none;
-
-          margin: 0;
-          padding: 2px;
-
-          -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
-          -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
-          box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
-          border-radius: 3px;
-          border: 1px solid silver;
-
-          background: white;
-          font-family: monospace;
-
-          max-height: 20em;
-          overflow-y: auto;
-        }
-
-        .CodeMirror-hint {
-          padding: 4px;
-          border-radius: 2px;
-          white-space: pre;
-          color: black;
-          cursor: pointer;
-        }
-
-        li.CodeMirror-hint-active {
-          background: var(--gv-theme-color, #5a7684);
-          color: white;
         }
       `,
     ];
