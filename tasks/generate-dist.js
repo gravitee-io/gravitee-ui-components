@@ -20,7 +20,7 @@ const path = require('path');
 const rawGlob = require('glob');
 const Terser = require('terser');
 const util = require('util');
-const pascalCase = require('pascal-case');
+const { pascalCase } = require('pascal-case');
 
 const glob = util.promisify(rawGlob);
 
