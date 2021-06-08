@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 @import "github-markdown-css/github-markdown.css";
-@import "highlight.js/github-gist.css";
+@import "highlight.js/github.css";
 
 .markdown-body.small {
   font-size: 14px;

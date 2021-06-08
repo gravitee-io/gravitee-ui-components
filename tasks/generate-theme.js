@@ -38,7 +38,7 @@ const formatCssProperty = (cssProperty) => {
 async function run() {
   await del(['assets/css/github-markdown-css', 'assets/css/highlight.js', 'assets/css/codemirror']);
   fs.copy('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
-  fs.copy('node_modules/highlight.js/styles/github-gist.css', 'assets/css/highlight.js/github-gist.css');
+  fs.copy('node_modules/highlight.js/styles/github.css', 'assets/css/highlight.js/github.css');
   fs.mkdir('assets/css/codemirror');
 
   Promise.all([
