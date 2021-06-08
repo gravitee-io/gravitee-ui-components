@@ -297,10 +297,14 @@ describe('S C H E M A  F O R M', () => {
       schema: mixed,
     });
 
+    let nbOfEmittedEvents = 0;
     component.addEventListener('gv-schema-form:fetch-data', ({ detail }) => {
+      nbOfEmittedEvents++;
       expect(detail.name).toEqual('fetch-data');
       expect(detail.currentTarget.tagName.toLowerCase()).toEqual('gv-autocomplete');
-      done();
+      if (nbOfEmittedEvents === 2) {
+        done();
+      }
     });
   });
 
