@@ -17,15 +17,26 @@ const del = require('del');
 const fs = require('fs-extra');
 const rawGlob = require('glob');
 const util = require('util');
-const SVGO = require('svgo');
+const { optimize, extendDefaultPlugins } = require('svgo');
 const svgstore = require('svgstore');
 
 const glob = util.promisify(rawGlob);
-const svgo = new SVGO({
-  plugins: [{ removeXMLNS: true }, { removeDimensions: true }, { removeAttrs: { attrs: ['svg:fill', 'path:fill', 'rect:fill'] } }],
-});
-const svgoThirdparty = new SVGO({ plugins: [{ removeXMLNS: true }, { removeDimensions: true }] });
-// {attrs: 'fill:none|stroke|fill-rule|clip-rule|width|height'}
+const svgoConfig = {
+  plugins: extendDefaultPlugins([
+    'removeXMLNS',
+    'removeDimensions',
+    {
+      name: 'removeAttrs',
+      params: {
+        attrs: '(svg|path|rect):fill:.*',
+      },
+    },
+  ]),
+};
+
+const svgoThirdPartyConfig = {
+  plugins: extendDefaultPlugins(['removeXMLNS', 'removeDimensions']),
+};
 const iconsByShape = {};
 
 async function run() {
@@ -38,7 +49,7 @@ async function run() {
     iconsByShape[category] = iconsByShape[category] || {};
     const id = filename.replace('.svg', '').toLowerCase();
     const code = await fs.readFile(src, 'utf8');
-    const svgOptimized = await (category === 'thirdparty' ? svgoThirdparty : svgo).optimize(code);
+    const svgOptimized = optimize(code, category === 'thirdparty' ? svgoThirdPartyConfig : svgoConfig);
     const svgContent = svgOptimized.data.replace('opacity=', 'style="fill: var(--opacity, #fff)" opacity=');
     iconsByShape[category][id] = svgContent;
   }
