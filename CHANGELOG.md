@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.0.0...v3.0.1) (2021-06-09)
+
+
+### Bug Fixes
+
+* **gv-expression-language:** resolve hint overlay ([a9837f2](https://github.com/gravitee-io/gravitee-ui-components/commit/a9837f22a9b9212cf951e20ddf70be1a0434e6b6)), closes [gravitee-io/issues#4943](https://github.com/gravitee-io/issues/issues/4943) [#364](https://github.com/gravitee-io/gravitee-ui-components/issues/364)
+
 # [3.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v2.9.1...v3.0.0) (2021-05-31)
 
 
