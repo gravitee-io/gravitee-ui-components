@@ -1,3 +1,17 @@
+# [3.2.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.1.0...v3.2.0) (2021-06-10)
+
+
+### Bug Fixes
+
+* use correct CSS variable for background color of danger button ([2a5be23](https://github.com/gravitee-io/gravitee-ui-components/commit/2a5be23b22afa0e6cf0dbafefaec21ea9576693f))
+
+
+### Features
+
+* add a CSS variable to define box-shadow color of `gv-input` in invalid state ([3b8761a](https://github.com/gravitee-io/gravitee-ui-components/commit/3b8761aaf006388f61ee579344f3e098b8ecb6c1))
+* add a stylesheet with theme variables for the Consoles ([2fd2542](https://github.com/gravitee-io/gravitee-ui-components/commit/2fd2542e6a8e7983f947a1c37e71607ab828a743))
+* update logos with the new ones ([728c805](https://github.com/gravitee-io/gravitee-ui-components/commit/728c805a450dab8737cb95fd5f0f733ad1c2e9ee))
+
 # [3.1.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.0.1...v3.1.0) (2021-06-10)
 
 
