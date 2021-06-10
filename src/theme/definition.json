@@ -1261,48 +1261,6 @@
           "type": "color",
           "default": "var(--gv-theme-color, #009b5b)",
           "value": ""
-        },
-        {
-          "name": "--gv-state-success--bgc",
-          "description": "Success background color",
-          "type": "color",
-          "default": "var(--gv-theme-color-success-light, #81c784)",
-          "value": ""
-        },
-        {
-          "name": "--gv-state-success--c",
-          "description": "Success color",
-          "type": "color",
-          "default": "var(--gv-theme-neutral-color-lightest, #ffffff)",
-          "value": ""
-        },
-        {
-          "name": "--gv-state-error--bgc",
-          "description": "Error background color",
-          "type": "color",
-          "default": "var(--gv-theme-color-error-light, #e57373)",
-          "value": ""
-        },
-        {
-          "name": "--gv-state-error--c",
-          "description": "Error color",
-          "type": "color",
-          "default": "var(--gv-theme-neutral-color-lightest, #ffffff)",
-          "value": ""
-        },
-        {
-          "name": "--gv-state-warn--bgc",
-          "description": "Warn background color",
-          "type": "color",
-          "default": "var(--gv-theme-color-warning-light, #ffb74d)",
-          "value": ""
-        },
-        {
-          "name": "--gv-state-warn--c",
-          "description": "Warn color",
-          "type": "color",
-          "default": "var(--gv-theme-neutral-color-lightest, #ffffff)",
-          "value": ""
         }
       ]
     },

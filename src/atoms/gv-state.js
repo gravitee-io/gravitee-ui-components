@@ -40,12 +40,6 @@ import { skeleton } from '../styles/skeleton';
  * @cssprop {Color} [--gv-state--c=#597ef7] - Color
  * @cssprop {Color} [--gv-state-major--bgc=var(--gv-theme-color-light, #d5fdcb)] - Major background color
  * @cssprop {Color} [--gv-state-major--c=var(--gv-theme-color, #009b5b)] - Major color
- * @cssprop {Color} [--gv-state-success--bgc=var(--gv-theme-color-success-light, #81c784)] - Success background color
- * @cssprop {Color} [--gv-state-success--c=var(--gv-theme-neutral-color-lightest, #ffffff)] - Success color
- * @cssprop {Color} [--gv-state-error--bgc=var(--gv-theme-color-error-light, #e57373)] - Error background color
- * @cssprop {Color} [--gv-state-error--c=var(--gv-theme-neutral-color-lightest, #ffffff)] - Error color
- * @cssprop {Color} [--gv-state-warn--bgc=var(--gv-theme-color-warning-light, #ffb74d)] - Warn background color
- * @cssprop {Color} [--gv-state-warn--c=var(--gv-theme-neutral-color-lightest, #ffffff)] - Warn color
  */
 export class GvState extends LitElement {
   static get properties() {
@@ -77,8 +71,8 @@ export class GvState extends LitElement {
         }
 
         div.error {
-          --bgc: var(--gv-state-error--bgc, var(--gv-theme-color-error-light, #e57373));
-          --c: var(--gv-state-error--c, var(--gv-theme-neutral-color-lightest, #ffffff));
+          --bgc: var(--gv-theme-color-error-light, #e57373);
+          --c: var(--gv-theme-neutral-color-lightest, #ffffff);
         }
 
         div.major {
@@ -87,13 +81,13 @@ export class GvState extends LitElement {
         }
 
         div.success {
-          --bgc: var(--gv-state-success--bgc, var(--gv-theme-color-success-light, #81c784));
-          --c: var(--gv-state-success--c, var(--gv-theme-neutral-color-lightest, #ffffff));
+          --bgc: var(--gv-theme-color-success-light, #81c784);
+          --c: var(--gv-theme-neutral-color-lightest, #ffffff);
         }
 
         div.warn {
-          --bgc: var(--gv-state-warn--bgc, var(--gv-theme-color-warning-light, #ffb74d));
-          --c: var(--gv-state-warn--c, var(--gv-theme-neutral-color-lightest, #ffffff));
+          --bgc: var(--gv-theme-color-warning-light, #ffb74d);
+          --c: var(--gv-theme-neutral-color-lightest, #ffffff);
         }
 
         div {
