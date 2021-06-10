@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.2.0...v3.3.0) (2021-06-10)
+
+
+### Features
+
+* create flow structure based on the flow schema ([330e8f8](https://github.com/gravitee-io/gravitee-ui-components/commit/330e8f84e7f52e4ab944e1ba86ed9ebb02175a7f)), closes [gravitee-io/gravitee-ui-components#349](https://github.com/gravitee-io/gravitee-ui-components/issues/349)
+
 # [3.2.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.1.0...v3.2.0) (2021-06-10)
 
 
