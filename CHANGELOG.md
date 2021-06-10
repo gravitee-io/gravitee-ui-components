@@ -1,3 +1,15 @@
+# [3.1.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.0.1...v3.1.0) (2021-06-10)
+
+
+### Bug Fixes
+
+* **gv-schema-form-control:** update simple properties when is required ([ca929e3](https://github.com/gravitee-io/gravitee-ui-components/commit/ca929e3fe005ba4fb1f9ced8154aae6b299db1ac))
+
+
+### Features
+
+* add DSL to disable a field that matches some condition ([6502e7b](https://github.com/gravitee-io/gravitee-ui-components/commit/6502e7bdb110af8645f3c9bb3ffbfd9267d86fda)), closes [gravitee-io/gravitee-ui-components#350](https://github.com/gravitee-io/gravitee-ui-components/issues/350)
+
 ## [3.0.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.0.0...v3.0.1) (2021-06-09)
 
 
