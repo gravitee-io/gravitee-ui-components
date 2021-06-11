@@ -5,7 +5,8 @@
     {
       "name": "ALL",
       "type": "ROOT",
-      "pre": []
+      "pre": [],
+      "post": []
     },
     {
       "name": "LOGIN",

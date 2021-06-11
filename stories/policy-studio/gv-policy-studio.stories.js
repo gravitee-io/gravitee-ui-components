@@ -106,6 +106,10 @@ const fetchResourceDocumentation = (event) => {
   }
 };
 
+const save = (event) => {
+  event.target.definition = event.detail.definition;
+};
+
 export const Empty = makeStory(conf, {
   items: [
     {
@@ -118,6 +122,7 @@ export const Empty = makeStory(conf, {
       apiConfigurationSchema: apimConfiguration,
       '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
       '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
+      '@gv-policy-studio:save': save.bind(this),
     },
   ],
 });
@@ -146,6 +151,7 @@ export const APIM = makeStory(conf, {
       'has-policy-filter': true,
       'can-add': true,
       sortable: true,
+      '@gv-policy-studio:save': save.bind(this),
     },
   ],
 });
@@ -203,6 +209,7 @@ export const APIMWithoutPlans = makeStory(conf, {
       'has-policy-filter': true,
       'can-add': true,
       sortable: true,
+      '@gv-policy-studio:save': save.bind(this),
     },
   ],
 });
@@ -231,6 +238,7 @@ export const APIMWithEmptyPlans = makeStory(conf, {
       'has-policy-filter': true,
       'can-add': true,
       sortable: true,
+      '@gv-policy-studio:save': save.bind(this),
     },
   ],
 });
@@ -260,6 +268,7 @@ export const APIMWithReadonlyPlans = makeStory(conf, {
       'can-add': true,
       sortable: true,
       'readonly-plans': true,
+      '@gv-policy-studio:save': save.bind(this),
     },
   ],
 });
@@ -274,6 +283,7 @@ export const AM = makeStory(conf, {
       definition: amDefinition,
       flowSchema: amForm,
       '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
+      '@gv-policy-studio:save': save.bind(this),
     },
   ],
 });
@@ -289,6 +299,7 @@ export const AMEditable = makeStory(conf, {
       flowSchema: amForm,
       '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
       'can-add': true,
+      '@gv-policy-studio:save': save.bind(this),
     },
   ],
 });
