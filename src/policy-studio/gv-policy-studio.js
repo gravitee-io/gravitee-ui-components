@@ -841,9 +841,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _onSubmitFlow({ detail: { values } }) {
     const selectedFlow = this.getSelectedFlow();
-    Object.assign(selectedFlow, values, { _dirty: true });
-    this.isDirty = true;
-    this._refresh();
+    const selectedFlowUpdated = Object.assign({}, selectedFlow, values);
+    if (!deepEqual(selectedFlow, selectedFlowUpdated)) {
+      Object.assign(selectedFlow, selectedFlowUpdated, { _dirty: true });
+      this.isDirty = true;
+      this._refresh();
+    }
   }
 
   _onCancelFlowMode() {
@@ -1335,7 +1338,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       .filter((form) => {
         const isValid = form.isValid();
         if (isValid) {
-          form.submit();
+          if (form.dirty) {
+            form.submit();
+          }
         }
         return !isValid;
       })
