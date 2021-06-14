@@ -99,7 +99,10 @@ export function InputElement(ParentClass) {
 
     firstUpdated() {
       if (this.autofocus) {
-        this.getInputElement().focus();
+        const input = this.getInputElement();
+        if (input != null) {
+          this.getInputElement().focus();
+        }
       }
       this.updateState(this.value);
     }

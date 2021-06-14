@@ -125,6 +125,12 @@ export class GvCode extends InputElement(LitElement) {
         },
       });
 
+      if (this.autofocus) {
+        setTimeout(() => {
+          this._codeMirror.focus();
+        }, 200);
+      }
+
       dispatchCustomEvent(this, 'ready');
     }
   }
