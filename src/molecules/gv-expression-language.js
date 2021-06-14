@@ -467,7 +467,7 @@ export class GvExpressionLanguage extends LitElement {
       ...(this.options || {}),
     };
     return html`<div title="Ctrl-E or Cmd-E to insert EL">
-      <label>${this.label}</label>
+      ${this.label != null ? html`<label>${this.label}</label>` : ''}
       <gv-code
         .options="${options}"
         .value="${this.value}"
