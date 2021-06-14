@@ -129,7 +129,7 @@ export function InputElement(ParentClass) {
 
     renderLabel() {
       if (this.label) {
-        return html`<label for=${this.id} title="${this.label}">${this.label}</label> `;
+        return html`<label for=${this.id} title="${this.label}">${this.label}</label>`;
       }
       return '';
     }

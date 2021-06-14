@@ -296,7 +296,6 @@ export class GvExpressionLanguage extends LitElement {
         const displayText = `${g}${suffix}`;
         return { text, displayText };
       });
-
     return { list };
   }
 
