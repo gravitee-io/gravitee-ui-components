@@ -37,6 +37,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Number} rows - Number of rows, if rows=1 the field will look like an input text
  * @attr {Object} options -  options based on codemirror https://codemirror.net/doc/manual.html#config
  * @attr {Boolean} inner-hint - Useful to force ineer rendering of "hint" element
+ * @attr {Boolean} [autofocus=false] - true to put the focus on the input
  */
 export class GvExpressionLanguage extends LitElement {
   static get properties() {
@@ -51,6 +52,7 @@ export class GvExpressionLanguage extends LitElement {
       disabled: { type: Boolean, reflect: true },
       required: { type: Boolean, reflect: true },
       readonly: { type: Boolean, reflect: true },
+      autofocus: { type: Boolean },
       innerHint: { type: Boolean, attribute: 'inner-hint' },
     };
   }
@@ -474,6 +476,7 @@ export class GvExpressionLanguage extends LitElement {
         ?disabled="${this.disabled}"
         ?readonly="${this.readonly}"
         ?required="${this.required}"
+        ?autofocus="${this.autofocus}"
         .placeholder="${this.placeholder}"
         .description="${this.description}"
       ></gv-code>
