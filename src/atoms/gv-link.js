@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 import { skeleton } from '../styles/skeleton';
 import { link } from '../styles/link';
-import { classMap } from 'lit-html/directives/class-map';
-import { styleMap } from 'lit-html/directives/style-map';
-import { until } from 'lit-html/directives/until';
+import { classMap } from 'lit/directives/class-map';
+import { styleMap } from 'lit/directives/style-map';
+import { until } from 'lit/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 import './gv-icon';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined';
 
 /**
  * A link

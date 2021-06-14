@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { html } from 'lit-html';
-import { repeat } from 'lit-html/directives/repeat';
+import { html } from 'lit';
+import { repeat } from 'lit/directives/repeat';
 import '../molecules/gv-identity-picture';
 import { getLabels, getPicture, getStates, getRating, getPictureDisplayName } from '../lib/item';
 import { withSkeletonAttribute } from './with-skeleton-attribute';

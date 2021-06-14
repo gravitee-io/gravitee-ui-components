@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement } from 'lit-element';
+import { LitElement } from 'lit';
 import { ChartElement } from '../mixins/chart-element';
 import ChartModuleMore from 'highcharts/highcharts-more';
 import Highcharts from 'highcharts';

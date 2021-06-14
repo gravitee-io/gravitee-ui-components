@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from 'lit-element';
+import { css, html, LitElement } from 'lit';
 import '../atoms/gv-button';
 import '../atoms/gv-tag';
-import { repeat } from 'lit-html/directives/repeat';
-import { classMap } from 'lit-html/directives/class-map';
+import { repeat } from 'lit/directives/repeat';
+import { classMap } from 'lit/directives/class-map';
 import { i18n } from '../lib/i18n';
 import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
 
