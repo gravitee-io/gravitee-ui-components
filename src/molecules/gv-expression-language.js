@@ -36,6 +36,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Object} grammar - Grammar for expression languages
  * @attr {Number} rows - Number of rows, if rows=1 the field will look like an input text
  * @attr {Object} options -  options based on codemirror https://codemirror.net/doc/manual.html#config
+ * @attr {Boolean} inner-hint - Useful to force ineer rendering of "hint" element
  */
 export class GvExpressionLanguage extends LitElement {
   static get properties() {
@@ -50,12 +51,14 @@ export class GvExpressionLanguage extends LitElement {
       disabled: { type: Boolean, reflect: true },
       required: { type: Boolean, reflect: true },
       readonly: { type: Boolean, reflect: true },
+      innerHint: { type: Boolean, attribute: 'inner-hint' },
     };
   }
 
   constructor() {
     super();
     this.hintId = 'gv-expression-language_hint';
+    this.innerHint = false;
     this.addEventListener('gv-code:ready', this._onReady);
     this.addEventListener('gv-code:input', this._onInput);
   }
@@ -68,9 +71,11 @@ export class GvExpressionLanguage extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    const hintElement = document.querySelector(`#${this.hintId}`);
-    if (hintElement != null) {
-      hintElement.parent.removeChild(hintElement);
+    if (!this.innerHint) {
+      const hintElement = document.querySelector(`#${this.hintId}`);
+      if (hintElement != null) {
+        hintElement.parentElement.removeChild(hintElement);
+      }
     }
   }
 
@@ -392,6 +397,11 @@ export class GvExpressionLanguage extends LitElement {
   }
 
   _getOrCreateHint() {
+    if (this.innerHint) {
+      const element = this.shadowRoot.querySelector(`#${this.hintId}`);
+      element.requestUpdate();
+      return element;
+    }
     let element = document.querySelector(`#${this.hintId}`);
     if (element == null) {
       element = document.createElement('gv-code-hint');
@@ -467,6 +477,7 @@ export class GvExpressionLanguage extends LitElement {
         .placeholder="${this.placeholder}"
         .description="${this.description}"
       ></gv-code>
+      ${this.innerHint ? html`<gv-code-hint id="${this.hintId}"></gv-code-hint>` : ''}
     </div>`;
   }
 
