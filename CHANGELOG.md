@@ -1,3 +1,16 @@
+# [3.4.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.3.0...v3.4.0) (2021-06-15)
+
+
+### Bug Fixes
+
+* **gv-expression-language:** hide label if not use ([cff4675](https://github.com/gravitee-io/gravitee-ui-components/commit/cff46750c019fe17c043d8c8bc502827655f2cb7)), closes [gravitee-io/issues#5719](https://github.com/gravitee-io/issues/issues/5719)
+
+
+### Features
+
+* **gv-expression-language:** add inner mode for 'hint' element ([d31702d](https://github.com/gravitee-io/gravitee-ui-components/commit/d31702d304ba05b762fc29b8fe9c3d028e74768c)), closes [gravitee-io/issues#5719](https://github.com/gravitee-io/issues/issues/5719)
+* **gv-expression-language:** add support of autofocus attribute ([5bbfa95](https://github.com/gravitee-io/gravitee-ui-components/commit/5bbfa9530e72c7754c3163584d2479a73ca89ab6)), closes [gravitee-io/issues#5719](https://github.com/gravitee-io/issues/issues/5719)
+
 # [3.3.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.2.0...v3.3.0) (2021-06-10)
 
 
