@@ -11,6 +11,8 @@ const graviteeTheme = create({
 
 addons.setConfig({
   theme: graviteeTheme,
-  showRoots: true,
+  sidebar: {
+    showRoots: true,
+  },
   enableShortcuts: false,
 });
