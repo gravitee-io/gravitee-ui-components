@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.4.0...v3.4.1) (2021-06-17)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** mark flow as dirty only if has changed ([fa9c6c2](https://github.com/gravitee-io/gravitee-ui-components/commit/fa9c6c2f8a2f2c73726eea3b2fac505eb4001911)), closes [#376](https://github.com/gravitee-io/gravitee-ui-components/issues/376)
+
 # [3.4.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.3.0...v3.4.0) (2021-06-15)
 
 
