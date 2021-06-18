@@ -149,6 +149,7 @@ export class GvResources extends KeyboardElement(LitElement) {
       schema,
       values: {},
       submitLabel: 'Add',
+      dirty: true,
     };
     this._maximizeBottomView();
     this._onFetchDocumentation();
@@ -261,7 +262,7 @@ export class GvResources extends KeyboardElement(LitElement) {
       has-header
       .icon="${this._currentResource.icon}"
       validate-on-render
-      .dirty="${this._currentResource._values != null}"
+      .dirty="${this._currentResource.dirty || this._currentResource._values != null}"
       ?readonly="${this.readonly}"
       @gv-schema-form:change="${this._onChangeResourceForm}"
       @gv-schema-form:reset="${this._onResetResourceForm}"
