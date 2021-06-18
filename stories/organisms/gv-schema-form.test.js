@@ -48,6 +48,7 @@ describe('S C H E M A  F O R M', () => {
     'multiselect',
     'cron',
     'disabled',
+    'hidden',
   ];
 
   const checkControl = (id, attributes = []) => {
