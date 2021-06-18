@@ -40,3 +40,7 @@ export const Empty = makeStory(conf, {
 export const PolicyReadme = makeStory(conf, {
   items: [{ text: content }],
 });
+
+export const WithoutHeader = makeStory(conf, {
+  items: [{ text: content, 'without-header': true }],
+});
