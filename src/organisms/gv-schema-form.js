@@ -137,7 +137,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   confirm() {
-    if (this._touch || this.validateOnRender) {
+    if (this.isTouch()) {
       if (this._confirm && this._confirm.promise) {
         return this._confirm.promise;
       }
@@ -361,8 +361,12 @@ export class GvSchemaForm extends LitElement {
     return errors.length === 0;
   }
 
+  isTouch() {
+    return this._touch || (this.dirty && this.validateOnRender);
+  }
+
   canSubmit() {
-    return this._touch && this.isValid();
+    return this.isTouch() && this.isValid();
   }
 
   _updateActions() {
