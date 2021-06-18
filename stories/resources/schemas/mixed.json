@@ -150,6 +150,22 @@
       "x-schema-form": {
         "disabled": [{ "$def": "select" }, { "$eq": { "select": "a" } }]
       }
+    },
+    "hidden": {
+      "title": "Hidden field if 'Simple select' is 'a'",
+      "type": "string",
+      "x-schema-form": {
+        "hidden": [
+          {
+            "$def": "select"
+          },
+          {
+            "$eq": {
+              "select": "a"
+            }
+          }
+        ]
+      }
     }
   },
   "required": ["multiselect", "timeToLiveSeconds"]

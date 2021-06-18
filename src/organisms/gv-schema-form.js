@@ -69,6 +69,7 @@ export class GvSchemaForm extends LitElement {
     this._touch = false;
     this._validator = new Validator();
     this._validatorResults = {};
+    this._ignoreProperties = [];
     this.addEventListener('gv-schema-form-control:default-value', this._onDefaultValue.bind(this));
     this.addEventListener('gv-schema-form-control:change', this._onChange.bind(this));
     this.addEventListener('gv-schema-form-control:control-ready', this._onControlReady.bind(this));
@@ -117,7 +118,7 @@ export class GvSchemaForm extends LitElement {
 
   _onSubmit() {
     const validatorResults = this.validate();
-    if (validatorResults.valid) {
+    if (this.isValid()) {
       this._initialValues = deepClone(this._values);
       this.dirty = false;
       this._touch = false;
@@ -236,7 +237,10 @@ export class GvSchemaForm extends LitElement {
     const control = { ...this.schema.properties[key] };
     const isRequired = this.schema.required && this.schema.required.includes(key);
     const isDisabled = (this.schema.disabled && this.schema.disabled.includes(key)) || this._evaluateCondition(control, 'disabled');
-
+    const isHidden = this._evaluateCondition(control, 'hidden');
+    if (isHidden) {
+      this._ignoreProperties.push(key);
+    }
     const value = get(this._values, key);
     return html`<gv-schema-form-control
       .id="${key}"
@@ -247,6 +251,7 @@ export class GvSchemaForm extends LitElement {
       ?readonly="${this.readonly}"
       ?required="${isRequired}"
       ?disabled="${isDisabled}"
+      ?hidden="${isHidden}"
     ></gv-schema-form-control>`;
   }
 
@@ -321,6 +326,7 @@ export class GvSchemaForm extends LitElement {
       </div>`;
     }
     const keys = this.schema.properties ? Object.keys(this.schema.properties) : [];
+    this._ignoreProperties = [];
     return html`${keys.map((key) => this._renderControl(key))}`;
   }
 
@@ -335,7 +341,7 @@ export class GvSchemaForm extends LitElement {
   validate() {
     if (this.schema) {
       this._validatorResults = this._validator.validate(this._values, this.schema);
-      if (this._validatorResults.valid) {
+      if (this.isValid()) {
         this.errors = [];
       } else {
         this.errors = this._validatorResults.errors;
@@ -345,7 +351,14 @@ export class GvSchemaForm extends LitElement {
   }
 
   isValid() {
-    return this._validatorResults.valid;
+    if (this._validatorResults.valid) {
+      return true;
+    }
+
+    const errors = (this._validatorResults.errors || []).filter((error) => {
+      return !this._ignoreProperties.includes(error.property.replace('instance.', ''));
+    });
+    return errors.length === 0;
   }
 
   canSubmit() {

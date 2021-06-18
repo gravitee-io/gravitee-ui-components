@@ -43,6 +43,7 @@ export class GvSchemaFormControl extends LitElement {
       errors: { type: Array },
       value: { type: Object, reflect: true },
       skeleton: { type: Boolean, reflect: true },
+      hidden: { type: Boolean, reflect: true },
     };
   }
 
@@ -323,6 +324,10 @@ export class GvSchemaFormControl extends LitElement {
           box-sizing: border-box;
           margin: 0.4rem;
           display: block;
+        }
+
+        :host([hidden]) {
+          display: none;
         }
 
         .form__control-description,
