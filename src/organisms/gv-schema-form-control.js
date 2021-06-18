@@ -44,6 +44,7 @@ export class GvSchemaFormControl extends LitElement {
       value: { type: Object, reflect: true },
       skeleton: { type: Boolean, reflect: true },
       hidden: { type: Boolean, reflect: true },
+      writeOnly: { type: Boolean, reflect: true },
     };
   }
 
@@ -63,7 +64,10 @@ export class GvSchemaFormControl extends LitElement {
   }
 
   isPassword() {
-    return this.control['x-schema-form'] && this.control['x-schema-form'].type != null && this.control['x-schema-form'].type === 'password';
+    return (
+      this.control.writeOnly === true ||
+      (this.control['x-schema-form'] && this.control['x-schema-form'].type != null && this.control['x-schema-form'].type === 'password')
+    );
   }
 
   getPlaceholder() {

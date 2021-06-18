@@ -50,6 +50,7 @@ describe('S C H E M A  F O R M', () => {
     'disabled',
     'hidden',
     'readonly',
+    'writeonly',
   ];
 
   const checkControl = (id, attributes = []) => {
