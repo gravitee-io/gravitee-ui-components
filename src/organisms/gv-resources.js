@@ -329,9 +329,9 @@ export class GvResources extends KeyboardElement(LitElement) {
 
   render() {
     const options = {
-      selectable: this.readonly,
+      selectable: true,
       data: [
-        { field: 'name', label: 'Name', type: 'gv-input', attributes: { clipboard: true, readonly: this.readonly } },
+        { field: 'name', label: 'Name' },
         {
           field: 'type',
           width: '50px',
@@ -361,18 +361,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     if (this.readonly !== true) {
       options.data.push({
         type: 'gv-button',
-        width: '40px',
-        attributes: {
-          onClick: (item) => this._onEditResource(item),
-          title: (item) => (this._currentResource && this._currentResource._id === item._id ? 'Editing' : 'Edit'),
-          outlined: true,
-          icon: 'design:edit',
-          disabled: (item) => this._currentResource && this._currentResource._id === item._id,
-        },
-      });
-      options.data.push({
-        type: 'gv-button',
-        width: '40px',
+        width: '50px',
         attributes: {
           onClick: (item) => this._removeResource(item),
           title: 'remove',
