@@ -318,8 +318,8 @@ export class GvTable extends withResizeObserver(LitElement) {
     return item.id == null ? item._id : item.id;
   }
 
-  _onSelect(item) {
-    if (!this._skeleton) {
+  _onSelect(item, event) {
+    if (!this._skeleton && !event.target.dataset.preventSelect) {
       if (this.options.selectable) {
         const itemId = this._getItemId(item);
         if (this._isSelected(item)) {
@@ -417,6 +417,7 @@ export class GvTable extends withResizeObserver(LitElement) {
           if (event === 'click') {
             element.classList.add('link');
           }
+          element.dataset.preventSelect = true;
           element.addEventListener(event, (e) => {
             e.stopPropagation();
             const optionConfirm = typeof option.confirm === 'function' ? option.confirm(item) : option.confirm;
