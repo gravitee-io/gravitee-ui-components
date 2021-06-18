@@ -280,6 +280,16 @@ export class GvSchemaFormControl extends LitElement {
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 
+  formatErrorMessage(error) {
+    if (error.schema.properties != null && error.schema.properties[error.argument] != null) {
+      const title = error.schema.properties[error.argument].title;
+      if (title) {
+        return error.message.replace(error.argument, title);
+      }
+    }
+    return error.message;
+  }
+
   shouldUpdate(changedProperties) {
     if (this._observedProperties.find((property) => changedProperties.has(property)) != null) {
       this._updateProperties(this.getControl());
@@ -299,7 +309,7 @@ export class GvSchemaFormControl extends LitElement {
         const errorContainer = this.shadowRoot.querySelector(`[id="${key}-error"]`);
         if (errorContainer) {
           const message = document.createElement('gv-input-message');
-          message.innerHTML = error.message;
+          message.innerHTML = this.formatErrorMessage(error);
           message.level = 'warn';
           errorContainer.appendChild(message);
         }
