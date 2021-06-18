@@ -28,7 +28,6 @@ import './gv-flow';
 import './gv-flow-step';
 import './gv-policy-studio-menu';
 import { empty } from '../styles/empty';
-import { loadAsciiDoctor } from '../lib/text-format';
 import { cache } from 'lit-html/directives/cache';
 import { deepClone, deepEqual, uuid } from '../lib/utils';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
@@ -333,7 +332,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._tabs = [{ id: 'design', title: 'Design', icon: 'navigation:exchange' }];
     this._policyFilter = [];
     this._flowFilter = [];
-    loadAsciiDoctor();
   }
 
   set hasProperties(value) {

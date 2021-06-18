@@ -34,11 +34,11 @@ export function setAsciiDoctorAsGlobal(asciidoctor, highlightJsExt) {
 }
 
 export function toDom(text, type = 'adoc', small = false) {
-  if (window._gvAsciidoctor) {
+  return loadAsciiDoctor().then((asciidoctor) => {
     if (text) {
       let innerHTML = '';
       if (type === 'adoc') {
-        innerHTML = window._gvAsciidoctor.convert(text, {
+        innerHTML = asciidoctor.convert(text, {
           attributes: {
             showtitle: true,
             'source-highlighter': 'highlightjs-ext',
@@ -57,13 +57,13 @@ export function toDom(text, type = 'adoc', small = false) {
       if (small) {
         element.classList.add('small');
       }
-      const title = element.querySelector('h1').textContent;
+      const titleElement = element.querySelector('h1');
+      let title = '';
+      if (titleElement) {
+        title = titleElement.textContent;
+      }
 
       return { title, element };
     }
-  } else {
-    console.error('Should loadAsciiDoctor before convert content');
-  }
-
-  return null;
+  });
 }

@@ -26,6 +26,7 @@ export class GvDocumentation extends LitElement {
       image: { type: String },
       _dom: { type: Object, attribute: false },
       disabled: { type: Boolean },
+      withoutHeader: { type: Boolean, attribute: 'without-header' },
     };
   }
 
@@ -137,8 +138,8 @@ export class GvDocumentation extends LitElement {
       this._dom = await toDom(this.text, this.type, true);
       if (this._dom) {
         const title = this._dom.element.querySelector('h1');
-        if (title) {
-          this._dom.element.querySelector('h1').remove();
+        if (title && !this.withoutHeader) {
+          title.remove();
         }
         this._dom.element.querySelectorAll('a').forEach((link) => (link.target = '_blank'));
       }
@@ -157,33 +158,28 @@ export class GvDocumentation extends LitElement {
         <div>See the documentation about plugins.</div>
       </div>`;
     }
-    return html`<link rel="stylesheet" href="css/documentation.css">
-                  <div class="container">  
-                    <div class="header">
-                      <div class="title">${title}</div>
-                        <div class="left">
-                          ${
-                            this.disabled
-                              ? html``
-                              : html`<gv-button
-                                  icon="general:close"
-                                  outlined
-                                  small
-                                  @gv-button:click="${this._onCloseDocumentation}"
-                                  title="Close"
-                                ></gv-button>`
-                          }
-                        </div>
-                        <div class="right">
-                          ${this._renderIcon()}
-                        </div>
-                      </div>
-                      <div class="content">
-                        ${content}
-                      </div>
-                    </div>
-                  </div>
-                  `;
+
+    return html`<link rel="stylesheet" href="css/documentation.css" />
+      <div class="container">
+        ${this.withoutHeader
+          ? html``
+          : html` <div class="header">
+              <div class="left">
+                ${this.disabled
+                  ? html``
+                  : html`<gv-button
+                      icon="general:close"
+                      outlined
+                      small
+                      @gv-button:click="${this._onCloseDocumentation}"
+                      title="Close"
+                    ></gv-button>`}
+              </div>
+              <div class="title">${title}</div>
+              <div class="right">${this._renderIcon()}</div>
+            </div>`}
+        <div class="content">${content}</div>
+      </div> `;
   }
 }
 

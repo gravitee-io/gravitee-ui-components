@@ -109,7 +109,11 @@ export class GvCode extends InputElement(LitElement) {
 
       try {
         if (options.mode != null) {
-          await import(`codemirror/mode/${options.mode}/${options.mode}`);
+          if (options.mode === 'asciidoc') {
+            await import('codemirror-asciidoc/lib/asciidoc');
+          } else {
+            await import(`codemirror/mode/${options.mode}/${options.mode}`);
+          }
         }
       } catch (er) {}
 
