@@ -241,6 +241,7 @@ export class GvSchemaForm extends LitElement {
     if (isHidden) {
       this._ignoreProperties.push(key);
     }
+    const isReadonly = this.readonly || control.readOnly === true;
     const value = get(this._values, key);
     return html`<gv-schema-form-control
       .id="${key}"
@@ -248,7 +249,7 @@ export class GvSchemaForm extends LitElement {
       .control="${control}"
       .skeleton="${this.skeleton}"
       .value="${value}"
-      ?readonly="${this.readonly}"
+      ?readonly="${isReadonly}"
       ?required="${isRequired}"
       ?disabled="${isDisabled}"
       ?hidden="${isHidden}"
