@@ -166,6 +166,13 @@
           }
         ]
       }
+    },
+    "readonly": {
+      "title": "Readonly field",
+      "default": "Should not edit my value",
+      "description": "Example for readonly",
+      "type": "string",
+      "readOnly": true
     }
   },
   "required": ["multiselect", "timeToLiveSeconds"]

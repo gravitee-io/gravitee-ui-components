@@ -49,6 +49,7 @@ describe('S C H E M A  F O R M', () => {
     'cron',
     'disabled',
     'hidden',
+    'readonly',
   ];
 
   const checkControl = (id, attributes = []) => {
