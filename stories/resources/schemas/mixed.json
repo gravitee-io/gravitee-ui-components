@@ -173,6 +173,13 @@
       "description": "Example for readonly",
       "type": "string",
       "readOnly": true
+    },
+    "writeonly": {
+      "title": "Write only field",
+      "default": "Should not read my value",
+      "description": "Example for writeonly",
+      "type": "string",
+      "writeOnly": true
     }
   },
   "required": ["multiselect", "timeToLiveSeconds"]
