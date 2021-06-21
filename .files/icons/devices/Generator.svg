@@ -1,6 +1,1 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect opacity="0.3" x="4" y="12" width="40" height="28" rx="2" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M9 8C8.44772 8 8 8.44772 8 9V12H16V9C16 8.44772 15.5523 8 15 8H9ZM33 8C32.4477 8 32 8.44772 32 9V12H40V9C40 8.44772 39.5523 8 39 8H33Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14 31C14 31.5523 14.4477 32 15 32H17C17.5523 32 18 31.5523 18 31V28H21C21.5523 28 22 27.5523 22 27V25C22 24.4477 21.5523 24 21 24H18V21C18 20.4477 17.5523 20 17 20H15C14.4477 20 14 20.4477 14 21V24H11C10.4477 24 10 24.4477 10 25V27C10 27.5523 10.4477 28 11 28H14V31Z" fill="black"/>
-<rect x="28" y="24" width="8" height="4" rx="1" fill="black"/>
-</svg>
+<svg fill="none" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><g fill="#000"><rect height="28" opacity=".3" rx="2" width="40" x="4" y="12"/><path clip-rule="evenodd" d="m9 8c-.55228 0-1 .44772-1 1v3h8v-3c0-.55228-.4477-1-1-1zm24 0c-.5523 0-1 .44772-1 1v3h8v-3c0-.55228-.4477-1-1-1z" fill-rule="evenodd"/><path clip-rule="evenodd" d="m14 31c0 .5523.4477 1 1 1h2c.5523 0 1-.4477 1-1v-3h3c.5523 0 1-.4477 1-1v-2c0-.5523-.4477-1-1-1h-3v-3c0-.5523-.4477-1-1-1h-2c-.5523 0-1 .4477-1 1v3h-3c-.5523 0-1 .4477-1 1v2c0 .5523.4477 1 1 1h3z" fill-rule="evenodd"/><rect height="4" rx="1" width="8" x="28" y="24"/></g></svg>
