@@ -1,3 +1,20 @@
+# [3.5.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.4.1...v3.5.0) (2021-06-21)
+
+
+### Bug Fixes
+
+* **gv-schema-form:** force touch state when ask validation on render and form is dirty ([e53d5f2](https://github.com/gravitee-io/gravitee-ui-components/commit/e53d5f2129cf5ca4c1fc698a63dd838424391dfe))
+* **gv-table:** prevent dispatch of select event when cell have an element with listeners ([d65b8b5](https://github.com/gravitee-io/gravitee-ui-components/commit/d65b8b59ababff7cbc2325e0a53722975dbe18dc))
+
+
+### Features
+
+* **gv-resouces:** improve resources list ([2235ca0](https://github.com/gravitee-io/gravitee-ui-components/commit/2235ca018ddcffbf985dafe796579e00e15b3730))
+* **gv-schema-form:** add hidden field support ([93ac9f6](https://github.com/gravitee-io/gravitee-ui-components/commit/93ac9f66dc76a0e3881cf3c896694df83ddea07b))
+* **gv-schema-form:** implement readOnly property support ([c1bcb94](https://github.com/gravitee-io/gravitee-ui-components/commit/c1bcb9489489796820de99da53f6e51ad6282d56))
+* **gv-schema-form:** implement writeOnly property support ([3b743c6](https://github.com/gravitee-io/gravitee-ui-components/commit/3b743c6c86949d54bd7192b777f059e222b5416d))
+* **gv-schema-form:** use control label instead of key in error message ([8ecf2d6](https://github.com/gravitee-io/gravitee-ui-components/commit/8ecf2d6ff47970668263a220bc38626b5e246f77))
+
 ## [3.4.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.4.0...v3.4.1) (2021-06-17)
 
 
