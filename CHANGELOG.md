@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.5.0...v3.6.0) (2021-06-21)
+
+
+### Features
+
+* **gv-documentation:** update to handle asciidoc outside policy studio ([925f511](https://github.com/gravitee-io/gravitee-ui-components/commit/925f511f23656eeaa662b62f91154199568e5030))
+
 # [3.5.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.4.1...v3.5.0) (2021-06-21)
 
 
