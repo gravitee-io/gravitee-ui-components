@@ -17,6 +17,7 @@ import { css, html, LitElement } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
 import { toDom } from '../lib/text-format';
 import { empty } from '../styles/empty';
+import { classMap } from 'lit-html/directives/class-map';
 
 export class GvDocumentation extends LitElement {
   static get properties() {
@@ -27,6 +28,7 @@ export class GvDocumentation extends LitElement {
       _dom: { type: Object, attribute: false },
       disabled: { type: Boolean },
       withoutHeader: { type: Boolean, attribute: 'without-header' },
+      _cssLoaded: { type: Boolean, attribute: false },
     };
   }
 
@@ -100,6 +102,7 @@ export class GvDocumentation extends LitElement {
 
         .content {
           background: white;
+          display: none;
           flex-grow: 1;
 
           overflow: auto;
@@ -112,6 +115,14 @@ export class GvDocumentation extends LitElement {
         /* Hack for long string */
         .hljs-string {
           white-space: pre-wrap;
+        }
+
+        .empty {
+          display: none;
+        }
+
+        .show {
+          display: block;
         }
       `,
     ];
@@ -133,17 +144,25 @@ export class GvDocumentation extends LitElement {
     return html`<gv-icon shape="code:question"></gv-icon>`;
   }
 
-  async updated(props) {
+  shouldUpdate(props) {
     if (props.has('text')) {
-      this._dom = await toDom(this.text, this.type, true);
-      if (this._dom) {
-        const title = this._dom.element.querySelector('h1');
-        if (title && !this.withoutHeader) {
-          title.remove();
+      toDom(this.text, this.type, true).then((_dom) => {
+        this._dom = _dom;
+        if (this._dom) {
+          const title = this._dom.element.querySelector('h1');
+          if (title && !this.withoutHeader) {
+            title.remove();
+          }
+          this._dom.element.querySelectorAll('a').forEach((link) => (link.target = '_blank'));
         }
-        this._dom.element.querySelectorAll('a').forEach((link) => (link.target = '_blank'));
-      }
+      });
+      return false;
     }
+    return super.shouldUpdate(props);
+  }
+
+  _onLoad() {
+    this._cssLoaded = true;
   }
 
   render() {
@@ -152,18 +171,13 @@ export class GvDocumentation extends LitElement {
     if (this._dom) {
       title = this._dom.title;
       content = this._dom.element;
-    } else {
-      content = html`<div class="empty">
-        <div>Sorry, the documentation was not found.</div>
-        <div>See the documentation about plugins.</div>
-      </div>`;
     }
 
-    return html`<link rel="stylesheet" href="css/documentation.css" />
+    return html`<link @load="${this._onLoad}" rel="stylesheet" href="css/documentation.css" />
       <div class="container">
         ${this.withoutHeader
           ? html``
-          : html` <div class="header">
+          : html`<div class="header">
               <div class="left">
                 ${this.disabled
                   ? html``
@@ -178,7 +192,13 @@ export class GvDocumentation extends LitElement {
               <div class="title">${title}</div>
               <div class="right">${this._renderIcon()}</div>
             </div>`}
-        <div class="content">${content}</div>
+        <div class="${classMap({ content: true, show: this._cssLoaded })}">
+          ${content}
+          <slot name="empty" class="${classMap({ empty: true, show: content == null })}">
+            <div>Sorry,the documentation was not found.</div>
+            <div>See the documentation about plugins.</div>
+          </slot>
+        </div>
       </div> `;
   }
 }
