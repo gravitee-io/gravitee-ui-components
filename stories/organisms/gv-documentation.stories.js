@@ -16,7 +16,7 @@
 import notes from '../../.docs/gv-documentation.md';
 import '../../src/organisms/gv-documentation';
 import content from '../resources/adoc/policy-mock-readme.adoc';
-import { makeStory } from '../lib/make-story';
+import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
   title: 'Organisms/gv-documentation',
@@ -37,10 +37,33 @@ export const Empty = makeStory(conf, {
   items: [{}],
 });
 
+export const OverrideEmptyMsg = makeStory(conf, {
+  items: [
+    {
+      innerHTML: `
+      <div slot="empty">
+        <gv-icon shape="text:align-center" style="--gv-icon--s: 96px;"></gv-icon>
+        <div>Content is empty</div>
+      </div>
+    `,
+    },
+  ],
+});
+
 export const PolicyReadme = makeStory(conf, {
   items: [{ text: content }],
 });
 
 export const WithoutHeader = makeStory(conf, {
   items: [{ text: content, 'without-header': true }],
+});
+
+export const Async = makeStory(conf, {
+  items: [{ text: '', skeleton: true }],
+  simulations: [
+    storyWait(1000, ([component]) => {
+      component.text = content;
+      component.removeAttribute('skeleton');
+    }),
+  ],
 });
