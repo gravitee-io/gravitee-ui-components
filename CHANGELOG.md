@@ -1,3 +1,11 @@
+# [3.7.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.6.0...v3.7.0) (2021-06-22)
+
+
+### Features
+
+* add a bunch of icons coming from Material Icons ([4be7ef3](https://github.com/gravitee-io/gravitee-ui-components/commit/4be7ef3e2236960fa3d491c0691a56c9b251f90b))
+* update Gravitee.io icon ([bda95ea](https://github.com/gravitee-io/gravitee-ui-components/commit/bda95ea761fe1e20657baf21b5fd087cf0c67d29))
+
 # [3.6.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.5.0...v3.6.0) (2021-06-21)
 
 
