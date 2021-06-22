@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.7.0...v3.8.0) (2021-06-22)
+
+
+### Features
+
+* **gv-documenation:** add possibility to override empty msg ([f8fe870](https://github.com/gravitee-io/gravitee-ui-components/commit/f8fe8706f0d59997d47dd0fbbcd703a0c61d6e30))
+
 # [3.7.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.6.0...v3.7.0) (2021-06-22)
 
 
