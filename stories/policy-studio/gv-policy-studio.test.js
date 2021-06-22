@@ -19,6 +19,7 @@ import definition from '../resources/apim-definition.json';
 import policies from '../resources/apim-policies.json';
 import resourceTypes from '../resources/apim-resource-types.json';
 import '../../src/policy-studio/gv-policy-studio';
+import apimFlowSchema from '../resources/schemas/apim-flow.json';
 
 describe('P O L I C Y  S T U D I O', () => {
   let page, component;
@@ -369,6 +370,38 @@ describe('P O L I C Y  S T U D I O', () => {
           },
         ]);
       }
+    });
+
+    test('should reset field', async () => {
+      component.flowSchema = apimFlowSchema;
+
+      const _id = 'foobar';
+      const _stepId = 'foobar-step';
+      const step = { _id: _stepId, name: 'step', description: 'step description', configuration: {}, policy: 'api-key' };
+      const flow = {
+        _id,
+        name: 'New flow',
+        description: 'test',
+        condition: '#method == "POST"',
+        pre: [step],
+        post: [],
+      };
+      const values = {
+        _id,
+        description: 'test',
+        pre: [step],
+        post: [],
+      };
+      component.definition = { flows: [flow] };
+      await component._onSelectFlows({ detail: { flows: [flow._id] } });
+
+      // execute update
+      await component._onSubmitFlow({ detail: { values } });
+
+      expect(component.definition.flows.length).toEqual(1);
+      expect(component.definition.flows[0]._id).toEqual(_id);
+      expect(component.definition.flows[0].name).toEqual('');
+      expect(component.definition.flows[0].condition).toEqual('');
     });
   });
 });

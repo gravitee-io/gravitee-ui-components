@@ -839,7 +839,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _onSubmitFlow({ detail: { values } }) {
     const selectedFlow = this.getSelectedFlow();
-    const selectedFlowUpdated = Object.assign({}, selectedFlow, values);
+    const _values = Object.assign({}, this._createFlowFromSchema(), values);
+    const selectedFlowUpdated = Object.assign({}, selectedFlow, _values);
     if (!deepEqual(selectedFlow, selectedFlowUpdated)) {
       Object.assign(selectedFlow, selectedFlowUpdated, { _dirty: true });
       this.isDirty = true;
@@ -1227,6 +1228,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         }
         if (entry.default !== undefined) {
           property[key] = entry.default;
+        } else if (entry.type === 'string') {
+          property[key] = '';
         }
       }
     }
