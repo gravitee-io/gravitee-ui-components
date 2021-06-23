@@ -81,7 +81,6 @@
     "@storybook/components": "6.3.6",
     "@storybook/theming": "6.3.6",
     "@storybook/web-components": "6.3.6",
-    "asciidoc-loader": "0.2.0",
     "asciidoctor": "2.2.4",
     "asciidoctor-highlight.js": "0.3.0",
     "babel-jest": "27.0.6",
