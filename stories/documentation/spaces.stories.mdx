@@ -1,0 +1,33 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Guideline / Spaces" />
+
+# Space sizes
+
+To avoid hand-picking values from a limitless pool any time you need a `margin` or `padding` size, here are the space size to use in the Gravitee.io consoles:
+
+export const loremIpsum = 'The quick brown fox jumps over the lazy dog';
+
+export const spaceScales = [
+  { name: '4px', space: 4 },
+  { name: '8px', space: 8 },
+  { name: '12px', space: 12 },
+  { name: '16px', space: 16 },
+  { name: '24px', space: 24 },
+  { name: '32px', space: 32 },
+  { name: '48px', space: 48 },
+  { name: '64px', space: 64 },
+  { name: '96px', space: 96 },
+  { name: '128px', space: 128 },
+  { name: '192px', space: 192 },
+  { name: '256px', space: 256 },
+];
+
+<div>
+  {spaceScales.map(({ name, space }) => (
+    <div key={name} style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+      <div style={{ width: '50px' }}>{name}</div>
+      <div style={{ width: name, backgroundColor: 'red', height: '16px' }} />
+    </div>
+  ))}
+</div>
