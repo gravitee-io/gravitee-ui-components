@@ -14,6 +14,7 @@
     "coverage/**",
     "dist/**",
     ".*/**",
+    "**/*.mdx",
     "**/.DS_Store",
     "**/Thumbs.db",
     "**/*.adoc",
