@@ -1,0 +1,30 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Guideline / Fonts" />
+
+# Font sizes
+
+To avoid hand-picking values from a limitless pool any time you need a font size, here are the font size to use in the Gravitee.io consoles:
+
+export const loremIpsum = 'The quick brown fox jumps over the lazy dog';
+
+export const fontScales = [
+  { name: '--gv-theme-font-size-xs', fontSize: '10px' },
+  { name: '--gv-theme-font-size-s', fontSize: '12px' },
+  { name: '--gv-theme-font-size-m', fontSize: '14px' },
+  { name: '--gv-theme-font-size-l', fontSize: '16px' },
+  { name: '--gv-theme-font-size-xl', fontSize: '26px' },
+  { name: '--gv-theme-font-size-xxl', fontSize: '30px' },
+  { name: '--gv-theme-font-size-3xl', fontSize: '48px' },
+];
+
+<div>
+  {fontScales.map((fontScale) => (
+    <div key={fontScale.name} style={{ marginTop: '40px' }}>
+      <div>
+        {fontScale.fontSize}: <code>{fontScale.name}</code>
+      </div>
+      <div style={{ fontSize: fontScale.fontSize, marginTop: '12px' }}>{loremIpsum}</div>
+    </div>
+  ))}
+</div>
