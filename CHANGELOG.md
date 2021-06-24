@@ -1,3 +1,10 @@
+## [3.8.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.8.0...v3.8.1) (2021-06-24)
+
+
+### Bug Fixes
+
+* **gv-documentation:** resolve code preview ([b6b2413](https://github.com/gravitee-io/gravitee-ui-components/commit/b6b24135975096513a7597cf5141ed53531cfc21))
+
 # [3.8.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.7.0...v3.8.0) (2021-06-22)
 
 
