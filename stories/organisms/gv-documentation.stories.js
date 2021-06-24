@@ -50,20 +50,63 @@ export const OverrideEmptyMsg = makeStory(conf, {
   ],
 });
 
-export const PolicyReadme = makeStory(conf, {
-  items: [{ text: content }],
+export const Asciidoctor = makeStory(conf, {
+  items: [
+    {
+      innerHTML: `
+    <div slot="content">${content}</div>
+  `,
+    },
+  ],
+});
+
+export const Text = makeStory(conf, {
+  items: [
+    {
+      type: 'text',
+      innerHTML: `
+      <div slot="content">
+        My documentation content...
+      </div>
+    `,
+    },
+  ],
+});
+
+export const HTML = makeStory(conf, {
+  items: [
+    {
+      type: 'html',
+      innerHTML: `
+      <div slot="content">
+        <h2>description</h2>
+        <div>My documentation content...</div>
+      </div>
+    `,
+    },
+  ],
 });
 
 export const WithoutHeader = makeStory(conf, {
-  items: [{ text: content, 'without-header': true }],
+  items: [
+    {
+      'without-header': true,
+      innerHTML: `
+    <div slot="content">${content}</div>
+  `,
+    },
+  ],
 });
 
 export const Async = makeStory(conf, {
-  items: [{ text: '', skeleton: true }],
+  items: [{}],
   simulations: [
     storyWait(1000, ([component]) => {
-      component.text = content;
-      component.removeAttribute('skeleton');
+      component.innerHTML = `<div slot="content">${content}</div>`;
+    }),
+    storyWait(2000, ([component]) => {
+      component.innerHTML = `<div slot="content"><h2>Description</h2><div>....</div></div>`;
+      component.type = 'html';
     }),
   ],
 });

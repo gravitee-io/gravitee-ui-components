@@ -290,11 +290,9 @@ export class GvResources extends KeyboardElement(LitElement) {
   }
 
   _renderDoc() {
-    return html`<gv-documentation
-      .text="${this.documentation.content}"
-      .image="${this.documentation.image}"
-      @gv-documentation:close="${this._onCloseDocumentation}"
-    ></gv-documentation>`;
+    return html`<gv-documentation .image="${this.documentation.image}" @gv-documentation:close="${this._onCloseDocumentation}"
+      ><div slot="content">${this.documentation.content}</div></gv-documentation
+    >`;
   }
 
   _renderBottom() {

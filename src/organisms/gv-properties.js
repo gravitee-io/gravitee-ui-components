@@ -582,11 +582,9 @@ export class GvProperties extends KeyboardElement(LitElement) {
     if (this._propertySchemaForm && this._showDocumentation) {
       return html`<gv-resizable-views no-overflow direction="horizontal">
         ${this._renderForm()}
-        <gv-documentation
-          slot="bottom"
-          .text="${this._providerDocumentation}"
-          @gv-documentation:close="${this._hideDocumentation}"
-        ></gv-documentation>
+        <gv-documentation slot="bottom" @gv-documentation:close="${this._hideDocumentation}"
+          ><div slot="content">${this._providerDocumentation}</div></gv-documentation
+        >
       </gv-resizable-views>`;
     } else if (this._propertySchemaForm) {
       return this._renderForm();

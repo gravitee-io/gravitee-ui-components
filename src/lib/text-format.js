@@ -17,8 +17,6 @@
 export function loadAsciiDoctor() {
   if (window._gvAsciidoctor == null) {
     return Promise.all([import('asciidoctor'), import('asciidoctor-highlight.js')]).then(([asciidoctor, highlightJsExt]) => {
-      window._gvAsciidoctor = asciidoctor.default();
-      highlightJsExt.default.register(window._gvAsciidoctor.Extensions);
       return setAsciiDoctorAsGlobal(asciidoctor.default, highlightJsExt.default);
     });
   }
@@ -33,37 +31,42 @@ export function setAsciiDoctorAsGlobal(asciidoctor, highlightJsExt) {
   return window._gvAsciidoctor;
 }
 
-export function toDom(text, type = 'adoc', small = false) {
-  return loadAsciiDoctor().then((asciidoctor) => {
-    if (text) {
-      let innerHTML = '';
-      if (type === 'adoc') {
-        innerHTML = asciidoctor.convert(text, {
-          attributes: {
-            showtitle: true,
-            'source-highlighter': 'highlightjs-ext',
-          },
-        });
-      } else {
-        throw new Error(`Library not found for type : '${type}' | ${text}`);
-      }
-
-      const element = document.createElement('div');
+export async function toDom(text, type = 'adoc', small = false, defaultStyle = true) {
+  if (text) {
+    const innerHTML = '';
+    const element = document.createElement('div');
+    if (type === 'adoc') {
+      const asciidoctor = await loadAsciiDoctor();
+      element.innerHTML = asciidoctor.convert(text, {
+        attributes: {
+          showtitle: true,
+          'source-highlighter': 'highlightjs-ext',
+        },
+      });
+    } else if (type === 'text') {
+      element.innerText = text;
+    } else if (type === 'html') {
       element.innerHTML = innerHTML;
+    } else {
+      throw new Error(`Library not found for type : '${type}' | ${text}`);
+    }
+    if (defaultStyle) {
       element.style.width = '100%';
       element.style.maxWidth = '1000px';
       element.style.margin = '0 auto';
-      element.classList.add('markdown-body');
-      if (small) {
-        element.classList.add('small');
-      }
-      const titleElement = element.querySelector('h1');
-      let title = '';
-      if (titleElement) {
-        title = titleElement.textContent;
-      }
-
-      return { title, element };
     }
-  });
+
+    element.classList.add('markdown-body');
+
+    if (small) {
+      element.classList.add('small');
+    }
+    const titleElement = element.querySelector('h1');
+    let title = '';
+    if (titleElement) {
+      title = titleElement.textContent;
+    }
+
+    return { title, element };
+  }
 }

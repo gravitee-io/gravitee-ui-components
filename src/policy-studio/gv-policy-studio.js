@@ -963,20 +963,20 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         <div slot="top">${this._renderFlowStepForm(readonlyMode)}</div>
         <div slot="bottom">
           <gv-documentation
-            .text="${this.documentation.content}"
             .image="${this.documentation.image}"
             ?disabled="${this._currentAskConfirmation}"
             @gv-documentation:close="${this._onCloseDocumentation}"
-          ></gv-documentation>
+            ><div slot="content">${this.documentation.content}</div></gv-documentation
+          >
         </div>
       </gv-resizable-views>`;
     } else if (this.documentation) {
       return html`<gv-documentation
-        .text="${this.documentation.content}"
         .image="${this.documentation.image}"
         ?disabled="${this._currentAskConfirmation}"
         @gv-documentation:close="${this._onCloseDocumentation}"
-      ></gv-documentation>`;
+        ><div slot="content">${this.documentation.content}</div></gv-documentation
+      >`;
     } else if (this._flowStepSchema) {
       return this._renderFlowStepForm(readonlyMode);
     }

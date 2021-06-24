@@ -19,16 +19,30 @@ import { toDom } from '../lib/text-format';
 import { empty } from '../styles/empty';
 import { classMap } from 'lit-html/directives/class-map';
 
+/**
+ *  Documentation component
+ *
+ * ⚠️ This component is based on `asciidoctor`, `highlight.js` and `asciidoctor-highlight.js`.
+ * To use this component in your project be sure the dependencies are installed or
+ * install them with: `npm install asciidoctor highlight.js asciidoctor-highlight.js --save`
+ *
+ * @attr {String} type - Type of content
+ * @attr {String} title - Title used in header
+ * @attr {String} image - Image or icon to display in header
+ * @attr {Boolean} disabled - true if component is disabled
+ * @attr {Boolean} without-header - true if component should not have header with title and actions
+ */
 export class GvDocumentation extends LitElement {
   static get properties() {
     return {
-      text: { type: String },
       type: { type: String },
       image: { type: String },
-      _dom: { type: Object, attribute: false },
+      title: { type: String },
       disabled: { type: Boolean },
       withoutHeader: { type: Boolean, attribute: 'without-header' },
       _cssLoaded: { type: Boolean, attribute: false },
+      _contentReady: { type: Boolean, attribute: false },
+      _content: { type: String, attribute: false },
     };
   }
 
@@ -96,7 +110,7 @@ export class GvDocumentation extends LitElement {
           height: 100%;
         }
 
-        .doc-content {
+        .box {
           background: white;
           display: none;
           flex-grow: 1;
@@ -113,7 +127,8 @@ export class GvDocumentation extends LitElement {
           white-space: pre-wrap;
         }
 
-        .empty {
+        .empty,
+        .doc-content {
           display: none;
         }
 
@@ -127,6 +142,9 @@ export class GvDocumentation extends LitElement {
   constructor() {
     super();
     this.type = 'adoc';
+    this._contentReady = false;
+    this._cssLoaded = false;
+    this._empty = true;
   }
 
   _onCloseDocumentation() {
@@ -140,35 +158,39 @@ export class GvDocumentation extends LitElement {
     return html`<gv-icon shape="code:question"></gv-icon>`;
   }
 
-  shouldUpdate(props) {
-    if (props.has('text')) {
-      toDom(this.text, this.type, true).then((_dom) => {
-        this._dom = _dom;
-        if (this._dom) {
-          const title = this._dom.element.querySelector('h1');
-          if (title && !this.withoutHeader) {
-            title.remove();
-          }
-          this._dom.element.querySelectorAll('a').forEach((link) => (link.target = '_blank'));
-        }
-      });
-      return false;
-    }
-    return super.shouldUpdate(props);
+  isNativeContent() {
+    return !['adoc'].includes(this.type);
   }
 
   _onLoad() {
     this._cssLoaded = true;
   }
 
-  render() {
-    let title = '';
-    let content;
-    if (this._dom) {
-      title = this._dom.title;
-      content = this._dom.element;
+  async _onContentChange(event) {
+    if (this.type === 'adoc') {
+      const slot = event.target;
+      const nodes = slot.assignedNodes();
+      if (nodes.length > 0) {
+        const dom = await toDom(nodes[0].innerHTML, this.type, true, false);
+        if (dom) {
+          const title = dom.element.querySelector('h1');
+          if (title && !this.withoutHeader) {
+            title.remove();
+            this.title = dom.title;
+          }
+          dom.element.querySelectorAll('a').forEach((link) => (link.target = '_blank'));
+          this._content = dom.element;
+          this._empty = false;
+          this._contentReady = true;
+        }
+      }
+    } else {
+      this._empty = false;
+      this._contentReady = true;
     }
+  }
 
+  render() {
     return html`<link @load="${this._onLoad}" rel="stylesheet" href="css/documentation.css" />
       <div class="container">
         ${this.withoutHeader
@@ -185,12 +207,20 @@ export class GvDocumentation extends LitElement {
                       title="Close"
                     ></gv-button>`}
               </div>
-              <div class="title">${title}</div>
+              <div class="title">${this.title}</div>
               <div class="right">${this._renderIcon()}</div>
             </div>`}
-        <div class="${classMap({ 'doc-content': true, show: this._cssLoaded })}">
-          ${content}
-          <slot name="empty" class="${classMap({ empty: true, show: content == null })}">
+        <div class="${classMap({ box: true, show: this._cssLoaded })}">
+          <slot
+            name="content"
+            class="${classMap({
+              'doc-content': true,
+              show: this.isNativeContent(),
+            })}"
+            @slotchange="${this._onContentChange.bind(this)}"
+          ></slot>
+          ${!this.isNativeContent() ? this._content : ''}
+          <slot name="empty" class="${classMap({ empty: true, show: this._empty })}">
             <div>Sorry,the documentation was not found.</div>
             <div>See the documentation about plugins.</div>
           </slot>
