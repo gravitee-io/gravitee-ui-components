@@ -19,6 +19,19 @@ import { toDom } from '../lib/text-format';
 import { empty } from '../styles/empty';
 import { classMap } from 'lit-html/directives/class-map';
 
+/**
+ *  Documentation component
+ *
+ * ⚠️ This component is based on `asciidoctor`, `highlight.js` and `asciidoctor-highlight.js`.
+ * To use this component in your project be sure the dependencies are installed or
+ * install them with: `npm install asciidoctor highlight.js asciidoctor-highlight.js --save`
+ *
+ * @attr {String} text - Documentation content
+ * @attr {String} type - Type of content
+ * @attr {String} image - Image or icon to display in header
+ * @attr {Boolean} disabled - true if component is disabled
+ * @attr {Boolean} without-header - true if component should not have header with title and actions
+ */
 export class GvDocumentation extends LitElement {
   static get properties() {
     return {
