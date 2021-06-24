@@ -85,10 +85,6 @@ export class GvDocumentation extends LitElement {
           width: 35px;
         }
 
-        .documentation-content {
-          padding: 0.5rem 1rem;
-        }
-
         .container {
           flex-grow: 1;
 
@@ -100,7 +96,7 @@ export class GvDocumentation extends LitElement {
           height: 100%;
         }
 
-        .content {
+        .doc-content {
           background: white;
           display: none;
           flex-grow: 1;
@@ -192,7 +188,7 @@ export class GvDocumentation extends LitElement {
               <div class="title">${title}</div>
               <div class="right">${this._renderIcon()}</div>
             </div>`}
-        <div class="${classMap({ content: true, show: this._cssLoaded })}">
+        <div class="${classMap({ 'doc-content': true, show: this._cssLoaded })}">
           ${content}
           <slot name="empty" class="${classMap({ empty: true, show: content == null })}">
             <div>Sorry,the documentation was not found.</div>
