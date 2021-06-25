@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@formatjs/intl-relativetimeformat": "^4.5.9",
+    "@lion/select": "^0.14.1",
     "clipboard-copy": "^3.1.0",
     "codemirror": "^5.59.2",
     "date-fns": "^2.16.1",

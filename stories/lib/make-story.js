@@ -225,7 +225,7 @@ function assignArgsToElement(customElement, element, args = {}) {
   Object.keys(args)
     .filter((arg) => !arg.startsWith('--gv-'))
     .forEach((arg) => {
-      const argType = customElement.attributes.find((t) => t.name === arg);
+      const argType = customElement.attributes != null && customElement.attributes.find((t) => t.name === arg);
       const value = args[arg];
       if (argType) {
         const isBoolean = argType.type.toLowerCase().startsWith('boolean');

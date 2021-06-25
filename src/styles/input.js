@@ -139,7 +139,8 @@ export const input = css`
   /* SIZE */
   .large input,
   .large ::slotted(input),
-  .large .input {
+  .large .input,
+  :host([large]) ::slotted(input){
     padding: var(--input-large--p);
     font-size: var(--input-large--fz);
     line-height: var(--input-large--lh);
@@ -148,7 +149,8 @@ export const input = css`
 
   .medium input,
   .medium ::slotted(input),
-  .medium .input {
+  .medium .input,
+  :host([medium]) ::slotted(input) {
     padding: var(--input-medium--p);
     font-size: var(--input-medium--fz);
     line-height: var(--input-medium--lh);
@@ -157,7 +159,8 @@ export const input = css`
 
   .small input,
   .small ::slotted(input),
-  .small .input {
+  .small .input,
+  :host([small]) ::slotted(input) {
     padding: var(--input-small--p);
     font-size: var(--input-small--fz);
     line-height: var(--input-small--lh);

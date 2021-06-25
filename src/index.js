@@ -13,6 +13,7 @@ export { GvLink } from './atoms/gv-link';
 export { GvMessage } from './atoms/gv-message';
 export { GvMetric } from './atoms/gv-metric';
 export { GvRelativeTime } from './atoms/gv-relative-time';
+export { GvSelectNew } from './atoms/gv-select-new';
 export { GvSelect } from './atoms/gv-select';
 export { GvSpinner } from './atoms/gv-spinner';
 export { GvState } from './atoms/gv-state';
