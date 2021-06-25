@@ -1,3 +1,12 @@
+## [3.8.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.8.1...v3.8.2) (2021-06-25)
+
+
+### Bug Fixes
+
+* reset flow id to avoid flow overriding in AM ([bb645ed](https://github.com/gravitee-io/gravitee-ui-components/commit/bb645ed517d572fc92b6d091fe5be1a6a96203d4))
+* **gv-policy-studio:** allow to reset condition ([9f84aff](https://github.com/gravitee-io/gravitee-ui-components/commit/9f84affbcd76db1ec3711b5d7710b470955b565c)), closes [#388](https://github.com/gravitee-io/gravitee-ui-components/issues/388)
+* **gv-policy-studio:** resolve consecutive saves ([3b9833d](https://github.com/gravitee-io/gravitee-ui-components/commit/3b9833dbae6423e478f1cadbcd5d934bd14e031a))
+
 ## [3.8.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.8.0...v3.8.1) (2021-06-24)
 
 
