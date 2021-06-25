@@ -29,7 +29,7 @@ import './gv-flow-step';
 import './gv-policy-studio-menu';
 import { empty } from '../styles/empty';
 import { cache } from 'lit-html/directives/cache';
-import { deepClone, deepEqual, uuid } from '../lib/utils';
+import { deepClone, deepEqual } from '../lib/utils';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 
 const FLOW_STEP_FORM_ID = 'flow-step-form';
@@ -492,6 +492,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       await this._askToValidateForms();
 
       const policy = detail.policy;
+      const targetFlow = this._findFlowById(detail.flowId);
 
       let name = policy.name;
       let description = '';
@@ -504,13 +505,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         description = detail.flowStep.description || '';
         configuration = detail.flowStep.configuration;
       } else {
-        _id = uuid();
+        _id = this._generateFlowStepId(targetFlow._id, detail.flowKey, detail.position);
         _new = true;
       }
 
       const flowStep = { _id, _new, name, policy: policy.id, description, enabled: true, configuration };
-
-      const targetFlow = this._findFlowById(detail.flowId);
       const sourceFlow = detail.sourceFlowId != null ? this._findFlowById(detail.sourceFlowId) : targetFlow;
 
       if (detail.sourcePosition != null) {
@@ -816,6 +815,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     ) {
       const flow = this._findFlowById(this._currentFlowStep.flow._id);
       const position = flow[this._currentFlowStep.group].findIndex((step) => step._id === this._currentFlowStep.step._id);
+
       flow[this._currentFlowStep.group][position].description = description;
       flow[this._currentFlowStep.group][position].configuration = deepClone(configuration);
       delete flow[this._currentFlowStep.group][position]._new;
@@ -1003,19 +1003,24 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return this._generateId(plan.id, plan.flows, force, true);
   }
 
+  _generateFlowStepId(flowId, flowKey, position) {
+    return `${flowId}_${flowKey}_${position}`;
+  }
+
   _generateId(prefix, list, force = false, isFlow = false) {
     if (list) {
       return list.map((e, index) => {
+        const _id = `${prefix}_${index}`;
         if (isFlow) {
           if (e.pre) {
-            e.pre.forEach((step) => (step._id = uuid()));
+            e.pre.forEach((step, stepIndex) => (step._id = this._generateFlowStepId(_id, 'pre', stepIndex)));
           }
           if (e.post) {
-            e.post.forEach((step) => (step._id = uuid()));
+            e.post.forEach((step, stepIndex) => (step._id = this._generateFlowStepId(_id, 'post', stepIndex)));
           }
         }
         if (force || e._id == null) {
-          return { ...e, _id: `${prefix}_${index}` };
+          return { ...e, _id };
         }
         return e;
       });
