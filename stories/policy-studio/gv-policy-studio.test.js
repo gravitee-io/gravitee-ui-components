@@ -293,6 +293,7 @@ describe('P O L I C Y  S T U D I O', () => {
         ...flow,
         _dirty: true,
         _id: expect.any(String),
+        id: null,
         post: [{ _id: expect.any(String), policy: 'rate-limit', name: 'Rate limit' }],
       };
       expect(component.definition.flows.length).toEqual(2);

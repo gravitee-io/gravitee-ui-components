@@ -1202,6 +1202,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         : {
             ...duplicate,
             _id: null,
+            // reset the id to avoid issue with AM that persists the ID
+            id: null,
             _dirty: true,
           };
 
