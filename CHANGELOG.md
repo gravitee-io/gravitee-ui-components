@@ -1,3 +1,10 @@
+# [3.9.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.8.2...v3.9.0) (2021-06-28)
+
+
+### Features
+
+* **gv-chart-gauge:** update gauge chart options ([46a38eb](https://github.com/gravitee-io/gravitee-ui-components/commit/46a38eb4c3d40d1e794b88e365f5880f8c25b935))
+
 ## [3.8.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.8.1...v3.8.2) (2021-06-25)
 
 
