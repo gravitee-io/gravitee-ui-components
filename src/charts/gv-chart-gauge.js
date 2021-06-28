@@ -28,7 +28,8 @@ import HCSolidGauge from 'highcharts/modules/solid-gauge';
  *
  * @attr {number} max - The maximum value of the gauge.
  * @attr {Array} series - Array of the series to display.
- *
+ * @attr {Object} tooltip - The list of tooltip attributes to overwrite.
+ * @attr {Object} pane - The pane serves as a container for axes and backgrounds for circular gauges and polar charts.
  */
 export class GvChartGauge extends ChartElement(LitElement) {
   constructor() {
@@ -54,6 +55,7 @@ export class GvChartGauge extends ChartElement(LitElement) {
       },
       tooltip: {
         enabled: false,
+        ...this.tooltip,
       },
 
       pane: {
@@ -67,6 +69,7 @@ export class GvChartGauge extends ChartElement(LitElement) {
             borderWidth: 0,
           },
         ],
+        ...this.pane,
       },
 
       yAxis: [
