@@ -15,7 +15,6 @@
  */
 import '../../src/theme/gv-theme';
 import customElements from '../../.docs/custom-elements.json';
-import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Documentation/Theme',
@@ -65,37 +64,3 @@ export const FontSizes = () => {
   });
   return container;
 };
-
-const images = gvTheme.cssProperties
-  .filter((cssProperty) => cssProperty.type.toLowerCase() === 'image')
-  .map((prop) => ({
-    src: prop.default
-      .replace(/"/g, '')
-      .replace(/url\('/, '')
-      .replace(/'\)/, ''),
-    alt: prop.description,
-    title: prop.description,
-  }));
-
-export const Images = makeStory(
-  {
-    component: 'gv-image',
-    css: `
-    :host {
-      display: flex;
-      flex-wrap: wrap;
-      height: 600px;
-    }
-    gv-image {
-      min-height: 50px;
-      min-width: 50px;
-      width: 100%;
-      --gv-image--of: contain;
-      margin: 1rem;
-    }
-  `,
-  },
-  {
-    items: images,
-  },
-);
