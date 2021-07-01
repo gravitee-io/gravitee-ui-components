@@ -110,10 +110,11 @@ export class GvCode extends InputElement(LitElement) {
 
       try {
         if (options.mode != null) {
-          if (options.mode === 'asciidoc') {
+          const mode = typeof options.mode === 'string' ? options.mode : options.mode.name;
+          if (mode === 'asciidoc') {
             await import('codemirror-asciidoc/lib/asciidoc');
           } else {
-            await import(`codemirror/mode/${options.mode}/${options.mode}`);
+            await import(`codemirror/mode/${mode}/${mode}`);
           }
         }
       } catch (er) {}
@@ -229,8 +230,11 @@ export class GvCode extends InputElement(LitElement) {
 
   _getProcessedOptions() {
     const options = { ...this.options };
-    if (options.mode === 'json') {
-      options.mode = 'javascript';
+    if (options.mode === 'json' || options.mode === 'application/json') {
+      options.mode = {
+        name: 'javascript',
+        json: true,
+      };
     }
     if (this.placeholder) {
       options.placeholder = this.placeholder;

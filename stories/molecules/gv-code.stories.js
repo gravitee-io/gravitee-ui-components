@@ -119,6 +119,26 @@ export const Xml = makeStory(conf, {
   items: [{ value: xmlSrc, options: xmlOptions }],
 });
 
+
+const applicationJsonSrc = `{
+  "id": "foobar",
+  "data": []
+}`;
+
+const applicationJsonOptions = {
+  placeholder: 'Put the body content here',
+  lineNumbers: true,
+  allowDropFileTypes: true,
+  autoCloseBrackets: true,
+  matchBrackets: true,
+  mode: 'application/json',
+};
+
+export const applicationJson = makeStory(conf, {
+  items: [{ value: applicationJsonSrc, options: applicationJsonOptions }],
+});
+
+
 const jsSrc = `const transform => (items = []) {
   return items.map((item, index) => ({ ...item, ...{ index } }));
 }
