@@ -67,6 +67,7 @@ export class GvCode extends InputElement(LitElement) {
     return {
       ...super.properties,
       options: { type: Object },
+      clipboard: { type: Boolean },
       _clipboardIcon: { type: String },
       _codeMirror: { type: Object },
       rows: { type: Number },
@@ -314,7 +315,7 @@ export class GvCode extends InputElement(LitElement) {
         gv-button {
           position: absolute;
           right: 0;
-          bottom: 0;
+          top: 0;
           z-index: 10;
         }
 
