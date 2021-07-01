@@ -48,6 +48,7 @@ import { empty } from '../styles/empty';
  *
  * @fires gv-code:input - input events with the `value` on `detail`
  * @fires gv-code:ready - event dispatch when component is ready
+ * @fires gv-code:clipboard-copy - event dispatch when component the `value` has been copied to clipboard
  *
  * @attr {String} label - code language
  * @attr {String} value - code content to be highlighted
@@ -99,6 +100,7 @@ export class GvCode extends InputElement(LitElement) {
             copy(this.value);
             this._copied = true;
             this._clipboardIcon = shapeCopied;
+            dispatchCustomEvent(this, 'clipboard-copy');
             setTimeout(() => {
               this._copied = false;
               this._clipboardIcon = shapeClipboard;
