@@ -1,3 +1,11 @@
+## [3.9.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.9.1...v3.9.2) (2021-07-01)
+
+
+### Bug Fixes
+
+* **gv-code:** manage "application/json" type ([f2c8714](https://github.com/gravitee-io/gravitee-ui-components/commit/f2c8714312972854511a9a4910d7710c3ebc8733))
+* **gv-code:** send an event when value is copied to clipboard ([68ad3c1](https://github.com/gravitee-io/gravitee-ui-components/commit/68ad3c13d1aeb26910dbb5f03d1dc9885ddffd12))
+
 ## [3.9.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.9.0...v3.9.1) (2021-07-01)
 
 
