@@ -65,6 +65,10 @@ describe('<gv-code>', () => {
 
     // with json
     component.options.mode = 'json';
-    expect(component._getProcessedOptions().mode).toEqual('javascript');
+    expect(component._getProcessedOptions().mode).toEqual({ name: 'javascript', json: true });
+
+    // with application/json
+    component.options.mode = 'application/json';
+    expect(component._getProcessedOptions().mode).toEqual({ name: 'javascript', json: true });
   });
 });
