@@ -1,3 +1,10 @@
+## [3.9.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.9.0...v3.9.1) (2021-07-01)
+
+
+### Bug Fixes
+
+* **gv-code:** re-activate clipboard icon ([3a5c64c](https://github.com/gravitee-io/gravitee-ui-components/commit/3a5c64cfb0aebe34854523fd46ebbce04760da95))
+
 # [3.9.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.8.2...v3.9.0) (2021-06-28)
 
 
