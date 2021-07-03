@@ -1,3 +1,10 @@
+# [3.10.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.9.2...v3.10.0) (2021-07-03)
+
+
+### Features
+
+* **build:** remove source minification when building the package ([a115847](https://github.com/gravitee-io/gravitee-ui-components/commit/a11584726af6af627d0abe7b93443a93f87ef563))
+
 ## [3.9.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.9.1...v3.9.2) (2021-07-01)
 
 
