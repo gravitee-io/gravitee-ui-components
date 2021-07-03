@@ -15,7 +15,7 @@
  */
 import notes from '../../.docs/gv-documentation.md';
 import '../../src/organisms/gv-documentation';
-import content from '../resources/adoc/policy-mock-readme.adoc';
+import { policyMockReadme } from '../resources/adoc/policy-mock-readme';
 import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
@@ -51,18 +51,18 @@ export const OverrideEmptyMsg = makeStory(conf, {
 });
 
 export const PolicyReadme = makeStory(conf, {
-  items: [{ text: content }],
+  items: [{ text: policyMockReadme }],
 });
 
 export const WithoutHeader = makeStory(conf, {
-  items: [{ text: content, 'without-header': true }],
+  items: [{ text: policyMockReadme, 'without-header': true }],
 });
 
 export const Async = makeStory(conf, {
   items: [{ text: '', skeleton: true }],
   simulations: [
     storyWait(1000, ([component]) => {
-      component.text = content;
+      component.text = policyMockReadme;
       component.removeAttribute('skeleton');
     }),
   ],

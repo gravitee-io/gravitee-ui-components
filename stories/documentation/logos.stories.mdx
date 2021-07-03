@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Guideline / Logos" />
+
+# Logos
+
+This UI library contains Gravitee.io logos in different flavors and colors:
+ - 2 sizes: full width (the default one) and a square one
+ - 3 colors: cyan, dark blue and white
+
+It also includes a favicon and a Gif loader.
+All theses images are available in the published NPM package inside the `@gravitee/ui-components/assets/images` folder.
+
+To use them in your app you can either copy paste the images or reference them directly in your CSS file like this:
+```css
+.spinner {
+    ...
+    background-image: url('../node_modules/@gravitee/ui-components/assets/images/gravitee-loader.gif');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+```
+
+⚠️ If you're using Webpack (or another builder) do not forget to add some configuration to be sure the images from `@gravitee/ui-components/assets/images` will well end in the final bundle
+
+## Full Logos
+
+<div style={{display:"flex", flexDirection:"row"}}>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center" }}>
+    <code>gravitee-logo-cyan.svg</code>
+    <img style={{ padding:'8px', marginTop: '8px' }} src="./images/gravitee-logo-cyan.svg"/>
+  </div>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center" }}>
+    <code>gravitee-logo-dark-blue.svg</code>
+    <img style={{ padding:'8px', marginTop: '8px' }} src="./images/gravitee-logo-dark-blue.svg"/>
+  </div>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center"}} >
+    <code>gravitee-logo-white.svg</code>
+    <img style={{backgroundColor:'hsl(236, 38%, 17%)', padding:'8px', marginTop: '8px' }} src="./images/gravitee-logo-white.svg"/>
+  </div>
+</div>
+
+## Square Logos
+
+<div style={{display:"flex", flexDirection:"row"}}>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center", width: "33%" }}>
+    <code>gravitee-g-logo-cyan.svg</code>
+    <img style={{ padding:'8px', marginTop: '8px', maxWidth: "100px" }} src="./images/gravitee-g-logo-cyan.svg"/>
+  </div>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center", width: "33%" }}>
+    <code>gravitee-g-logo-dark-blue.svg</code>
+    <img style={{ padding:'8px', marginTop: '8px', maxWidth: "100px" }} src="./images/gravitee-g-logo-dark-blue.svg"/>
+  </div>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center", width: "33%"}} >
+    <code>gravitee-g-logo-white.svg</code>
+    <img style={{backgroundColor:'hsl(236, 38%, 17%)', padding:'8px', marginTop: '8px', maxWidth: "100px" }} src="./images/gravitee-g-logo-white.svg"/>
+  </div>
+</div>
+
+
+## Favicon
+
+<div style={{display:"flex", flexDirection:"row"}}>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center", width: "33%" }}>
+    <code>gravitee-favicon.png</code>
+    <img style={{ padding:'8px', marginTop: '8px', maxWidth: "100px" }} src="./images/gravitee-favicon.png"/>
+  </div>
+</div>
+
+
+## Loader
+
+<div style={{display:"flex", flexDirection:"row"}}>
+  <div style={{padding:'16px', display:"flex", flexDirection:"column", alignItems: "center", width: "33%"}} >
+    <code>gravitee-loader.gif</code>
+    <img style={{padding:'8px', marginTop: '8px', maxWidth: "100px" }} src="./images/gravitee-loader.gif"/>
+  </div>
+</div>
