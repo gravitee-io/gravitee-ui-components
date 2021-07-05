@@ -1,3 +1,10 @@
+## [3.10.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.0...v3.10.1) (2021-07-05)
+
+
+### Bug Fixes
+
+* **gv-icon:** revert devices icons update ([79a54ec](https://github.com/gravitee-io/gravitee-ui-components/commit/79a54ec2eade62ff342ca42946e503f1a9fdb3f7))
+
 # [3.10.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.9.2...v3.10.0) (2021-07-03)
 
 
