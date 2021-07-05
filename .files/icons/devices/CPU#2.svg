@@ -1,1 +1,16 @@
-<svg fill="none" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><g fill="#000"><rect height="36" opacity=".3" rx="1" width="36" x="6" y="6"/><path clip-rule="evenodd" d="m28 18h-8c-1.1046 0-2 .8954-2 2v8c0 1.1046.8954 2 2 2h8c1.1046 0 2-.8954 2-2v-8c0-1.1046-.8954-2-2-2zm-6 8v-4h4v4z" fill-rule="evenodd" opacity=".3"/><rect height="4" opacity=".3" rx=".5" width="4" x="10" y="10"/><rect height="4" opacity=".3" rx=".5" width="4" x="10" y="18"/><rect height="4" opacity=".3" rx=".5" width="4" x="10" y="26"/><rect height="4" opacity=".3" rx=".5" width="4" x="18" y="10"/><rect height="4" opacity=".3" rx=".5" width="4" x="26" y="10"/><rect height="4" opacity=".3" rx=".5" width="4" x="34" y="10"/><rect height="4" opacity=".3" rx=".5" width="4" x="34" y="18"/><rect height="4" opacity=".3" rx=".5" width="4" x="34" y="26"/><rect height="4" opacity=".3" rx=".5" width="4" x="10" y="34"/><rect height="4" opacity=".3" rx=".5" width="4" x="18" y="34"/><rect height="4" opacity=".3" rx=".5" width="4" x="26" y="34"/><rect height="4" opacity=".3" rx=".5" width="4" x="34" y="34"/></g></svg>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect opacity="0.3" x="6" y="6" width="36" height="36" rx="1" fill="black"/>
+<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M28 18H20C18.8954 18 18 18.8954 18 20V28C18 29.1046 18.8954 30 20 30H28C29.1046 30 30 29.1046 30 28V20C30 18.8954 29.1046 18 28 18ZM22 26V22H26V26H22Z" fill="black"/>
+<rect opacity="0.3" x="10" y="10" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="10" y="18" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="10" y="26" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="18" y="10" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="26" y="10" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="34" y="10" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="34" y="18" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="34" y="26" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="10" y="34" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="18" y="34" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="26" y="34" width="4" height="4" rx="0.5" fill="black"/>
+<rect opacity="0.3" x="34" y="34" width="4" height="4" rx="0.5" fill="black"/>
+</svg>
