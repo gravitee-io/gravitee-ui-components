@@ -47,6 +47,7 @@ const conf = {
     }
     gv-icon {
       display:none;
+      --gv-icon--c: var(--gv-theme-color-info)
     }
   `,
 };
@@ -67,3 +68,8 @@ export const all = makeStory(conf, {
     }),
   ],
 });
+
+all.parameters = {
+  ...all.parameters,
+  chromatic: { disable: false, delay: 2000 },
+};
