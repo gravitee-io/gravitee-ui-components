@@ -78,6 +78,10 @@ export const outlined = makeStory(conf, {
   items: items.map((p) => ({ ...p, outlined: true })),
 });
 
+export const texted = makeStory(conf, {
+  items: items.map((p) => ({ ...p, texted: true })),
+});
+
 export const disabled = makeStory(conf, {
   items: items.map((p) => ({ ...p, disabled: true })),
 });
