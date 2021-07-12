@@ -135,7 +135,7 @@
     "codemirror-asciidoc": "^1.0.4",
     "@highcharts/map-collection": "^1.0.0",
     "highcharts": "^8.0.0 || ^9.0.0",
-    "highlight.js": "^10.7.0"
+    "highlight.js": "^10.7.0 || ^11.1.0"
   },
   "peerDependenciesMeta": {
     "@asciidoctor/core": {
