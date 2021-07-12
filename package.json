@@ -29,6 +29,7 @@
     "lint:commit": "commitlint --from $(git describe --tags --abbrev=0) --to HEAD --verbose",
     "lint:license": "license-check-and-add check -f license-check-config.json",
     "lint:license:fix": "license-check-and-add add -f license-check-config.json -r $(date +%Y)",
+    "prepare": "husky install",
     "prettier": "prettier --check \"**/*.{js,html,css,json}\"",
     "prettier:fix": "prettier --write \"**/*.{js,html,css,json}\"",
     "release": "semantic-release",
@@ -39,12 +40,6 @@
     "test": "jest",
     "test:coverage": "npm run test -- --collect-coverage",
     "test:watch": "npm run test -- --watchAll"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
   },
   "commitlint": {
     "extends": [
@@ -109,7 +104,7 @@
     "highcharts": "9.1.2",
     "highlight.js": "11.1.0",
     "html-to-react": "1.4.5",
-    "husky": "4.3.8",
+    "husky": "7.0.1",
     "i18n-extract": "0.6.7",
     "ignore-loader": "0.1.2",
     "jest": "27.0.6",
