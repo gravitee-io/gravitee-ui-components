@@ -60,6 +60,21 @@ jobs:
           name: Run unit tests
           command: npm run test:coverage -- --ci --runInBand
 
+  check-theme-definition:
+    executor:
+      class: small
+      name: node-lts
+    environment:
+      GITHUB_TOKEN: 'secrethub://graviteeio/cicd/graviteebot/github_personal_access_token'
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - secrethub/exec:
+          step-name: Warn users if there is any change on `definition.json` file
+          command: |
+            sh .circleci/post-gh-comment-on-theme-update.sh
+
   build:
     executor:
       class: large
@@ -113,51 +128,53 @@ workflows:
   version: 2.1
   validate:
     jobs:
-      - install
-      - lint-test:
-          requires:
-            - install
-      - build:
-          requires:
-            - install
-      - trigger-chromatic:
-          type: approval
-          requires:
-            - build
-            - lint-test
-          # Ignore this manual step and trigger chromatic automatically on `master`
-          filters:
-            branches:
-              ignore: master
-      - chromatic:
+#      - install
+#      - lint-test:
+#          requires:
+#            - install
+      - check-theme-definition:
           context: gravitee-qa
-          requires:
-            - build
-            - trigger-chromatic
-      - release:
-          pre-steps:
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/infra/npm_token
-                var-name: NPM_TOKEN
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
-                var-name: GITHUB_TOKEN
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/name
-                var-name: GIT_AUTHOR_NAME
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/email
-                var-name: GIT_AUTHOR_EMAIL
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/name
-                var-name: GIT_COMMITTER_NAME
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/email
-                var-name: GIT_COMMITTER_EMAIL
-          context: gravitee-qa
-          requires:
-            - build
-            - lint-test
-          filters:
-            branches:
-              only: master
+#      - build:
+#          requires:
+#            - install
+#      - trigger-chromatic:
+#          type: approval
+#          requires:
+#            - build
+#            - lint-test
+#          # Ignore this manual step and trigger chromatic automatically on `master`
+#          filters:
+#            branches:
+#              ignore: master
+#      - chromatic:
+#          context: gravitee-qa
+#          requires:
+#            - build
+#            - trigger-chromatic
+#      - release:
+#          pre-steps:
+#            - secrethub/env-export:
+#                secret-path: graviteeio/cicd/graviteebot/infra/npm_token
+#                var-name: NPM_TOKEN
+#            - secrethub/env-export:
+#                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+#                var-name: GITHUB_TOKEN
+#            - secrethub/env-export:
+#                secret-path: graviteeio/cicd/graviteebot/git/user/name
+#                var-name: GIT_AUTHOR_NAME
+#            - secrethub/env-export:
+#                secret-path: graviteeio/cicd/graviteebot/git/user/email
+#                var-name: GIT_AUTHOR_EMAIL
+#            - secrethub/env-export:
+#                secret-path: graviteeio/cicd/graviteebot/git/user/name
+#                var-name: GIT_COMMITTER_NAME
+#            - secrethub/env-export:
+#                secret-path: graviteeio/cicd/graviteebot/git/user/email
+#                var-name: GIT_COMMITTER_EMAIL
+#          context: gravitee-qa
+#          requires:
+#            - build
+#            - lint-test
+#          filters:
+#            branches:
+#              only: master

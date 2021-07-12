@@ -7,7 +7,7 @@
           "name": "--gv-theme-color-darker",
           "description": "Primary darker color",
           "type": "color",
-          "default": "#383E3F",
+          "default": "#383E3a",
           "value": "#383E3F"
         },
         {
