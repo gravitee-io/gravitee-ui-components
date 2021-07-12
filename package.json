@@ -2,6 +2,10 @@
   "name": "@gravitee/ui-components",
   "version": "0.0.0",
   "description": "Gravitee.io UI Components library, based on Web Components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gravitee-io/gravitee-ui-components"
+  },
   "license": "Apache-2.0",
   "author": "",
   "main": "src/index.js",
@@ -13,10 +17,6 @@
     "src",
     "wc"
   ],
-  "repository": {
-    "url": "https://github.com/gravitee-io/gravitee-ui-components",
-    "type": "git"
-  },
   "scripts": {
     "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && build-storybook -s assets --quiet",
     "check:i18n": "node tasks/check-i18n.js",
@@ -29,6 +29,7 @@
     "lint:commit": "commitlint --from $(git describe --tags --abbrev=0) --to HEAD --verbose",
     "lint:license": "license-check-and-add check -f license-check-config.json",
     "lint:license:fix": "license-check-and-add add -f license-check-config.json -r $(date +%Y)",
+    "lint:package": "sort-package-json",
     "prepare": "husky install",
     "prettier": "prettier --check \"**/*.{js,html,css,json}\"",
     "prettier:fix": "prettier --write \"**/*.{js,html,css,json}\"",
@@ -48,7 +49,8 @@
   },
   "lint-staged": {
     "*": "npm run lint:license:fix",
-    "*.{js,html,css,json}": "prettier --write"
+    "*.{js,html,css,json}": "prettier --write",
+    "package.json": "npm run lint:package"
   },
   "dependencies": {
     "@formatjs/intl-relativetimeformat": "^4.5.9",
@@ -116,6 +118,7 @@
     "pascal-case": "3.1.2",
     "prettier": "2.3.2",
     "semantic-release": "17.4.4",
+    "sort-package-json": "1.50.0",
     "svgo": "2.3.1",
     "svgstore": "3.0.0-2",
     "text-table": "0.2.0",
@@ -125,15 +128,18 @@
   },
   "peerDependencies": {
     "@asciidoctor/core": "^2.2.4",
+    "@highcharts/map-collection": "^1.0.0",
     "asciidoctor": "^2.2.4",
     "asciidoctor-highlight.js": "^0.3.0",
     "codemirror-asciidoc": "^1.0.4",
-    "@highcharts/map-collection": "^1.0.0",
     "highcharts": "^8.0.0 || ^9.0.0",
     "highlight.js": "^10.7.0 || ^11.1.0"
   },
   "peerDependenciesMeta": {
     "@asciidoctor/core": {
+      "optional": true
+    },
+    "@highcharts/map-collection": {
       "optional": true
     },
     "asciidoctor": {
@@ -143,9 +149,6 @@
       "optional": true
     },
     "codemirror-asciidoc": {
-      "optional": true
-    },
-    "@highcharts/map-collection": {
       "optional": true
     },
     "highcharts": {
