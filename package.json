@@ -57,7 +57,7 @@
     "clipboard-copy": "^3.1.0",
     "codemirror": "^5.59.2",
     "date-fns": "^2.16.1",
-    "jdenticon": "^2.2.0",
+    "jdenticon": "^3.0.0",
     "jsonschema": "^1.4.0",
     "lit-element": "^2.5.1",
     "messageformat": "^2.3.0",
