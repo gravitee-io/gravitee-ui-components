@@ -15,7 +15,7 @@
  */
 import { css, LitElement } from 'lit-element';
 import { html } from 'lit-html';
-import jdenticon from 'jdenticon';
+import { toSvg } from 'jdenticon';
 import { skeleton } from '../styles/skeleton';
 import { styleMap } from 'lit-html/directives/style-map';
 import '../atoms/gv-image';
@@ -124,7 +124,7 @@ export class GvIdentityPicture extends LitElement {
         container.classList.add('skeleton');
       }
       container.title = this.display_name;
-      container.innerHTML = jdenticon.toSvg(this.display_name, size, { backColor: '#FFF' });
+      container.innerHTML = toSvg(this.display_name, size, { backColor: '#FFF' });
       if (this.notification) {
         const notification = document.createElement('span');
         notification.className = 'notification';
