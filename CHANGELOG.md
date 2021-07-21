@@ -1,3 +1,10 @@
+## [3.10.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.2...v3.10.3) (2021-07-21)
+
+
+### Bug Fixes
+
+* fix release by disabling husky hooks on CI ([a343bc9](https://github.com/gravitee-io/gravitee-ui-components/commit/a343bc9be36ab5af04878aa471d529c0c6c75520))
+
 ## [3.10.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.1...v3.10.2) (2021-07-21)
 
 
