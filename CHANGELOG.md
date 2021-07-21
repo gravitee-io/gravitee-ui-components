@@ -1,3 +1,10 @@
+## [3.10.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.1...v3.10.2) (2021-07-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency jdenticon to v3 ([acc6cd8](https://github.com/gravitee-io/gravitee-ui-components/commit/acc6cd89800033b5a719dab63e242a49ff70d647))
+
 ## [3.10.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.0...v3.10.1) (2021-07-05)
 
 
