@@ -109,7 +109,7 @@
     "husky": "7.0.1",
     "i18n-extract": "0.6.7",
     "ignore-loader": "0.1.2",
-    "is-ci": "^3.0.0",
+    "is-ci": "3.0.0",
     "jest": "27.0.6",
     "license-check-and-add": "4.0.2",
     "lint-staged": "11.0.0",
