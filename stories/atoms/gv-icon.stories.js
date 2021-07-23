@@ -16,7 +16,9 @@
 import '../../src/atoms/gv-icon';
 import notes from '../../.docs/gv-icon.md';
 import { icons } from '../../.docs/icons.json';
-import { makeStory, storyWait } from '../lib/make-story';
+import { html } from 'lit-html';
+import { styleMap } from 'lit-html/directives/style-map';
+import { repeat } from 'lit-html/directives/repeat';
 
 export default {
   title: 'Atoms/gv-icon',
@@ -27,47 +29,35 @@ export default {
     a11y: { disable: true },
   },
 };
-const conf = {
-  component: 'gv-icon',
-  css: `
-    :host {
-      display: flex;
-      flex-wrap: wrap;
-    }
 
-    .item {
-      text-align: center;
-      padding: 0.5rem;
-      min-width: 175px;
-      font-size: 11px;
-    }
+const rootStyle = {
+  display: 'flex',
+  'flex-wrap': 'wrap',
+};
 
-    .item gv-icon {
-      display: block;
-    }
-    gv-icon {
-      display:none;
-      --gv-icon--c: var(--gv-theme-color-info)
-    }
+const itemStyle = {
+  'text-align': 'center',
+  padding: '0.5rem',
+  'min-width': '175px',
+  'font-size': '11px',
+  '--gv-icon--c': 'var(--gv-theme-color-info)',
+};
+
+export const all = {
+  render: () => html`
+    <div style="${styleMap(rootStyle)}">
+      ${repeat(
+        icons,
+        (shape) => html`
+          <div style="${styleMap(itemStyle)}">
+            <gv-icon shape="${shape}"></gv-icon>
+            <div>${shape}</div>
+          </div>
+        `,
+      )}
+    </div>
   `,
 };
-const items = icons.map((shape) => ({ shape, title: shape }));
-export const all = makeStory(conf, {
-  items,
-  simulations: [
-    storyWait(0, (components) => {
-      components.forEach((component) => {
-        const item = document.createElement('div');
-        item.className = 'item';
-        component.parentNode.insertBefore(item, component);
-        item.appendChild(component);
-        const title = document.createElement('div');
-        title.innerHTML = component.shape;
-        item.appendChild(title);
-      });
-    }),
-  ],
-});
 
 all.parameters = {
   ...all.parameters,
