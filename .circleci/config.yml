@@ -60,6 +60,18 @@ jobs:
           name: Run unit tests
           command: npm run test:coverage -- --ci --runInBand
 
+  dangerjs:
+    executor:
+      class: small
+      name: node-lts
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run Danger JS
+          command: npm run danger
+
   build:
     executor:
       class: large
@@ -115,6 +127,14 @@ workflows:
     jobs:
       - install
       - lint-test:
+          requires:
+            - install
+      - dangerjs:
+          pre-steps:
+            - secrethub/env-export:
+                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+                var-name: DANGER_GITHUB_API_TOKEN
+          context: gravitee-qa
           requires:
             - install
       - build:
