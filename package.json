@@ -20,6 +20,7 @@
   "scripts": {
     "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && build-storybook -s assets --quiet",
     "check:i18n": "node tasks/check-i18n.js",
+    "danger": "danger",
     "docs": "wca analyze src/** --format markdown --outDir .docs && wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
     "generate:dist": "node tasks/generate-dist.js",
     "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
@@ -89,6 +90,7 @@
     "bundle-phobia-cli": "0.14.13",
     "chromatic": "5.9.2",
     "codemirror-asciidoc": "1.0.4",
+    "danger": "10.6.6",
     "del": "6.0.0",
     "eslint": "7.31.0",
     "eslint-config-prettier": "8.3.0",
