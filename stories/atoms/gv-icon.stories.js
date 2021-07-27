@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-icon';
-import notes from '../../.docs/gv-icon.md';
 import { icons } from '../../.docs/icons.json';
 import { html } from 'lit-html';
 import { styleMap } from 'lit-html/directives/style-map';
@@ -24,7 +23,6 @@ export default {
   title: 'Atoms/gv-icon',
   component: 'gv-icon',
   parameters: {
-    notes,
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
     a11y: { disable: true },
   },

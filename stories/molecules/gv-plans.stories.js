@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-plans';
-import notes from '../../.docs/gv-plans.md';
 import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-plans',
   component: 'gv-plans',
-  parameters: {
-    notes,
-  },
 };
 
 const plans = [

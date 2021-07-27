@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-theme.md';
 import '../../src/theme/gv-theme';
 import customElements from '../../.docs/custom-elements.json';
 import { makeStory } from '../lib/make-story';
@@ -21,9 +20,6 @@ import { makeStory } from '../lib/make-story';
 export default {
   title: 'Documentation/Theme',
   component: 'gv-theme',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

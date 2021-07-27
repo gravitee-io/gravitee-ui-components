@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/organisms/gv-properties';
-import notes from '../../.docs/gv-properties.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Organisms/gv-properties',
   component: 'gv-properties',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

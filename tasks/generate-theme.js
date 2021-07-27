@@ -21,7 +21,6 @@ const rawGlob = require('glob');
 const util = require('util');
 const glob = util.promisify(rawGlob);
 const wca = require('web-component-analyzer');
-const filepath = '.docs/custom-properties.md';
 const themeFilepath = 'src/theme/definition.json';
 const cssFilepath = 'assets/css/gravitee-theme.generated.css';
 
@@ -54,12 +53,10 @@ async function run() {
     ignore: ['./src/lib/*.js', './src/styles/*.js', './src/studio-policy/*.js'],
   });
 
-  await del([filepath, themeFilepath, cssFilepath]);
+  await del([themeFilepath, cssFilepath]);
 
-  const input = [];
   let gvTheme;
   let themableElements = [];
-  let index = 1;
   for (const src of sourceFilepaths) {
     const code = await fs.readFile(src, 'utf8');
     const { results, program } = wca.analyzeText(code, { config: { features: ['cssproperty'] } });
@@ -116,10 +113,6 @@ async function run() {
             throw new Error(`${tag.name} | ${cssProperty.name} should have Length type`);
           }
         });
-        const doc = wca.transformAnalyzerResult('markdown', results, program);
-        const markdownProperties = doc.split('## CSS Custom Properties')[1];
-        input.push(`# ${index++}. ${tag.name}`);
-        input.push(markdownProperties);
         themableElements = themableElements.concat(tag);
       } else {
         console.warn(`warning: ${tag.name} doesn't have css properties ?`);
@@ -158,7 +151,6 @@ async function run() {
   delete gvTheme.cssProperties;
 
   await fs.appendFile(themeFilepath, JSON.stringify({ data: [gvTheme].concat(gvComponents) }, null, 2));
-  await fs.appendFile(filepath, input.join('\n'));
 }
 
 run().catch(console.error);

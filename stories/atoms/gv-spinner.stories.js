@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-spinner';
-import notes from '../../.docs/gv-spinner.md';
 import '../../src/atoms/gv-image';
 import { makeStory } from '../lib/make-story';
 
@@ -22,7 +21,6 @@ export default {
   title: 'Atoms/gv-spinner',
   component: 'gv-spinner',
   parameters: {
-    notes,
     chromatic: { disable: true },
   },
 };

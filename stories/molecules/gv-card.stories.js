@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-card.md';
 import '../../src/molecules/gv-card';
 import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 import logo from '../../assets/images/gravitee-g-logo-cyan.svg';
@@ -23,9 +22,6 @@ import { makeStory, storyWait } from '../lib/make-story';
 export default {
   title: 'Molecules/gv-card',
   component: 'gv-card',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

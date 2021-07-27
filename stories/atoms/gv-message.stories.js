@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-message';
-import notes from '../../.docs/gv-message.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-message',
   component: 'gv-message',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

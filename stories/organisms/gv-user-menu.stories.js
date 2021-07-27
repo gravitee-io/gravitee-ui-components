@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/organisms/gv-user-menu';
-import notes from '../../.docs/gv-user-menu.md';
 import bigImage from '../../assets/images/gravitee-logo-cyan.svg';
 import avatarSrc from '../../assets/images/avatar.png';
 import { makeStory, storyWait } from '../lib/make-story';
@@ -31,9 +30,6 @@ const routes = [
 export default {
   title: 'Organisms/gv-user-menu',
   component: 'gv-user-menu',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

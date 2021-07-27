@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-stepper';
-import notes from '../../.docs/gv-stepper.md';
 import { makeStory } from '../lib/make-story';
 import { deepClone } from '../../src/lib/utils';
 
@@ -22,7 +21,6 @@ export default {
   title: 'Molecules/gv-stepper',
   component: 'gv-stepper',
   parameters: {
-    notes,
     chromatic: { delay: 2000 },
   },
 };

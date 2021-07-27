@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-chart-gauge.md';
 import '../../src/charts/gv-chart-gauge';
 import { makeStory } from '../lib/make-story';
 
@@ -23,7 +22,6 @@ export default {
   title: 'charts/gv-chart-gauge',
   component: 'gv-chart-gauge',
   parameters: {
-    notes,
     chromatic: { disable: true },
   },
 };

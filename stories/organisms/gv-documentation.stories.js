@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-documentation.md';
 import '../../src/organisms/gv-documentation';
 import content from '../resources/adoc/policy-mock-readme.adoc';
 import { makeStory, storyWait } from '../lib/make-story';
@@ -22,7 +21,6 @@ export default {
   title: 'Organisms/gv-documentation',
   component: 'gv-documentation',
   parameters: {
-    notes,
     options: {
       showPanel: false,
     },

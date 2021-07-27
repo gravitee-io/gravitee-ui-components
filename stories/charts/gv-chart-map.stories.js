@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-chart-map.md';
 import '../../src/charts/gv-chart-map';
 import { makeStory, storyWait } from '../lib/make-story';
 
@@ -59,7 +58,6 @@ export default {
   title: 'charts/gv-chart-map',
   component: 'gv-chart-map',
   parameters: {
-    notes,
     chromatic: { disable: true },
   },
 };

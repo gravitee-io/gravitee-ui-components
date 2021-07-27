@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-input-message';
-import notes from '../../.docs/gv-input-message.md';
 import { makeStory } from '../lib/make-story';
 
 const items = [
@@ -26,9 +25,6 @@ const items = [
 export default {
   title: 'Atoms/gv-input-message',
   component: 'gv-input-message',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = { component: 'gv-input-message' };

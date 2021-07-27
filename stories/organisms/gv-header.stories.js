@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-header.md';
 import '../../src/organisms/gv-header';
 import picture from '../../assets/images/avatar.png';
 import background from '../../assets/images/gravitee-logo-white.svg';
@@ -33,9 +32,6 @@ const itemWithoutPicture = { name: 'Long Supernova', version, states };
 export default {
   title: 'Organisms/gv-header',
   component: 'gv-header',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

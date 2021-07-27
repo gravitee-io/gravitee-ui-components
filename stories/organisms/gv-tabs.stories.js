@@ -15,15 +15,11 @@
  */
 import '../../src/organisms/gv-tabs';
 import '../../src/atoms/gv-button';
-import notes from '../../.docs/gv-tabs.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Organisms/gv-tabs',
   component: 'gv-tabs',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

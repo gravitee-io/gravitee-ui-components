@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-resizable-views.md';
 import '../../src/organisms/gv-resizable-views';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Organisms/gv-resizable-views',
   component: 'gv-header',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {
@@ -31,7 +27,7 @@ const conf = {
     :host {
       height: 100vh;
     }
-    
+
     .content {
       padding: 0 0.5rem;
       box-sizing: border-box;

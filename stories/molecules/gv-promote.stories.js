@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-promote.md';
 import '../../src/molecules/gv-promote';
 import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 import picture from '../../assets/images/avatar.png';
@@ -39,9 +38,6 @@ const labels = ['APIDays', 'December', 'Foobar'];
 export default {
   title: 'Molecules/gv-promote',
   component: 'gv-promote',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

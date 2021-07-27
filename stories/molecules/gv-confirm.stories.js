@@ -15,15 +15,11 @@
  */
 import '../../src/atoms/gv-button';
 import '../../src/molecules/gv-confirm';
-import notes from '../../.docs/gv-confirm.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-confirm',
   component: 'gv-confirm',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

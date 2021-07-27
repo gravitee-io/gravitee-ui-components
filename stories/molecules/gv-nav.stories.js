@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-nav';
-import notes from '../../.docs/gv-nav.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-nav',
   component: 'gv-nav',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

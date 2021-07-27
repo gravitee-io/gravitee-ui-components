@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-category-list';
-import notes from '../../.docs/gv-category-list.md';
 import { makeStory, storyWait } from '../lib/make-story';
 import picture from '../../assets/images/avatar.png';
 
@@ -64,7 +63,6 @@ export default {
   title: 'Molecules/gv-category-list',
   component: 'gv-category-list',
   parameters: {
-    notes,
     chromatic: { delay: 2500 },
   },
 };

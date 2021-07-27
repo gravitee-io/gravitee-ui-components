@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import notes from '../../.docs/gv-expandable.md';
 import '../../src/molecules/gv-expandable';
 import { makeStory, storyWait } from '../lib/make-story';
 import mixed from '../resources/schemas/mixed.json';
@@ -26,9 +25,6 @@ const conf = {
 export default {
   title: 'Molecules/gv-expandable',
   ...conf,
-  parameters: {
-    notes,
-  },
 };
 
 export const Basics = makeStory(conf, {

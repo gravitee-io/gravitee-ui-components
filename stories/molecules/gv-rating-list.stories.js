@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-rating-list';
-import notes from '../../.docs/gv-rating-list.md';
 import { makeStory } from '../lib/make-story';
 import avatar from '../../assets/images/avatar.png';
 
@@ -41,9 +40,6 @@ const ratings = [
 export default {
   title: 'Molecules/gv-rating-list',
   component: 'gv-rating-list',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

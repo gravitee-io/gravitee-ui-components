@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/organisms/gv-resources';
-import notes from '../../.docs/gv-resources.md';
 import { makeStory } from '../lib/make-story';
 
 import apimResourceTypes from '../resources/apim-resource-types.json';
@@ -24,7 +23,6 @@ export default {
   title: 'organisms/gv-resources',
   component: 'gv-resources',
   parameters: {
-    notes,
     options: {
       showPanel: false,
     },

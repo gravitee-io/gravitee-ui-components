@@ -17,14 +17,12 @@ import '../../src/molecules/gv-modal';
 import '../../src/atoms/gv-input';
 import '../../src/atoms/gv-button';
 import { makeStory } from '../lib/make-story';
-import notes from '../../.docs/gv-modal.md';
 import { html } from 'lit-element';
 
 export default {
   title: 'Molecules/gv-modal',
   component: 'gv-modal',
   parameters: {
-    notes,
     options: {
       showPanel: false,
     },

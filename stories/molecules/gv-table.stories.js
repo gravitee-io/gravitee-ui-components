@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-table.md';
 import '../../src/molecules/gv-table';
 import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 import picture from '../../assets/images/avatar.png';
@@ -55,9 +54,6 @@ const application = {
 export default {
   title: 'Molecules/gv-table',
   component: 'gv-table',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

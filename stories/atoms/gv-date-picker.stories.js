@@ -15,14 +15,12 @@
  */
 import '../../src/atoms/gv-input';
 import '../../src/atoms/gv-date-picker';
-import notes from '../../.docs/gv-date-picker.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-date-picker',
   component: 'gv-date-picker',
   parameters: {
-    notes,
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
     a11y: { disable: true },
   },

@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/organisms/gv-pagination';
-import notes from '../../.docs/gv-pagination.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Organisms/gv-pagination',
   component: 'gv-pagination',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

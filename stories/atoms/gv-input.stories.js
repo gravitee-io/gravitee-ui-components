@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-input';
-import notes from '../../.docs/gv-input.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-input',
   component: 'gv-input',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

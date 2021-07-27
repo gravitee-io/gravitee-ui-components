@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-list.md';
 import '../../src/molecules/gv-list';
 import logo from '../../assets/images/avatar.png';
 import { makeStory, storyWait } from '../lib/make-story';
@@ -26,9 +25,6 @@ const items = [{ item: api1 }, { item: api2 }, { item: api3 }];
 export default {
   title: 'Molecules/gv-list',
   component: 'gv-list',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {
