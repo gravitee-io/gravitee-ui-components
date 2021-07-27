@@ -18,7 +18,7 @@
     "wc"
   ],
   "scripts": {
-    "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && build-storybook -s assets --quiet",
+    "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && build-storybook -s assets --modern --quiet",
     "check:i18n": "node tasks/check-i18n.js",
     "danger": "danger ci",
     "docs": "wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
@@ -35,8 +35,8 @@
     "prettier": "prettier --check \"**/*.{js,html,css,json}\"",
     "prettier:fix": "prettier --write \"**/*.{js,html,css,json}\"",
     "release": "semantic-release",
-    "serve": "npm run docs && start-storybook -p 6006 --ci -s assets",
-    "serve:prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static",
+    "serve": "npm run docs && start-storybook -p 6006 --ci -s assets --modern",
+    "serve:prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static --modern",
     "size": "node tasks/size.js",
     "size:dev": "nodemon -w src -x 'npm run generate:dist && npm run size'",
     "test": "jest",
