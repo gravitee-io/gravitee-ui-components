@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-tree';
-import notes from '../../.docs/gv-tree.md';
 import { makeStory } from '../lib/make-story';
 
 const menuItems = [
@@ -50,9 +49,6 @@ const menuItems = [
 export default {
   title: 'Molecules/gv-tree',
   component: 'gv-tree',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-row.md';
 import '../../src/molecules/gv-row';
 import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 import picture from '../../assets/images/avatar.png';
@@ -43,9 +42,6 @@ const api = {
 export default {
   title: 'Molecules/gv-row',
   component: 'gv-row',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

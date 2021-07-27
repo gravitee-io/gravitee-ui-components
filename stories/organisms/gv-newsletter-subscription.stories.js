@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/organisms/gv-newsletter-subscription';
-import notes from '../../.docs/gv-newsletter-subscription.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Organisms/gv-newsletter-subscription',
   component: 'gv-newsletter-subscription',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

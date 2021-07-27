@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-relative-time';
-import notes from '../../.docs/gv-relative-time.md';
 import { makeStory } from '../lib/make-story';
 
 export function createDateAgo({ seconds = 0, minutes = 0, hours = 0, days = 0, weeks = 0, months = 0, years = 0 }) {
@@ -37,7 +36,7 @@ const STEPS = [1, 5, 10, 20, 30, 45];
 export default {
   title: 'Atoms/gv-relative-time',
   component: 'gv-relative-time',
-  parameters: { notes, chromatic: { disable: true } },
+  parameters: { chromatic: { disable: true } },
   excludeStories: ['createDateAgo'],
 };
 

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/policy-studio/gv-policy-studio';
-import notes from '../../.docs/gv-policy-studio.md';
 import { makeStory } from '../lib/make-story';
 
 import apimPolicies from '../resources/apim-policies.json';
@@ -33,7 +32,6 @@ export default {
   title: 'Policy Studio/gv-policy-studio',
   component: 'gv-policy-studio',
   parameters: {
-    notes,
     options: {
       showPanel: false,
     },

@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-metric';
-import notes from '../../.docs/gv-metric.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-metric',
   component: 'gv-metric',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

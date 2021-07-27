@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-text';
-import notes from '../../.docs/gv-text.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-text',
   component: 'gv-text',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

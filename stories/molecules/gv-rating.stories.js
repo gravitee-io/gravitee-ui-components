@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-rating';
-import notes from '../../.docs/gv-rating.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-rating',
   component: 'gv-rating',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

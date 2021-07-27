@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import notes from '../../.docs/gv-row-expandable.md';
 import '../../src/molecules/gv-row-expandable';
 import { makeStory } from '../lib/make-story';
 
@@ -25,9 +24,6 @@ const conf = {
 export default {
   title: 'Molecules/gv-row-expandable',
   ...conf,
-  parameters: {
-    notes,
-  },
 };
 
 export const Basics = makeStory(conf, {

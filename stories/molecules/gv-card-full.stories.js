@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-card-full.md';
 import '../../src/molecules/gv-card-full';
 import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 import { makeStory, storyWait } from '../lib/make-story';
@@ -42,9 +41,6 @@ const application = Promise.resolve({ name: `${name} app`, description, applicat
 export default {
   title: 'Molecules/gv-card-full',
   component: 'gv-card-full',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

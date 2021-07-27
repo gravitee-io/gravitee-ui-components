@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-code.md';
 import '../../src/molecules/gv-code';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'molecules/gv-code',
   component: 'gv-code',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

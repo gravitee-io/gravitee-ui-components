@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-chart-pie.md';
 import '../../src/charts/gv-chart-pie';
 import { makeStory, storyWait } from '../lib/make-story';
 
@@ -44,7 +43,6 @@ export default {
   title: 'charts/gv-chart-pie',
   component: 'gv-chart-pie',
   parameters: {
-    notes,
     chromatic: { disable: true },
   },
 };

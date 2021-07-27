@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-category-list';
-import notes from '../../.docs/gv-category-list.md';
 import { makeStory, storyWait } from '../lib/make-story';
 import horizontalImage from '../../assets/images/gravitee-logo-cyan.svg';
 
@@ -53,9 +52,6 @@ const apiItems = [
 export default {
   title: 'Molecules/gv-card-list',
   component: 'gv-card-list',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

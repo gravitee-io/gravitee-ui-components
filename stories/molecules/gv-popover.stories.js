@@ -15,14 +15,12 @@
  */
 import '../../src/atoms/gv-button';
 import '../../src/molecules/gv-popover';
-import notes from '../../.docs/gv-popover.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-popover',
   component: 'gv-popover',
   parameters: {
-    notes,
     options: {
       showPanel: false,
     },
@@ -38,7 +36,7 @@ const conf = {
       justify-content: space-around;
       align-items: center;
     }
-  
+
     gv-popover {
       border: 1px solid red;
       --gv-popover--bgc: #262626;

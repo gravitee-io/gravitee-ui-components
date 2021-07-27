@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/organisms/gv-vertical-menu';
-import notes from '../../.docs/gv-vertical-menu.md';
 import { makeStory } from '../lib/make-story';
 import logo from '../../assets/images/gravitee-g-logo-cyan.svg';
 
@@ -23,9 +22,6 @@ const events = ['gv-link:click', 'gv-input:input', 'gv-input:submit', 'gv-header
 export default {
   title: 'Organisms/gv-vertical-menu',
   component: 'gv-vertical-menu',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

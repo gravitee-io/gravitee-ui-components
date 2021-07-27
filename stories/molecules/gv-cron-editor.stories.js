@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-cron-editor.md';
 import '../../src/molecules/gv-cron-editor';
 import { makeStory } from '../lib/make-story';
 
@@ -21,7 +20,6 @@ export default {
   title: 'molecules/gv-cron-editor',
   component: 'gv-cron-editor',
   parameters: {
-    notes,
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
     a11y: { disable: true },
   },

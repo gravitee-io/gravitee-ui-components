@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-switch';
-import notes from '../../.docs/gv-switch.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-switch',
   component: 'gv-switch',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-dropdown-menu';
-import notes from '../../.docs/gv-dropdown-menu.md';
 import { makeStory } from '../lib/make-story';
 import '../../src/atoms/gv-button';
 import '../../src/atoms/gv-link';
@@ -22,9 +21,6 @@ import '../../src/atoms/gv-link';
 export default {
   title: 'Molecules/gv-dropdown-menu',
   component: 'gv-dropdown-menu',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

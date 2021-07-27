@@ -16,16 +16,12 @@
 import '../../src/atoms/gv-autocomplete';
 import '../../src/atoms/gv-input';
 import '../../src/atoms/gv-image';
-import notes from '../../.docs/gv-autocomplete.md';
 import { makeStory } from '../lib/make-story';
 import picture from '../../assets/images/avatar.png';
 
 export default {
   title: 'Atoms/gv-autocomplete',
   component: 'gv-autocomplete',
-  parameters: {
-    notes,
-  },
 };
 
 const mockVal = (str, repeat = 1) => ({

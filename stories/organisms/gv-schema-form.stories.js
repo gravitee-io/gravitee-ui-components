@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-schema-form.md';
 import '../../src/organisms/gv-schema-form';
 import { makeStory } from '../lib/make-story';
 import mixed from '../resources/schemas/mixed.json';
@@ -25,7 +24,6 @@ export default {
   title: 'organisms/gv-schema-form',
   component: 'gv-schema-form',
   parameters: {
-    notes,
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
     a11y: { disable: true },
   },

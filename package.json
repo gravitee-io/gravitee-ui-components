@@ -21,7 +21,7 @@
     "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && build-storybook -s assets --quiet",
     "check:i18n": "node tasks/check-i18n.js",
     "danger": "danger ci",
-    "docs": "wca analyze src/** --format markdown --outDir .docs && wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
+    "docs": "wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
     "generate:dist": "node tasks/generate-dist.js",
     "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
     "generate:theme": "node tasks/generate-theme.js && npm run lint:fix",

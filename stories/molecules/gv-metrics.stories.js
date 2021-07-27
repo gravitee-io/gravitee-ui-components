@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-metrics';
-import notes from '../../.docs/gv-metrics.md';
 import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-metrics',
   component: 'gv-metrics',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

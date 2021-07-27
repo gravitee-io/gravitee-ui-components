@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-image';
-import notes from '../../.docs/gv-image.md';
 import '../../src/atoms/gv-icon';
 import logoImage from '../../assets/images/gravitee-logo-cyan.svg';
 import logo from '../../assets/images/gravitee-g-logo-cyan.svg';
@@ -28,7 +27,6 @@ const items = [
 export default {
   title: 'Atoms/gv-image',
   component: 'gv-image',
-  parameters: { notes },
 };
 
 const conf = {

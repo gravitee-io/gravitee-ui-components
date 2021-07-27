@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-stats.md';
 import '../../src/molecules/gv-stats';
 import { makeStory, storyWait } from '../lib/make-story';
 
@@ -63,9 +62,6 @@ const options = [
 export default {
   title: 'Molecules/gv-stats',
   component: 'gv-stats',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

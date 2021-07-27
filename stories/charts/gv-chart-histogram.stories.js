@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import notes from '../../.docs/gv-chart-histogram.md';
 import '../../src/charts/gv-chart-histogram';
 import { makeStory, storyWait } from '../lib/make-story';
 
@@ -52,7 +51,6 @@ export default {
   title: 'charts/gv-chart-histogram',
   component: 'gv-chart-histogram',
   parameters: {
-    notes,
     chromatic: { disable: true },
   },
 };

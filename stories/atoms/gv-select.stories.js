@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-select';
-import notes from '../../.docs/gv-select.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-select',
   component: 'gv-select',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

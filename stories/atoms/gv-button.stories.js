@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-button';
-import notes from '../../.docs/gv-button.md';
 import { makeStory } from '../lib/make-story';
 
 const items = [
@@ -41,9 +40,6 @@ const items = [
 export default {
   title: 'Atoms/gv-button',
   component: 'gv-button',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = { component: 'gv-button' };

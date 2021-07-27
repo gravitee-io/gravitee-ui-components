@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import notes from '../../.docs/gv-expression-language.md';
 import { makeStory } from '../lib/make-story';
 import '../../src/molecules/gv-expression-language';
 import grammar from '../resources/el-grammar.json';
@@ -22,9 +21,6 @@ import grammar from '../resources/el-grammar.json';
 export default {
   title: 'Molecules/gv-expression-language',
   component: 'gv-expression-language',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {
@@ -63,9 +59,9 @@ const groovyOptions = {
   mode: 'groovy',
 };
 
-const groovySrc = `println 'Hello'                                 
+const groovySrc = `println 'Hello'
 
-int power(int n) { 2**n }                       
+int power(int n) { 2**n }
 
 println "2^6==\${power(6)}"`;
 

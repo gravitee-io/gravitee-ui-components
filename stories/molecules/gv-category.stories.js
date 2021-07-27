@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-category';
-import notes from '../../.docs/gv-category.md';
 import { makeStory, storyWait } from '../lib/make-story';
 import picture from '../../assets/images/avatar.png';
 
 export default {
   title: 'Molecules/gv-category',
   component: 'gv-category',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

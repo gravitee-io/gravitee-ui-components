@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 import '../../src/atoms/gv-tag';
-import notes from '../../.docs/gv-tag.md';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Atoms/gv-tag',
   component: 'gv-tag',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {

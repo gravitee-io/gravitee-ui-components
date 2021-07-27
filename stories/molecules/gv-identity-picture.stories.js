@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-identity-picture';
-import notes from '../../.docs/gv-identity-picture.md';
 import avatar from '../../assets/images/avatar.png';
 import { makeStory } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-identity-picture',
   component: 'gv-identity-picture',
-  parameters: {
-    notes,
-  },
 };
 
 const conf = {
