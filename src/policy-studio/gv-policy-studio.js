@@ -48,6 +48,7 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * @attr {Array} services - Services available
  * @attr {Array} resourceTypes - Resources types available
  * @attr {Array} propertyProviders - Providers of properties
+ * @attr {Array} dynamicPropertySchema - Schema for the dynamic property form
  * @attr {String} tabId - Current tabId to display (design, settings, properties or resources)
  * @attr {Object} definition - The definition of flows
  * @attr {Object} documentation - The documentation to display
@@ -70,6 +71,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       services: { type: Object },
       resourceTypes: { type: Array, attribute: 'resource-types' },
       propertyProviders: { type: Array, attribute: 'property-providers' },
+      dynamicPropertySchema: { type: Object, attribute: 'dynamic-property-schema' },
       tabId: { type: String, attribute: 'tab-id' },
       _tabId: { type: String, attribute: false },
       definition: { type: Object },
@@ -1704,6 +1706,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           ?readonly="${readonlyMode}"
           .properties="${this.definedProperties}"
           .providers="${this.propertyProviders}"
+          .dynamicPropertySchema="${this.dynamicPropertySchema}"
         ></gv-properties>
         <gv-resources
           id="resources"
