@@ -45,6 +45,7 @@ import { empty } from '../styles/empty';
 export class GvProperties extends KeyboardElement(LitElement) {
   static get properties() {
     return {
+      dynamicPropertySchema: { type: Object },
       properties: { type: Array },
       _properties: { type: Array, attribute: false },
       provider: { type: Object },
@@ -208,44 +209,47 @@ export class GvProperties extends KeyboardElement(LitElement) {
   }
 
   _onConfigureDynamicProperties() {
-    const providersTitleMap = this.providers.reduce((map, provider) => {
-      map[provider.id] = provider.key;
-      return map;
-    }, {});
+    if (this.dynamicPropertySchema == null) {
+      // dynamicPropertySchema has been introduced to ensure backward compatibility with old versions. If no schema is provided a default schema will be used.
+      const providersTitleMap = this.providers.reduce((map, provider) => {
+        map[provider.id] = provider.key;
+        return map;
+      }, {});
 
-    const providersEnum = Object.keys(providersTitleMap);
-    const defaultSchema = {
-      properties: {
-        enabled: {
-          type: 'boolean',
-          title: 'Enabled',
-          description: ' This service is requiring an API deployment. Do not forget to deploy API to start dynamic-properties service.',
-        },
-        schedule: {
-          type: 'string',
-          title: 'Schedule',
-          'x-schema-form': {
-            'cron-expression': true,
+      const providersEnum = Object.keys(providersTitleMap);
+      this.dynamicPropertySchema = {
+        properties: {
+          enabled: {
+            type: 'boolean',
+            title: 'Enabled',
+            description: ' This service is requiring an API deployment. Do not forget to deploy API to start dynamic-properties service.',
+          },
+          schedule: {
+            type: 'string',
+            title: 'Schedule',
+            'x-schema-form': {
+              'cron-expression': true,
+            },
+          },
+          provider: {
+            type: 'string',
+            title: 'Provider type',
+            enum: providersEnum,
+            default: providersEnum[0],
+            'x-schema-form': {
+              titleMap: providersTitleMap,
+            },
           },
         },
-        provider: {
-          type: 'string',
-          title: 'Provider type',
-          enum: providersEnum,
-          default: providersEnum[0],
-          'x-schema-form': {
-            titleMap: providersTitleMap,
-          },
-        },
-      },
-      required: ['schedule', 'provider'],
-    };
+        required: ['schedule', 'provider'],
+      };
+    }
 
     const defaultProvider = this.providers[0];
 
     this._propertySchemaForm = {
-      properties: { ...defaultSchema.properties, configuration: defaultProvider.schema },
-      required: defaultSchema.required,
+      properties: { ...this.dynamicPropertySchema.properties, configuration: defaultProvider.schema },
+      required: this.dynamicPropertySchema.required,
     };
     this._providerDocumentation = defaultProvider.documentation;
     this._maximizeBottomView();
