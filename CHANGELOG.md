@@ -1,3 +1,10 @@
+## [3.10.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.3...v3.10.4) (2021-07-30)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** make dynamic properties backward compatible ([0e894f5](https://github.com/gravitee-io/gravitee-ui-components/commit/0e894f5de4d212bbff0d56b1eabed4940a8c9bb2)), closes [gravitee-io/issues#5910](https://github.com/gravitee-io/issues/issues/5910)
+
 ## [3.10.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.2...v3.10.3) (2021-07-21)
 
 
