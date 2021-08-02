@@ -174,7 +174,7 @@ export class GvSchemaForm extends LitElement {
   _dispatchChange() {
     clearTimeout(this._changeTimeout);
     this._changeTimeout = setTimeout(() => {
-      dispatchCustomEvent(this, 'change', { target: this, values: this._values });
+      dispatchCustomEvent(this, 'change', { target: this, values: this._values, validation: this._validatorResults });
     }, 50);
   }
 
