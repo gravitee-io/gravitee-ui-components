@@ -43,8 +43,8 @@ import { dispatchCustomEvent } from '../lib/events';
  * @attr {Boolean} link - set button UI mode to link
  * @attr {String} href - If is defined gv-button will be rendered as a <a> with `href`
  * @attr {Boolean} skeleton - enable skeleton screen UI pattern (loading hint)
- * @attr {String} icon - display an icon on the button
- * @attr {Boolean} icon-right - if icon should be at right
+ * @attr {String} icon - display an icon on the left side of the button
+ * @attr {String} icon-right - display an icon on the right side of the button
  * @attr {String} title - title of button
  * @attr {Boolean} loading - true to display a loading icon
  * @attr {String} provider - Provider name (github, oidc, graviteeio_am, google)

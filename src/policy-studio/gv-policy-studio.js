@@ -22,6 +22,7 @@ import '../molecules/gv-option';
 import '../organisms/gv-documentation';
 import '../organisms/gv-resizable-views';
 import '../organisms/gv-schema-form';
+import '../organisms/gv-http-client';
 import '../organisms/gv-tabs';
 import '../molecules/gv-row';
 import './gv-flow';
@@ -42,7 +43,8 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * install them with: `npm install asciidoctor highlight.js asciidoctor-highlight.js --save`
  *
  * @fires gv-policy-studio:select-policy - Select policy event
- * @fires gv-policy-studio:save - When request savet
+ * @fires gv-policy-studio:save - Event sent when "Save" button is clicked, it contains the whole definition of the API
+ * @fires gv-policy-studio:debug - Event sent when validation button of the 'Try it' tab is clicked, it contains the whole definition of the API and the information about the try it request.
  *
  * @attr {Array} policies - Policies available
  * @attr {Array} services - Services available
@@ -63,6 +65,8 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * @attr {Boolean} can-add - true if user can add flow
  * @attr {String} flowsTitle - flows menu title
  * @attr {Boolean} has-policy-filter - true if policies have onRequest/onResponse properties
+ * @attr {Boolean} can-debug - true if debug tab should be displayed
+ * @attr {Object} debugResponse - true if debug tab should be displayed
  */
 export class GvPolicyStudio extends KeyboardElement(LitElement) {
   static get properties() {
@@ -103,6 +107,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       canAdd: { type: Boolean, attribute: 'can-add' },
       readonly: { type: Boolean },
       readonlyPlans: { type: Boolean, attribute: 'readonly-plans' },
+      canDebug: { type: Boolean, attribute: 'can-debug' },
+      _canDebug: { type: Boolean, attribute: false },
+      debugResponse: { type: Object, attribute: 'debug-response' },
     };
   }
 
@@ -239,6 +246,13 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           height: var(--height-in-tabs);
         }
 
+        .debug {
+          display: flex;
+          flex-direction: column;
+          border-left: 1px solid #bfbfbf;
+          height: var(--height-in-tabs);
+        }
+
         .api-settings-information {
           display: flex;
           align-items: center;
@@ -249,7 +263,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           --gv-icon-opacity--c: var(--gv-theme-color-info-light, #64b5f6);
         }
 
-        .api-settings-information__blockquote {
+        .api-settings-information__blockquote,
+        .debug-information__blockquote {
           border-left: 1px solid var(--gv-theme-color, #5a7684);
           margin: 15px;
           padding-left: 15px;
@@ -283,7 +298,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           margin: 1.5rem 0.5rem 0.5rem;
         }
 
-        .footer-actions > gv-button.save,
+        .footer-actions > gv-button.btn-large,
         .footer-actions > gv-option {
           width: 100%;
         }
@@ -359,6 +374,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
+  set canDebug(value) {
+    if (value) {
+      this._tabs = [...this._tabs, { id: 'debug', title: 'Try it?', icon: 'general:settings#2' }];
+    }
+  }
+
   get _flowFilterOptions() {
     if (this.definedPlans.length > 0) {
       return [
@@ -410,7 +431,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   set tabId(tabId) {
-    if (tabId != null && ['design', 'settings', 'properties', 'resources'].includes(tabId)) {
+    if (tabId != null && ['design', 'settings', 'properties', 'resources', 'debug'].includes(tabId)) {
       this._tabId = tabId;
     } else {
       this._tabId = 'design';
@@ -1470,6 +1491,21 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       });
   }
 
+  _onDebug(requestEvent) {
+    if (this.hasProperties) {
+      this.getPropertiesElement().submit();
+    }
+
+    Promise.all(this._submitOrConfirmForms())
+      .then(() => {
+        const definition = this._buildDefinitionToSend(this._buildDefinitionToSave());
+        dispatchCustomEvent(this, 'debug', { definition, services: this.services, request: requestEvent.detail.request });
+      })
+      .catch((err) => {
+        console.error(`[policy-studio] Error on debug`, err);
+      });
+  }
+
   get filteredFlows() {
     if (this._flowFilter.length === 0 || this._flowFilter.includes('api')) {
       return this.definedFlows;
@@ -1558,6 +1594,24 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           </gv-policy-studio-menu>`
         : ''}
     </div>`;
+  }
+
+  _renderDebug() {
+    const response = this.debugResponse ? this.debugResponse.response : undefined;
+    const isLoading = this.debugResponse ? this.debugResponse.isLoading : undefined;
+    const path = this.debugResponse && this.debugResponse.request ? this.debugResponse.request.path : undefined;
+    const method = this.debugResponse && this.debugResponse.request ? this.debugResponse.request.method : undefined;
+    return html`<gv-http-client
+      id="debug"
+      slot="content"
+      class="debug"
+      @gv-http-client:send="${this._onDebug}"
+      .response="${response}"
+      .path="${path}"
+      .method="${method}"
+      ?loading="${isLoading}"
+    >
+    </gv-http-client>`;
   }
 
   _renderConfigurationForm(readonlyMode) {
@@ -1678,7 +1732,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
         ${this.readonly !== true
           ? html` <div slot="footer" class="footer-actions">
-              <gv-button class="save" .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onSaveAll}"
+              <gv-button
+                class="btn-large"
+                .disabled="${!this.isDirty || this._currentAskConfirmation}"
+                @gv-button:click="${this._onSaveAll}"
                 >Save</gv-button
               >
               <gv-button link .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onResetAll}"
@@ -1695,7 +1752,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         @gv-tabs:change="${this._onChangeTab}"
         .validator="${this._changeTabValidator.bind(this)}"
       >
-        ${this._renderDesign(readonlyMode)} ${this._renderConfigurationForm(readonlyMode)}
+        ${this._renderDesign(readonlyMode)} ${this._renderConfigurationForm(readonlyMode)} ${this._renderDebug()}
         <gv-properties
           id="properties"
           slot="content"
