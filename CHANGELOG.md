@@ -1,3 +1,10 @@
+## [3.10.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.4...v3.10.5) (2021-08-04)
+
+
+### Bug Fixes
+
+* **gv-expression-language:** resolve autocompletion in xml/html mode ([8623e63](https://github.com/gravitee-io/gravitee-ui-components/commit/8623e63e2f9872431c15c2ff5ea2d05a0af6b510))
+
 ## [3.10.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.3...v3.10.4) (2021-07-30)
 
 
