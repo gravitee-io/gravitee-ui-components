@@ -274,15 +274,15 @@ describe('<gv-expression-language>', () => {
       list: [
         {
           displayText: "headers[''][0]",
-          text: ".headers[''][0]",
+          text: "headers[''][0]",
         },
         {
           displayText: 'content',
-          text: '.content',
+          text: 'content',
         },
         {
           displayText: 'status',
-          text: '.status',
+          text: 'status',
         },
       ],
     });

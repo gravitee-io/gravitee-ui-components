@@ -72,3 +72,16 @@ println "2^6==\${power(6)}"`;
 export const InGroovy = makeStory(conf, {
   items: [{ grammar, options: groovyOptions, value: groovySrc }],
 });
+
+const xmlOptions = {
+  placeholder: 'Put the body content here',
+  lineNumbers: true,
+  allowDropFileTypes: true,
+  autoCloseBrackets: true,
+  matchBrackets: true,
+  mode: 'xml',
+};
+
+export const InXML = makeStory(conf, {
+  items: [{ grammar, options: xmlOptions }],
+});

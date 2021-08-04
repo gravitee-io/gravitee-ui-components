@@ -95,6 +95,17 @@ export class GvExpressionLanguage extends LitElement {
       this._lastKeyDown = event.key;
       this._getOrCreateHint().requestUpdate();
     });
+
+    codemirror.on('beforeChange', (cm, event) => {
+      if (event.origin === 'complete') {
+        // Override default behavior of completion
+        const cursor = cm.getCursor();
+        const caretPosition = cursor.ch;
+        const currentEL = this.getCurrentEl(caretPosition, cursor.line);
+        const newText = `${currentEL.el.substring(event.from.ch, caretPosition)}${event.text}`;
+        return event.update(null, null, [newText]);
+      }
+    });
     dispatchCustomEvent(this, 'ready', { currentTarget: this });
   }
 
@@ -155,11 +166,10 @@ export class GvExpressionLanguage extends LitElement {
   }
 
   buildMethods(methods, methodName = '') {
-    const prefix = methodName == null || methodName.trim() === '' ? '.' : '';
     const list = methods
       .filter(({ name }) => name.startsWith(methodName))
       .map(({ name, params = [], returnType }) => {
-        const text = `${prefix}${name}()`;
+        const text = `${name}()`;
         const displayParams = params.map((p) => `${p.type} ${p.name}`);
         const displayText = `${name}(${displayParams.join(', ')}): ${returnType}`;
         return { text, displayText };
@@ -169,13 +179,12 @@ export class GvExpressionLanguage extends LitElement {
 
   buildEnum(candidate, parameter) {
     parameter = parameter || '';
-    const prefix = `'`;
     const typeEnum = this.getEnum(candidate._type);
     if (typeEnum != null) {
       const list = typeEnum
         .filter((value) => value.toLowerCase().startsWith(parameter.toLowerCase()))
         .map((g) => ({
-          text: `${prefix}${g}`,
+          text: `${g}`,
           displayText: `${g}`,
         }));
       return { list };
@@ -249,7 +258,7 @@ export class GvExpressionLanguage extends LitElement {
 
   getGrammar({ sentence = null, key = null, words = [], fn = [] }) {
     let grammar = [];
-    let prefix = '';
+    const prefix = '';
     if (sentence && sentence.match(/^#[a-zA-Z]*/g)) {
       grammar = this.grammar;
     }
@@ -263,9 +272,6 @@ export class GvExpressionLanguage extends LitElement {
         const previousKey = this.getPreviousKey(key);
         if (previousKey != null) {
           candidate = get(this.grammar, previousKey);
-          if (key.endsWith('.')) {
-            prefix = '.';
-          }
         }
       }
       if (candidate != null) {
@@ -433,7 +439,7 @@ export class GvExpressionLanguage extends LitElement {
         let _suggestions = [];
         if (currentWord.startsWith(prefix)) {
           _suggestions = suggestions.map((item) => {
-            return { ...item, text: `${prefix}${item.text}` };
+            return item;
           });
         } else {
           _suggestions = suggestions;
@@ -471,7 +477,7 @@ export class GvExpressionLanguage extends LitElement {
       <gv-code
         .options="${options}"
         .value="${this.value}"
-        rows="${this.rows}"
+        .rows="${this.rows}"
         ?disabled="${this.disabled}"
         ?readonly="${this.readonly}"
         ?required="${this.required}"
