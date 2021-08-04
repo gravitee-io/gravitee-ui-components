@@ -72,14 +72,6 @@ export function makeStory(...configs) {
         container.style.setProperty(cssProperty.name, value);
       });
     }
-
-    _events.forEach((eventName) => {
-      container.addEventListener(eventName, (e) => {
-        // eslint-disable-next-line no-console
-        console.log(`[${eventName}]`, e.detail);
-      });
-    });
-
     return container;
   };
 
