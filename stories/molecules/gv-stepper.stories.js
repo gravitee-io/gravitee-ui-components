@@ -49,6 +49,10 @@ validStep[0].valid = true;
 export const withValidStep = makeStory(conf, {
   items: [{ steps: validStep }],
 });
+withValidStep.parameters = {
+  ...withValidStep.parameters,
+  chromatic: { disable: true },
+};
 
 const validSteps = deepClone(validStep);
 validSteps[1].valid = true;
