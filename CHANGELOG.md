@@ -1,3 +1,10 @@
+## [3.10.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.5...v3.10.6) (2021-08-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency clipboard-copy to v4 ([f4228e0](https://github.com/gravitee-io/gravitee-ui-components/commit/f4228e00c49657c1a1fe9ed78c1757df3b89f521))
+
 ## [3.10.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.4...v3.10.5) (2021-08-04)
 
 
