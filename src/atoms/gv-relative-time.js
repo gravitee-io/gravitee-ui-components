@@ -72,7 +72,7 @@ export class GvRelativeTime extends LitElement {
           Promise.all([
             import('@formatjs/intl-relativetimeformat/polyfill'),
             ...Object.values(getAvailableLanguages()).map((_lang) => {
-              return import(`@formatjs/intl-relativetimeformat/dist/locale-data/${_lang}`);
+              return import(`@formatjs/intl-relativetimeformat/locale-data/${_lang}`);
             }),
           ])
             .then(() => {
