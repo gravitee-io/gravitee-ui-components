@@ -4,6 +4,8 @@ import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
 
 # Console Colors
 
+**🏗 This palette is still under construction for now!**
+
 <ColorPalette>
   <ColorItem
     title="Primary"
@@ -80,4 +82,81 @@ import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
       lighter: 'hsl(8, 80%, 75%)',
     }}
   />
+</ColorPalette>
+
+# Portal Colors
+
+All the colors used in Gravitee.io Portal and their respective CSS custom properties.
+
+<ColorPalette>
+  <ColorItem
+    title="Main"
+    subtitle="--gv-theme-color"
+    colors={{
+      darker: '#383E3F',
+      dark: '#28444F',
+      default: '#5a7684',
+      light: '#86c3d0',
+    }}
+  />
+  <ColorItem title="Danger" subtitle="--gv-theme-color-danger" colors={['#ff5722']} />
+  <ColorItem
+    title="Grey shades"
+    subtitle="--gv-theme-neutral-color"
+    colors={{
+      darkest: '#000000',
+      darker: '#bfbfbf',
+      dark: '#d9d9d9',
+      default: '#f5f5f5',
+      light: '#efefef',
+      lighter: '#fafafa',
+      lightest: '#ffffff',
+    }}
+  />
+  <ColorItem
+    title="Info color"
+    subtitle="--gv-theme-color-info"
+    colors={{
+      dark: '#1976d2',
+      default: '#2196f3',
+      light: '#64b5f6',
+    }}
+  />
+  <ColorItem
+    title="Success color"
+    subtitle="--gv-theme-color-success"
+    colors={{
+      dark: '#388e3c',
+      default: '#4caf50',
+      light: '#81c784',
+    }}
+  />
+  <ColorItem
+    title="Warning color"
+    subtitle="--gv-theme-color-warning"
+    colors={{
+      dark: '#f57c00',
+      default: '#ff9800',
+      light: '#ffb74d',
+    }}
+  />
+  <ColorItem
+    title="Error color"
+    subtitle="--gv-theme-color-error"
+    colors={{
+      dark: '#d32f2f',
+      default: '#f44336',
+      light: '#e57373',
+    }}
+  />
+  <ColorItem
+    title="Font color"
+    subtitle="--gv-theme-font-color"
+    colors={{
+      dark: '#262626',
+      light: '#ffffff',
+    }}
+  />
+  <ColorItem title="Font color" subtitle="--gv-theme-skeleton-color" colors={['#bfbfbf']} />
+  <ColorItem title="Homepage background color" subtitle="--gv-theme-homepage-background-color" colors={['#5a7684']} />
 </ColorPalette>
