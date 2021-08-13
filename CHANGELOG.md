@@ -1,3 +1,10 @@
+## [3.11.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.11.0...v3.11.1) (2021-08-13)
+
+
+### Bug Fixes
+
+* **gv-http-client:** export schema form in a JS file to include it in the released package ([32183de](https://github.com/gravitee-io/gravitee-ui-components/commit/32183de359c291e6dea8dae6f72811454248e55f))
+
 # [3.11.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.6...v3.11.0) (2021-08-13)
 
 
