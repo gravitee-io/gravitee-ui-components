@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.6...v3.11.0) (2021-08-13)
+
+
+### Features
+
+* handle debug mode ([9a507df](https://github.com/gravitee-io/gravitee-ui-components/commit/9a507df6dd458e6791ff81b9831f4b5fd4da9944)), closes [gravitee-io/issues#5803](https://github.com/gravitee-io/issues/issues/5803)
+
 ## [3.10.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.10.5...v3.10.6) (2021-08-04)
 
 
