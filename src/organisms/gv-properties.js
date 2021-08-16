@@ -35,12 +35,14 @@ import { empty } from '../styles/empty';
  * A component to manage properties
  *
  * @fires gv-properties:change - When list of properties change
- * @fires gv-properties:save-provider - When user validate provider configuration
+ * @fires gv-properties:save-provider - When user validates provider configuration
+ * @fires gv-properties:switch-encrypted - When user switches encryption toggle
  *
  * @attr {Array} properties - Array of Properties {key, value, dynamic?}
  * @attr {Object} provider - Configuration of provider
  * @attr {Array} providers - List of available providers (only http for the moment)
  * @attr {Boolean} expert - For display expert mode by default
+ * @attr {Boolean} encryptable - To display the 'encrypted' toggle on each property
  */
 export class GvProperties extends KeyboardElement(LitElement) {
   static get properties() {
@@ -61,6 +63,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
       _showDocumentation: { type: Boolean, attribute: false },
       _textRows: { type: Number, attribute: false },
       readonly: { type: Boolean, reflect: true },
+      encryptable: { type: Boolean, reflect: true },
     };
   }
 
@@ -93,6 +96,11 @@ export class GvProperties extends KeyboardElement(LitElement) {
 
   set properties(properties) {
     this._properties = properties.sort((a, b) => a.key.localeCompare(b.key));
+    properties.forEach((property) => {
+      if (property.encrypted) {
+        property.encryptable = true;
+      }
+    });
   }
 
   get properties() {
@@ -156,10 +164,19 @@ export class GvProperties extends KeyboardElement(LitElement) {
     dispatchCustomEvent(this, 'change', { properties: this.properties });
   }
 
+  _onSwitchEncrypted(item) {
+    if (item.encrypted === true) {
+      item.value = '';
+      item.encrypted = false;
+      this.requestUpdate();
+    }
+    dispatchCustomEvent(this, 'switch-encrypted', { properties: this.properties });
+  }
+
   _addProperty(item) {
     delete item._new;
     this.properties = [item, ...this._properties];
-    this._newItem = { key: '', value: '', _new: true };
+    this._newItem = { key: '', value: '', _new: true, encryptable: false, encrypted: false };
     dispatchCustomEvent(this, 'change', { properties: this.properties });
   }
 
@@ -174,16 +191,27 @@ export class GvProperties extends KeyboardElement(LitElement) {
 
   _submitExpertMode() {
     if (this.expert) {
-      const providerEnabled = this.provider && this.provider.enabled;
-      const manualPropertiesValue = this.shadowRoot.querySelector('#expert-input').value;
-      const dynamicProperties = this._properties.filter((prop) => providerEnabled && prop.dynamic);
-      const allProperties = `${manualPropertiesValue}\n${toNameEqualsValueString(dynamicProperties)}`;
-      const { errors } = parseRaw(allProperties);
-      if (errors.length === 0) {
-        const { variables } = parseRaw(manualPropertiesValue);
-        this.properties = [...variables, ...dynamicProperties];
-        dispatchCustomEvent(this, 'change', { properties: this.properties });
-      }
+      this._handleExpertModeInput(this.shadowRoot.querySelector('#expert-input').value);
+    }
+  }
+
+  _onExpertModeTextInput({ detail }) {
+    this._handleExpertModeInput(detail);
+  }
+
+  _handleExpertModeInput(expertModeValues) {
+    const providerEnabled = this.provider && this.provider.enabled;
+    const dynamicProperties = this._properties.filter((prop) => providerEnabled && prop.dynamic);
+    const encryptedProperties = this._properties.filter((prop) => prop.encrypted);
+    const allProperties = `${expertModeValues}\n${toNameEqualsValueString(dynamicProperties)}\n${toNameEqualsValueString(
+      encryptedProperties,
+    )}`;
+    const { errors } = parseRaw(allProperties);
+    this._errors = errors;
+    if (errors.length === 0) {
+      const { variables } = parseRaw(expertModeValues);
+      this.properties = [...variables, ...dynamicProperties, ...encryptedProperties];
+      dispatchCustomEvent(this, 'change', { properties: this.properties });
     }
   }
 
@@ -304,18 +332,6 @@ export class GvProperties extends KeyboardElement(LitElement) {
     });
   }
 
-  _onTextInput({ detail }) {
-    const providerEnabled = this.provider && this.provider.enabled;
-    const dynamicProperties = this._properties.filter((prop) => providerEnabled && prop.dynamic);
-    const allProperties = `${detail}\n${toNameEqualsValueString(dynamicProperties)}`;
-    const { errors } = parseRaw(allProperties);
-    this._errors = errors;
-    if (errors.length === 0) {
-      const { variables } = parseRaw(detail);
-      dispatchCustomEvent(this, 'change', { properties: [...variables, ...dynamicProperties] });
-    }
-  }
-
   _renderErrors(withLine = false) {
     if (this._formattedErrors.length > 0) {
       return html`<div class="${classMap({ 'add-form-error': true, 'add-form-error_expert': this.expert })}">
@@ -340,13 +356,14 @@ export class GvProperties extends KeyboardElement(LitElement) {
     if (this.expert) {
       this._computeTextRows();
 
-      const expertProperties = providerEnabled ? this._properties.filter((prop) => !(providerEnabled && prop.dynamic)) : this._properties;
+      const staticProperties = providerEnabled ? this._properties.filter((prop) => !(providerEnabled && prop.dynamic)) : this._properties;
+      const expertProperties = staticProperties.filter((prop) => !prop.encrypted);
       const content = expertProperties.map((prop) => `${prop.key}="${prop.value}"`).join('\n');
 
       return html`<gv-text
           id="expert-input"
           placeholder="${i18n('gv-properties.placeholder.input')}"
-          @gv-text:input="${this._onTextInput}"
+          @gv-text:input="${this._onExpertModeTextInput}"
           .value="${content}"
           ?readonly="${this.readonly}"
           .rows="${this._textRows}"
@@ -387,12 +404,29 @@ export class GvProperties extends KeyboardElement(LitElement) {
               placeholder: 'Property value',
               required: true,
               readonly: this.readonly,
-              disabled: (item) => item.dynamic && providerEnabled,
+              disabled: (item) => (item.dynamic && providerEnabled) || item.encrypted,
+              type: (item) => (item.encrypted ? 'password' : 'text'),
+              icon: null,
               'ongv-input:input': this._onInput.bind(this),
             },
           },
         ],
       };
+
+      if (this.encryptable === true) {
+        options.data.push({
+          field: 'encryptable',
+          type: 'gv-switch',
+          width: '120px',
+          attributes: {
+            description: 'Encrypted',
+            required: true,
+            readonly: this.readonly,
+            disabled: (item) => item.dynamic && providerEnabled,
+            'ongv-switch:input': this._onSwitchEncrypted.bind(this),
+          },
+        });
+      }
 
       if (this.readonly !== true) {
         options.data.push({
@@ -424,9 +458,11 @@ export class GvProperties extends KeyboardElement(LitElement) {
         properties = [...filteredProperties].splice(index, this._pageSize);
       }
 
+      const addPropertyFormGridClass = this.encryptable ? 'add-form-grid-with-encrypted-toggle' : 'add-form-grid';
+
       const addPropertyForm =
         this.readonly !== true
-          ? html`<form id="add-property-form" class="add-form" @submit="${this._onSubmit}">
+          ? html`<form id="add-property-form" class="add-form ${addPropertyFormGridClass}" @submit="${this._onSubmit}">
                 <div></div>
                 <gv-input
                   class="control"
@@ -442,6 +478,15 @@ export class GvProperties extends KeyboardElement(LitElement) {
                   @gv-input:input="${this._onInputNew.bind(this, 'value')}"
                   .value="${this._newItem.value}"
                 ></gv-input>
+                ${this.encryptable
+                  ? html` <gv-switch
+                      class="control"
+                      required
+                      description="Encrypted"
+                      @gv-switch:input="${this._onInputNew.bind(this, 'encryptable')}"
+                      .value="${this._newItem.encryptable}"
+                    ></gv-switch>`
+                  : ''}
                 <gv-button
                   id="add-property"
                   icon="code:plus"
@@ -780,11 +825,15 @@ export class GvProperties extends KeyboardElement(LitElement) {
           box-sizing: border-box;
           margin: 0.2rem;
           border-right: solid thick transparent;
+          height: 50px;
         }
 
-        .add-form {
+        .add-form-grid {
           grid-template-columns: 40px calc(50% - 40px) calc(50% - 40px) 40px;
-          height: 50px;
+        }
+
+        .add-form-grid-with-encrypted-toggle {
+          grid-template-columns: 40px calc(50% - 100px) calc(50% - 100px) 120px 40px;
         }
 
         .add-form-error_expert {

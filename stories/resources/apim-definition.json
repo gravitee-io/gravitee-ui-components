@@ -393,7 +393,9 @@
     },
     {
       "key": "property.2",
-      "value": "Value 2"
+      "value": "Value 2",
+      "encryptable": true,
+      "encrypted": true
     },
     {
       "key": "property.3",
