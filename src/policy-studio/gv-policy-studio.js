@@ -1681,6 +1681,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this.isDirty = true;
   }
 
+  _onSwitchEncryptedProperty({ detail }) {
+    this.isDirty = true;
+  }
+
   render() {
     const readonlyMode = this._getReadonlyModeForDesign();
 
@@ -1760,7 +1764,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           .provider="${this.services['dynamic-property']}"
           @gv-properties:change="${this._onPropertiesChange}"
           @gv-properties:save-provider="${this._onSaveProvider}"
+          @gv-properties:switch-encrypted="${this._onSwitchEncryptedProperty}"
           ?readonly="${readonlyMode}"
+          encryptable="true"
           .properties="${this.definedProperties}"
           .providers="${this.propertyProviders}"
           .dynamicPropertySchema="${this.dynamicPropertySchema}"

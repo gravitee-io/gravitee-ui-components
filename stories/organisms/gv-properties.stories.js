@@ -35,11 +35,21 @@ const properties = [
   { key: 'ftp.nonProxyHosts', value: 'local|*.local|169.254/16|*.169.254/16' },
   { key: 'java.awt.headless', value: 'true' },
 ];
+const encryptedProperty = { key: 'ftp.privateToken', value: 'B9iKAXEeys3G3TcG5ont9dggbtjLAp5v', encryptable: true, encrypted: true };
 
 export const Basics = makeStory(conf, {
   items: [
     {
       properties,
+    },
+  ],
+});
+
+export const BasicsEncryptable = makeStory(conf, {
+  items: [
+    {
+      properties: [...properties, encryptedProperty],
+      encryptable: true,
     },
   ],
 });
