@@ -1,3 +1,10 @@
+## [3.11.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.11.1...v3.11.2) (2021-08-16)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** use correct icon and name for `try it` tab ([fecc56e](https://github.com/gravitee-io/gravitee-ui-components/commit/fecc56e429efa12966511a80cafb08c5b7c374f0))
+
 ## [3.11.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.11.0...v3.11.1) (2021-08-13)
 
 
