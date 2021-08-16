@@ -376,7 +376,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   set canDebug(value) {
     if (value) {
-      this._tabs = [...this._tabs, { id: 'debug', title: 'Try it?', icon: 'general:settings#2' }];
+      this._tabs = [...this._tabs, { id: 'debug', title: 'Try it', icon: 'content:send' }];
     }
   }
 
