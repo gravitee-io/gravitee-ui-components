@@ -276,6 +276,7 @@ export class GvSchemaForm extends LitElement {
     for (const operation of condition) {
       // operation only have one operator with a single object containing operand values
       const operator = Object.keys(operation)[0];
+
       switch (operator) {
         case '$neq':
           result = result && this._evaluateNotEqualsCondition(operation);
@@ -306,9 +307,13 @@ export class GvSchemaForm extends LitElement {
   _evaluateEqualsCondition(condition) {
     const operator = Object.keys(condition)[0];
     const operands = condition[operator];
-    const modelAttribute = Object.keys(operands)[0];
-    const testValue = operands[modelAttribute];
-    return get(this._values, modelAttribute) === testValue;
+    const modelAttributes = Object.keys(operands);
+    return modelAttributes
+      .map((modelAttribute) => {
+        const testValue = operands[modelAttribute];
+        return get(this._values, modelAttribute) === testValue;
+      })
+      .reduce((acc, current) => acc || current);
   }
 
   _evaluateNotDefCondition(condition) {
