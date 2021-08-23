@@ -98,10 +98,11 @@
   },
   "gv-properties": {
     "add": "Ajouter",
+    "encrypted-toggle": "Crypté",
     "placeholder": {
-      "input": "NOM_DE_LA_PROPRIETE=\"valeur de la propriété\"",
-      "key": "NOM_DE_LA_PROPRIETE",
-      "value": "valeur de la propriété"
+      "input": "NOM_DE_LA_NOUVELLE_PROPRIETE=\"valeur de la nouvelle propriété\"",
+      "key": "NOM_DE_LA_NOUVELLE_PROPRIETE",
+      "value": "valeur de la nouvelle propriété"
     },
     "errors": {
       "line": "ligne",
@@ -110,6 +111,10 @@
       "unknown": "Erreur inconnue",
       "invalid-line": "Cette ligne n'est pas valide, il faut respecter la syntaxe: <code>NAME=\"VALUE\"</code>",
       "invalid-value": "la valeur n'est pas valide, si vous utilisez des guillemets, vous devez les échapper comme ceci: <code>\\\\\"</code> ou envelopper la valeur totale."
+    },
+    "infos": {
+      "encrypted-value": "Cette valeur est chiffrée. Pour en saisir une nouvelle, désactivez le chiffrement via l'interrupteur.",
+      "overwrite-encryption": "Attention, la précédente valeur chiffrée sera effacée"
     }
   },
   "gv-rating": {

@@ -43,6 +43,8 @@ import { empty } from '../styles/empty';
  * @attr {Array} providers - List of available providers (only http for the moment)
  * @attr {Boolean} expert - For display expert mode by default
  * @attr {Boolean} encryptable - To display the 'encrypted' toggle on each property
+ *
+ * @cssprop {Length} [--gv-properties-table--colmg=0.2rem] - Table cells margin
  */
 export class GvProperties extends KeyboardElement(LitElement) {
   static get properties() {
@@ -95,12 +97,14 @@ export class GvProperties extends KeyboardElement(LitElement) {
   }
 
   set properties(properties) {
-    this._properties = properties.sort((a, b) => a.key.localeCompare(b.key));
-    properties.forEach((property) => {
-      if (property.encrypted) {
-        property.encryptable = true;
-      }
-    });
+    this._properties = properties
+      .sort((a, b) => a.key.localeCompare(b.key))
+      .map((property) => {
+        if (property.encrypted) {
+          property.encryptable = true;
+        }
+        return property;
+      });
   }
 
   get properties() {
@@ -168,6 +172,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
     if (item.encrypted === true) {
       item.value = '';
       item.encrypted = false;
+      item.encryptionWarning = i18n('gv-properties.infos.overwrite-encryption');
       this.requestUpdate();
     }
     dispatchCustomEvent(this, 'switch-encrypted', { properties: this.properties });
@@ -191,7 +196,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
 
   _submitExpertMode() {
     if (this.expert) {
-      this._handleExpertModeInput(this.shadowRoot.querySelector('#expert-input').value);
+      this.properties = this._handleExpertModeInput(this.shadowRoot.querySelector('#expert-input').value);
     }
   }
 
@@ -199,20 +204,24 @@ export class GvProperties extends KeyboardElement(LitElement) {
     this._handleExpertModeInput(detail);
   }
 
-  _handleExpertModeInput(expertModeValues) {
+  _handleExpertModeInput(expertModeInputString) {
+    let allProperties = this._properties;
     const providerEnabled = this.provider && this.provider.enabled;
-    const dynamicProperties = this._properties.filter((prop) => providerEnabled && prop.dynamic);
-    const encryptedProperties = this._properties.filter((prop) => prop.encrypted);
-    const allProperties = `${expertModeValues}\n${toNameEqualsValueString(dynamicProperties)}\n${toNameEqualsValueString(
+    const dynamicProperties = allProperties.filter((prop) => providerEnabled && prop.dynamic);
+    const encryptedProperties = allProperties.filter((prop) => prop.encrypted);
+
+    const allPropertiesString = `${expertModeInputString}\n${toNameEqualsValueString(dynamicProperties)}\n${toNameEqualsValueString(
       encryptedProperties,
     )}`;
-    const { errors } = parseRaw(allProperties);
+    const { errors } = parseRaw(allPropertiesString);
     this._errors = errors;
     if (errors.length === 0) {
-      const { variables } = parseRaw(expertModeValues);
-      this.properties = [...variables, ...dynamicProperties, ...encryptedProperties];
-      dispatchCustomEvent(this, 'change', { properties: this.properties });
+      const { variables } = parseRaw(expertModeInputString);
+      allProperties = [...variables, ...dynamicProperties, ...encryptedProperties];
+      dispatchCustomEvent(this, 'change', { properties: allProperties });
     }
+
+    return allProperties;
   }
 
   _onSubmitPropertyForm({ detail }) {
@@ -380,7 +389,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
             attributes: {
               shape: (item) => (item.dynamic && providerEnabled ? 'code:time-schedule' : ''),
               title: (item) => (item.dynamic && providerEnabled ? 'Dynamic properties service is actually in running' : ''),
-              style: 'justify-content: center;',
+              style: 'justify-content: center; align-items: center; height: 100%;',
             },
           },
           {
@@ -406,6 +415,8 @@ export class GvProperties extends KeyboardElement(LitElement) {
               readonly: this.readonly,
               disabled: (item) => (item.dynamic && providerEnabled) || item.encrypted,
               type: (item) => (item.encrypted ? 'password' : 'text'),
+              title: (item) => (item.encrypted ? i18n('gv-properties.infos.encrypted-value') : ''),
+              description: (item) => item.encryptionWarning,
               icon: null,
               'ongv-input:input': this._onInput.bind(this),
             },
@@ -417,13 +428,15 @@ export class GvProperties extends KeyboardElement(LitElement) {
         options.data.push({
           field: 'encryptable',
           type: 'gv-switch',
-          width: '120px',
+          style: '--gv-switch--ta: right;',
+          width: '105px',
           attributes: {
-            description: 'Encrypted',
+            description: i18n('gv-properties.encrypted-toggle'),
             required: true,
             readonly: this.readonly,
             disabled: (item) => item.dynamic && providerEnabled,
             'ongv-switch:input': this._onSwitchEncrypted.bind(this),
+            style: 'display: inline-flex; font-size: 12px; height: 40px;',
           },
         });
       }
@@ -482,7 +495,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
                   ? html` <gv-switch
                       class="control"
                       required
-                      description="Encrypted"
+                      description="${i18n('gv-properties.encrypted-toggle')}"
                       @gv-switch:input="${this._onInputNew.bind(this, 'encryptable')}"
                       .value="${this._newItem.encryptable}"
                     ></gv-switch>`
@@ -496,11 +509,12 @@ export class GvProperties extends KeyboardElement(LitElement) {
                   title="${i18n('gv-properties.add')}"
                 ></gv-button>
               </form>
-              ${this._renderErrors()}`
+              ${this._renderErrors()}
+              <hr />`
           : '';
 
       return html` ${addPropertyForm}
-        <gv-table .options="${options}" .items="${properties}" noheader nosort order="key" rowheight="50px"></gv-table>`;
+        <gv-table .options="${options}" .items="${properties}" noheader nosort order="key" rowheight="57px"></gv-table>`;
     }
   }
 
@@ -735,7 +749,14 @@ export class GvProperties extends KeyboardElement(LitElement) {
         gv-table {
           height: auto;
           flex: 1;
+          margin-top: 10px;
+          margin-right: 50px;
           --gv-table-rows--ov: none;
+          --gv-table--colmg: var(--gv-properties-table--colmg, 0.2rem);
+          --gv-table-cell--d: inline;
+          --gv-table-row--ai: flex-start;
+          --gv-table-row--ac: flex-start;
+          --gv-table-hover--bgc: var(--gv-theme-neutral-color-lightest);
         }
 
         .properties-title {
@@ -815,6 +836,10 @@ export class GvProperties extends KeyboardElement(LitElement) {
           --gv-text--lh: 25px;
         }
 
+        gv-switch {
+          --gv-switch--ta: right;
+        }
+
         .header gv-input {
           margin: 0 1rem;
         }
@@ -822,18 +847,32 @@ export class GvProperties extends KeyboardElement(LitElement) {
         .add-form,
         .add-form-error {
           display: grid;
+          margin: auto 50px auto 0;
           box-sizing: border-box;
-          margin: 0.2rem;
+        }
+
+        .add-form {
+          column-gap: var(--gv-properties-table--colmg, 0.2rem);
           border-right: solid thick transparent;
           height: 50px;
         }
 
+        .add-form gv-input,
+        gv-button,
+        gv-switch {
+          margin: auto 0;
+        }
+
+        .add-form gv-switch {
+          font-size: 12px;
+        }
+
         .add-form-grid {
-          grid-template-columns: 40px calc(50% - 40px) calc(50% - 40px) 40px;
+          grid-template-columns: 40px auto auto 40px;
         }
 
         .add-form-grid-with-encrypted-toggle {
-          grid-template-columns: 40px calc(50% - 100px) calc(50% - 100px) 120px 40px;
+          grid-template-columns: 40px auto auto 105px 40px;
         }
 
         .add-form-error_expert {
@@ -844,16 +883,11 @@ export class GvProperties extends KeyboardElement(LitElement) {
           grid-template-columns: 40px 1fr;
         }
 
-        .add-form > * {
-          margin: auto 0.2rem;
-        }
-
         code {
           color: var(--gv-theme-color-warning-dark, #f57c00);
         }
 
         .form-content {
-          max-width: 1200px;
           display: flex;
           flex-direction: column;
           width: 100%;
@@ -870,6 +904,13 @@ export class GvProperties extends KeyboardElement(LitElement) {
 
         .search-input {
           width: 300px;
+        }
+
+        hr {
+          background-color: var(--gv-theme-neutral-color);
+          border: 0;
+          width: 100%;
+          height: 2px;
         }
       `,
     ];

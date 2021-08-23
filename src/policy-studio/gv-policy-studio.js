@@ -239,6 +239,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           width: 100%;
         }
 
+        gv-properties.properties {
+          --gv-properties-table--colmg: 10px;
+        }
+
         .api-settings {
           display: flex;
           flex-direction: column;
