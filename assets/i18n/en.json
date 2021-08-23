@@ -98,10 +98,11 @@
   },
   "gv-properties": {
     "add": "Add",
+    "encrypted-toggle": "Encrypted",
     "placeholder": {
-      "input": "PROPERTY_KEY=\"property value\"",
-      "key": "PROPERTY_KEY",
-      "value": "property value"
+      "input": "NEW_PROPERTY_KEY=\"New property value\"",
+      "key": "NEW_PROPERTY_KEY",
+      "value": "New property value"
     },
     "errors": {
       "line": "line",
@@ -110,6 +111,10 @@
       "unknown": "Unknown Error",
       "invalid-line": "this line is not valid, the correct pattern is: <code>KEY=\"VALUE\"</code>",
       "invalid-value": "the value is not valid, if you use quotes, you need to escape them like this: <code>\\\\\"</code> or quote the whole value."
+    },
+    "infos": {
+      "encrypted-value": "This value is encrypted. To enter a new value, switch off the encryption toggle.",
+      "overwrite-encryption": "Be careful, the previous encrypted value will be lost"
     }
   },
   "gv-rating": {

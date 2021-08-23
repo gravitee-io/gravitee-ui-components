@@ -39,6 +39,7 @@ import { dispatchCustomEvent } from '../lib/events';
  * @cssprop {Color} [--gv-switch-on--bgc=var(--gv-theme-color, #5a7684)] - On background color
  * @cssprop {Color} [--gv-switch-off--bgc=var(--gv-theme-neutral-color-dark, #bfbfbf)] - Off background color
  * @cssprop {Color} [--gv-switch--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Switch background color
+ * @cssprop {String} [--gv-switch--ta=left] - Switch label text alignment
  */
 export class GvSwitch extends LitElement {
   static get properties() {
@@ -77,6 +78,7 @@ export class GvSwitch extends LitElement {
           flex: 1;
           margin-right: 0.4rem;
           box-sizing: border-box;
+          text-align: var(--gv-switch--ta, left);
         }
 
         .switch-title {

@@ -28,6 +28,7 @@ import { withResizeObserver } from '../mixins/with-resize-observer';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import '../atoms/gv-image';
 import '../organisms/gv-pagination';
+import { getCssVar } from '../lib/style';
 
 /**
  * Table component
@@ -62,6 +63,10 @@ import '../organisms/gv-pagination';
  * @cssprop {String} [--gv-table-header--fz=var(--gv-theme-font-size-l, 20px)] - Title font size
  * @cssprop {Length} [--gv-table-header--p=2rem 4rem] - Title padding
  * @cssprop {String} [--gv-table-rows--ov=auto] - Overflow on table
+ * @cssprop {Length} [--gv-table--colmg=0.2rem] - Column gap
+ * @cssprop {String} [--gv-table-row--ai=center] - Row align-items
+ * @cssprop {String} [--gv-table-row--ac=center] - Row align-content
+ * @cssprop {String} [--gv-table-cell--d=flex] - Cell display
  */
 export class GvTable extends withResizeObserver(LitElement) {
   static get properties() {
@@ -148,8 +153,8 @@ export class GvTable extends withResizeObserver(LitElement) {
 
         .row,
         .theader {
-          align-items: center;
-          align-content: center;
+          align-items: var(--gv-table-row--ai, center);
+          align-content: var(--gv-table-row--ac, center);
           border-right: solid thick transparent;
           display: grid;
         }
@@ -160,9 +165,8 @@ export class GvTable extends withResizeObserver(LitElement) {
 
         .cell {
           height: 100%;
-          display: flex;
+          display: var(--gv-table-cell--d, flex);
           align-items: center;
-          margin: 0.2rem;
         }
 
         .row:not(:last-child) {
@@ -529,6 +533,7 @@ export class GvTable extends withResizeObserver(LitElement) {
                   'grid-auto-rows': this.rowheight ? null : 'minmax(80px, auto)',
                   cursor: this.options.selectable ? 'pointer' : '',
                   'border-color': this.options.selectable && this._isSelected(item) ? 'var(--selected--bgc)' : '',
+                  'column-gap': 'var(--gv-table--colmg, 0.2rem)',
                 },
               })}
             @click="${this._onSelect.bind(this, item)}"
@@ -575,7 +580,10 @@ export class GvTable extends withResizeObserver(LitElement) {
 
     widthTemplate = widthTemplate.map((width) => {
       if (width == null) {
-        return `calc((100% - ${fixedWidth}px) / ${this.options.data.length - fixedData.length})`;
+        const columnGap = getCssVar(this, '--gv-table--colmg', '0.2rem');
+        return `calc((100% - ( ${fixedWidth}px + ${this.options.data.length - 1} * ${columnGap} ) ) / ${
+          this.options.data.length - fixedData.length
+        })`;
       }
       return width;
     });
