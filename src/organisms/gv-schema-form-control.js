@@ -341,7 +341,11 @@ export class GvSchemaFormControl extends LitElement {
         }
 
         :host([hidden]) {
-          display: none;
+          visibility: hidden;
+          height: 0;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
         }
 
         .form__control-description,
