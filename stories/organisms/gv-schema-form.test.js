@@ -48,6 +48,7 @@ describe('S C H E M A  F O R M', () => {
     'multiselect',
     'cron',
     'disabled',
+    'hidden-with-condition',
     'hidden',
     'readonly',
     'writeonly',
@@ -113,6 +114,7 @@ describe('S C H E M A  F O R M', () => {
       attributes: [{ name: 'foo', value: 'bar' }],
       cron: '*/30 * * * * SUN-MON',
       disabled: 'Simple Test',
+      hidden: 'not visible',
     };
     component.requestUpdate();
 
@@ -133,6 +135,7 @@ describe('S C H E M A  F O R M', () => {
         checkControl('attributes.0', { value: { name: 'foo', value: 'bar' } });
         checkControl('cron', { value: '*/30 * * * * SUN-MON' });
         checkControl('disabled', { value: 'Simple Test' });
+        checkControl('hidden', { value: 'not visible', hidden: true });
         done();
       }, 0);
     });

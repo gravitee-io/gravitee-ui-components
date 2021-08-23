@@ -263,6 +263,9 @@ export class GvSchemaForm extends LitElement {
       return false;
     }
     const condition = control['x-schema-form'][conditionKey];
+    if (typeof condition === 'boolean') {
+      return condition;
+    }
     if (!Array.isArray(condition)) {
       // condition isn't an array, ignore the condition
       console.warn(`'${conditionKey}' attribute of 'x-schema-form' should be an array`);
