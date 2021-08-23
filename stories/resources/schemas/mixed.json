@@ -151,7 +151,7 @@
         "disabled": [{ "$def": "select" }, { "$eq": { "select": "a" } }]
       }
     },
-    "hidden": {
+    "hidden-with-condition": {
       "title": "Hidden field if 'Simple select' is 'a'",
       "type": "string",
       "x-schema-form": {
@@ -165,6 +165,13 @@
             }
           }
         ]
+      }
+    },
+    "hidden": {
+      "title": "Hidden field",
+      "type": "string",
+      "x-schema-form": {
+        "hidden": true
       }
     },
     "readonly": {
