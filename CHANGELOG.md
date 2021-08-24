@@ -1,3 +1,16 @@
+# [3.12.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.11.2...v3.12.0) (2021-08-24)
+
+
+### Bug Fixes
+
+* **gv-schema-form:** use alternative to hide control, codemirror does not like ([ca4fc9c](https://github.com/gravitee-io/gravitee-ui-components/commit/ca4fc9c970637806e15025b50759653a4523be6e))
+
+
+### Features
+
+* **gv-schema-form:** add simple hidden field support ([17b5e64](https://github.com/gravitee-io/gravitee-ui-components/commit/17b5e64df44da79dfdb92e20e2590f7bcc0337fb)), closes [gravitee-io/issues#5948](https://github.com/gravitee-io/issues/issues/5948)
+* **gv-schema-form:** add support to evaluate AND & OR condition in ([f83680e](https://github.com/gravitee-io/gravitee-ui-components/commit/f83680ee1a6178fb67986dc648c5251e8bb97974)), closes [gravitee-io/issues#5972](https://github.com/gravitee-io/issues/issues/5972)
+
 ## [3.11.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.11.1...v3.11.2) (2021-08-16)
 
 
