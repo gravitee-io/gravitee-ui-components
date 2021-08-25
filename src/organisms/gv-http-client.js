@@ -26,7 +26,7 @@ import '../atoms/gv-switch';
 import '../atoms/gv-icon';
 import { KeyboardElement } from '../mixins/keyboard-element';
 import { empty } from '../styles/empty';
-import { gvHttpClientSchemaForm } from './gv-http-client-schema-form';
+import { httpClientSchemaForm } from '../lib/http-client-schema-form';
 import { dispatchCustomEvent } from '../lib/events';
 import { statusCode } from '../lib/http';
 import { repeat } from 'lit-html/directives/repeat';
@@ -76,7 +76,7 @@ export class GvHttpClient extends KeyboardElement(LitElement) {
       <div class="request">
         <div class="top-bar">Request</div>
         <div class="request-form">
-          <gv-schema-form .schema="${gvHttpClientSchemaForm}" id="request-form" @gv-schema-form:change="${this._updateRequest}">
+          <gv-schema-form .schema="${httpClientSchemaForm}" id="request-form" @gv-schema-form:change="${this._updateRequest}">
           </gv-schema-form>
           <gv-button
             class="request-form-button"
