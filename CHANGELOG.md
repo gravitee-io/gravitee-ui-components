@@ -1,3 +1,10 @@
+## [3.12.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.12.0...v3.12.1) (2021-08-25)
+
+
+### Bug Fixes
+
+* **gv-http-client:** remove default header value ([95a911a](https://github.com/gravitee-io/gravitee-ui-components/commit/95a911aded441e4b45dfecf0943b4e0c5d9dbd8e))
+
 # [3.12.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.11.2...v3.12.0) (2021-08-24)
 
 
