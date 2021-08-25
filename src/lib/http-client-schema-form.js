@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const gvHttpClientSchemaForm = {
+export const httpClientSchemaForm = {
   type: 'object',
   id: 'urn:jsonschema:io:gravitee:http:client',
   properties: {
@@ -47,12 +47,6 @@ export const gvHttpClientSchemaForm = {
         },
       },
       required: ['name', 'value'],
-      default: [
-        {
-          name: '',
-          value: '',
-        },
-      ],
     },
     body: {
       title: 'Request body',
