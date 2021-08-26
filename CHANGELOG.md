@@ -1,3 +1,11 @@
+# [3.13.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.12.1...v3.13.0) (2021-08-26)
+
+
+### Features
+
+* **gv-properties:** add property encryption toggle ([ee6ae0f](https://github.com/gravitee-io/gravitee-ui-components/commit/ee6ae0f214664e00febee6df8765627b970d5b8b))
+* **gv-properties:** ux improvements on api properties screen ([ddf232b](https://github.com/gravitee-io/gravitee-ui-components/commit/ddf232bd7ffa695f773f5c6ca55b75a45207d2e5))
+
 ## [3.12.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.12.0...v3.12.1) (2021-08-25)
 
 
