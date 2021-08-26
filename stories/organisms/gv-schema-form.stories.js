@@ -21,7 +21,7 @@ import { fetch } from 'whatwg-fetch';
 import grammar from '../resources/el-grammar.json';
 
 export default {
-  title: 'organisms/gv-schema-form',
+  title: 'Organisms/gv-schema-form',
   component: 'gv-schema-form',
   parameters: {
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run

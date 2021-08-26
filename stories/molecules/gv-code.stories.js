@@ -17,7 +17,7 @@ import '../../src/molecules/gv-code';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'molecules/gv-code',
+  title: 'Molecules/gv-code',
   component: 'gv-code',
 };
 

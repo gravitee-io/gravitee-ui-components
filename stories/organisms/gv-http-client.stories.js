@@ -17,7 +17,7 @@ import '../../src/organisms/gv-http-client';
 import { html } from 'lit-element';
 
 export default {
-  title: 'organisms/gv-http-client',
+  title: 'Organisms/gv-http-client',
   component: 'gv-http-client',
   parameters: {
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run

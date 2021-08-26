@@ -20,7 +20,7 @@ import apimResourceTypes from '../resources/apim-resource-types.json';
 import apimDefinition from '../resources/apim-definition.json';
 
 export default {
-  title: 'organisms/gv-resources',
+  title: 'Organisms/gv-resources',
   component: 'gv-resources',
   parameters: {
     options: {

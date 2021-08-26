@@ -17,7 +17,7 @@ import '../../src/molecules/gv-cron-editor';
 import { makeStory } from '../lib/make-story';
 
 export default {
-  title: 'molecules/gv-cron-editor',
+  title: 'Molecules/gv-cron-editor',
   component: 'gv-cron-editor',
   parameters: {
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
