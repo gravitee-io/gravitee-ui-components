@@ -117,7 +117,9 @@
       "title": "Time to live (in seconds)",
       "default": 600,
       "description": "Time to live of the element put in cache (Default to 10 minutes).",
-      "type": "integer"
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
     },
     "useResponseCacheHeaders": {
       "title": "Use response headers",
