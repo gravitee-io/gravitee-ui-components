@@ -67,7 +67,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
 
         .row:not(.error) {
           display: grid;
-          grid-template-columns: calc(var(--gv-row-image--w, 35px) + 5px) 1fr auto;
+          grid-template-columns: calc(var(--gv-row-image--w, 35px) + 5px) auto fit-content(20%);
           grid-gap: 10px;
           align-items: center;
         }
@@ -197,9 +197,9 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
               </div>
               <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
                 <div class="meta__owner">
-                  ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>` : ''}
-                  ${this.small !== true ? html`<div class="meta__tags">${this._renderLabels()}</div>` : ''}
+                  ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}` : ''}
                 </div>
+                ${this.small !== true ? html`<div class="meta__tags">${this._renderLabels()}</div>` : ''}
               </div>
             `}
       </div>
