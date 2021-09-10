@@ -24,6 +24,12 @@ export const httpClientSchemaForm = {
       default: 'GET',
       enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'CONNECT', 'OPTIONS', 'TRACE'],
     },
+    virtualHost: {
+      title: 'Virtual host',
+      description: 'Listening host - Listening path',
+      type: 'string',
+      enum: [],
+    },
     path: {
       title: 'Path',
       type: 'string',

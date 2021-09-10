@@ -174,6 +174,12 @@ export const APIM = makeStory(conf, {
           statusCode: 200,
         },
       },
+      apiProxy: {
+        virtual_hosts: [
+          { path: '/echo', host: 'api.gravitee.io' },
+          { path: '/echo-dev', host: 'dev.gravitee.io' },
+        ],
+      },
     },
   ],
 });

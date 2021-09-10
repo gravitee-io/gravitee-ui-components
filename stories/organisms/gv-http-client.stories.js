@@ -33,6 +33,24 @@ export const Default = {
   },
 };
 
+export const WithVirtualHosts = {
+  render: ({ response, loading, path, method, virtualHosts }) =>
+    html` <gv-http-client
+      .response="${response}"
+      ?loading="${loading}"
+      .path="${path}"
+      .method="${method}"
+      .virtualHosts="${virtualHosts}"
+    ></gv-http-client>`,
+  args: {
+    loading: false,
+    virtualHosts: [
+      { path: '/echo', host: 'api.gravitee.io' },
+      { path: '/echo-dev', host: 'dev.gravitee.io' },
+    ],
+  },
+};
+
 export const Loading = {
   ...Default,
   args: {

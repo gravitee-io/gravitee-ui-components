@@ -30,6 +30,7 @@ import { httpClientSchemaForm } from '../lib/http-client-schema-form';
 import { dispatchCustomEvent } from '../lib/events';
 import { statusCode } from '../lib/http';
 import { repeat } from 'lit-html/directives/repeat';
+import { deepClone } from '../lib/utils';
 
 /**
  * @fires gv-http-client:send - Event sent when
@@ -38,6 +39,7 @@ import { repeat } from 'lit-html/directives/repeat';
  * @attr {String} method - Method of the request
  * @attr {Boolean} loading - True if the request is in progress
  * @attr {Object} response - Response of the request
+ * @attr {Array} virtual-hosts - Virtual hosts
  */
 export class GvHttpClient extends KeyboardElement(LitElement) {
   static get properties() {
@@ -46,19 +48,28 @@ export class GvHttpClient extends KeyboardElement(LitElement) {
       path: { type: String },
       method: { type: String },
       loading: { type: Boolean },
+      virtualHosts: { type: Array, attribute: 'virtual-hosts' },
+      _virtualHosts: { type: Array, attribute: false },
     };
   }
 
   constructor() {
     super();
-    this.response = undefined;
     this.loading = false;
-    this.path = undefined;
-    this.method = undefined;
     this.request = {
+      virtualHost: {
+        path: '/',
+      },
       method: 'GET',
       path: '/',
     };
+  }
+
+  set virtualHosts(virtualHosts) {
+    if (virtualHosts != null && virtualHosts.length > 0) {
+      this.request.virtualHost = virtualHosts[0];
+      this._virtualHosts = virtualHosts;
+    }
   }
 
   _sendRequest() {
@@ -67,8 +78,45 @@ export class GvHttpClient extends KeyboardElement(LitElement) {
 
   _updateRequest(formData) {
     this.isFormValid = formData.detail.validation.valid;
-    this.request = formData.detail.values;
+    const values = deepClone(formData.detail.values);
+    const virtualHost = this._parse(values.virtualHost);
+    this.request = { ...values, virtualHost };
     this.requestUpdate();
+  }
+
+  _format(vHost) {
+    return JSON.stringify(vHost);
+  }
+
+  _parse(vHostFormatted) {
+    return JSON.parse(vHostFormatted);
+  }
+
+  get schema() {
+    const form = deepClone(httpClientSchemaForm);
+    let hidden = true;
+    const titleMap = {};
+    if (this._virtualHosts != null) {
+      form.properties.virtualHost.default = this._format(this.request.virtualHost);
+      if (this._virtualHosts.length > 1) {
+        hidden = false;
+        form.properties.virtualHost.enum = [
+          ...new Set(
+            this._virtualHosts.map((vHost) => {
+              const id = this._format(vHost);
+              titleMap[id] = `${vHost.host} ${vHost.path}`;
+              return id;
+            }),
+          ),
+        ];
+      }
+    }
+    form.properties.path.description = `Path concatenate to entrypoint: <code>${this.request.virtualHost.path}/{ path }</code>`;
+    form.properties.virtualHost['x-schema-form'] = {
+      hidden,
+      titleMap,
+    };
+    return form;
   }
 
   render() {
@@ -76,8 +124,7 @@ export class GvHttpClient extends KeyboardElement(LitElement) {
       <div class="request">
         <div class="top-bar">Request</div>
         <div class="request-form">
-          <gv-schema-form .schema="${httpClientSchemaForm}" id="request-form" @gv-schema-form:change="${this._updateRequest}">
-          </gv-schema-form>
+          <gv-schema-form .schema="${this.schema}" id="request-form" @gv-schema-form:change="${this._updateRequest}"> </gv-schema-form>
           <gv-button
             class="request-form-button"
             icon-right="content:send"

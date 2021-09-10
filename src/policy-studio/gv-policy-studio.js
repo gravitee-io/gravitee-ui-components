@@ -67,6 +67,7 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * @attr {Boolean} has-policy-filter - true if policies have onRequest/onResponse properties
  * @attr {Boolean} can-debug - true if debug tab should be displayed
  * @attr {Object} debugResponse - true if debug tab should be displayed
+ * @attr {Object} api-proxy - Api proxy object with virtual hosts, usefull for debug mode
  */
 export class GvPolicyStudio extends KeyboardElement(LitElement) {
   static get properties() {
@@ -108,8 +109,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       readonly: { type: Boolean },
       readonlyPlans: { type: Boolean, attribute: 'readonly-plans' },
       canDebug: { type: Boolean, attribute: 'can-debug' },
-      _canDebug: { type: Boolean, attribute: false },
       debugResponse: { type: Object, attribute: 'debug-response' },
+      apiProxy: { type: Object, attribute: 'api-proxy' },
     };
   }
 
@@ -1605,6 +1606,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     const isLoading = this.debugResponse ? this.debugResponse.isLoading : undefined;
     const path = this.debugResponse && this.debugResponse.request ? this.debugResponse.request.path : undefined;
     const method = this.debugResponse && this.debugResponse.request ? this.debugResponse.request.method : undefined;
+    const virtualHosts = this.apiProxy && this.apiProxy.virtual_hosts ? this.apiProxy.virtual_hosts : undefined;
+
     return html`<gv-http-client
       id="debug"
       slot="content"
@@ -1613,6 +1616,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       .response="${response}"
       .path="${path}"
       .method="${method}"
+      .virtualHosts="${virtualHosts}"
       ?loading="${isLoading}"
     >
     </gv-http-client>`;
