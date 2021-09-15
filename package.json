@@ -64,7 +64,7 @@
     "messageformat": "^2.3.0",
     "object-path": "^0.11.5",
     "resize-observer-polyfill": "^1.5.1",
-    "whatwg-fetch": "^3.4.1"
+    "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@asciidoctor/core": "2.2.5",
