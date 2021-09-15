@@ -474,18 +474,7 @@ export class GvTable extends withResizeObserver(LitElement) {
     return element;
   }
 
-  _renderCell(option, item, itemIndex) {
-    let value = option.field ? this._getDataFromField(item, option.field) : '';
-    if (option.type === 'date' && value) {
-      value = new Date(value).toLocaleDateString(getLanguage());
-    } else if (option.type === 'datetime' && value) {
-      value = new Date(value).toLocaleString(getLanguage());
-    } else if (option.type === 'time' && value) {
-      value = new Date(value).toLocaleTimeString(getLanguage());
-    }
-    if (option.format) {
-      value = option.format(value);
-    }
+  _renderCell(formattedValue, option, item, itemIndex) {
     if (option.type) {
       if (option.type === 'image') {
         let alt = '';
@@ -496,14 +485,34 @@ export class GvTable extends withResizeObserver(LitElement) {
             alt = this._getDataFromField(item, option.alt);
           }
         }
-        return this._renderImage(value, alt);
+        return this._renderImage(formattedValue, alt);
       } else if (typeof option.type === 'function') {
-        return this._renderComponent(item, itemIndex, option, value, option.type(item));
+        return this._renderComponent(item, itemIndex, option, formattedValue, option.type(item));
       } else if (option.type.startsWith('gv-')) {
-        return this._renderComponent(item, itemIndex, option, value, option.type);
+        return this._renderComponent(item, itemIndex, option, formattedValue, option.type);
       }
     }
-    return until(value);
+    return until(formattedValue);
+  }
+
+  _getFormattedCellValue(option, item) {
+    let value = option.field ? this._getDataFromField(item, option.field) : '';
+
+    if (value) {
+      if (option.type === 'date') {
+        value = new Date(value).toLocaleDateString(getLanguage());
+      } else if (option.type === 'datetime') {
+        value = new Date(value).toLocaleString(getLanguage());
+      } else if (option.type === 'time') {
+        value = new Date(value).toLocaleTimeString(getLanguage());
+      }
+    }
+
+    if (option.format) {
+      value = option.format(value);
+    }
+
+    return value;
   }
 
   _isSelected(item) {
@@ -545,8 +554,9 @@ export class GvTable extends withResizeObserver(LitElement) {
                     (option) => option,
                     (option) => {
                       const style = typeof option.style === 'function' ? option.style(item) : option.style;
-                      return html`<div class="cell" style="${ifDefined(style)}">
-                        ${this._renderCell(option, item, itemIndex)}${this._renderTag(option, item)}${option.icon
+                      const formattedValue = this._getFormattedCellValue(option, item);
+                      return html`<div class="cell" style="${ifDefined(style)}" title="${formattedValue}">
+                        ${this._renderCell(formattedValue, option, item, itemIndex)}${this._renderTag(option, item)}${option.icon
                           ? this._renderIcon(item, itemIndex, option)
                           : ''}
                       </div> `;
