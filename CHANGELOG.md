@@ -1,3 +1,10 @@
+## [3.13.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.13.0...v3.13.1) (2021-09-16)
+
+
+### Bug Fixes
+
+* do not shrink row content if there are a lot of metadata ([053a1ab](https://github.com/gravitee-io/gravitee-ui-components/commit/053a1ab12539fb8d2227f95b4beda39f3735934f)), closes [gravitee-io/issues#5761](https://github.com/gravitee-io/issues/issues/5761)
+
 # [3.13.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.12.1...v3.13.0) (2021-08-26)
 
 
