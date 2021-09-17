@@ -62,7 +62,7 @@
     "jsonschema": "^1.4.0",
     "lit-element": "^2.5.1",
     "messageformat": "^2.3.0",
-    "object-path": "^0.11.5",
+    "object-path": "^0.11.8",
     "resize-observer-polyfill": "^1.5.1",
     "whatwg-fetch": "^3.4.1"
   },
