@@ -1,3 +1,10 @@
+## [3.13.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.13.1...v3.13.2) (2021-09-17)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([a816b43](https://github.com/gravitee-io/gravitee-ui-components/commit/a816b430d341c26c1599f7f705627026bd7f87e5))
+
 ## [3.13.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.13.0...v3.13.1) (2021-09-16)
 
 
