@@ -56,6 +56,7 @@ export { GvTable } from './molecules/gv-table';
 export { GvTree } from './molecules/gv-tree';
 export { GvDocumentation } from './organisms/gv-documentation';
 export { GvHeader } from './organisms/gv-header';
+export { GvHttpClient } from './organisms/gv-http-client';
 export { GvMenu } from './organisms/gv-menu';
 export { GvNewsletterSubscription } from './organisms/gv-newsletter-subscription';
 export { GvPagination } from './organisms/gv-pagination';
