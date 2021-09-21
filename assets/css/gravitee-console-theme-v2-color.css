@@ -1,0 +1,59 @@
+/*
+ * Copyright (C) 2021 The Gravitee team (http://gravitee.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* Theme overrides for the Consoles */
+:root {
+    --gv-theme-color-primary-dark: #090A1B;
+    --gv-theme-color-primary: #1B1D3C;
+    --gv-theme-color-primary-light: #2B3C5F;
+    --gv-theme-color-primary-contrast: #FFFFFF;
+
+    --gv-theme-color-secondary-dark: #189EA5;
+    --gv-theme-color-secondary: #1EC9D2;
+    --gv-theme-color-secondary-light: #3FDBE4;
+    --gv-theme-color-secondary-contrast: #262626;
+
+    --gv-theme-neutral-color-darkest: #333333;
+    --gv-theme-neutral-color-darker: #525252;
+    --gv-theme-neutral-color-dark: #737373;
+    --gv-theme-neutral-color: #999999;
+    --gv-theme-neutral-color-light: #B3B3B3;
+    --gv-theme-neutral-color-lighter: #CCCCCC;
+    --gv-theme-neutral-color-lightest: #EDEDED;
+
+    --gv-theme-color-success-dark: #388E3C;
+    --gv-theme-color-success: #4CAF50;
+    --gv-theme-color-success-light: #81C784;
+
+    --gv-theme-color-warning-dark: #f57c00;
+    --gv-theme-color-warning: #ff9100;
+    --gv-theme-color-warning-light: #ffb74d;
+
+    --gv-theme-color-error-dark: #D32F2F;
+    --gv-theme-color-error: #F44336;
+    --gv-theme-color-error-light: #E57373;
+
+    /* DEPRECATED */
+    --gv-theme-color-darker: #1b1d3c;
+    --gv-theme-color-dark: #1b475d;
+    --gv-theme-color: #1ecad3;
+    --gv-theme-color-light: #a9bbca;
+    --gv-theme-color-danger: #be1818;
+    --gv-theme-color-info-dark: #0000ff;
+    --gv-theme-color-info: #2b58e8;
+    --gv-theme-color-info-light: #57b9e6;
+    --gv-theme-font-color-dark: #262626;
+    --gv-theme-font-color-light: #ffffff;
+}
