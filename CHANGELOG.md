@@ -1,3 +1,15 @@
+# [3.15.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.14.0...v3.15.0) (2021-09-21)
+
+
+### Bug Fixes
+
+* add missing ref to `gv-http-client` ([50ee284](https://github.com/gravitee-io/gravitee-ui-components/commit/50ee284f1acfe95fc199aca0459d161e3a23598e))
+
+
+### Features
+
+* add stop circle icons ([8830b99](https://github.com/gravitee-io/gravitee-ui-components/commit/8830b9996ab88a10e00e41f2067b0d9891aac21b))
+
 # [3.14.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.13.2...v3.14.0) (2021-09-21)
 
 
