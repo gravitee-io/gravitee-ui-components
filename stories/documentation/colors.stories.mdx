@@ -4,84 +4,75 @@ import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
 
 # Console Colors
 
-**🏗 This palette is still under construction for now!**
+All the colors defined in this palette are available as CSS properties.
+To use them you just need to import `gravitee-console-theme-v2-color`:
+
+```css
+@import 'xxxx/@gravitee/ui-components/assets/css/gravitee-console-theme-v2-color.css';
+```
 
 <ColorPalette>
   <ColorItem
     title="Primary"
-    subtitle="Sky Blue"
+    subtitle="Sky Blue: --gv-theme-color-primary-xxxx"
     colors={{
-      dark: 'hsl(236, 50%, 7%)',
-      default: 'hsl(236, 38%, 17%)',
-      light: 'hsl(220, 38%, 27%)',
+      dark: '#090A1B',
+      default: '#1B1D3C',
+      light: '#2B3C5F',
+      contrast: "#FFFFFF"
     }}
   />
   <ColorItem
     title="Secondary"
-    subtitle="Cyan"
+    subtitle="Cyan: --gv-theme-color-secondary-xxxx"
     colors={{
-      dark: 'hsl(183, 75%, 37%)',
-      default: 'hsl(183, 75%, 47%)',
-      light: 'hsl(183, 75%, 57%)',
+      dark: '#189EA5',
+      default: '#1EC9D2',
+      light: '#3FDBE4',
+      contrast: "#262626"
     }}
   />
   <ColorItem
     title="Grey shades"
-    subtitle="--gv-theme-neutral-color"
+    subtitle="--gv-theme-neutral-color-xxxx"
     colors={{
-      darkest: 'hsl(0, 0%, 20%)',
-      darker: 'hsl(0, 0%, 32%)',
-      dark: 'hsl(0, 0%, 45%)',
-      default: 'hsl(0, 0%, 60%)',
-      light: 'hsl(0, 0%, 70%)',
-      lighter: 'hsl(0, 0%, 80%)',
-      lightest: 'hsl(0, 0%, 93%)',
+      darkest: '#333333',
+      darker: '#525252',
+      dark: '#737373',
+      default: '#999999',
+      light: '#B3B3B3',
+      lighter: '#CCCCCC',
+      lightest: '#EDEDED',
     }}
   />
   <ColorItem
-    title="Info color"
-    subtitle="--gv-theme-color-info-xxxx"
-    colors={{
-      darker: 'hsl(218, 80%, 25%)',
-      dark: 'hsl(222, 80%, 40%)',
-      default: 'hsl(226, 80%, 50%)',
-      light: 'hsl(210, 70%, 60%)',
-      lighter: 'hsl(210, 80%, 75%)',
-    }}
-  />
-  <ColorItem
-    title="Success color"
+    title="Success shades"
     subtitle="--gv-theme-color-success-xxxx"
     colors={{
-      darker: 'hsl(114, 39%, 25%)',
-      dark: 'hsl(118, 39%, 40%)',
-      default: 'hsl(122, 39%, 50%)',
-      light: 'hsl(126, 39%, 65%)',
-      lighter: 'hsl(130, 39%, 75%)',
+      dark: '#418E3E',
+      default: '#4EB151',
+      light: '#83C98A',
     }}
   />
   <ColorItem
-    title="Warning color"
+    title="Warning shades"
     subtitle="--gv-theme-color-warning-xxxx"
     colors={{
-      darker: 'hsl(26, 100%, 40%)',
-      dark: 'hsl(30, 100%, 48%)',
-      default: 'hsl(34, 100%, 50%)',
-      light: 'hsl(38, 100%, 65%)',
-      lighter: 'hsl(42, 100%, 75%)',
+      dark: '#F57A00',
+      default: '#FF9100',
+      light: '#FFBE4D',
     }}
   />
   <ColorItem
-    title="Error color"
+    title="Error shades"
     subtitle="--gv-theme-color-error-xxxx"
     colors={{
-      darker: 'hsl(352, 80%, 25%)',
-      dark: 'hsl(356, 80%, 40%)',
-      default: 'hsl(360, 80%, 50%)',
-      light: 'hsl(4, 80%, 65%)',
-      lighter: 'hsl(8, 80%, 75%)',
+      dark: '#B8141F',
+      default: '#E61A1A',
+      light: '#ED685E',
     }}
   />
+
 </ColorPalette>
 
 # Portal Colors
@@ -95,58 +86,58 @@ All the colors used in Gravitee.io Portal and their respective CSS custom proper
     colors={{
       darker: '#383E3F',
       dark: '#28444F',
-      default: '#5a7684',
-      light: '#86c3d0',
+      default: '#5A7684',
+      light: '#86C3D0',
     }}
   />
-  <ColorItem title="Danger" subtitle="--gv-theme-color-danger" colors={['#ff5722']} />
+  <ColorItem title="Danger" subtitle="--gv-theme-color-danger" colors={['#FF5722']} />
   <ColorItem
     title="Grey shades"
     subtitle="--gv-theme-neutral-color"
     colors={{
       darkest: '#000000',
-      darker: '#bfbfbf',
-      dark: '#d9d9d9',
-      default: '#f5f5f5',
-      light: '#efefef',
-      lighter: '#fafafa',
-      lightest: '#ffffff',
+      darker: '#BFBFBF',
+      dark: '#D9D9D9',
+      default: '#F5F5F5',
+      light: '#EFEFEF',
+      lighter: '#FAFAFA',
+      lightest: '#FFFFFF',
     }}
   />
   <ColorItem
     title="Info color"
     subtitle="--gv-theme-color-info"
     colors={{
-      dark: '#1976d2',
-      default: '#2196f3',
-      light: '#64b5f6',
+      dark: '#1976D2',
+      default: '#2196F3',
+      light: '#64B5F6',
     }}
   />
   <ColorItem
     title="Success color"
     subtitle="--gv-theme-color-success"
     colors={{
-      dark: '#388e3c',
-      default: '#4caf50',
-      light: '#81c784',
+      dark: '#388E3C',
+      default: '#4CAF50',
+      light: '#81C784',
     }}
   />
   <ColorItem
     title="Warning color"
     subtitle="--gv-theme-color-warning"
     colors={{
-      dark: '#f57c00',
-      default: '#ff9800',
-      light: '#ffb74d',
+      dark: '#F57C00',
+      default: '#FF9800',
+      light: '#FFB74D',
     }}
   />
   <ColorItem
     title="Error color"
     subtitle="--gv-theme-color-error"
     colors={{
-      dark: '#d32f2f',
-      default: '#f44336',
-      light: '#e57373',
+      dark: '#D32F2F',
+      default: '#F44336',
+      light: '#E57373',
     }}
   />
   <ColorItem
@@ -154,9 +145,9 @@ All the colors used in Gravitee.io Portal and their respective CSS custom proper
     subtitle="--gv-theme-font-color"
     colors={{
       dark: '#262626',
-      light: '#ffffff',
+      light: 'rgba(238,255,255,0.1)',
     }}
   />
-  <ColorItem title="Font color" subtitle="--gv-theme-skeleton-color" colors={['#bfbfbf']} />
-  <ColorItem title="Homepage background color" subtitle="--gv-theme-homepage-background-color" colors={['#5a7684']} />
+  <ColorItem title="Font color" subtitle="--gv-theme-skeleton-color" colors={['#BFBFBF']} />
+  <ColorItem title="Homepage background color" subtitle="--gv-theme-homepage-background-color" colors={['#5A7684']} />
 </ColorPalette>
