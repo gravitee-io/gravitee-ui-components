@@ -1,3 +1,10 @@
+# [3.14.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.13.2...v3.14.0) (2021-09-21)
+
+
+### Features
+
+* **gv-table:** add cell value as title of a cell ([93e9f0f](https://github.com/gravitee-io/gravitee-ui-components/commit/93e9f0f59f86c0e9ad764e273e93a0554a8983dc)), closes [#453](https://github.com/gravitee-io/gravitee-ui-components/issues/453)
+
 ## [3.13.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.13.1...v3.13.2) (2021-09-17)
 
 
