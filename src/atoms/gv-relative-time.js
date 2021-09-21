@@ -17,6 +17,7 @@ import { getLanguage, getAvailableLanguages } from '../lib/i18n';
 import { LitElement } from 'lit-element';
 import { until } from 'lit-html/directives/until';
 import { html } from 'lit-html';
+import { shouldPolyfill as shouldPolyfillIntlRelativeTimeFormat } from '@formatjs/intl-relativetimeformat/should-polyfill';
 
 const options = {
   year: 'numeric',
@@ -62,32 +63,34 @@ export class GvRelativeTime extends LitElement {
     this._formatter = null;
   }
 
-  getFormatter() {
-    return new Promise((resolve, reject) => {
-      if (this._formatter == null) {
-        if ('RelativeTimeFormat' in Intl) {
-          this._formatter = Intl.RelativeTimeFormat;
-          resolve(this._formatter);
-        } else {
-          Promise.all([
-            import('@formatjs/intl-relativetimeformat/polyfill'),
-            ...Object.values(getAvailableLanguages()).map((_lang) => {
-              return import(`@formatjs/intl-relativetimeformat/dist/locale-data/${_lang}`);
-            }),
-          ])
-            .then(() => {
-              this._formatter = Intl.RelativeTimeFormat;
-              resolve(this._formatter);
-            })
-            .catch((err) => {
-              console.error(err);
-              reject(new Error('Cannot load @formatjs/intl-relativetimeformat/polyfill'));
-            });
-        }
+  async getFormatter() {
+    if (this._formatter == null) {
+      if (!shouldPolyfillIntlRelativeTimeFormat()) {
+        this._formatter = Intl.RelativeTimeFormat;
+        return this._formatter;
       } else {
-        resolve(this._formatter);
+        // Load the needed polyfills 1st BEFORE loading data
+        return import('@formatjs/intl-locale/polyfill')
+          .then(() => import('@formatjs/intl-relativetimeformat/polyfill'))
+          .then(() =>
+            Promise.all([
+              ...Object.values(getAvailableLanguages()).map((_lang) => {
+                return import(`@formatjs/intl-relativetimeformat/locale-data/${_lang}`);
+              }),
+            ]),
+          )
+          .then(() => {
+            this._formatter = Intl.RelativeTimeFormat;
+            return this._formatter;
+          })
+          .catch((err) => {
+            console.error(err);
+            throw new Error('Cannot load @formatjs/intl polyfills');
+          });
       }
-    });
+    } else {
+      return this._formatter;
+    }
   }
 
   set datetime(value) {
