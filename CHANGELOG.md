@@ -1,3 +1,10 @@
+# [3.17.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.16.1...v3.17.0) (2021-09-30)
+
+
+### Features
+
+* upgrade to Lit 2 ([2e49a9c](https://github.com/gravitee-io/gravitee-ui-components/commit/2e49a9cae49d9313f4027499bf789de6f9727980))
+
 ## [3.16.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.16.0...v3.16.1) (2021-09-27)
 
 
