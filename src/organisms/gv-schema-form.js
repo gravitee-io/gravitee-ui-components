@@ -70,6 +70,8 @@ export class GvSchemaForm extends LitElement {
     this._validator = new Validator();
     this._validatorResults = {};
     this._ignoreProperties = [];
+    this._dynamicControls = [];
+    this._dynamicAttributes = ['disabled', 'required', 'hidden'];
     this.addEventListener('gv-schema-form-control:default-value', this._onDefaultValue.bind(this));
     this.addEventListener('gv-schema-form-control:change', this._onChange.bind(this));
     this.addEventListener('gv-schema-form-control:control-ready', this._onControlReady.bind(this));
@@ -215,6 +217,7 @@ export class GvSchemaForm extends LitElement {
 
     this._validatorResults = this.validate();
     this.dirty = true;
+    this._updateDynamicControls();
     this._updateActions();
     this._dispatchChange();
   }
@@ -222,7 +225,38 @@ export class GvSchemaForm extends LitElement {
   _onControlReady(e) {
     e.stopPropagation();
     e.preventDefault();
-    dispatchCustomEvent(this, e.detail.eventName, e.detail);
+    const controlElement = e.detail.control;
+    const control = controlElement.control;
+    if (control['x-schema-form']) {
+      if (control['x-schema-form'].event) {
+        const event = control['x-schema-form'].event;
+        dispatchCustomEvent(this, event.name, { ...event, ...e.detail });
+      } else if (this._hasCondition(control)) {
+        this._dynamicControls.push(controlElement);
+        this._updateDynamicControl(controlElement);
+      }
+    }
+  }
+
+  _updateDynamicControls() {
+    this._dynamicControls.forEach((controlElement) => {
+      this._updateDynamicControl(controlElement);
+    });
+  }
+
+  _updateDynamicControl(controlElement) {
+    const control = controlElement.control;
+    if (control['x-schema-form']) {
+      this._dynamicAttributes.forEach((attribute) => {
+        const is = this._evaluateCondition(control, attribute);
+        if (is) {
+          controlElement.setAttribute(attribute, '');
+        } else {
+          controlElement.removeAttribute(attribute);
+        }
+      });
+    }
+    return null;
   }
 
   async performUpdate() {
@@ -235,7 +269,7 @@ export class GvSchemaForm extends LitElement {
   _renderControl(key) {
     // This is require to clean cache of <gv-schema-form-control>
     const control = { ...this.schema.properties[key] };
-    const isRequired = this.schema.required && this.schema.required.includes(key);
+    const isRequired = (this.schema.required && this.schema.required.includes(key)) || this._evaluateCondition(control, 'required');
     const isDisabled = (this.schema.disabled && this.schema.disabled.includes(key)) || this._evaluateCondition(control, 'disabled');
     const isHidden = this._evaluateCondition(control, 'hidden');
     if (isHidden) {
@@ -256,6 +290,13 @@ export class GvSchemaForm extends LitElement {
       ?disabled="${isDisabled}"
       ?hidden="${isHidden}"
     ></gv-schema-form-control>`;
+  }
+
+  _hasCondition(control) {
+    if (control['x-schema-form']) {
+      return this._dynamicAttributes.find((condition) => control['x-schema-form'][condition] != null) != null;
+    }
+    return false;
   }
 
   _evaluateCondition(control, conditionKey) {

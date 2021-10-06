@@ -221,13 +221,10 @@ export class GvSchemaFormControl extends LitElement {
     } else {
       currentTarget = element;
     }
-    if (this.control['x-schema-form'] != null && this.control['x-schema-form'].event != null) {
-      const name = this.control['x-schema-form'].event.name;
+    if (this.control['x-schema-form'] != null) {
       dispatchCustomEvent(this, 'control-ready', {
-        ...this.control['x-schema-form'].event,
         currentTarget,
-        eventName: name,
-        control: this.control,
+        control: this,
       });
     }
     return currentTarget;
