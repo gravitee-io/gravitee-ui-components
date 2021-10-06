@@ -92,7 +92,6 @@ export class GvSchemaFormControlObject extends LitElement {
   render() {
     const keys = Object.keys(this.schema.properties);
     const classes = {
-      'form__control-object': true,
       'form_control-inline': keys.length <= 2 && keys.find((key) => isCodemirror(this.schema.properties[key])) == null,
     };
 
