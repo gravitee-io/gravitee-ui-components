@@ -38,6 +38,7 @@ import './gv-schema-form-control';
  * @attr {Boolean} scrollable - useful for making content scrollable with fixed headers / footers
  *
  * @cssprop {Color} [--gv-schema-form--bgc=#ffffff] - Background color
+ * @cssprop {Length} [--gv-schema-form-control--m=0.4rem] - Control margin
  */
 export class GvSchemaForm extends LitElement {
   static get properties() {

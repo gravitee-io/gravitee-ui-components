@@ -333,7 +333,7 @@ export class GvSchemaFormControl extends LitElement {
       css`
         :host {
           box-sizing: border-box;
-          margin: 0.4rem;
+          margin: var(--gv-schema-form-control--m, 0.4rem);
           display: block;
         }
 
