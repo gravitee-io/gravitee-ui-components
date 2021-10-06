@@ -388,24 +388,6 @@ export class GvSchemaFormControl extends LitElement {
           position: relative;
         }
 
-        .form_control-inline {
-          display: flex;
-          flex-direction: row;
-          margin: 0;
-        }
-
-        .form_control-inline > * {
-          flex: 1;
-        }
-
-        .content > .form_control-inline > * {
-          margin-left: 0;
-        }
-
-        .content > .form_control-inline > *:last-child {
-          margin-right: 0;
-        }
-
         gv-select,
         gv-input,
         gv-code,
