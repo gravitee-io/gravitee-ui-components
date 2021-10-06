@@ -31,6 +31,9 @@ export class GvSchemaFormControlObject extends LitElement {
       errors: { type: Array },
       skeleton: { type: Boolean, reflect: true },
       readonly: { type: Boolean, reflect: true },
+      disabled: { type: Boolean, reflect: true },
+      required: { type: Boolean, reflect: true },
+      hidden: { type: Boolean, reflect: true },
     };
   }
 
@@ -40,8 +43,8 @@ export class GvSchemaFormControlObject extends LitElement {
   }
 
   _renderPart(subKey) {
-    const isRequired = this.schema.required && this.schema.required.includes(subKey);
-    const isDisabled = this.schema.disabled && this.schema.disabled.includes(subKey);
+    const isRequired = this.required || (this.schema.required && this.schema.required.includes(subKey));
+    const isDisabled = this.disabled || (this.schema.disabled && this.schema.disabled.includes(subKey));
 
     const fullKey = this.id != null ? `${this.id}.${subKey}` : subKey;
     const control = { ...this.schema.properties[subKey] };
@@ -54,6 +57,7 @@ export class GvSchemaFormControlObject extends LitElement {
       ?required="${isRequired}"
       ?disabled="${isDisabled}"
       ?readonly="${this.readonly}"
+      ?hidden="${this.hidden}"
       class="control"
     ></gv-schema-form-control>`;
   }

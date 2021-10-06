@@ -17,6 +17,7 @@ import '../../src/organisms/gv-schema-form';
 import { makeStory } from '../lib/make-story';
 import mixed from '../resources/schemas/mixed.json';
 import htmlToJson from '../resources/schemas/html-to-json.json';
+import httpConnector from '../resources/schemas/http-connector.json';
 import { fetch } from 'whatwg-fetch';
 import grammar from '../resources/el-grammar.json';
 
@@ -125,6 +126,10 @@ export const Mixed = makeStory(conf, {
 
 export const HTMLToJson = makeStory(conf, {
   items: [{ schema: htmlToJson, 'has-footer': true }],
+});
+
+export const HttpConnector = makeStory(conf, {
+  items: [{ schema: httpConnector }],
 });
 
 let policies = [
