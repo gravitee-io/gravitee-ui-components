@@ -26,7 +26,7 @@ import '../molecules/gv-cron-editor';
 import '../atoms/gv-autocomplete';
 import '../organisms/gv-schema-form-array';
 import '../organisms/gv-schema-form-control-object';
-import { isCodemirror } from '../lib/schema-form';
+import { isCodemirror, isObject } from '../lib/schema-form';
 
 export class GvSchemaFormControl extends LitElement {
   static get properties() {
@@ -78,12 +78,16 @@ export class GvSchemaFormControl extends LitElement {
     return isCodemirror(this.control);
   }
 
+  isObject() {
+    return isObject(this.control);
+  }
+
   isAutocomplete() {
     return this.control['x-schema-form'] && this.control['x-schema-form'].event != null && this.control.type === 'string';
   }
 
   getElementName() {
-    if (this.control.type === 'object') {
+    if (this.isObject()) {
       return 'gv-schema-form-control-object';
     }
     if ((this.control.enum || (this.control.items && this.control.items.enum)) && !this.isAutocomplete()) {
