@@ -17,6 +17,7 @@ import { css, html, LitElement } from 'lit-element';
 import { isCodemirror } from '../lib/schema-form';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';
+import '../molecules/gv-expandable';
 
 /**
  * Schema form control object component
@@ -99,10 +100,18 @@ export class GvSchemaFormControlObject extends LitElement {
       'form__control-group-title': true,
       skeleton: this.skeleton,
     };
-    return html`<div class="${classMap(classes)}">
-      ${this.title ? html`<div class="${classMap(titleClasses)}" title="${this.title}">${this.title}</div>` : ''}
-      ${keys.map((key) => this._renderPart(key))}
-    </div>`;
+
+    const details = keys.map((key) => this._renderPart(key));
+
+    if (this.title) {
+      const isOpen = this.required || this.schema.required != null;
+      return html`<gv-expandable ?open="${isOpen}">
+        <div slot="summary" class="${classMap(titleClasses)}" title="${this.title}">${this.title}</div>
+        <div slot="details">${details}</div>
+      </gv-expandable>`;
+    } else {
+      return html`<div class="${classMap(classes)}">${details}</div>`;
+    }
   }
 
   static get styles() {
@@ -111,7 +120,6 @@ export class GvSchemaFormControlObject extends LitElement {
       // language=CSS
       css`
         .form__control-group-title {
-          border-bottom: 1px solid #bfbfbf;
           padding: 0.5rem 0;
         }
       `,
