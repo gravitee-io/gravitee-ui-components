@@ -67,6 +67,7 @@ export class GvExpandable extends LitElement {
           visibility: visible;
           opacity: 1;
           height: auto;
+          overflow: visible;
         }
 
         .details {
