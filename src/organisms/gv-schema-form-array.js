@@ -179,7 +179,7 @@ export class GvSchemaFormArray extends LitElement {
           margin-bottom: 0.2rem;
           align-items: center;
           transition: all 0.3s ease-in-out;
-          background-color: white;
+          background-color: var(--gv-schema-form--bgc, #ffffff);
         }
 
         .form__item-group-header label {
