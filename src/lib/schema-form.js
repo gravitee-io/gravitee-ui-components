@@ -16,3 +16,7 @@
 export function isCodemirror(control) {
   return control['x-schema-form'] && control['x-schema-form'].type === 'codemirror';
 }
+
+export function isObject(control) {
+  return control.type === 'object';
+}

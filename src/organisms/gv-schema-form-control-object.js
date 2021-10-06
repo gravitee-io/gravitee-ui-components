@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { isCodemirror } from '../lib/schema-form';
+import { isCodemirror, isObject } from '../lib/schema-form';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';
 import '../molecules/gv-expandable';
@@ -89,10 +89,15 @@ export class GvSchemaFormControlObject extends LitElement {
     return super.shouldUpdate(changedProperties);
   }
 
+  canInline(key) {
+    const property = this.schema.properties[key];
+    return !isCodemirror(property) && !isObject(property);
+  }
+
   render() {
     const keys = Object.keys(this.schema.properties);
     const classes = {
-      'form_control-inline': keys.length <= 2 && keys.find((key) => isCodemirror(this.schema.properties[key])) == null,
+      'form_control-inline': keys.length <= 2 && keys.filter((key) => this.canInline(key)).length === keys.length,
     };
 
     const titleClasses = {
@@ -106,7 +111,7 @@ export class GvSchemaFormControlObject extends LitElement {
       const isOpen = this.required || this.schema.required != null;
       return html`<gv-expandable ?open="${isOpen}">
         <div slot="summary" class="${classMap(titleClasses)}" title="${this.title}">${this.title}</div>
-        <div slot="details">${details}</div>
+        <div slot="details" class="${classMap(classes)}">${details}</div>
       </gv-expandable>`;
     } else {
       return html`<div class="${classMap(classes)}">${details}</div>`;
@@ -120,6 +125,21 @@ export class GvSchemaFormControlObject extends LitElement {
       css`
         .form__control-group-title {
           padding: 0.5rem 0;
+        }
+
+        .form_control-inline {
+          display: flex;
+          flex-direction: row;
+          margin: 0;
+        }
+
+        .form_control-inline > * {
+          flex: 1;
+          --gv-schema-form-control--m: 0 0.2rem 0 0;
+        }
+
+        .form_control-inline > *:last-child {
+          --gv-schema-form-control--m: 0 0 0 0.2rem;
         }
       `,
     ];
