@@ -36,6 +36,8 @@ import './gv-schema-form-control';
  * @attr {Boolean} validate - to force validation on first render
  * @attr {Boolean} readonly - true if readonly
  * @attr {Boolean} scrollable - useful for making content scrollable with fixed headers / footers
+ *
+ * @cssprop {Color} [--gv-schema-form--bgc=#ffffff] - Background color
  */
 export class GvSchemaForm extends LitElement {
   static get properties() {
@@ -525,6 +527,7 @@ export class GvSchemaForm extends LitElement {
         :host {
           box-sizing: border-box;
           margin: 0.2rem;
+          --bgc: var(--gv-schema-form--bgc, #ffffff);
         }
 
         form {
@@ -543,7 +546,7 @@ export class GvSchemaForm extends LitElement {
         .container {
           flex-grow: 1;
 
-          background-color: #fafafa;
+          background-color: var(--bgc);
           display: flex;
           flex-direction: column;
 
@@ -554,7 +557,7 @@ export class GvSchemaForm extends LitElement {
         .header,
         .footer,
         .content {
-          background-color: #ffffff;
+          background-color: var(--bgc);
         }
 
         .content {
