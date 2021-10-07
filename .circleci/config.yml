@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   secrethub: secrethub/cli@1.1.0
+  gh: circleci/github-cli@1.0
 
 executors:
   node-lts:
@@ -121,6 +122,47 @@ jobs:
           name: 🚀 Release the Kraken
           command: npm run release
 
+  prerelease:
+    executor:
+      class: small
+      name: node-lts
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - gh/setup
+      - run:
+          name: 🐙 Prerelease the Kraken
+          command: |
+            export version=$(git describe --tags --abbrev=0 | tr -d v)
+            export commit=$(git rev-parse --short HEAD)
+            export versionTag=$version-$commit
+
+            npm version $versionTag --git-tag-version=false
+
+            npx json -I -f package.json -e 'this.name="@gravitee-io/ui-components"'
+            npx json -I -f package.json -e 'this.publishConfig={"registry":"https://npm.pkg.github.com"}'
+            echo //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN > ~/.npmrc
+
+            npm run generate:dist
+
+            npm publish
+
+            gh pr comment --body "**Gravitee.io Automatic Deployment**
+
+            A beta version of this package has been published! 🚀
+
+            **This is still experimental ⚠️**
+
+            To use it in your project run the following lines:
+            \`\`\`shell
+            echo @gravitee-io:registry=https://npm.pkg.github.com > .npmrc
+            npm install @gravitee-io/ui-components@${versionTag}
+            rm -rf node_modules/@gravitee
+            mv node_modules/@gravitee-io node_modules/@gravitee
+            \`\`\`
+            "
+
 workflows:
   version: 2.1
   validate:
@@ -140,6 +182,18 @@ workflows:
       - build:
           requires:
             - install
+      - prerelease:
+          # Ignore this prerelease step on `master`
+          filters:
+            branches:
+              ignore: master
+          pre-steps:
+            - secrethub/env-export:
+                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+                var-name: GITHUB_TOKEN
+          context: gravitee-qa
+          requires:
+            - build
       - trigger-chromatic:
           type: approval
           requires:
