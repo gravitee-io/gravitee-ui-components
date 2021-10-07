@@ -16,12 +16,12 @@
 import './gv-date-picker-calendar';
 import enUS from 'date-fns/locale/en-US';
 import { format, getMonth, getYear, parse } from 'date-fns';
-import { classMap } from 'lit/directives/class-map';
-import { css, LitElement, html } from 'lit';
+import { classMap } from 'lit-html/directives/class-map';
+import { css, LitElement } from 'lit-element';
 import { getLanguage, i18n } from '../lib/i18n';
-
+import { html } from 'lit-html';
 import { isInvalid } from '../lib/date';
-import { until } from 'lit/directives/until';
+import { until } from 'lit-html/directives/until';
 import { dispatchCustomEvent } from '../lib/events';
 
 const locales = { en: enUS };

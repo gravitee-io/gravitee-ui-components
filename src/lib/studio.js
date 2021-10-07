@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { html, css } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { html, css } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 import '../atoms/gv-icon';
 import '../atoms/gv-tag';
 

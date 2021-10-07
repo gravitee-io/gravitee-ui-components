@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from 'lit';
+import { css, html, LitElement } from 'lit-element';
 
 import './gv-schema-form';
 import './gv-resizable-views';
@@ -27,7 +27,7 @@ import '../atoms/gv-select';
 import { dispatchCustomEvent } from '../lib/events';
 import { ERROR_TYPES, parseRaw, toNameEqualsValueString } from '../lib/properties';
 import { i18n } from '../lib/i18n';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 import { empty } from '../styles/empty';
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html, LitElement } from 'lit';
+import { css, html, LitElement } from 'lit-element';
 import { dispatchCustomEvent } from '../lib/events';
 import { toDom } from '../lib/text-format';
 import { empty } from '../styles/empty';

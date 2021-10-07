@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html } from 'lit';
+import { css, html } from 'lit-element';
 
 export function InputElement(ParentClass) {
   /**
@@ -114,7 +114,7 @@ export function InputElement(ParentClass) {
     }
 
     getInputElement() {
-      return this.shadowRoot ? this.shadowRoot.querySelector('input') : null;
+      return this.shadowRoot.querySelector('input');
     }
 
     get offsetHeight() {

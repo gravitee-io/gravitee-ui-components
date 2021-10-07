@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { css, LitElement, html } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 
 import CodeMirror from 'codemirror/lib/codemirror';
 import 'codemirror/addon/edit/closebrackets';

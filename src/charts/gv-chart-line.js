@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement } from 'lit';
+import { LitElement } from 'lit-element';
 import '../atoms/gv-button';
 import '../atoms/gv-tag';
 import Highcharts from 'highcharts';

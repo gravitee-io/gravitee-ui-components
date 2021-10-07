@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import '../../src/organisms/gv-http-client';
-import { html } from 'lit';
+import { html } from 'lit-element';
 
 export default {
   title: 'Organisms/gv-http-client',

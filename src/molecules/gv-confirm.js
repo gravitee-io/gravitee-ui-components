@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html } from 'lit';
+import { css } from 'lit-element';
 import '../atoms/gv-button';
 import '../atoms/gv-icon';
 import { i18n } from '../lib/i18n';
+import { html } from 'lit-html';
 import { GvPopover } from './gv-popover';
 import { dispatchCustomEvent } from '../lib/events';
 

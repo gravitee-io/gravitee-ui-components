@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from 'lit-element';
 import { truncate } from '../lib/utils';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
 import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';

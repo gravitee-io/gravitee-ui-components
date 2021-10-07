@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
+import { css, LitElement } from 'lit-element';
+import { html } from 'lit-html';
 import { skeleton } from '../styles/skeleton';
 import { empty } from '../styles/empty';
 import { link } from '../styles/link';
-import { classMap } from 'lit/directives/class-map';
-import { repeat } from 'lit/directives/repeat';
+import { classMap } from 'lit-html/directives/class-map';
+import { repeat } from 'lit-html/directives/repeat';
 import { dispatchCustomEvent } from '../lib/events';
 import { getLanguage, i18n } from '../lib/i18n';
-import { until } from 'lit/directives/until';
-import { styleMap } from 'lit/directives/style-map';
+import { until } from 'lit-html/directives/until';
+import { styleMap } from 'lit-html/directives/style-map';
 import { withResizeObserver } from '../mixins/with-resize-observer';
-import { ifDefined } from 'lit/directives/if-defined';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import '../atoms/gv-image';
 import '../organisms/gv-pagination';
 import { getCssVar } from '../lib/style';

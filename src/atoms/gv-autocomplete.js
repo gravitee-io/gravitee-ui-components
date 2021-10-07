@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, unsafeCSS, html } from 'lit';
+import { css, LitElement, unsafeCSS } from 'lit-element';
+import { html } from 'lit-html';
 import { dispatchCustomEvent } from '../lib/events';
-import { repeat } from 'lit/directives/repeat';
-import { classMap } from 'lit/directives/class-map';
-import { styleMap } from 'lit/directives/style-map';
+import { repeat } from 'lit-html/directives/repeat';
+import { classMap } from 'lit-html/directives/class-map';
+import { styleMap } from 'lit-html/directives/style-map';
 
 const ENTER_KEY_CODE = 13;
 const DOWN_ARROW_KEY_CODE = 40;
