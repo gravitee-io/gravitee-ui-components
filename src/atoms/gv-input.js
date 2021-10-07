@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map';
 
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { input } from '../styles/input';
 import { link } from '../styles/link';

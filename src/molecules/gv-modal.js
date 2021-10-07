@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from 'lit-element';
 import '../atoms/gv-icon';
 import { dispatchCustomEvent } from '../lib/events';
 

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LitElement, html, css } from 'lit';
-import { repeat } from 'lit/directives/repeat';
+import { LitElement, html, css } from 'lit-element';
+import { repeat } from 'lit-html/directives/repeat';
 import '../atoms/gv-link';
-import { until } from 'lit/directives/until';
+import { until } from 'lit-html/directives/until';
 import { isSameRoutes } from '../lib/utils';
 import { dispatchCustomEvent } from '../lib/events';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map';
 
 /**
  * A main nav

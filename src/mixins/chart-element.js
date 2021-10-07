@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { html, css } from 'lit';
+import { html } from 'lit-html';
+import { css } from 'lit-element';
 import { i18n } from '../lib/i18n';
 import Highcharts from 'highcharts';
 import Highmaps from 'highcharts/highmaps';
-import { cache } from 'lit/directives/cache';
+import { cache } from 'lit-html/directives/cache';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
 
 /**

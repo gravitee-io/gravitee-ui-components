@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { css, LitElement, html } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';

@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
-import { repeat } from 'lit/directives/repeat';
+import { css, LitElement } from 'lit-element';
+import { html } from 'lit-html';
+import { repeat } from 'lit-html/directives/repeat';
 import './../atoms/gv-relative-time';
 import './gv-identity-picture';
 import './gv-rating';
@@ -22,7 +23,7 @@ import './gv-confirm';
 import { skeleton } from '../styles/skeleton';
 import { link } from '../styles/link';
 import { i18n } from '../lib/i18n';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 
 /**

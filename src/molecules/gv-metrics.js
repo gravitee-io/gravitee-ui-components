@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
+import { css, LitElement, html } from 'lit-element';
 import '../atoms/gv-metric';
 import { i18n } from '../lib/i18n';
 import { link } from '../styles/link';
 import { withSkeletonAttribute } from '../mixins/with-skeleton-attribute';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
-import { ifDefined } from 'lit/directives/if-defined';
+import { ifDefined } from 'lit-html/directives/if-defined';
 
 /**
  * Metrics information component

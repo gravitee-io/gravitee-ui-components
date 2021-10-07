@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
-import { repeat } from 'lit/directives/repeat';
+import { css, LitElement } from 'lit-element';
+import { html } from 'lit-html';
+import { repeat } from 'lit-html/directives/repeat';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 import { i18n } from '../lib/i18n';
 import './gv-card-full';

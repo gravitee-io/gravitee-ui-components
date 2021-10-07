@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit/directives/class-map';
-import { ifDefined } from 'lit/directives/if-defined';
+import { classMap } from 'lit-html/directives/class-map';
+import { ifDefined } from 'lit-html/directives/if-defined';
 
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from 'lit-element';
 import { skeleton } from '../styles/skeleton';
 import { link } from '../styles/link';
 import { input } from '../styles/input';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit-html/directives/repeat';
 import './gv-icon';
 import { dispatchCustomEvent } from '../lib/events';
 import { InputElement } from '../mixins/input-element';

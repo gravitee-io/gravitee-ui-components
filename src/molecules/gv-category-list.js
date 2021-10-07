@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, html } from 'lit';
+import { css } from 'lit-element';
+import { html } from 'lit-html';
 import './gv-category';
 import { GvCardList } from './gv-card-list';
 
