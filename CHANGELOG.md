@@ -1,3 +1,10 @@
+## [3.17.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.1...v3.17.2) (2021-10-07)
+
+
+### Bug Fixes
+
+* **gv-icon:** fix icon display in app using AngularJS ([f952a96](https://github.com/gravitee-io/gravitee-ui-components/commit/f952a968cc2cf565b79d3d5590756aa1442019cc))
+
 ## [3.17.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.0...v3.17.1) (2021-10-07)
 
 
