@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
+import { css, html, LitElement } from 'lit';
 import { Directive, directive } from 'lit/directive';
 
 import { classMap } from 'lit/directives/class-map';
@@ -94,9 +94,9 @@ export class GvIcon extends LitElement {
   }
 
   render() {
-    const xlinkNamespace = 'http://www.w3.org/1999/xlink';
+    const namespacedHref = namespaced('http://www.w3.org/1999/xlink', GvIcon.getHref(this.shape));
     return html`<svg class="${classMap({ 'no-color': !this.canCustomize() })}">
-      <use xlink:href="${namespaced(xlinkNamespace, GvIcon.getHref(this.shape))}" />
+      <use xlink:href="${namespacedHref}" />
     </svg>`;
   }
 }
