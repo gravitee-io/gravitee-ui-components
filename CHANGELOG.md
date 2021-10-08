@@ -1,3 +1,10 @@
+## [3.17.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.2...v3.17.3) (2021-10-08)
+
+
+### Bug Fixes
+
+* revert upgrade to Lit 2 to fix gv-icon issues ([76015e8](https://github.com/gravitee-io/gravitee-ui-components/commit/76015e87386efdb684a2601ffef7f39e796c9a43))
+
 ## [3.17.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.1...v3.17.2) (2021-10-07)
 
 
