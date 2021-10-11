@@ -12,7 +12,7 @@ executors:
         enum: [ 'small', 'medium', 'large', 'xlarge' ]
         default: 'medium'
     docker:
-      - image: circleci/node:14.17-stretch
+      - image: circleci/node:14.18-stretch
     resource_class: <<parameters.class>>
 
 jobs:
