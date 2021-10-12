@@ -1,3 +1,10 @@
+## [3.17.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.4...v3.17.5) (2021-10-12)
+
+
+### Bug Fixes
+
+* upgrade codemirror from 5.59.2 to 5.63.0 ([22a57b1](https://github.com/gravitee-io/gravitee-ui-components/commit/22a57b186f20fc4fc3df88ef0b237a408e9b8851))
+
 ## [3.17.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.3...v3.17.4) (2021-10-12)
 
 
