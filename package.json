@@ -43,11 +43,6 @@
     "test:coverage": "npm run test -- --collect-coverage",
     "test:watch": "npm run test -- --watchAll"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "lint-staged": {
     "*": "npm run lint:license:fix",
     "*.{js,html,css,json}": "prettier --write",
