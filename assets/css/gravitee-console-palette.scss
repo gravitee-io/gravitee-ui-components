@@ -1,0 +1,100 @@
+/*
+ * Copyright (C) 2021 The Gravitee team (http://gravitee.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+$gio-primary-palette: (
+  dark: #090A1B,
+  default:#1B1D3C,
+  light: #2B3C5F,
+  contrast: (
+    dark: #eeeeee,
+    medium: #eeeeee,
+    light: #ffffff,
+  )
+);
+
+$gio-secondary-palette: (
+  dark: #189EA5,
+  default:#1EC9D2,
+  light: #3FDBE4,
+  contrast: (
+    dark: #262626,
+    medium: #262626,
+    light: #262626,
+  )
+);
+
+$gio-info-palette: (
+  dark: #1045a1,
+  default: #2196F3,
+  light: #bbdefb,
+  contrast: (
+    dark: #262626,
+    medium: #262626,
+    light: #262626,
+  )
+);
+
+$gio-success-palette: (
+  dark: #388E3C,
+  default: #4CAF50,
+  light: #81C784,
+  contrast: (
+    dark: #262626,
+    medium: #262626,
+    light: #262626,
+  )
+);
+
+$gio-warning-palette: (
+  dark: #f57c00,
+  default: #ff9100,
+  light: #ffb74d,
+  contrast: (
+    dark: #262626,
+    medium: #262626,
+    light: #262626,
+  )
+);
+
+$gio-error-palette: (
+  dark: #D32F2F,
+  default: #F44336,
+  light: #E57373,
+  contrast: (
+    dark: #eeeeee,
+    medium: #eeeeee,
+    light: #262626,
+  )
+);
+
+$gio-neutral-palette: (
+  darkest: #333333,
+  darker: #525252,
+  dark: #737373,
+  default: #999999,
+  light: #B3B3B3,
+  lighter: #CCCCCC,
+  lightest: #EDEDED,
+  contrast: (
+    darkest: #eee,
+    darker: #eee,
+    dark: #eee,
+    default: #eee,
+    light: #262626,
+    lighter: #262626,
+    lightest: #262626,
+  )
+);
