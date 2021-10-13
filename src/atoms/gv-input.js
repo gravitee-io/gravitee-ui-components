@@ -422,13 +422,8 @@ export class GvInput extends InputElement(LitElement) {
   }
 
   _onIconClick() {
-    if (this._type === 'search') {
-      this.value = '';
-      dispatchCustomEvent(this, 'input', this.value);
-    } else {
-      dispatchCustomEvent(this, 'icon-click', this.value);
-      dispatchCustomEvent(this, 'submit', this.value);
-    }
+    dispatchCustomEvent(this, 'icon-click', this.value);
+    dispatchCustomEvent(this, 'submit', this.value);
   }
 
   _onIconVisibleClick(e) {
