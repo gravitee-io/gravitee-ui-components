@@ -1,3 +1,10 @@
+## [3.17.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.5...v3.17.6) (2021-10-14)
+
+
+### Bug Fixes
+
+* **gv-input:** click on search icon should submit in gv-input ([4e3ddde](https://github.com/gravitee-io/gravitee-ui-components/commit/4e3dddeb3af31c548ff0c72b22d00584d9f2f9ce)), closes [gravitee-io/issues#5323](https://github.com/gravitee-io/issues/issues/5323)
+
 ## [3.17.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.4...v3.17.5) (2021-10-12)
 
 
