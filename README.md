@@ -128,7 +128,7 @@ To install the desired version:
 npm install --save @gravitee/ui-components@{version}
 ```
 
-TIP: You can clean the **package-lock.json** and remove duplicate dependencies with `npm run dedupe`
+_TIP_: You can clean the **package-lock.json** and remove duplicate dependencies with `npm dedupe`
 
 ## Developers guide
 
