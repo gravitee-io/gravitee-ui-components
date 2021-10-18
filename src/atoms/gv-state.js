@@ -35,6 +35,8 @@ import { skeleton } from '../styles/skeleton';
  *
  * @cssprop {Length} [--gv-state--bdr=17px] - Border radius
  * @cssprop {Length} [--gv-state--fz=var(--gv-theme-font-size-s, 12px)] - Font size
+ * @cssprop {String} [--gv-state--fw=bold] - Font weight
+ * @cssprop {String} [--gv-state--tt=uppercase] - Text transform
  * @cssprop {Length} [--gv-state--p=4px 8px] - Padding
  * @cssprop {Color} [--gv-state--bgc=#f0f5ff] - Background color
  * @cssprop {Color} [--gv-state--c=#597ef7] - Color
@@ -98,8 +100,8 @@ export class GvState extends LitElement {
           --fz: var(--gv-state--fz, var(--gv-theme-font-size-s, 12px));
           font-size: var(--fz);
 
-          font-weight: bold;
-          text-transform: uppercase;
+          font-weight: var(--gv-state--fw, bold);
+          text-transform: var(--gv-state--tt, uppercase);
           line-height: var(--fz);
           padding: var(--gv-state--p, 4px 8px);
         }
