@@ -1,3 +1,10 @@
+## [3.17.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.6...v3.17.7) (2021-10-18)
+
+
+### Bug Fixes
+
+* upgrade @formatjs/intl-relativetimeformat from 9.2.3 to 9.3.0 ([1e23f55](https://github.com/gravitee-io/gravitee-ui-components/commit/1e23f55e0c24d57b38ef7432c2d7fead2cf8c225))
+
 ## [3.17.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.5...v3.17.6) (2021-10-14)
 
 
