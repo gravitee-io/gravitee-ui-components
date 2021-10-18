@@ -1,3 +1,19 @@
+# [3.18.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.7...v3.18.0) (2021-10-18)
+
+
+### Bug Fixes
+
+* **gv-schema-form:** solve the dynamic validation of attributes in the whole tree ([5084a9d](https://github.com/gravitee-io/gravitee-ui-components/commit/5084a9d47c74e06b5f920a5f02fda035436215f3))
+
+
+### Features
+
+* **gv-schema-form:** add background-color css variable ([eeff1e3](https://github.com/gravitee-io/gravitee-ui-components/commit/eeff1e31a34f478d6a687f515deee5a826490106))
+* **gv-schema-form:** add control margin css variable ([c434203](https://github.com/gravitee-io/gravitee-ui-components/commit/c43420326418b6ae5ab1a8fac21c87d264b59b2b))
+* **gv-schema-form:** add support for text type ([87a4da9](https://github.com/gravitee-io/gravitee-ui-components/commit/87a4da9a7b392bcbd68f30100e172cc6d2b58c92))
+* **gv-schema-form:** display object with 2 fields only on one line ([2bca726](https://github.com/gravitee-io/gravitee-ui-components/commit/2bca7265509880299f40911f24326a84a4129c37))
+* **gv-schema-form:** wrap object to gv-expandable component ([c05e042](https://github.com/gravitee-io/gravitee-ui-components/commit/c05e042cf434634c1ad0e14a5346527f5d2ef009))
+
 ## [3.17.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.17.6...v3.17.7) (2021-10-18)
 
 
