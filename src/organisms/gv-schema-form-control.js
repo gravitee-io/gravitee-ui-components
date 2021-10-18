@@ -18,6 +18,7 @@ import { html } from 'lit-html';
 import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-input';
 import '../atoms/gv-input-message';
+import '../atoms/gv-text';
 import '../atoms/gv-select';
 import '../atoms/gv-switch';
 import '../molecules/gv-code';
@@ -86,6 +87,10 @@ export class GvSchemaFormControl extends LitElement {
     return this.control['x-schema-form'] && this.control['x-schema-form'].event != null && this.control.type === 'string';
   }
 
+  isText() {
+    return this.control['x-schema-form'] && this.control['x-schema-form'].type === 'text' && this.control.type === 'string';
+  }
+
   getElementName() {
     if (this.isObject()) {
       return 'gv-schema-form-control-object';
@@ -104,6 +109,8 @@ export class GvSchemaFormControl extends LitElement {
       return 'gv-code';
     } else if (this.isCronExpression()) {
       return 'gv-cron-editor';
+    } else if (this.isText()) {
+      return 'gv-text';
     }
 
     return 'gv-input';

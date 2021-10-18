@@ -207,10 +207,11 @@
           }
         },
         "password": {
-          "type": "password",
+          "type": "string",
           "title": "Proxy password",
           "description": "Optional proxy password",
           "x-schema-form": {
+            "type": "password",
             "hidden": [
               {
                 "$eq": {
@@ -273,14 +274,20 @@
               "description": "Path to the trust store file"
             },
             "content": {
-              "type": "text",
+              "type": "string",
               "title": "Content",
-              "description": "Content"
+              "description": "Content",
+              "x-schema-form": {
+                "type": "text"
+              }
             },
             "password": {
-              "type": "password",
+              "type": "string",
               "title": "Password",
-              "description": "Trust store password"
+              "description": "Trust store password",
+              "x-schema-form": {
+                "type": "password"
+              }
             }
           },
           "x-schema-form": {
@@ -320,14 +327,20 @@
               "description": "Path to the key store file"
             },
             "content": {
-              "type": "text",
+              "type": "string",
               "title": "Content",
-              "description": "Content"
+              "description": "Content",
+              "x-schema-form": {
+                "type": "text"
+              }
             },
             "password": {
-              "type": "password",
+              "type": "string",
               "title": "Password",
-              "description": "Key store password"
+              "description": "Key store password",
+              "x-schema-form": {
+                "type": "password"
+              }
             }
           }
         }
