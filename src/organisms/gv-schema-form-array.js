@@ -88,6 +88,7 @@ export class GvSchemaFormArray extends LitElement {
           ?required="${isRequired}"
           ?disabled="${isDisabled}"
           ?readonly="${this.readonly}"
+          compact
         ></gv-schema-form-control>
         ${!isInline
           ? ''

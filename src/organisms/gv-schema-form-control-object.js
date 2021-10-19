@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit-element';
-import { isCodemirror, isObject } from '../lib/schema-form';
+import { canInline, canGrid } from '../lib/schema-form';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';
 import '../molecules/gv-expandable';
@@ -35,6 +35,7 @@ export class GvSchemaFormControlObject extends LitElement {
       disabled: { type: Boolean, reflect: true },
       required: { type: Boolean, reflect: true },
       hidden: { type: Boolean, reflect: true },
+      compact: { type: Boolean },
     };
   }
 
@@ -60,6 +61,7 @@ export class GvSchemaFormControlObject extends LitElement {
       ?readonly="${this.readonly}"
       ?hidden="${this.hidden}"
       class="control"
+      ?compact="${this.compact}"
     ></gv-schema-form-control>`;
   }
 
@@ -89,15 +91,13 @@ export class GvSchemaFormControlObject extends LitElement {
     return super.shouldUpdate(changedProperties);
   }
 
-  canInline(key) {
-    const property = this.schema.properties[key];
-    return !isCodemirror(property) && !isObject(property);
-  }
-
   render() {
     const keys = Object.keys(this.schema.properties);
+    const isGrid = canGrid(this.schema);
     const classes = {
-      'form_control-inline': keys.length <= 2 && keys.filter((key) => this.canInline(key)).length === keys.length,
+      'form_control-inline': canInline(this.schema),
+      'form_control-grid': isGrid,
+      'form_control-grid-odd': isGrid && keys.length % 2 !== 0,
     };
 
     const titleClasses = {
@@ -108,8 +108,7 @@ export class GvSchemaFormControlObject extends LitElement {
     const details = keys.map((key) => this._renderPart(key));
 
     if (this.title) {
-      const isOpen = this.required || this.schema.required != null;
-      return html`<gv-expandable ?open="${isOpen}">
+      return html`<gv-expandable open>
         <div slot="summary" class="${classMap(titleClasses)}" title="${this.title}">${this.title}</div>
         <div slot="details" class="${classMap(classes)}">${details}</div>
       </gv-expandable>`;
@@ -131,6 +130,15 @@ export class GvSchemaFormControlObject extends LitElement {
           display: flex;
           flex-direction: row;
           margin: 0;
+        }
+
+        .form_control-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .form_control-grid-odd *:first-child {
+          grid-column: 1 / 3;
         }
 
         .form_control-inline > * {
