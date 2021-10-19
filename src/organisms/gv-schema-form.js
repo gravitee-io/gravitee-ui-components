@@ -323,16 +323,16 @@ export class GvSchemaForm extends LitElement {
 
       switch (operator) {
         case '$neq':
-          result = result && this._evaluateNotEqualsCondition(operation);
+          result = result && this._evaluateNotEqualsCondition(control, operation);
           break;
         case '$eq':
-          result = result && this._evaluateEqualsCondition(operation);
+          result = result && this._evaluateEqualsCondition(control, operation);
           break;
         case '$nodef':
-          result = result && this._evaluateNotDefCondition(operation);
+          result = result && this._evaluateNotDefCondition(control, operation);
           break;
         case '$def':
-          result = result && this._evaluateDefCondition(operation);
+          result = result && this._evaluateDefCondition(control, operation);
           break;
         default:
           console.warn(`Unsupported operator '${operator}' on disable condition`);
@@ -344,30 +344,37 @@ export class GvSchemaForm extends LitElement {
     return result;
   }
 
-  _evaluateNotEqualsCondition(condition) {
-    return !this._evaluateEqualsCondition(condition);
+  _evaluateNotEqualsCondition(control, condition) {
+    return !this._evaluateEqualsCondition(control, condition);
   }
 
-  _evaluateEqualsCondition(condition) {
+  _evaluateEqualsCondition(control, condition) {
     const operator = Object.keys(condition)[0];
     const operands = condition[operator];
     const modelAttributes = Object.keys(operands);
     return modelAttributes
       .map((modelAttribute) => {
         const testValue = operands[modelAttribute];
-        return get(this._values, modelAttribute) === testValue;
+        let value = get(this._values, modelAttribute);
+        if (value == null && control.type === 'string') {
+          value = '';
+        }
+        if (Array.isArray(testValue)) {
+          return testValue.includes(value);
+        }
+        return value === testValue;
       })
       .reduce((acc, current) => acc || current);
   }
 
-  _evaluateNotDefCondition(condition) {
+  _evaluateNotDefCondition(control, condition) {
     const operator = Object.keys(condition)[0];
     const modelAttribute = condition[operator];
     return get(this._values, modelAttribute) === undefined || get(this._values, modelAttribute) === null;
   }
 
-  _evaluateDefCondition(condition) {
-    return !this._evaluateNotDefCondition(condition);
+  _evaluateDefCondition(control, condition) {
+    return !this._evaluateNotDefCondition(control, condition);
   }
 
   _renderPart() {
