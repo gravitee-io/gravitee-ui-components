@@ -140,7 +140,7 @@ export class GvText extends InputElement(LitElement) {
       }
       return '';
     }
-    const rows = this.autosize ? this.value.split('\n').length : this.rows;
+    const rows = this.autosize && this.value ? this.value.split('\n').length : this.rows;
     return html`
       <div class="box">
         ${this.renderLabel()}
