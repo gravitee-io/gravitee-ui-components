@@ -20,3 +20,13 @@ export function isCodemirror(control) {
 export function isObject(control) {
   return control.type === 'object';
 }
+
+export function canInline(schema) {
+  const keys = Object.keys(schema.properties);
+  return keys.length <= 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
+}
+
+function _canInline(schema, key) {
+  const property = schema.properties[key];
+  return !isCodemirror(property) && !isObject(property);
+}
