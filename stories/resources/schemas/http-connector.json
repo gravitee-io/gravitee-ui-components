@@ -2,26 +2,6 @@
   "type": "object",
   "id": "urn:jsonschema:io:gravitee:connector:http:configuration:HttpConnectorConfiguration",
   "properties": {
-    "headers": {
-      "type": "array",
-      "title": "Headers",
-      "items": {
-        "type": "object",
-        "title": "Header",
-        "id": "urn:jsonschema:io:gravitee:connector:http:configuration:HttpHeader",
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "required": ["name", "value"]
-      }
-    },
     "http": {
       "type": "object",
       "title": "HTTP Options",
@@ -95,6 +75,27 @@
             }
           }
         }
+      }
+    },
+    "headers": {
+      "type": "array",
+      "title": "HTTP Headers",
+      "description": "Default HTTP requests emitted by the API gateway to upstream",
+      "items": {
+        "type": "object",
+        "title": "Header",
+        "id": "urn:jsonschema:io:gravitee:connector:http:configuration:HttpHeader",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "required": ["name", "value"]
       }
     },
     "proxy": {

@@ -30,6 +30,7 @@ export class GvSchemaFormArray extends LitElement {
       value: { type: Array },
       id: { type: String, reflect: true },
       title: { type: String, reflect: true },
+      description: { type: String },
       skeleton: { type: Boolean, reflect: true },
       errors: { type: Array },
       readonly: { type: Boolean, reflect: true },
@@ -121,7 +122,10 @@ export class GvSchemaFormArray extends LitElement {
     return html`<div class="form__control-array">
       <div class="form__item-group" id="${this.id}">
         <div class="${classMap({ 'form__item-group-header': true, skeleton: this.skeleton })}">
-          <label><span>${this.title || this.id}</span><span class="form__item-length">(${this.value.length})</span></label>
+          <div class="form__item-group-title">
+            <label><span>${this.title || this.id}</span><span class="form__item-length">(${this.value.length})</span></label>
+            ${this.description ? html`<div class="description">${this.description}</div>` : ''}
+          </div>
           ${this.readonly !== true
             ? html`<gv-button outlined small icon="code:plus" @gv-button:click="${this._onNew}">New ${this.schema.title}</gv-button>`
             : ''}
@@ -185,6 +189,18 @@ export class GvSchemaFormArray extends LitElement {
         .form__item-group-header label {
           flex: 1;
           margin: 0;
+        }
+
+        .form__item-group-title {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          padding: 0 0.2rem;
+        }
+
+        .description {
+          opacity: 0.6;
+          font-size: var(--gv-theme-font-size-s, 12px);
         }
 
         .form__item-group-header,
