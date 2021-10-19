@@ -462,9 +462,13 @@ export class GvInput extends InputElement(LitElement) {
     return '';
   }
 
+  _shapePassword() {
+    return this._showPassword ? 'general:visible' : 'general:hidden';
+  }
+
   _renderPasswordIcon() {
     if (this.isPassword) {
-      const shape = this._showPassword ? 'general:visible' : 'general:hidden';
+      const shape = this._shapePassword();
       const title = this._showPassword ? 'Show' : 'Hide';
       return html`<div class="box-icon">
         <gv-icon class="link" shape="${shape}" title="${title}" @click="${this._onIconVisibleClick}"></gv-icon>
