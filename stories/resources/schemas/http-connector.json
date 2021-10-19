@@ -7,60 +7,6 @@
       "title": "HTTP Options",
       "id": "urn:jsonschema:io:gravitee:connector:http:configuration:HttpOptions",
       "properties": {
-        "idleTimeout": {
-          "type": "integer",
-          "title": "Idle timeout (ms)",
-          "description": "Maximum time a connection will timeout and be closed if no data is received within the timeout.",
-          "default": 60000
-        },
-        "connectTimeout": {
-          "type": "integer",
-          "title": "Connect timeout (ms)",
-          "description": "Maximum time to connect to the remote host.",
-          "default": 5000
-        },
-        "keepAlive": {
-          "title": "Enable keep-alive",
-          "description": "Use an HTTP persistent connection to send and receive multiple HTTP requests / responses.",
-          "type": "boolean",
-          "default": true
-        },
-        "readTimeout": {
-          "type": "integer",
-          "title": "Connect timeout (ms)",
-          "description": "Maximum time to complete the request (including response).",
-          "default": 10000
-        },
-        "pipelining": {
-          "title": "Enable HTTP pipelining",
-          "description": "When pipe-lining is enabled requests will be written to connections without waiting for previous responses to return.\n",
-          "type": "boolean",
-          "default": false
-        },
-        "maxConcurrentConnections": {
-          "type": "integer",
-          "title": "Max Concurrent Connections",
-          "description": "Maximum pool size for connections.",
-          "default": 100
-        },
-        "useCompression": {
-          "title": "Enable compression (gzip, deflate)",
-          "description": "The gateway can let the remote http server know that it supports compression, and will be able to handle compressed response bodies.",
-          "type": "boolean",
-          "default": true
-        },
-        "followRedirects": {
-          "title": "Follow HTTP redirects",
-          "description": "When the client receives an 301, 302, 303 or 307 status code, it follows the redirection provided by the Location response header",
-          "type": "boolean",
-          "default": false
-        },
-        "clearTextUpgrade": {
-          "title": "Clear text upgrade",
-          "description": "To complete...",
-          "type": "boolean",
-          "default": true
-        },
         "version": {
           "title": "HTTP Protocol version",
           "description": "The version of the HTTP protocol to use",
@@ -74,13 +20,76 @@
               "HTTP_2": "HTTP 2"
             }
           }
+        },
+        "keepAlive": {
+          "title": "Enable keep-alive",
+          "description": "Use an HTTP persistent connection to send and receive multiple HTTP requests / responses.",
+          "type": "boolean",
+          "default": true
+        },
+        "idleTimeout": {
+          "type": "integer",
+          "title": "Idle timeout (ms)",
+          "description": "Maximum time a connection will timeout and be closed if no data is received within the timeout.",
+          "default": 60000
+        },
+        "pipelining": {
+          "title": "Enable HTTP pipelining",
+          "description": "When pipe-lining is enabled requests will be written to connections without waiting for previous responses to return.\n",
+          "type": "boolean",
+          "default": false
+        },
+        "connectTimeout": {
+          "type": "integer",
+          "title": "Connect timeout (ms)",
+          "description": "Maximum time to connect to the remote host.",
+          "default": 5000
+        },
+        "useCompression": {
+          "title": "Enable compression (gzip, deflate)",
+          "description": "The gateway can let the remote http server know that it supports compression, and will be able to handle compressed response bodies.",
+          "type": "boolean",
+          "default": true
+        },
+        "readTimeout": {
+          "type": "integer",
+          "title": "Connect timeout (ms)",
+          "description": "Maximum time to complete the request (including response).",
+          "default": 10000
+        },
+        "followRedirects": {
+          "title": "Follow HTTP redirects",
+          "description": "When the client receives an 301, 302, 303 or 307 status code, it follows the redirection provided by the Location response header",
+          "type": "boolean",
+          "default": false
+        },
+        "maxConcurrentConnections": {
+          "type": "integer",
+          "title": "Max Concurrent Connections",
+          "description": "Maximum pool size for connections.",
+          "default": 100
+        },
+        "clearTextUpgrade": {
+          "title": "Allow h2c Clear Text Upgrade",
+          "description": "If enabled, an h2c connection is established using an HTTP/1.1 Upgrade request. If disabled, h2c connection is established directly (with prior knowledge) ",
+          "type": "boolean",
+          "default": true,
+          "x-schema-form": {
+            "hidden": [
+              {
+                "$eq": {
+                  "http.version": "HTTP_1_1"
+                }
+              }
+            ]
+          }
         }
       }
     },
     "headers": {
       "type": "array",
       "title": "HTTP Headers",
-      "description": "Default HTTP requests emitted by the API gateway to upstream",
+      "description": "Default HTTP headers added by the API gateway to upstream",
       "items": {
         "type": "object",
         "title": "Header",
@@ -106,13 +115,7 @@
         "enabled": {
           "type": "boolean",
           "title": "Use proxy",
-          "description": "Use proxy",
-          "default": false
-        },
-        "useSystemProxy": {
-          "type": "boolean",
-          "title": "Use system proxy",
-          "description": "Use system proxy",
+          "description": "Use proxy for client connections",
           "default": false
         },
         "type": {
@@ -228,6 +231,21 @@
               }
             ]
           }
+        },
+        "useSystemProxy": {
+          "type": "boolean",
+          "title": "Use system proxy",
+          "description": "Use proxy configured at system level",
+          "default": false,
+          "x-schema-form": {
+            "hidden": [
+              {
+                "$eq": {
+                  "proxy.enabled": false
+                }
+              }
+            ]
+          }
         }
       }
     },
@@ -265,21 +283,8 @@
                   "": "None",
                   "JKS": "Java Trust Store (.jks)",
                   "PKCS12": "PKCS#12 (.p12) / PFX (.pfx)",
-                  "PEM": "PREM (.pem)"
+                  "PEM": "PEM (.pem)"
                 }
-              }
-            },
-            "path": {
-              "type": "string",
-              "title": "Path to trust store",
-              "description": "Path to the trust store file"
-            },
-            "content": {
-              "type": "string",
-              "title": "Content",
-              "description": "Content",
-              "x-schema-form": {
-                "type": "text"
               }
             },
             "password": {
@@ -287,7 +292,43 @@
               "title": "Password",
               "description": "Trust store password",
               "x-schema-form": {
-                "type": "password"
+                "type": "password",
+                "hidden": [
+                  {
+                    "$eq": {
+                      "ssl.trustStore.type": ["", "PEM"]
+                    }
+                  }
+                ]
+              }
+            },
+            "path": {
+              "type": "string",
+              "title": "Path to trust store",
+              "description": "Path to the trust store file",
+              "x-schema-form": {
+                "hidden": [
+                  {
+                    "$eq": {
+                      "ssl.trustStore.type": ""
+                    }
+                  }
+                ]
+              }
+            },
+            "content": {
+              "type": "string",
+              "title": "Content",
+              "description": "Binary content",
+              "x-schema-form": {
+                "type": "text",
+                "hidden": [
+                  {
+                    "$eq": {
+                      "ssl.trustStore.type": ""
+                    }
+                  }
+                ]
               }
             }
           },
@@ -322,25 +363,77 @@
                 }
               }
             },
-            "path": {
-              "type": "string",
-              "title": "Path to key store",
-              "description": "Path to the key store file"
-            },
-            "content": {
-              "type": "string",
-              "title": "Content",
-              "description": "Content",
-              "x-schema-form": {
-                "type": "text"
-              }
-            },
             "password": {
               "type": "string",
               "title": "Password",
               "description": "Key store password",
               "x-schema-form": {
-                "type": "password"
+                "type": "password",
+                "hidden": [
+                  {
+                    "$eq": {
+                      "ssl.keyStore.type": ""
+                    }
+                  }
+                ]
+              }
+            },
+            "path": {
+              "type": "string",
+              "title": "Path to key store",
+              "description": "Path to the key store file",
+              "x-schema-form": {
+                "hidden": [
+                  {
+                    "$eq": {
+                      "ssl.keyStore.type": ""
+                    }
+                  }
+                ]
+              }
+            },
+            "content": {
+              "type": "string",
+              "title": "Content",
+              "description": "Binary content",
+              "x-schema-form": {
+                "type": "text",
+                "hidden": [
+                  {
+                    "$eq": {
+                      "ssl.keyStore.type": ""
+                    }
+                  }
+                ]
+              }
+            },
+            "pathPrivate": {
+              "type": "string",
+              "title": "Path to private key store",
+              "description": "Path to the private key store file",
+              "x-schema-form": {
+                "hidden": [
+                  {
+                    "$neq": {
+                      "ssl.keyStore.type": "PEM"
+                    }
+                  }
+                ]
+              }
+            },
+            "contentPrivate": {
+              "type": "string",
+              "title": "Private Content",
+              "description": "Private Key",
+              "x-schema-form": {
+                "type": "text",
+                "hidden": [
+                  {
+                    "$neq": {
+                      "ssl.keyStore.type": "PEM"
+                    }
+                  }
+                ]
               }
             }
           }
