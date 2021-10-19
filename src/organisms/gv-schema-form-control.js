@@ -27,7 +27,7 @@ import '../molecules/gv-cron-editor';
 import '../atoms/gv-autocomplete';
 import '../organisms/gv-schema-form-array';
 import '../organisms/gv-schema-form-control-object';
-import { isCodemirror, isObject } from '../lib/schema-form';
+import { isCodemirror, isObject, isComplexArray } from '../lib/schema-form';
 
 export class GvSchemaFormControl extends LitElement {
   static get properties() {
@@ -46,6 +46,7 @@ export class GvSchemaFormControl extends LitElement {
       skeleton: { type: Boolean, reflect: true },
       hidden: { type: Boolean, reflect: true },
       writeOnly: { type: Boolean, reflect: true },
+      compact: { type: Boolean },
     };
   }
 
@@ -97,7 +98,7 @@ export class GvSchemaFormControl extends LitElement {
     }
     if ((this.control.enum || (this.control.items && this.control.items.enum)) && !this.isAutocomplete()) {
       return 'gv-select';
-    } else if (this.isComplexArray()) {
+    } else if (isComplexArray(this.control)) {
       return 'gv-schema-form-array';
     } else if (this.control.type === 'array') {
       return 'gv-button';
@@ -114,10 +115,6 @@ export class GvSchemaFormControl extends LitElement {
     }
 
     return 'gv-input';
-  }
-
-  isComplexArray() {
-    return this.control.type === 'array' && !this.control.items.enum;
   }
 
   _updateProperties(element) {
@@ -151,7 +148,7 @@ export class GvSchemaFormControl extends LitElement {
 
     if (this.control.type === 'object') {
       element.schema = this.control;
-    } else if (this.isComplexArray()) {
+    } else if (isComplexArray(this.control)) {
       element.schema = this.control.items;
     }
 
@@ -206,6 +203,13 @@ export class GvSchemaFormControl extends LitElement {
 
     if (this.control.description) {
       element.description = this.control.description;
+    }
+
+    if (this.compact) {
+      element.placeholder = element.description || element.label;
+      element.label = null;
+      element.description = null;
+      element.compact = this.compact;
     }
 
     if (placeholder != null) {

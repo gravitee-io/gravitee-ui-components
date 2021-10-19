@@ -21,12 +21,24 @@ export function isObject(control) {
   return control.type === 'object';
 }
 
+export function isComplexArray(control) {
+  return control.type === 'array' && !control.items.enum;
+}
+
 export function canInline(schema) {
-  const keys = Object.keys(schema.properties);
-  return keys.length <= 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
+  if (schema.properties) {
+    const keys = Object.keys(schema.properties);
+    return keys.length <= 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
+  }
+  return true;
 }
 
 function _canInline(schema, key) {
   const property = schema.properties[key];
-  return !isCodemirror(property) && !isObject(property);
+  return !isCodemirror(property) && !isObject(property) && !isComplexArray(property);
+}
+
+export function canGrid(schema) {
+  const keys = Object.keys(schema.properties);
+  return keys.length > 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
 }
