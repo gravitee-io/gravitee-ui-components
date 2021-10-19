@@ -174,6 +174,12 @@ export class GvSchemaFormControl extends LitElement {
       element.type = 'number';
     }
 
+    if (this.isText()) {
+      element.rows = 3;
+      element.autosize = true;
+      element.placeholder = this.control.description;
+    }
+
     const placeholder = this.getPlaceholder();
 
     if (this.control.enum || (this.control.items && this.control.items.enum)) {
