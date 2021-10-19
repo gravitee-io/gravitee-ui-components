@@ -1,3 +1,20 @@
+# [3.19.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.18.1...v3.19.0) (2021-10-19)
+
+
+### Bug Fixes
+
+* **gv-input:** use the right icon for the input password ([8ff51c8](https://github.com/gravitee-io/gravitee-ui-components/commit/8ff51c8c08c57ba588d764cf43d5e1a77e60f418))
+* **gv-text:** use rows attribute as default in autosize mode ([a23c7f4](https://github.com/gravitee-io/gravitee-ui-components/commit/a23c7f4a9fb0419c1385e60c04f3c02374cc4a1f))
+
+
+### Features
+
+* **gv-schema-form:** add description in array field ([4f509f3](https://github.com/gravitee-io/gravitee-ui-components/commit/4f509f31ebffb06f5bf5420cd8b57347a7c167fa))
+* **gv-schema-form:** display array elements on one line when it's possible ([14d0284](https://github.com/gravitee-io/gravitee-ui-components/commit/14d02841ef6a4c96cd9adf3358763d5c20a675d8))
+* **gv-schema-form:** display object with many fields on a grid ([2ada1c6](https://github.com/gravitee-io/gravitee-ui-components/commit/2ada1c6f4798147eff731e25301271d195653f3d))
+* **gv-schema-form:** improve text type support ([adc6ca1](https://github.com/gravitee-io/gravitee-ui-components/commit/adc6ca198448319b3e2e0c1f341964a220ca279c))
+* **gv-schema-form:** manage OR conditions for hidden/disabled fields ([03347cd](https://github.com/gravitee-io/gravitee-ui-components/commit/03347cd16a155b7c59a3e5668bfdc03db4fa8389))
+
 ## [3.18.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.18.0...v3.18.1) (2021-10-19)
 
 
