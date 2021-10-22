@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "id": "story",
+  "properties": {
+    "select": {
+      "title": "Simple select",
+      "type": "string",
+      "enum": ["a", "b", "c"]
+    },
+    "path-operator": {
+      "type": "object",
+      "properties": {
+        "operator": {
+          "title": "Operator path",
+          "description": "The operator path",
+          "type": "string",
+          "enum": ["EQUALS", "STARTS_WITH"],
+          "default": "STARTS_WITH",
+          "x-schema-form": {
+            "titleMap": {
+              "EQUALS": "Equals",
+              "STARTS_WITH": "Starts with"
+            }
+          }
+        },
+        "path": {
+          "title": "Path",
+          "description": "The path of flow (must start by /)",
+          "type": "string",
+          "pattern": "^/",
+          "x-schema-form": {
+            "placeholder": "/my-path"
+          }
+        }
+      },
+      "required": ["path", "operator"]
+    },
+    "timeToLiveSeconds": {
+      "title": "Time to live (in seconds)",
+      "default": 600,
+      "description": "Required only if select has value",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000,
+      "oneOf": [
+        { "type": "number", "multipleOf": 5 },
+        { "type": "number", "multipleOf": 3 }
+      ]
+    }
+  },
+  "dependencies": {
+    "select": ["timeToLiveSeconds"]
+  }
+}

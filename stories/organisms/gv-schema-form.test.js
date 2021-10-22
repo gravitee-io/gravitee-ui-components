@@ -17,6 +17,9 @@ import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globa
 import { Page, querySelector, since } from '../lib/test-utils';
 import '../../src/organisms/gv-schema-form';
 import mixed from '../resources/schemas/mixed.json';
+import fieldsDependencies from '../resources/schemas/fields-dependencies.json';
+import fieldsConditional from '../resources/schemas/fields-conditional.json';
+import httpConnector from '../resources/schemas/http-connector.json';
 import { deepClone } from '../../src/lib/utils';
 
 describe('S C H E M A  F O R M', () => {
@@ -440,5 +443,138 @@ describe('S C H E M A  F O R M', () => {
         operator: 'STARTS_WITH',
       },
     });
+  });
+
+  test('should validate schema with dependencies form', () => {
+    component.schema = fieldsDependencies;
+
+    component.values = {
+      'path-operator': {
+        operator: 'EQUALS',
+        path: '/foobar',
+      },
+    };
+
+    let results = component.validate();
+    expect(results.errors).toEqual([]);
+
+    component.values = {
+      'path-operator': {
+        operator: 'EQUALS',
+        path: '/foobar',
+      },
+      select: 'a',
+    };
+
+    results = component.validate();
+    expect(results.errors).toEqual([
+      {
+        path: [],
+        property: 'instance',
+        message: 'property timeToLiveSeconds not found, required by instance.select',
+        schema: 'story',
+        instance: {
+          'path-operator': {
+            operator: 'EQUALS',
+            path: '/foobar',
+          },
+          select: 'a',
+        },
+        name: 'dependencies',
+        argument: 'instance.select',
+        stack: 'instance property timeToLiveSeconds not found, required by instance.select',
+      },
+    ]);
+  });
+
+  test('should validate schema with oneOf', () => {
+    component.schema = fieldsDependencies;
+
+    component.values = {
+      select: 'a',
+      'path-operator': {
+        operator: 'EQUALS',
+        path: '/foobar',
+      },
+      timeToLiveSeconds: 2,
+    };
+
+    const results = component.validate();
+    expect(results.errors).toEqual([
+      {
+        path: ['timeToLiveSeconds'],
+        property: 'instance.timeToLiveSeconds',
+        message: 'is not exactly one from [subschema 0],[subschema 1]',
+        schema: {
+          title: 'Time to live (in seconds)',
+          default: 600,
+          description: 'Required only if select has value',
+          type: 'integer',
+          minimum: 0,
+          maximum: 1000,
+          oneOf: [
+            {
+              type: 'number',
+              multipleOf: 5,
+            },
+            {
+              type: 'number',
+              multipleOf: 3,
+            },
+          ],
+        },
+        instance: 2,
+        name: 'oneOf',
+        argument: ['[subschema 0]', '[subschema 1]'],
+        stack: 'instance.timeToLiveSeconds is not exactly one from [subschema 0],[subschema 1]',
+      },
+    ]);
+  });
+
+  test('should validate schema with conditions and custom error message', () => {
+    component.schema = fieldsConditional;
+
+    component.values = {};
+
+    let results = component.validate();
+    expect(results.errors).toEqual([]);
+
+    component.values = {
+      type: 'b',
+      path: 'file://',
+      content: 'binary',
+    };
+
+    results = component.validate();
+    expect(results.errors).toEqual([]);
+
+    component.values = {
+      type: 'c',
+      path: 'file://',
+      content: 'binary',
+    };
+
+    results = component.validate();
+    expect(results.errors).toEqual([]);
+  });
+
+  test('should validate complex schema', () => {
+    component.schema = httpConnector;
+
+    component.values = {};
+    let results = component.validate();
+    expect(results.errors).toEqual([]);
+
+    component.values = {
+      ssl: {
+        trustStore: {
+          type: 'PEM',
+        },
+      },
+    };
+    results = component.validate();
+    expect(results.errors[0].message).toEqual(
+      'A path or a content is <span class="error">required</span> - for JKS and PKCS#12 a password is also <span class="error">required</span>',
+    );
   });
 });
