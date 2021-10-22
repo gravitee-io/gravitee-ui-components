@@ -28,7 +28,7 @@ export function isComplexArray(control) {
 export function canInline(schema) {
   if (schema.properties) {
     const keys = Object.keys(schema.properties);
-    return keys.length <= 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
+    return keys.length === 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
   }
   return true;
 }

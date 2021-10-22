@@ -105,7 +105,45 @@
       "icon": "",
       "category": "others",
       "onRequest": true,
-      "onResponse": true
+      "onResponse": true,
+      "schema": {
+        "type": "object",
+        "id": "urn:jsonschema:io:gravitee:policy:dynamicrouting:configuration:DynamicRoutingPolicyConfiguration",
+        "title": "Dynamic Routing",
+        "description": "Route request to an other endpoint according to specified rules",
+        "properties": {
+          "rules": {
+            "title": "Routing rules",
+            "description": "Ordered list of rules to apply to inbound request.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "title": "Rule",
+              "id": "urn:jsonschema:io:gravitee:policy:dynamicrouting:configuration:Rule",
+              "properties": {
+                "pattern": {
+                  "title": "Match expression",
+                  "description": "The key used to store the element (Support EL).",
+                  "type": "string",
+                  "x-schema-form": {
+                    "expression-language": true
+                  }
+                },
+                "url": {
+                  "title": "Redirect to",
+                  "description": "The target endpoint (Support EL).",
+                  "type": "string",
+                  "x-schema-form": {
+                    "expression-language": true
+                  }
+                }
+              },
+              "required": ["pattern", "url"]
+            }
+          }
+        },
+        "required": ["rules"]
+      }
     },
     {
       "id": "policy-generate-jwt",
