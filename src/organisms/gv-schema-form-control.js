@@ -303,13 +303,16 @@ export class GvSchemaFormControl extends LitElement {
   }
 
   formatErrorMessage(error) {
-    if (error.schema.properties != null && error.schema.properties[error.argument] != null) {
-      const title = error.schema.properties[error.argument].title;
-      if (title) {
-        return error.message.replace(error.argument, title);
-      }
+    let title;
+    if (this.control.properties != null && this.control.properties[error.argument] != null) {
+      title = this.control.properties[error.argument].title;
+    } else {
+      title = this.control.title;
     }
-    return error.message;
+    if (title) {
+      return `<span>${error.message.replace(error.argument, title)}</span>`;
+    }
+    return `<span>${error.message}</span>`;
   }
 
   shouldUpdate(changedProperties) {
@@ -421,6 +424,14 @@ export class GvSchemaFormControl extends LitElement {
         gv-select:hover,
         gv-autocomplete:hover {
           z-index: 70;
+        }
+
+        .error {
+          color: var(--gv-theme-color-error, #f44336);
+        }
+
+        .warning {
+          color: var(--gv-theme-color-warning, #ff9800);
         }
       `,
     ];

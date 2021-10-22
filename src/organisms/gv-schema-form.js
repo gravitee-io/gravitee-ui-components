@@ -400,14 +400,26 @@ export class GvSchemaForm extends LitElement {
     return this.shadowRoot.querySelector(`[id="${id}"]`);
   }
 
+  _getErrors() {
+    return (this._validatorResults.errors || []).filter((error) => {
+      let id = `${error.property.replace('instance.', '')}`;
+      if (!Array.isArray(error.argument)) {
+        id = `${id}.${error.argument}`;
+      }
+
+      const errorKey = `x-schema-form.errors.${id}.${error.name}`;
+      const errorMessage = get(this.schema, errorKey);
+      if (errorMessage) {
+        error.message = errorMessage;
+      }
+      return !this._ignoreProperties.includes(id);
+    });
+  }
+
   validate() {
     if (this.schema) {
       this._validatorResults = this._validator.validate(this._values, this.schema);
-      if (this.isValid()) {
-        this.errors = [];
-      } else {
-        this.errors = this._validatorResults.errors;
-      }
+      this.errors = this._getErrors();
     }
     return this._validatorResults;
   }
@@ -416,11 +428,7 @@ export class GvSchemaForm extends LitElement {
     if (this._validatorResults.valid) {
       return true;
     }
-
-    const errors = (this._validatorResults.errors || []).filter((error) => {
-      return !this._ignoreProperties.includes(error.property.replace('instance.', ''));
-    });
-    return errors.length === 0;
+    return this._getErrors() === 0;
   }
 
   isTouch() {
