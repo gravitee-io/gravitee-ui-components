@@ -360,11 +360,6 @@ export class GvCode extends InputElement(LitElement) {
           height: var(--input-large--lh);
         }
 
-        .input pre.CodeMirror-line,
-        .input pre.CodeMirror-line-like {
-          white-space: nowrap;
-        }
-
         .input .CodeMirror-sizer {
           height: 28px;
           border: 0;
