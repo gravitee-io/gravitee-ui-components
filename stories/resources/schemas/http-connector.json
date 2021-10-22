@@ -27,11 +27,11 @@
           "type": "boolean",
           "default": true
         },
-        "idleTimeout": {
+        "connectTimeout": {
           "type": "integer",
-          "title": "Idle timeout (ms)",
-          "description": "Maximum time a connection will timeout and be closed if no data is received within the timeout.",
-          "default": 60000
+          "title": "Connect timeout (ms)",
+          "description": "Maximum time to connect to the remote host.",
+          "default": 5000
         },
         "pipelining": {
           "title": "Enable HTTP pipelining",
@@ -39,11 +39,11 @@
           "type": "boolean",
           "default": false
         },
-        "connectTimeout": {
+        "readTimeout": {
           "type": "integer",
-          "title": "Connect timeout (ms)",
-          "description": "Maximum time to connect to the remote host.",
-          "default": 5000
+          "title": "Read timeout (ms)",
+          "description": "Maximum time to complete the request (including response).",
+          "default": 10000
         },
         "useCompression": {
           "title": "Enable compression (gzip, deflate)",
@@ -51,11 +51,11 @@
           "type": "boolean",
           "default": true
         },
-        "readTimeout": {
+        "idleTimeout": {
           "type": "integer",
-          "title": "Connect timeout (ms)",
-          "description": "Maximum time to complete the request (including response).",
-          "default": 10000
+          "title": "Idle timeout (ms)",
+          "description": "Maximum time a connection will timeout and be closed if no data is received within the timeout.",
+          "default": 60000
         },
         "followRedirects": {
           "title": "Follow HTTP redirects",
@@ -84,7 +84,8 @@
             ]
           }
         }
-      }
+      },
+      "required": ["connectTimeout", "readTimeout", "idleTimeout", "maxConcurrentConnections"]
     },
     "headers": {
       "type": "array",
@@ -128,7 +129,7 @@
             "type": "select",
             "titleMap": {
               "HTTP": "HTTP CONNECT proxy",
-              "SOCKS4": "SOCKS4/4& tcp proxy",
+              "SOCKS4": "SOCKS4/4a tcp proxy",
               "SOCKS5": "SOCKS5 tcp proxy"
             },
             "hidden": [
@@ -142,6 +143,21 @@
               {
                 "$eq": {
                   "proxy.useSystemProxy": true
+                }
+              }
+            ]
+          }
+        },
+        "useSystemProxy": {
+          "type": "boolean",
+          "title": "Use system proxy",
+          "description": "Use proxy configured at system level",
+          "default": false,
+          "x-schema-form": {
+            "hidden": [
+              {
+                "$eq": {
+                  "proxy.enabled": false
                 }
               }
             ]
@@ -231,23 +247,20 @@
               }
             ]
           }
-        },
-        "useSystemProxy": {
-          "type": "boolean",
-          "title": "Use system proxy",
-          "description": "Use proxy configured at system level",
-          "default": false,
-          "x-schema-form": {
-            "hidden": [
-              {
-                "$eq": {
-                  "proxy.enabled": false
-                }
-              }
-            ]
-          }
         }
-      }
+      },
+      "oneOf": [
+        {
+          "properties": { "enabled": { "const": false } }
+        },
+        {
+          "properties": { "useSystemProxy": { "const": true } }
+        },
+        {
+          "properties": { "enabled": { "const": true }, "useSystemProxy": { "const": false } },
+          "required": ["host", "port"]
+        }
+      ]
     },
     "ssl": {
       "type": "object",
@@ -332,6 +345,27 @@
               }
             }
           },
+          "oneOf": [
+            {
+              "properties": { "type": { "const": "" } }
+            },
+            {
+              "properties": { "type": { "const": "PEM" } },
+              "required": ["content"]
+            },
+            {
+              "properties": { "type": { "const": "PEM" } },
+              "required": ["path"]
+            },
+            {
+              "properties": { "type": { "pattern": "JKS|PKCS12" } },
+              "required": ["content", "password"]
+            },
+            {
+              "properties": { "type": { "pattern": "JKS|PKCS12" } },
+              "required": ["path", "password"]
+            }
+          ],
           "x-schema-form": {
             "hidden": [
               {
@@ -359,7 +393,7 @@
                   "": "None",
                   "JKS": "Java Trust Store (.jks)",
                   "PKCS12": "PKCS#12 (.p12) / PFX (.pfx)",
-                  "PEM": "PREM (.pem)"
+                  "PEM": "PEM (.pem)"
                 }
               }
             },
@@ -372,7 +406,7 @@
                 "hidden": [
                   {
                     "$eq": {
-                      "ssl.keyStore.type": ""
+                      "ssl.keyStore.type": ["", "PEM"]
                     }
                   }
                 ]
@@ -386,7 +420,7 @@
                 "hidden": [
                   {
                     "$eq": {
-                      "ssl.keyStore.type": ""
+                      "ssl.keyStore.type": ["", "PEM"]
                     }
                   }
                 ]
@@ -401,16 +435,16 @@
                 "hidden": [
                   {
                     "$eq": {
-                      "ssl.keyStore.type": ""
+                      "ssl.keyStore.type": ["", "PEM"]
                     }
                   }
                 ]
               }
             },
-            "pathPrivate": {
+            "certPath": {
               "type": "string",
-              "title": "Path to private key store",
-              "description": "Path to the private key store file",
+              "title": "Path to cert file",
+              "description": "Path to cert file (.PEM)",
               "x-schema-form": {
                 "hidden": [
                   {
@@ -421,10 +455,37 @@
                 ]
               }
             },
-            "contentPrivate": {
+            "certContent": {
               "type": "string",
-              "title": "Private Content",
-              "description": "Private Key",
+              "title": "Certificate",
+              "x-schema-form": {
+                "type": "text",
+                "hidden": [
+                  {
+                    "$neq": {
+                      "ssl.keyStore.type": "PEM"
+                    }
+                  }
+                ]
+              }
+            },
+            "keyPath": {
+              "type": "string",
+              "title": "Path to private key file",
+              "description": "Path to private key file (.PEM)",
+              "x-schema-form": {
+                "hidden": [
+                  {
+                    "$neq": {
+                      "ssl.keyStore.type": "PEM"
+                    }
+                  }
+                ]
+              }
+            },
+            "keyContent": {
+              "type": "string",
+              "title": "Private key",
               "x-schema-form": {
                 "type": "text",
                 "hidden": [
@@ -436,7 +497,51 @@
                 ]
               }
             }
-          }
+          },
+          "oneOf": [
+            {
+              "properties": { "type": { "const": "" } }
+            },
+            {
+              "properties": { "type": { "const": "PEM" } },
+              "required": ["certContent", "keyContent"]
+            },
+            {
+              "properties": { "type": { "const": "PEM" } },
+              "required": ["certPath", "keyPath"]
+            },
+            {
+              "properties": { "type": { "const": "PEM" } },
+              "required": ["certContent", "keyPath"]
+            },
+            {
+              "properties": { "type": { "const": "PEM" } },
+              "required": ["certPath", "keyContent"]
+            },
+            {
+              "properties": { "type": { "pattern": "JKS|PKCS12" } },
+              "required": ["content", "password"]
+            },
+            {
+              "properties": { "type": { "pattern": "JKS|PKCS12" } },
+              "required": ["path", "password"]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-schema-form": {
+    "errors": {
+      "proxy": {
+        "oneOf": "The host and port are <span class=\"error\">required</span>"
+      },
+      "ssl": {
+        "trustStore": {
+          "oneOf": "A path or a content is <span class=\"error\">required</span> - for JKS and PKCS#12 a password is also <span class=\"error\">required</span>"
+        },
+        "keyStore": {
+          "oneOf": "Paths or contents are <span class=\"error\">required</span> - for JKS and PKCS#12, a password is also <span class=\"error\">required</span>."
         }
       }
     }

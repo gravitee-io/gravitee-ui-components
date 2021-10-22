@@ -218,9 +218,9 @@ export class GvSchemaForm extends LitElement {
       set(this._values, currentTarget.id, value);
     }
 
+    this._updateDynamicControls();
     this._validatorResults = this.validate();
     this.dirty = true;
-    this._updateDynamicControls();
     this._updateActions();
     this._dispatchChange();
   }
@@ -242,6 +242,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   _updateDynamicControls() {
+    this._ignoreProperties = [];
     this._dynamicControls.forEach((controlElement) => {
       this._updateDynamicControl(controlElement);
     });
@@ -254,6 +255,9 @@ export class GvSchemaForm extends LitElement {
         const is = this._evaluateCondition(control, attribute);
         if (is) {
           controlElement.setAttribute(attribute, '');
+          if (attribute === 'hidden') {
+            this._ignoreProperties.push(controlElement.id);
+          }
         } else {
           controlElement.removeAttribute(attribute);
         }

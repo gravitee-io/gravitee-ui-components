@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "id": "story",
+  "properties": {
+    "type": {
+      "title": "Simple select",
+      "type": "string",
+      "enum": ["", "b", "c"],
+      "default": "",
+      "x-schema-form": {
+        "type": "select",
+        "titleMap": {
+          "": "None",
+          "b": "-B-",
+          "c": "-C-"
+        }
+      }
+    },
+    "path": {
+      "title": "Path",
+      "type": "string"
+    },
+    "content": {
+      "title": "Content",
+      "type": "string"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": { "type": { "const": "" } }
+    },
+    {
+      "properties": { "type": { "pattern": "b|c" } },
+      "required": ["path", "content"]
+    }
+  ],
+  "x-schema-form": {
+    "message": {
+      "oneOf": "The form is not valid"
+    }
+  }
+}
