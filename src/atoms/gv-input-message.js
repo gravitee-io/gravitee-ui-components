@@ -58,6 +58,7 @@ export class GvInputMessage extends LitElement {
         .box {
           display: flex;
           align-items: center;
+          white-space: normal;
         }
 
         gv-icon {
