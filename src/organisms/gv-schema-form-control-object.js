@@ -126,12 +126,7 @@ export class GvSchemaFormControlObject extends LitElement {
           padding: 0.5rem 0;
         }
 
-        .form_control-inline {
-          display: flex;
-          flex-direction: row;
-          margin: 0;
-        }
-
+        .form_control-inline,
         .form_control-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -142,8 +137,8 @@ export class GvSchemaFormControlObject extends LitElement {
         }
 
         .form_control-inline > * {
-          flex: 1;
           --gv-schema-form-control--m: 0 0.2rem 0 0;
+          overflow: auto;
         }
 
         .form_control-inline > *:last-child {
