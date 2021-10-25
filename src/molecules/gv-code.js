@@ -114,9 +114,9 @@ export class GvCode extends InputElement(LitElement) {
         if (options.mode != null) {
           const mode = typeof options.mode === 'string' ? options.mode : options.mode.name;
           if (mode === 'asciidoc') {
-            await import('codemirror-asciidoc/lib/asciidoc');
+            await import('codemirror-asciidoc/lib/asciidoc.js');
           } else {
-            await import(`codemirror/mode/${mode}/${mode}`);
+            await import(`codemirror/mode/${mode}/${mode}.js`);
           }
         }
       } catch (er) {}
