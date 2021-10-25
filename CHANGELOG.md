@@ -1,3 +1,10 @@
+## [3.20.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.20.1...v3.20.2) (2021-10-25)
+
+
+### Bug Fixes
+
+* **gv-code:** define extension of files to load for a specific CodeMirror mode ([ab12130](https://github.com/gravitee-io/gravitee-ui-components/commit/ab1213059d27516d65fbbe2a34ce184f1e3d2a4e))
+
 ## [3.20.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.20.0...v3.20.1) (2021-10-21)
 
 
