@@ -422,7 +422,8 @@ export class GvSchemaForm extends LitElement {
 
   validate() {
     if (this.schema) {
-      this._validatorResults = this._validator.validate(this._values, this.schema);
+      // Additional properties should not block the validation of the form
+      this._validatorResults = this._validator.validate(this._values, { ...this.schema, additionalProperties: true });
       this.errors = this._getErrors();
     }
     return this._validatorResults;

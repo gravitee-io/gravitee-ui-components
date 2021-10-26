@@ -194,5 +194,9 @@
       "writeOnly": true
     }
   },
-  "required": ["multiselect", "timeToLiveSeconds"]
+  "required": ["multiselect", "timeToLiveSeconds"],
+  "additionalProperties": false,
+  "patternProperties": {
+    "property-to-keep": true
+  }
 }

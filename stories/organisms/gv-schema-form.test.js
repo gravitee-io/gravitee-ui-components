@@ -577,4 +577,24 @@ describe('S C H E M A  F O R M', () => {
       'A path or a content is <span class="error">required</span> - for JKS and PKCS#12 a password is also <span class="error">required</span>',
     );
   });
+
+  test('should validate with additional properties', () => {
+    component.values = {
+      body: '<xml>foobar</xml>',
+      'path-operator': {
+        operator: 'EQUALS',
+        path: '/foobar',
+      },
+      resources: 'my-resource',
+      timeToLiveSeconds: 50,
+      useResponseCacheHeaders: true,
+      select: 'b',
+      multiselect: ['a', 'b', 'c'],
+      attributes: [{ name: 'foo', value: 'bar' }],
+      'property-to-keep': 'value',
+      'property-to-remove': 'yeah',
+    };
+    const results = component.validate();
+    expect(results.errors).toEqual([]);
+  });
 });
