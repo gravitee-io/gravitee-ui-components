@@ -110,7 +110,10 @@
             "type": "string"
           }
         },
-        "required": ["name", "value"]
+        "required": ["name", "value"],
+        "x-schema-form": {
+          "open": false
+        }
       }
     },
     "timeToLiveSeconds": {

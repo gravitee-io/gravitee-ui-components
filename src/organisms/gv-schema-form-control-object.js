@@ -108,7 +108,8 @@ export class GvSchemaFormControlObject extends LitElement {
     const details = keys.map((key) => this._renderPart(key));
 
     if (this.title) {
-      return html`<gv-expandable open>
+      const open = this.schema['x-schema-form'] == null || this.schema['x-schema-form'].open !== false;
+      return html`<gv-expandable ?open="${open}">
         <div slot="summary" class="${classMap(titleClasses)}" title="${this.title}">${this.title}</div>
         <div slot="details" class="${classMap(classes)}">${details}</div>
       </gv-expandable>`;
