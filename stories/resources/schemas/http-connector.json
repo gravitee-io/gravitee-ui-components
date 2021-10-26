@@ -528,6 +528,9 @@
             }
           ]
         }
+      },
+      "x-schema-form": {
+        "open": false
       }
     }
   },

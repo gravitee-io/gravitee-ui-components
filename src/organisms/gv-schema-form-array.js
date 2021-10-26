@@ -138,8 +138,8 @@ export class GvSchemaFormArray extends LitElement {
     if (this.schema == null) {
       return html``;
     }
-    const isOpen = this.value.length > 0;
-    return html`<gv-expandable class="form__control-array" open="${isOpen}">
+    const open = this.schema['x-schema-form'] == null || this.schema['x-schema-form'].open !== false;
+    return html`<gv-expandable class="form__control-array" ?open="${open}">
       <div slot="summary" class="form__item-group-header">
         <div class="form__item-group-title">
           <label><span>${this.title || this.id}</span><span class="form__item-length">(${this.value.length})</span></label>
