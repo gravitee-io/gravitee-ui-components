@@ -205,7 +205,7 @@ export class GvSchemaForm extends LitElement {
       }
     } else if (control.type === 'array' && value.length === 0) {
       value = null;
-    } else if (control.type === 'string' && value.trim().length === 0) {
+    } else if (control.type === 'string' && value.trim().length === 0 && !control.enum) {
       value = null;
     } else if (control.type === 'object') {
       if (Object.keys(value).length === 0) {
