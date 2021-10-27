@@ -83,7 +83,7 @@
     "babel-loader": "8.2.3",
     "babel-plugin-template-html-minifier": "4.1.0",
     "bundle-phobia-cli": "0.14.13",
-    "chromatic": "5.10.2",
+    "chromatic": "6.0.5",
     "codemirror-asciidoc": "1.0.4",
     "danger": "10.7.0",
     "del": "6.0.0",
