@@ -1,3 +1,20 @@
+# [3.21.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.20.2...v3.21.0) (2021-10-27)
+
+
+### Bug Fixes
+
+* **gv-code:** makes it possible to add tab in single line mode ([56580e8](https://github.com/gravitee-io/gravitee-ui-components/commit/56580e8b1fb69e6d95e92156be3cf92f50fc8fb1))
+* **gv-schema-form:** accept empty string with enum type ([c7f5809](https://github.com/gravitee-io/gravitee-ui-components/commit/c7f5809efea2f441e3c3a0064d60b7f6e9a599bf))
+* **gv-schema-form:** resolve display for inline object ([d007a04](https://github.com/gravitee-io/gravitee-ui-components/commit/d007a04641e6c8444decc721a2184a2d85d388c6))
+
+
+### Features
+
+* **gv-schema-form:** add conditional & dependencies fields support ([73d64d2](https://github.com/gravitee-io/gravitee-ui-components/commit/73d64d2c08f81e30d1a422c7009867f7782dbbc5))
+* **gv-schema-form:** add custom error message support ([42019c8](https://github.com/gravitee-io/gravitee-ui-components/commit/42019c81784b9a889ccd9f9b3e3e33a3c1e58ce5))
+* **gv-schema-form:** add option to control expand state ([bbcc1fe](https://github.com/gravitee-io/gravitee-ui-components/commit/bbcc1fe231b052a8c214a7d1297058d12d4cb98b))
+* **gv-schema-form:** ignore additionalProperties ([72e2924](https://github.com/gravitee-io/gravitee-ui-components/commit/72e2924bed29ae0b8e527dfc8c7667dcba15264d))
+
 ## [3.20.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.20.1...v3.20.2) (2021-10-25)
 
 
