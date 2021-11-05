@@ -414,7 +414,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         </div>
         ${this.readonly
           ? ''
-          : html` <ul class="${classMap(Object.assign({ select__list: true }))}">
+          : html` <ul class="${classMap(Object.assign({ select__list: true }))}" role="listbox" ?aria-expanded="${!this._isClosed}">
               ${this._options &&
               repeat(
                 this._options,
@@ -429,6 +429,8 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
                     @click=${this._onSelect.bind(this, option)}
                     data-value="${option.value}"
                     .title="${ifDefined(option.title)}"
+                    role="option"
+                    ?aria-selected="${this.isSelected(option)}"
                   >
                     ${option.label}
                   </li>
