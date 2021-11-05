@@ -20,6 +20,7 @@ import '../atoms/gv-input';
 import '../atoms/gv-input-message';
 import '../atoms/gv-text';
 import '../atoms/gv-select';
+import '../atoms/gv-select-native';
 import '../atoms/gv-switch';
 import '../molecules/gv-code';
 import '../molecules/gv-expression-language';
@@ -98,7 +99,10 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
       return 'gv-schema-form-control-object';
     }
     if ((this.control.enum || (this.control.items && this.control.items.enum)) && !this.isAutocomplete()) {
-      return 'gv-select';
+      if (this.control.type === 'array') {
+        return 'gv-select';
+      }
+      return 'gv-select-native';
     } else if (isComplexArray(this.control)) {
       return 'gv-schema-form-array';
     } else if (this.control.type === 'array') {
@@ -414,6 +418,7 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
         }
 
         gv-select,
+        gv-select-native,
         gv-input,
         gv-code,
         gv-switch,
@@ -423,6 +428,7 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
         }
 
         gv-select:hover,
+        gv-select-native:hover,
         gv-autocomplete:hover {
           z-index: 70;
         }
