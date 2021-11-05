@@ -192,6 +192,32 @@
       "description": "Example for writeonly",
       "type": "string",
       "writeOnly": true
+    },
+    "whitelist": {
+      "title": "Whitelist",
+      "type": "array",
+      "items": {
+        "title": "Rule",
+        "type": "object",
+        "id": "urn:jsonschema:io:gravitee:policy:resourcefiltering:configuration:Resource",
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "title": "Path pattern",
+            "description": "Ant-style path patterns"
+          },
+          "methods": {
+            "title": "Methods",
+            "description": "HTTP Methods",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE"]
+            }
+          }
+        },
+        "required": ["pattern"]
+      }
     }
   },
   "required": ["multiselect", "timeToLiveSeconds"],

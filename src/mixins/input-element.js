@@ -49,13 +49,16 @@ export function InputElement(ParentClass) {
           }
 
           :host([invalid]) :not(.clipboard) input,
+          :host([invalid]) :not(.clipboard) ::slotted(.input),
           :host([invalid]) :not(.clipboard) .box-icon-left,
-          :host([invalid]) :not(.clipboard) textarea {
+          :host([invalid]) :not(.clipboard) textarea,
+          :host([invalid]) :not(.clipboard) select {
             box-shadow: inset 3px 0 0 var(--gv-input-invalid--bxshc, var(--gv-theme-color-error, #da1a1b));
           }
 
           :host([readonly]) :not(.clipboard) input,
-          :host([readonly]) .textarea {
+          :host([readonly]) :not(.clipboard) ::slotted(.input),
+          :host([readonly]) .textarea :host([readonly]) :not(.clipboard) select {
             border-left: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           }
 

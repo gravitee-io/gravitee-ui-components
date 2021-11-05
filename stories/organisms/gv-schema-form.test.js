@@ -55,6 +55,7 @@ describe('S C H E M A  F O R M', () => {
     'hidden',
     'readonly',
     'writeonly',
+    'whitelist',
   ];
 
   const checkControl = (id, attributes = []) => {
@@ -96,6 +97,7 @@ describe('S C H E M A  F O R M', () => {
       checkControl('useResponseCacheHeaders');
       checkControl('select');
       checkControl('multiselect');
+      checkControl('whitelist');
       done();
     });
   });
@@ -139,6 +141,7 @@ describe('S C H E M A  F O R M', () => {
         checkControl('cron', { value: '*/30 * * * * SUN-MON' });
         checkControl('disabled', { value: 'Simple Test' });
         checkControl('hidden', { value: 'not visible', hidden: true });
+        checkControl('whitelist', {});
         done();
       }, 0);
     });
