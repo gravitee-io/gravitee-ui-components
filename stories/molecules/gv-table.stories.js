@@ -148,7 +148,7 @@ export const components = makeStory(conf, {
         data: [
           { field: 'name', label: 'Name' },
           { field: 'value', label: 'Component', type: 'gv-input', attributes: { clipboard: true } },
-          { label: 'List', type: 'gv-select', attributes: { options: ['Admin', 'Owner'] } },
+          { label: 'List', type: 'gv-select-native', attributes: { options: ['Admin', 'Owner'] } },
           { label: 'Button', type: 'gv-button', attributes: { innerHTML: 'Click me !' } },
           {
             label: 'Confirm',
@@ -194,7 +194,7 @@ export const dynamicRows = makeStory(conf, {
           {
             field: 'name',
             label: 'Name',
-            type: (item) => (item._new ? 'gv-input' : item._select ? 'gv-select' : 'label'),
+            type: (item) => (item._new ? 'gv-input' : item._select ? 'gv-select-native' : 'label'),
             attributes: {
               innerHTML: (item) => (item._new ? '' : item.name),
               required: true,

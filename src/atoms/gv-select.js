@@ -27,7 +27,9 @@ import { InputElement } from '../mixins/input-element';
 import { withResizeObserver } from '../mixins/with-resize-observer';
 
 /**
- * A select component.
+ * A select component, is more like a list box...
+ * ⚠️ Please use `<gv-select-native>` component if you don't need strong customization.
+ * ⚠️ DO NO USE IT inside a `<gv-table>` component to avoid any scroll or overlapping issue.
  *
  * ## Details
  * * has @theme facet
