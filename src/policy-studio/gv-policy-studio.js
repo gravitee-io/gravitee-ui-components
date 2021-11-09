@@ -1373,9 +1373,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       .filter((form) => {
         const isValid = form.isValid();
         if (isValid) {
-          if (form.dirty) {
-            form.submit();
-          }
+          form.submit();
+        } else {
+          form.dirty = true;
         }
         return !isValid;
       })
