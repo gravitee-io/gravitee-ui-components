@@ -18,11 +18,12 @@ import { canInline, canGrid } from '../lib/schema-form';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';
 import '../molecules/gv-expandable';
+import { UpdateAfterBrowser } from '../mixins/update-after-browser';
 
 /**
  * Schema form control object component
  */
-export class GvSchemaFormControlObject extends LitElement {
+export class GvSchemaFormControlObject extends UpdateAfterBrowser(LitElement) {
   static get properties() {
     return {
       schema: { type: Object },

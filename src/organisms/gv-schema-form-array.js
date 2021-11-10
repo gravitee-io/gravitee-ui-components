@@ -18,12 +18,13 @@ import { canInline } from '../lib/schema-form';
 import { dispatchCustomEvent } from '../lib/events';
 import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';
+import { UpdateAfterBrowser } from '../mixins/update-after-browser';
 
 /**
  * Schema form array component
  *
  */
-export class GvSchemaFormArray extends LitElement {
+export class GvSchemaFormArray extends UpdateAfterBrowser(LitElement) {
   static get properties() {
     return {
       schema: { type: Object },
