@@ -346,7 +346,7 @@ describe('S C H E M A  F O R M', () => {
     });
   });
 
-  test('should reset initial values', () => {
+  test('should reset initial values', (done) => {
     const preventDefault = jest.fn();
     const stopPropagation = jest.fn();
     const values = {
@@ -358,48 +358,53 @@ describe('S C H E M A  F O R M', () => {
       multiselect: ['a'],
     };
     component.values = deepClone(values);
+    component.updateComplete.then(() => {
+      const pathOperatorControl = component.getControl('path-operator');
 
-    const pathOperatorControl = component.getControl('path-operator');
-    expect(pathOperatorControl).not.toBeNull();
-    pathOperatorControl._onInput({
-      preventDefault,
-      stopPropagation,
-      target: { id: 'path-operator.path' },
-      detail: '/updated-path',
+      expect(pathOperatorControl).not.toBeNull();
+      pathOperatorControl._onInput({
+        preventDefault,
+        stopPropagation,
+        target: { id: 'path-operator.path' },
+        detail: '/updated-path',
+      });
+
+      const timeToLiveSeconds = component.getControl('timeToLiveSeconds');
+      expect(timeToLiveSeconds).not.toBeNull();
+      timeToLiveSeconds._onInput({
+        preventDefault,
+        stopPropagation,
+        target: { id: 'timeToLiveSeconds' },
+        detail: 12,
+      });
+
+      const multiselect = component.getControl('multiselect');
+      multiselect._onInput({
+        preventDefault,
+        stopPropagation,
+        target: { id: 'multiselect' },
+        detail: ['a', 'b'],
+      });
+
+      expect(component.values).toEqual({
+        'path-operator': {
+          operator: 'STARTS_WITH',
+          path: '/updated-path',
+        },
+        readonly: 'Should not edit my value',
+        timeToLiveSeconds: 12,
+        writeonly: 'Should not read my value',
+        multiselect: ['a', 'b'],
+      });
+
+      component.reset();
+
+      expect(component.values).toEqual(values);
+      done();
     });
-
-    const timeToLiveSeconds = component.getControl('timeToLiveSeconds');
-    expect(timeToLiveSeconds).not.toBeNull();
-    timeToLiveSeconds._onInput({
-      preventDefault,
-      stopPropagation,
-      target: { id: 'timeToLiveSeconds' },
-      detail: 12,
-    });
-
-    const multiselect = component.getControl('multiselect');
-    multiselect._onInput({
-      preventDefault,
-      stopPropagation,
-      target: { id: 'multiselect' },
-      detail: ['a', 'b'],
-    });
-
-    expect(component.values).toEqual({
-      'path-operator': {
-        operator: 'STARTS_WITH',
-        path: '/updated-path',
-      },
-      timeToLiveSeconds: 12,
-      multiselect: ['a', 'b'],
-    });
-
-    component.reset();
-
-    expect(component.values).toEqual(values);
   });
 
-  test('should remove value with empty string & empty array', () => {
+  test('should remove value with empty string & empty array', (done) => {
     const preventDefault = jest.fn();
     const stopPropagation = jest.fn();
     const values = {
@@ -412,36 +417,42 @@ describe('S C H E M A  F O R M', () => {
     };
     component.values = deepClone(values);
 
-    const pathOperatorControl = component.getControl('path-operator');
-    expect(pathOperatorControl).not.toBeNull();
-    pathOperatorControl._onInput({
-      preventDefault,
-      stopPropagation,
-      target: { id: 'path-operator.path' },
-      detail: '',
-    });
+    component.updateComplete.then(() => {
+      const pathOperatorControl = component.getControl('path-operator');
+      expect(pathOperatorControl).not.toBeNull();
+      pathOperatorControl._onInput({
+        preventDefault,
+        stopPropagation,
+        target: { id: 'path-operator.path' },
+        detail: '',
+      });
 
-    const timeToLiveSeconds = component.getControl('timeToLiveSeconds');
-    expect(timeToLiveSeconds).not.toBeNull();
-    timeToLiveSeconds._onInput({
-      preventDefault,
-      stopPropagation,
-      target: { id: 'timeToLiveSeconds' },
-      detail: '',
-    });
+      const timeToLiveSeconds = component.getControl('timeToLiveSeconds');
+      expect(timeToLiveSeconds).not.toBeNull();
+      timeToLiveSeconds._onInput({
+        preventDefault,
+        stopPropagation,
+        target: { id: 'timeToLiveSeconds' },
+        detail: '',
+      });
 
-    const multiselect = component.getControl('multiselect');
-    multiselect._onInput({
-      preventDefault,
-      stopPropagation,
-      target: { id: 'multiselect' },
-      detail: [],
-    });
+      const multiselect = component.getControl('multiselect');
+      multiselect._onInput({
+        preventDefault,
+        stopPropagation,
+        target: { id: 'multiselect' },
+        detail: [],
+      });
 
-    expect(component.values).toEqual({
-      'path-operator': {
-        operator: 'STARTS_WITH',
-      },
+      expect(component.values).toEqual({
+        'path-operator': {
+          operator: 'STARTS_WITH',
+        },
+        readonly: 'Should not edit my value',
+        writeonly: 'Should not read my value',
+      });
+
+      done();
     });
   });
 

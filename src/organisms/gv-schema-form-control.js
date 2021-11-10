@@ -28,8 +28,9 @@ import '../atoms/gv-autocomplete';
 import '../organisms/gv-schema-form-array';
 import '../organisms/gv-schema-form-control-object';
 import { isCodemirror, isObject, isComplexArray } from '../lib/schema-form';
+import { UpdateAfterBrowser } from '../mixins/update-after-browser';
 
-export class GvSchemaFormControl extends LitElement {
+export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
   static get properties() {
     return {
       type: { type: String },
@@ -297,8 +298,8 @@ export class GvSchemaFormControl extends LitElement {
     }
   }
 
-  async getUpdateComplete() {
-    await super.getUpdateComplete();
+  async _getUpdateComplete() {
+    await super._getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
   }
 
