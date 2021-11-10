@@ -1,3 +1,10 @@
+## [3.21.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.4...v3.21.5) (2021-11-10)
+
+
+### Bug Fixes
+
+* **gv-schema-form:** wait browser refresh before update ([796ba74](https://github.com/gravitee-io/gravitee-ui-components/commit/796ba743942f285e5a3c4a390ab25895ced1f904)), closes [gravitee-io/issues#6514](https://github.com/gravitee-io/issues/issues/6514)
+
 ## [3.21.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.3...v3.21.4) (2021-11-10)
 
 
