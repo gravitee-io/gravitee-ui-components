@@ -1263,6 +1263,20 @@
           "value": ""
         },
         {
+          "name": "--gv-state--fw",
+          "description": "Font weight",
+          "type": "string",
+          "default": "bold",
+          "value": "bold"
+        },
+        {
+          "name": "--gv-state--tt",
+          "description": "Text transform",
+          "type": "string",
+          "default": "uppercase",
+          "value": "uppercase"
+        },
+        {
           "name": "--gv-state--p",
           "description": "Padding",
           "type": "length",

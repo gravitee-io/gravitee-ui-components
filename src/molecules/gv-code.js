@@ -348,6 +348,11 @@ export class GvCode extends InputElement(LitElement) {
           padding: 0;
         }
 
+        .input .CodeMirror-wrap pre.CodeMirror-line,
+        .input .CodeMirror-wrap pre.CodeMirror-line {
+          white-space: pre;
+        }
+
         .medium .input .CodeMirror {
           height: var(--input-medium--lh);
         }
