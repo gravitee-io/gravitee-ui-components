@@ -11,3 +11,17 @@ I just want to tell you that \`definition.json\` has been updated in this PR. As
 Also, after merging this PR, you should update the \`definition.json\` of [APIM Rest API](https://github.com/gravitee-io/gravitee-management-rest-api).
 `);
 }
+
+const packageJson = danger.git.fileMatch('package.json');
+
+if (packageJson.edited) {
+  markdown(`
+Hey dear reviewer, I'm the Gravitee.io bot :robot:
+
+I just want to tell you that \`package.json\` has been updated in this PR. 
+
+Some components are based on third party libraries, for integration into a web component, we extract the css from its libraries as assets.
+
+WARNING: When \`codemirror\`, \`highlight.js\` or \`github-markdown-css\` are updated, we must run \`npm run build\` task to update the css.
+`);
+}

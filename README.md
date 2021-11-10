@@ -172,6 +172,12 @@ cd ../my-project
 npm link @gravitee/ui-components
 ```
 
+## Renovate
+
+Some components are based on third party libraries, for integration into a web component, we extract the css from its libraries as assets.
+
+WARNING: When `codemirror`, `highlight.js` or `github-markdown-css` are updated, we must run `npm run build` task to update the css.
+
 ## Contributing
 
 You think Gravitee.io is awesome and want to contribute to the project?
