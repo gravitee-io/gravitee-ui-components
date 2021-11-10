@@ -1,3 +1,10 @@
+## [3.21.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.5...v3.21.6) (2021-11-10)
+
+
+### Bug Fixes
+
+* update theme due to auto upgrade ([4a826de](https://github.com/gravitee-io/gravitee-ui-components/commit/4a826de2e613492c8324df83b61c4ab138b32724))
+
 ## [3.21.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.4...v3.21.5) (2021-11-10)
 
 
