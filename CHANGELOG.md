@@ -1,3 +1,10 @@
+## [3.21.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.3...v3.21.4) (2021-11-10)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** force dirty state & submit valid forms ([5408aa3](https://github.com/gravitee-io/gravitee-ui-components/commit/5408aa3c43cf185869fb1dc6ff2cb2d7e7dba208)), closes [gravitee-io/issues#6517](https://github.com/gravitee-io/issues/issues/6517)
+
 ## [3.21.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.2...v3.21.3) (2021-11-08)
 
 
