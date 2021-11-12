@@ -49,7 +49,7 @@
     "package.json": "npm run lint:package"
   },
   "dependencies": {
-    "@formatjs/intl-locale": "^2.4.39",
+    "@formatjs/intl-locale": "^2.4.40",
     "@formatjs/intl-relativetimeformat": "^9.3.2",
     "clipboard-copy": "^4.0.0",
     "codemirror": "^5.63.2",
