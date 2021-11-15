@@ -1,3 +1,10 @@
+## [3.21.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.6...v3.21.7) (2021-11-15)
+
+
+### Bug Fixes
+
+* upgrade @formatjs/intl-locale from 2.4.39 to 2.4.40 ([1442e55](https://github.com/gravitee-io/gravitee-ui-components/commit/1442e55016d79d358002c029586608935a558abe))
+
 ## [3.21.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.5...v3.21.6) (2021-11-10)
 
 
