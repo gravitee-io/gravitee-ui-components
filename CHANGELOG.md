@@ -1,3 +1,11 @@
+# [3.22.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.7...v3.22.0) (2021-11-16)
+
+
+### Features
+
+* add new gv-select-native component based on `select` ([db7677e](https://github.com/gravitee-io/gravitee-ui-components/commit/db7677e08cfd962e9ad09f15330db35cd3cf4b31)), closes [#251](https://github.com/gravitee-io/gravitee-ui-components/issues/251)
+* **gv-select:** improve with design pattern listbox ([0b68119](https://github.com/gravitee-io/gravitee-ui-components/commit/0b68119ede7a78d5ff4a467de90844a244d9ab4b))
+
 ## [3.21.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.6...v3.21.7) (2021-11-15)
 
 
