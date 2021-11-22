@@ -34,6 +34,7 @@ const ratingSummary = { average: 3.2, count: 345 };
 const metrics = { hits: '11M+', subscribers: '689', health: '0.95' };
 const version = 'v1.1';
 const labels = ['APIDays', 'December', 'Foobar'];
+const owner = { display_name: 'Garry Marshall' };
 
 export default {
   title: 'Molecules/gv-promote',
@@ -91,6 +92,10 @@ export const withRating = makeStory(conf, {
 
 export const withLabels = makeStory(conf, {
   items: [{ item: { name, description, version, _links: { picture }, labels }, metrics }],
+});
+
+export const withOwners = makeStory(conf, {
+  items: [{ item: { name, description, version, _links: { picture }, labels, owner }, metrics }],
 });
 
 export const withShortDescription = makeStory(conf, {
