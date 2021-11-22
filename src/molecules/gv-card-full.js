@@ -26,7 +26,7 @@ import { truncate } from '../lib/utils';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
 import { dispatchCustomEvent } from '../lib/events';
-import { getVersion, getTitle, getDescription } from '../lib/item';
+import { getVersion, getTitle, getDescription, getOwner } from '../lib/item';
 
 /**
  * Full Card component
@@ -108,11 +108,21 @@ export class GvCardFull extends ItemResource(LitElement) {
           font-size: var(--gv-theme-font-size-l, 16px);
           text-transform: capitalize;
           font-weight: bold;
+          padding-bottom: 5px;
+        }
+
+        .owner {
+          --gv-icon--c: var(--gv-theme-neutral-color-dark, #bfbfbf);
+          --gv-icon--s: 16px;
+          color: var(--gv-theme-neutral-color-dark, #bfbfbf);
+          display: flex;
+          padding-bottom: 2px;
+          line-height: initial;
         }
 
         .content {
           flex: 1;
-          padding: 10px;
+          padding: 0 10px 10px 10px;
         }
 
         .version {
@@ -176,12 +186,16 @@ export class GvCardFull extends ItemResource(LitElement) {
 
   render() {
     const title = getTitle(this._item);
+    const owner = getOwner(this._item);
     const classes = { error: this._error || this._empty, card: true };
     return html`<div class="${classMap(classes)}" title="${title}" @click="${this._onClick}">
       <div class="${classMap({ skeleton: this._skeleton })}">
         <div class="${classMap({ image: true })}">${this._renderImage()}</div>
         <div class="content">
           <div class="${classMap({ title: true })}">${title}</div>
+          ${owner != null && owner.trim().length > 0
+            ? html`<div class="owner"><gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>`
+            : ''}
           <div class="states">${this._renderStates()}</div>
         </div>
         <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${getVersion(this._item)}</span></div>

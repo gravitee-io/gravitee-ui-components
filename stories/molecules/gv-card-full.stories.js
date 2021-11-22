@@ -27,6 +27,7 @@ const version = 'v.1.1';
 const states = [{ value: 'beta' }, { value: 'running', major: true }];
 const ratingSummary = { average: 3.4, count: 124 };
 const labels = ['APIDays', 'December', 'Foobar'];
+const owner = { display_name: 'Garry Marshall' };
 const applicationMetrics = Promise.resolve({ subscribers: '3' });
 const api = Promise.resolve({
   name,
@@ -62,6 +63,16 @@ const apiItems = [
       name: 'Long Supernova with empty description',
       version,
       _links: { picture: horizontalImage },
+    },
+  },
+  {
+    item: {
+      name: 'Supernova with owner name',
+      description,
+      version,
+      labels,
+      states,
+      owner,
     },
   },
 ];
