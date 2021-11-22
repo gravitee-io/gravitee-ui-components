@@ -18,7 +18,7 @@ import { classMap } from 'lit-html/directives/class-map';
 import { dispatchCustomEvent } from '../lib/events';
 import { i18n } from '../lib/i18n';
 import { ItemResource } from '../mixins/item-resource';
-import { getTitle, getDescription, getVersion } from '../lib/item';
+import { getTitle, getDescription, getVersion, getOwner } from '../lib/item';
 import { truncate } from '../lib/utils';
 
 import '../atoms/gv-image';
@@ -110,6 +110,16 @@ export class GvPromote extends ItemResource(LitElement) {
           color: var(--gv-theme-neutral-color-dark, #d9d9d9);
         }
 
+        .owner {
+          --gv-icon--c: var(--gv-theme-neutral-color-dark, #bfbfbf);
+          --gv-icon--s: 16px;
+          color: var(--gv-theme-neutral-color-dark, #bfbfbf);
+          display: flex;
+          padding-bottom: 2px;
+          margin-top: -8px;
+          line-height: initial;
+        }
+
         .content {
           flex: 1;
           padding: 1.5rem;
@@ -160,6 +170,7 @@ export class GvPromote extends ItemResource(LitElement) {
     if (this._invisible) {
       return '';
     }
+    const owner = getOwner(this._item);
     return html`<div class="container">
       <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
       <div class="content">
@@ -172,6 +183,9 @@ export class GvPromote extends ItemResource(LitElement) {
                       <h2>${getTitle(this._item)}</h2>
                       <span class="version">${getVersion(this._item)}</span>
                     </div>
+                    ${owner != null && owner.trim().length > 0
+                      ? html`<div class="owner"><gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>`
+                      : ''}
                     <p
                       class=${classMap({
                         skeleton: this._skeleton,
