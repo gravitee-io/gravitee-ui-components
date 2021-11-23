@@ -1,3 +1,11 @@
+# [3.23.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.22.0...v3.23.0) (2021-11-23)
+
+
+### Features
+
+* add owner in gv-card-full like gv-row ([ce30d92](https://github.com/gravitee-io/gravitee-ui-components/commit/ce30d927d2b488a3609e233a83dc3ab61f189bf0))
+* add owner in gv-propot like gv-row ([e400807](https://github.com/gravitee-io/gravitee-ui-components/commit/e4008072026b1327ddf8cddfee5d39475f1bed11))
+
 # [3.22.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.21.7...v3.22.0) (2021-11-16)
 
 
