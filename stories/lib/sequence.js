@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function wait(delay) {
+export function wait(delay) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });

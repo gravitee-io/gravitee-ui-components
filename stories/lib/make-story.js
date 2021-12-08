@@ -26,6 +26,7 @@ export function makeStory(...configs) {
     events = [],
     simulations = [],
     docsOnly = false,
+    play,
   } = Object.assign({}, ...configs);
   const customElement = customElements.tags.find((tag) => tag.name === component) || {};
   const _events = customElement.events ? [...new Set([...events, ...customElement.events.map((e) => e.name)])] : events;
@@ -118,6 +119,13 @@ export function makeStory(...configs) {
     },
     render: storyRenderFn,
   };
+
+  if (play) {
+    story.play = async (context) => {
+      const element = context.canvasElement.querySelector('div').shadowRoot.querySelector(component);
+      await play({ context, component: element });
+    };
+  }
 
   // Disable Chromatic for stories with `skeleton` or `loading` properties or
   // with async process using `simulations` fields. Otherwise there are some

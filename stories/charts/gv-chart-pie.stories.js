@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import '../../src/charts/gv-chart-pie';
-import { makeStory, storyWait } from '../lib/make-story';
+import { makeStory } from '../lib/make-story';
+import { wait } from '../lib/sequence';
 
 const events = ['gv-chart-pie:select'];
 
@@ -65,31 +66,26 @@ export const Empty = makeStory(conf, {
   items: [{ series: [], options }],
 });
 
-let seriesResolver;
 export const Loading = makeStory(conf, {
   items: [{}],
-  simulations: [
-    storyWait(0, ([component]) => {
-      component.series = new Promise((resolve) => (seriesResolver = resolve));
-      component.options = options;
-    }),
+  play: async ({ component }) => {
+    let seriesResolver;
+    component.series = new Promise((resolve) => (seriesResolver = resolve));
+    component.options = options;
 
-    storyWait(750, () => {
-      seriesResolver(series);
-    }),
-  ],
+    await wait(750);
+    seriesResolver(series);
+  },
 });
 
 export const LoadingAndError = makeStory(conf, {
   items: [{}],
-  simulations: [
-    storyWait(0, ([component]) => {
-      component.series = new Promise((resolve, reject) => (seriesResolver = reject));
-      component.options = options;
-    }),
+  play: async ({ component }) => {
+    let seriesResolver;
+    component.series = new Promise((resolve, reject) => (seriesResolver = reject));
+    component.options = options;
 
-    storyWait(750, () => {
-      seriesResolver({});
-    }),
-  ],
+    await wait(750);
+    seriesResolver({});
+  },
 });
