@@ -136,30 +136,24 @@ jobs:
           command: |
             export version=$(git describe --tags --abbrev=0 | tr -d v)
             export commit=$(git rev-parse --short HEAD)
-            export versionTag=$version-$commit
+            export branch=$(git rev-parse --abbrev-ref HEAD | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z)
+            export versionTag=$version-$branch-$commit
+
+            echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > ~/.npmrc
 
             npm version $versionTag --git-tag-version=false
 
-            npx json -I -f package.json -e 'this.name="@gravitee-io/ui-components"'
-            npx json -I -f package.json -e 'this.publishConfig={"registry":"https://npm.pkg.github.com"}'
-            echo //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN > ~/.npmrc
-
             npm run generate:dist
 
-            npm publish
+            npm publish --tag prerelease
 
             gh pr comment --body "**Gravitee.io Automatic Deployment**
 
             A beta version of this package has been published! 🚀
 
-            **This is still experimental ⚠️**
-
             To use it in your project run the following lines:
             \`\`\`shell
-            echo @gravitee-io:registry=https://npm.pkg.github.com > .npmrc
-            npm install @gravitee-io/ui-components@${versionTag}
-            rm -rf node_modules/@gravitee/ui-components
-            mv node_modules/@gravitee-io/ui-components node_modules/@gravitee/ui-components
+            npm install @gravitee/ui-components@${versionTag}
             \`\`\`
             "
 
@@ -191,6 +185,9 @@ workflows:
             - secrethub/env-export:
                 secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
                 var-name: GITHUB_TOKEN
+            - secrethub/env-export:
+                secret-path: graviteeio/cicd/graviteebot/infra/npm_token
+                var-name: NPM_TOKEN
           context: gravitee-qa
           requires:
             - build
