@@ -287,7 +287,6 @@ export class GvSchemaForm extends LitElement {
     const isWriteOnly = control.writeOnly === true;
     const value = get(this._values, key);
     return html`<gv-schema-form-control
-      data-a="dd"
       .id="${key}"
       .errors="${this.errors}"
       .control="${control}"
