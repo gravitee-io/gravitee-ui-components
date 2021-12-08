@@ -32,7 +32,7 @@ export function makeStory(...configs) {
 
   const items = typeof rawItems === 'function' ? rawItems() : rawItems;
 
-  const storyFn = (args) => {
+  const storyRenderFn = (args) => {
     const container = document.createElement('div');
     const shadow = container.attachShadow({ mode: 'open' });
 
@@ -99,21 +99,24 @@ export function makeStory(...configs) {
       })
       .join('\n');
 
-  storyFn.docs = docs;
-  storyFn.css = css;
-  storyFn.component = component;
-  storyFn.items = items;
-  storyFn.parameters = {
-    actions: {
-      handles: [..._events],
+  const story = {
+    docs,
+    css,
+    component,
+    items,
+    parameters: {
+      actions: {
+        handles: [..._events],
+      },
+      docsOnly,
+      docs: {
+        storyDescription: (docs || '').trim(),
+      },
+      storySource: {
+        source: generatedSource(),
+      },
     },
-    docsOnly,
-    docs: {
-      storyDescription: (docs || '').trim(),
-    },
-    storySource: {
-      source: generatedSource(),
-    },
+    render: storyRenderFn,
   };
 
   // Disable Chromatic for stories with `skeleton` or `loading` properties or
@@ -124,7 +127,7 @@ export function makeStory(...configs) {
   const automaticallyDisableChromatic = simulations.length > 0 || hasItemWithLoadingAttribute || hasItemWithSkeletonAttribute;
 
   if (automaticallyDisableChromatic === true) {
-    storyFn.parameters.chromatic = { disable: automaticallyDisableChromatic };
+    story.parameters.chromatic = { disable: automaticallyDisableChromatic };
   }
 
   const argTypes = {};
@@ -160,12 +163,12 @@ export function makeStory(...configs) {
     });
   }
 
-  storyFn.argTypes = argTypes;
+  story.argTypes = argTypes;
   if (name != null) {
-    storyFn.name = name;
+    story.name = name;
   }
 
-  return storyFn;
+  return story;
 }
 
 export function storyWait(delay, callback) {
