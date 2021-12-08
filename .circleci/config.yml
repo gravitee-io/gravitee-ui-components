@@ -10,7 +10,7 @@ executors:
       class:
         description: The resource class
         type: enum
-        enum: [ 'small', 'medium', 'large', 'xlarge' ]
+        enum: ['small', 'medium', 'large', 'xlarge']
         default: 'medium'
     docker:
       - image: circleci/node:14.18-stretch
@@ -111,7 +111,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "ac:88:23:8f:c6:0f:7d:f0:fc:df:73:20:34:56:02:6c"
+            - 'ac:88:23:8f:c6:0f:7d:f0:fc:df:73:20:34:56:02:6c'
       - checkout
       - attach_workspace:
           at: .
@@ -158,8 +158,8 @@ jobs:
             \`\`\`shell
             echo @gravitee-io:registry=https://npm.pkg.github.com > .npmrc
             npm install @gravitee-io/ui-components@${versionTag}
-            rm -rf node_modules/@gravitee
-            mv node_modules/@gravitee-io node_modules/@gravitee
+            rm -rf node_modules/@gravitee/ui-components
+            mv node_modules/@gravitee-io/ui-components node_modules/@gravitee/ui-components
             \`\`\`
             "
 
