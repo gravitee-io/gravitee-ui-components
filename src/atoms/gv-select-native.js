@@ -182,7 +182,7 @@ export class GvSelectNative extends InputElement(LitElement) {
   }
 
   getInputElement() {
-    return super.getInputElement();
+    return this.shadowRoot.querySelector('select');
   }
 
   async firstUpdated(changedProperties) {
