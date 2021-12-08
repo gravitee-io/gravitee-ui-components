@@ -22,7 +22,6 @@ export function makeStory(...configs) {
     docs,
     css,
     component,
-    dom,
     items: rawItems = [{}],
     events = [],
     simulations = [],
@@ -43,12 +42,6 @@ export function makeStory(...configs) {
       shadow.appendChild(styles);
     }
 
-    if (dom != null) {
-      const wrapper = document.createElement('div');
-      shadow.appendChild(wrapper);
-      dom(wrapper);
-      return container;
-    }
     const items = typeof rawItems === 'function' ? rawItems() : rawItems;
 
     const components = items.map((props) => {
@@ -106,14 +99,6 @@ export function makeStory(...configs) {
       })
       .join('\n');
 
-  const domSource = () => {
-    const container = document.createElement('div');
-    dom(container);
-    return container.innerHTML.replace(/<!---->/g, '').trim();
-  };
-
-  const mdxSource = dom != null ? domSource() : generatedSource();
-
   storyFn.docs = docs;
   storyFn.css = css;
   storyFn.component = component;
@@ -127,7 +112,7 @@ export function makeStory(...configs) {
       storyDescription: (docs || '').trim(),
     },
     storySource: {
-      source: mdxSource,
+      source: generatedSource(),
     },
   };
 
