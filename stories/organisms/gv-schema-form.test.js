@@ -26,11 +26,12 @@ describe('S C H E M A  F O R M', () => {
   let page;
   let component;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     page = new Page();
     component = page.create('gv-schema-form', {
       schema: mixed,
     });
+    await component.updateComplete;
   });
 
   afterEach(() => {
@@ -81,28 +82,27 @@ describe('S C H E M A  F O R M', () => {
     });
   };
 
-  test('should create element', (done) => {
+  test('should create element', async () => {
     expect(window.customElements.get('gv-schema-form')).toBeDefined();
     expect(component).toEqual(querySelector('gv-schema-form'));
 
-    component.updateComplete.then(() => {
-      expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
+    await component.updateComplete;
 
-      checkControl('body');
-      checkControl('el');
-      checkControl('body-with-el');
-      checkControl('path-operator');
-      checkControl('resources');
-      checkControl('timeToLiveSeconds');
-      checkControl('useResponseCacheHeaders');
-      checkControl('select');
-      checkControl('multiselect');
-      checkControl('whitelist');
-      done();
-    });
+    expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
+
+    checkControl('body');
+    checkControl('el');
+    checkControl('body-with-el');
+    checkControl('path-operator');
+    checkControl('resources');
+    checkControl('timeToLiveSeconds');
+    checkControl('useResponseCacheHeaders');
+    checkControl('select');
+    checkControl('multiselect');
+    checkControl('whitelist');
   });
 
-  test('should create element with valid values', (done) => {
+  test('should create element with valid values', async () => {
     component.values = {
       body: '<xml>foobar</xml>',
       el: `{#request.headers['Content-Type'][0].toString()}`,
@@ -121,72 +121,62 @@ describe('S C H E M A  F O R M', () => {
       disabled: 'Simple Test',
       hidden: 'not visible',
     };
+
     component.requestUpdate();
+    await component.updateComplete;
 
-    component.updateComplete.then(() => {
-      setTimeout(() => {
-        expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
+    expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
-        checkControl('body', { value: '<xml>foobar</xml>' });
-        checkControl('path-operator', { value: { operator: 'EQUALS', path: '/foobar' } });
-        checkControl('path-operator.path', { value: '/foobar' });
-        checkControl('path-operator.operator', { value: 'EQUALS' });
-        checkControl('resources', { value: 'my-resource' });
-        checkControl('timeToLiveSeconds', { value: 50 });
-        checkControl('useResponseCacheHeaders', {});
-        checkControl('select', { value: 'b' });
-        checkControl('multiselect', { value: ['a', 'b', 'c'] });
-        checkControl('attributes', { value: [{ name: 'foo', value: 'bar' }] });
-        checkControl('attributes.0', { value: { name: 'foo', value: 'bar' } });
-        checkControl('cron', { value: '*/30 * * * * SUN-MON' });
-        checkControl('disabled', { value: 'Simple Test' });
-        checkControl('hidden', { value: 'not visible', hidden: true });
-        checkControl('whitelist', {});
-        done();
-      }, 0);
-    });
+    checkControl('body', { value: '<xml>foobar</xml>' });
+    checkControl('path-operator', { value: { operator: 'EQUALS', path: '/foobar' } });
+    checkControl('path-operator.path', { value: '/foobar' });
+    checkControl('path-operator.operator', { value: 'EQUALS' });
+    checkControl('resources', { value: 'my-resource' });
+    checkControl('timeToLiveSeconds', { value: 50 });
+    checkControl('useResponseCacheHeaders', {});
+    checkControl('select', { value: 'b' });
+    checkControl('multiselect', { value: ['a', 'b', 'c'] });
+    checkControl('attributes', { value: [{ name: 'foo', value: 'bar' }] });
+    checkControl('attributes.0', { value: { name: 'foo', value: 'bar' } });
+    checkControl('cron', { value: '*/30 * * * * SUN-MON' });
+    checkControl('disabled', { value: 'Simple Test' });
+    checkControl('hidden', { value: 'not visible', hidden: true });
+    checkControl('whitelist', {});
   });
 
-  test('should disable element if "select" is "a"', (done) => {
+  test('should disable element if "select" is "a"', async () => {
     component.values = {
       select: 'a',
       disabled: 'Simple Test',
     };
     component.requestUpdate();
 
-    component.updateComplete.then(() => {
-      setTimeout(() => {
-        expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
+    await component.updateComplete;
 
-        checkControl('disabled', { value: 'Simple Test' });
+    expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
-        expect(component.getControl('disabled').disabled).toBeTruthy();
-        done();
-      }, 0);
-    });
+    checkControl('disabled', { value: 'Simple Test' });
+
+    expect(component.getControl('disabled').disabled).toBeTruthy();
   });
 
-  test('should not disable element if "select" is not "a"', (done) => {
+  test('should not disable element if "select" is not "a"', async () => {
     component.values = {
       select: 'b',
       disabled: 'Simple Test',
     };
     component.requestUpdate();
 
-    component.updateComplete.then(() => {
-      setTimeout(() => {
-        expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
+    await component.updateComplete;
 
-        checkControl('disabled', { value: 'Simple Test' });
+    expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
-        expect(component.getControl('disabled').disabled).toBeFalsy();
+    checkControl('disabled', { value: 'Simple Test' });
 
-        done();
-      }, 0);
-    });
+    expect(component.getControl('disabled').disabled).toBeFalsy();
   });
 
-  test('should create element with invalid values', (done) => {
+  test('should create element with invalid values', async () => {
     component.values = {
       body: '<xml></xml>',
       'path-operator': {
@@ -201,23 +191,20 @@ describe('S C H E M A  F O R M', () => {
       attributes: [{ name: 'foo', value: '' }, {}],
     };
 
-    component.updateComplete.then(() => {
-      setTimeout(() => {
-        checkControl('body', { value: '<xml></xml>' });
-        checkControl('path-operator', { value: { operator: 'Fake value', path: 'not a path' } });
-        checkControl('path-operator.path', { value: 'not a path' });
-        checkControl('path-operator.operator', { value: 'Fake value' });
-        checkControl('resources', { value: 'my-resource' });
-        checkControl('timeToLiveSeconds', { value: 'not number' });
-        checkControl('useResponseCacheHeaders', {});
-        checkControl('select', { value: 'b' });
-        checkControl('multiselect', { value: ['a', 'b', 'c'] });
-        checkControl('attributes', { value: [{ name: 'foo', value: '' }, {}] });
-        checkControl('attributes.0', { value: { name: 'foo', value: '' } });
-        checkControl('attributes.1', { value: {} });
-        done();
-      }, 0);
-    });
+    await component.updateComplete;
+
+    checkControl('body', { value: '<xml></xml>' });
+    checkControl('path-operator', { value: { operator: 'Fake value', path: 'not a path' } });
+    checkControl('path-operator.path', { value: 'not a path' });
+    checkControl('path-operator.operator', { value: 'Fake value' });
+    checkControl('resources', { value: 'my-resource' });
+    checkControl('timeToLiveSeconds', { value: 'not number' });
+    checkControl('useResponseCacheHeaders', {});
+    checkControl('select', { value: 'b' });
+    checkControl('multiselect', { value: ['a', 'b', 'c'] });
+    checkControl('attributes', { value: [{ name: 'foo', value: '' }, {}] });
+    checkControl('attributes.0', { value: { name: 'foo', value: '' } });
+    checkControl('attributes.1', { value: {} });
   });
 
   test('should update values & dirty state when user change the form', () => {

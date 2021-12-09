@@ -158,7 +158,8 @@ export class GvSchemaForm extends LitElement {
     const { resolve } = this._confirm;
     this._confirm = null;
     this._onReset();
-    this.requestUpdate().then(() => {
+    this.requestUpdate();
+    this.updateComplete.then(() => {
       resolve(this);
     });
   }
@@ -268,6 +269,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   async performUpdate() {
+    await Promise.all(this.getControls().map((e) => e.updateComplete));
     this.getControls().forEach((s) => {
       s.requestUpdate();
     });
@@ -394,7 +396,11 @@ export class GvSchemaForm extends LitElement {
     }
     const keys = this.schema.properties ? Object.keys(this.schema.properties) : [];
     this._ignoreProperties = [];
-    return repeat(keys, (key) => this._renderControl(key));
+    return repeat(
+      keys,
+      (key) => key,
+      (key) => this._renderControl(key),
+    );
   }
 
   getControls() {
@@ -485,8 +491,9 @@ export class GvSchemaForm extends LitElement {
   }
 
   async getUpdateComplete() {
-    await super.getUpdateComplete();
+    const result = await super.getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
+    return result;
   }
 
   render() {

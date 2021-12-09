@@ -66,7 +66,6 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
       medium: { type: Boolean },
       small: { type: Boolean },
       value: { type: String | Array },
-      _value: { type: String | Array, attribute: false },
       label: { type: String },
       title: { type: String },
       name: { type: String },
@@ -238,24 +237,10 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     super.disconnectedCallback();
   }
 
-  set value(value) {
-    if (this.multiple) {
-      if (value == null) {
-        this._value = null;
-        this.updateState(this._value);
-      }
-      if (Array.isArray(value)) {
-        this._value = value;
-        this.updateState(this._value);
-      }
-    } else {
-      this._value = value;
-      this.updateState(this._value);
+  willUpdate(changedProperties) {
+    if (changedProperties.has('value')) {
+      this.updateState(changedProperties.get('value'));
     }
-  }
-
-  get value() {
-    return this._value;
   }
 
   updateState(value) {

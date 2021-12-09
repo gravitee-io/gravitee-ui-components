@@ -17,7 +17,7 @@ import { classMap } from 'lit/directives/class-map';
 import { ifDefined } from 'lit/directives/if-defined';
 import { repeat } from 'lit/directives/repeat';
 
-import { LitElement, html, css } from 'lit';
+import { css, html, LitElement } from 'lit';
 import { skeleton } from '../styles/skeleton';
 import { link } from '../styles/link';
 import { input } from '../styles/input';
@@ -59,7 +59,6 @@ export class GvSelectNative extends InputElement(LitElement) {
       medium: { type: Boolean },
       small: { type: Boolean },
       value: { type: String | Array },
-      _value: { type: String | Array, attribute: false },
       label: { type: String },
       title: { type: String },
       name: { type: String },
@@ -201,24 +200,10 @@ export class GvSelectNative extends InputElement(LitElement) {
     }
   }
 
-  set value(value) {
-    if (this.multiple) {
-      if (value == null) {
-        this._value = null;
-        this.updateState(this._value);
-      }
-      if (Array.isArray(value)) {
-        this._value = value;
-        this.updateState(this._value);
-      }
-    } else {
-      this._value = value;
-      this.updateState(this._value);
+  willUpdate(changedProperties) {
+    if (changedProperties.has('value')) {
+      this.updateState(changedProperties.get('value'));
     }
-  }
-
-  get value() {
-    return this._value;
   }
 
   updateState(value) {
