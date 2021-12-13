@@ -1,3 +1,10 @@
+## [3.24.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.0...v3.24.1) (2021-12-13)
+
+
+### Bug Fixes
+
+* upgrade date-fns from 2.24.0 to 2.26.0 ([a7a5324](https://github.com/gravitee-io/gravitee-ui-components/commit/a7a532425fc33ae2fd210c2707c1d45785eaf5a9))
+
 # [3.24.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.23.0...v3.24.0) (2021-12-08)
 
 
