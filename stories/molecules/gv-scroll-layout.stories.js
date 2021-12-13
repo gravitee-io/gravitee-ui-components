@@ -21,16 +21,64 @@ export default {
   component: 'gv-scroll-layout',
 };
 
-const items = [{}];
+const items = [
+  {
+    innerHTML: `
+  <div slot="header-left">
+    <gv-button
+      icon="general:close"
+      outlined
+      small
+      title="Close (esc)"
+    ></gv-button>
+    <gv-button
+      icon="home:book"
+      outlined
+      small
+      title="Open documentation"
+    ></gv-button>
+  </div>
+
+  <div slot="header-title">
+    The title
+  </div>
+
+  <div slot="header-right">
+    <gv-button
+      id="reset"
+      outlined
+      small
+      icon="general:update"
+      title="Reset"
+    ></gv-button>
+    <gv-button
+      id="submit"
+      small
+      icon="code:check"
+    ></gv-button>
+  </div>
+
+  <div slot="content">
+    The Long content
+    <div style="height:800px"></div>
+    The End
+  </div>
+`,
+  },
+];
 
 const conf = {
   component: 'gv-scroll-layout',
   css: `
       gv-scroll-layout {
+        display: block;
         max-width: 500px;
+        height: 500px;
       }
     `,
 };
-export const empty = makeStory(conf, { items });
+export const empty = makeStory(conf, { items: [{}] });
 
 export const skeleton = makeStory(conf, { items: items.map((p) => ({ ...p, skeleton: true })) });
+
+export const withHeaderAndContent = makeStory(conf, { items });

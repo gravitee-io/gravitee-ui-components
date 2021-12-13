@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { css, LitElement, html } from 'lit';
+import { classMap } from 'lit-html/directives/class-map';
 import { skeleton } from '../styles/skeleton';
 
 /**
@@ -35,7 +36,69 @@ export class GvScrollLayout extends LitElement {
       // language=CSS
       css`
         :host {
-          display: block;
+          box-sizing: border-box;
+          position: relative;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+
+          /* for Firefox */
+          min-height: 0;
+          height: 100%;
+        }
+
+        .header,
+        .content {
+          background-color: var(--bgc);
+        }
+
+        .header {
+          display: flex;
+          border-bottom: 1px solid #d9d9d9;
+          box-sizing: border-box;
+          min-height: 45px;
+          --gv-icon--s: 26px;
+          align-items: center;
+          padding: 0 1rem;
+          position: relative;
+        }
+
+        .header .left,
+        .header .right {
+          display: flex;
+          flex: 1;
+          z-index: 10;
+          align-items: center;
+        }
+
+        .header .right {
+          justify-content: flex-end;
+        }
+
+        .header .title {
+          color: #28444f;
+          font-size: 18px;
+          display: flex;
+          width: 100%;
+          align-items: center;
+        }
+
+        .content {
+          box-sizing: border-box;
+          align-self: center;
+          width: 100%;
+          overflow: auto;
+          max-width: 100%;
+          padding: 0px 0.5rem;
+
+          /* for Firefox */
+          min-height: 0;
+        }
+
+        .content.empty {
+          display: none;
         }
       `,
       skeleton,
@@ -43,7 +106,23 @@ export class GvScrollLayout extends LitElement {
   }
 
   render() {
-    return html`<div class="scroll-layout">Hello there !</div>`;
+    return html`
+      <div class="container">
+        <div class="header">
+          <div class="left">
+            <slot name="header-left"></slot>
+          </div>
+          <div class="header-title">
+            <slot name="header-title"></slot>
+          </div>
+          <div class="right">
+            <slot name="header-right"></slot>
+          </div>
+        </div>
+
+        <div class="${classMap({ content: true, empty: this.skeleton })}"><slot name="content"></slot></div>
+      </div>
+    `;
   }
 }
 
