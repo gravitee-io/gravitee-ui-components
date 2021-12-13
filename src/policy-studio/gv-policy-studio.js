@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit';
+import { ref, createRef } from 'lit/directives/ref.js';
 import { methods } from '../lib/studio';
 import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-button';
@@ -31,6 +32,7 @@ import './gv-policy-studio-menu';
 import { empty } from '../styles/empty';
 import { cache } from 'lit/directives/cache';
 import { deepClone, deepEqual } from '../lib/utils';
+import { i18n } from '../lib/i18n';
 import { KeyboardElement, KEYS } from '../mixins/keyboard-element';
 
 const FLOW_STEP_FORM_ID = 'flow-step-form';
@@ -205,21 +207,30 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           border-right: 1px solid #d9d9d9;
         }
 
-        .flow-step__container {
-          overflow: hidden;
-          position: relative;
-          overflow: hidden;
-          height: 99%;
+        .flow-step {
+          position: absolute;
         }
 
         .flow-step__form {
-          padding: 0 0.5rem;
           overflow: auto;
+        }
+
+        .flow-step__form-h2 {
+          font-size: 21px;
+          font-weight: 600;
+          padding-bottom: 0.3em;
+          border-bottom: 1px solid #eaecef;
+          margin-top: 24px;
+          margin-bottom: 16px;
         }
 
         .flow-step__form-title {
           text-transform: uppercase;
           letter-spacing: 0.2rem;
+        }
+
+        .flow-step__form-schema {
+          margin: 0;
         }
 
         gv-tabs {
@@ -988,7 +999,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   _renderPolicy(readonlyMode) {
     if (this._flowStepSchema && this.documentation) {
       return html`<gv-resizable-views direction="horizontal" no-overflow>
-        <div slot="top">${this._renderFlowStepForm(readonlyMode)}</div>
+        <div slot="top" class="flow-step">${this._renderFlowStepForm(readonlyMode)}</div>
         <div slot="bottom">
           <gv-documentation
             .text="${this.documentation.content}"
@@ -1088,26 +1099,22 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _renderFlowStepForm(readonlyMode) {
     const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
+
+    const gvSchemaFormRef = createRef();
+
+    const submitPolicySchemaForm = () => {
+      gvSchemaFormRef.value._onSubmit();
+    };
+
+    const resetPolicySchemaForm = () => {
+      gvSchemaFormRef.value._onReset();
+    };
+
     return html`${cache(
       this._flowStepSchema && this._currentFlowStep
-        ? html`<div class="flow-step__container">
-            <div class="flow-step__form">
-              <gv-schema-form
-                .id="${FLOW_STEP_FORM_ID}"
-                .schema="${this._flowStepSchema}"
-                .icon="design:edit"
-                has-header
-                validate-on-render
-                .values="${values}"
-                .dirty="${this._currentFlowStep._values != null}"
-                ?readonly="${readonlyMode}"
-                scrollable
-                @gv-schema-form:change="${this._onChangeFlowStep}"
-                @gv-schema-form:reset="${this._onResetFlowStep}"
-                @gv-schema-form:fetch-resources="${this._onFetchResources}"
-                @gv-schema-form:submit="${this._onSubmitFlowStep}"
-              >
-                <div slot="title" class="flow-step__form-title">${this._currentFlowStep.step.name}</div>
+        ? html`
+            <gv-scroll-layout class="flow-step__form">
+              <div slot="header-left">
                 <gv-button
                   slot="header-left"
                   icon="general:close"
@@ -1125,9 +1132,42 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                   @gv-button:click="${this._onOpenDocumentationFromForm}"
                   title="Open documentation"
                 ></gv-button>
-              </gv-schema-form>
-            </div>
-          </div>`
+              </div>
+
+              <div slot="header-title" class="flow-step__form-title">${this._currentFlowStep.step.name}</div>
+
+              <div slot="header-right">
+                <gv-button
+                  id="reset"
+                  outlined
+                  small
+                  @gv-button:click="${resetPolicySchemaForm}"
+                  icon="general:update"
+                  title="Reset"
+                ></gv-button>
+
+                <gv-button id="submit" small @gv-button:click="${submitPolicySchemaForm}" icon="code:check" .title="Ok"></gv-button>
+              </div>
+
+              <div slot="content">
+                <gv-schema-form
+                  ${ref(gvSchemaFormRef)}
+                  class="flow-step__form-schema"
+                  .id="${FLOW_STEP_FORM_ID}"
+                  .schema="${this._flowStepSchema}"
+                  .icon="design:edit"
+                  validate-on-render
+                  .values="${values}"
+                  .dirty="${this._currentFlowStep._values != null}"
+                  ?readonly="${readonlyMode}"
+                  @gv-schema-form:change="${this._onChangeFlowStep}"
+                  @gv-schema-form:reset="${this._onResetFlowStep}"
+                  @gv-schema-form:fetch-resources="${this._onFetchResources}"
+                  @gv-schema-form:submit="${this._onSubmitFlowStep}"
+                ></gv-schema-form>
+              </div>
+            </gv-scroll-layout>
+          `
         : '',
     )}`;
   }
