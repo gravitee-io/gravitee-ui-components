@@ -224,6 +224,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           margin-bottom: 16px;
         }
 
+        .flow-step__form-error {
+          padding: 0.5rem;
+        }
+
         .flow-step__form-title {
           text-transform: uppercase;
           letter-spacing: 0.2rem;
@@ -869,8 +873,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _writeFlowStep() {
-    const configuration = this._currentFlowStep._policyValues;
-    const { description } = this._currentFlowStep._commonValues;
+    const configuration = this._currentFlowStep._policyValues || this._currentFlowStep._initialPolicyValues;
+    const { description } = this._currentFlowStep._commonValues || this._currentFlowStep._initialCommonValues;
 
     if (
       this._currentFlowStep.step._new ||
@@ -1181,6 +1185,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               </div>
 
               <div slot="content">
+                ${this._currentAskConfirmation
+                  ? html`<gv-message class="flow-step__form-error" type="error">
+                      <gv-icon shape="alert:error_outline"></gv-icon>${i18n('gv-policy-studio.policy-settings-warning')}
+                    </gv-message>`
+                  : ''}
                 <gv-schema-form
                   ${ref(gvSchemaFormCommonRef)}
                   class="flow-step__form-schema"

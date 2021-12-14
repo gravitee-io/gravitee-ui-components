@@ -92,7 +92,8 @@
     }
   },
   "gv-policy-studio": {
-    "policy-settings": "Policy settings"
+    "policy-settings": "Settings",
+    "policy-settings-warning": "Invalid configuration, please check settings below."
   },
   "gv-promote": {
     "empty": "No information to display",

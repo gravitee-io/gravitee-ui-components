@@ -92,7 +92,8 @@
     }
   },
   "gv-policy-studio": {
-    "policy-settings": "Policy settings"
+    "policy-settings": "Settings",
+    "policy-settings-warning": "Configuration invalide, veuillez vérifier les paramètres ci-dessous."
   },
   "gv-promote": {
     "empty": "Aucun élément à afficher ici",
