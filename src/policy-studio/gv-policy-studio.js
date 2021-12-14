@@ -95,7 +95,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       _currentPolicyId: { type: String, attribute: false },
       _searchPolicyQuery: { type: String, attribute: false },
       _searchFlowQuery: { type: String, attribute: false },
-      _flowStepSchema: { type: Object, attribute: false },
+      _flowStepSchemas: { type: Object, attribute: false },
       _currentFlowStep: { type: Object, attribute: false },
       _policyFilter: { type: Array, attribute: false },
       _flowFilter: { type: Array, attribute: false },
@@ -557,8 +557,14 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           if (this._currentFlowStep != null && this._currentFlowStep.step._id === _id) {
             this._currentFlowStep.group = detail.flowKey;
             // Special case for update schema after change request to response or inverse
-            const schema = this.buildSchema(this._currentFlowStep.policy);
-            await this._setCurrentFlowStep(this._currentFlowStep, schema, true);
+            await this._setCurrentFlowStep(
+              this._currentFlowStep,
+              {
+                flowStepPolicySchema: this.buildPolicySchema(this._currentFlowStep.policy),
+                flowStepCommonSchema: this.buildCommonSchema(),
+              },
+              true,
+            );
             this._getFlowElement(targetFlow._id).requestUpdate();
           }
         } else {
@@ -625,17 +631,21 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._splitMainViews();
   }
 
-  buildSchema({ schema }) {
+  buildPolicySchema({ schema }) {
+    if (schema) {
+      const jsonSchema = typeof schema === 'string' ? JSON.parse(schema) : schema;
+      const properties = { ...jsonSchema.properties };
+      return { ...jsonSchema, properties };
+    }
+    return { properties: {} };
+  }
+
+  buildCommonSchema() {
     const description = {
       title: 'Description',
       description: 'Description of flow step',
       type: 'string',
     };
-    if (schema) {
-      const jsonSchema = typeof schema === 'string' ? JSON.parse(schema) : schema;
-      const properties = { description, ...jsonSchema.properties };
-      return { ...jsonSchema, properties };
-    }
     return { properties: { description } };
   }
 
@@ -643,9 +653,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     if (step) {
       this._currentPolicyId = policy.id;
       const currentFlowStep = { flow, step, policy, group };
-      const schema = this.buildSchema(policy);
       try {
-        await this._setCurrentFlowStep(currentFlowStep, schema);
+        await this._setCurrentFlowStep(currentFlowStep, {
+          flowStepPolicySchema: this.buildPolicySchema(policy),
+          flowStepCommonSchema: this.buildCommonSchema(),
+        });
         this._updateSelectedFlows([flow._id]);
         this._splitMainViews();
         if (localStorage.getItem('gv-policy-studio:keep-documentation-close') == null) {
@@ -699,7 +711,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   async _closeFlowStepForm(force = false) {
-    await this._setCurrentFlowStep(null, null, force);
+    await this._setCurrentFlowStep(null, {}, force);
   }
 
   async _askToValidateForms() {
@@ -726,12 +738,13 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     throw new Error('ask already waiting');
   }
 
-  async _setCurrentFlowStep(currentFlowStep, flowStepSchema, force = false) {
+  async _setCurrentFlowStep(currentFlowStep, { flowStepPolicySchema, flowStepCommonSchema }, force = false) {
     if (!force) {
       await this._askToValidateForms();
     }
 
-    const schema = deepClone(flowStepSchema);
+    const policySchema = deepClone(flowStepPolicySchema);
+    const commonSchema = deepClone(flowStepCommonSchema);
     if (currentFlowStep != null) {
       const configuration =
         typeof currentFlowStep.step.configuration === 'string'
@@ -739,21 +752,22 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           : currentFlowStep.step.configuration;
       const step = { ...currentFlowStep.step, configuration };
 
-      const _initialValues = { ...step.configuration, description: step.description };
-      this._currentFlowStep = { ...currentFlowStep, step, _initialValues };
+      const _initialPolicyValues = { ...step.configuration };
+      const _initialCommonValues = { description: step.description };
+      this._currentFlowStep = { ...currentFlowStep, step, _initialPolicyValues, _initialCommonValues };
 
-      if (flowStepSchema && flowStepSchema.properties.scope) {
-        const _enum = schema.properties.scope.enum;
+      if (flowStepPolicySchema && flowStepPolicySchema.properties.scope) {
+        const _enum = policySchema.properties.scope.enum;
         if (_enum.find((scope) => ['REQUEST', 'REQUEST_CONTENT', 'RESPONSE', 'RESPONSE_CONTENT'].includes(scope)) != null) {
           const filtered = this._currentFlowStep.group === 'pre' ? ['REQUEST', 'REQUEST_CONTENT'] : ['RESPONSE', 'RESPONSE_CONTENT'];
-          schema.properties.scope.enum = _enum.filter((scope) => filtered.includes(scope));
+          policySchema.properties.scope.enum = _enum.filter((scope) => filtered.includes(scope));
           const scope = this._currentFlowStep.step.configuration.scope;
-          if (scope == null || !schema.properties.scope.enum.includes(scope)) {
-            schema.properties.scope.default = schema.properties.scope.enum[0];
-            this._currentFlowStep.step.configuration.scope = schema.properties.scope.enum[0];
-            this._currentFlowStep._initialValues.scope = schema.properties.scope.enum[0];
-            if (this._currentFlowStep._values) {
-              this._currentFlowStep._values.scope = schema.properties.scope.enum[0];
+          if (scope == null || !policySchema.properties.scope.enum.includes(scope)) {
+            policySchema.properties.scope.default = policySchema.properties.scope.enum[0];
+            this._currentFlowStep.step.configuration.scope = policySchema.properties.scope.enum[0];
+            this._currentFlowStep._initialPolicyValues.scope = policySchema.properties.scope.enum[0];
+            if (this._currentFlowStep._policyValues) {
+              this._currentFlowStep._policyValues.scope = policySchema.properties.scope.enum[0];
             }
           }
         }
@@ -762,7 +776,13 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       this._currentFlowStep = null;
     }
 
-    this._flowStepSchema = schema;
+    this._flowStepSchemas =
+      flowStepPolicySchema && flowStepCommonSchema
+        ? {
+            commonSchema,
+            policySchema,
+          }
+        : null;
   }
 
   _refresh(closeStepForm = true) {
@@ -840,12 +860,18 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  _onChangeFlowStep({ detail }) {
-    this._currentFlowStep._values = detail.values;
+  _onChangeFlowStepPolicy({ detail }) {
+    this._currentFlowStep._policyValues = detail.values;
   }
 
-  _writeFlowStep(values) {
-    const { description, ...configuration } = values;
+  _onChangeFlowStepCommon({ detail }) {
+    this._currentFlowStep._commonValues = detail.values;
+  }
+
+  _writeFlowStep() {
+    const configuration = this._currentFlowStep._policyValues;
+    const { description } = this._currentFlowStep._commonValues;
+
     if (
       this._currentFlowStep.step._new ||
       this._currentFlowStep.step.description !== description ||
@@ -865,8 +891,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
-  async _onSubmitFlowStep({ detail }) {
-    this._writeFlowStep(detail.values);
+  async _onSubmitFlowStep() {
+    this._writeFlowStep();
     await this.requestUpdate('_definition');
     this.getChildren().forEach((c) => c.requestUpdate());
   }
@@ -997,7 +1023,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _renderPolicy(readonlyMode) {
-    if (this._flowStepSchema && this.documentation) {
+    if (this._flowStepSchemas && this.documentation) {
       return html`<gv-resizable-views direction="horizontal" no-overflow>
         <div slot="top" class="flow-step">${this._renderFlowStepForm(readonlyMode)}</div>
         <div slot="bottom">
@@ -1016,7 +1042,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         ?disabled="${this._currentAskConfirmation}"
         @gv-documentation:close="${this._onCloseDocumentation}"
       ></gv-documentation>`;
-    } else if (this._flowStepSchema) {
+    } else if (this._flowStepSchemas) {
       return this._renderFlowStepForm(readonlyMode);
     }
     return html``;
@@ -1028,7 +1054,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _onResetFlowStep() {
     if (this._currentFlowStep) {
-      delete this._currentFlowStep._values;
+      delete this._currentFlowStep._policyValues;
+      delete this._currentFlowStep._commonValues;
       this._getFlowStepForm().reset();
     }
   }
@@ -1098,20 +1125,24 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _renderFlowStepForm(readonlyMode) {
-    const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
+    const policyValues = this._currentFlowStep._policyValues || this._currentFlowStep._initialPolicyValues;
+    const commonValues = this._currentFlowStep._commonValues || this._currentFlowStep._initialCommonValues;
 
-    const gvSchemaFormRef = createRef();
+    const gvSchemaFormPolicyRef = createRef();
+    const gvSchemaFormCommonRef = createRef();
 
     const submitPolicySchemaForm = () => {
-      gvSchemaFormRef.value._onSubmit();
+      gvSchemaFormPolicyRef.value._onSubmit();
+      gvSchemaFormCommonRef.value._onSubmit();
     };
 
     const resetPolicySchemaForm = () => {
-      gvSchemaFormRef.value._onReset();
+      gvSchemaFormPolicyRef.value._onReset();
+      gvSchemaFormCommonRef.value._onReset();
     };
 
     return html`${cache(
-      this._flowStepSchema && this._currentFlowStep
+      this._flowStepSchemas && this._currentFlowStep
         ? html`
             <gv-scroll-layout class="flow-step__form">
               <div slot="header-left">
@@ -1151,16 +1182,33 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
               <div slot="content">
                 <gv-schema-form
-                  ${ref(gvSchemaFormRef)}
+                  ${ref(gvSchemaFormCommonRef)}
                   class="flow-step__form-schema"
                   .id="${FLOW_STEP_FORM_ID}"
-                  .schema="${this._flowStepSchema}"
+                  .schema="${this._flowStepSchemas.commonSchema}"
                   .icon="design:edit"
                   validate-on-render
-                  .values="${values}"
-                  .dirty="${this._currentFlowStep._values != null}"
+                  .values="${commonValues}"
+                  .dirty="${this._currentFlowStep._commonValues != null}"
                   ?readonly="${readonlyMode}"
-                  @gv-schema-form:change="${this._onChangeFlowStep}"
+                  @gv-schema-form:change="${this._onChangeFlowStepCommon}"
+                  @gv-schema-form:reset="${this._onResetFlowStep}"
+                  @gv-schema-form:fetch-resources="${this._onFetchResources}"
+                  @gv-schema-form:submit="${this._onSubmitFlowStep}"
+                ></gv-schema-form>
+
+                <h2 class="flow-step__form-h2">${i18n('gv-policy-studio.policy-settings')}</h2>
+                <gv-schema-form
+                  ${ref(gvSchemaFormPolicyRef)}
+                  class="flow-step__form-schema"
+                  .id="${FLOW_STEP_FORM_ID}"
+                  .schema="${this._flowStepSchemas.policySchema}"
+                  .icon="design:edit"
+                  validate-on-render
+                  .values="${policyValues}"
+                  .dirty="${this._currentFlowStep._policyValues != null}"
+                  ?readonly="${readonlyMode}"
+                  @gv-schema-form:change="${this._onChangeFlowStepPolicy}"
                   @gv-schema-form:reset="${this._onResetFlowStep}"
                   @gv-schema-form:fetch-resources="${this._onFetchResources}"
                   @gv-schema-form:submit="${this._onSubmitFlowStep}"
@@ -1688,7 +1736,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _renderFlowForm(readonlyMode) {
-    if (this.flowSchema && this._flowStepSchema == null && this.documentation == null && this.selectedFlowsId.length === 1) {
+    if (this.flowSchema && this._flowStepSchemas == null && this.documentation == null && this.selectedFlowsId.length === 1) {
       const flow = this.getSelectedFlow();
       if (flow) {
         const values = deepClone(flow);

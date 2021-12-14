@@ -346,9 +346,10 @@ describe('P O L I C Y  S T U D I O', () => {
       await component._onSelectFlows({ detail: { flows: [flow._id] } });
 
       const policy = policies.data.find((policy) => policy.id === 'policy-http-callout');
-      const flowStepSchema = component.buildSchema(policy);
+      const flowStepPolicySchema = component.buildPolicySchema(policy);
+      const flowStepCommonSchema = component.buildCommonSchema();
       const currentFlowStep = { flow, step, policy, group: 'pre', position: 0 };
-      await component._setCurrentFlowStep(currentFlowStep, flowStepSchema);
+      await component._setCurrentFlowStep(currentFlowStep, { flowStepPolicySchema, flowStepCommonSchema });
 
       const cases = [
         ['updated description', 'http://localhost', 'GET'],
@@ -357,8 +358,10 @@ describe('P O L I C Y  S T U D I O', () => {
       ];
 
       for (const [description, url, method] of cases) {
-        const values = { description, method, url };
-        await component._onSubmitFlowStep({ detail: { values } });
+        component._onChangeFlowStepPolicy({ detail: { values: { method, url } } });
+        component._onChangeFlowStepCommon({ detail: { values: { description } } });
+
+        await component._onSubmitFlowStep();
 
         expect(component.definition.flows.length).toEqual(1);
         expect(component.definition.flows[0]._id).toEqual(_id);

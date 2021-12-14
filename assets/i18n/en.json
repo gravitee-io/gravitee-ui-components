@@ -91,6 +91,9 @@
       "manual": "Manual validation"
     }
   },
+  "gv-policy-studio": {
+    "policy-settings": "Policy settings"
+  },
   "gv-promote": {
     "empty": "No information to display",
     "error": "An error has occurred",
