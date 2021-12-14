@@ -1,3 +1,11 @@
+## [3.24.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.1...v3.24.2) (2021-12-14)
+
+
+### Bug Fixes
+
+* revert unneeded changed introduced in `upgrade to Lit 2` ([f0aef5f](https://github.com/gravitee-io/gravitee-ui-components/commit/f0aef5f7ffc97b139ebc8a5f5947f3ed5acc5cea))
+* wait for Lit component to be ready before updating their properties ([3baf7df](https://github.com/gravitee-io/gravitee-ui-components/commit/3baf7dfe1fec74ab6778eceebfde6dd8a5061b65))
+
 ## [3.24.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.0...v3.24.1) (2021-12-13)
 
 
