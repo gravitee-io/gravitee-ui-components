@@ -1185,15 +1185,21 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               </div>
 
               <div slot="content">
-                ${this._currentAskConfirmation
-                  ? html`<gv-message class="flow-step__form-error" type="error">
-                      <gv-icon shape="alert:error_outline"></gv-icon>${i18n('gv-policy-studio.policy-settings-warning')}
-                    </gv-message>`
-                  : ''}
+                ${
+                  // TODO : complete to implement onClick event
+                  this._currentAskConfirmation
+                    ? html`<gv-message class="flow-step__form-error" type="error">
+                        <gv-icon shape="alert:error_outline"></gv-icon>${i18n('gv-policy-studio.policy-settings-warning')}
+
+                        <gv-button @gv-button:click="" outlined icon="general:update" danger>Lose changes</gv-button>
+                        <gv-button @gv-button:click="" icon="design:edit">Edit</gv-button>
+                      </gv-message>`
+                    : html``
+                }
                 <gv-schema-form
                   ${ref(gvSchemaFormCommonRef)}
                   class="flow-step__form-schema"
-                  .id="${FLOW_STEP_FORM_ID}"
+                  id="flow-step-common-form"
                   .schema="${this._flowStepSchemas.commonSchema}"
                   .icon="design:edit"
                   validate-on-render
