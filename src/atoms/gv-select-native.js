@@ -202,7 +202,7 @@ export class GvSelectNative extends InputElement(LitElement) {
 
   willUpdate(changedProperties) {
     if (changedProperties.has('value')) {
-      this.updateState(changedProperties.get('value'));
+      this.updateState(this.value);
     }
   }
 
