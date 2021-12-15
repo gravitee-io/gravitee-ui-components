@@ -1,3 +1,10 @@
+## [3.24.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.2...v3.24.3) (2021-12-15)
+
+
+### Bug Fixes
+
+* resolve will update implementation ([e4a8076](https://github.com/gravitee-io/gravitee-ui-components/commit/e4a8076358a0715734cc03fa9023fc0fb7d9029f))
+
 ## [3.24.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.1...v3.24.2) (2021-12-14)
 
 
