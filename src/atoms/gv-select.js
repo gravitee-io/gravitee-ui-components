@@ -239,7 +239,7 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
 
   willUpdate(changedProperties) {
     if (changedProperties.has('value')) {
-      this.updateState(changedProperties.get('value'));
+      this.updateState(this.value);
     }
   }
 
