@@ -1,3 +1,10 @@
+## [3.24.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.3...v3.24.4) (2021-12-16)
+
+
+### Bug Fixes
+
+* remove unnecessary perform update ([1b8fee6](https://github.com/gravitee-io/gravitee-ui-components/commit/1b8fee6711bf1af63bf40ca9aca2fac570590076))
+
 ## [3.24.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.2...v3.24.3) (2021-12-15)
 
 
