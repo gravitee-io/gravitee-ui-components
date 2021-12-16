@@ -13,495 +13,256 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
-import '../molecules/gv-code';
-import '../molecules/gv-code-hint';
-import CodeMirror from 'codemirror/lib/codemirror';
-import 'codemirror/addon/hint/show-hint';
-import { get } from 'object-path';
-import { input } from '../styles/input';
+import { GvCode } from '../molecules/gv-code';
 import { dispatchCustomEvent } from '../lib/events';
+import { pickedCompletion, startCompletion } from '@codemirror/autocomplete';
+import { keymap } from '@codemirror/view';
+import { EditorSelection, Prec } from '@codemirror/state';
+import { get } from 'object-path';
 
 /**
  * Expression Language component
  *
  * @fires gv-expression-language:input - input events with the `value` on `detail`
  * @fires gv-expression-language:ready - event dispatch when component is ready
+ * @fires gv-expression-language:clipboard-copy - event dispatch when component the `value` has been copied to clipboard
  *
- * @attr {String} value - the value of the input
- * @attr {String} label - label of the input
+ * @attr {String} label - code language
+ * @attr {String} value - code content to be highlighted
+ * @attr {options} Object - options based on codemirror
  * @attr {String} placeholder - an example value to display in the input when empty
- * @attr {String} description - a description
- * @attr {Object} grammar - Grammar for expression languages
- * @attr {Number} rows - Number of rows, if rows=1 the field will look like an input text
- * @attr {Object} options -  options based on codemirror https://codemirror.net/doc/manual.html#config
- * @attr {Boolean} inner-hint - Useful to force ineer rendering of "hint" element
+ * @attr {Number} rows - number of rows of the text element
+ * @attr {Boolean} large - for a large input (only if the field has one row)
+ * @attr {Boolean} medium - for a medium input (only if the field has one row) (Default)
+ * @attr {Boolean} small - for a small input (only if the field has one row)
+ * @attr {Object} grammar - The grammar for Expression Language support
+ *
+ * @attr {Boolean} [clipboard=false]- true if field has clipboard button
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
+ * @attr {Boolean} [readonly=false] - true if field is readonly mode
  */
-export class GvExpressionLanguage extends LitElement {
+export class GvExpressionLanguage extends GvCode {
   static get properties() {
     return {
-      label: { type: String },
-      placeholder: { type: String },
-      description: { type: String },
-      value: { type: String, reflect: true },
+      ...super.properties,
       grammar: { type: Object },
-      rows: { type: Number },
-      options: { type: Object, attribute: false },
-      disabled: { type: Boolean, reflect: true },
-      required: { type: Boolean, reflect: true },
-      readonly: { type: Boolean, reflect: true },
-      autofocus: { type: Boolean },
-      innerHint: { type: Boolean, attribute: 'inner-hint' },
     };
   }
 
-  constructor() {
-    super();
-    this.hintId = 'gv-expression-language_hint';
-    this.innerHint = false;
-    this.addEventListener('gv-code:ready', this._onReady);
-    this.addEventListener('gv-code:input', this._onInput);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    // Experimental
-    // CodeMirror.registerHelper('lint', 'javascript', this._lintValidator);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    if (!this.innerHint) {
-      const hintElement = document.querySelector(`#${this.hintId}`);
-      if (hintElement != null) {
-        hintElement.parentElement.removeChild(hintElement);
-      }
-    }
-  }
-
-  _onReady(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const codeElement = this.codeElement;
-    codeElement.addEventListener('keydown', this._onKeydown);
-    const codemirror = codeElement.getCM();
-    codemirror.setOption('extraKeys', {
-      'Cmd-E': this.insertOrSuggest.bind(this, codemirror),
-      'Ctrl-E': this.insertOrSuggest.bind(this, codemirror),
-    });
-    codemirror.on('keydown', (cm, event) => {
-      this._lastKeyDown = event.key;
-      this._getOrCreateHint().requestUpdate();
-    });
-
-    codemirror.on('beforeChange', (cm, event) => {
-      if (event.origin === 'complete') {
-        // Override default behavior of completion
-        const cursor = cm.getCursor();
-        const caretPosition = cursor.ch;
-        const currentEL = this.getCurrentEl(caretPosition, cursor.line);
-        const newText = `${currentEL.el.substring(event.from.ch, caretPosition)}${event.text}`;
-        return event.update(null, null, [newText]);
-      }
-    });
+  firstUpdated() {
+    super.firstUpdated();
     dispatchCustomEvent(this, 'ready', { currentTarget: this });
   }
 
-  // Experimental
-  // _lintValidator (text, options) {
-  //   const els = text.match(EL_REGEX);
-  //   if (els != null) {
-  //     return els.map((el) => {
-  //       const assign = el.match(/=/g);
-  //       const compare = el.match(/==/g);
-  //       if (assign != null && compare == null) {
-  //         const start = text.indexOf(el) + el.indexOf('=');
-  //         const end = start + 1;
-  //         return {
-  //           message: `Expected a conditional expression and instead saw an assignment. (use '==' instead '=')`,
-  //           severity: 'warning',
-  //           from: CodeMirror.Pos(0, start),
-  //           to: CodeMirror.Pos(0, end),
-  //         };
-  //       }
-  //       return null;
-  //     })
-  //       .filter((el) => el != null);
-  //   }
-  //   return [];
-  // }
-
-  getPreviousKey(key) {
-    if (key != null && key.indexOf('.') > -1) {
-      const keys = key.split('.');
-      // Remove last element
-      keys.splice(-1, 1);
-      return keys.join('.');
-    }
-    return null;
+  getExtensions() {
+    return [Prec.high(this.insertELKeymap())];
   }
 
-  getType(typeId) {
+  insertELKeymap() {
+    return keymap.of([
+      {
+        key: 'Ctrl-Shift-e',
+        mac: 'Cmd-Shift-e',
+        run(view) {
+          view.dispatch(
+            view.state.changeByRange((range) => ({
+              changes: [{ from: range.from, to: range.to, insert: '{#}' }],
+              range: EditorSelection.range(range.from + 2, range.from + 2),
+            })),
+          );
+          startCompletion(view);
+          return true;
+        },
+      },
+    ]);
+  }
+
+  buildMethods(type) {
+    const modelType = this.getModelType(type);
+    return modelType.methods.map(({ name, params = [], returnType }) => {
+      const command = `${name}()`;
+      const displayParams = params.map((p) => `${p.type} ${p.name}`);
+      const label = `${name}(${displayParams.join(', ')})`;
+      const detail = `return ${returnType}`;
+      return {
+        type: 'method',
+        command,
+        apply: (view, completion, from, to) => {
+          const anchor = from + name.length + 1;
+          view.dispatch({
+            changes: { from, to, insert: completion.command },
+            selection: { anchor },
+            userEvent: 'input.complete',
+            annotations: pickedCompletion.of(view),
+          });
+        },
+        label,
+        detail,
+      };
+    });
+  }
+
+  findBestAutocompleteHandler(completionContext) {
+    return this.expressionLanguageCompletionHandlers
+      .filter((handler) => (this.grammar != null && handler.supportEL === true) || handler.supportEL !== true)
+      .map((handler) => {
+        const match = handler.expr ? completionContext.matchBefore(handler.expr) : true;
+        return { handler, match };
+      })
+      .find(({ match, expr }) => match);
+  }
+
+  getModelType(typeId) {
     if (this.grammar != null) {
       return get(this.grammar, `_types.${typeId}`);
     }
     return null;
   }
 
-  getEnum(typeId) {
-    if (this.grammar != null) {
-      return get(this.grammar, `_enums.${typeId}`);
-    }
-    return null;
-  }
-
-  isArray(typeId) {
-    return typeId && typeId.match(/[a-zA-Z]*\[\]$/g);
-  }
-
   isMap(typeId) {
     return ['Map', 'HttpHeaders', 'MultiValueMap'].includes(typeId);
   }
 
-  buildMethods(methods, methodName = '') {
-    const list = methods
-      .filter(({ name }) => name.startsWith(methodName))
-      .map(({ name, params = [], returnType }) => {
-        const text = `${name}()`;
-        const displayParams = params.map((p) => `${p.type} ${p.name}`);
-        const displayText = `${name}(${displayParams.join(', ')}): ${returnType}`;
-        return { text, displayText };
-      });
-    return { list };
-  }
-
-  buildEnum(candidate, parameter) {
-    parameter = parameter || '';
-    const typeEnum = this.getEnum(candidate._type);
-    if (typeEnum != null) {
-      const list = typeEnum
-        .filter((value) => value.toLowerCase().startsWith(parameter.toLowerCase()))
-        .map((g) => ({
-          text: `${g}`,
-          displayText: `${g}`,
-        }));
-      return { list };
+  getEnum(typeId) {
+    if (this.grammar != null) {
+      return get(this.grammar, `_enums.${typeId}`);
     }
-    return { list: [] };
+    return [''];
   }
 
-  isFunction(term) {
-    if (term != null) {
-      return term.match(/\({1}.*\)$/g) != null;
-    }
-    return false;
-  }
-
-  findMethod(type, methodName) {
-    return type.methods.find(({ name }) => name === methodName);
-  }
-
-  findReturnType(typeId, words = []) {
-    const fns = words.filter(({ fn }) => fn);
-    let type = this.getType(typeId);
-    if (fns.length > 0) {
-      fns.forEach(({ term }) => {
-        const method = this.findMethod(type, term);
-        if (method) {
-          typeId = method.returnType;
-          type = this.getType(method.returnType);
-        }
-      });
-    } else if (words.length > 1 && words[words.length - 2].term.endsWith(']')) {
-      if (this.isMap(typeId)) {
-        return this.getType('String');
-      } else if (this.isArray(typeId)) {
-        return this.getType(typeId.replaceAll(/\[]/g, ''));
+  convertType(type) {
+    if (type) {
+      const lowerType = type.toLowerCase();
+      if (lowerType === 'string') {
+        return 'text';
+      } else if (lowerType === 'httpheaders' || lowerType === 'multivaluemap') {
+        return 'type';
+      } else if (lowerType === 'int' || lowerType === 'long') {
+        return 'variable';
+      } else if (lowerType.includes('[]')) {
+        return 'enum';
       }
     }
-    return type;
+    return 'variable';
   }
 
-  insertOrSuggest(codemirror) {
-    const cursor = codemirror.getCursor();
-    const caretPosition = cursor.ch;
-    const currentEL = this.getCurrentEl(caretPosition, cursor.line);
-    if (currentEL != null) {
-      this._suggest();
-    } else {
-      const pos = { line: cursor.line };
-      const data = '{#}';
-      codemirror.replaceRange(data, pos, pos);
-      codemirror.setCursor(cursor.line, caretPosition + 2);
-    }
-  }
-
-  isHttpHeader(candidate, key) {
-    return (
-      candidate &&
-      key &&
-      candidate._type === 'HttpHeaders' &&
-      key.match(/headers$/g) &&
-      key.match('/headers\\[(.*)\\]\\[(.*)\\]$/g') == null
-    );
-  }
-
-  getEnumTerm(term) {
-    if (term.match(/\['[a-z-_]*$/gi)) {
-      const splitted = term.split(`['`);
-      return splitted[splitted.length - 1];
-    }
-    return null;
-  }
-
-  getGrammar({ sentence = null, key = null, words = [], fn = [] }) {
-    let grammar = [];
-    const prefix = '';
-    if (sentence && sentence.match(/^#[a-zA-Z]*/g)) {
-      grammar = this.grammar;
-    }
-    if (key != null) {
-      const isArray = sentence && sentence.match(/[[\w'"-]+(\].)([a-zA-Z]*)$/);
-      let candidate = get(this.grammar, key);
-      if (candidate != null && !key.endsWith('.') && !isArray && !this.isHttpHeader(candidate, key)) {
-        return { list: [] };
-      }
-      if (candidate == null) {
-        const previousKey = this.getPreviousKey(key);
-        if (previousKey != null) {
-          candidate = get(this.grammar, previousKey);
-        }
-      }
-      if (candidate != null) {
-        const lastTerm = words.length ? words[words.length - 1].term : '';
-        if (this.isMap(candidate._type)) {
-          const enumTerm = this.getEnumTerm(lastTerm);
-          if (enumTerm != null) {
-            return this.buildEnum(candidate, enumTerm);
-          }
-        }
-        const type = this.findReturnType(candidate._type, words);
-        if (type && type.methods != null) {
-          return this.buildMethods(type.methods, lastTerm);
-        }
-        grammar = candidate;
-      }
-    }
-
-    if (grammar == null) {
-      return { list: [] };
-    }
-
-    const list = Object.keys(grammar)
-      .filter((prop) => !prop.startsWith('_'))
-      .map((g) => {
-        const suffix = this.getSuffix(grammar[g]);
-        const text = `${prefix}${g}${suffix}`;
-        const displayText = `${g}${suffix}`;
-        return { text, displayText };
-      });
-    return { list };
-  }
-
-  getSuffix(candidate) {
-    if (this.isArray(candidate._type)) {
-      return '[]';
-    } else if (this.isMap(candidate._type)) {
-      return `[''][0]`;
-    } else {
-      return '';
-    }
-  }
-
-  getCurrentEl(caretPosition, line = 0) {
-    if (this.value != null) {
-      const value = this.value.split('\n')[line];
-
-      const group = value.match(/({[ ]*#[\w-. =+-<>!?'"[\]#()]*\})/g);
-      if (group != null) {
-        let start;
-        let end;
-        const el = group.find((group) => {
-          start = value.indexOf(group);
-          end = start + group.length;
-          return caretPosition > start && caretPosition < end;
-        });
-        if (el != null) {
-          return { el, caretPosition, start, end };
-        }
-      }
-    }
-    return null;
-  }
-
-  analyse({ el, start, caretPosition }) {
-    const end = caretPosition - start >= 1 ? caretPosition - start : 1;
-    const expressions = el.slice(1, end).trim().split('.');
-    let sentence = '';
-    const words = expressions.map((k) => {
-      const fn = this.isFunction(k);
-      let term = '';
-      if (fn) {
-        term = k.split('(')[0];
-      } else {
-        term = k;
-        sentence += `.${k}`;
-      }
-      return { term, fn };
-    });
-    if (sentence) {
-      sentence = sentence.slice(1);
-    }
-
-    let key = sentence.indexOf('#') > -1 ? sentence.split('#').reverse()[0] : null;
-    if (key === '') {
-      key = null;
-    }
-    if (key != null) {
-      key = key.split('[')[0];
-    }
-    return { sentence, key, words };
-  }
-
-  get codeElement() {
-    return this.shadowRoot.querySelector('gv-code');
-  }
-
-  canMoveCursor() {
-    return !['Backspace', 'Delete'].includes(this._lastKeyDown);
-  }
-
-  _suggest() {
-    const codeElement = this.codeElement;
-    const codemirror = codeElement.getCM();
-    const cursor = codemirror.getCursor();
-    const caretPosition = cursor.ch;
-    const currentEL = this.getCurrentEl(caretPosition, cursor.line);
-    if (currentEL != null) {
-      const { sentence, key, words, fn } = this.analyse(currentEL);
-      const { list } = this.getGrammar({ sentence, key, words, fn });
-      if (this.canMoveCursor() && (sentence.endsWith('()') || sentence.endsWith('[]'))) {
-        codemirror.setCursor(cursor.line, caretPosition - 1);
-        this._suggest();
-      } else if (this.canMoveCursor() && sentence.endsWith(`[''][0]`)) {
-        codemirror.setCursor(cursor.line, caretPosition - 5);
-        this._suggest();
-      } else {
-        this._doSuggest(list);
-      }
-    }
-  }
-
-  _onInput(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.value = event.detail;
-    this._suggest();
-    dispatchCustomEvent(this, 'input', this.value);
-    this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
-  }
-
-  _getOrCreateHint() {
-    if (this.innerHint) {
-      const element = this.shadowRoot.querySelector(`#${this.hintId}`);
-      element.requestUpdate();
-      return element;
-    }
-    let element = document.querySelector(`#${this.hintId}`);
-    if (element == null) {
-      element = document.createElement('gv-code-hint');
-      element.id = this.hintId;
-      document.body.appendChild(element);
-    } else {
-      element.requestUpdate();
-    }
-    return element;
-  }
-
-  _doSuggest(suggestions = [], prefix = '#') {
-    if (suggestions == null) {
-      suggestions = [];
-    }
-    const code = this.codeElement;
-    const hint = this._getOrCreateHint();
-    const codemirror = code.getCM();
-    CodeMirror.showHint(
-      codemirror,
-      () => {
-        const cursor = codemirror.getCursor();
-        const token = codemirror.getTokenAt(cursor);
-        const start = token.start;
-        const end = cursor.ch;
-        const line = cursor.line;
-        const currentWord = token.string;
-        let _suggestions = [];
-        if (currentWord.startsWith(prefix)) {
-          _suggestions = suggestions.map((item) => {
-            return item;
-          });
-        } else {
-          _suggestions = suggestions;
-        }
-
-        const list = _suggestions.filter((item) => {
-          return item.text.indexOf(currentWord) >= 0;
-        });
-        return {
-          list: list.length ? list : _suggestions,
-          from: CodeMirror.Pos(line, start),
-          to: CodeMirror.Pos(line, end),
-        };
-      },
-      { completeSingle: false, container: hint },
-    );
-  }
-
-  render() {
-    const options = {
-      ...{
-        mode: 'javascript',
-        autoCloseTags: true,
-        autoCloseBrackets: true,
-        matchTags: true,
-        lint: false,
-        // lint: {
-        //   selfContain: true,
-        // },
-      },
-      ...(this.options || {}),
-    };
-    return html`<div title="Ctrl-E or Cmd-E to insert EL">
-      ${this.label != null ? html`<label>${this.label}</label>` : ''}
-      <gv-code
-        .options="${options}"
-        .value="${this.value}"
-        .rows="${this.rows}"
-        ?disabled="${this.disabled}"
-        ?readonly="${this.readonly}"
-        ?required="${this.required}"
-        ?autofocus="${this.autofocus}"
-        .placeholder="${this.placeholder}"
-        .description="${this.description}"
-      ></gv-code>
-      ${this.innerHint ? html`<gv-code-hint id="${this.hintId}"></gv-code-hint>` : ''}
-    </div>`;
-  }
-
-  static get styles() {
+  get expressionLanguageCompletionHandlers() {
     return [
-      input,
-      // language=CSS
-      css`
-        :host {
-          width: 100%;
-        }
-
-        gv-code {
-          margin: 0;
-          font-size: 14px;
-        }
-      `,
+      {
+        expr: /{#[a-z]*/,
+        supportEL: true,
+        run(completionContext, match) {
+          const prefix = match.text.replaceAll('{#', '');
+          const from = completionContext.pos - prefix.length;
+          const options = Object.keys(this.grammar)
+            .filter((command) => !command.startsWith('_') && command.startsWith(prefix))
+            .map((command) => {
+              return {
+                type: 'variable',
+                command,
+                apply: command,
+                label: command,
+              };
+            });
+          return { from, options };
+        },
+      },
+      {
+        expr: /{#[a-z]*.[a-zA-Z]*/,
+        supportEL: true,
+        run(completionContext, match) {
+          const tokens = match.text.split('.');
+          const key = tokens[0].replaceAll('{#', '');
+          const prefix = tokens[1];
+          let candidate = this.grammar[key][prefix];
+          let options = [];
+          let from = completionContext.pos;
+          if (candidate) {
+            if (this.isMap(candidate._type)) {
+              options = this.getEnum(candidate._type).map((value) => {
+                const type = this.convertType(candidate._type);
+                const command = `['${value}'][0]`;
+                return {
+                  type,
+                  command,
+                  apply: command,
+                  label: value,
+                };
+              });
+            }
+          } else {
+            from -= prefix.length;
+            candidate = this.grammar[key];
+            if (candidate._type) {
+              options = this.buildMethods(candidate._type);
+            } else {
+              options = Object.keys(candidate)
+                .filter((command) => !command.startsWith('_') && command.startsWith(prefix))
+                .map((command) => ({
+                  type: this.convertType(candidate[command]._type),
+                  command,
+                  apply: command,
+                  label: command,
+                }));
+            }
+          }
+          return { from, options };
+        },
+      },
+      {
+        expr: /{#[a-z]*.[a-zA-Z]*.[a-zA-Z]*/,
+        supportEL: true,
+        run(completionContext, match) {
+          const tokens = match.text.split('.');
+          const key = tokens[0].replaceAll('{#', '');
+          const word = tokens[1];
+          const prefix = tokens[2];
+          const candidate = this.grammar[key][word];
+          let options = [];
+          let from = completionContext.pos;
+          if (candidate) {
+            if (this.isMap(candidate._type)) {
+              options = this.getEnum(candidate._type)
+                .filter((command) => !command.startsWith('_') && command.startsWith(prefix))
+                .map((label) => {
+                  const type = this.convertType(candidate._type);
+                  return {
+                    type,
+                    command: `['${label}'][0]`,
+                    apply(view, completion, _from, to) {
+                      from = _from - prefix.length - 1;
+                      view.dispatch({
+                        changes: { from, to, insert: completion.command },
+                        selection: { anchor: from + completion.command.length },
+                        userEvent: 'input.complete',
+                        annotations: pickedCompletion.of(view),
+                      });
+                    },
+                    label,
+                  };
+                });
+            } else {
+              if (candidate._type) {
+                options = this.buildMethods(candidate._type);
+              } else {
+                from -= prefix.length;
+                options = Object.keys(candidate)
+                  .filter((command) => command.startsWith(prefix))
+                  .map((command) => {
+                    return {
+                      type: this.convertType(candidate[command]._type),
+                      command,
+                      apply: command,
+                      label: command,
+                    };
+                  });
+              }
+            }
+          }
+          return { from, options };
+        },
+      },
+      this.defaultCompletionHandler,
     ];
   }
 }
