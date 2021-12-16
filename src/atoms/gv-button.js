@@ -322,14 +322,6 @@ export class GvButton extends LitElement {
     }
   }
 
-  async performUpdate() {
-    super.performUpdate();
-    const icon = this.shadowRoot.querySelector('gv-icon');
-    if (icon) {
-      icon.performUpdate();
-    }
-  }
-
   render() {
     const classes = {
       button: true,
