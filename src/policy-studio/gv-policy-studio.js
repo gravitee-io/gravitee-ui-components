@@ -16,6 +16,7 @@
 import { css, html, LitElement } from 'lit';
 import { methods } from '../lib/studio';
 import { dispatchCustomEvent } from '../lib/events';
+import { i18n } from '../lib/i18n';
 import '../atoms/gv-button';
 import '../atoms/gv-icon';
 import '../molecules/gv-option';
@@ -1084,6 +1085,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
   _renderFlowStepForm(readonlyMode) {
     const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
+
+    const groups = [{ items: ['description'] }, { name: i18n('gv-policy-studio.policy-settings'), default: true }];
     return html`${cache(
       this._flowStepSchema && this._currentFlowStep
         ? html`<div class="flow-step__container">
@@ -1098,6 +1101,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                 .dirty="${this._currentFlowStep._values != null}"
                 ?readonly="${readonlyMode}"
                 scrollable
+                .groups="${groups}"
                 @gv-schema-form:change="${this._onChangeFlowStep}"
                 @gv-schema-form:reset="${this._onResetFlowStep}"
                 @gv-schema-form:fetch-resources="${this._onFetchResources}"
