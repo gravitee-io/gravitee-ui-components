@@ -402,10 +402,10 @@ export class GvSchemaForm extends LitElement {
     if (this.groups) {
       // Remove undefined group items
       const groupsCleaned = this.groups.reduce((prev, group) => {
-        const itemsExistingInSchemaKeys = keys.filter((key) => [...(group.items ?? [])].includes(key));
+        const itemsExistingInSchemaKeys = keys.filter((key) => [...(group.items || [])].includes(key));
         prev.push({
           ...group,
-          items: itemsExistingInSchemaKeys ?? [],
+          items: itemsExistingInSchemaKeys || [],
         });
         return prev;
       }, []);
