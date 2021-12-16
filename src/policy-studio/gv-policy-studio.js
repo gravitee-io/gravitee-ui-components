@@ -427,10 +427,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           search.focus();
         }
       }
-      if (this.isPressed(KEYS.Esc)) {
-        this._closeFlowStepForm();
-        this._onCloseDocumentation();
-      }
     }
   }
 
@@ -1114,7 +1110,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                   outlined
                   small
                   @gv-button:click="${this._onCloseFlowStepForm}"
-                  title="Close (esc)"
+                  title="Close"
                 ></gv-button>
                 <gv-button
                   slot="header-left"
