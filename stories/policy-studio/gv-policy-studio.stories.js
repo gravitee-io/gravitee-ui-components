@@ -236,6 +236,36 @@ export const APIMWithoutPlans = makeStory(conf, {
   ],
 });
 
+export const APIMWithoutPlansAndConditionalPolicies = makeStory(conf, {
+  items: [
+    {
+      policies: apimPolicies.data.map((policy) => {
+        policy.icon = icon;
+        return policy;
+      }),
+      resourceTypes: apimResourceTypes.data,
+      propertyProviders: apimPropertyProviders.data,
+      definition: { ...apimDefinition, plans: [] },
+      flowSchema: apimFlow,
+      configurationSchema: apimConfiguration,
+      configurationInformation:
+        'By default, the selection of a flow is based on the operator defined in the flow itself.' +
+        ' This operator allows either to select a flow when the path matches exactly, or when the start of the path matches.' +
+        ' The "Best match" option allows you to select the flow from the path that is closest.',
+      '@gv-policy-studio:fetch-documentation': fetchPolicyDocumentation.bind(this),
+      '@gv-resources:fetch-documentation': fetchResourceDocumentation.bind(this),
+      'flows-title': 'API Flows',
+      'has-resources': true,
+      'has-properties': true,
+      'has-policy-filter': true,
+      'can-add': true,
+      sortable: true,
+      '@gv-policy-studio:save': save.bind(this),
+      'has-conditional-steps': true,
+    },
+  ],
+});
+
 export const APIMWithEmptyPlans = makeStory(conf, {
   items: [
     {
