@@ -18,9 +18,6 @@
     "empty": "Aucune donnée à afficher ici",
     "error": "Une erreur est survenue pendant le chargement"
   },
-  "gv-code": {
-    "copy": "Copier dans le presse papier"
-  },
   "gv-confirm": {
     "cancel": "Non",
     "ok": "Oui"

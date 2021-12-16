@@ -13,37 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { css, html } from 'lit';
 
-import CodeMirror from 'codemirror/lib/codemirror';
-import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/edit/closetag';
-import 'codemirror/addon/edit/matchbrackets';
-import 'codemirror/addon/edit/matchtags';
-import 'codemirror/addon/fold/xml-fold';
-import 'codemirror/addon/search/search';
-import 'codemirror/addon/search/searchcursor';
-import 'codemirror/addon/search/jump-to-line';
-import 'codemirror/addon/dialog/dialog';
-import 'codemirror/addon/lint/lint';
-import 'codemirror/addon/lint/json-lint';
-import 'codemirror/addon/lint/yaml-lint';
-import 'codemirror/addon/display/placeholder';
-import { i18n } from '../lib/i18n';
-import { shapeClipboard, shapeCopied } from '../styles/shapes';
-import { skeleton } from '../styles/skeleton';
+import { EditorView, basicSetup } from '@codemirror/basic-setup';
+import { EditorState, Compartment } from '@codemirror/state';
+import { autocompletion } from '@codemirror/autocomplete';
+import { json } from '@codemirror/lang-json';
+import { languages } from '@codemirror/language-data';
+import { placeholder } from '@codemirror/view';
+
+import { shapeClipboard } from '../styles/shapes';
 import { dispatchCustomEvent } from '../lib/events';
-import { InputElement } from '../mixins/input-element';
 import { uuid } from '../lib/utils';
-import { input } from '../styles/input';
+import { classMap } from 'lit-html/directives/class-map';
+import { GvInput } from '../atoms/gv-input';
+import { skeleton } from '../styles/skeleton';
 import { empty } from '../styles/empty';
+import { input } from '../styles/input';
 
 /**
  * Code component
  *
  * ## Details
- * * This component requires that the "gravitee-ui-components/assets/css" folder be mounted on "/css" of your webapp
  * * has @theme facet
  *
  * @fires gv-code:input - input events with the `value` on `detail`
@@ -52,7 +43,7 @@ import { empty } from '../styles/empty';
  *
  * @attr {String} label - code language
  * @attr {String} value - code content to be highlighted
- * @attr {options} Object - options based on codemirror https://codemirror.net/doc/manual.html#config
+ * @attr {options} Object - options based on codemirror
  * @attr {String} placeholder - an example value to display in the input when empty
  * @attr {Number} rows - number of rows of the text element
  * @attr {Boolean} large - for a large input (only if the field has one row)
@@ -63,14 +54,11 @@ import { empty } from '../styles/empty';
  * @attr {Boolean} [autofocus=false] - true to put the focus on the input
  * @attr {Boolean} [readonly=false] - true if field is readonly mode
  */
-export class GvCode extends InputElement(LitElement) {
+export class GvCode extends GvInput {
   static get properties() {
     return {
       ...super.properties,
       options: { type: Object },
-      clipboard: { type: Boolean },
-      _clipboardIcon: { type: String },
-      _codeMirror: { type: Object },
       rows: { type: Number },
       _error: { type: String, attribute: false },
     };
@@ -84,198 +72,218 @@ export class GvCode extends InputElement(LitElement) {
     this.autofocus = false;
     this.clipboard = false;
     this._clipboardIcon = shapeClipboard;
-  }
-
-  _onError() {
-    this._error = `Cannot load library, please read the documentation.`;
-  }
-
-  async _onLoad() {
-    if (this._loaded !== true) {
-      this._loaded = true;
-      if (this.clipboard) {
-        import('clipboard-copy').then((mod) => {
-          const copy = mod.default;
-          this.shadowRoot.querySelector('gv-button').addEventListener('gv-button:click', () => {
-            copy(this.value);
-            this._copied = true;
-            this._clipboardIcon = shapeCopied;
-            dispatchCustomEvent(this, 'clipboard-copy');
-            setTimeout(() => {
-              this._copied = false;
-              this._clipboardIcon = shapeClipboard;
-            }, 1000);
-          });
-        });
-      }
-      const options = this._getProcessedOptions();
-
-      try {
-        if (options.mode != null) {
-          const mode = typeof options.mode === 'string' ? options.mode : options.mode.name;
-          if (mode === 'asciidoc') {
-            await import('codemirror-asciidoc/lib/asciidoc.js');
-          } else {
-            await import(`codemirror/mode/${mode}/${mode}.js`);
-          }
-        }
-      } catch (er) {}
-
-      const textArea = this.shadowRoot.querySelector(`#${this._id}`);
-      this._codeMirror = CodeMirror.fromTextArea(textArea, {
-        ...options,
-        ...{
-          theme: 'mdn-like',
-          lineWrapping: true,
-          readOnly: this.readonly,
-          autofocus: this.autofocus,
-          scrollbarStyle: this.singleLine ? null : 'native',
-        },
-      });
-
-      if (this.autofocus) {
-        setTimeout(() => {
-          this._codeMirror.focus();
-        }, 200);
-      }
-
-      dispatchCustomEvent(this, 'ready');
-    }
+    this.languageCompartment = new Compartment();
+    this.readonlyCompartment = new Compartment();
+    this.placeholderCompartment = new Compartment();
   }
 
   render() {
-    if (this._error != null) {
-      return html`<div class="error">${this._error}</div>`;
-    }
+    const classes = {
+      box: true,
+      'box-invisible': this.skeleton,
+      large: this.large,
+      medium: this.medium || (!this.large && !this.small),
+      small: this.small,
+      copied: this.hasClipboard && this._copied,
+    };
+    const inputClasses = {
+      content: true,
+      code: !this.hasInputStyle,
+      input: this.hasInputStyle,
+    };
 
     return html`
-      <link @load="${this._onLoad}" @error=${this._onError} rel="stylesheet" href="./css/codemirror/all.css" />
-      <div
-        class="${classMap({
-          box: true,
-          'box-invisible': this.skeleton,
-          large: this.large,
-          medium: this.medium || (!this.large && !this.small),
-          small: this.small,
-        })}"
-      >
-        <div class="${classMap({ input: this.singleLine })}">
-          ${this.label ? html`<label for="code">${this.label}</label>` : ''}
-          ${this.clipboard
-            ? html`<gv-button
-                title="${i18n('gv-code.copy')}"
-                ?outlined="${!this._copied}"
-                ?primary="${this._copied}"
-                small
-                icon="${this._clipboardIcon}"
-              ></gv-button>`
-            : ''}
-          <textarea id="${this._id}" name="code">${this.value}</textarea>
-          ${this.skeleton ? html`<div class="skeleton"></div>` : ''}
+      <div class="${classMap(classes)}">
+        ${this.label ? html`<label for="code">${this.label}</label>` : ''}
+        <div id="${this._id}" class="${classMap(inputClasses)}">
+          <!-- No format please -->
+          ${this.renderIcon()}
         </div>
       </div>
       ${this.description != null ? html`<div class="description" .innerHTML="${this.description}"></div>` : ''}
     `;
   }
 
-  _onChange(cm) {
-    this.value = cm.getValue();
-    dispatchCustomEvent(this, 'input', this.value);
+  bindInputEvents() {
+    dispatchCustomEvent(this, 'ready', { currentTarget: this });
   }
 
-  get singleLine() {
+  get hasInputStyle() {
     return this.rows === 1;
   }
 
-  disconnectedCallback() {
-    if (this._codeMirror != null) {
-      this._codeMirror.off('beforeChange', this._handlers.beforeChange);
-      this._codeMirror.off('change', this._handlers.change);
+  _autocomplete(completionContext) {
+    const { handler, match } = this.findBestAutocompleteHandler(completionContext);
+    return handler.run.call(this, completionContext, match);
+  }
+
+  findBestAutocompleteHandler(completionContext) {
+    return { handler: this.defaultCompletionHandler, match: true };
+  }
+
+  get defaultCompletionHandler() {
+    return {
+      run(completionContext) {
+        const language = completionContext.state.languageDataAt('autocomplete', completionContext.pos);
+        if (language.length > 0) {
+          return language[0](completionContext);
+        }
+        return { from: completionContext.pos, options: [] };
+      },
+    };
+  }
+
+  _getExtensions() {
+    return [
+      basicSetup,
+      GvCode.codemirrorTheme,
+      this.languageCompartment.of(json()),
+      this.placeholderCompartment.of(placeholder(this.placeholder || '')),
+      EditorState.transactionFilter.of((tr) => (this.hasInputStyle && tr.newDoc.lines > 1 ? [] : tr)),
+      this.readonlyCompartment.of(EditorView.editable.of(!this.readonly && !this.disabled)),
+      EditorView.updateListener.of((viewUpdate) => {
+        if (viewUpdate.docChanged) {
+          this.value = this._editorView.state.doc.toString();
+          dispatchCustomEvent(this, 'input', this.value);
+        }
+      }),
+      autocompletion({
+        activateOnTyping: true,
+        override: [this._autocomplete.bind(this)],
+      }),
+      ...this.getExtensions(),
+    ];
+  }
+
+  getExtensions() {
+    return [];
+  }
+
+  getInputElement() {
+    return this.shadowRoot.querySelector(`[id=${this._id}]`);
+  }
+
+  firstUpdated() {
+    super.firstUpdated();
+    this._editorState = EditorState.create({
+      doc: this.value,
+      extensions: this._getExtensions(),
+    });
+    const parent = this.getInputElement();
+    this._editorView = new EditorView({
+      root: this.shadowRoot,
+      parent,
+      state: this._editorState,
+      dispatch: (transaction) => {
+        try {
+          this._editorView.update([transaction]);
+        } catch (e) {
+          // Sometimes the default dispatch fn throws an NS_ERROR_FAILURE at runtime.
+          // It's so strange but with this catch everything is okay
+        }
+      },
+    });
+    parent.appendChild(this._editorView.dom);
+  }
+
+  async updated(properties) {
+    super.updated(properties);
+    if (properties.has('placeholder')) {
+      this._reflectPlaceholder();
+    }
+    if (properties.has('value')) {
+      this._reflectValue();
+    }
+    if (properties.has('readonly') || properties.has('disabled')) {
+      this._reflectReadonlyDisabled();
+    }
+    if (properties.has('options') && this.options) {
+      await this._reflectOptions();
     }
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this._handlers = {
-      beforeChange: (cm, event) => {
-        if (this.singleLine && this._id === cm.getTextArea().id) {
-          // Identify typing events that add a newline to the buffer.
-          const hasTypedNewline = event.origin === '+input' && typeof event.text === 'object' && event.text.join('') === '';
-
-          // Prevent newline characters from being added to the buffer.
-          if (hasTypedNewline) {
-            return event.cancel();
-          }
-
-          // Identify paste events.
-          const hasPastedNewline = event.origin === 'paste' && typeof event.text === 'object' && event.text.length > 1;
-
-          // Format pasted text to replace newlines with spaces.
-          if (hasPastedNewline) {
-            const newText = event.text.join(' ');
-            return event.update(null, null, [newText]);
-          }
-        }
-        return null;
-      },
-      change: (cm) => {
-        if (this._id === cm.getTextArea().id) {
-          this._onChange(cm);
-        }
-      },
-    };
-    CodeMirror.defineInitHook((cm) => {
-      cm.on('beforeChange', this._handlers.beforeChange);
-      cm.on('change', this._handlers.change);
+  _reflectPlaceholder() {
+    this._editorView.dispatch({
+      effects: this.placeholderCompartment.reconfigure(placeholder(this.placeholder)),
     });
   }
 
-  _getProcessedOptions() {
-    const options = { ...this.options };
-    if (options.mode === 'json' || options.mode === 'application/json') {
-      options.mode = {
-        name: 'javascript',
-        json: true,
-      };
-    }
-    if (this.placeholder) {
-      options.placeholder = this.placeholder;
-    }
-
-    return options;
+  _reflectValue() {
+    const transaction = this._editorState.update({
+      changes: {
+        from: 0,
+        to: this._editorState.doc.length,
+        insert: this.value,
+      },
+    });
+    this._editorState = transaction.state;
   }
 
-  async updated(changedProperties) {
-    super.updated(changedProperties);
-    if (changedProperties.has('label') && this.label) {
-      this.screenReaderLabel = this.label;
-    } else if (changedProperties.has('value')) {
-      if (this.getCM() != null && this.getCM().getValue() !== this.value) {
-        const value = this.value != null ? this.value : '';
-        this.getCM().setValue(value);
-      }
-      this.resize();
-    }
+  _reflectReadonlyDisabled() {
+    this._editorView.dispatch({
+      effects: this.readonlyCompartment.reconfigure(EditorView.editable.of(!this.readonly && !this.disabled)),
+    });
   }
 
-  getCM() {
-    return this._codeMirror;
-  }
-
-  resize() {
-    if (this._codeMirror) {
-      const options = this._getProcessedOptions();
-      if (this.value == null && options.placeholder) {
-        const placeholderByLines = options.placeholder.split('\n');
-        this._codeMirror.setSize(null, placeholderByLines.length * 18);
+  static async findLanguage(mode) {
+    if (mode) {
+      const modeOnly = mode.split('/').pop();
+      if (modeOnly === 'asciidoc') {
+        const [{ asciidoc }, { StreamLanguage }] = await Promise.all([
+          import('codemirror-asciidoc/lib/asciidoc'),
+          import('@codemirror/stream-parser'),
+        ]);
+        return {
+          name: 'asciidoc',
+          support: {
+            extension: StreamLanguage.define(asciidoc),
+          },
+        };
       } else {
-        this._codeMirror.setSize(null, null);
+        const language = languages.find((languageDescription) => {
+          return languageDescription.name.toUpperCase() === modeOnly.toUpperCase() || languageDescription.alias.includes(modeOnly);
+        });
+        if (language == null) {
+          console.warn(
+            `Cannot find language ${mode}, please use language supported by CodeMirror 6`,
+            languages.map((l) => l.name),
+          );
+        }
+        return language;
       }
     }
+    return null;
+  }
+
+  async _reflectOptions() {
+    const language = await GvCode.findLanguage(this.options.mode);
+    if (language != null) {
+      if (language.support == null) {
+        await language.load();
+      }
+      this._editorView.dispatch({
+        effects: this.languageCompartment.reconfigure(language.support.extension),
+      });
+    }
+  }
+
+  static get codemirrorTheme() {
+    return EditorView.theme({
+      '&.cm-editor.cm-focused': {
+        outline: 'none',
+      },
+      '.cm-gutters': {
+        backgroundColor: 'var(--gv-input-icon--bgc, var(--gv-theme-neutral-color, #f5f5f5))',
+        color: 'var(--gv-theme-font-color-dark, #262626)',
+        borderLeft: '5px solid',
+        borderColor: 'var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9))',
+      },
+    });
   }
 
   static get styles() {
     return [
+      ...super.styles,
       skeleton,
       empty,
       input,
@@ -287,92 +295,61 @@ export class GvCode extends InputElement(LitElement) {
           margin: 0 0.2rem 0.2rem 0.2rem;
         }
 
-        .skeleton {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          color: white;
-        }
-
-        .box {
+        .content {
           position: relative;
+          border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
+          box-sizing: border-box;
+          border-radius: 4px;
         }
 
-        .box-invisible {
-          min-height: 70px;
+        .btn_copy {
         }
 
-        .box-invisible > *:not(.skeleton) {
-          visibility: hidden;
-          opacity: 0;
+        .box-icon {
+          bottom: -1px;
+          right: -1px;
+          z-index: 1;
         }
 
-        textarea[name='code'] {
+        .code .box-icon {
+          border-radius: 3px;
+        }
+
+        .code .cm-content,
+        .code .cm-gutters {
+          height: var(--input-medium--h);
+        }
+
+        .large .code .cm-content,
+        .large .code .cm-gutters {
+          height: var(--input-large--h);
+        }
+
+        .small .code .cm-content,
+        .small .code .cm-gutters {
+          height: var(--input-small--h);
+        }
+
+        /**  Override Codemirror theme */
+        .input .cm-gutters {
           display: none;
         }
 
-        label {
-          line-height: 15px;
-          padding: 0 0 0.2rem 0;
+        .input .cm-scroller {
+          overflow: hidden;
         }
 
-        gv-button {
-          position: absolute;
-          right: 0;
-          top: 0;
-          z-index: 10;
+        .input .cm-activeLine,
+        :host([readonly]) .cm-activeLine {
+          background-color: transparent;
         }
 
-        /** Enable autoresize: https://codemirror.net/demo/resize.html **/
-        .CodeMirror {
-          height: auto;
-        }
-
-        /** Overwrite code mirror colors **/
-        :host([invalid]) .cm-s-mdn-like .CodeMirror-gutters {
-          border-color: var(--gv-theme-color-error-dark, #d32f2f);
-        }
-
-        .cm-s-mdn-like .CodeMirror-gutters {
-          border-left: 6px solid var(--gv-theme-color, #5a7684);
-        }
-
-        /** Overwrite code mirror for input style **/
-        .input {
-          --input-medium--p: 11px 5px 9px;
-        }
-
-        .input .CodeMirror-lines {
+        .input .cm-content {
           padding: 0;
         }
 
-        .input .CodeMirror-wrap pre.CodeMirror-line,
-        .input .CodeMirror-wrap pre.CodeMirror-line {
-          white-space: pre;
-        }
-
-        .medium .input .CodeMirror {
-          height: var(--input-medium--lh);
-        }
-
-        .small .input .CodeMirror {
-          height: var(--input-small--lh);
-        }
-
-        .large .input .CodeMirror {
-          height: var(--input-large--lh);
-        }
-
-        .input .CodeMirror-sizer {
-          height: 28px;
-          border: 0;
-        }
-
-        .input .CodeMirror-scroll {
-          width: 100%;
-          overflow: hidden !important;
+        :host([invalid]) .cm-gutters {
+          border-color: var(--gv-theme-color-error, #da1a1b);
         }
       `,
     ];

@@ -18,9 +18,6 @@
     "empty": "No data to display",
     "error": "An error has occurred"
   },
-  "gv-code": {
-    "copy": "Copy to clipboard"
-  },
   "gv-confirm": {
     "cancel": "No",
     "ok": "Yes"
