@@ -60,6 +60,7 @@ export class GvSchemaForm extends LitElement {
       _touch: { type: Boolean },
       readonly: { type: Boolean, reflect: true },
       scrollable: { type: Boolean, reflect: true },
+      groups: { type: Array },
     };
   }
 
@@ -76,6 +77,7 @@ export class GvSchemaForm extends LitElement {
     this._ignoreProperties = [];
     this._dynamicControls = [];
     this._dynamicAttributes = ['disabled', 'required', 'hidden'];
+    this.groups = null;
     this.addEventListener('gv-schema-form-control:default-value', this._onDefaultValue.bind(this));
     this.addEventListener('gv-schema-form-control:change', this._onChange.bind(this));
     this.addEventListener('gv-schema-form-control:control-ready', this._onControlReady.bind(this));
@@ -396,11 +398,40 @@ export class GvSchemaForm extends LitElement {
     }
     const keys = this.schema.properties ? Object.keys(this.schema.properties) : [];
     this._ignoreProperties = [];
-    return repeat(
-      keys,
-      (key) => key,
-      (key) => this._renderControl(key),
-    );
+
+    if (this.groups) {
+      // Remove undefined group items
+      const groupsCleaned = this.groups.reduce((prev, group) => {
+        const itemsExistingInSchemaKeys = keys.filter((key) => [...(group.items ?? [])].includes(key));
+        prev.push({
+          ...group,
+          items: itemsExistingInSchemaKeys ?? [],
+        });
+        return prev;
+      }, []);
+
+      // Add non grouped items inside default group
+      const defaultGroup = groupsCleaned.find((g) => g.default) || { default: true, items: [] };
+      const zipGroupedItems = groupsCleaned.reduce((prev, group) => [...prev, ...group.items], []);
+      defaultGroup.items = keys.filter((key) => !zipGroupedItems.includes(key));
+
+      return repeat(
+        groupsCleaned,
+        (group) =>
+          html`${group.name
+            ? html`<h2 class="group-title">${group.name}</h2>
+                ${repeat(group.items, (key) => this._renderControl(key))}`
+            : repeat(group.items, (key) => this._renderControl(key))} `,
+      );
+    }
+
+    return html`${repeat([1], () =>
+      repeat(
+        keys,
+        (key) => key,
+        (key) => this._renderControl(key),
+      ),
+    )}`;
   }
 
   getControls() {
@@ -609,7 +640,8 @@ export class GvSchemaForm extends LitElement {
           overflow: auto;
         }
 
-        form.scrollable .content > gv-schema-form-control {
+        form.scrollable .content > gv-schema-form-control,
+        form.scrollable .content > .group-title {
           max-width: 775px;
           width: 95%;
         }
@@ -698,6 +730,18 @@ export class GvSchemaForm extends LitElement {
         .confirm .footer .left,
         .confirm .footer .right {
           display: none;
+        }
+
+        .group-title {
+          align-self: center;
+          width: 100%;
+          color: var(--gv-theme-font-color-dark);
+          font-size: 21px;
+          font-weight: 600;
+          padding-bottom: 0.3em;
+          border-bottom: 1px solid var(--gv-theme-font-color-dark);
+          margin-top: 24px;
+          margin-bottom: 16px;
         }
       `,
     ];

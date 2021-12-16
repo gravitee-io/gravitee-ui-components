@@ -88,6 +88,9 @@
       "manual": "Validation manuelle"
     }
   },
+  "gv-policy-studio": {
+    "policy-settings": "Settings"
+  },
   "gv-promote": {
     "empty": "Aucun élément à afficher ici",
     "error": "Une erreur est survenue pendant le chargement",
