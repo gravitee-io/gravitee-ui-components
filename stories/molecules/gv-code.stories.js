@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import '../../src/molecules/gv-code';
-import { makeStory } from '../lib/make-story';
+import { makeStory, storyWait } from '../lib/make-story';
 
 export default {
   title: 'Molecules/gv-code',
@@ -25,9 +25,16 @@ const conf = {
   component: 'gv-code',
 };
 
+const jsonSrc = `{
+  "id": "foobar",
+  "data": []
+}`;
+
+export const Json = makeStory(conf, {
+  items: [{ value: jsonSrc, placeholder: 'Put the body content here' }],
+});
+
 const shellOptions = {
-  lineWrapping: true,
-  lineNumbers: true,
   mode: 'shell',
 };
 
@@ -37,7 +44,7 @@ const shell = `curl -X POST "https://api-market-place.ai.ovh.net/sound-spleeter/
      -d '{"url": "https://github.com/deezer/spleeter/raw/master/audio_example.mp3", "nb_stems": 5}'
      -o splitted_output.zip`;
 
-export const ReadonlyShell = makeStory(conf, {
+export const ReadonlyClipboard = makeStory(conf, {
   items: [
     {
       value: shell,
@@ -52,22 +59,26 @@ export const ReadonlyShell = makeStory(conf, {
 const html = `<span>A simple example of the live sample system in action.</span><div><div>Hello world! Welcome to Gravitee</div></div>`;
 
 const htmlOptions = {
-  lineWrapping: true,
-  lineNumbers: true,
-  mode: 'htmlmixed',
+  mode: 'HTML',
 };
 
 export const HTML = makeStory(conf, {
-  items: [{ value: html, options: htmlOptions }],
+  items: [{ value: html, options: htmlOptions, required: true }],
 });
 
-const htmlOptionsSingleLine = {
-  lineWrapping: true,
-  mode: 'htmlmixed',
-};
+const items = [
+  { options: htmlOptions, rows: 1, small: true, label: 'Small' },
+  { options: htmlOptions, rows: 1, label: 'Medium' },
+  { options: htmlOptions, rows: 1, large: true, label: 'Large' },
+];
 
-export const HTMLSingleLine = makeStory(conf, {
-  items: [{ value: html, options: htmlOptionsSingleLine, rows: 1 }],
+export const Input = makeStory(conf, {
+  items: [
+    ...items.map((p) => ({ ...p, value: html })),
+    ...items.map((p) => ({ ...p, required: true, description: 'Required' })),
+    ...items.map((p) => ({ ...p, disabled: true, value: html, description: 'Disabled' })),
+    ...items.map((p) => ({ ...p, clipboard: true, value: html, description: 'Clipboard' })),
+  ],
 });
 
 const python = `@requires_authorization
@@ -84,8 +95,6 @@ class SomeClass:
 ... prompt'''`;
 
 const pythonOptions = {
-  lineWrapping: true,
-  lineNumbers: true,
   mode: 'python',
 };
 
@@ -99,38 +108,20 @@ const xmlSrc = `<?xml version="1.0" encoding="UTF-8"?>
 </foo>`;
 
 const xmlOptions = {
-  placeholder: 'Put the body content here',
-  lineNumbers: true,
-  allowDropFileTypes: true,
-  autoCloseTags: true,
-  matchTags: true,
   mode: 'xml',
 };
 
 export const EmptyXml = makeStory(conf, {
-  items: [{ options: xmlOptions }],
+  items: [{ placeholder: 'Put the body content here', options: xmlOptions }],
+  simulations: [
+    storyWait(2000, ([component]) => {
+      component.placeholder = 'Put the XML content here';
+    }),
+  ],
 });
 
 export const Xml = makeStory(conf, {
   items: [{ value: xmlSrc, options: xmlOptions }],
-});
-
-const applicationJsonSrc = `{
-  "id": "foobar",
-  "data": []
-}`;
-
-const applicationJsonOptions = {
-  placeholder: 'Put the body content here',
-  lineNumbers: true,
-  allowDropFileTypes: true,
-  autoCloseBrackets: true,
-  matchBrackets: true,
-  mode: 'application/json',
-};
-
-export const applicationJson = makeStory(conf, {
-  items: [{ value: applicationJsonSrc, options: applicationJsonOptions }],
 });
 
 const jsSrc = `const transform => (items = []) {
@@ -139,34 +130,11 @@ const jsSrc = `const transform => (items = []) {
 `;
 
 const jsOptions = {
-  placeholder: 'Put the body content here',
-  lineNumbers: true,
-  allowDropFileTypes: true,
-  autoCloseBrackets: true,
-  matchBrackets: true,
   mode: 'javascript',
 };
 
 export const Javascript = makeStory(conf, {
-  items: [{ value: jsSrc, options: jsOptions }],
-});
-
-const jsonSrc = `{
-  "id": "foobar",
-  "data": []
-}`;
-
-const jsonOptions = {
-  placeholder: 'Put the body content here',
-  lineNumbers: true,
-  allowDropFileTypes: true,
-  autoCloseBrackets: true,
-  matchBrackets: true,
-  mode: 'json',
-};
-
-export const Json = makeStory(conf, {
-  items: [{ value: jsonSrc, options: jsonOptions }],
+  items: [{ value: jsSrc, placeholder: 'Put the body content here', options: jsOptions }],
 });
 
 const groovySrc = `println 'Hello'
@@ -177,19 +145,14 @@ println "2^6==\${power(6)}"
 `;
 
 const groovyOptions = {
-  placeholder: 'Put the body content here',
-  lineNumbers: true,
-  allowDropFileTypes: true,
-  autoCloseBrackets: true,
-  matchBrackets: true,
   mode: 'groovy',
 };
 
 export const Groovy = makeStory(conf, {
-  items: [{ value: groovySrc, options: groovyOptions }],
+  items: [{ value: groovySrc, placeholder: 'Put the body content here', options: groovyOptions }],
 });
 
-const gmfSrc = `GitHub Flavored Markdown
+const markdownSrc = `GitHub Flavored Markdown
 ========================
 
 Everything from markdown plus GFM features:
@@ -239,44 +202,15 @@ See http://github.github.com/github-flavored-markdown/.
 * emoji: :smile:
 `;
 
-const gmfOptions = {
-  placeholder: 'Put the body content here',
-  lineNumbers: true,
-  allowDropFileTypes: true,
-  mode: 'gfm',
+const markdownOptions = {
+  mode: 'markdown',
 };
 
-export const Gmf = makeStory(conf, {
-  items: [{ value: gmfSrc, options: gmfOptions }],
-});
-
-const textSrc = 'Simple text';
-
-const textOptions = {
-  placeholder: 'Put the body content here',
-  lineNumbers: true,
-  allowDropFileTypes: true,
-  mode: 'text',
-};
-
-export const Text = makeStory(conf, {
-  items: [{ value: textSrc, options: textOptions }],
-});
-
-const inputOptions = {
-  placeholder: 'Put the body content here',
-  mode: 'text',
-};
-
-const inputSrc =
-  "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
-
-export const Input = makeStory(conf, {
-  items: [{ value: inputSrc, options: inputOptions, rows: 1 }],
+export const markdown = makeStory(conf, {
+  items: [{ value: markdownSrc, placeholder: 'Put the body content here', options: markdownOptions }],
 });
 
 const asciiDocOptions = {
-  placeholder: 'Put the body content here',
   mode: 'asciidoc',
 };
 
@@ -372,5 +306,5 @@ This is a link to the https://docs.asciidoctor.org/home/[Asciidoctor documentati
 This is an attribute reference {url-quickref}[that links this text to the AsciiDoc Syntax Quick Reference].`;
 
 export const AsciiDoc = makeStory(conf, {
-  items: [{ value: asciiDocSrc, options: asciiDocOptions }],
+  items: [{ value: asciiDocSrc, placeholder: 'Put the body content here', options: asciiDocOptions }],
 });

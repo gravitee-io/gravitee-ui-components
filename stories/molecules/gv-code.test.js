@@ -17,6 +17,7 @@ import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
 import { Page, querySelector } from '../lib/test-utils';
 import '../../src/molecules/gv-code';
 import { shapeClipboard } from '../../src/styles/shapes';
+import { GvCode } from '../../src';
 
 describe('<gv-code>', () => {
   let page;
@@ -26,10 +27,6 @@ describe('<gv-code>', () => {
     page = new Page();
     page.create('gv-code', {
       value: DEFAULT_VALUE,
-      options: {
-        lineNumbers: true,
-        mode: 'shell',
-      },
     });
   });
 
@@ -37,13 +34,12 @@ describe('<gv-code>', () => {
     page.clear();
   });
 
-  test('should create element', () => {
+  test('should create element', async () => {
     expect(window.customElements.get('gv-code')).toBeDefined();
     const component = querySelector('gv-code');
+    await component.updateComplete;
     expect(component).toBeDefined();
     expect(component.value).toEqual(DEFAULT_VALUE);
-    expect(component.options.lineNumbers).toEqual(true);
-    expect(component.options.mode).toEqual('shell');
     expect(component.readonly).toEqual(false);
     expect(component.autofocus).toEqual(false);
     expect(component.clipboard).toEqual(false);
@@ -51,24 +47,64 @@ describe('<gv-code>', () => {
     expect(component._id).toMatch(/^gv-code-[a-z0-9-]{36}$/gm);
   });
 
-  test('should have initialize textArea', () => {
+  test('should have initialize edit area', () => {
     const component = querySelector('gv-code');
-    const textArea = component.shadowRoot.querySelector(`#${component._id}`);
-    expect(textArea).toBeDefined();
-    expect(textArea.innerHTML).toEqual(`<!---->${DEFAULT_VALUE}<!---->`);
+    const editArea = component.shadowRoot.querySelector(`#${component._id}`);
+    expect(editArea).toBeDefined();
   });
 
-  test('should convert "json" mode to "javascript" mode for CodeMirror compatibility', () => {
+  test('should update state when update value', async () => {
     const component = querySelector('gv-code');
-    // default
-    expect(component._getProcessedOptions().mode).toEqual('shell');
+    expect(component._editorState).toBeDefined();
+    expect(component._editorState.doc.text[0]).toEqual(DEFAULT_VALUE);
+    component.value = '{#';
+    await component.updateComplete;
+    expect(component._editorState.doc.text[0]).toEqual('{#');
+  });
 
-    // with json
-    component.options.mode = 'json';
-    expect(component._getProcessedOptions().mode).toEqual({ name: 'javascript', json: true });
+  test('should find required languages by type or by content-type', async () => {
+    let jsonLang = await GvCode.findLanguage('json');
+    expect(jsonLang).toBeDefined();
+    expect(jsonLang.name).toEqual('JSON');
+    jsonLang = await GvCode.findLanguage('application/json');
+    expect(jsonLang).toBeDefined();
+    expect(jsonLang.name).toEqual('JSON');
 
-    // with application/json
-    component.options.mode = 'application/json';
-    expect(component._getProcessedOptions().mode).toEqual({ name: 'javascript', json: true });
+    let xmlLang = await GvCode.findLanguage('xml');
+    expect(xmlLang).toBeDefined();
+    expect(xmlLang.name).toEqual('XML');
+    xmlLang = await GvCode.findLanguage('application/xml');
+    expect(xmlLang).toBeDefined();
+    expect(xmlLang.name).toEqual('XML');
+
+    let htmlLang = await GvCode.findLanguage('html');
+    expect(htmlLang).toBeDefined();
+    expect(htmlLang.name).toEqual('HTML');
+    htmlLang = await GvCode.findLanguage('text/html');
+    expect(htmlLang).toBeDefined();
+    expect(htmlLang.name).toEqual('HTML');
+
+    let javascriptLang = await GvCode.findLanguage('javascript');
+    expect(javascriptLang).toBeDefined();
+    expect(javascriptLang.name).toEqual('JavaScript');
+    javascriptLang = await GvCode.findLanguage('application/javascript');
+    expect(javascriptLang).toBeDefined();
+    expect(javascriptLang.name).toEqual('JavaScript');
+
+    const groovyLang = await GvCode.findLanguage('groovy');
+    expect(groovyLang).toBeDefined();
+    expect(groovyLang.name).toEqual('Groovy');
+
+    const markdownLang = await GvCode.findLanguage('markdown');
+    expect(markdownLang).toBeDefined();
+    expect(markdownLang.name).toEqual('Markdown');
+
+    const shellLang = await GvCode.findLanguage('shell');
+    expect(shellLang).toBeDefined();
+    expect(shellLang.name).toEqual('Shell');
+
+    const asciidocLang = await GvCode.findLanguage('asciidoc');
+    expect(asciidocLang).toBeDefined();
+    expect(asciidocLang.name).toEqual('asciidoc');
   });
 });
