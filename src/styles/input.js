@@ -122,6 +122,7 @@ export const input = css`
   ::slotted(.input),
   .input {
     border: var(--gv-input--bdw, 1px) var(--gv-input--bds, solid) var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
+    transition: border 10ms ease-in-out;
     box-sizing: border-box;
     border-radius: 4px;
     font-style: normal;
@@ -232,6 +233,7 @@ export const input = css`
   }
 
   :host([disabled]) input,
+  :host([disabled]) .input,
   :host([disabled]) ::slotted(input) {
     cursor: default;
     opacity: 0.5;
