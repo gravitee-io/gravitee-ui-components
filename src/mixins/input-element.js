@@ -52,13 +52,16 @@ export function InputElement(ParentClass) {
           :host([invalid]) :not(.clipboard) ::slotted(.input),
           :host([invalid]) :not(.clipboard) .box-icon-left,
           :host([invalid]) :not(.clipboard) textarea,
-          :host([invalid]) :not(.clipboard) select {
+          :host([invalid]) :not(.clipboard) select,
+          :host([invalid]) :not(.clipboard) .input {
             box-shadow: inset 3px 0 0 var(--gv-input-invalid--bxshc, var(--gv-theme-color-error, #da1a1b));
           }
 
           :host([readonly]) :not(.clipboard) input,
           :host([readonly]) :not(.clipboard) ::slotted(.input),
-          :host([readonly]) .textarea :host([readonly]) :not(.clipboard) select {
+          :host([readonly]) .textarea,
+          :host([readonly]) :not(.clipboard) select,
+          :host([readonly]) .input {
             border-left: 1px solid var(--gv-input--bdc, var(--gv-theme-neutral-color-dark, #d9d9d9));
           }
 
@@ -86,7 +89,7 @@ export function InputElement(ParentClass) {
 
     setValidity(isInvalid = false, violation = '') {
       const element = this.getInputElement();
-      if (element) {
+      if (element && element.setCustomValidity) {
         if (isInvalid) {
           if (violation == null || violation.trim() === '') {
             violation = 'field is not valid';

@@ -111,8 +111,12 @@ export class GvInput extends InputElement(LitElement) {
           --gv-icon--s: 22px;
         }
 
-        .box-icon.copied gv-icon {
-          --gv-icon--c: #339900;
+        .copied {
+          --gv-input--bdc: var(--gv-theme-color-success-light, #81c784);
+        }
+
+        .copied .box-icon gv-icon {
+          --gv-icon--c: var(--gv-theme-color-success-dark, #388e3c);
         }
 
         div.box-icon gv-icon.loading,
@@ -272,19 +276,7 @@ export class GvInput extends InputElement(LitElement) {
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
 
-    const defaultInputElement = this.getInputElement();
-    for (const node of this.childNodes) {
-      if (node.nodeType === 1) {
-        const child = node.nodeName.toLowerCase() === 'input' ? node : node.querySelector('input');
-        if (child) {
-          this._input = child;
-          break;
-        }
-      }
-    }
-    if (this._input) {
-      defaultInputElement.remove();
-    }
+    this.catchSlot();
 
     if (this.clipboard) {
       import('clipboard-copy').then(
@@ -304,13 +296,6 @@ export class GvInput extends InputElement(LitElement) {
 
       setTimeout(() => {
         const clipboardPopover = this.shadowRoot.querySelector('.clipboard__popover');
-        if (this.readonly) {
-          this.getInputElement().addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            clipboardPopover.click();
-          });
-        }
         clipboardPopover.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -325,9 +310,30 @@ export class GvInput extends InputElement(LitElement) {
     }
 
     this.getInputElement().id = this._id;
+
+    this.bindInputEvents();
+  }
+
+  bindInputEvents() {
     this.getInputElement().addEventListener('input', this._onInput.bind(this));
     this.getInputElement().addEventListener('keyup', this._onKeyUp.bind(this));
     this.getInputElement().addEventListener('keypress', this._onKeyPress.bind(this));
+  }
+
+  catchSlot() {
+    const defaultInputElement = this.getInputElement();
+    for (const node of this.childNodes) {
+      if (node.nodeType === 1) {
+        const child = node.nodeName.toLowerCase() === 'input' ? node : node.querySelector('input');
+        if (child) {
+          this._input = child;
+          break;
+        }
+      }
+    }
+    if (this._input) {
+      defaultInputElement.remove();
+    }
   }
 
   updateState(value) {
@@ -481,7 +487,7 @@ export class GvInput extends InputElement(LitElement) {
     return !this.loading;
   }
 
-  _renderIcon() {
+  renderIcon() {
     let shape = null;
     if ((!this.isPassword && this.icon) || this.iconLeft) {
       shape = (!this.isPassword && this.icon) || this.iconLeft;
@@ -495,7 +501,6 @@ export class GvInput extends InputElement(LitElement) {
         'box-icon': true,
         'box-icon-left': this.iconLeft != null || this.clearable,
         'box-icon-bgc': this.hasBackground,
-        copied: this.hasClipboard && this._copied,
       };
 
       const iconClasses = {
@@ -538,6 +543,7 @@ export class GvInput extends InputElement(LitElement) {
       'icon-left': !!this.iconLeft || (!!this.icon && this.clearable),
       clipboard: this.hasClipboard,
       required: this.required,
+      copied: this.hasClipboard && this._copied,
     };
 
     return html`
@@ -545,7 +551,7 @@ export class GvInput extends InputElement(LitElement) {
         ${this.renderLabel()}
         <input />
         <slot></slot>
-        ${this._renderClearIcon()} ${this._renderIcon()} ${this._renderPasswordIcon()}
+        ${this._renderClearIcon()} ${this.renderIcon()} ${this._renderPasswordIcon()}
       </div>
       ${this.description != null ? html`<div class="description" .innerHTML="${this.description}"></div>` : ''}
     `;
