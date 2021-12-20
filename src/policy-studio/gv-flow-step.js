@@ -207,6 +207,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
     } else if (!this.empty) {
       const name = this.step ? this.step.name : '';
       const description = this.step && this.step.description ? this.step.description : '';
+      const hasConditionalSteps = this.step && !!this.step.condition;
       const icon = this.step ? this.policy && this.policy.icon : null;
       const enabled = this.step && this.step.enabled !== false;
       const notFound = this.policy == null;
@@ -230,7 +231,11 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
       >
         ${this._renderDropdownMenu()}
         <div class="content">
-          ${icon ? html`<gv-image src="${icon}"></gv-image>` : html``}
+          <div class="content-icon">
+            ${hasConditionalSteps ? html`<gv-icon class="content-icon-conditional" shape="design:conditional"></gv-icon>` : html``}
+            ${icon ? html`<gv-image src="${icon}"></gv-image>` : html``}
+          </div>
+
           ${icon == null && notFound ? html`<gv-icon class="not-found__icon" shape="finance:folder-error"></gv-icon>` : ''}
           <div>
             <div class="name">${name}</div>
@@ -304,6 +309,12 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
         :host([w-lt-200]) .drop-area:hover gv-image {
           opacity: 1;
+        }
+
+        :host([w-lt-200]) .content-icon {
+          position: absolute;
+          width: 100%;
+          height: 100%;
         }
 
         :host([w-lt-100]) .description {
@@ -395,10 +406,20 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
           width: 100%;
         }
 
-        gv-image {
-          height: 90px;
-          width: 100px;
+        .content-icon {
+          flex: 0 1 0%;
+          display: flex;
           margin: 0.2rem;
+        }
+        .content-icon-conditional {
+          position: absolute;
+          z-index: 10;
+          margin: 0.2rem;
+        }
+
+        gv-image {
+          height: 80px;
+          width: 80px;
         }
 
         .not-found__icon {
