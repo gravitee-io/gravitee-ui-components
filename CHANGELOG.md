@@ -1,3 +1,12 @@
+## [3.24.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.4...v3.24.5) (2021-12-20)
+
+
+### Bug Fixes
+
+* **gv-expression-language:** resolve grammar completion ([01c4728](https://github.com/gravitee-io/gravitee-ui-components/commit/01c4728b3a09b68443d1f6f4d168ff41e98690d1))
+* **gv-policy-studio:** remove conflicting behavior with the ESC key ([6f6ccbf](https://github.com/gravitee-io/gravitee-ui-components/commit/6f6ccbf85621a3237ef437dcc60f21cee99b0f7b))
+* **input:** report validation problems to the user ([fa55646](https://github.com/gravitee-io/gravitee-ui-components/commit/fa55646e86966e24b7ab67e7949080e2b1afd6d2))
+
 ## [3.24.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.3...v3.24.4) (2021-12-16)
 
 
