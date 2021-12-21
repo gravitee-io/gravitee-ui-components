@@ -1,3 +1,10 @@
+## [3.25.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.0...v3.25.1) (2021-12-21)
+
+
+### Bug Fixes
+
+* use lit instead lit-html to import classMap ([80bd439](https://github.com/gravitee-io/gravitee-ui-components/commit/80bd43915e53213d69e09175ce27a2875b4af68c))
+
 # [3.25.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.5...v3.25.0) (2021-12-21)
 
 
