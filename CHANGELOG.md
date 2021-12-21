@@ -1,3 +1,13 @@
+# [3.25.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.5...v3.25.0) (2021-12-21)
+
+
+### Features
+
+* add conditional step management ([be0af4c](https://github.com/gravitee-io/gravitee-ui-components/commit/be0af4ce77077642f695a9fae8aa1951de72612c))
+* add conditional top left icon inside flow step ([48aacff](https://github.com/gravitee-io/gravitee-ui-components/commit/48aacffb374f60429a8a02256b1c944a37afe65f))
+* add groups option for schema forms ([ef78a40](https://github.com/gravitee-io/gravitee-ui-components/commit/ef78a4093ab42dfe0f67f3580595273bf2a32813))
+* separate description of the other policy settings ([be9160c](https://github.com/gravitee-io/gravitee-ui-components/commit/be9160c73182f4c25ea048eb39826b1ffe9cde44))
+
 ## [3.24.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.24.4...v3.24.5) (2021-12-20)
 
 
