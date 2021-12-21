@@ -17,7 +17,7 @@ import { css, html, LitElement } from 'lit';
 import { dispatchCustomEvent } from '../lib/events';
 import { toDom } from '../lib/text-format';
 import { empty } from '../styles/empty';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit/directives/class-map';
 
 /**
  *  Documentation component
