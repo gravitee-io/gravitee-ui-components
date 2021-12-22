@@ -1,3 +1,10 @@
+## [3.25.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.1...v3.25.2) (2021-12-22)
+
+
+### Bug Fixes
+
+* init additionalProperties with an empty object to allow them ([6245972](https://github.com/gravitee-io/gravitee-ui-components/commit/62459723f03c4a612ab24120dd1d264f68f11a59)), closes [a32fa3dd4f315f7ce1/lib/attribute.js#L303](https://github.com/a32fa3dd4f315f7ce1/lib/attribute.js/issues/L303)
+
 ## [3.25.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.0...v3.25.1) (2021-12-21)
 
 
