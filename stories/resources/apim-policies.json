@@ -13,12 +13,6 @@
         "type": "object",
         "id": "urn:jsonschema:io:gravitee:policy:apikey:configuration:ApiKeyPolicyConfiguration",
         "properties": {
-          "description": {
-            "type": "string",
-            "default": false,
-            "title": "Description",
-            "description": ""
-          },
           "propagateApiKey": {
             "title": "Propagate API Key to upstream API",
             "type": "boolean"
@@ -587,12 +581,6 @@
         "type": "object",
         "id": "urn:jsonschema:io:gravitee:policy:ratelimit:configuration:RateLimitPolicyConfiguration",
         "properties": {
-          "description": {
-            "type": "string",
-            "default": false,
-            "title": "Description",
-            "description": ""
-          },
           "async": {
             "type": "boolean",
             "default": false,
@@ -696,12 +684,6 @@
         "type": "object",
         "id": "urn:jsonschema:io:gravitee:policy:transformheaders:configuration:TransformHeadersPolicyConfiguration",
         "properties": {
-          "description": {
-            "type": "string",
-            "default": false,
-            "title": "Description",
-            "description": ""
-          },
           "removeHeaders": {
             "type": "array",
             "title": "Remove headers",
