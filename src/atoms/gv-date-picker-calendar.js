@@ -90,8 +90,6 @@ export class GvDatePickerCalendar extends LitElement {
       _second: { type: Number, attribute: false },
       _monthsList: { type: Array, attribute: false },
       _locale: { type: Object, attribute: false },
-      _from: { type: Number, attribute: false },
-      _to: { type: Number, attribute: false },
     };
   }
 
@@ -261,20 +259,17 @@ export class GvDatePickerCalendar extends LitElement {
     this._seconds = this.computeArrayOfTime(60);
   }
 
-  set dateFrom(value) {
-    this._from = value;
-    if (this.time && this._from) {
-      const date = new Date(this._from * 1000);
-      this._hour = format(date, 'HH');
-      this._minute = format(date, 'mm');
-      if (this.isStrictTime()) {
-        this._second = format(date, 'ss');
+  willUpdate(changedProperties) {
+    if (changedProperties.has('dateFrom')) {
+      if (this.time && this.dateFrom) {
+        const date = new Date(this.dateFrom * 1000);
+        this._hour = format(date, 'HH');
+        this._minute = format(date, 'mm');
+        if (this.isStrictTime()) {
+          this._second = format(date, 'ss');
+        }
       }
     }
-  }
-
-  set dateTo(value) {
-    this._to = value;
   }
 
   computeArrayOfTime(size) {
@@ -339,8 +334,8 @@ export class GvDatePickerCalendar extends LitElement {
                     .max="${this.monthMode || this.yearMode ? null : this.max}"
                     .month="${this.month}"
                     .hoveredDate="${this.hoveredDate}"
-                    .dateTo="${this._to}"
-                    .dateFrom="${this._from}"
+                    .dateTo="${this.dateTo}"
+                    .dateFrom="${this.dateFrom}"
                     .data="${data}"
                     .time="${this.time}"
                     ?isCurrent="${this.isCurrentDate(data)}"
@@ -449,8 +444,8 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   isMinutesDisabled(value) {
-    if (this._from && this._hour != null) {
-      const selectedDate = new Date(this._from * 1000);
+    if (this.dateFrom && this._hour != null) {
+      const selectedDate = new Date(this.dateFrom * 1000);
       selectedDate.setHours(parseInt(this._hour, 10), parseInt(value, 10), 0, 0);
       if (this.min) {
         const minDate = new Date(this.min * 1000);
@@ -470,8 +465,8 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   isSecondsDisabled(value) {
-    if (this._from && this._hour != null) {
-      const selectedDate = new Date(this._from * 1000);
+    if (this.dateFrom && this._hour != null) {
+      const selectedDate = new Date(this.dateFrom * 1000);
       selectedDate.setHours(parseInt(this._hour, 10), parseInt(value, 10), 0, 0);
       if (this.min) {
         const minDate = new Date(this.min * 1000);
@@ -491,8 +486,8 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   isHoursDisabled(value) {
-    if (this._from) {
-      const selectedDate = new Date(this._from * 1000);
+    if (this.dateFrom) {
+      const selectedDate = new Date(this.dateFrom * 1000);
       selectedDate.setHours(parseInt(value, 10));
       if (this.min) {
         const minDate = new Date(this.min * 1000);
@@ -719,10 +714,10 @@ export class GvDatePickerCalendar extends LitElement {
 
   _onSelectMonth() {
     if (this.monthMode) {
-      this._from = this._dateFrom;
+      this.dateFrom = this._dateFrom;
     } else {
-      this._dateFrom = this._from;
-      this._from = null;
+      this._dateFrom = this.dateFrom;
+      this.dateFrom = null;
     }
     this.yearMode = false;
     this.monthMode = !this.monthMode;
@@ -732,10 +727,10 @@ export class GvDatePickerCalendar extends LitElement {
 
   _onSelectYear() {
     if (this.yearMode) {
-      this._from = this._dateFrom;
+      this.dateFrom = this._dateFrom;
     } else {
-      this._dateFrom = this._from;
-      this._from = null;
+      this._dateFrom = this.dateFrom;
+      this.dateFrom = null;
     }
     this.monthMode = false;
     this.yearMode = !this.yearMode;
@@ -744,10 +739,10 @@ export class GvDatePickerCalendar extends LitElement {
   }
 
   get datetimeSelected() {
-    if (this.isStrictTime() && this._from == null) {
-      this._from = new Date().valueOf() / 1000;
+    if (this.isStrictTime() && this.dateFrom == null) {
+      this.dateFrom = new Date().valueOf() / 1000;
     }
-    let selectedDate = new Date(this._from * 1000);
+    let selectedDate = new Date(this.dateFrom * 1000);
     selectedDate = setHours(selectedDate, parseInt(this._hour ? this._hour : 0, 10));
     selectedDate = setMinutes(selectedDate, parseInt(this._minute ? this._minute : 0, 10));
     return selectedDate.getTime() / 1000;
@@ -763,7 +758,7 @@ export class GvDatePickerCalendar extends LitElement {
     if (!this.isStrictTime()) {
       now.setSeconds(0, 0);
     }
-    this._from = now.getTime() / 1000;
+    this.dateFrom = now.getTime() / 1000;
     this.month = format(now, 'MM');
     this.year = format(now, 'yyyy');
     this._hour = format(now, 'HH');
@@ -771,7 +766,7 @@ export class GvDatePickerCalendar extends LitElement {
     if (this.isStrictTime()) {
       this._second = format(now, 'mm');
     }
-    this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this._from } }));
+    this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.dateFrom } }));
   }
 
   get disableValidation() {
@@ -792,36 +787,36 @@ export class GvDatePickerCalendar extends LitElement {
     if (this.yearMode) {
       this.yearMode = false;
       this.monthMode = true;
-      this._from = this._dateFrom;
+      this.dateFrom = this._dateFrom;
       const selectedDate = new Date(date * 1000);
       this.year = format(selectedDate, 'yyyy');
       dispatchCustomEvent(this, 'year-changed', { year: this.year });
     } else if (this.monthMode) {
       this.monthMode = false;
-      this._from = this._dateFrom;
+      this.dateFrom = this._dateFrom;
       const selectedDate = new Date(date * 1000);
       this.month = format(selectedDate, 'MM');
       this.year = format(selectedDate, 'yyyy');
       dispatchCustomEvent(this, 'month-changed', { month: this.month, year: this.year });
     } else if (this.time) {
-      this._from = date;
+      this.dateFrom = date;
       this._updateTime();
     } else if (this.range) {
-      if (this._from && this._to) {
-        this._from = date;
-        this._to = null;
+      if (this.dateFrom && this.dateTo) {
+        this.dateFrom = date;
+        this.dateTo = null;
         this.hoveredDate = undefined;
         this.dispatchEvent(new CustomEvent('hovered-date-changed', { detail: { value: this.hoveredDate } }));
-      } else if (!this._from || (this._from && date < this._from)) {
-        this._from = date;
-      } else if (!this._to || (this._to && date > this._to)) {
-        this._to = date;
+      } else if (!this.dateFrom || (this.dateFrom && date < this.dateFrom)) {
+        this.dateFrom = date;
+      } else if (!this.dateTo || (this.dateTo && date > this.dateTo)) {
+        this.dateTo = date;
       }
-      this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this._from } }));
-      this.dispatchEvent(new CustomEvent('date-to-changed', { detail: { value: this._to } }));
+      this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.dateFrom } }));
+      this.dispatchEvent(new CustomEvent('date-to-changed', { detail: { value: this.dateTo } }));
     } else {
-      this._from = date;
-      this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this._from } }));
+      this.dateFrom = date;
+      this.dispatchEvent(new CustomEvent('date-from-changed', { detail: { value: this.dateFrom } }));
     }
   }
 
