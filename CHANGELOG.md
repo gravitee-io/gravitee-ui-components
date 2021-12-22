@@ -1,3 +1,11 @@
+## [3.25.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.2...v3.25.3) (2021-12-22)
+
+
+### Bug Fixes
+
+* keep conditional value when policy is moved ([67f1513](https://github.com/gravitee-io/gravitee-ui-components/commit/67f1513c314f6962f9e10b1bca211aa842b2cf1e))
+* prefix description and condition with `common` ([6225123](https://github.com/gravitee-io/gravitee-ui-components/commit/6225123364a75e6fc878967d41bc9144a9f2d145))
+
 ## [3.25.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.1...v3.25.2) (2021-12-22)
 
 
