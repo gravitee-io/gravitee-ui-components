@@ -522,6 +522,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
 
       let name = policy.name;
       let description = '';
+      let condition = '';
       let configuration = {};
       let _id;
       let _new = false;
@@ -529,13 +530,14 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         _id = detail.flowStep._id;
         name = detail.flowStep.name;
         description = detail.flowStep.description || '';
+        condition = detail.flowStep.condition || '';
         configuration = detail.flowStep.configuration;
       } else {
         _id = this._generateFlowStepId(targetFlow._id, detail.flowKey, detail.position);
         _new = true;
       }
 
-      const flowStep = { _id, _new, name, policy: policy.id, description, enabled: true, configuration };
+      const flowStep = { _id, _new, name, policy: policy.id, description, condition, enabled: true, configuration };
       const sourceFlow = detail.sourceFlowId != null ? this._findFlowById(detail.sourceFlowId) : targetFlow;
 
       if (detail.sourcePosition != null) {
