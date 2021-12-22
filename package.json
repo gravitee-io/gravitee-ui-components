@@ -9,6 +9,7 @@
   "license": "Apache-2.0",
   "author": "",
   "main": "src/index.js",
+  "types": "src/index.d.ts",
   "files": [
     "assets/css",
     "assets/i18n",
