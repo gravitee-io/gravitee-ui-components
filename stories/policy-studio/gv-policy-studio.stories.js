@@ -27,6 +27,7 @@ import apimConfiguration from '../resources/schemas/apim-configuration.json';
 import apimPropertyProviders from '../resources/apim-property-providers.json';
 import amForm from '../resources/schemas/am.json';
 import icon from '../resources/images/policy.svg';
+import { deepClone } from '../../src/lib/utils';
 
 export default {
   title: 'Policy Studio/gv-policy-studio',
@@ -236,16 +237,19 @@ export const APIMWithoutPlans = makeStory(conf, {
   ],
 });
 
+const apimDefinitionWithConditional = deepClone(apimDefinition);
+apimDefinitionWithConditional.flows[0].pre[0].condition = "#method == 'POST'";
 export const APIMWithoutPlansAndConditionalPolicies = makeStory(conf, {
   items: [
     {
       policies: apimPolicies.data.map((policy) => {
         policy.icon = icon;
+
         return policy;
       }),
       resourceTypes: apimResourceTypes.data,
       propertyProviders: apimPropertyProviders.data,
-      definition: { ...apimDefinition, plans: [] },
+      definition: { ...apimDefinitionWithConditional, plans: [] },
       flowSchema: apimFlow,
       configurationSchema: apimConfiguration,
       configurationInformation:

@@ -356,8 +356,8 @@ describe('P O L I C Y  S T U D I O', () => {
         ['simple description', 'http://localhost:8080', 'PUT'],
       ];
 
-      for (const [description, url, method] of cases) {
-        const values = { description, method, url };
+      for (const [commonDescription, url, method] of cases) {
+        const values = { commonDescription, method, url };
         await component._onSubmitFlowStep({ detail: { values } });
 
         expect(component.definition.flows.length).toEqual(1);
@@ -365,7 +365,7 @@ describe('P O L I C Y  S T U D I O', () => {
         expect([...component.definition.flows[0].pre]).toMatchObject([
           {
             ...step,
-            description,
+            description: commonDescription,
             configuration: { method, url },
           },
         ]);
