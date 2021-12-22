@@ -504,8 +504,9 @@ export class GvDatePicker extends LitElement {
 
   monthChanged(month, year) {
     if (year && month) {
-      const add = this.time && this.range ? 0 : 1;
-      const monthPlus = `0${(month % 12) + add}`;
+      const monthOrZeroIfDecember = month % 12;
+      const add = this.time && this.range && monthOrZeroIfDecember !== 0 ? 0 : 1;
+      const monthPlus = `0${monthOrZeroIfDecember + add}`;
       this._monthPlus = monthPlus.substring(monthPlus.length - 2);
       if (this._monthPlus === '01') {
         this._yearPlus = parseInt(year, 10) + add;
