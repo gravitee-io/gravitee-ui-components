@@ -15,8 +15,9 @@
  */
 import { classMap } from 'lit/directives/class-map';
 import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { dispatchCustomEvent } from '../lib/events';
-import '../atoms/gv-icon';
+import './gv-icon';
 
 /**
  * Message component
@@ -31,73 +32,69 @@ import '../atoms/gv-icon';
  * @attr {String} type - type of the message. Can be default, success, error, warning or info.
  * @attr {boolean} closable - determines if the message can be hidden.
  */
+@customElement('gv-message')
 export class GvMessage extends LitElement {
-  static get properties() {
-    return {
-      type: { type: String },
-      closable: { type: Boolean },
-      _close: { type: Boolean, attribute: false },
-    };
-  }
+  private _close = false;
 
-  static get styles() {
-    return [
-      // language=CSS
-      css`
-        :host {
-          display: block;
-          vertical-align: middle;
-        }
+  @property()
+  public closable = false;
 
-        .box {
-          display: flex;
-          align-items: center;
-          font-style: normal;
-          font-weight: normal;
-          line-height: normal;
-          padding: 12px 0px;
-          text-align: center;
-          width: 100%;
-        }
+  @property()
+  public type = '';
 
-        .info {
-          background-color: var(--gv-theme-color-info-light, #64b5f6);
-        }
+  static styles = css`
+    :host {
+      display: block;
+      vertical-align: middle;
+    }
 
-        .success {
-          background-color: var(--gv-theme-color-success-light, #81c784);
-        }
+    .box {
+      display: flex;
+      align-items: center;
+      font-style: normal;
+      font-weight: normal;
+      line-height: normal;
+      padding: 12px 0px;
+      text-align: center;
+      width: 100%;
+    }
 
-        .warning {
-          background-color: var(--gv-theme-color-warning-light, #ffb74d);
-        }
+    .info {
+      background-color: var(--gv-theme-color-info-light, #64b5f6);
+    }
 
-        .error {
-          background-color: var(--gv-theme-color-error-light, #e57373);
-        }
+    .success {
+      background-color: var(--gv-theme-color-success-light, #81c784);
+    }
 
-        .close {
-          transition: opacity 250ms ease-in-out;
-          opacity: 0;
-        }
+    .warning {
+      background-color: var(--gv-theme-color-warning-light, #ffb74d);
+    }
 
-        gv-icon {
-          --gv-icon--s: 24px;
-          margin-right: 12px;
-        }
+    .error {
+      background-color: var(--gv-theme-color-error-light, #e57373);
+    }
 
-        gv-icon:hover {
-          cursor: pointer;
-        }
-        .content {
-          flex: 1 1 auto;
-          margin-left: 12px;
-        }
-      `,
-    ];
-  }
+    .close {
+      transition: opacity 250ms ease-in-out;
+      opacity: 0;
+    }
 
-  _onClick() {
+    gv-icon {
+      --gv-icon--s: 24px;
+      margin-right: 12px;
+    }
+
+    gv-icon:hover {
+      cursor: pointer;
+    }
+    .content {
+      flex: 1 1 auto;
+      margin-left: 12px;
+    }
+  `;
+
+  private _onClick() {
     this._close = true;
     setTimeout(() => {
       dispatchCustomEvent(this, 'close');
@@ -124,5 +121,3 @@ export class GvMessage extends LitElement {
     `;
   }
 }
-
-window.customElements.define('gv-message', GvMessage);
