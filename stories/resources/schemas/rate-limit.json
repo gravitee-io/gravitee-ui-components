@@ -2,11 +2,6 @@
   "type": "object",
   "id": "urn:jsonschema:io:gravitee:policy:ratelimit:configuration:RateLimitPolicyConfiguration",
   "properties": {
-    "description": {
-      "type": "string",
-      "title": "Description",
-      "description": ""
-    },
     "async": {
       "type": "boolean",
       "default": false,
