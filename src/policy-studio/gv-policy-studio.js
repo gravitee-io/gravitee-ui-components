@@ -614,12 +614,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   buildSchema({ schema }) {
-    const description = {
+    const commonDescription = {
       title: 'Description',
       description: 'Description of flow step',
       type: 'string',
     };
-    const condition = {
+    const commonCondition = {
       title: 'Condition',
       description: 'Condition the execution of the flow step (support EL)',
       type: 'string',
@@ -629,10 +629,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     };
     if (schema) {
       const jsonSchema = typeof schema === 'string' ? JSON.parse(schema) : schema;
-      const properties = { description, ...(this.hasConditionalSteps ? { condition } : {}), ...jsonSchema.properties };
+      const properties = { commonDescription, ...(this.hasConditionalSteps ? { commonCondition } : {}), ...jsonSchema.properties };
       return { ...jsonSchema, properties };
     }
-    return { properties: { description, ...(this.hasConditionalSteps ? { condition } : {}) } };
+    return { properties: { commonDescription, ...(this.hasConditionalSteps ? { commonCondition } : {}) } };
   }
 
   async _editFlowStep({ step, flow, policy, group }) {
@@ -735,7 +735,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           : currentFlowStep.step.configuration;
       const step = { ...currentFlowStep.step, configuration };
 
-      const _initialValues = { ...step.configuration, description: step.description, condition: step.condition };
+      const _initialValues = { ...step.configuration, commonDescription: step.description, commonCondition: step.condition };
       this._currentFlowStep = { ...currentFlowStep, step, _initialValues };
 
       if (flowStepSchema && flowStepSchema.properties.scope) {
@@ -841,18 +841,18 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _writeFlowStep(values) {
-    const { description, condition, ...configuration } = values;
+    const { commonDescription, commonCondition, ...configuration } = values;
     if (
       this._currentFlowStep.step._new ||
-      this._currentFlowStep.step.description !== description ||
-      this._currentFlowStep.step.condition !== condition ||
+      this._currentFlowStep.step.description !== commonDescription ||
+      this._currentFlowStep.step.condition !== commonCondition ||
       !deepEqual(this._currentFlowStep.step.configuration, configuration)
     ) {
       const flow = this._findFlowById(this._currentFlowStep.flow._id);
       const position = flow[this._currentFlowStep.group].findIndex((step) => step._id === this._currentFlowStep.step._id);
 
-      flow[this._currentFlowStep.group][position].description = description;
-      flow[this._currentFlowStep.group][position].condition = condition;
+      flow[this._currentFlowStep.group][position].description = commonDescription;
+      flow[this._currentFlowStep.group][position].condition = commonCondition;
       flow[this._currentFlowStep.group][position].configuration = deepClone(configuration);
       delete flow[this._currentFlowStep.group][position]._new;
       flow[this._currentFlowStep.group][position]._dirty = true;
@@ -1098,7 +1098,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   _renderFlowStepForm(readonlyMode) {
     const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
 
-    const groups = [{ items: ['description', 'condition'] }, { name: i18n('gv-policy-studio.policy-settings'), default: true }];
+    const groups = [{ items: ['commonDescription', 'commonCondition'] }, { name: i18n('gv-policy-studio.policy-settings'), default: true }];
     return html`${cache(
       this._flowStepSchema && this._currentFlowStep
         ? html`<div class="flow-step__container">
