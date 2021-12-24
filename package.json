@@ -72,6 +72,7 @@
     "@babel/core": "7.16.5",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/preset-env": "7.16.5",
+    "@babel/preset-typescript": "^7.16.5",
     "@commitlint/cli": "16.0.0",
     "@commitlint/config-conventional": "16.0.0",
     "@highcharts/map-collection": "1.1.4",
