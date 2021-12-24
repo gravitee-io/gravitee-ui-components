@@ -90,9 +90,9 @@ jobs:
             - dist
             - storybook-static
 
-  chromatic:
+  chromatic-deployment:
     executor:
-      class: medium
+      class: small
       name: node-lts
     environment:
       CHROMATIC_PROJECT_TOKEN: 'secrethub://graviteeio/cicd/graviteebot/chromatic_project_token'
@@ -102,7 +102,43 @@ jobs:
           at: .
       - secrethub/exec:
           step-name: Running Chromatic
-          command: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static
+          command: |
+            SB_URL=$(npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static | grep -o "View your Storybook at https:\/\/[0-9a-z-]*\.chromatic\.com" | grep -o "https:.*")
+            if [ -z "$SB_URL" ]
+            then
+              echo "Something bad happened when running Chromatic"
+              exit 1
+            fi
+            echo "export SB_URL=$SB_URL" >> $BASH_ENV
+      - gh/setup
+      - run:
+          name: Edit Pull Request Description
+          command: |
+            # First check there is an associated pull request, otherwise just stop the job here
+            if ! gh pr view --json title;
+            then
+              echo "No PR found for this branch, stopping the job here."
+              exit 0
+            fi
+
+            # If PR state is different from OPEN
+            if [ "$(gh pr view --json state --jq .state)" != "OPEN" ];
+            then
+              echo "PR is not opened, stopping the job here."
+              exit 0
+            fi
+
+            export PR_BODY_STORYBOOK_SECTION="
+            <!-- Storybook placeholder -->
+            ---
+
+            📚&nbsp;&nbsp;View the storybook of this branch [here](${SB_URL})
+            <!-- Storybook placeholder end -->
+            "
+
+            export CLEAN_BODY=$(gh pr view --json body --jq .body | sed '/Storybook placeholder -->/,/Storybook placeholder end -->/d')
+
+            gh pr edit --body "$CLEAN_BODY$PR_BODY_STORYBOOK_SECTION"
 
   release:
     executor:
@@ -200,7 +236,11 @@ workflows:
           filters:
             branches:
               ignore: master
-      - chromatic:
+      - chromatic-deployment:
+          pre-steps:
+            - secrethub/env-export:
+                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+                var-name: GITHUB_TOKEN
           context: gravitee-qa
           requires:
             - build
