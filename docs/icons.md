@@ -26,7 +26,7 @@ import '@gravitee/ui-components/wc/gv-icon';
 ## How to add a new icon ?
 
 1. Add your SVG icon file into `.files/icons/{category}`
-2. run `npm run generate:icons`
+2. run `yarn generate:icons`
 3. Check the `gv-icons` story
 4. Commit all changes 
 
