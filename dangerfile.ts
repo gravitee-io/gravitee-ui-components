@@ -22,6 +22,6 @@ I just want to tell you that \`package.json\` has been updated in this PR.
 
 Some components are based on third party libraries, for integration into a web component, we extract the css from its libraries as assets.
 
-WARNING: When \`highlight.js\` or \`github-markdown-css\` are updated, we must run \`npm run build\` task to update the css.
+WARNING: When \`highlight.js\` or \`github-markdown-css\` are updated, we must run \`yarn build\` task to update the css.
 `);
 }

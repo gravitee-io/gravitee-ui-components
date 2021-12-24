@@ -4,6 +4,22 @@ orbs:
   secrethub: secrethub/cli@1.1.0
   gh: circleci/github-cli@2.0.0
 
+commands:
+  yarn-install:
+    description: Runs Yarn install
+    steps:
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - gio-ui-components-yarn-cache-v1-{{ checksum "yarn.lock" }}
+      - run:
+          name: 'Install Yarn dependencies'
+          command: yarn install
+      - save_cache:
+          paths:
+            - .yarn/cache
+          key: gio-ui-components-yarn-cache-v1-{{ checksum "yarn.lock" }}
+
 executors:
   node-lts:
     parameters:
@@ -23,18 +39,7 @@ jobs:
       name: node-lts
     steps:
       - checkout
-      - restore_cache:
-          name: Restore NPM cache
-          keys:
-            - npm-cache-v1-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install dependencies
-          command: npm install
-      - save_cache:
-          name: Save NPM cache
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
+      - yarn-install
       - persist_to_workspace:
           root: .
           paths:
@@ -50,16 +55,16 @@ jobs:
           at: .
       - run:
           name: Run CommitLint
-          command: npm run lint:commit
+          command: yarn lint:commit
       - run:
           name: Run License Checker
-          command: npm run lint:license
+          command: yarn lint:license
       - run:
           name: Run Prettier and ESLint
-          command: npm run lint
+          command: yarn lint
       - run:
           name: Run unit tests
-          command: npm run test:coverage -- --ci --runInBand
+          command: yarn test:coverage --ci --runInBand
 
   dangerjs:
     executor:
@@ -71,7 +76,7 @@ jobs:
           at: .
       - run:
           name: Run Danger JS
-          command: npm run danger
+          command: yarn danger
 
   build:
     executor:
@@ -83,7 +88,7 @@ jobs:
           at: .
       - run:
           name: Build
-          command: NODE_OPTIONS=--max_old_space_size=3072 npm run build
+          command: NODE_OPTIONS=--max_old_space_size=3072 yarn build
       - persist_to_workspace:
           root: .
           paths:
@@ -156,7 +161,7 @@ jobs:
           command: ssh-add -D && ssh-add ~/.ssh/id_rsa_ac88238fc60f7df0fcdf73203456026c
       - run:
           name: 🚀 Release the Kraken
-          command: npm run release
+          command: yarn release
 
   prerelease:
     executor:
@@ -190,6 +195,10 @@ jobs:
             To use it in your project run the following lines:
             \`\`\`shell
             npm install @gravitee/ui-components@${versionTag}
+            \`\`\`
+            or
+            \`\`\`shell
+            yarn add @gravitee/ui-components@${versionTag}
             \`\`\`
             "
 

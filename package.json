@@ -19,16 +19,16 @@
     "wc"
   ],
   "scripts": {
-    "build": "npm run docs && npm run check:i18n && npm run generate:theme && npm run generate:dist && build-storybook -s assets --modern --quiet",
+    "build": "yarn docs && yarn check:i18n && yarn generate:theme && yarn generate:dist && build-storybook -s assets --modern --quiet",
     "check:i18n": "node tasks/check-i18n.js",
     "danger": "danger ci",
     "docs": "wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
-    "generate:dist": "npm run tsc && cp -R assets dist/ && cp package.json dist/",
-    "generate:icons": "node tasks/generate-icons.js && npm run lint:fix",
-    "generate:theme": "node tasks/generate-theme.js && npm run lint:fix",
-    "lint": "eslint src stories tasks && npm run prettier",
+    "generate:dist": "yarn tsc && cp -R assets dist/ && cp package.json dist/",
+    "generate:icons": "node tasks/generate-icons.js && yarn lint:fix",
+    "generate:theme": "node tasks/generate-theme.js && yarn lint:fix",
+    "lint": "eslint src stories tasks && yarn prettier",
     "lint:commit": "commitlint --from $(git describe --tags --abbrev=0) --to HEAD --verbose",
-    "lint:fix": "eslint --fix src stories tasks && npm run prettier:fix",
+    "lint:fix": "eslint --fix src stories tasks && yarn prettier:fix",
     "lint:license": "license-check-and-add check -f license-check-config.json",
     "lint:license:fix": "license-check-and-add add -f license-check-config.json -r $(date +%Y)",
     "lint:package": "sort-package-json",
@@ -36,19 +36,19 @@
     "prettier": "prettier --check \"**/*.{js,html,css,json}\"",
     "prettier:fix": "prettier --write \"**/*.{js,html,css,json}\"",
     "release": "semantic-release",
-    "serve": "npm run docs && start-storybook -p 6006 --ci -s assets --modern",
-    "serve:prod": "npm run build && static -a 0.0.0.0 -p 8080 storybook-static --modern",
+    "serve": "yarn docs && start-storybook -p 6006 --ci -s assets --modern",
+    "serve:prod": "yarn build && static -a 0.0.0.0 -p 8080 storybook-static --modern",
     "size": "node tasks/size.js",
-    "size:dev": "nodemon -w src -x 'npm run generate:dist && npm run size'",
+    "size:dev": "nodemon -w src -x 'yarn generate:dist && yarn size'",
     "test": "jest",
-    "test:coverage": "npm run test -- --collect-coverage",
-    "test:watch": "npm run test -- --watchAll",
+    "test:coverage": "yarn test --collect-coverage",
+    "test:watch": "yarn test --watchAll",
     "tsc": "tsc "
   },
   "lint-staged": {
-    "*": "npm run lint:license:fix",
+    "*": "yarn lint:license:fix",
     "*.{js,html,css,json}": "prettier --write",
-    "package.json": "npm run lint:package"
+    "package.json": "yarn lint:package"
   },
   "dependencies": {
     "@codemirror/basic-setup": "^0.19.1",
@@ -158,5 +158,6 @@
     "highlight.js": {
       "optional": true
     }
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }

@@ -8,7 +8,7 @@ Each components can use `var() - CSS` for customisation.
 the CSS variable. Be careful with the {Type} and use the naming convention. 
 2. Use the custom property in own css code.
 3. **ONLY** if you want that's the component to be customizable on the portal, you **MUST** add `@theme facet` in "details" section of component documentation.  
-4. Run `npm run generate:theme` to check the variable syntax and rebuild `definition.json` defining the default portal's theme.
+4. Run `yarn generate:theme` to check the variable syntax and rebuild `definition.json` defining the default portal's theme.
 
 ### Types 
 

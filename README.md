@@ -136,47 +136,47 @@ _TIP_: You can clean the **package-lock.json** and remove duplicate dependencies
 
 - Install [nvm](https://github.com/nvm-sh/nvm)
 - Use with `nvm use` or install with `nvm install` the node version declared in `.nvmrc`
-- Then install node modules with: `npm install`
+- Then install node modules with: `yarn install`
 
 ### Tasks
 
-The available NPM scripts are:
+The available scripts are:
 
-- `npm run serve`: start Storybook in dev mode
-- `npm run lint`: run eslint and prettier
-- `npm run lint:fix`: run eslint with autofix and prettier in write mode
-- `npm run test`: run the unit tests
-- `npm run test -- --collect-coverage`: run the unit tests with coverage
-- `npm run docs`: generate the documentation
-- `npm run build`: build storybook
-- `npm run serve:prod`: start Storybook in prod mode
-- `npm run generate:dist`: build components to use them in your project
-- `npm run generate:icons`: build icons files from svg files
-- `npm run generate:theme`: generate theme file based on css custom properties defined in each component file
+- `yarn serve`: start Storybook in dev mode
+- `yarn lint`: run eslint and prettier
+- `yarn lint:fix`: run eslint with autofix and prettier in write mode
+- `yarn test`: run the unit tests
+- `yarn test --collect-coverage`: run the unit tests with coverage
+- `yarn docs`: generate the documentation
+- `yarn build`: build storybook
+- `yarn serve:prod`: start Storybook in prod mode
+- `yarn generate:dist`: build components to use them in your project
+- `yarn generate:icons`: build icons files from svg files
+- `yarn generate:theme`: generate theme file based on css custom properties defined in each component file
 
 If you want link for use in other local project as dependency:
 
 ```bash
-npm link
+yarn link
 cd ../my-project
-npm link @gravitee/ui-components
+yarn link @gravitee/ui-components
 ```
 
 If you want link the prod version in other local project:
 
 ```bash
-npm run build
+yarn build
 cd dist
-npm link
+yarn link
 cd ../my-project
-npm link @gravitee/ui-components
+yarn link @gravitee/ui-components
 ```
 
 ## Renovate
 
 Some components are based on third party libraries, for integration into a web component, we extract the css from its libraries as assets.
 
-WARNING: When `highlight.js` or `github-markdown-css` are updated, we must run `npm run build` task to update the css.
+WARNING: When `highlight.js` or `github-markdown-css` are updated, we must run `yarn build` task to update the css.
 
 ## Contributing
 
