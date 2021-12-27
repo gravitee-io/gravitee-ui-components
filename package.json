@@ -86,7 +86,7 @@
     "babel-loader": "8.2.3",
     "babel-plugin-template-html-minifier": "4.1.0",
     "bundle-phobia-cli": "0.14.13",
-    "chromatic": "6.2.3",
+    "chromatic": "6.3.3",
     "danger": "10.7.1",
     "del": "6.0.0",
     "eslint": "8.5.0",
