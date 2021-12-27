@@ -2,6 +2,12 @@
   "name": "@gravitee/ui-components",
   "version": "0.0.0",
   "description": "Gravitee.io UI Components library, based on Web Components",
+  "keywords": [
+    "json-schema",
+    "lit",
+    "lit-element",
+    "webcomponents"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/gravitee-io/gravitee-ui-components"
@@ -14,6 +20,7 @@
     "assets/i18n",
     "assets/icons",
     "assets/images",
+    "README.md",
     "src",
     "wc"
   ],
@@ -99,7 +106,7 @@
     "eslint-plugin-standard": "4.1.0",
     "esm": "3.2.25",
     "fs-extra": "10.0.0",
-    "github-markdown-css": "4.0.0",
+    "github-markdown-css": "5.1.0",
     "glob": "7.2.0",
     "gzip-size": "7.0.0",
     "highcharts": "9.3.2",
