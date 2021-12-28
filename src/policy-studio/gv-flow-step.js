@@ -232,7 +232,9 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
         ${this._renderDropdownMenu()}
         <div class="content">
           <div class="content-icon">
-            ${hasConditionalSteps ? html`<gv-icon class="content-icon-conditional" shape="design:conditional"></gv-icon>` : html``}
+            ${hasConditionalSteps
+              ? html`<gv-icon title="Conditional policy" class="content-icon-conditional" shape="design:conditional"></gv-icon>`
+              : html``}
             ${icon ? html`<gv-image src="${icon}"></gv-image>` : html``}
           </div>
 
