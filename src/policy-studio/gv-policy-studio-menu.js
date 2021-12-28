@@ -21,7 +21,7 @@ import '../atoms/gv-image';
 import '../atoms/gv-state';
 import '../molecules/gv-popover';
 import './gv-flow-step';
-import { getFlowName, methods } from '../lib/studio';
+import { getFlowTitle, methods } from '../lib/studio';
 import { repeat } from 'lit/directives/repeat';
 import { appendDraggableImage, uuid } from '../lib/utils';
 
@@ -266,7 +266,7 @@ export class GvPolicyStudioMenu extends LitElement {
         .policy.draggable gv-icon,
         .policy.draggable gv-image,
         .sortable,
-        .sortable gv-icon {
+        .draggable-icon {
           cursor: grab;
         }
 
@@ -532,36 +532,37 @@ export class GvPolicyStudioMenu extends LitElement {
       ${repeat(
         filteredData,
         () => uuid(),
-        (content, index) => html`
-          <div
-            draggable="${this.sortable && !this.disabled && !readonlyForFlow}"
-            tabindex="0"
-            @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
-            @dragenter="${this._onDragEnterFlow}"
-            @dragend="${this._onDragEndFlow}"
-            @dragover="${this._onDragOverFlow}"
-            @keydown="${this._onKeyDownFlow.bind(this, index)}"
-            @mouseenter="${this._onMouseEnterFlow}"
-            @mouseleave="${this._onMouseLeaveFlow}"
-            class="${classMap({
-              entry: true,
-              flow: true,
-              sortable: this.sortable && !this.disabled && !readonlyForFlow,
-              selected: this.selectedIds.includes(content._id),
-              child: isChild,
-              disabled: content.enabled === false,
-            })}"
-          >
+        (content, index) =>
+          html`
             <div
-              title="${content.name} | Compare with current selection (Shift + click)"
-              @click="${this._onClickFlow.bind(this, content)}"
-              class="entry-name link"
+              draggable="${this.sortable && !this.disabled && !readonlyForFlow}"
+              tabindex="0"
+              @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
+              @dragenter="${this._onDragEnterFlow}"
+              @dragend="${this._onDragEndFlow}"
+              @dragover="${this._onDragOverFlow}"
+              @keydown="${this._onKeyDownFlow.bind(this, index)}"
+              @mouseenter="${this._onMouseEnterFlow}"
+              @mouseleave="${this._onMouseLeaveFlow}"
+              class="${classMap({
+                entry: true,
+                flow: true,
+                sortable: this.sortable && !this.disabled && !readonlyForFlow,
+                selected: this.selectedIds.includes(content._id),
+                child: isChild,
+                disabled: content.enabled === false,
+              })}"
             >
-              ${getFlowName(content, null, true, this.sortable && !readonlyForFlow, true)}
+              <div
+                title="${content.name} | Compare with current selection (Shift + click)"
+                @click="${this._onClickFlow.bind(this, content)}"
+                class="entry-name link"
+              >
+                ${getFlowTitle(content, null, true, this.sortable && !readonlyForFlow, true)}
+              </div>
+              ${this._renderFlowActions(content, this.readonly || readonlyForFlow)}
             </div>
-            ${this._renderFlowActions(content, this.readonly || readonlyForFlow)}
-          </div>
-        `,
+          `,
       )}
     </div> `;
   }

@@ -19,7 +19,7 @@ import { dispatchCustomEvent } from '../lib/events';
 import '../atoms/gv-image';
 import { appendDraggableImage, uuid } from '../lib/utils';
 import { PolicyDraggable } from './gv-flow-step';
-import { getFlowName, methods } from '../lib/studio';
+import { getFlowTitle, methods } from '../lib/studio';
 
 /**
  * Flow component
@@ -364,7 +364,7 @@ export class GvFlow extends LitElement {
     return html`<div class="box">
       <div class="container">
         <div class="header">
-          <div class="title">${getFlowName(this.flow, this.collectionName)}</div>
+          <div class="title">${getFlowTitle(this.flow, this.collectionName)}</div>
         </div>
         <div class="content">
           <div class="flow">

@@ -75,11 +75,14 @@ export const methods = css`
   }
 `;
 
-export function getFlowName(flow, collectionName, withMethods = true, draggable = false, compact = true) {
+export function getFlowTitle(flow, collectionName, withMethods = true, draggable = false, compact = true) {
   let rendering = [];
   if (flow) {
     if (draggable) {
       rendering.push(html`<gv-icon title="Drag for reorder" class="draggable-icon" shape="general:sort"></gv-icon>`);
+    }
+    if (flow.condition) {
+      rendering.push(html` <gv-icon title="Conditional flow" className="content-icon-conditional" shape="design:conditional"></gv-icon>`);
     }
     const methods = flow.methods || [];
     if (flow.type != null) {
