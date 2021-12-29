@@ -69,7 +69,7 @@ export function getLanguage() {
 /**
  * @param {string} lang - Translation language code
  * @param {object} translations - Translation values by key
- * @param {object} label - Lang label
+ * @param {string} label - Lang label
  */
 export function addTranslations(lang, translations, label) {
   i18n._translations[lang] = { ...{ LANGUAGE: label }, ...translations };
