@@ -1,3 +1,11 @@
+# [3.27.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.26.0...v3.27.0) (2021-12-29)
+
+
+### Features
+
+* add conditional flow icon ([f7e2582](https://github.com/gravitee-io/gravitee-ui-components/commit/f7e25829156533ca2b317402cedbde1adb9c0923))
+* add conditional policy tooltip on icon ([2642977](https://github.com/gravitee-io/gravitee-ui-components/commit/26429773f89a59989f907d0de2212f5c676d2eac))
+
 # [3.26.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.4...v3.26.0) (2021-12-29)
 
 
