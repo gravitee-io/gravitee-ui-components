@@ -50,6 +50,8 @@ export const parameters = {
     },
   },
   viewport: { viewports },
+  // Set a default delay, to have input's validation messages properly displayed
+  chromatic: { delay: 50 },
 };
 
 function addDefaultValue(def) {
