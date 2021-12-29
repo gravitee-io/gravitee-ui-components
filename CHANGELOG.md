@@ -1,3 +1,10 @@
+## [3.25.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.3...v3.25.4) (2021-12-29)
+
+
+### Bug Fixes
+
+* fix parameter type in i18n function ([4beeb63](https://github.com/gravitee-io/gravitee-ui-components/commit/4beeb63437bc6dbf1ee439ef4ab79ad946d22cac))
+
 ## [3.25.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.2...v3.25.3) (2021-12-22)
 
 
