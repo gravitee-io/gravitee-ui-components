@@ -414,7 +414,13 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
         .content-icon-conditional {
           position: absolute;
           z-index: 10;
-          margin: 0.2rem;
+          background-color: var(--gv-theme-color-light, #86c3d0);
+          border-radius: 100%;
+          border: 1px solid white;
+          padding-left: 4px;
+          padding-right: 4px;
+          width: 35px;
+          height: 35px;
         }
 
         gv-image {
