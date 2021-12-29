@@ -1,7 +1,7 @@
 import { setCustomElements } from '@storybook/web-components';
 import '../assets/css/gravitee-theme.generated.css';
 import '../assets/css/documentation.css';
-import { defaultLanguages, i18nDecorator, languages } from '../stories/lib/i18n-decorator';
+import { defaultLanguages, i18nDecorator, languages } from '../testing/lib/i18n-decorator';
 import customElements from '../.docs/custom-elements.json';
 
 export const globalTypes = {
