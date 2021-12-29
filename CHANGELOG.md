@@ -1,3 +1,10 @@
+# [3.26.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.4...v3.26.0) (2021-12-29)
+
+
+### Features
+
+* improve conditional policy icon style ([c57be13](https://github.com/gravitee-io/gravitee-ui-components/commit/c57be1303472baafc989dc82dd9f865c0ed696d9))
+
 ## [3.25.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.25.3...v3.25.4) (2021-12-29)
 
 
