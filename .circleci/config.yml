@@ -227,15 +227,6 @@ workflows:
           context: gravitee-qa
           requires:
             - build
-      - trigger-chromatic:
-          type: approval
-          requires:
-            - build
-            - lint-test
-          # Ignore this manual step and trigger chromatic automatically on `master`
-          filters:
-            branches:
-              ignore: master
       - chromatic-deployment:
           pre-steps:
             - secrethub/env-export:
@@ -244,7 +235,6 @@ workflows:
           context: gravitee-qa
           requires:
             - build
-            - trigger-chromatic
       - release:
           pre-steps:
             - secrethub/env-export:
