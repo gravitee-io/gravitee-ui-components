@@ -34,7 +34,18 @@ async function getUsedKeys(sourceFilepaths) {
   const usedKeysByFile = {};
   for (const src of sourceFilepaths) {
     const code = await fs.readFile(src, 'utf8');
-    const keys = extractFromCode(code, { marker: 'i18n' });
+    const keys = extractFromCode(code, {
+      marker: 'i18n',
+      babelOptions: {
+        ast: true,
+        plugins: [
+          '@babel/plugin-transform-typescript',
+          ['@babel/plugin-proposal-decorators', { legacy: true }],
+          ['@babel/plugin-proposal-class-properties', { loose: true }],
+          ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
+        ],
+      },
+    });
     usedKeysByFile[src] = keys.map(({ key }) => key);
   }
   return usedKeysByFile;
@@ -43,8 +54,8 @@ async function getUsedKeys(sourceFilepaths) {
 async function run() {
   let errors = false;
 
-  const sourceFilepaths = await glob('./src/*/*.js', {
-    ignore: ['./src/lib/*.js', './src/styles/*.js'],
+  const sourceFilepaths = await glob('./src/**/*.+(js|ts)', {
+    ignore: ['./src/lib/*.+(js|ts)', './src/styles/*.+(js|ts)'],
   });
 
   const usedKeysByFile = await getUsedKeys(sourceFilepaths);
