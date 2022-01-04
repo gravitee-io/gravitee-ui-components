@@ -85,7 +85,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       documentation: { type: Object },
       flowSchema: { type: Object, attribute: 'flow-schema' },
       configurationSchema: { type: Object, attribute: 'configuration-schema' },
-      _configurationSchema: { type: Object, attribute: false },
       configurationInformation: { type: String, attribute: 'configuration-information' },
       isDirty: { type: Boolean, attribute: 'dirty', reflect: true },
       _dragPolicy: { type: Object, attribute: false },
@@ -101,7 +100,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       _flowFilter: { type: Array, attribute: false },
       _currentAskConfirmation: { type: Boolean, attribute: false },
       hasProperties: { type: Boolean, attribute: 'has-properties' },
-      _hasProperties: { type: Boolean, attribute: false },
       hasResources: { type: Boolean, attribute: 'has-resources' },
       hasPolicyFilter: { type: Boolean, attribute: 'has-policy-filter' },
       flowsTitle: { type: String, attribute: 'flows-title' },
@@ -110,7 +108,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       readonly: { type: Boolean },
       readonlyPlans: { type: Boolean, attribute: 'readonly-plans' },
       canDebug: { type: Boolean, attribute: 'can-debug' },
-      _canDebug: { type: Boolean, attribute: false },
       debugResponse: { type: Object, attribute: 'debug-response' },
       hasConditionalSteps: { type: Boolean, attribute: 'has-conditional-steps' },
     };
@@ -358,31 +355,30 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._flowFilter = [];
   }
 
-  set hasProperties(value) {
-    if (value) {
+  willUpdate(changedProperties) {
+    if (changedProperties.has('configurationSchema') && this.configurationSchema) {
+      this._tabs.splice(1, 0, { id: 'settings', title: 'Configuration', icon: 'general:settings#2' });
+    }
+    if (changedProperties.has('hasPolicyFilter') && this.hasPolicyFilter === true) {
+      this._policyFilterOptions = [
+        { id: 'onRequest', title: 'Request', icon: 'navigation:arrow-from-left' },
+        { id: 'onResponse', title: 'Response', icon: 'navigation:arrow-from-right' },
+      ];
+    }
+
+    if (changedProperties.has('hasProperties') && this.hasProperties === true) {
       import('../../organisms/gv-properties').then(() => {
         this._tabs = [...this._tabs, { id: 'properties', title: 'Properties', icon: 'general:settings#1' }];
         this.requestUpdate();
       });
     }
-    this._hasProperties = value;
-  }
-
-  get hasProperties() {
-    return this._hasProperties;
-  }
-
-  set hasResources(value) {
-    if (value) {
+    if (changedProperties.has('hasResources') && this.hasProperties === true) {
       import('../../organisms/gv-resources').then(() => {
         this._tabs = [...this._tabs, { id: 'resources', title: 'Resources', icon: 'general:settings#5' }];
         this.requestUpdate();
       });
     }
-  }
-
-  set canDebug(value) {
-    if (value) {
+    if (changedProperties.has('canDebug') && this.canDebug === true) {
       this._tabs = [...this._tabs, { id: 'debug', title: 'Try it', icon: 'content:send' }];
     }
   }
@@ -394,27 +390,6 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
         { id: 'plan', title: 'Plans', icon: 'shopping:sale#2' },
       ];
     }
-  }
-
-  set hasPolicyFilter(value) {
-    if (value) {
-      this._policyFilterOptions = [
-        { id: 'onRequest', title: 'Request', icon: 'navigation:arrow-from-left' },
-        { id: 'onResponse', title: 'Response', icon: 'navigation:arrow-from-right' },
-      ];
-    }
-  }
-
-  set configurationSchema(value) {
-    if (value) {
-      this._tabs.splice(1, 0, { id: 'settings', title: 'Configuration', icon: 'general:settings#2' });
-    }
-
-    this._configurationSchema = value;
-  }
-
-  get configurationSchema() {
-    return this._configurationSchema;
   }
 
   onKeyboard() {
@@ -737,7 +712,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           : currentFlowStep.step.configuration;
       const step = { ...currentFlowStep.step, configuration };
 
-      const _initialValues = { ...step.configuration, commonDescription: step.description, commonCondition: step.condition };
+      const _initialValues = {
+        ...step.configuration,
+        commonDescription: step.description,
+        commonCondition: step.condition,
+      };
       this._currentFlowStep = { ...currentFlowStep, step, _initialValues };
 
       if (flowStepSchema && flowStepSchema.properties.scope) {
@@ -1100,7 +1079,13 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   _renderFlowStepForm(readonlyMode) {
     const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
 
-    const groups = [{ items: ['commonDescription', 'commonCondition'] }, { name: i18n('gv-policy-studio.policy-settings'), default: true }];
+    const groups = [
+      { items: ['commonDescription', 'commonCondition'] },
+      {
+        name: i18n('gv-policy-studio.policy-settings'),
+        default: true,
+      },
+    ];
     return html`${cache(
       this._flowStepSchema && this._currentFlowStep
         ? html`<div class="flow-step__container">
