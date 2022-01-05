@@ -142,7 +142,7 @@ export function makeStory(...configs) {
   if (customElement.attributes) {
     customElement.attributes.forEach((attr) => {
       let options = [];
-      let type = attr.type.toLowerCase();
+      let type = getPropertyType(attr);
       if (type.startsWith('enum')) {
         options = type.replace('enum{', '').replace('}', '').split('|');
         type = 'select';
@@ -216,7 +216,7 @@ function assignArgsToElement(customElement, element, args = {}) {
       const argType = customElement.attributes.find((t) => t.name === arg);
       const value = args[arg];
       if (argType) {
-        const isBoolean = argType.type.toLowerCase().startsWith('boolean');
+        const isBoolean = getPropertyType(argType).startsWith('boolean');
         if (isBoolean && value === true) {
           element.setAttribute(arg, '');
         } else if (!isBoolean && value != null) {
@@ -227,4 +227,8 @@ function assignArgsToElement(customElement, element, args = {}) {
       }
     });
   return element;
+}
+
+function getPropertyType(property) {
+  return property.type ? property.type.toLowerCase() : 'string';
 }
