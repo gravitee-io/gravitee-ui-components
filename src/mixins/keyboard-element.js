@@ -19,6 +19,7 @@ export const KEYS = {
   ArrowRight: '39',
   ArrowUp: '38',
   Ctrl: '17',
+  Enter: '13',
   Esc: '27',
   Shift: '16',
   Space: '32',
