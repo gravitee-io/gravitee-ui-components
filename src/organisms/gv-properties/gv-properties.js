@@ -84,6 +84,10 @@ export class GvProperties extends KeyboardElement(LitElement) {
     this._errors = [];
   }
 
+  get keyboardTarget() {
+    return window;
+  }
+
   onKeyboard() {
     if (this.isPressed(KEYS.Esc)) {
       this._onClosePropertySchemaForm();

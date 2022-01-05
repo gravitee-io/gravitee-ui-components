@@ -399,6 +399,10 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     }
   }
 
+  get keyboardTarget() {
+    return window;
+  }
+
   onKeyboard() {
     if (this._currentAskConfirmation == null) {
       if (this.isPressed(KEYS.Shift, KEYS.Ctrl, KEYS.Space)) {

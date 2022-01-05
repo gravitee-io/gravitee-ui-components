@@ -50,6 +50,10 @@ export class GvResources extends KeyboardElement(LitElement) {
     this._emptymessage = 'No resource';
   }
 
+  get keyboardTarget() {
+    return window;
+  }
+
   onKeyboard() {
     if (this.isPressed(KEYS.Esc)) {
       this._onCancelResourceForm();

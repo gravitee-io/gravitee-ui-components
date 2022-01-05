@@ -38,19 +38,19 @@ export function KeyboardElement(ParentClass) {
 
     connectedCallback() {
       super.connectedCallback();
-      window.addEventListener('keydown', this._handleKeyDown);
-      window.addEventListener('keyup', this._handleKeyUp);
+      this.keyboardTarget.addEventListener('keydown', this._handleKeyDown);
+      this.keyboardTarget.addEventListener('keyup', this._handleKeyUp);
     }
 
     disconnectedCallback() {
-      window.removeEventListener('keydown', this._handleKeyDown);
-      window.removeEventListener('keyup', this._handleKeyUp);
+      this.keyboardTarget.removeEventListener('keydown', this._handleKeyDown);
+      this.keyboardTarget.removeEventListener('keyup', this._handleKeyUp);
       super.disconnectedCallback();
     }
 
     _onKeyDown(e) {
       this._controller[e.keyCode] = true;
-      this.onKeyboard(this._controller);
+      this.onKeyboard(this._controller, e);
     }
 
     _onKeyUp(e) {
@@ -63,7 +63,11 @@ export function KeyboardElement(ParentClass) {
       return keys.find((key) => this._controller[key] == null) == null;
     }
 
+    get keyboardTarget() {
+      return this;
+    }
+
     // abstract
-    onKeyboard(controller) {}
+    onKeyboard(controller, event) {}
   };
 }
