@@ -63,6 +63,15 @@ export const WithSearch = makeStory(conf, {
   ],
 });
 
+export const Selector = makeStory(conf, {
+  items: [
+    {
+      'has-select': true,
+      data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 10, sizes: [5, 10, 25, 50, 100] },
+    },
+  ],
+});
+
 export const Widget = makeStory(conf, {
   items: [
     {

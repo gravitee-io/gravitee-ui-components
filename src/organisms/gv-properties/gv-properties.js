@@ -544,13 +544,10 @@ export class GvProperties extends KeyboardElement(LitElement) {
         total: this._properties.length,
         current_page: 1,
         total_pages: Math.ceil(this._properties.length / this._pageSize),
+        size: this._pageSize,
+        sizes: this._pageSizes,
       };
     }
-  }
-
-  _onChangePageSize({ detail }) {
-    this._pageSize = Number(detail).valueOf();
-    this._onClosePropertySchemaForm();
   }
 
   _renderTableForm() {
@@ -573,19 +570,12 @@ export class GvProperties extends KeyboardElement(LitElement) {
           @gv-input:input="${this._onSearchProperty}"
           @gv-input:clear="${this._onClearProperty}"
         ></gv-input>
-        <gv-select
-          class="page-size__select"
-          @gv-select:input="${this._onChangePageSize}"
-          small
-          .options="${this._pageSizes}"
-          .value="${this._pageSize}"
-          .disabled="${this.expert || this._paginationData == null}"
-        ></gv-select>
         <gv-pagination
           @gv-pagination:paginate="${this._onPaginate}"
           .disabled="${this.expert || this._paginationData == null}"
           .data="${this._paginationData}"
           widget
+          has-select
         ></gv-pagination>
       </div>
       <div class="content"><div class="form-content">${this._renderTable()}</div></div>
