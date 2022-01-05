@@ -20,6 +20,7 @@ import { link } from '../../styles/link';
 import '../gv-icon';
 import { ifDefined } from 'lit/directives/if-defined';
 import { dispatchCustomEvent } from '../../lib/events';
+import { KeyboardElement, KEYS } from '../../mixins/keyboard-element';
 
 /**
  * A button
@@ -63,7 +64,7 @@ import { dispatchCustomEvent } from '../../lib/events';
  * @cssprop {Length} [--gv-button--fz=var(--gv-theme-font-size-m, 14px)] - Font size
  * @cssprop {Length} [--gv-button--bdrs=0.15rem] - Border radius
  */
-export class GvButton extends LitElement {
+export class GvButton extends KeyboardElement(LitElement) {
   static get properties() {
     return {
       type: { type: String },
@@ -302,10 +303,9 @@ export class GvButton extends LitElement {
     this.addEventListener('click', this._onClick.bind(this));
   }
 
-  _onKeyDown(e) {
-    if (e.keyCode === 32 || e.keyCode === 13) {
-      e.preventDefault();
-      this._onClick(e);
+  onKeyboard(controller, event) {
+    if (this.isPressed(KEYS.Enter) || this.isPressed(KEYS.Space)) {
+      this._onClick(event);
     }
   }
 
@@ -390,10 +390,6 @@ export class GvButton extends LitElement {
       return html`<gv-icon shape="${this.icon}" .title="${ifDefined(this.title)}"></gv-icon>`;
     }
     return '';
-  }
-
-  firstUpdated() {
-    this.addEventListener('keydown', this._onKeyDown);
   }
 
   updated(_changedProperties) {
