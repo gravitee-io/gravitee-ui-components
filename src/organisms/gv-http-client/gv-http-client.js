@@ -24,7 +24,6 @@ import '../../atoms/gv-button';
 import '../../molecules/gv-option';
 import '../../atoms/gv-switch';
 import '../../atoms/gv-icon';
-import { KeyboardElement } from '../../mixins/keyboard-element';
 import { empty } from '../../styles/empty';
 import { httpClientSchemaForm } from '../../lib/http-client-schema-form';
 import { dispatchCustomEvent } from '../../lib/events';
@@ -39,7 +38,7 @@ import { repeat } from 'lit/directives/repeat';
  * @attr {Boolean} loading - True if the request is in progress
  * @attr {Object} response - Response of the request
  */
-export class GvHttpClient extends KeyboardElement(LitElement) {
+export class GvHttpClient extends LitElement {
   static get properties() {
     return {
       response: { type: Object },
