@@ -41,8 +41,26 @@ export const Large = makeStory(conf, {
   ],
 });
 
-export const Empty = makeStory(conf, {
+export const NoData = makeStory(conf, {
   items: [{}],
+});
+
+export const HideEmpty = makeStory(conf, {
+  items: [
+    {
+      'hide-empty': true,
+      data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 1 },
+    },
+  ],
+});
+
+export const WithSearch = makeStory(conf, {
+  items: [
+    {
+      'has-search': true,
+      data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 10 },
+    },
+  ],
 });
 
 export const Widget = makeStory(conf, {

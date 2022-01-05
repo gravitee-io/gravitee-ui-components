@@ -30,7 +30,7 @@ import { Pagination } from './types';
  * @fires gv-pagination:paginate - Custom event with pagination link
  *
  * @attr {Object} data - Pagination information {first, last, total, current_page}
- * @attr {Boolean} hide-empty - hide component if no page or no data.
+ * @attr {Boolean} hide-empty - hide component if no page, no data or just one page.
  * @attr {Boolean} widget - display widget pagination (with arrows).
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} has-search - display an input and a submit button to go to page.
@@ -92,8 +92,10 @@ export class GvPagination extends LitElement {
     if (changedProperties.has('data') && this.data) {
       if (this.data.total_pages < this.max) {
         this.max = this.data.total_pages;
-        this.center = this.max / 2 - 1;
       }
+    }
+    if (changedProperties.has('max') && this.max != null) {
+      this.center = this.max / 2 - 1;
     }
   }
 
@@ -106,7 +108,9 @@ export class GvPagination extends LitElement {
   private onSubmit(e: Event) {
     // @ts-ignore ?
     const page = e.target?.value;
-    this.goToPage(parseInt(page, 10));
+    if (page != null && page <= this.data.total_pages && page > 0) {
+      this.goToPage(parseInt(page, 10));
+    }
   }
 
   private onClickToSearch() {
@@ -124,7 +128,6 @@ export class GvPagination extends LitElement {
     for (let i = 0; i < this.data.total_pages; i++) {
       pagination.push(i + 1);
     }
-
     let left = pagination.slice(0, this.data.current_page - 1);
     let right = pagination.slice(this.data.current_page);
 
@@ -191,6 +194,8 @@ export class GvPagination extends LitElement {
                 @gv-input:submit="${this.onSubmit}"
                 type="number"
                 min="1"
+                .disabled="${this.disabled}"
+                .value="${this.data?.current_page}"
                 max="${this.data.total_pages}"
                 placeholder="Page"
                 small
