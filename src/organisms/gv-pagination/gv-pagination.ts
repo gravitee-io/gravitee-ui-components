@@ -142,8 +142,8 @@ export class GvPagination extends LitElement {
       }
       right = right.slice(0, addRight);
     }
-    const leftP = left.map((i) => html`<gv-button small outlined @click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
-    const rightP = right.map((i) => html`<gv-button small outlined @click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
+    const leftP = left.map((i) => html`<gv-button small outlined @gv-button:click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
+    const rightP = right.map((i) => html`<gv-button small outlined @gv-button:click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
 
     leftP.unshift(
       html`<gv-button
@@ -152,7 +152,7 @@ export class GvPagination extends LitElement {
         .icon="${this.widget ? 'navigation:angle-left' : null}"
         .title="${i18n('gv-pagination.previous')}"
         outlined
-        @click="${leftP.length === 0 ? () => {} : this.goToPage.bind(this, this.data.current_page - 1)}"
+        @gv-button:click="${leftP.length === 0 ? () => {} : this.goToPage.bind(this, this.data.current_page - 1)}"
         >${this.widget ? '' : i18n('gv-pagination.previous')}</gv-button
       >`,
     );
@@ -195,7 +195,7 @@ export class GvPagination extends LitElement {
                 placeholder="Page"
                 small
               ></gv-input>
-              <gv-button small outlined @click="${this.onClickToSearch}" icon="general:search"></gv-button>`
+              <gv-button small outlined @gv-button:click="${this.onClickToSearch}" icon="general:search"></gv-button>`
           : ''}
         ${this.renderPagination()}
       </div> `;
