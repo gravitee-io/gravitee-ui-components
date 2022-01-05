@@ -39,8 +39,8 @@ async function run() {
   fs.copy('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
   fs.copy('node_modules/highlight.js/styles/github.css', 'assets/css/highlight.js/github.css');
 
-  const sourceFilepaths = await glob('./src/**/*.js', {
-    ignore: ['./src/lib/*.js', './src/styles/*.js', './src/studio-policy/*.js'],
+  const sourceFilepaths = await glob('./src/**/*.{js,ts}', {
+    ignore: ['./src/lib/*.{js,ts}', './src/styles/*.{js,ts}', './src/studio-policy/*.{js,ts}'],
   });
 
   await del([themeFilepath, cssFilepath]);
