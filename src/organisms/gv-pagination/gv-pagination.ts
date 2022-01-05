@@ -16,7 +16,10 @@
 import { LitElement, html, css } from 'lit';
 import { dispatchCustomEvent } from '../../lib/events';
 import '../../atoms/gv-button';
+import '../../atoms/gv-input';
 import { i18n } from '../../lib/i18n';
+import { customElement, property, query } from 'lit/decorators';
+import { Pagination } from './types';
 
 /**
  * A pagination
@@ -30,23 +33,36 @@ import { i18n } from '../../lib/i18n';
  * @attr {Boolean} hide-empty - hide component if no page or no data.
  * @attr {Boolean} widget - display widget pagination (with arrows).
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
+ * @attr {Boolean} has-search - display an input and a submit button to go to page.
  *
  * @cssprop {Length} [--gv-pagination--fz=var(--gv-theme-font-size-s, 12px)] - Font size
  * @cssprop {Length} [--gv-pagination-icon--s=18px] - Height and icon width
  */
+@customElement('gv-pagination')
 export class GvPagination extends LitElement {
-  static get properties() {
-    return {
-      data: { type: Object },
-      hideEmpty: { type: Boolean, attribute: 'hide-empty' },
-      widget: { type: Boolean },
-      disabled: { type: Boolean },
-      _first: { type: Number },
-      _last: { type: Number },
-      _current: { type: Number },
-      _total: { type: Number },
-    };
-  }
+  @property({ type: Object })
+  public data: Pagination | any;
+
+  @property({ type: Boolean, attribute: 'hide-empty' })
+  public hideEmpty: boolean = false;
+
+  @property({ type: Boolean })
+  public widget: boolean = false;
+
+  @property({ type: Boolean })
+  public disabled: boolean = false;
+
+  @property({ type: Boolean, attribute: 'has-search' })
+  public hasSearch: boolean = false;
+
+  @property({ type: Number, attribute: false })
+  private max: number = 10;
+
+  @property({ type: Number, attribute: false })
+  private center: number = this.max / 2 - 1;
+
+  @query('gv-input')
+  private input: any;
 
   static get styles() {
     return [
@@ -72,60 +88,53 @@ export class GvPagination extends LitElement {
     ];
   }
 
-  constructor() {
-    super();
-    this.hideEmpty = false;
-    this.hasInput = false;
-    this.max = 10;
-    this.center = this.max / 2 - 1;
-    this.sizes = [];
-    this.links = {};
-  }
-
-  set data(data) {
-    if (data) {
-      this._last = data.last;
-      this._current = parseInt(data.current_page);
-      this._pages = data.total_pages;
-      if (this._pages < this.max) {
-        this.max = this._pages;
+  willUpdate(changedProperties: any) {
+    if (changedProperties.has('data') && this.data) {
+      if (this.data.total_pages < this.max) {
+        this.max = this.data.total_pages;
+        this.center = this.max / 2 - 1;
       }
     }
   }
 
-  _goToPage(page) {
-    this._current = parseInt(page);
+  private goToPage(page: number) {
+    this.data.current_page = page;
+    this.requestUpdate('data');
     dispatchCustomEvent(this, 'paginate', { page: page });
   }
 
-  _onSubmit(e) {
-    const page = e.target.value;
-    this._goToPage(page);
+  private onSubmit(e: Event) {
+    // @ts-ignore ?
+    const page = e.target?.value;
+    this.goToPage(parseInt(page, 10));
   }
 
-  _onClickToSearch() {
-    const page = this.shadowRoot.querySelector('gv-input').value;
-    if (page) {
-      this._goToPage(page);
+  private onClickToSearch() {
+    if (this.input) {
+      // @ts-ignore ?
+      const page = this.input.value;
+      if (page) {
+        this.goToPage(page);
+      }
     }
   }
 
-  _renderPagination() {
+  private renderPagination() {
     const pagination = [];
-    for (let i = 0; i < this._pages; i++) {
+    for (let i = 0; i < this.data.total_pages; i++) {
       pagination.push(i + 1);
     }
 
-    let left = pagination.slice(0, this._current - 1);
-    let right = pagination.slice(this._current);
+    let left = pagination.slice(0, this.data.current_page - 1);
+    let right = pagination.slice(this.data.current_page);
 
     if (pagination.length > this.max) {
       const dL = left.length;
       let removeL = dL - this.center - 1;
-      let addRight = this.max - this._current > this.center ? this.max - this._current : this.center;
+      let addRight = this.max - this.data.current_page > this.center ? this.max - this.data.current_page : this.center;
       if (removeL > 0) {
         addRight = this.center;
-        const diff = this._last - this._current - addRight;
+        const diff = this.data.last - this.data.current_page - addRight;
         if (diff < 0) {
           removeL += diff;
         }
@@ -133,8 +142,8 @@ export class GvPagination extends LitElement {
       }
       right = right.slice(0, addRight);
     }
-    const leftP = left.map((i) => html`<gv-button small outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
-    const rightP = right.map((i) => html`<gv-button small outlined @click="${this._goToPage.bind(this, i)}">${i}</gv-button>`);
+    const leftP = left.map((i) => html`<gv-button small outlined @click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
+    const rightP = right.map((i) => html`<gv-button small outlined @click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
 
     leftP.unshift(
       html`<gv-button
@@ -143,7 +152,7 @@ export class GvPagination extends LitElement {
         .icon="${this.widget ? 'navigation:angle-left' : null}"
         .title="${i18n('gv-pagination.previous')}"
         outlined
-        @click="${leftP.length === 0 ? () => {} : this._goToPage.bind(this, this._current - 1)}"
+        @click="${leftP.length === 0 ? () => {} : this.goToPage.bind(this, this.data.current_page - 1)}"
         >${this.widget ? '' : i18n('gv-pagination.previous')}</gv-button
       >`,
     );
@@ -154,45 +163,43 @@ export class GvPagination extends LitElement {
         .icon="${this.widget ? 'navigation:angle-right' : null}"
         .title="${i18n('gv-pagination.next')}"
         outlined
-        @click="${rightP.length === 0 ? () => {} : this._goToPage.bind(this, this._current + 1)}"
+        @click="${rightP.length === 0 ? () => {} : this.goToPage.bind(this, this.data.current_page + 1)}"
         >${this.widget ? '' : i18n('gv-pagination.next')}</gv-button
       >`,
     );
     return html`${this.widget ? leftP.slice(0, 1) : leftP}
     ${html`<gv-button .disabled="${this.disabled}" small primary
-      >${this.widget ? this._current + ' / ' + pagination.length : this._current}</gv-button
+      >${this.widget ? this.data.current_page + ' / ' + pagination.length : this.data.current_page}</gv-button
     >`}
     ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
   }
 
-  _hasData() {
-    return this._pages && this._last && this._current;
+  private get hasData() {
+    return this.data?.total_pages && this.data?.last && this.data?.current_page;
   }
 
-  _hideEmpty() {
-    return this._hasData() && this.hideEmpty && this._pages < 2;
+  private get hide() {
+    return this.hideEmpty && this.data?.total_pages < 2;
   }
 
   render() {
-    if (this._hasData() && !this._hideEmpty()) {
+    if (this.hasData && !this.hide) {
       return html`<div class="pagination">
-        ${this.hasInput
+        ${this.hasSearch
           ? html`<gv-input
                 class="goto"
-                @gv-input:submit="${this._onSubmit}"
+                @gv-input:submit="${this.onSubmit}"
                 type="number"
                 min="1"
-                max="${this._pages}"
+                max="${this.data.total_pages}"
                 placeholder="Page"
                 small
               ></gv-input>
-              <gv-button small outlined @click="${this._onClickToSearch}" icon="general:search"></gv-button>`
+              <gv-button small outlined @click="${this.onClickToSearch}" icon="general:search"></gv-button>`
           : ''}
-        ${this._renderPagination()}
+        ${this.renderPagination()}
       </div> `;
     }
     return html``;
   }
 }
-
-window.customElements.define('gv-pagination', GvPagination);

@@ -20,7 +20,7 @@ import 'whatwg-fetch';
  * @param {object} data - The translation data
  * @returns {string} - The translated
  */
-export function i18n(key, data) {
+export function i18n(key, data = null) {
   const translation = getTranslation(key);
   if (translation == null) {
     return 'unknown';
