@@ -153,11 +153,14 @@ The available scripts are:
 - `yarn generate:dist`: build components to use them in your project
 - `yarn generate:icons`: build icons files from svg files
 - `yarn generate:theme`: generate theme file based on css custom properties defined in each component file
+- `yarn compile`: compile source files 
+- `yarn compile:watch`: compile source files on each change
 
 If you want link for use in other local project as dependency:
 
 ```bash
 yarn link
+yarn compile:watch
 cd ../my-project
 yarn link @gravitee/ui-components
 ```
