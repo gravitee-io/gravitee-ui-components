@@ -159,20 +159,17 @@ The available scripts are:
 If you want link for use in other local project as dependency:
 
 ```bash
-yarn link
-yarn compile:watch
-cd ../my-project
-yarn link @gravitee/ui-components
-```
-
-If you want link the prod version in other local project:
-
-```bash
 yarn build
 cd dist
-yarn link
-cd ../my-project
-yarn link @gravitee/ui-components
+npm link --ignore-scripts
+cd ~/my-project
+npm link @gravitee/ui-components
+```
+
+If you want to run hot-reload with npm link
+
+```bash
+yarn compile:watch
 ```
 
 ## Renovate
