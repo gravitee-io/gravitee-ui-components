@@ -58,7 +58,6 @@ export class GvSelectNative extends InputElement(LitElement) {
       large: { type: Boolean },
       medium: { type: Boolean },
       small: { type: Boolean },
-      value: { type: String | Array },
       label: { type: String },
       title: { type: String },
       name: { type: String },
