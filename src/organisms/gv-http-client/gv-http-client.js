@@ -29,7 +29,7 @@ import { empty } from '../../styles/empty';
 import { httpClientSchemaForm } from '../../lib/http-client-schema-form';
 import { dispatchCustomEvent } from '../../lib/events';
 import { statusCode } from '../../lib/http';
-import { repeat } from 'lit-html/directives/repeat';
+import { repeat } from 'lit/directives/repeat';
 
 /**
  * @fires gv-http-client:send - Event sent when
