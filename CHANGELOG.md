@@ -1,3 +1,10 @@
+## [3.27.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.1...v3.27.2) (2022-01-07)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** ensure optional tabs order ([8cbcd6e](https://github.com/gravitee-io/gravitee-ui-components/commit/8cbcd6ea5f050e56fd42fcc8ce8064f20c05495e))
+
 ## [3.27.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.0...v3.27.1) (2022-01-07)
 
 
