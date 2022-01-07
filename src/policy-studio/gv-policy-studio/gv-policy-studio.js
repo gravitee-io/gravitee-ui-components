@@ -355,7 +355,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     this._flowFilter = [];
   }
 
-  willUpdate(changedProperties) {
+  async willUpdate(changedProperties) {
     if (changedProperties.has('configurationSchema') && this.configurationSchema) {
       this._tabs.splice(1, 0, { id: 'settings', title: 'Configuration', icon: 'general:settings#2' });
     }
@@ -366,20 +366,27 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       ];
     }
 
-    if (changedProperties.has('hasProperties') && this.hasProperties === true) {
-      import('../../organisms/gv-properties').then(() => {
-        this._tabs = [...this._tabs, { id: 'properties', title: 'Properties', icon: 'general:settings#1' }];
-        this.requestUpdate();
-      });
-    }
-    if (changedProperties.has('hasResources') && this.hasProperties === true) {
-      import('../../organisms/gv-resources').then(() => {
-        this._tabs = [...this._tabs, { id: 'resources', title: 'Resources', icon: 'general:settings#5' }];
-        this.requestUpdate();
-      });
-    }
     if (changedProperties.has('canDebug') && this.canDebug === true) {
       this._tabs = [...this._tabs, { id: 'debug', title: 'Try it', icon: 'content:send' }];
+    }
+
+    const tabsImport = [];
+
+    if (changedProperties.has('hasProperties') && this.hasProperties === true) {
+      tabsImport.push(
+        import('../../organisms/gv-properties').then(() => ({ id: 'properties', title: 'Properties', icon: 'general:settings#1' })),
+      );
+    }
+    if (changedProperties.has('hasResources') && this.hasProperties === true) {
+      tabsImport.push(
+        import('../../organisms/gv-resources').then(() => ({ id: 'resources', title: 'Resources', icon: 'general:settings#5' })),
+      );
+    }
+
+    if (tabsImport.length > 0) {
+      const [...tabs] = await Promise.all(tabsImport);
+      this._tabs = [...this._tabs, ...tabs];
+      this.requestUpdate();
     }
   }
 
