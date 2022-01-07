@@ -21,6 +21,7 @@ import { Pagination, PaginateDetail } from './model';
 import '../../atoms/gv-button';
 import '../../atoms/gv-input';
 import '../../atoms/gv-select-native';
+import { classMap } from 'lit/directives/class-map';
 
 /**
  * A pagination
@@ -38,6 +39,9 @@ import '../../atoms/gv-select-native';
  * @attr {Boolean} disabled - same as native button element `disabled` attribute
  * @attr {Boolean} has-search - display an input and a submit button to go to page.
  * @attr {Boolean} has-select - display a page size selector
+ * @attr {Boolean} small - for pagination with small fields (Default)
+ * @attr {Boolean} medium - for pagination with medium fields
+ * @attr {Boolean} large - for pagination with large fields
  *
  * @cssprop {Length} [--gv-pagination--fz=var(--gv-theme-font-size-s, 12px)] - Font size
  * @cssprop {Length} [--gv-pagination-icon--s=18px] - Height and icon width
@@ -64,6 +68,15 @@ export class GvPagination extends LitElement {
 
   @property({ type: Boolean, attribute: 'has-select' })
   public hasSelect: boolean = false;
+
+  @property({ type: Boolean, reflect: true })
+  public small: boolean = true;
+
+  @property({ type: Boolean, reflect: true })
+  public medium: boolean = false;
+
+  @property({ type: Boolean, reflect: true })
+  public large: boolean = false;
 
   @property({ type: Number, attribute: false })
   private center: number = this.max / 2 - 1;
@@ -92,8 +105,18 @@ export class GvPagination extends LitElement {
           width: 50px;
         }
 
+        .medium gv-input,
+        .large gv-input {
+          width: 60px;
+        }
+
         gv-select-native {
           width: 65px;
+        }
+
+        .medium gv-select-native,
+        .large gv-select-native {
+          width: 75px;
         }
       `,
     ];
@@ -101,12 +124,21 @@ export class GvPagination extends LitElement {
 
   willUpdate(changedProperties: any) {
     if (changedProperties.has('data') && this.data) {
-      if (this.data.total_pages < this.max) {
-        this.max = this.data.total_pages;
-      }
+      this.max = Math.min(this.data.total_pages, 10);
     }
     if (changedProperties.has('max') && this.max != null) {
       this.center = this.max / 2 - 1;
+    }
+
+    if (changedProperties.has('large') && this.large) {
+      this.small = false;
+      this.medium = false;
+    } else if (changedProperties.has('medium') && this.medium) {
+      this.small = false;
+      this.large = false;
+    } else if (changedProperties.has('small') && this.small) {
+      this.medium = false;
+      this.large = false;
     }
   }
 
@@ -154,12 +186,32 @@ export class GvPagination extends LitElement {
       }
       right = right.slice(0, addRight);
     }
-    const leftP = left.map((i) => html`<gv-button small outlined @gv-button:click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
-    const rightP = right.map((i) => html`<gv-button small outlined @gv-button:click="${this.goToPage.bind(this, i)}">${i}</gv-button>`);
+    const leftP = left.map(
+      (i) => html`<gv-button
+        ?small="${this.small}"
+        ?medium="${this.medium}"
+        ?large="${this.large}"
+        outlined
+        @gv-button:click="${this.goToPage.bind(this, i)}"
+        >${i}</gv-button
+      >`,
+    );
+    const rightP = right.map(
+      (i) => html`<gv-button
+        ?small="${this.small}"
+        ?medium="${this.medium}"
+        ?large="${this.large}"
+        outlined
+        @gv-button:click="${this.goToPage.bind(this, i)}"
+        >${i}</gv-button
+      >`,
+    );
 
     leftP.unshift(
       html`<gv-button
-        small
+        ?small="${this.small}"
+        ?medium="${this.medium}"
+        ?large="${this.large}"
         .disabled="${this.disabled || leftP.length === 0}"
         .icon="${this.widget ? 'navigation:angle-left' : null}"
         .title="${i18n('gv-pagination.previous')}"
@@ -170,7 +222,9 @@ export class GvPagination extends LitElement {
     );
     rightP.push(
       html`<gv-button
-        small
+        ?small="${this.small}"
+        ?medium="${this.medium}"
+        ?large="${this.large}"
         .disabled="${this.disabled || rightP.length === 0}"
         .icon="${this.widget ? 'navigation:angle-right' : null}"
         .title="${i18n('gv-pagination.next')}"
@@ -180,7 +234,12 @@ export class GvPagination extends LitElement {
       >`,
     );
     return html`${this.widget ? leftP.slice(0, 1) : leftP}
-    ${html`<gv-button .disabled="${this.disabled}" small primary
+    ${html`<gv-button
+      .disabled="${this.disabled}"
+      ?small="${this.small}"
+      ?medium="${this.medium}"
+      ?large="${this.large}"
+      primary
       >${this.widget ? this.data.current_page + ' / ' + pagination.length : this.data.current_page}</gv-button
     >`}
     ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
@@ -203,12 +262,19 @@ export class GvPagination extends LitElement {
 
   private onChangePageSize({ detail }: any) {
     this.data.size = Number(detail).valueOf();
-    this.goToPage(this.data.current_page);
+    this.goToPage(1);
   }
 
   render() {
+    const classes = {
+      pagination: true,
+      small: this.small,
+      medium: this.medium,
+      large: this.large,
+    };
+
     if (this.hasData && !this.hide) {
-      return html`<div class="pagination">
+      return html`<div class="${classMap(classes)}">
         ${this.hasSearch
           ? html`<gv-input
                 class="goto"
@@ -219,9 +285,18 @@ export class GvPagination extends LitElement {
                 .value="${this.data?.current_page}"
                 max="${this.data.total_pages}"
                 placeholder="Page"
-                small
+                ?small="${this.small}"
+                ?medium="${this.medium}"
+                ?large="${this.large}"
               ></gv-input>
-              <gv-button small outlined @gv-button:click="${this.onClickToSearch}" icon="general:search"></gv-button>`
+              <gv-button
+                ?small="${this.small}"
+                ?medium="${this.medium}"
+                ?large="${this.large}"
+                outlined
+                @gv-button:click="${this.onClickToSearch}"
+                icon="general:search"
+              ></gv-button>`
           : ''}
         ${this.hasSelect
           ? html`<gv-select-native
@@ -229,7 +304,9 @@ export class GvPagination extends LitElement {
               .options="${this.data.sizes}"
               .disabled="${this.disabled}"
               @gv-select-native:input="${this.onChangePageSize}"
-              small
+              ?small="${this.small}"
+              ?medium="${this.medium}"
+              ?large="${this.large}"
             ></gv-select-native>`
           : ''}
         ${this.renderPagination()}
