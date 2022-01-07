@@ -1,1 +1,1 @@
-import '../src/atoms/gv-file-upload';
+import '../dist/atoms/gv-file-upload';

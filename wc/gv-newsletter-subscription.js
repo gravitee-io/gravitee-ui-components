@@ -1,1 +1,1 @@
-import '../src/organisms/gv-newsletter-subscription';
+import '../dist/organisms/gv-newsletter-subscription';

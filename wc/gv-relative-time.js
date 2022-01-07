@@ -1,1 +1,1 @@
-import '../src/atoms/gv-relative-time';
+import '../dist/atoms/gv-relative-time';

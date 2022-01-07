@@ -1,1 +1,1 @@
-import '../src/molecules/gv-option';
+import '../dist/molecules/gv-option';

@@ -1,1 +1,1 @@
-import '../src/molecules/gv-metrics';
+import '../dist/molecules/gv-metrics';

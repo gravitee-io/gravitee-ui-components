@@ -1,1 +1,1 @@
-import '../src/charts/gv-chart-line';
+import '../dist/charts/gv-chart-line';

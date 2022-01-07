@@ -1,1 +1,1 @@
-import '../src/organisms/gv-schema-form-array';
+import '../dist/organisms/gv-schema-form-array';

@@ -1,1 +1,1 @@
-import '../src/organisms/gv-header';
+import '../dist/organisms/gv-header';

@@ -1,1 +1,1 @@
-import '../src/atoms/gv-message';
+import '../dist/atoms/gv-message';

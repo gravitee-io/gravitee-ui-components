@@ -1,1 +1,1 @@
-import '../src/theme/gv-theme';
+import '../dist/theme/gv-theme';

@@ -1,1 +1,1 @@
-import '../src/molecules/gv-confirm';
+import '../dist/molecules/gv-confirm';

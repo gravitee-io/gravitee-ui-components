@@ -1,1 +1,1 @@
-import '../src/atoms/gv-text';
+import '../dist/atoms/gv-text';

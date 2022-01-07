@@ -1,1 +1,1 @@
-import '../src/atoms/gv-tag';
+import '../dist/atoms/gv-tag';

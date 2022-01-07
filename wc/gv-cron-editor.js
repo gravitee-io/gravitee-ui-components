@@ -1,1 +1,1 @@
-import '../src/molecules/gv-cron-editor';
+import '../dist/molecules/gv-cron-editor';

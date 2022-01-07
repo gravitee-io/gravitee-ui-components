@@ -1,1 +1,1 @@
-import '../src/organisms/gv-vertical-menu';
+import '../dist/organisms/gv-vertical-menu';

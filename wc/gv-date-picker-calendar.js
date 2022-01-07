@@ -1,1 +1,1 @@
-import '../src/atoms/gv-date-picker-calendar';
+import '../dist/atoms/gv-date-picker-calendar';

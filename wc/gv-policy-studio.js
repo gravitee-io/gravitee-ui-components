@@ -1,1 +1,1 @@
-import '../src/policy-studio/gv-policy-studio';
+import '../dist/policy-studio/gv-policy-studio';

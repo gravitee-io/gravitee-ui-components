@@ -1,1 +1,1 @@
-import '../src/atoms/gv-state';
+import '../dist/atoms/gv-state';

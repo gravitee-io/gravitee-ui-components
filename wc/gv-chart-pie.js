@@ -1,1 +1,1 @@
-import '../src/charts/gv-chart-pie';
+import '../dist/charts/gv-chart-pie';

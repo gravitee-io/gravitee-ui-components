@@ -1,1 +1,1 @@
-import '../src/molecules/gv-stats';
+import '../dist/molecules/gv-stats';

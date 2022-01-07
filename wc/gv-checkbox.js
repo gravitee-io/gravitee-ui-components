@@ -1,1 +1,1 @@
-import '../src/atoms/gv-checkbox';
+import '../dist/atoms/gv-checkbox';

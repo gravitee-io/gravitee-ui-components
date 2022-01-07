@@ -1,1 +1,1 @@
-import '../src/atoms/gv-switch';
+import '../dist/atoms/gv-switch';

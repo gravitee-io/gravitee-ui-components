@@ -1,1 +1,1 @@
-import '../src/atoms/gv-select';
+import '../dist/atoms/gv-select';

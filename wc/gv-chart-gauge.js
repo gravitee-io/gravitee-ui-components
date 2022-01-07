@@ -1,1 +1,1 @@
-import '../src/charts/gv-chart-gauge';
+import '../dist/charts/gv-chart-gauge';

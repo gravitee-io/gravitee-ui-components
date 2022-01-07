@@ -1,1 +1,1 @@
-import '../src/atoms/gv-autocomplete';
+import '../dist/atoms/gv-autocomplete';

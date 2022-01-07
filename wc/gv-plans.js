@@ -1,1 +1,1 @@
-import '../src/molecules/gv-plans';
+import '../dist/molecules/gv-plans';

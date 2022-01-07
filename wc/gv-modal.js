@@ -1,1 +1,1 @@
-import '../src/molecules/gv-modal';
+import '../dist/molecules/gv-modal';

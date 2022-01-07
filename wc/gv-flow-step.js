@@ -1,1 +1,1 @@
-import '../src/policy-studio/gv-flow-step';
+import '../dist/policy-studio/gv-flow-step';

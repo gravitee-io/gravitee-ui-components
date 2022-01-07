@@ -1,1 +1,1 @@
-import '../src/atoms/gv-spinner';
+import '../dist/atoms/gv-spinner';

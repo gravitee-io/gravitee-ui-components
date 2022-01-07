@@ -1,1 +1,1 @@
-import '../src/molecules/gv-promote';
+import '../dist/molecules/gv-promote';

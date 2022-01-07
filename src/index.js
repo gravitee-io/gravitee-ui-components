@@ -75,3 +75,5 @@ export { GvFlow } from './policy-studio/gv-flow';
 export { GvPolicyStudioMenu } from './policy-studio/gv-policy-studio-menu';
 export { GvPolicyStudio } from './policy-studio/gv-policy-studio';
 export { GvTheme } from './theme/gv-theme';
+
+export * from './lib/index';

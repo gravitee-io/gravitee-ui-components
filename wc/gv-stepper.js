@@ -1,1 +1,1 @@
-import '../src/molecules/gv-stepper';
+import '../dist/molecules/gv-stepper';

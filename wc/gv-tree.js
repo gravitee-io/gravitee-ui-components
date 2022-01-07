@@ -1,1 +1,1 @@
-import '../src/molecules/gv-tree';
+import '../dist/molecules/gv-tree';

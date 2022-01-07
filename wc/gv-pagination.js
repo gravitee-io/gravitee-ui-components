@@ -1,1 +1,1 @@
-import '../src/organisms/gv-pagination';
+import '../dist/organisms/gv-pagination';

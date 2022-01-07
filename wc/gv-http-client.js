@@ -1,1 +1,1 @@
-import '../src/organisms/gv-http-client';
+import '../dist/organisms/gv-http-client';

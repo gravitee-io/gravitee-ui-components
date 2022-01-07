@@ -1,1 +1,1 @@
-import '../src/molecules/gv-identity-picture';
+import '../dist/molecules/gv-identity-picture';

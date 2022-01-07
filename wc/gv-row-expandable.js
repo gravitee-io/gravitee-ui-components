@@ -1,1 +1,1 @@
-import '../src/molecules/gv-row-expandable';
+import '../dist/molecules/gv-row-expandable';

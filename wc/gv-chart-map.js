@@ -1,1 +1,1 @@
-import '../src/charts/gv-chart-map';
+import '../dist/charts/gv-chart-map';

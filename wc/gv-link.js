@@ -1,1 +1,1 @@
-import '../src/atoms/gv-link';
+import '../dist/atoms/gv-link';

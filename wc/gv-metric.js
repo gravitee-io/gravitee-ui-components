@@ -1,1 +1,1 @@
-import '../src/atoms/gv-metric';
+import '../dist/atoms/gv-metric';

@@ -1,1 +1,1 @@
-import '../src/organisms/gv-properties';
+import '../dist/organisms/gv-properties';

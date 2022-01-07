@@ -1,1 +1,1 @@
-import '../src/molecules/gv-code';
+import '../dist/molecules/gv-code';

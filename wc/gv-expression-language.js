@@ -1,1 +1,1 @@
-import '../src/molecules/gv-expression-language';
+import '../dist/molecules/gv-expression-language';

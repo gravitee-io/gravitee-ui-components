@@ -1,1 +1,1 @@
-import '../src/molecules/gv-category-list';
+import '../dist/molecules/gv-category-list';

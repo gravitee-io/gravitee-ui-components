@@ -1,1 +1,1 @@
-import '../src/molecules/gv-dropdown-menu';
+import '../dist/molecules/gv-dropdown-menu';

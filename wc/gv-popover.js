@@ -1,1 +1,1 @@
-import '../src/molecules/gv-popover';
+import '../dist/molecules/gv-popover';

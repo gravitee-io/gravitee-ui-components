@@ -1,1 +1,1 @@
-import '../src/molecules/gv-rating-list';
+import '../dist/molecules/gv-rating-list';

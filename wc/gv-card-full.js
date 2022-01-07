@@ -1,1 +1,1 @@
-import '../src/molecules/gv-card-full';
+import '../dist/molecules/gv-card-full';

@@ -1,1 +1,1 @@
-import '../src/atoms/gv-date-picker-cell';
+import '../dist/atoms/gv-date-picker-cell';

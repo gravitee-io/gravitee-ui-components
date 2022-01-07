@@ -1,1 +1,1 @@
-import '../src/organisms/gv-resizable-views';
+import '../dist/organisms/gv-resizable-views';
