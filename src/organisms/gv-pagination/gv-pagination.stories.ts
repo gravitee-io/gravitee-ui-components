@@ -33,7 +33,18 @@ export const Basics = makeStory(conf, {
   ],
 });
 
-export const Large = makeStory(conf, {
+export const Medium = makeStory(conf, {
+  items: [
+    {
+      'has-search': true,
+      'has-select': true,
+      medium: true,
+      data: { first: 1, last: 1, total: 10, current_page: 1, total_pages: 10, size: 1, sizes: [5, 10, 25, 50, 100] },
+    },
+  ],
+});
+
+export const MoreThanTen = makeStory(conf, {
   items: [
     {
       data: { first: 1, last: 100, total: 100, current_page: 59, total_pages: 70 },
