@@ -1,3 +1,10 @@
+## [3.27.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.0...v3.27.1) (2022-01-07)
+
+
+### Bug Fixes
+
+* **gv-http-client:** fix Lit import for repeat directive ([af29790](https://github.com/gravitee-io/gravitee-ui-components/commit/af29790fa097c88403206954fc4de66a0c063f89))
+
 # [3.27.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.26.0...v3.27.0) (2021-12-29)
 
 
