@@ -229,7 +229,7 @@ export class GvPagination extends LitElement {
         .icon="${this.widget ? 'navigation:angle-right' : null}"
         .title="${i18n('gv-pagination.next')}"
         outlined
-        @click="${rightP.length === 0 ? () => {} : this.goToPage.bind(this, this.data.current_page + 1)}"
+        @gv-button:click="${rightP.length === 0 ? () => {} : this.goToPage.bind(this, this.data.current_page + 1)}"
         >${this.widget ? '' : i18n('gv-pagination.next')}</gv-button
       >`,
     );
@@ -240,6 +240,9 @@ export class GvPagination extends LitElement {
       ?medium="${this.medium}"
       ?large="${this.large}"
       primary
+      .title="${this.widget
+        ? i18n('gv-pagination.results', { count: this.data.total })
+        : this.data.current_page + ' / ' + pagination.length}"
       >${this.widget ? this.data.current_page + ' / ' + pagination.length : this.data.current_page}</gv-button
     >`}
     ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
@@ -288,6 +291,7 @@ export class GvPagination extends LitElement {
                 ?small="${this.small}"
                 ?medium="${this.medium}"
                 ?large="${this.large}"
+                .title="${this.data?.current_page + ' / ' + this.data.total_pages}"
               ></gv-input>
               <gv-button
                 ?small="${this.small}"
@@ -296,6 +300,7 @@ export class GvPagination extends LitElement {
                 outlined
                 @gv-button:click="${this.onClickToSearch}"
                 icon="general:search"
+                .title="${i18n('gv-pagination.goTo')}"
               ></gv-button>`
           : ''}
         ${this.hasSelect
