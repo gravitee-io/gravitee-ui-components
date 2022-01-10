@@ -1,3 +1,17 @@
+# [3.28.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.3...v3.28.0) (2022-01-10)
+
+
+### Bug Fixes
+
+* **gv-pagination:** resolve keyboard commands ([c1785cc](https://github.com/gravitee-io/gravitee-ui-components/commit/c1785cc3d9779bc6f24ba8adcb1f55ac6deb7da5))
+
+
+### Features
+
+* **gv-pagination:** add optional page size selector ([49339dd](https://github.com/gravitee-io/gravitee-ui-components/commit/49339dd5323c65981a987e5247b9172316f490c3))
+* **gv-pagination:** add small/medium/large properties to custom size of fields ([bd7b038](https://github.com/gravitee-io/gravitee-ui-components/commit/bd7b0389af820396d5a1e21aed5853200d7b4be1))
+* **gv-pagination:** add title with usefull informations on active btn ([bfde1ae](https://github.com/gravitee-io/gravitee-ui-components/commit/bfde1ae66637102f69eb843369653dc33678f260))
+
 ## [3.27.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.2...v3.27.3) (2022-01-10)
 
 
