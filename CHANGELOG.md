@@ -1,3 +1,10 @@
+## [3.27.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.2...v3.27.3) (2022-01-10)
+
+
+### Bug Fixes
+
+* pin `colors` version to avoid vulnerability ([e7de803](https://github.com/gravitee-io/gravitee-ui-components/commit/e7de8032f604213bbfc6a170e40f421d2528558c))
+
 ## [3.27.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.1...v3.27.2) (2022-01-07)
 
 
