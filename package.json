@@ -48,6 +48,9 @@
     "*.{js,html,css,json}": "prettier --write",
     "package.json": "yarn lint:package"
   },
+  "resolutions": {
+    "colors": "1.4.0"
+  },
   "dependencies": {
     "@codemirror/basic-setup": "^0.19.1",
     "@codemirror/language-data": "^0.19.1",
