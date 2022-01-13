@@ -1,3 +1,10 @@
+## [3.28.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.1...v3.28.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* **style:** mark defaultValue param as optional in getCssVar ([359649c](https://github.com/gravitee-io/gravitee-ui-components/commit/359649c9b0a8b81c5f3bebdac3fb89dbac35ef27))
+
 ## [3.28.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.0...v3.28.1) (2022-01-13)
 
 
