@@ -403,17 +403,19 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return window;
   }
 
-  onKeyboard() {
+  onKeyboard(controller, event) {
     if (this._currentAskConfirmation == null) {
-      if (this.isPressed(KEYS.Shift, KEYS.Ctrl, KEYS.Space)) {
+      if (this.isPressed(KEYS.Shift, KEYS.Alt, KEYS.Space)) {
         const search = this.shadowRoot.querySelector('#search-policy');
         if (search) {
           search.focus();
+          event.preventDefault();
         }
-      } else if (this.isPressed(KEYS.Ctrl, KEYS.Space)) {
+      } else if (this.isPressed(KEYS.Alt, KEYS.Space)) {
         const search = this.shadowRoot.querySelector('#search-flow');
         if (search) {
           search.focus();
+          event.preventDefault();
         }
       }
     }
@@ -1598,7 +1600,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
               <gv-input
                 id="search-policy"
                 ?disabled="${this._currentAskConfirmation}"
-                placeholder="Filter policies (Shift + Ctrl + Space)"
+                placeholder="Filter policies (Shift + Alt + Space)"
                 type="search"
                 small
                 @gv-input:input="${this._onSearchPolicy}"
@@ -1740,7 +1742,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           <gv-input
             ?disabled="${this._currentAskConfirmation}"
             id="search-flow"
-            placeholder="Filter flows (Ctrl + Space)"
+            placeholder="Filter flows (Alt + Space)"
             type="search"
             small
             @gv-input:input="${this._onSearchFlows}"

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 export const KEYS = {
+  Alt: '18',
   ArrowDown: '40',
   ArrowLeft: '37',
   ArrowRight: '39',
