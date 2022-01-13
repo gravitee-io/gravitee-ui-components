@@ -1,3 +1,11 @@
+## [3.28.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.0...v3.28.1) (2022-01-13)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** change keyboard binding to prevent conflict with gv-expression-language ([0d065de](https://github.com/gravitee-io/gravitee-ui-components/commit/0d065de6a1579690ffe5bb6e69ff6c7128732a01))
+* **input:** remove the call to reportValidity to prevent autofocus on the field in error ([65ad3dc](https://github.com/gravitee-io/gravitee-ui-components/commit/65ad3dc0946db6b9cb140ebb63db40f352eb3d53))
+
 # [3.28.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.27.3...v3.28.0) (2022-01-10)
 
 
