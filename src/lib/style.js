@@ -19,7 +19,7 @@ function getPropertyValue(element, propertyName, defaultValue) {
   return value.trim() || defaultValue;
 }
 
-export const getCssVar = function getCssVar(element, variableName, defaultValue) {
+export const getCssVar = function getCssVar(element, variableName, defaultValue = undefined) {
   if (element) {
     if (variableName.startsWith('--')) {
       return getPropertyValue(element, variableName, defaultValue);
