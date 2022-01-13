@@ -98,7 +98,6 @@ export function InputElement(ParentClass) {
         } else {
           element.setCustomValidity('');
         }
-        element.reportValidity();
       }
       this.invalid = isInvalid;
       this.valid = !this.invalid;
