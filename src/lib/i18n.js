@@ -71,8 +71,8 @@ export function getLanguage() {
  * @param {object} translations - Translation values by key
  * @param {string} label - Lang label
  */
-export function addTranslations(lang, translations, label) {
-  i18n._translations[lang] = { ...{ LANGUAGE: label }, ...translations };
+export function addTranslations(lang, translations, label = undefined) {
+  i18n._translations[lang] = { ...{ LANGUAGE: label || lang }, ...translations };
 }
 
 /**
