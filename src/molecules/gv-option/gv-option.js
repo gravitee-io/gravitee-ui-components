@@ -15,11 +15,11 @@
  */
 import { css, LitElement, html } from 'lit';
 import '../../atoms/gv-button';
-import { repeat } from 'lit/directives/repeat';
-import { classMap } from 'lit/directives/class-map';
+import { repeat } from 'lit/directives/repeat.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
-import { ifDefined } from 'lit/directives/if-defined';
-import { styleMap } from 'lit/directives/style-map';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
 /**
  * Option component

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import { startOfDay } from 'date-fns';
-import { until } from 'lit/directives/until';
+import { until } from 'lit/directives/until.js';
 import { isInvalid } from '../../lib/date';
 
 /**

@@ -18,9 +18,9 @@ import '../../atoms/gv-metric';
 import { i18n } from '../../lib/i18n';
 import { link } from '../../styles/link';
 import { withSkeletonAttribute } from '../../mixins/with-skeleton-attribute';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
-import { ifDefined } from 'lit/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
  * Metrics information component

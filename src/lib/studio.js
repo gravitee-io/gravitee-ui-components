@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { html, css } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import '../atoms/gv-icon';
 import '../atoms/gv-tag';
 

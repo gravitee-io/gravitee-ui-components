@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit/directives/class-map';
-import { ifDefined } from 'lit/directives/if-defined';
-import { repeat } from 'lit/directives/repeat';
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { repeat } from 'lit/directives/repeat.js';
 
 import { css, html, LitElement } from 'lit';
 import { skeleton } from '../../styles/skeleton';

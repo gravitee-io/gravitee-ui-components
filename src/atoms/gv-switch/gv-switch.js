@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit/directives/class-map';
-import { ifDefined } from 'lit/directives/if-defined';
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { LitElement, html, css } from 'lit';
 import { skeleton } from '../../styles/skeleton';

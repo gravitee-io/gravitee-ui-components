@@ -30,7 +30,7 @@ import '../gv-flow';
 import '../gv-flow-step';
 import '../gv-policy-studio-menu';
 import { empty } from '../../styles/empty';
-import { cache } from 'lit/directives/cache';
+import { cache } from 'lit/directives/cache.js';
 import { deepClone, deepEqual } from '../../lib/utils';
 import { KeyboardElement, KEYS } from '../../mixins/keyboard-element';
 

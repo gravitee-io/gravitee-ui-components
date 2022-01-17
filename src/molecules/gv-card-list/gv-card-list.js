@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { css, LitElement, html } from 'lit';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import { withResizeObserver } from '../../mixins/with-resize-observer';
 import { i18n } from '../../lib/i18n';
 import '../gv-card-full';

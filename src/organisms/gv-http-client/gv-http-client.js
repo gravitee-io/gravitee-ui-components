@@ -28,7 +28,7 @@ import { empty } from '../../styles/empty';
 import { httpClientSchemaForm } from '../../lib/http-client-schema-form';
 import { dispatchCustomEvent } from '../../lib/events';
 import { statusCode } from '../../lib/http';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 
 /**
  * @fires gv-http-client:send - Event sent when

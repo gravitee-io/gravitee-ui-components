@@ -21,7 +21,7 @@ import { css, LitElement, html } from 'lit';
 import { skeleton } from '../../styles/skeleton';
 import { InputElement } from '../../mixins/input-element';
 import { set } from 'object-path';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import { withResizeObserver } from '../../mixins/with-resize-observer';
 import { isValidCron } from '../../lib/cron-expression';
 import { dispatchCustomEvent } from '../../lib/events';

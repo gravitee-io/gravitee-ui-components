@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css } from 'lit';
 import { skeleton } from '../../styles/skeleton';
 import { link } from '../../styles/link';
 import '../gv-icon';
-import { ifDefined } from 'lit/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import { KeyboardElement, KEYS } from '../../mixins/keyboard-element';
 

@@ -16,9 +16,9 @@
 import { css, LitElement, html } from 'lit';
 import { link } from '../../styles/link';
 import { dispatchCustomEvent } from '../../lib/events';
-import { ifDefined } from 'lit/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { i18n } from '../../lib/i18n';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 
 /**
  * File upload

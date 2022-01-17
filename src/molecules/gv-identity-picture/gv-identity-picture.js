@@ -16,7 +16,7 @@
 import { css, LitElement, html } from 'lit';
 import { toSvg } from 'jdenticon';
 import { skeleton } from '../../styles/skeleton';
-import { styleMap } from 'lit/directives/style-map';
+import { styleMap } from 'lit/directives/style-map.js';
 import '../../atoms/gv-image';
 
 /**

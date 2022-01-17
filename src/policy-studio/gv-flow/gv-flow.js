@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import '../../atoms/gv-image';
 import { appendDraggableImage, uuid } from '../../lib/utils';

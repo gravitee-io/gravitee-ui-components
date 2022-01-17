@@ -15,7 +15,7 @@
  */
 import { LitElement, html, css } from 'lit';
 import { truncate } from '../../lib/utils';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import { i18n } from '../../lib/i18n';
 import { withSkeletonAttribute } from '../../mixins/with-skeleton-attribute';

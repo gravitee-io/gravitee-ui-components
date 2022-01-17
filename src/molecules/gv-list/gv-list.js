@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import { css, html, LitElement } from 'lit';
-import { repeat } from 'lit/directives/repeat';
-import { classMap } from 'lit/directives/class-map';
+import { repeat } from 'lit/directives/repeat.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { i18n } from '../../lib/i18n';
 import { link } from '../../styles/link';
 import '../../molecules/gv-identity-picture';

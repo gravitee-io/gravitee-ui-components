@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { css, LitElement, html } from 'lit';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import '../../atoms/gv-relative-time';
 import '../../molecules/gv-identity-picture';
 import '../../molecules/gv-rating';
@@ -22,7 +22,7 @@ import '../../molecules/gv-confirm';
 import { skeleton } from '../../styles/skeleton';
 import { link } from '../../styles/link';
 import { i18n } from '../../lib/i18n';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 
 /**

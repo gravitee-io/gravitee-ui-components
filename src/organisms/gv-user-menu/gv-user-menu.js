@@ -15,8 +15,8 @@
  */
 import { LitElement, html, css } from 'lit';
 import '../../molecules/gv-nav';
-import { repeat } from 'lit/directives/repeat';
-import { classMap } from 'lit/directives/class-map';
+import { repeat } from 'lit/directives/repeat.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { isSameRoutes } from '../../lib/utils';
 
 /**

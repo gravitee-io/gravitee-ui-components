@@ -15,7 +15,7 @@
  */
 import { css, LitElement, html } from 'lit';
 import { skeleton } from '../../styles/skeleton';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import '../../atoms/gv-image';
 import '../../atoms/gv-button';
 import { i18n } from '../../lib/i18n';

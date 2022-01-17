@@ -16,12 +16,12 @@
 import { LitElement, html, css } from 'lit';
 import { skeleton } from '../../styles/skeleton';
 import { link } from '../../styles/link';
-import { classMap } from 'lit/directives/class-map';
-import { styleMap } from 'lit/directives/style-map';
-import { until } from 'lit/directives/until';
+import { classMap } from 'lit/directives/class-map.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { until } from 'lit/directives/until.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import '../gv-icon';
-import { ifDefined } from 'lit/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
  * A link
