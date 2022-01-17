@@ -1,0 +1,108 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/v2-preview/web-types.json",
+  "name": "@gravitee/ui-components",
+  "version": "1.0.0",
+  "js-types-syntax": "typescript",
+  "description-markup": "markdown",
+  "default-icon": "./assets/images/gravitee-g-logo-dark-blue.svg",
+  "contributions": {
+    "html": {
+      "elements": [
+        {
+          "name": "gv-icon",
+          "description": "A simple icon component",
+          "source": {
+            "file": "./src/atoms/gv-icon/gv-icons.js",
+            "offset": 0
+          },
+          "priority": "highest",
+          "css": {
+            "classes": [
+              {
+                "name": "large",
+                "description": "Set the icon to 64x64px"
+              }
+            ],
+            "properties": [
+              {
+                "name": "--gv-icon--c",
+                "description": "Color"
+              },
+              {
+                "name": "--gv-icon-opacity--c",
+                "description": "Opacity (between 0 and 1)"
+              }
+            ]
+          },
+          "attributes": [
+            {
+              "name": "shape",
+              "description": "A concatenation of category name and icon name: `{category}:{iconName}`",
+              "value": {
+                "type": "enum"
+              },
+              "values": {
+                "name": "Shape values",
+                "pattern": {
+                  "template": [
+                    {
+                      "items": "/html/shape-categories"
+                    },
+                    ":",
+                    {
+                      "items": "/html/shape-iconNames"
+                    }
+                  ]
+                }
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "gv-button",
+          "description": "A custom button component.",
+          "priority": "normal",
+          "attributes": [
+            {
+              "name": "type",
+              "description": "The type of the button",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "primary"
+            },
+            {
+              "name": "size",
+              "value": {
+                "kind": "expression",
+                "type": "enum"
+              },
+              "default": "medium"
+            }
+          ]
+        }
+      ],
+      "shape-categories": [
+        {
+          "name": "action"
+        },
+        {
+          "name": "alert"
+        }
+      ],
+      "shape-iconNames": [
+        {
+          "name": "3d_rotation"
+        },
+        {
+          "name": "accessibility"
+        },
+        {
+          "name": "alarm"
+        }
+      ]
+    }
+  }
+}

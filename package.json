@@ -16,7 +16,8 @@
     "assets/icons",
     "assets/images",
     "src",
-    "wc"
+    "wc",
+    "gravitee--ui-components-web-types.json"
   ],
   "scripts": {
     "build": "yarn docs && yarn check:i18n && yarn generate:theme && yarn generate:dist && build-storybook -s assets --modern --quiet",
@@ -25,7 +26,7 @@
     "compile:watch": "tsc -w",
     "danger": "danger ci",
     "docs": "wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
-    "generate:dist": "yarn compile && cp -R assets dist/ && cp package.json dist/",
+    "generate:dist": "yarn compile && cp -R assets dist/ && cp package.json dist/ && cp gravitee--ui-components-web-types.json dist/",
     "generate:icons": "node tasks/generate-icons.js && yarn lint:fix",
     "generate:theme": "node tasks/generate-theme.js && yarn lint:fix",
     "lint": "eslint src testing tasks && yarn prettier",
@@ -156,5 +157,8 @@
       "optional": true
     }
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.1.1",
+  "web-types": [
+    "./gravitee--ui-components-web-types.json"
+  ]
 }
