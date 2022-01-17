@@ -111,7 +111,7 @@
     "is-ci": "3.0.1",
     "jest": "27.4.7",
     "license-check-and-add": "4.0.3",
-    "lint-staged": "11.2.6",
+    "lint-staged": "12.1.7",
     "lit-html": "2.1.1",
     "markdown-it": "12.3.2",
     "node-static": "0.7.11",
