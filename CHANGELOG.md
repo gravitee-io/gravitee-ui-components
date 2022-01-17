@@ -1,3 +1,10 @@
+## [3.28.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.2...v3.28.3) (2022-01-17)
+
+
+### Bug Fixes
+
+* **i18n:** mark label param as optional in addTranslations method ([01af567](https://github.com/gravitee-io/gravitee-ui-components/commit/01af5677c97304972c7baa1ccca99b0eb345b87c))
+
 ## [3.28.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.1...v3.28.2) (2022-01-13)
 
 
