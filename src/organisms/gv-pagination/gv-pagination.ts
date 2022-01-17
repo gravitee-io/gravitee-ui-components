@@ -16,12 +16,12 @@
 import { LitElement, html, css } from 'lit';
 import { dispatchCustomEvent } from '../../lib/events';
 import { i18n } from '../../lib/i18n';
-import { customElement, property, query } from 'lit/decorators';
+import { customElement, property, query } from 'lit/decorators.js';
 import { Pagination, PaginateDetail } from './model';
 import '../../atoms/gv-button';
 import '../../atoms/gv-input';
 import '../../atoms/gv-select-native';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 
 /**
  * A pagination
