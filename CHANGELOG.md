@@ -1,3 +1,10 @@
+## [3.28.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.3...v3.28.4) (2022-01-17)
+
+
+### Bug Fixes
+
+* explicitly add `.js` ending for each lit import ([f29de1e](https://github.com/gravitee-io/gravitee-ui-components/commit/f29de1ec19fc04012fde6e432aa2c07df50436e6))
+
 ## [3.28.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.2...v3.28.3) (2022-01-17)
 
 
