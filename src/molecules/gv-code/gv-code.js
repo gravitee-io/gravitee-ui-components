@@ -25,7 +25,7 @@ import { placeholder } from '@codemirror/view';
 import { shapeClipboard } from '../../styles/shapes';
 import { dispatchCustomEvent } from '../../lib/events';
 import { uuid } from '../../lib/utils';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { GvInput } from '../../atoms/gv-input';
 import { skeleton } from '../../styles/skeleton';
 import { empty } from '../../styles/empty';

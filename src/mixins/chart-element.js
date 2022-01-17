@@ -17,7 +17,7 @@ import { html, css } from 'lit';
 import { i18n } from '../lib/i18n';
 import Highcharts from 'highcharts';
 import Highmaps from 'highcharts/highmaps';
-import { cache } from 'lit/directives/cache';
+import { cache } from 'lit/directives/cache.js';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
 
 /**

@@ -15,7 +15,7 @@
  */
 import { LitElement, html, css } from 'lit';
 import { withResizeObserver } from '../../mixins/with-resize-observer';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import '../../atoms/gv-image';
 import '../../molecules/gv-dropdown-menu';

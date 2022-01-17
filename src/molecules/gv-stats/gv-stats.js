@@ -16,8 +16,8 @@
 import { css, html, LitElement } from 'lit';
 import '../../atoms/gv-button';
 import '../../atoms/gv-tag';
-import { repeat } from 'lit/directives/repeat';
-import { classMap } from 'lit/directives/class-map';
+import { repeat } from 'lit/directives/repeat.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { i18n } from '../../lib/i18n';
 import { withSkeletonAttribute } from '../../mixins/with-skeleton-attribute';
 

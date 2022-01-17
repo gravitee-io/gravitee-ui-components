@@ -27,7 +27,7 @@ import '../../atoms/gv-select';
 import { dispatchCustomEvent } from '../../lib/events';
 import { ERROR_TYPES, parseRaw, toNameEqualsValueString } from '../../lib/properties';
 import { i18n } from '../../lib/i18n';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { KeyboardElement, KEYS } from '../../mixins/keyboard-element';
 import { empty } from '../../styles/empty';
 

@@ -15,7 +15,7 @@
  */
 import { getLanguage, getAvailableLanguages } from '../../lib/i18n';
 import { LitElement, html } from 'lit';
-import { until } from 'lit/directives/until';
+import { until } from 'lit/directives/until.js';
 import { shouldPolyfill as shouldPolyfillIntlRelativeTimeFormat } from '@formatjs/intl-relativetimeformat/should-polyfill';
 
 const options = {

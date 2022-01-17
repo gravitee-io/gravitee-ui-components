@@ -16,7 +16,7 @@
 import { css, html, LitElement } from 'lit';
 import { skeleton } from '../../styles/skeleton';
 import { link } from '../../styles/link';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { i18n } from '../../lib/i18n';
 import { ItemResource } from '../../mixins/item-resource';
 import { withResizeObserver } from '../../mixins/with-resize-observer';

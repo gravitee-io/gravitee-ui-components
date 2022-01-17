@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { css, LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 
 /**

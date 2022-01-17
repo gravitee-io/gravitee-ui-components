@@ -15,9 +15,9 @@
  */
 import { css, LitElement, unsafeCSS, html } from 'lit';
 import { dispatchCustomEvent } from '../../lib/events';
-import { repeat } from 'lit/directives/repeat';
-import { classMap } from 'lit/directives/class-map';
-import { styleMap } from 'lit/directives/style-map';
+import { repeat } from 'lit/directives/repeat.js';
+import { classMap } from 'lit/directives/class-map.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
 const ENTER_KEY_CODE = 13;
 const DOWN_ARROW_KEY_CODE = 40;

@@ -18,14 +18,14 @@ import '../../atoms/gv-button';
 import '../../atoms/gv-tag';
 import { i18n } from '../../lib/i18n';
 import { isSameRoutes } from '../../lib/utils';
-import { repeat } from 'lit/directives/repeat';
-import { until } from 'lit/directives/until';
+import { repeat } from 'lit/directives/repeat.js';
+import { until } from 'lit/directives/until.js';
 import { dispatchCustomEvent } from '../../lib/events';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { withResizeObserver } from '../../mixins/with-resize-observer';
 import { ItemResource } from '../../mixins/item-resource';
 import { getNbApisInView, getBackground, getTitle, getVersion } from '../../lib/item';
-import { styleMap } from 'lit/directives/style-map';
+import { styleMap } from 'lit/directives/style-map.js';
 
 /**
  * Header component

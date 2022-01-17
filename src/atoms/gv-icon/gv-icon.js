@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import { css, LitElement, html, noChange } from 'lit';
-import { Directive, directive } from 'lit/directive';
+import { Directive, directive } from 'lit/directive.js';
 
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 
 class Namespaced extends Directive {
   update(part, [namespace, value]) {

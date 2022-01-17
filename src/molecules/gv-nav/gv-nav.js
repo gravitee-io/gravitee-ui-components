@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 import { LitElement, html, css } from 'lit';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import '../../atoms/gv-link';
-import { until } from 'lit/directives/until';
+import { until } from 'lit/directives/until.js';
 import { isSameRoutes } from '../../lib/utils';
 import { dispatchCustomEvent } from '../../lib/events';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 
 /**
  * A main nav

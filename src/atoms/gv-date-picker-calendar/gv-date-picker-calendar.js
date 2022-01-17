@@ -32,12 +32,12 @@ import {
   subMonths,
   subYears,
 } from 'date-fns';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import { i18n } from '../../lib/i18n';
 import { LitElement, css, html } from 'lit';
 
-import { until } from 'lit/directives/until';
+import { until } from 'lit/directives/until.js';
 
 /**
  * Date Picker Calendar

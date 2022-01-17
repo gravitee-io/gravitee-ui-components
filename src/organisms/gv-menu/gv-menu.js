@@ -16,7 +16,7 @@
 import { LitElement, html, css } from 'lit';
 import '../../molecules/gv-nav';
 import { isSameRoutes } from '../../lib/utils';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { withResizeObserver } from '../../mixins/with-resize-observer';
 
 /**

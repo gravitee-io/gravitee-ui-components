@@ -16,13 +16,13 @@
 import { LitElement, html, css } from 'lit';
 import { link } from '../../styles/link';
 import { dispatchCustomEvent } from '../../lib/events';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import '../../atoms/gv-image';
 import '../../atoms/gv-state';
 import '../../molecules/gv-popover';
 import '../gv-flow-step';
 import { getFlowTitle, methods } from '../../lib/studio';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import { appendDraggableImage, uuid } from '../../lib/utils';
 
 /**

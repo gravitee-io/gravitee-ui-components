@@ -15,10 +15,10 @@
  */
 
 import { css, LitElement, html } from 'lit';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import '../../atoms/gv-icon';
 import { skeleton } from '../../styles/skeleton';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { i18n } from '../../lib/i18n';
 
 const MAX_RATE = 5;

@@ -15,7 +15,7 @@
  */
 import { css, html, LitElement } from 'lit';
 import { canInline, canGrid } from '../../lib/schema-form';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { skeleton } from '../../styles/skeleton';
 import '../../molecules/gv-expandable';
 import { UpdateAfterBrowser } from '../../mixins/update-after-browser';

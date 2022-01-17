@@ -16,7 +16,7 @@
 import { css, html, LitElement } from 'lit';
 import { canInline } from '../../lib/schema-form';
 import { dispatchCustomEvent } from '../../lib/events';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 import { skeleton } from '../../styles/skeleton';
 import { UpdateAfterBrowser } from '../../mixins/update-after-browser';
 
