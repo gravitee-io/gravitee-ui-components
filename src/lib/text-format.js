@@ -38,12 +38,17 @@ export function toDom(text, type = 'adoc', small = false) {
     if (text) {
       let innerHTML = '';
       if (type === 'adoc') {
-        innerHTML = asciidoctor.convert(text, {
-          attributes: {
-            showtitle: true,
-            'source-highlighter': 'highlightjs-ext',
-          },
-        });
+        innerHTML = asciidoctor
+          .convert(text, {
+            attributes: {
+              showtitle: true,
+              'source-highlighter': 'highlightjs-ext',
+            },
+          })
+          // Replace href links to include potential parts of the URL that can be set by Angular router or
+          // any other routing framework. By default, href will have the following format:
+          // href="[SERVER_BASE]/#a_link" i.e. href="https://apim-master-portal.cloud.gravitee.io/#a_link"
+          .replace(/href="#/g, `href="${window.location.href}#`);
       } else {
         throw new Error(`Library not found for type : '${type}' | ${text}`);
       }
