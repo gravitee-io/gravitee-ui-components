@@ -1,3 +1,10 @@
+## [3.28.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.6...v3.28.7) (2022-01-25)
+
+
+### Bug Fixes
+
+* revert "chore(deps): update dependency semantic-release to v19" ([774a023](https://github.com/gravitee-io/gravitee-ui-components/commit/774a02312f92cf28419e36b137be9ebda7c6d256))
+
 ## [3.28.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.5...v3.28.6) (2022-01-25)
 
 
