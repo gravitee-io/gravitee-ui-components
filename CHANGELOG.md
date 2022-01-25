@@ -1,3 +1,10 @@
+## [3.28.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.5...v3.28.6) (2022-01-25)
+
+
+### Bug Fixes
+
+* override href from asciidoctor ToC ([cdee38e](https://github.com/gravitee-io/gravitee-ui-components/commit/cdee38e70bfab381ca71b0814481e5ee85bced8c))
+
 ## [3.28.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.4...v3.28.5) (2022-01-17)
 
 
