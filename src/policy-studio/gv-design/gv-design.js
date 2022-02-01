@@ -42,6 +42,7 @@ const FLOW_STEP_FORM_ID = 'flow-step-form';
  * install them with: `npm install asciidoctor highlight.js asciidoctor-highlight.js --save`
  *
  * @fires gv-design:select-policy - Select policy event
+ * @fires gv-design:change - Design change event
  *
  * @attr {Array} policies - Policies available
  * @attr {Array} services - Services available
@@ -467,6 +468,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
       setTimeout(() => {
         this._dragPolicy = null;
         this._dropPolicy = null;
+        this.dispatchChange();
       }, 0);
     } catch (e) {
       this._currentAskConfirmation = null;
@@ -482,6 +484,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
       this._closeFlowStepForm(true);
     }
     this._getFlowElement(detail.flowId).requestUpdate();
+    this.dispatchChange();
   }
 
   _onDesign() {
@@ -559,6 +562,23 @@ export class GvDesign extends KeyboardElement(LitElement) {
     step.enabled = detail.enabled;
     targetFlow._dirty = true;
     this.isDirty = true;
+    this.dispatchChange();
+  }
+
+  dispatchChange() {
+    const invalidForms = [...this.shadowRoot.querySelectorAll('gv-schema-form')].filter((form) => {
+      form.validate();
+      return !form.isValid();
+    });
+
+    const errors = invalidForms.length;
+    const definition = errors === 0 ? this._buildDefinitionToSend(this._buildDefinitionToSave()) : null;
+
+    dispatchCustomEvent(this, 'change', {
+      isDirty: this.isDirty,
+      errors,
+      definition,
+    });
   }
 
   async _onCloseFlowStepForm() {
@@ -739,6 +759,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
       this.isDirty = true;
       this._currentFlowStep.flow = flow;
       this._currentFlowStep.step = flow[this._currentFlowStep.group][position];
+      this.dispatchChange();
     }
   }
 
@@ -759,6 +780,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
     if (!deepEqual(selectedFlow, selectedFlowUpdated)) {
       Object.assign(selectedFlow, selectedFlowUpdated, { _dirty: true });
       this.isDirty = true;
+      this.dispatchChange();
       this._refresh();
     }
   }
@@ -770,6 +792,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
   _onSubmitFlowMode({ detail: { values } }) {
     this._definition['flow-mode'] = values['flow-mode'] || 'DEFAULT';
     this.isDirty = true;
+    this.dispatchChange();
     this._refresh();
   }
 
@@ -1061,6 +1084,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
     flow.enabled = detail.enabled;
     flow._dirty = true;
     this.isDirty = true;
+    this.dispatchChange();
   }
 
   async _onAddFlowPlan({ detail }) {
@@ -1100,6 +1124,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
 
     collection.push(flow);
     this.isDirty = true;
+    this.dispatchChange();
     return collection;
   }
 
@@ -1146,6 +1171,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
     }
     this._refresh();
     this.isDirty = true;
+    this.dispatchChange();
   }
 
   _findFlowIndex(list, id) {
@@ -1164,6 +1190,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
     try {
       await this._askToValidateForms();
       this.isDirty = true;
+      this.dispatchChange();
       if (plan != null) {
         const newOrder = this._generatePlanFlowsId(plan, true);
         if (this.selectedFlowsId) {
@@ -1329,7 +1356,6 @@ export class GvDesign extends KeyboardElement(LitElement) {
       const resources = this._definition.resources.map(this._removePrivateProperties);
       definition = { ...definition, resources };
     }
-
     return definition;
   }
 
