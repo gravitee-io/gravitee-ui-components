@@ -356,6 +356,9 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   async willUpdate(changedProperties) {
+    if (changedProperties.has('services') && this.services == null) {
+      this.services = {};
+    }
     if (changedProperties.has('configurationSchema') && this.configurationSchema) {
       this._tabs.splice(1, 0, { id: 'settings', title: 'Configuration', icon: 'general:settings#2' });
     }
