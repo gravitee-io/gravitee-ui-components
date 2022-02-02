@@ -322,6 +322,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
 
   set definition(definition) {
     if (definition) {
+      definition.flows = definition.flows || [];
       const flows = this._generateFlowsId(definition.flows);
       const resources = this._generateId('resource-', definition.resources);
       const plans =
