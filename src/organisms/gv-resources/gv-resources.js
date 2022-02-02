@@ -58,7 +58,7 @@ export class GvResources extends KeyboardElement(LitElement) {
     if (this.isPressed(KEYS.Esc)) {
       this._onCancelResourceForm();
     }
-    if (this.isPressed(KEYS.Shift, KEYS.Ctrl, KEYS.Space)) {
+    if (this.isPressed(KEYS.Shift, KEYS.Alt, KEYS.Space)) {
       const search = this.shadowRoot.querySelector('#search-resource');
       if (search) {
         search.focus();
@@ -393,7 +393,7 @@ export class GvResources extends KeyboardElement(LitElement) {
               <gv-input
                 id="search-resource"
                 class="search-input"
-                placeholder="Filter resources (Shift + Ctrl + Space)"
+                placeholder="Filter resources (Shift + Alt + Space)"
                 type="search"
                 small
                 @gv-input:input="${this._onSearchResource}"
