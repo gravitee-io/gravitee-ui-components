@@ -92,7 +92,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
     if (this.isPressed(KEYS.Esc)) {
       this._onClosePropertySchemaForm();
     }
-    if (this.isPressed(KEYS.Shift, KEYS.Ctrl, KEYS.Space)) {
+    if (this.isPressed(KEYS.Shift, KEYS.Alt, KEYS.Space)) {
       const search = this.shadowRoot.querySelector('#search-property');
       if (search) {
         search.focus();
@@ -562,7 +562,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
         ></gv-switch>
         <gv-input
           id="search-property"
-          placeholder="Filter properties (Shift + Ctrl + Space)"
+          placeholder="Filter properties (Shift + Alt + Space)"
           type="search"
           small
           class="search-input"
