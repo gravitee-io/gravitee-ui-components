@@ -366,7 +366,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
       if (this.definedFlows.length > 0 && this.definedFlows[0]._id != null) {
         candidate = this.definedFlows[0];
       } else if (this.definedPlans.length > 0) {
-        const plan = this.definedPlans.find((plan) => plan.flows != null && plan.flows.length > 0 && plan.flows[0]._id != null);
+        const plan = this.definedPlans.find((p) => p.flows != null && p.flows.length > 0 && p.flows[0]._id != null);
         if (plan) {
           candidate = plan.flows[0];
         }
@@ -640,9 +640,9 @@ export class GvDesign extends KeyboardElement(LitElement) {
 
       if (flowStepSchema && flowStepSchema.properties.scope) {
         const _enum = schema.properties.scope.enum;
-        if (_enum.find((scope) => ['REQUEST', 'REQUEST_CONTENT', 'RESPONSE', 'RESPONSE_CONTENT'].includes(scope)) != null) {
+        if (_enum.find((s) => ['REQUEST', 'REQUEST_CONTENT', 'RESPONSE', 'RESPONSE_CONTENT'].includes(s)) != null) {
           const filtered = this._currentFlowStep.group === 'pre' ? ['REQUEST', 'REQUEST_CONTENT'] : ['RESPONSE', 'RESPONSE_CONTENT'];
-          schema.properties.scope.enum = _enum.filter((scope) => filtered.includes(scope));
+          schema.properties.scope.enum = _enum.filter((s) => filtered.includes(s));
           const scope = this._currentFlowStep.step.configuration.scope;
           if (scope == null || !schema.properties.scope.enum.includes(scope)) {
             schema.properties.scope.default = schema.properties.scope.enum[0];
@@ -712,15 +712,15 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   _findFlowCollection(flowId) {
-    const plan = this.definedPlans.find((plan) => plan.flows.find((flow) => flow._id === flowId) != null);
+    const plan = this.definedPlans.find((p) => p.flows.find((flow) => flow._id === flowId) != null);
     return { plan, flows: plan != null ? plan.flows : this.definedFlows };
   }
 
   _findFlowById(flowId) {
-    let flow = this.definedFlows.find((flow) => flow._id === flowId);
+    let flow = this.definedFlows.find((f) => f._id === flowId);
     if (flow == null) {
-      const plansFlows = this.definedPlans.map((plan) => plan.flows).reduce((acc, val) => acc.concat(val), []);
-      flow = plansFlows.find((flow) => flow._id === flowId);
+      const plansFlows = this.definedPlans.map((p) => p.flows).reduce((acc, val) => acc.concat(val), []);
+      flow = plansFlows.find((f) => f._id === flowId);
     }
     return flow;
   }
@@ -809,18 +809,18 @@ export class GvDesign extends KeyboardElement(LitElement) {
       <div>
         Select a flow
         ${readonlyMode !== true
-          ? html`or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one</gv-button>`
+          ? html`or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one </gv-button>`
           : ''}
       </div>
     </div>`;
   }
 
-  _renderFlow(index = 0, hasEmptyState = true, readonlyMode) {
+  _renderFlow(index = 0, hasEmptyState = true, readonlyMode = false) {
     const flow = this.getSelectedFlow(index);
     if (flow) {
       const { plan } = this._findFlowCollection(flow._id);
       const selectedStepId = this._currentFlowStep ? this._currentFlowStep.step._id : null;
-      return html` <gv-flow
+      return html`<gv-flow
         style="height: 100%"
         .id="${flow._id}"
         .flow="${flow}"
@@ -914,24 +914,24 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   _generateId(prefix, list, force = false, isFlow = false) {
-    if (list) {
-      return list.map((e, index) => {
-        const _id = `${prefix}_${index}`;
-        if (isFlow) {
-          if (e.pre) {
-            e.pre.forEach((step, stepIndex) => (step._id = this._generateFlowStepId(_id, 'pre', stepIndex)));
-          }
-          if (e.post) {
-            e.post.forEach((step, stepIndex) => (step._id = this._generateFlowStepId(_id, 'post', stepIndex)));
-          }
-        }
-        if (force || e._id == null) {
-          return { ...e, _id };
-        }
-        return e;
-      });
+    if (list == null) {
+      return list;
     }
-    return list;
+    return deepClone(list).map((e, index) => {
+      const _id = `${prefix}_${index}`;
+      if (isFlow) {
+        if (e.pre) {
+          e.pre.forEach((step, stepIndex) => (step._id = this._generateFlowStepId(_id, 'pre', stepIndex)));
+        }
+        if (e.post) {
+          e.post.forEach((step, stepIndex) => (step._id = this._generateFlowStepId(_id, 'post', stepIndex)));
+        }
+      }
+      if (force || e._id == null) {
+        return { ...e, _id };
+      }
+      return e;
+    });
   }
 
   getChildren() {
@@ -1032,7 +1032,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
   _onDeleteFlow({ detail }) {
     const flowId = detail.content._id;
     const { flows } = this._findFlowCollection(flowId);
-    const flow = flows.find((flow) => flow._id === flowId);
+    const flow = flows.find((f) => f._id === flowId);
     this._deleteFlow(flows, flow);
   }
 
@@ -1148,7 +1148,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
         const entry = propertiesDefinition[key];
 
         if (entry.type === 'object') {
-          property[key] = this._instantiate(entry.properties, (initiator = {}));
+          property[key] = this._instantiate(entry.properties);
         }
         if (entry.default !== undefined) {
           property[key] = entry.default;
@@ -1300,51 +1300,43 @@ export class GvDesign extends KeyboardElement(LitElement) {
     }
   }
 
-  _buildDefinitionToSave() {
-    // Copy definition and remove invalid step
-    // Keep private properties like _id and others stuff useful for render
-    const flows = (this._definition.flows || []).map((flow) => {
+  _mapFlowsWithValidStep(flows) {
+    return flows.map((flow) => {
       flow.pre = flow.pre.filter(this._filterNotValidStep);
       flow.post = flow.post.filter(this._filterNotValidStep);
       return flow;
     });
+  }
 
-    let definition = { ...this._definition, flows };
+  _buildDefinitionToSave() {
+    // Copy definition and remove invalid step
+    // Keep private properties like _id and others stuff useful for render
+    const flows = this._mapFlowsWithValidStep(this._definition.flows || []);
+    const definition = { ...this._definition, flows };
 
     if (this._definition.plans != null) {
-      const plans = this._definition.plans.map((plan) => {
-        const flows = plan.flows.map((flow) => {
-          flow.pre = flow.pre.filter(this._filterNotValidStep);
-          flow.post = flow.post.filter(this._filterNotValidStep);
-          return flow;
-        });
-        return { ...plan, flows };
-      });
-      definition = { ...definition, plans };
+      const plans = this._definition.plans.map((plan) => ({ ...plan, flows: this._mapFlowsWithValidStep(plan.flows) }));
+      return { ...definition, plans };
     }
     return definition;
   }
 
-  _buildDefinitionToSend(definitionToSave) {
-    // Copy definition and remove all private properties
-    const flows = definitionToSave.flows.map((f) => {
+  _mapFlowsWithValidProperty(flows) {
+    return flows.map((f) => {
       const flow = this._removePrivateProperties(f);
       flow.pre = flow.pre.map(this._removePrivateProperties);
       flow.post = flow.post.map(this._removePrivateProperties);
       return flow;
     });
+  }
+
+  _buildDefinitionToSend(definitionToSave) {
+    // Copy definition and remove all private properties
+    const flows = this._mapFlowsWithValidProperty(definitionToSave.flows);
 
     let definition = { ...this._definition, flows };
     if (this._definition.plans != null) {
-      const plans = definitionToSave.plans.map((plan) => {
-        const flows = plan.flows.map((f) => {
-          const flow = this._removePrivateProperties(f);
-          flow.pre = flow.pre.map(this._removePrivateProperties);
-          flow.post = flow.post.map(this._removePrivateProperties);
-          return flow;
-        });
-        return { ...plan, flows };
-      });
+      const plans = definitionToSave.plans.map((plan) => ({ ...plan, flows: this._mapFlowsWithValidProperty(plan.flows) }));
       definition = { ...definition, plans };
     }
 
@@ -1402,7 +1394,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   _renderContent(readonlyMode) {
-    return html` <div id="design" slot="content" class="design">
+    return html`<div id="design" slot="content" class="design">
       <gv-resizable-views no-overflow>
         <div slot="top">${this._renderFlow(0, true, readonlyMode)}</div>
 

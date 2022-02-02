@@ -302,7 +302,7 @@ describe('D E S I G N', () => {
 
     test('should update definition when submit flow schema', async () => {
       const _id = 'foobar';
-      const _stepId = 'foobar-step';
+      const _stepId = 'f_0_pre_0';
       const step = { _id: _stepId, name: 'step', description: 'step description', configuration: {}, policy: 'api-key' };
       const flow = {
         _id,
@@ -315,7 +315,7 @@ describe('D E S I G N', () => {
       component.definition = { flows: [flow] };
       await component._onSelectFlows({ detail: { flows: [flow._id] } });
 
-      const policy = policies.data.find((policy) => policy.id === 'policy-http-callout');
+      const policy = policies.data.find((p) => p.id === 'policy-http-callout');
       const flowStepSchema = component.buildSchema(policy);
       const currentFlowStep = { flow, step, policy, group: 'pre', position: 0 };
       await component._setCurrentFlowStep(currentFlowStep, flowStepSchema);
