@@ -32,7 +32,6 @@ export class GvResources extends KeyboardElement(LitElement) {
   static get properties() {
     return {
       resources: { type: Array },
-      _resources: { type: Array, attribute: false },
       types: { type: Array },
       documentation: { type: Object },
       _currentResource: { type: Object, attribute: false },
@@ -75,12 +74,13 @@ export class GvResources extends KeyboardElement(LitElement) {
     }
   }
 
-  set resources(resources) {
-    this._resources = this._generateId(resources);
-  }
-
-  get resources() {
-    return this._resources;
+  willUpdate(changedProperties) {
+    if (changedProperties.has('types') && this.types == null) {
+      this.types = [];
+    }
+    if (changedProperties.has('resources') && this.resources != null) {
+      this.resources = this._generateId(this.resources);
+    }
   }
 
   _generateId(list) {
