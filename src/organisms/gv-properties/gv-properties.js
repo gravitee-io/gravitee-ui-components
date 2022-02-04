@@ -242,7 +242,10 @@ export class GvProperties extends KeyboardElement(LitElement) {
     }
   }
 
-  _onSubmit() {
+  _onSubmit(event) {
+    if (event) {
+      event.preventDefault();
+    }
     const invalidControls = [...this.shadowRoot.querySelectorAll('form .control')].find((control) => control.invalid);
     if (invalidControls == null) {
       this._addProperty(this._newItem);
