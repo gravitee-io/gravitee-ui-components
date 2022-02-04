@@ -124,7 +124,10 @@ export class GvSchemaForm extends LitElement {
     this._onSubmit();
   }
 
-  _onSubmit() {
+  _onSubmit(e) {
+    if (e) {
+      e.preventDefault();
+    }
     const validatorResults = this.validate();
     if (this.isValid()) {
       this._initialValues = deepClone(this._values);
@@ -528,7 +531,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   render() {
-    return html`<form class="${classMap({ scrollable: this.scrollable })}">
+    return html`<form class="${classMap({ scrollable: this.scrollable })}" @submit="${this._onSubmit}">
       <div class="${classMap({ container: true, confirm: this._confirm })}">
         ${this.hasHeader === true
           ? html`
