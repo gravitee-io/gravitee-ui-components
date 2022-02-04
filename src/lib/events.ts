@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function dispatchCustomEvent(node, suffix, detail, options = {}) {
+export function dispatchCustomEvent(node: any, suffix: string, detail?: any, options = {}): void {
   const eventName = `${node.nodeName.toLocaleLowerCase()}:${suffix}`;
-  /* global CustomEvent */
   const event = new CustomEvent(eventName, {
     detail,
     bubbles: true,
@@ -23,4 +22,8 @@ export function dispatchCustomEvent(node, suffix, detail, options = {}) {
     ...options,
   });
   node.dispatchEvent(event);
+}
+
+export interface ComponentCustomEvent<T> {
+  detail: T;
 }
