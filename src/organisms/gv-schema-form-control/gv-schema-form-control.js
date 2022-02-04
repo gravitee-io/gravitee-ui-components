@@ -227,6 +227,7 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
     }
 
     element.addEventListener(`${elementName}:input`, this._onInput.bind(this));
+    element.addEventListener(`${elementName}:submit`, this._onSubmit.bind(this));
 
     let currentTarget;
     if (this.isAutocomplete()) {
@@ -251,10 +252,18 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
     return currentTarget;
   }
 
+  _onSubmit(e) {
+    e.preventDefault();
+    const form = this.closest('form');
+    if (form) {
+      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    }
+  }
+
   _onInput(e) {
     e.preventDefault();
     e.stopPropagation();
-    let value = null;
+    let value;
     if (e.target.tagName === 'GV-AUTOCOMPLETE') {
       value = e.detail.value;
     } else {
