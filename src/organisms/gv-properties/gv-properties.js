@@ -855,8 +855,8 @@ export class GvProperties extends KeyboardElement(LitElement) {
         }
 
         .add-form gv-input,
-        gv-button,
-        gv-switch {
+        .add-form gv-button,
+        .add-form gv-switch {
           margin: auto 0;
         }
 
