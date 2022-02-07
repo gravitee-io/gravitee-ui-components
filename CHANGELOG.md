@@ -1,3 +1,10 @@
+## [3.28.8](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.7...v3.28.8) (2022-02-07)
+
+
+### Reverts
+
+* Revert "ci: remove manual approval to run chromatic job" ([f689c66](https://github.com/gravitee-io/gravitee-ui-components/commit/f689c66f35f6040e38104ce5a1e41d1b00873300))
+
 ## [3.28.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.6...v3.28.7) (2022-01-25)
 
 
