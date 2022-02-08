@@ -1,3 +1,26 @@
+# [3.29.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.8...v3.29.0) (2022-02-08)
+
+
+### Bug Fixes
+
+* **gv-design:** improve default value management ([21dee73](https://github.com/gravitee-io/gravitee-ui-components/commit/21dee73451bd42fc6b23a368597b93a76ae709ae))
+* **gv-policy-studio:** improve default value management ([ef6db7e](https://github.com/gravitee-io/gravitee-ui-components/commit/ef6db7e55ea7db70518d7bae36bb69f008f0284d))
+* **gv-properties:** change keyboard binding to prevent conflict with gv-expression-language ([eb7f2d9](https://github.com/gravitee-io/gravitee-ui-components/commit/eb7f2d979569e5f0be3f1aef48ed630e298b9c2f))
+* **gv-proverties:** resolve form btn position ([52464ab](https://github.com/gravitee-io/gravitee-ui-components/commit/52464aba91ff92d957a6040ff2958e6f9923f996))
+* **gv-resources:** change keyboard binding to prevent conflict with gv-expression-language ([61bfbd2](https://github.com/gravitee-io/gravitee-ui-components/commit/61bfbd25d709a33025d6ccb311d5b0e6874a190a))
+* **gv-resources:** improve default value management ([a0f8d1a](https://github.com/gravitee-io/gravitee-ui-components/commit/a0f8d1adabf0387b6fa1e6ee6f909b0f56f228cf))
+* **gv-schema-form:** resolve isValid fn ([d8e59b2](https://github.com/gravitee-io/gravitee-ui-components/commit/d8e59b2f46b4340f876f7812a347be557f54cc76))
+* **gv-schema-form:** set an empty array to enum control when selection is empty ([56f32f0](https://github.com/gravitee-io/gravitee-ui-components/commit/56f32f0b20d9c1b9cfc3cc4887b8f317970361a7))
+
+
+### Features
+
+* **events:** expose ComponentCustomEvent type ([13912ac](https://github.com/gravitee-io/gravitee-ui-components/commit/13912acbae1c886d23c8f172378283b60dbb6142))
+* **gv-design:** fires change event when content change ([c64e90a](https://github.com/gravitee-io/gravitee-ui-components/commit/c64e90a3b304fe6891d50f75c8a5d4d7e76e9dcb))
+* **gv-policy-studio:** fork gv-policy-studio to gv-design ([51a46b3](https://github.com/gravitee-io/gravitee-ui-components/commit/51a46b383a9b29a138ee3089142df8511dc150c7))
+* **gv-properties:** submit form with keyboard ([f852988](https://github.com/gravitee-io/gravitee-ui-components/commit/f85298855cc9deebd1f27231cb94ddc15bb2c901))
+* **gv-schema-form:** submit form with keyboard ([5c4c13c](https://github.com/gravitee-io/gravitee-ui-components/commit/5c4c13cdf9146b3d8bb9fb0d157447bb556987a1))
+
 ## [3.28.8](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.7...v3.28.8) (2022-02-07)
 
 
