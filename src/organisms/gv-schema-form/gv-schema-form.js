@@ -476,7 +476,7 @@ export class GvSchemaForm extends LitElement {
     if (this._validatorResults.valid) {
       return true;
     }
-    return this._getErrors() === 0;
+    return this._getErrors().length === 0;
   }
 
   isTouch() {

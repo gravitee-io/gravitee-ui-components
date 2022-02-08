@@ -281,6 +281,8 @@ describe('S C H E M A  F O R M', () => {
     };
     component.values = values;
 
+    expect(component.isValid()).toBeTruthy();
+
     component.addEventListener('gv-schema-form:submit', ({ detail }) => {
       expect(detail.values).toEqual(values);
       expect(detail.validatorResults.valid).toBeTruthy();
