@@ -211,7 +211,9 @@ export class GvSchemaForm extends LitElement {
         }
       }
     } else if (control.type === 'array' && value.length === 0) {
-      value = null;
+      // For an array of complex objects it's possible that the sub objects have required fields,
+      // the null allows validation
+      value = control.enum || control.items.enum ? [] : null;
     } else if (control.type === 'string' && value.trim().length === 0 && !control.enum) {
       value = null;
     } else if (control.type === 'object') {
