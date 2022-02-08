@@ -404,6 +404,12 @@ describe('S C H E M A  F O R M', () => {
       },
       timeToLiveSeconds: 5,
       multiselect: ['a'],
+      whitelist: [
+        {
+          pattern: 'abc',
+          methods: [],
+        },
+      ],
     };
     component.values = deepClone(values);
 
@@ -434,12 +440,21 @@ describe('S C H E M A  F O R M', () => {
         detail: [],
       });
 
+      const whitelist = component.getControl('whitelist');
+      whitelist._onInput({
+        preventDefault,
+        stopPropagation,
+        target: { id: 'whitelist' },
+        detail: [],
+      });
+
       expect(component.values).toEqual({
         'path-operator': {
           operator: 'STARTS_WITH',
         },
         readonly: 'Should not edit my value',
         writeonly: 'Should not read my value',
+        multiselect: [],
       });
 
       done();
