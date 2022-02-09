@@ -1,3 +1,12 @@
+## [3.29.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.0...v3.29.1) (2022-02-09)
+
+
+### Bug Fixes
+
+* **gv-design:** auto submit dirty form if is necessary ([98120e2](https://github.com/gravitee-io/gravitee-ui-components/commit/98120e2aaa5ca22938f7483fe4e81e6a9eefd444))
+* **gv-design:** remove change event when user select step ([96d1971](https://github.com/gravitee-io/gravitee-ui-components/commit/96d1971564f6a3426ca2ebb91cfa145a13b28da7))
+* **gv-design:** use step form to dispatch change during d&d ([d096afd](https://github.com/gravitee-io/gravitee-ui-components/commit/d096afd8175af7c20e4cc0e64f0733165c0b0d58))
+
 # [3.29.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.28.8...v3.29.0) (2022-02-08)
 
 
