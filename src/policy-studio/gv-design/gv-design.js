@@ -469,7 +469,16 @@ export class GvDesign extends KeyboardElement(LitElement) {
       setTimeout(() => {
         this._dragPolicy = null;
         this._dropPolicy = null;
-        this.dispatchChange();
+        const currentFlowForm = this._getFlowStepForm();
+        // If currentFlowForm exist, it's a simple drop to flow
+        // else it's a copy or duplicate between 2 flows
+        if (currentFlowForm != null) {
+          currentFlowForm.validate();
+          // the submit action will add form values to definition and dispatch change event
+          currentFlowForm.submit();
+        } else {
+          this.dispatchChange();
+        }
       }, 0);
     } catch (e) {
       this._currentAskConfirmation = null;
