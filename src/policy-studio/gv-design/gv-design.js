@@ -568,6 +568,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
     step.enabled = detail.enabled;
     targetFlow._dirty = true;
     this.isDirty = true;
+    this.dispatchChange();
   }
 
   dispatchChange() {
