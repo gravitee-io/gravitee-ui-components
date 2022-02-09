@@ -147,8 +147,8 @@ export class GvSchemaForm extends LitElement {
     this._touch = !!touch;
   }
 
-  confirm() {
-    if (this.isTouch()) {
+  confirm(force = false) {
+    if (this.isTouch() || force) {
       if (this._confirm && this._confirm.promise) {
         return this._confirm.promise;
       }
