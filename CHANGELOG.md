@@ -1,3 +1,10 @@
+## [3.29.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.1...v3.29.2) (2022-02-09)
+
+
+### Reverts
+
+* Revert "fix(gv-design): remove change event when user select step" ([4b6ca8c](https://github.com/gravitee-io/gravitee-ui-components/commit/4b6ca8c02f308b8bc88e43b8d097647cf5e73ecc))
+
 ## [3.29.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.0...v3.29.1) (2022-02-09)
 
 
