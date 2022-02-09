@@ -488,10 +488,6 @@ export class GvDesign extends KeyboardElement(LitElement) {
     this.dispatchChange();
   }
 
-  _onDesign() {
-    this._splitMainViews();
-  }
-
   buildSchema({ schema }) {
     const commonDescription = {
       title: 'Description',
@@ -673,7 +669,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
       await this._closeFlowStepForm();
       this._onCloseDocumentation();
       this._updateSelectedFlows(detail.flows);
-      this._onDesign();
+      this._splitMainViews();
     } catch (e) {
       this._currentAskConfirmation = null;
     }
@@ -771,7 +767,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   _onCancelFlow() {
-    this._onDesign();
+    this._splitMainViews();
   }
 
   _onSubmitFlow({ detail: { values } }) {
@@ -787,7 +783,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   _onCancelFlowMode() {
-    this._onDesign();
+    this._splitMainViews();
   }
 
   _onSubmitFlowMode({ detail: { values } }) {
