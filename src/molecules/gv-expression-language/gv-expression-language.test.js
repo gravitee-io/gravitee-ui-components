@@ -38,7 +38,9 @@ describe('<gv-expression-language>', () => {
     const component = querySelector('gv-expression-language');
     component.value = '{#';
     await component.updateComplete;
-    const { handler, match } = component.findBestAutocompleteHandler(new CompletionContext(component._editorState, component.value.length));
+    const { handler, match } = component.findBestAutocompleteHandler(
+      new CompletionContext(component._editorView.state, component.value.length),
+    );
     expect(match).toBeTruthy();
     expect(handler).toBeDefined();
     expect(handler.expr).not.toBeDefined();
@@ -49,7 +51,9 @@ describe('<gv-expression-language>', () => {
     component.grammar = grammar;
     component.value = 'co';
     await component.updateComplete;
-    const { handler, match } = component.findBestAutocompleteHandler(new CompletionContext(component._editorState, component.value.length));
+    const { handler, match } = component.findBestAutocompleteHandler(
+      new CompletionContext(component._editorView.state, component.value.length),
+    );
     expect(match).toBeTruthy();
     expect(handler).toBeDefined();
     expect(handler.expr).not.toBeDefined();
@@ -60,7 +64,9 @@ describe('<gv-expression-language>', () => {
     component.grammar = grammar;
     component.value = '{#';
     await component.updateComplete;
-    const { handler, match } = component.findBestAutocompleteHandler(new CompletionContext(component._editorState, component.value.length));
+    const { handler, match } = component.findBestAutocompleteHandler(
+      new CompletionContext(component._editorView.state, component.value.length),
+    );
     expect(match).toBeTruthy();
     expect(handler).toBeDefined();
     expect(handler.expr).toEqual(component.expressionLanguageCompletionHandlers[0].expr);
@@ -71,7 +77,9 @@ describe('<gv-expression-language>', () => {
     component.grammar = grammar;
     component.value = '{#request.';
     await component.updateComplete;
-    const { handler, match } = component.findBestAutocompleteHandler(new CompletionContext(component._editorState, component.value.length));
+    const { handler, match } = component.findBestAutocompleteHandler(
+      new CompletionContext(component._editorView.state, component.value.length),
+    );
     expect(match).toBeTruthy();
     expect(handler).toBeDefined();
     expect(handler.expr).toEqual(component.expressionLanguageCompletionHandlers[1].expr);
@@ -82,7 +90,9 @@ describe('<gv-expression-language>', () => {
     component.grammar = grammar;
     component.value = '{#request.headers.';
     await component.updateComplete;
-    const { handler, match } = component.findBestAutocompleteHandler(new CompletionContext(component._editorState, component.value.length));
+    const { handler, match } = component.findBestAutocompleteHandler(
+      new CompletionContext(component._editorView.state, component.value.length),
+    );
     expect(match).toBeTruthy();
     expect(handler).toBeDefined();
     expect(handler.expr).toEqual(component.expressionLanguageCompletionHandlers[2].expr);
