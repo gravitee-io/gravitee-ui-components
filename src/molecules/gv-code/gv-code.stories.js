@@ -34,6 +34,20 @@ export const Json = makeStory(conf, {
   items: [{ value: jsonSrc, placeholder: 'Put the body content here' }],
 });
 
+const updatedJsonSrc = `{
+  "id": "foobar",
+  "data": [1, 2, 3, 4, 5]
+}`;
+
+export const JsonUpdated = makeStory(conf, {
+  items: [{ value: jsonSrc, placeholder: 'Put the body content here' }],
+  simulations: [
+    storyWait(1000, ([component]) => {
+      component.value = updatedJsonSrc;
+    }),
+  ],
+});
+
 const shellOptions = {
   mode: 'shell',
 };

@@ -55,11 +55,11 @@ describe('<gv-code>', () => {
 
   test('should update state when update value', async () => {
     const component = querySelector('gv-code');
-    expect(component._editorState).toBeDefined();
-    expect(component._editorState.doc.text[0]).toEqual(DEFAULT_VALUE);
+    expect(component._editorView).toBeDefined();
+    expect(component._editorView.state.doc.text[0]).toEqual(DEFAULT_VALUE);
     component.value = '{#';
     await component.updateComplete;
-    expect(component._editorState.doc.text[0]).toEqual('{#');
+    expect(component._editorView.state.doc.text[0]).toEqual('{#');
   });
 
   test('should find required languages by type or by content-type', async () => {

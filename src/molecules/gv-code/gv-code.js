@@ -142,9 +142,14 @@ export class GvCode extends GvInput {
       EditorState.transactionFilter.of((tr) => (this.hasInputStyle && tr.newDoc.lines > 1 ? [] : tr)),
       this.readonlyCompartment.of(EditorView.editable.of(!this.readonly && !this.disabled)),
       EditorView.updateListener.of((viewUpdate) => {
-        if (viewUpdate.docChanged) {
-          this.value = this._editorView.state.doc.toString();
+        const value = this._editorView.state.doc.toString();
+        if (this.value !== value && viewUpdate.docChanged) {
+          this._lockReflectValue = true;
+          this.value = value;
           dispatchCustomEvent(this, 'input', this.value);
+          setTimeout(() => {
+            this._lockReflectValue = false;
+          });
         }
       }),
       autocompletion({
@@ -165,7 +170,7 @@ export class GvCode extends GvInput {
 
   firstUpdated() {
     super.firstUpdated();
-    this._editorState = EditorState.create({
+    const state = EditorState.create({
       doc: this.value,
       extensions: this._getExtensions(),
     });
@@ -173,7 +178,7 @@ export class GvCode extends GvInput {
     this._editorView = new EditorView({
       root: this.shadowRoot,
       parent,
-      state: this._editorState,
+      state: state,
       dispatch: (transaction) => {
         try {
           this._editorView.update([transaction]);
@@ -209,14 +214,17 @@ export class GvCode extends GvInput {
   }
 
   _reflectValue() {
-    const transaction = this._editorState.update({
+    if (this._lockReflectValue === true) {
+      return;
+    }
+    const transaction = this._editorView.state.update({
       changes: {
         from: 0,
-        to: this._editorState.doc.length,
+        to: this._editorView.state.doc.length,
         insert: this.value,
       },
     });
-    this._editorState = transaction.state;
+    this._editorView.update([transaction]);
   }
 
   _reflectReadonlyDisabled() {
