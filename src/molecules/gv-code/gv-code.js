@@ -323,17 +323,29 @@ export class GvCode extends GvInput {
           border-radius: 3px;
         }
 
-        .code .cm-content,
+        .code .cm-content {
+          min-height: var(--input-medium--h);
+        }
+
+        .large .code .cm-content {
+          min-height: var(--input-large--h);
+        }
+
+        .small .code .cm-content {
+          min-height: var(--input-small--h);
+        }
+
+        .input .cm-content,
         .code .cm-gutters {
           height: var(--input-medium--h);
         }
 
-        .large .code .cm-content,
+        .large .input .cm-content,
         .large .code .cm-gutters {
           height: var(--input-large--h);
         }
 
-        .small .code .cm-content,
+        .small .input .cm-content,
         .small .code .cm-gutters {
           height: var(--input-small--h);
         }
