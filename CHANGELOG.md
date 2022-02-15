@@ -1,3 +1,10 @@
+## [3.29.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.2...v3.29.3) (2022-02-15)
+
+
+### Bug Fixes
+
+* **gv-code:** fix the value update ([9e3abd4](https://github.com/gravitee-io/gravitee-ui-components/commit/9e3abd4ac72dcefb198c481c819d631efc571789))
+
 ## [3.29.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.1...v3.29.2) (2022-02-09)
 
 
