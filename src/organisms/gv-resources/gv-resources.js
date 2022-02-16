@@ -514,7 +514,7 @@ export class GvResources extends KeyboardElement(LitElement) {
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 100%;
+          height: calc(100% - var(--gv-policy-studio--pb, 0px));
         }
 
         .table-container {

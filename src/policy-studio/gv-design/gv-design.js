@@ -103,7 +103,6 @@ export class GvDesign extends KeyboardElement(LitElement) {
           box-sizing: border-box;
           --height: var(--gv-policy-studio--h, calc(100vh - 32px));
           height: var(--height);
-          --height-in-tabs: calc(var(--height) - 25px);
         }
 
         .box {
@@ -173,12 +172,10 @@ export class GvDesign extends KeyboardElement(LitElement) {
 
         .left-menu {
           border-left: 1px solid #d9d9d9;
-          height: var(--height-in-tabs);
         }
 
         .right-menu {
           border-right: 1px solid #d9d9d9;
-          height: var(--height-in-tabs);
         }
 
         .two-cols > *:first-child {
@@ -203,7 +200,6 @@ export class GvDesign extends KeyboardElement(LitElement) {
         }
 
         gv-resizable-views {
-          height: var(--height-in-tabs);
         }
 
         .flow-settings gv-schema-form {
