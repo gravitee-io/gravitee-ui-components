@@ -1,3 +1,10 @@
+## [3.29.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.3...v3.29.4) (2022-02-16)
+
+
+### Bug Fixes
+
+* **gv-code:** resolve display of large json ([17740d0](https://github.com/gravitee-io/gravitee-ui-components/commit/17740d0060e4247715c9702a2114e0eef9c4bc11)), closes [gravitee-io/issues#7017](https://github.com/gravitee-io/issues/issues/7017)
+
 ## [3.29.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.2...v3.29.3) (2022-02-15)
 
 
