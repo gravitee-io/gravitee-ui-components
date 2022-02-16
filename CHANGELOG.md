@@ -1,3 +1,10 @@
+# [3.30.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.4...v3.30.0) (2022-02-16)
+
+
+### Features
+
+* handle policy studio with dynamic save-bar ([4253551](https://github.com/gravitee-io/gravitee-ui-components/commit/4253551ce253d6aedcbe068889bff0de39dd5640))
+
 ## [3.29.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.3...v3.29.4) (2022-02-16)
 
 
