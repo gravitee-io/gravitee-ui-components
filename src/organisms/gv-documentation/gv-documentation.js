@@ -119,6 +119,9 @@ export class GvDocumentation extends LitElement {
           /* for Firefox */
           min-height: 0;
           padding: 0.5rem;
+
+          /* add padding when save bar is open */
+          padding-bottom: var(--gv-policy-studio--pb);
         }
 
         /* Hack for long string */

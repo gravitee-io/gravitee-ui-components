@@ -634,6 +634,9 @@ export class GvSchemaForm extends LitElement {
 
           /* for Firefox */
           min-height: 0;
+
+          /* add padding when save bar is open */
+          padding-bottom: var(--gv-policy-studio--pb);
         }
 
         .content > gv-schema-form-control {
