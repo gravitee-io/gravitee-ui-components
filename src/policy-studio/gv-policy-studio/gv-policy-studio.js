@@ -1387,14 +1387,12 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return [...this.shadowRoot.querySelectorAll('gv-schema-form')]
       .filter((form) => {
         const isValid = form.isValid();
-        if (isValid) {
+        if (isValid && form.dirty) {
           form.submit();
-        } else {
-          form.dirty = true;
         }
         return !isValid;
       })
-      .map((form) => form.confirm());
+      .map((form) => form.confirm(true));
   }
 
   getPropertiesElement() {
