@@ -20,6 +20,7 @@ import htmlToJson from '../../../testing/resources/schemas/html-to-json.json';
 import httpConnector from '../../../testing/resources/schemas/http-connector.json';
 import { fetch } from 'whatwg-fetch';
 import grammar from '../../../testing/resources/el-grammar.json';
+import resourceCacheRedis from '../../../testing/resources/schemas/resource-cache-redis.json';
 
 export default {
   title: 'Organisms/gv-schema-form',
@@ -130,6 +131,10 @@ export const HTMLToJson = makeStory(conf, {
 
 export const HttpConnector = makeStory(conf, {
   items: [{ schema: httpConnector }],
+});
+
+export const ResourceCacheRedis = makeStory(conf, {
+  items: [{ schema: resourceCacheRedis, 'has-footer': true }],
 });
 
 let policies = [
