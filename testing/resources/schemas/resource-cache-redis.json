@@ -1,0 +1,122 @@
+{
+  "type": "object",
+  "id": "urn:jsonschema:io:gravitee:resource:cache.redis:configuration:RedisCacheResourceConfiguration",
+  "properties": {
+    "name": {
+      "title": "Cache name",
+      "description": "The name of the cache resource.",
+      "type": "string",
+      "default": "my-redis-cache"
+    },
+    "releaseCache": {
+      "title": "Release the cache when API is stopped?",
+      "description": "If enabled, the resource will release the cache. If not, you will have to manage it by yourself on your Redis server.",
+      "type": "boolean",
+      "default": false
+    },
+    "maxTotal": {
+      "title": "Max total",
+      "description": "The maximum number of connections that are supported by the pool.",
+      "type": "integer",
+      "default": "8"
+    },
+    "password": {
+      "title": "Password",
+      "description": "The password of the instance.",
+      "type": "string",
+      "writeOnly": true
+    },
+    "timeToLiveSeconds": {
+      "title": "Time to live (in seconds)",
+      "type": "integer",
+      "description": "The maximum number of seconds an element can exist in the cache regardless of use. The element expires at this limit and will no longer be returned from the cache. The default value is 0, which means no timeToLive (TTL) eviction takes place (infinite lifetime).",
+      "default": 0,
+      "minimum": 0
+    },
+    "timeout": {
+      "title": "Timeout (in milliseconds)",
+      "description": "The timeout parameter specifies the connection timeout and the read/write timeout.",
+      "type": "integer",
+      "default": 2000,
+      "minimum": 0
+    },
+    "useSsl": {
+      "title": "Use SSL",
+      "description": "Use SSL connections.",
+      "type": "boolean",
+      "default": true
+    },
+    "sentinelMode": {
+      "title": "Use sentinel mode",
+      "description": "Sentinel provides high availability for Redis. In practical terms this means that using Sentinel you can create a Redis deployment that resists without human intervention certain kinds of failures.",
+      "type": "boolean",
+      "default": false
+    },
+    "standalone": {
+      "type": "object",
+      "title": "Standalone",
+      "properties": {
+        "host": {
+          "title": "Host",
+          "description": "The host of the instance",
+          "type": "string",
+          "default": "localhost"
+        },
+        "port": {
+          "title": "Port",
+          "description": "The port of the instance",
+          "type": "integer",
+          "default": 6379
+        }
+      },
+      "required": ["host", "port"],
+      "x-schema-form": {
+        "hidden": [{ "$eq": { "sentinelMode": true } }]
+      }
+    },
+    "sentinel": {
+      "type": "object",
+      "title": "Sentinel",
+      "properties": {
+        "masterId": {
+          "title": "Master",
+          "description": "The sentinel master id",
+          "type": "String",
+          "default": "sentinel-master"
+        },
+        "password": {
+          "title": "Sentinel password",
+          "description": "The sentinel password",
+          "type": "String",
+          "writeOnly": true
+        },
+        "nodes": {
+          "type": "array",
+          "title": "Sentinel nodes",
+          "items": {
+            "type": "object",
+            "title": "Node",
+            "properties": {
+              "host": {
+                "title": "The host of node",
+                "type": "string",
+                "default": "localhost"
+              },
+              "port": {
+                "title": "The port of node",
+                "type": "integer",
+                "default": 26379
+              }
+            },
+            "required": ["host", "port"]
+          }
+        }
+      },
+      "required": ["masterId", "nodes"],
+      "x-schema-form": {
+        "hidden": [{ "$eq": { "sentinelMode": false } }]
+      }
+    }
+  },
+  "required": ["name"]
+}
