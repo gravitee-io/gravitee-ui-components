@@ -46,49 +46,104 @@
       "type": "boolean",
       "default": true
     },
-    "sentinelMode": {
-      "title": "Use sentinel mode",
-      "description": "Sentinel provides high availability for Redis. In practical terms this means that using Sentinel you can create a Redis deployment that resists without human intervention certain kinds of failures.",
-      "type": "boolean",
-      "default": false
-    },
     "standalone": {
       "type": "object",
       "title": "Standalone",
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "title": "Use standalone mode",
+          "default": true,
+          "x-schema-form": {
+            "disabled": [
+              {
+                "$eq": {
+                  "sentinel.enabled": true
+                }
+              }
+            ]
+          }
+        },
         "host": {
           "title": "Host",
           "description": "The host of the instance",
           "type": "string",
-          "default": "localhost"
+          "default": "localhost",
+          "x-schema-form": {
+            "disabled": [
+              {
+                "$eq": {
+                  "sentinel.enabled": true
+                }
+              }
+            ]
+          }
         },
         "port": {
           "title": "Port",
           "description": "The port of the instance",
           "type": "integer",
-          "default": 6379
+          "default": 6379,
+          "x-schema-form": {
+            "disabled": [
+              {
+                "$eq": {
+                  "sentinel.enabled": true
+                }
+              }
+            ]
+          }
         }
       },
-      "required": ["host", "port"],
-      "x-schema-form": {
-        "hidden": [{ "$eq": { "sentinelMode": true } }]
-      }
+      "oneOf": [
+        {
+          "properties": { "enabled": { "const": false } }
+        },
+        {
+          "properties": { "enabled": { "const": true } },
+          "required": ["host", "port"]
+        }
+      ]
     },
     "sentinel": {
       "type": "object",
       "title": "Sentinel",
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "title": "Use sentinel mode",
+          "description": "Sentinel provides high availability for Redis. In practical terms this means that using Sentinel you can create a Redis deployment that resists without human intervention certain kinds of failures.",
+          "default": false
+        },
         "masterId": {
           "title": "Master",
           "description": "The sentinel master id",
           "type": "String",
-          "default": "sentinel-master"
+          "default": "sentinel-master",
+          "x-schema-form": {
+            "hidden": [
+              {
+                "$eq": {
+                  "sentinel.enabled": false
+                }
+              }
+            ]
+          }
         },
         "password": {
           "title": "Sentinel password",
           "description": "The sentinel password",
           "type": "String",
-          "writeOnly": true
+          "writeOnly": true,
+          "x-schema-form": {
+            "hidden": [
+              {
+                "$eq": {
+                  "sentinel.enabled": false
+                }
+              }
+            ]
+          }
         },
         "nodes": {
           "type": "array",
@@ -109,13 +164,27 @@
               }
             },
             "required": ["host", "port"]
+          },
+          "x-schema-form": {
+            "hidden": [
+              {
+                "$eq": {
+                  "sentinel.enabled": false
+                }
+              }
+            ]
           }
         }
       },
-      "required": ["masterId", "nodes"],
-      "x-schema-form": {
-        "hidden": [{ "$eq": { "sentinelMode": false } }]
-      }
+      "oneOf": [
+        {
+          "properties": { "enabled": { "const": false } }
+        },
+        {
+          "properties": { "enabled": { "const": true } },
+          "required": ["masterId", "nodes"]
+        }
+      ]
     }
   },
   "required": ["name"]
