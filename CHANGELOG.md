@@ -1,3 +1,10 @@
+## [3.30.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.30.0...v3.30.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** auto submit dirty form if is necessary ([c223623](https://github.com/gravitee-io/gravitee-ui-components/commit/c223623838e653a46a4a177f64baaa4a5e5898fb))
+
 # [3.30.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.29.4...v3.30.0) (2022-02-16)
 
 
