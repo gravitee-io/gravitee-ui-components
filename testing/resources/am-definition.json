@@ -9,6 +9,20 @@
       "post": []
     },
     {
+      "name": "LOGIN IDENTIFIER",
+      "type": "LOGIN_IDENTIFIER",
+      "condition": "",
+      "pre": [],
+      "post": []
+    },
+    {
+      "name": "RESET PASSWORD",
+      "type": "RESET_PASSWORD",
+      "condition": "",
+      "pre": [],
+      "post": []
+    },
+    {
       "name": "LOGIN",
       "type": "LOGIN",
       "condition": "",
