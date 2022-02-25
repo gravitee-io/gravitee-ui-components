@@ -1,3 +1,10 @@
+# [3.31.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.30.1...v3.31.0) (2022-02-25)
+
+
+### Features
+
+* add icons for new AM flows ([045e760](https://github.com/gravitee-io/gravitee-ui-components/commit/045e76040855488940d202785f351fd255197609))
+
 ## [3.30.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.30.0...v3.30.1) (2022-02-22)
 
 
