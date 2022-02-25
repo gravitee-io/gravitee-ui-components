@@ -13,7 +13,7 @@
       "description": "The type of flow",
       "type": "string",
       "default": "ROOT",
-      "enum": ["ROOT", "LOGIN", "CONSENT", "REGISTER"]
+      "enum": ["ROOT", "LOGIN_IDENTIFIER", "RESET_PASSWORD", "LOGIN", "CONSENT", "REGISTER"]
     },
     "condition": {
       "title": "Condition",
