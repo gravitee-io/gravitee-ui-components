@@ -2629,9 +2629,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@eslint/eslintrc@npm:1.1.0"
+"@eslint/eslintrc@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@eslint/eslintrc@npm:1.2.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
@@ -2642,7 +2642,7 @@ __metadata:
     js-yaml: ^4.1.0
     minimatch: ^3.0.4
     strip-json-comments: ^3.1.1
-  checksum: 784aa2157e2808b52bbbaf1d1cfca9a6ba0b2faaa3696eb7a1229d4b357400fbd8a6aa09a16e7ae0868ea075d3a8f365cf5928b6d05a1df47f40a1167423a4fa
+  checksum: a5e51dcf02627363567094456d7880b46b6a14a285d7a057f083ca903bdd862483bb6314cbc9fb6fa2d2c4537d50e0d28bd5e39650840241ae4796faaec65d2e
   languageName: node
   linkType: hard
 
@@ -2731,13 +2731,13 @@ __metadata:
     asciidoctor-highlight.js: 0.4.0
     babel-jest: 27.5.1
     babel-loader: 8.2.3
-    chromatic: 6.4.3
+    chromatic: 6.5.1
     clipboard-copy: ^4.0.0
     codemirror-asciidoc: ^2.0.0
     danger: 10.9.0
     date-fns: ^2.26.0
     del: 6.0.0
-    eslint: 8.9.0
+    eslint: 8.10.0
     eslint-config-prettier: 8.4.0
     eslint-config-standard: 16.0.3
     eslint-plugin-import: 2.25.4
@@ -2746,7 +2746,7 @@ __metadata:
     eslint-plugin-promise: 6.0.0
     eslint-plugin-standard: 4.1.0
     esm: 3.2.25
-    fs-extra: 10.0.0
+    fs-extra: 10.0.1
     github-markdown-css: 4.0.0
     glob: 7.2.0
     highcharts: 9.3.3
@@ -7520,14 +7520,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:6.4.3":
-  version: 6.4.3
-  resolution: "chromatic@npm:6.4.3"
+"chromatic@npm:6.5.1":
+  version: 6.5.1
+  resolution: "chromatic@npm:6.5.1"
   bin:
     chroma: bin/main.cjs
     chromatic: bin/main.cjs
     chromatic-cli: bin/main.cjs
-  checksum: 014523cf44607f259ee435be426adb9e1fe248af96947cd01cb476dc8f59866bcf1bbb1395bd3546aa9c380934aad5868ed72d3b90c3391968b3148722328b82
+  checksum: 7396331bdd4e80d7073aebdaaccacc77db5301320f4b731fe5a91d105fca0e88f5509c71b7e59bbc1372030579d3123ab670d000310af852f47818be89dbbfcc
   languageName: node
   linkType: hard
 
@@ -9692,11 +9692,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.9.0":
-  version: 8.9.0
-  resolution: "eslint@npm:8.9.0"
+"eslint@npm:8.10.0":
+  version: 8.10.0
+  resolution: "eslint@npm:8.10.0"
   dependencies:
-    "@eslint/eslintrc": ^1.1.0
+    "@eslint/eslintrc": ^1.2.0
     "@humanwhocodes/config-array": ^0.9.2
     ajv: ^6.10.0
     chalk: ^4.0.0
@@ -9733,7 +9733,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 8efecdb9752ee6cb4d2787a14e00cbeab29562ed95dd71c6f3f8ac410426a067d5aa659416d2290e46ca44bc5607e6a6e6c62f814694d8639f80666f522022a7
+  checksum: 8b31ab3de5b48b6828bf13c09c9e62ee0045fa0afa017efaa73eedcf4dc33bc204ee4c467d4677e37967d1645f73816ddef4271422e691fded352040f8f83093
   languageName: node
   linkType: hard
 
@@ -10543,14 +10543,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:10.0.0, fs-extra@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "fs-extra@npm:10.0.0"
+"fs-extra@npm:10.0.1":
+  version: 10.0.1
+  resolution: "fs-extra@npm:10.0.1"
   dependencies:
     graceful-fs: ^4.2.0
     jsonfile: ^6.0.1
     universalify: ^2.0.0
-  checksum: 5285a3d8f34b917cf2b66af8c231a40c1623626e9d701a20051d3337be16c6d7cac94441c8b3732d47a92a2a027886ca93c69b6a4ae6aee3c89650d2a8880c0a
+  checksum: c1faaa5eb9e1c5c7c7ff09f966e93922ecb068ae1b04801cfc983ef05fcc1f66bfbb8d8d0b745c910014c7a2e7317fb6cf3bfe7390450c1157e3cc1a218f221d
   languageName: node
   linkType: hard
 
@@ -10564,6 +10564,17 @@ __metadata:
     path-is-absolute: ^1.0.0
     rimraf: ^2.2.8
   checksum: 6edfd65fc813baa27f1603778c0f5ec11f8c5006a20b920437813ee2023eba18aeec8bef1c89b2e6c84f9fc90fdc7c916f4a700466c8c69d22a35d018f2570f0
+  languageName: node
+  linkType: hard
+
+"fs-extra@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "fs-extra@npm:10.0.0"
+  dependencies:
+    graceful-fs: ^4.2.0
+    jsonfile: ^6.0.1
+    universalify: ^2.0.0
+  checksum: 5285a3d8f34b917cf2b66af8c231a40c1623626e9d701a20051d3337be16c6d7cac94441c8b3732d47a92a2a027886ca93c69b6a4ae6aee3c89650d2a8880c0a
   languageName: node
   linkType: hard
 
