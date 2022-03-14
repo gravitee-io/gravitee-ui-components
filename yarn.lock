@@ -2629,20 +2629,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@eslint/eslintrc@npm:1.2.0"
+"@eslint/eslintrc@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@eslint/eslintrc@npm:1.2.1"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
     espree: ^9.3.1
     globals: ^13.9.0
-    ignore: ^4.0.6
+    ignore: ^5.2.0
     import-fresh: ^3.2.1
     js-yaml: ^4.1.0
     minimatch: ^3.0.4
     strip-json-comments: ^3.1.1
-  checksum: a5e51dcf02627363567094456d7880b46b6a14a285d7a057f083ca903bdd862483bb6314cbc9fb6fa2d2c4537d50e0d28bd5e39650840241ae4796faaec65d2e
+  checksum: 1f797b9f94d71b965992cf6c44e3bcb574643014fd1e3d4862d25056bd5568f59c488461a7e9a1c1758ca7f0def5d3cb69c3d8b38581bcf4a53af74371243797
   languageName: node
   linkType: hard
 
@@ -2731,13 +2731,13 @@ __metadata:
     asciidoctor-highlight.js: 0.4.0
     babel-jest: 27.5.1
     babel-loader: 8.2.3
-    chromatic: 6.5.1
+    chromatic: 6.5.3
     clipboard-copy: ^4.0.0
     codemirror-asciidoc: ^2.0.0
     danger: 10.9.0
     date-fns: ^2.26.0
     del: 6.0.0
-    eslint: 8.10.0
+    eslint: 8.11.0
     eslint-config-prettier: 8.5.0
     eslint-config-standard: 16.0.3
     eslint-plugin-import: 2.25.4
@@ -2750,7 +2750,7 @@ __metadata:
     github-markdown-css: 4.0.0
     glob: 7.2.0
     highcharts: 9.3.3
-    highlight.js: 11.4.0
+    highlight.js: 11.5.0
     html-to-react: 1.4.8
     husky: 7.0.4
     i18n-extract: 0.6.7
@@ -7520,14 +7520,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:6.5.1":
-  version: 6.5.1
-  resolution: "chromatic@npm:6.5.1"
+"chromatic@npm:6.5.3":
+  version: 6.5.3
+  resolution: "chromatic@npm:6.5.3"
   bin:
     chroma: bin/main.cjs
     chromatic: bin/main.cjs
     chromatic-cli: bin/main.cjs
-  checksum: 7396331bdd4e80d7073aebdaaccacc77db5301320f4b731fe5a91d105fca0e88f5509c71b7e59bbc1372030579d3123ab670d000310af852f47818be89dbbfcc
+  checksum: 42b824ec1e767d48fee6e2849e338264dbf20413d46074548340958e9d6407c37bb3d06429bf6101ff1c48bb5afbb2b95b48b24481112ca797e98c2c903521fa
   languageName: node
   linkType: hard
 
@@ -9692,11 +9692,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.10.0":
-  version: 8.10.0
-  resolution: "eslint@npm:8.10.0"
+"eslint@npm:8.11.0":
+  version: 8.11.0
+  resolution: "eslint@npm:8.11.0"
   dependencies:
-    "@eslint/eslintrc": ^1.2.0
+    "@eslint/eslintrc": ^1.2.1
     "@humanwhocodes/config-array": ^0.9.2
     ajv: ^6.10.0
     chalk: ^4.0.0
@@ -9733,7 +9733,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 8b31ab3de5b48b6828bf13c09c9e62ee0045fa0afa017efaa73eedcf4dc33bc204ee4c467d4677e37967d1645f73816ddef4271422e691fded352040f8f83093
+  checksum: a06a2ea37002d6c0a4f462fe31b4411185dc3da7857fafb896eb392ba95a1289cc3538056474b2f44f08012f265bede01a39d46df4ac39ebc6d7be90e2c8f9fa
   languageName: node
   linkType: hard
 
@@ -11500,7 +11500,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:11.4.0, highlight.js@npm:>=10.7.0 <12.0.0":
+"highlight.js@npm:11.5.0":
+  version: 11.5.0
+  resolution: "highlight.js@npm:11.5.0"
+  checksum: a4339278d5be464fa29047fd00bc91f3d3966f5acbbb861ec51a09f3eea7c79ca63c2e0a2ba0c7b3d3663ee56b11c6470ab2759c7278e0d11af5cb0efa26e6eb
+  languageName: node
+  linkType: hard
+
+"highlight.js@npm:>=10.7.0 <12.0.0":
   version: 11.4.0
   resolution: "highlight.js@npm:11.4.0"
   checksum: df57994d1e6d8d32a0c8826d9b3019b86b36bae570fd849f807b538f12a2188b1aa775e1653c2b591c24eacd736c262dfb193e2bd3b155800ea6f882a611989c
@@ -11920,7 +11927,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^4.0.3, ignore@npm:^4.0.6":
+"ignore@npm:^4.0.3":
   version: 4.0.6
   resolution: "ignore@npm:4.0.6"
   checksum: 248f82e50a430906f9ee7f35e1158e3ec4c3971451dd9f99c9bc1548261b4db2b99709f60ac6c6cac9333494384176cc4cc9b07acbe42d52ac6a09cad734d800
