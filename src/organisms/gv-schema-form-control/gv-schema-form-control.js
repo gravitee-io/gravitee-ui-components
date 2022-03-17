@@ -47,7 +47,6 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
       skeleton: { type: Boolean, reflect: true },
       hidden: { type: Boolean, reflect: true },
       writeOnly: { type: Boolean, reflect: true },
-      compact: { type: Boolean },
     };
   }
 
@@ -209,13 +208,6 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
 
     if (this.control.description) {
       element.description = this.control.description;
-    }
-
-    if (this.compact) {
-      element.placeholder = element.description || element.label;
-      element.label = null;
-      element.description = null;
-      element.compact = this.compact;
     }
 
     if (placeholder != null) {

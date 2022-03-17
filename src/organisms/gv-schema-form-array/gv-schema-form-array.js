@@ -89,7 +89,6 @@ export class GvSchemaFormArray extends UpdateAfterBrowser(LitElement) {
           ?required="${isRequired}"
           ?disabled="${isDisabled}"
           ?readonly="${this.readonly}"
-          compact
         ></gv-schema-form-control>
         ${!isInline
           ? ''

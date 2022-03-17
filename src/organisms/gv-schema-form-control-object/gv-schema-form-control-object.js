@@ -36,7 +36,6 @@ export class GvSchemaFormControlObject extends UpdateAfterBrowser(LitElement) {
       disabled: { type: Boolean, reflect: true },
       required: { type: Boolean, reflect: true },
       hidden: { type: Boolean, reflect: true },
-      compact: { type: Boolean },
     };
   }
 
@@ -62,7 +61,6 @@ export class GvSchemaFormControlObject extends UpdateAfterBrowser(LitElement) {
       ?readonly="${this.readonly}"
       ?hidden="${this.hidden}"
       class="control"
-      ?compact="${this.compact}"
     ></gv-schema-form-control>`;
   }
 
