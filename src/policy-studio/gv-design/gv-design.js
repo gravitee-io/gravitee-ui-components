@@ -987,7 +987,6 @@ export class GvDesign extends KeyboardElement(LitElement) {
                 has-header
                 validate-on-render
                 .values="${values}"
-                .dirty="${this._currentFlowStep._values != null}"
                 ?readonly="${readonlyMode}"
                 scrollable
                 .groups="${groups}"
