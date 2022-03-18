@@ -1,3 +1,10 @@
+## [3.31.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.0...v3.31.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* not click twice to validate policy schema-form ([fef57be](https://github.com/gravitee-io/gravitee-ui-components/commit/fef57be79f2698799aff4ea3a3e098448be2365c))
+
 # [3.31.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.30.1...v3.31.0) (2022-02-25)
 
 
