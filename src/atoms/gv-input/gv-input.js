@@ -273,8 +273,8 @@ export class GvInput extends InputElement(LitElement) {
     }
   }
 
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
+  firstUpdated() {
+    super.firstUpdated();
 
     this.catchSlot();
 

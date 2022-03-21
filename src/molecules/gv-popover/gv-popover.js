@@ -260,7 +260,7 @@ export class GvPopover extends LitElement {
     return html`<slot name="popover"></slot>`;
   }
 
-  firstUpdated(_changedProperties) {
+  firstUpdated() {
     setTimeout(() => {
       this.addEventListener(this.event, this._open.bind(this));
       if (this.event.startsWith('mouse') && this.delay === 0) {

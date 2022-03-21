@@ -156,8 +156,8 @@ export class GvConfirm extends GvPopover {
     `;
   }
 
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
+  firstUpdated() {
+    super.firstUpdated();
     if (this.danger) {
       this.shadowRoot.querySelectorAll('gv-button').forEach((btn) => btn.setAttribute('danger', ''));
     }
