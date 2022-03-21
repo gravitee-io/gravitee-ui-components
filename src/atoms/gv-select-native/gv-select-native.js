@@ -183,8 +183,8 @@ export class GvSelectNative extends InputElement(LitElement) {
     return this.shadowRoot.querySelector('select');
   }
 
-  async firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
+  async firstUpdated() {
+    super.firstUpdated();
     // Give the browser a chance to paint
     await new Promise((resolve) => setTimeout(resolve, 0));
     const input = this.getInputElement();
