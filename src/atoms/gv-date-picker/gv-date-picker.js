@@ -295,7 +295,13 @@ export class GvDatePicker extends LitElement {
     }
     if (!locales[lang]) {
       try {
-        const locale = await import(`date-fns/locale/${lang}/index.js`);
+        const locale = await import(
+          // TODO: complete or improve the solution when managing a larger set of languages
+          /* webpackInclude: /(en|fr|cs)\/index\.js$/ */
+          /* webpackMode: "lazy-once" */
+          /* webpackChunkName: "date-fns-locale" */
+          `date-fns/locale/${lang}/index.js`
+        );
         locales[lang] = locale.default;
       } catch (e) {
         console.error(`[Error] cannot load locale ${lang}`, e);
