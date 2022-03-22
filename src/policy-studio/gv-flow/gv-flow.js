@@ -297,6 +297,7 @@ export class GvFlow extends LitElement {
         ?readonly="${this.readonly}"
         .draggable="${!this.disabled && !this.readonly}"
         ?editing="${this._isEditable(step)}"
+        ?condition="${!!step.condition}"
         @dragstart="${this._onDragStart.bind(this, group, step, position)}"
         @dragend="${this._onDragEnd}"
         @gv-flow-step:edit="${this._onEditStep}"

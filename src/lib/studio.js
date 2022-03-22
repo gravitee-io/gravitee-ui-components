@@ -73,6 +73,11 @@ export const methods = css`
     --gv-icon--c: #383e3f;
     --gv-icon-opacity--c: #5a7684;
   }
+
+  .content-icon-conditional {
+    --gv-icon--c: transparent;
+    --gv-icon--s: 24px;
+  }
 `;
 
 export function getFlowTitle(flow, collectionName, withMethods = true, draggable = false, compact = true) {
@@ -82,7 +87,7 @@ export function getFlowTitle(flow, collectionName, withMethods = true, draggable
       rendering.push(html`<gv-icon title="Drag for reorder" class="draggable-icon" shape="general:sort"></gv-icon>`);
     }
     if (flow.condition) {
-      rendering.push(html` <gv-icon title="Conditional flow" className="content-icon-conditional" shape="design:conditional"></gv-icon>`);
+      rendering.push(html`<gv-icon title="Conditional flow" class="content-icon-conditional" shape="code:if"></gv-icon>`);
     }
     // TODO: Extract icon/shape on flow definition
     const methods = flow.methods || [];
