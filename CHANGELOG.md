@@ -1,3 +1,10 @@
+## [3.31.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.1...v3.31.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **gv-schema-form:** remove useless compact attribute ([92f7aae](https://github.com/gravitee-io/gravitee-ui-components/commit/92f7aaec909c6827e7f5c0a1ac097b2268f194c6)), closes [gravitee-io/issues#7022](https://github.com/gravitee-io/issues/issues/7022)
+
 ## [3.31.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.0...v3.31.1) (2022-03-18)
 
 
