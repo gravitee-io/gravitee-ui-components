@@ -39,6 +39,7 @@ import '../../atoms/gv-switch';
  * @attr {Boolean} confirm - true, if render confirm state
  * @attr {Boolean} disabled - true for disabled
  * @attr {Boolean} readonly - true if readonly
+ * @attr {Boolean} condition - true if flow step has condition
  */
 export class GvFlowStep extends withResizeObserver(LitElement) {
   static get properties() {
@@ -59,6 +60,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
       _small: { type: Boolean, attribute: false },
       _confirmDelete: { type: Boolean, reflect: true },
       _confirmDuplicate: { type: Boolean, reflect: true },
+      condition: { type: Boolean, reflect: true },
     };
   }
 
@@ -207,7 +209,6 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
     } else if (!this.empty) {
       const name = this.step ? this.step.name : '';
       const description = this.step && this.step.description ? this.step.description : '';
-      const hasConditionalSteps = this.step && !!this.step.condition;
       const icon = this.step ? this.policy && this.policy.icon : null;
       const enabled = this.step && this.step.enabled !== false;
       const notFound = this.policy == null;
@@ -231,18 +232,14 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
       >
         ${this._renderDropdownMenu()}
         <div class="content">
-          <div class="content-icon">
-            ${hasConditionalSteps
-              ? html`<gv-icon title="Conditional policy" class="content-icon-conditional" shape="design:conditional"></gv-icon>`
-              : html``}
-            ${icon ? html`<gv-image src="${icon}"></gv-image>` : html``}
-          </div>
+          <div class="content-icon">${icon ? html`<gv-image src="${icon}"></gv-image>` : html``}</div>
 
           ${icon == null && notFound ? html`<gv-icon class="not-found__icon" shape="finance:folder-error"></gv-icon>` : ''}
           <div>
             <div class="name">${name}</div>
             <div class="description">${description}</div>
           </div>
+          ${this.condition ? html`<gv-icon title="Conditional policy" class="content-icon-conditional" shape="code:if"></gv-icon>` : ''}
         </div>
       </div> `;
     } else {
@@ -371,6 +368,7 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
         .drop-area.has-icon {
           padding-left: 0;
+          padding-right: 0;
           text-align: left;
         }
 
@@ -411,23 +409,21 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
         .content-icon {
           flex: 0 1 0%;
           display: flex;
-          margin: 0.2rem;
         }
+
         .content-icon-conditional {
           position: absolute;
-          z-index: 10;
-          background-color: var(--gv-theme-color-light, #86c3d0);
-          border-radius: 100%;
-          border: 1px solid white;
-          padding-left: 4px;
-          padding-right: 4px;
-          width: 35px;
-          height: 35px;
+          right: 4px;
+          top: 4px;
+          --gv-icon--c: transparent;
+          --gv-icon--s: 24px;
+          background-color: white;
+          border-radius: 30px;
         }
 
         gv-image {
-          height: 80px;
-          width: 80px;
+          height: 88px;
+          width: 88px;
         }
 
         .not-found__icon {
