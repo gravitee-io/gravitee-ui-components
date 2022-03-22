@@ -1,3 +1,15 @@
+## [3.31.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.2...v3.31.3) (2022-03-22)
+
+
+### Bug Fixes
+
+* remove unnecessary `changedProperties` ([d26102a](https://github.com/gravitee-io/gravitee-ui-components/commit/d26102a7cd37c0e3df18ce4a24353ce37032ee7a))
+
+
+### Performance Improvements
+
+* add webpack config to limit languages imported by the dependencies ([428d81a](https://github.com/gravitee-io/gravitee-ui-components/commit/428d81aeba455e0ab8c6ae02d4d2a21a4fe94a86))
+
 ## [3.31.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.1...v3.31.2) (2022-03-22)
 
 
