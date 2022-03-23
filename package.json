@@ -75,7 +75,7 @@
     "@babel/preset-typescript": "7.16.7",
     "@commitlint/cli": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
-    "@highcharts/map-collection": "1.1.4",
+    "@highcharts/map-collection": "2.0.0",
     "@semantic-release/changelog": "6.0.1",
     "@semantic-release/git": "10.0.1",
     "@storybook/addon-a11y": "6.4.19",
@@ -102,7 +102,7 @@
     "fs-extra": "10.0.1",
     "github-markdown-css": "4.0.0",
     "glob": "7.2.0",
-    "highcharts": "9.3.3",
+    "highcharts": "10.0.0",
     "highlight.js": "11.5.0",
     "html-to-react": "1.4.8",
     "husky": "7.0.4",
@@ -130,10 +130,10 @@
   },
   "peerDependencies": {
     "@asciidoctor/core": "^2.2.4",
-    "@highcharts/map-collection": "^1.0.0",
+    "@highcharts/map-collection": "^1.0.0 || ^2.0.0",
     "asciidoctor": "^2.2.4",
     "asciidoctor-highlight.js": "^0.3.0 || ^0.4.0",
-    "highcharts": "^8.0.0 || ^9.0.0",
+    "highcharts": "^8.0.0 || ^9.0.0 || ^10.0.0",
     "highlight.js": "^10.7.0 || ^11.1.0"
   },
   "peerDependenciesMeta": {
