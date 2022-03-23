@@ -2719,7 +2719,7 @@ __metadata:
     "@commitlint/config-conventional": 16.2.1
     "@formatjs/intl-locale": ^2.4.40
     "@formatjs/intl-relativetimeformat": ^9.3.2
-    "@highcharts/map-collection": 1.1.4
+    "@highcharts/map-collection": 2.0.0
     "@semantic-release/changelog": 6.0.1
     "@semantic-release/git": 10.0.1
     "@storybook/addon-a11y": 6.4.19
@@ -2749,7 +2749,7 @@ __metadata:
     fs-extra: 10.0.1
     github-markdown-css: 4.0.0
     glob: 7.2.0
-    highcharts: 9.3.3
+    highcharts: 10.0.0
     highlight.js: 11.5.0
     html-to-react: 1.4.8
     husky: 7.0.4
@@ -2783,10 +2783,10 @@ __metadata:
     zx: 4.3.0
   peerDependencies:
     "@asciidoctor/core": ^2.2.4
-    "@highcharts/map-collection": ^1.0.0
+    "@highcharts/map-collection": ^1.0.0 || ^2.0.0
     asciidoctor: ^2.2.4
     asciidoctor-highlight.js: ^0.3.0 || ^0.4.0
-    highcharts: ^8.0.0 || ^9.0.0
+    highcharts: ^8.0.0 || ^9.0.0 || ^10.0.0
     highlight.js: ^10.7.0 || ^11.1.0
   peerDependenciesMeta:
     "@asciidoctor/core":
@@ -2804,10 +2804,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@highcharts/map-collection@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@highcharts/map-collection@npm:1.1.4"
-  checksum: d956f3bebb1d2390faf90be62054c73e66605618b9c83ff00c97aa12ea4f4e18c62d32fdb7a8ae2d8c67129e119a7db22851e04e18960f54efbdf8765a87cf8d
+"@highcharts/map-collection@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@highcharts/map-collection@npm:2.0.0"
+  checksum: f948f345fc5f2963f3ad49aa496efd2043aca837cd11a9b97ccbc1da9bc1accf3ac9771907424d037c3cd8d6186c21ba912e74992b8ceddeaf8b924d31a0fc61
   languageName: node
   linkType: hard
 
@@ -11493,10 +11493,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highcharts@npm:9.3.3":
-  version: 9.3.3
-  resolution: "highcharts@npm:9.3.3"
-  checksum: bd952eafcf7b1c136ab1e20d6b58172f9aeab9381c13e3d67f08b10eb6b2c1f96e62a8d276f29b1e92ef0a8cbc6d1696cd0e554691063a5183235e820b42404b
+"highcharts@npm:10.0.0":
+  version: 10.0.0
+  resolution: "highcharts@npm:10.0.0"
+  checksum: 1824e9b096fcdccd23a4533c9f7ff8bf46d48536a798c613e6564b5bb88dcdc5e0d2ccc0a9f6f20635219956d62d3b7339e8330fe2a31579f438fcabb3bd8d47
   languageName: node
   linkType: hard
 
