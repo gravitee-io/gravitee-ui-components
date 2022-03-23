@@ -1,3 +1,11 @@
+# [3.32.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.3...v3.32.0) (2022-03-23)
+
+
+### Features
+
+* add code:if icon ([833f0b5](https://github.com/gravitee-io/gravitee-ui-components/commit/833f0b51765cbe6f6401169ec9dee8a278606bff))
+* **policy-studio:** use new condition icon ([17abf43](https://github.com/gravitee-io/gravitee-ui-components/commit/17abf431d76a2d1ea787ec23535879775ef6fb02))
+
 ## [3.31.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.2...v3.31.3) (2022-03-22)
 
 
