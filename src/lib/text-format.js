@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-export function loadAsciiDoctor() {
-  if (window._gvAsciidoctor == null) {
-    return Promise.all([import('asciidoctor'), import('asciidoctor-highlight.js')]).then(([asciidoctor, highlightJsExt]) => {
-      window._gvAsciidoctor = asciidoctor.default();
-      highlightJsExt.default.register(window._gvAsciidoctor.Extensions);
-      return setAsciiDoctorAsGlobal(asciidoctor.default, highlightJsExt.default);
-    });
-  }
-  return Promise.resolve(window._gvAsciidoctor);
-}
+export async function loadAsciiDoctor() {
+  let _gvAsciidoctor = window._gvAsciidoctor;
 
-export function setAsciiDoctorAsGlobal(asciidoctor, highlightJsExt) {
-  if (window._gvAsciidoctor == null) {
-    window._gvAsciidoctor = asciidoctor();
-    highlightJsExt.register(window._gvAsciidoctor.Extensions);
+  // Load asciidoctor if is not already loaded
+  if (_gvAsciidoctor == null) {
+    _gvAsciidoctor = await import('asciidoctor');
+    window._gvAsciidoctor = _gvAsciidoctor.default();
   }
-  return window._gvAsciidoctor;
+
+  // Load asciidoctor highlight if is not already loaded
+  if (window._gvAsciidoctorHighlight == null) {
+    const highlightJsExt = await import('asciidoctor-highlight.js');
+    highlightJsExt.default.register(_gvAsciidoctor.Extensions);
+    window._gvAsciidoctorHighlight = true;
+  }
+  return _gvAsciidoctor;
 }
 
 export function toDom(text, type = 'adoc', small = false) {
