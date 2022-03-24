@@ -1,3 +1,10 @@
+# [3.33.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.32.0...v3.33.0) (2022-03-24)
+
+
+### Features
+
+* load asciidoctor & asciidoctor-highlight.js separately ([7921d16](https://github.com/gravitee-io/gravitee-ui-components/commit/7921d1620a6ee5a4e97645371510d58978fdad78))
+
 # [3.32.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.31.3...v3.32.0) (2022-03-23)
 
 
