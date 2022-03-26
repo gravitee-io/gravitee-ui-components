@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  secrethub: secrethub/cli@1.1.0
+  keeper: gravitee-io/keeper@0.5.0
   gh: circleci/github-cli@2.0.0
 
 executors:
@@ -95,12 +95,12 @@ jobs:
       class: small
       name: node-lts
     environment:
-      CHROMATIC_PROJECT_TOKEN: 'secrethub://graviteeio/cicd/graviteebot/chromatic_project_token'
+      CHROMATIC_PROJECT_TOKEN: 'keeper://pf4iQRmMdFC7x7KtaJYIVQ/field/password'
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - secrethub/exec:
+      - keeper/exec:
           step-name: Running Chromatic
           command: |
             SB_URL=$(npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static | grep -o "View your Storybook at https:\/\/[0-9a-z-]*\.chromatic\.com" | grep -o "https:.*")
@@ -206,8 +206,8 @@ workflows:
             - install
       - dangerjs:
           pre-steps:
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+            - keeper/env-export:
+                secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: DANGER_GITHUB_API_TOKEN
           context: gravitee-qa
           requires:
@@ -221,11 +221,11 @@ workflows:
             branches:
               ignore: master
           pre-steps:
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+            - keeper/env-export:
+                secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: GITHUB_TOKEN
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/infra/npm_token
+            - keeper/env-export:
+                secret-url: keeper://hyuyfd_i5JChvc8OgSoxgg/field/password
                 var-name: NPM_TOKEN
           context: gravitee-qa
           requires:
@@ -241,8 +241,8 @@ workflows:
               ignore: master
       - chromatic-deployment:
           pre-steps:
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+            - keeper/env-export:
+                secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: GITHUB_TOKEN
           context: gravitee-qa
           requires:
@@ -250,23 +250,23 @@ workflows:
             - trigger-chromatic
       - release:
           pre-steps:
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/infra/npm_token
+            - keeper/env-export:
+                secret-url: keeper://hyuyfd_i5JChvc8OgSoxgg/field/password
                 var-name: NPM_TOKEN
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/github_personal_access_token
+            - keeper/env-export:
+                secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: GITHUB_TOKEN
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/name
+            - keeper/env-export:
+                secret-url: keeper://q9AKrHbbTqSGDoUl-Lg85g/field/login
                 var-name: GIT_AUTHOR_NAME
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/email
+            - keeper/env-export:
+                secret-url: keeper://q9AKrHbbTqSGDoUl-Lg85g/custom_field/email
                 var-name: GIT_AUTHOR_EMAIL
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/name
+            - keeper/env-export:
+                secret-url: keeper://q9AKrHbbTqSGDoUl-Lg85g/field/login
                 var-name: GIT_COMMITTER_NAME
-            - secrethub/env-export:
-                secret-path: graviteeio/cicd/graviteebot/git/user/email
+            - keeper/env-export:
+                secret-url: keeper://q9AKrHbbTqSGDoUl-Lg85g/custom_field/email
                 var-name: GIT_COMMITTER_EMAIL
           context: gravitee-qa
           requires:
