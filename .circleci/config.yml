@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  keeper: gravitee-io/keeper@0.5.0
+  keeper: gravitee-io/keeper@0.6.1
   gh: circleci/github-cli@2.0.0
 
 executors:
@@ -227,7 +227,9 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://hyuyfd_i5JChvc8OgSoxgg/field/password
                 var-name: NPM_TOKEN
-          context: gravitee-qa
+          context: 
+            - gravitee-qa
+            - cicd-orchestrator
           requires:
             - build
       - trigger-chromatic:
@@ -244,7 +246,9 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: GITHUB_TOKEN
-          context: gravitee-qa
+          context: 
+            - gravitee-qa
+            - cicd-orchestrator
           requires:
             - build
             - trigger-chromatic
@@ -268,7 +272,9 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://q9AKrHbbTqSGDoUl-Lg85g/custom_field/email
                 var-name: GIT_COMMITTER_EMAIL
-          context: gravitee-qa
+          context: 
+            - gravitee-qa
+            - cicd-orchestrator
           requires:
             - build
             - lint-test
