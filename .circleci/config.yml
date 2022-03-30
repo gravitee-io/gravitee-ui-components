@@ -209,7 +209,9 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: DANGER_GITHUB_API_TOKEN
-          context: gravitee-qa
+          context: 
+            - gravitee-qa
+            - cicd-orchestrator
           requires:
             - install
       - build:
