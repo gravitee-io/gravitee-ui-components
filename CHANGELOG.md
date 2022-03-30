@@ -1,3 +1,10 @@
+## [3.33.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.33.0...v3.33.1) (2022-03-30)
+
+
+### Bug Fixes
+
+* async import asciidoctor properly ([e3540f1](https://github.com/gravitee-io/gravitee-ui-components/commit/e3540f1f67c0a0aefb302f9a5a5a92f6e606c81d))
+
 # [3.33.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.32.0...v3.33.0) (2022-03-24)
 
 
