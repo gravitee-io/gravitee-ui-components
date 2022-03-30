@@ -19,8 +19,8 @@ export async function loadAsciiDoctor() {
 
   // Load asciidoctor if is not already loaded
   if (_gvAsciidoctor == null) {
-    _gvAsciidoctor = await import('asciidoctor');
-    window._gvAsciidoctor = _gvAsciidoctor.default();
+    _gvAsciidoctor = (await import('asciidoctor')).default();
+    window._gvAsciidoctor = _gvAsciidoctor;
   }
 
   // Load asciidoctor highlight if is not already loaded
