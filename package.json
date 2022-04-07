@@ -40,7 +40,7 @@
     "release": "semantic-release",
     "serve": "yarn docs && start-storybook -p 6006 --ci -s assets --modern",
     "serve:prod": "yarn build && static -a 0.0.0.0 -p 8080 storybook-static --modern",
-    "test": "jest",
+    "test": "NODE_OPTIONS=--unhandled-rejections=warn jest",
     "test:coverage": "yarn test --collect-coverage",
     "test:watch": "yarn test --watchAll"
   },
