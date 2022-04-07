@@ -13,7 +13,7 @@ executors:
         enum: ['small', 'medium', 'large', 'xlarge']
         default: 'medium'
     docker:
-      - image: circleci/node:14.18-stretch
+      - image: cimg/node:16.10
     resource_class: <<parameters.class>>
 
 jobs:
@@ -209,7 +209,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: DANGER_GITHUB_API_TOKEN
-          context: 
+          context:
             - gravitee-qa
             - cicd-orchestrator
           requires:
@@ -229,7 +229,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://hyuyfd_i5JChvc8OgSoxgg/field/password
                 var-name: NPM_TOKEN
-          context: 
+          context:
             - gravitee-qa
             - cicd-orchestrator
           requires:
@@ -248,7 +248,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: GITHUB_TOKEN
-          context: 
+          context:
             - gravitee-qa
             - cicd-orchestrator
           requires:
@@ -274,7 +274,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://q9AKrHbbTqSGDoUl-Lg85g/custom_field/email
                 var-name: GIT_COMMITTER_EMAIL
-          context: 
+          context:
             - gravitee-qa
             - cicd-orchestrator
           requires:
