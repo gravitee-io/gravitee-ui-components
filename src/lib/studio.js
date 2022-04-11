@@ -96,15 +96,17 @@ export function getFlowTitle(flow, collectionName, withMethods = true, draggable
       if (flow.type.toUpperCase() === 'ROOT') {
         shape = 'home:earth';
       } else if (flow.type.toUpperCase() === 'LOGIN') {
-        shape = 'general:shield-protected';
+        shape = 'finance:file';
       } else if (flow.type.toUpperCase() === 'LOGIN_IDENTIFIER') {
-        shape = 'navigation:sign-in';
+        shape = 'code:right-circle';
       } else if (flow.type.toUpperCase() === 'RESET_PASSWORD') {
-        shape = 'action:lock_open';
+        shape = 'finance:protected-file';
       } else if (flow.type.toUpperCase() === 'CONSENT') {
         shape = 'general:shield-check';
       } else if (flow.type.toUpperCase() === 'REGISTER') {
         shape = 'communication:shield-user';
+      } else if (flow.type.toUpperCase() === 'REGISTRATION_CONFIRMATION') {
+        shape = 'communication:clipboard-check';
       }
 
       if (shape != null) {
