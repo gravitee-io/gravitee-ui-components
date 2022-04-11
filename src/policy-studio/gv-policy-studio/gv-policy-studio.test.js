@@ -256,7 +256,7 @@ describe('P O L I C Y  S T U D I O', () => {
             description: 'The type of flow',
             type: 'string',
             default: 'ROOT',
-            enum: ['ROOT', 'LOGIN', 'LOGIN_IDENTIFIER', 'RESET_PASSWORD', 'CONSENT', 'REGISTER'],
+            enum: ['ROOT', 'LOGIN', 'LOGIN_IDENTIFIER', 'RESET_PASSWORD', 'CONSENT', 'REGISTER', 'REGISTRATION_CONFIRMATION'],
           },
           condition: {
             title: 'Condition',

@@ -42,6 +42,13 @@
       "condition": "",
       "pre": [],
       "post": []
+    },
+    {
+      "name": "REGISTRATION_CONFIRMATION",
+      "type": "REGISTRATION_CONFIRMATION",
+      "condition": "",
+      "pre": [],
+      "post": []
     }
   ]
 }
