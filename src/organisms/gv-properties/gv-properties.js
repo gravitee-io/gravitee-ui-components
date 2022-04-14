@@ -556,7 +556,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
   _renderTableForm() {
     return html`<div class="container">
       <div class="header">
-        <div class="title">Manage global properties <span>(${this._properties ? this._properties.length : 0})</span></div>
+        <div class="title">Manage API properties <span>(${this._properties ? this._properties.length : 0})</span></div>
         <gv-switch
           small
           .description="${this.expert ? 'Expert' : 'Simple'}"
