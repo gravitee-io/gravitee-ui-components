@@ -1,3 +1,10 @@
+# [3.35.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.34.0...v3.35.0) (2022-04-14)
+
+
+### Features
+
+* reword API properties screen title ([c5f4abc](https://github.com/gravitee-io/gravitee-ui-components/commit/c5f4abc9f8546795466a5fbf88d76fcda4e5c10b))
+
 # [3.34.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.33.1...v3.34.0) (2022-04-11)
 
 
