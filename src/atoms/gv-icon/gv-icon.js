@@ -13,19 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { css, LitElement, html, noChange } from 'lit';
-import { Directive, directive } from 'lit/directive.js';
+import { css, LitElement, html, svg } from 'lit';
 
 import { classMap } from 'lit/directives/class-map.js';
-
-class Namespaced extends Directive {
-  update(part, [namespace, value]) {
-    part.element.setAttributeNS(namespace, part.name, value);
-    return noChange;
-  }
-}
-
-const namespaced = directive(Namespaced);
 
 /**
  * An icon
@@ -93,10 +83,8 @@ export class GvIcon extends LitElement {
   }
 
   render() {
-    const xlinkNamespace = 'http://www.w3.org/1999/xlink';
-    return html`<svg class="${classMap({ 'no-color': !this.canCustomize() })}">
-      <use xlink:href="${namespaced(xlinkNamespace, GvIcon.getHref(this.shape))}" />
-    </svg>`;
+    const icon = svg`<use href="${GvIcon.getHref(this.shape)}" />`;
+    return html`<svg xmlns="http://www.w3.org/2000/svg" class="${classMap({ 'no-color': !this.canCustomize() })}">${icon}</svg>`;
   }
 }
 
