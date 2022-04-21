@@ -1,3 +1,10 @@
+## [3.35.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.0...v3.35.1) (2022-04-21)
+
+
+### Bug Fixes
+
+* **gv-icon:** use svg lit directive ([46a4706](https://github.com/gravitee-io/gravitee-ui-components/commit/46a470662802efe1fde721315206c3978518b3b4))
+
 # [3.35.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.34.0...v3.35.0) (2022-04-14)
 
 
