@@ -422,7 +422,6 @@ export class GvTable extends withResizeObserver(LitElement) {
           }
           element.dataset.preventSelect = true;
           element.addEventListener(event, (e) => {
-            e.stopPropagation();
             const optionConfirm = typeof option.confirm === 'function' ? option.confirm(item) : option.confirm;
             if (optionConfirm == null) {
               setTimeout(() => {
@@ -461,6 +460,9 @@ export class GvTable extends withResizeObserver(LitElement) {
       }
       if (optionConfirm.danger) {
         confirm.danger = true;
+      }
+      if (optionConfirm.position) {
+        confirm.position = optionConfirm.position;
       }
       confirm.addEventListener('click', (e) => e.stopPropagation());
       confirm.addEventListener('gv-confirm:ok', (e) => {
