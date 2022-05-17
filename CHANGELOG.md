@@ -1,3 +1,10 @@
+## [3.35.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.1...v3.35.2) (2022-05-17)
+
+
+### Bug Fixes
+
+* properly setup confirm in tables ([3dd9629](https://github.com/gravitee-io/gravitee-ui-components/commit/3dd9629d692b18b516d811af496b8bf5e4d0f936))
+
 ## [3.35.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.0...v3.35.1) (2022-04-21)
 
 
