@@ -1,3 +1,10 @@
+## [3.35.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.2...v3.35.3) (2022-05-20)
+
+
+### Bug Fixes
+
+* rework event handling in gv-rating-list to fix click on `Answer button` ([238c6a5](https://github.com/gravitee-io/gravitee-ui-components/commit/238c6a5f74d4d01c95a30f25399a746a3781c652))
+
 ## [3.35.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.1...v3.35.2) (2022-05-17)
 
 
