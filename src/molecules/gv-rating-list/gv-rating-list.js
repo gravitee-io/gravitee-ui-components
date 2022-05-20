@@ -176,6 +176,7 @@ export class GvRatingList extends LitElement {
       addAnswer: false,
       deleteAnswer: false,
     };
+    this._hasValidAnswer = false;
   }
 
   set ratings(value) {
@@ -207,7 +208,7 @@ export class GvRatingList extends LitElement {
     e.stopPropagation();
     this._ratings.forEach((rating) => (rating._edit = false));
     rating._edit = true;
-    this.performUpdate();
+    this.requestUpdate();
   }
 
   _getAnswerValue() {
@@ -225,18 +226,20 @@ export class GvRatingList extends LitElement {
     }
   }
 
-  _hasValidAnswer() {
-    const answer = this._getAnswerValue();
-    return answer.trim().length > 0;
-  }
-
   _onClose(rating) {
     delete rating._edit;
-    this.performUpdate();
+    this._hasValidAnswer = false;
+    this.requestUpdate();
   }
 
   _renderAnswer(rating, answer) {
     return html`<div class="answer">${this._render(answer, rating)}</div>`;
+  }
+
+  _onResponseInput() {
+    const answer = this._getAnswerValue();
+    this._hasValidAnswer = answer.trim().length > 0;
+    this.requestUpdate();
   }
 
   _renderAnswers(rating) {
@@ -249,10 +252,15 @@ export class GvRatingList extends LitElement {
           ${rating._edit
             ? html`
                 <div class="answer answer-form">
-                  <gv-text rows="4" label="${i18n('gv-rating-list.answerLabel')}" required @input="${this.performUpdate}"></gv-text>
+                  <gv-text
+                    rows="4"
+                    label="${i18n('gv-rating-list.answerLabel')}"
+                    required
+                    @input="${this._onResponseInput.bind(this)}"
+                  ></gv-text>
                   <div class="actions">
                     <gv-button primary outlined @click="${this._onClose.bind(this, rating)}">${i18n('gv-rating-list.cancel')}</gv-button>
-                    <gv-button primary @click="${this._onAnswer.bind(this, rating)}" .disabled="${!this._hasValidAnswer()}"
+                    <gv-button primary @click="${this._onAnswer.bind(this, rating)}" .disabled="${!this._hasValidAnswer}"
                       >${i18n('gv-rating-list.send')}</gv-button
                     >
                   </div>
