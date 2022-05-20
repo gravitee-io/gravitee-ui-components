@@ -16,6 +16,8 @@
 import './gv-rating-list';
 import { makeStory } from '../../../testing/lib/make-story';
 import avatar from '../../../assets/images/avatar.png';
+import { deepClone } from '../../lib/utils';
+import { wait } from '../../../testing/lib/sequence';
 
 const title = 'Top API !';
 const comment =
@@ -53,7 +55,7 @@ const conf = {
 };
 
 export const Readonly = makeStory(conf, {
-  items: [{ ratings, user: author }],
+  items: [{ ratings: deepClone(ratings), user: author }],
 });
 
 export const Empty = makeStory(conf, {
@@ -61,7 +63,7 @@ export const Empty = makeStory(conf, {
 });
 
 export const UpdateRating = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { update: [1, 3, 5] } }],
+  items: [{ ratings: deepClone(ratings), user: author, permissions: { update: [1, 3, 5] } }],
   docs: `
     \`permissions.update\` properties supports booleans or arrays of rating identifier
     In this case, \`update = [1, 3, 5]\`, we cannot update the rating of the second and fourth element.
@@ -69,7 +71,7 @@ export const UpdateRating = makeStory(conf, {
 });
 
 export const DeleteRating = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { delete: [2, 3, 4] } }],
+  items: [{ ratings: deepClone(ratings), user: author, permissions: { delete: [2, 3, 4] } }],
   docs: `
     \`permissions.update\` properties supports booleans or arrays of rating identifier
     In this case, \`update = [2, 3, 4]\`, we cannot delete the rating of the first and last element.
@@ -77,13 +79,32 @@ export const DeleteRating = makeStory(conf, {
 });
 
 export const AddAnswer = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { addAnswer: true } }],
+  items: [{ ratings: deepClone(ratings), user: author, permissions: { addAnswer: true } }],
+  play: async ({ component }) => {
+    // First, click on button to open the textarea
+    component.shadowRoot.querySelector('a').click();
+    await wait(100);
+
+    // Find the textarea and simulate some inputs
+    const textArea = component.shadowRoot.querySelector('gv-text').shadowRoot.querySelector('textarea');
+    textArea.focus();
+    textArea.value = 'Awesome !';
+    // Trigger an input event to trigger the validation + button state update
+    textArea.dispatchEvent(
+      new Event('input', {
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await component.requestUpdate();
+  },
 });
 
 export const DeleteAnswer = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { deleteAnswer: true } }],
+  items: [{ ratings: deepClone(ratings), user: author, permissions: { deleteAnswer: true } }],
 });
 
 export const Everything = makeStory(conf, {
-  items: [{ ratings, user: author, permissions: { update: true, delete: true, addAnswer: true, deleteAnswer: true } }],
+  items: [{ ratings: deepClone(ratings), user: author, permissions: { update: true, delete: true, addAnswer: true, deleteAnswer: true } }],
 });
