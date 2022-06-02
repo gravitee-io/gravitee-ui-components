@@ -324,9 +324,11 @@ export class GvDesign extends KeyboardElement(LitElement) {
       const plans =
         definition.plans == null
           ? []
-          : definition.plans.map((plan) => {
-              return { ...plan, flows: this._generatePlanFlowsId(plan) };
-            });
+          : definition.plans
+              .filter((plan) => plan.status !== 'CLOSED')
+              .map((plan) => {
+                return { ...plan, flows: this._generatePlanFlowsId(plan) };
+              });
       this._initialDefinition = { ...definition, flows, resources, plans };
       this._definition = deepClone(this._initialDefinition);
       this.isDirty = false;
