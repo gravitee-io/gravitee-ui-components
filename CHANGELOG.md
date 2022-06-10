@@ -1,3 +1,10 @@
+# [3.36.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.3...v3.36.0) (2022-06-10)
+
+
+### Features
+
+* hide closed plans in design studio ([ac74aa0](https://github.com/gravitee-io/gravitee-ui-components/commit/ac74aa040d3d1c2d780cc70eb75bc1a5da2e0c18))
+
 ## [3.35.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.2...v3.35.3) (2022-05-20)
 
 
