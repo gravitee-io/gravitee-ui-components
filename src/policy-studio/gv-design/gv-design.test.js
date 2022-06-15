@@ -280,7 +280,7 @@ describe('D E S I G N', () => {
 
     test('should update definition when submit schema form with updated flow', async () => {
       const _id = 'foobar';
-      const flow = { _id, name: 'New flow', condition: '#method == "POST"' };
+      const flow = { _id, name: 'New flow', condition: '#method == "POST"', pre: [], post: [] };
       component.definition = { flows: [flow] };
 
       await component._onSelectFlows({ detail: { flows: [flow._id] } });
