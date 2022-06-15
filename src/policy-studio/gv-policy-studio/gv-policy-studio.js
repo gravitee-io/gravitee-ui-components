@@ -886,7 +886,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _onSubmitFlowMode({ detail: { values } }) {
-    this._definition['flow-mode'] = values['flow-mode'] || 'DEFAULT';
+    this._definition.flow_mode = values.flow_mode || 'DEFAULT';
     this.isDirty = true;
     this._refresh();
   }

@@ -1,7 +1,7 @@
 {
   "name": "My API",
   "version": "1",
-  "flow-mode": "best_match",
+  "flow_mode": "best_match",
   "flows": [
     {
       "name": "All",
