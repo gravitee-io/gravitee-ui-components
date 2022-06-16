@@ -1,3 +1,11 @@
+## [3.36.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.36.0...v3.36.1) (2022-06-16)
+
+
+### Bug Fixes
+
+* avoid UnhandledPromiseRejection error with flows pre ([2fbadf8](https://github.com/gravitee-io/gravitee-ui-components/commit/2fbadf86dacae2304ad8b9ab8a4b22dc9461b8b0))
+* reword flow-mode into flow_mode ([0426178](https://github.com/gravitee-io/gravitee-ui-components/commit/0426178ab246d00ca75896e2741d7fe68e67daed))
+
 # [3.36.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.35.3...v3.36.0) (2022-06-10)
 
 
