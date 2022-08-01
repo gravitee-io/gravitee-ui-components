@@ -87,7 +87,7 @@
     "asciidoctor-highlight.js": "0.4.0",
     "babel-jest": "27.5.1",
     "babel-loader": "8.2.5",
-    "chromatic": "6.7.1",
+    "chromatic": "6.7.2",
     "danger": "10.9.0",
     "del": "6.1.1",
     "eslint": "8.20.0",
