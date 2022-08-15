@@ -90,7 +90,7 @@
     "chromatic": "6.7.4",
     "danger": "10.9.0",
     "del": "6.1.1",
-    "eslint": "8.21.0",
+    "eslint": "8.22.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "16.0.3",
     "eslint-plugin-import": "2.26.0",
