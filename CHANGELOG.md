@@ -1,3 +1,10 @@
+## [3.36.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.36.1...v3.36.2) (2022-08-16)
+
+
+### Bug Fixes
+
+* **gv-design:** wait for subcomponent to be rendered before interacting with it ([4d92dad](https://github.com/gravitee-io/gravitee-ui-components/commit/4d92dad7edb288fdf158d4275c72c45c08fa4643))
+
 ## [3.36.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.36.0...v3.36.1) (2022-06-16)
 
 
