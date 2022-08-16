@@ -464,7 +464,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
       sourceFlow._dirty = true;
       this.isDirty = true;
       this.shadowRoot.querySelectorAll('gv-flow').forEach((gvFlow) => gvFlow.removeCandidate());
-      setTimeout(() => {
+      setTimeout(async () => {
         this._dragPolicy = null;
         this._dropPolicy = null;
         const currentFlowForm = this._getFlowStepForm();
@@ -472,6 +472,8 @@ export class GvDesign extends KeyboardElement(LitElement) {
         // else it's a copy or duplicate between 2 flows
         if (currentFlowForm != null) {
           currentFlowForm.validate();
+          // Be sure to wait for the subcomponent to be rendered before trying to interact with it
+          await currentFlowForm.updateComplete;
           // the submit action will add form values to definition and dispatch change event
           currentFlowForm.submit();
         } else {

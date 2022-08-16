@@ -492,13 +492,34 @@
     },
     {
       "id": "json-to-xml",
-      "name": "JSON to XML Transformation",
+      "name": "JSON to XML",
       "description": "Description of the JSON to XML Transformation Gravitee Policy",
       "version": "1.4.0",
       "icon": "",
       "category": "transformation",
       "onRequest": true,
-      "onResponse": true
+      "onResponse": true,
+      "schema": {
+        "type": "object",
+        "id": "urn:jsonschema:io:gravitee:policy:json2xml:configuration:JsonToXMLTransformationPolicyConfiguration",
+        "properties": {
+          "scope": {
+            "title": "Scope",
+            "description": "Execute policy on <strong>request</strong> or <strong>response</strong> phase.",
+            "type": "string",
+            "default": "REQUEST",
+            "enum": ["REQUEST", "RESPONSE"]
+          },
+          "rootElement": {
+            "title": "Root element",
+            "description": "Root element name that's enclose content",
+            "type": "string",
+            "default": "root",
+            "pattern": "^[a-z:_A-Z]+[a-zA-Z0-9:-_]*"
+          }
+        },
+        "required": ["rootElement"]
+      }
     },
     {
       "id": "key-less",
