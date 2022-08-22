@@ -3698,7 +3698,7 @@ __metadata:
     license-check-and-add: 4.0.5
     lint-staged: 12.5.0
     lit: ^2.0.2
-    lit-html: 2.3.0
+    lit-html: 2.3.1
     markdown-it: 12.3.2
     messageformat: ^2.3.0
     node-static: 0.7.11
@@ -15102,12 +15102,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit-html@npm:2.3.0":
-  version: 2.3.0
-  resolution: "lit-html@npm:2.3.0"
+"lit-html@npm:2.3.1":
+  version: 2.3.1
+  resolution: "lit-html@npm:2.3.1"
   dependencies:
     "@types/trusted-types": ^2.0.2
-  checksum: 71b86f28461c61e1bf595a605409e4ce79edd2f70257e365899cddf64902c4879d4a05619a8f5026847046e92e26739a1e10e9460b3967e5974387ec10991723
+  checksum: 6177f0854001b7e464a994adb6339a5ede4977c189587e49186b8bb10e49feaa57fe08ad14d13c06c2bce2a80671e1de3f08d8f2bdb25b2f265b21e2dd091c5b
   languageName: node
   linkType: hard
 
