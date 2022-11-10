@@ -39,6 +39,10 @@ export const WithValue = makeStory(conf, {
   items: [{ value: '30 10 */5 * * MON-FRI' }],
 });
 
+export const Disabled = makeStory(conf, {
+  items: [{ value: '30 10 */5 * * MON-FRI', disabled: true }],
+});
+
 export const WithAutomaticModeSelection = makeStory(conf, {
   items: [{ value: '*/25 * * * * *' }, { value: '2 */25 * * * *' }, { value: '1 3 */25 * * *' }, { value: '* * */25 * * *' }],
 });
