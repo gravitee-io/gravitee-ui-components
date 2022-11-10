@@ -388,6 +388,26 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
   }
 
   render() {
+    if (this.disabled) {
+      return html`<div>
+        ${this.renderLabel()}
+        <div class="box">
+          <gv-tabs ?small="${this._small}" ?truncate="${this._truncateTabs}">
+            <div slot="title" class="generated-expression readonly">
+              <gv-input
+                name="pro.value"
+                .autofocus="${this.autofocus}"
+                .value="${this.value}"
+                disabled="true"
+                id="cron-input"
+                placeholder="* */30 * * * * (Every 30 min)"
+              ></gv-input>
+            </div>
+          </gv-tabs>
+        </div>
+      </div>`;
+    }
+
     return html`<div>
       ${this.renderLabel()}
       <div class="box">
@@ -575,6 +595,9 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
           display: flex;
           align-items: center;
           flex: 1;
+        }
+        .generated-expression.disabled {
+          opacity: 0.4;
         }
 
         .generated-expression > span,

@@ -153,7 +153,7 @@ export class GvTabs extends LitElement {
         target.classList.add('current');
       }
     } else {
-      content[0].classList.add('current');
+      content.length && content[0].classList.add('current');
     }
   }
 
@@ -182,6 +182,10 @@ export class GvTabs extends LitElement {
   }
 
   get _contextualOptions() {
+    if (!this.options) {
+      return [];
+    }
+
     if (this.truncate) {
       return this.options.map((option) => {
         if (this.value !== option.id) {
