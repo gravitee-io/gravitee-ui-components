@@ -1,3 +1,10 @@
+## [3.37.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.37.0...v3.37.1) (2022-11-14)
+
+
+### Bug Fixes
+
+* keep event listener for gv-cron-editor when disabled state change ([a8b0bc3](https://github.com/gravitee-io/gravitee-ui-components/commit/a8b0bc3e9fa7759fd26302ea4e0ea995f5288a7a))
+
 # [3.37.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.36.2...v3.37.0) (2022-11-14)
 
 
