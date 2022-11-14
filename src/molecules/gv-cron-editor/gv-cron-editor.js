@@ -191,8 +191,8 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
     // eslint-disable-next-line promise/param-names
     await new Promise((r) => setTimeout(r, 0));
 
-    this.shadowRoot.querySelectorAll('gv-input, gv-date-picker, gv-checkbox, gv-select').forEach((element) => {
-      element.addEventListener(`${element.tagName.toLowerCase()}:input`, this._handleChange);
+    ['gv-input', 'gv-date-picker', 'gv-checkbox', 'gv-select'].forEach((tagName) => {
+      this.shadowRoot.addEventListener(`${tagName}:input`, this._handleChange);
     });
   }
 
