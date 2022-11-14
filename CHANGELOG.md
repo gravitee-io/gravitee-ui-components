@@ -1,3 +1,10 @@
+# [3.37.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.36.2...v3.37.0) (2022-11-14)
+
+
+### Features
+
+* add disabled state for gv-cron-editor ([6e81ce0](https://github.com/gravitee-io/gravitee-ui-components/commit/6e81ce0363850f24359e59c86a6b9ee2b1e10f18))
+
 ## [3.36.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.36.1...v3.36.2) (2022-08-16)
 
 
