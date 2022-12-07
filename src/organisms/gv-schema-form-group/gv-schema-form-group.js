@@ -24,37 +24,32 @@ import { empty } from '../../styles/empty';
 import '../gv-schema-form-control';
 
 /**
- * Schema form component
+ * Schema form group component
+ * Create a form (without submit and cancel button) with a schema and work with Angular
  *
- * @fires gv-schema-form:submit - event when user submit valid form
- * @fires gv-schema-form:error - event when user submit invalid form
- * @fires gv-schema-form:change - event when when form change
- * @fires gv-schema-form:cancel - event when user cancel form
+ * @fires gv-schema-form-group:error - event when user touch invalid form
+ * @fires gv-schema-form-group:change - event when when form change
  *
  * @attr {Object} schema - the schema form configuration
- * @attr {Object} values - the values of fields
+ * @attr {Object} value - the value of fields
  * @attr {Object} errors - the map of errors by input key
  * @attr {Boolean} validate - to force validation on first render
  * @attr {Boolean} readonly - true if readonly
  * @attr {Boolean} scrollable - useful for making content scrollable with fixed headers / footers
  *
- * @cssprop {Color} [--gv-schema-form--bgc=#ffffff] - Background color
- * @cssprop {Length} [--gv-schema-form-control--m=0.4rem] - Control margin
+ * @cssprop {Color} [--gv-schema-form-group--bgc=#ffffff] - Background color
+ * @cssprop {Length} [--gv-schema-form-group-control--m=0.4rem] - Control margin
  */
-export class GvSchemaForm extends LitElement {
+export class GvSchemaFormGroup extends LitElement {
   static get properties() {
     return {
       schema: { type: Object },
       errors: { type: Object },
-      values: { type: Object },
-      submitLabel: { type: String },
-      hasFooter: { type: Boolean, attribute: 'has-footer' },
-      hasHeader: { type: Boolean, attribute: 'has-header' },
+      value: { type: Object },
       _confirm: { type: Object },
-      _values: { type: Object, attribute: false },
+      _value: { type: Object, attribute: false },
       dirty: { type: Boolean, reflect: true },
       hideDeprecated: { type: Boolean, attribute: 'hide-deprecated' },
-      validateOnRender: { type: Boolean, attribute: 'validate-on-render' },
       _validatorResults: { type: Object },
       skeleton: { type: Boolean, reflect: true },
       _touch: { type: Boolean },
@@ -67,10 +62,7 @@ export class GvSchemaForm extends LitElement {
   constructor() {
     super();
     this.hideDeprecated = false;
-    this._values = {};
-    this.submitLabel = 'Ok';
-    this.hasHeader = false;
-    this.hasFooter = false;
+    this._value = {};
     this._touch = false;
     this._validator = new Validator();
     this._validatorResults = {};
@@ -83,32 +75,23 @@ export class GvSchemaForm extends LitElement {
     this.addEventListener('gv-schema-form-control:control-ready', this._onControlReady.bind(this));
   }
 
-  set values(values) {
-    if (!deepEqual(this._values, values)) {
-      if (values) {
-        this._initialValues = { ...values };
+  set value(value) {
+    if (!deepEqual(this._value, value)) {
+      if (value) {
+        this._initialValue = { ...value };
       } else {
-        this._initialValues = {};
+        this._initialValue = {};
       }
-      this._values = deepClone(this._initialValues);
+      this._value = deepClone(this._initialValue);
     }
   }
 
-  get values() {
-    return this._values;
-  }
-
-  // to work with angular reactive forms
-  set value(value) {
-    this.values = value;
-  }
-
   get value() {
-    return this._values;
+    return this._value;
   }
 
-  reset(values = null) {
-    this._values = deepClone(values || this._initialValues);
+  reset(value = null) {
+    this._value = deepClone(value || this._initialValue);
     this._touch = false;
     this._setDirty(false);
     this.getControls().forEach((s) => {
@@ -125,27 +108,7 @@ export class GvSchemaForm extends LitElement {
     clearTimeout(this._validateTimeout);
     this._validateTimeout = setTimeout(() => {
       this.validate();
-      this._updateActions();
     }, 350);
-  }
-
-  submit() {
-    this._onSubmit();
-  }
-
-  _onSubmit(e) {
-    if (e) {
-      e.preventDefault();
-    }
-    const validatorResults = this.validate();
-    if (this.isValid()) {
-      this._initialValues = deepClone(this._values);
-      this.dirty = false;
-      this._touch = false;
-      dispatchCustomEvent(this, 'submit', { values: this._values, validatorResults });
-    } else {
-      dispatchCustomEvent(this, 'error', { values: this._values, validatorResults });
-    }
   }
 
   _setDirty(dirty = true) {
@@ -181,21 +144,13 @@ export class GvSchemaForm extends LitElement {
   _onConfirmEdit() {
     this._confirm.reject(this);
     this._confirm = null;
-    this._updateChildren(this.validateOnRender);
-  }
-
-  _getSubmitBtn() {
-    return this.shadowRoot.querySelector('#submit');
-  }
-
-  _getResetBtn() {
-    return this.shadowRoot.querySelector('#reset');
+    this._updateChildren();
   }
 
   _dispatchChange() {
     clearTimeout(this._changeTimeout);
     this._changeTimeout = setTimeout(() => {
-      dispatchCustomEvent(this, 'change', { target: this, values: this._values, validation: this._validatorResults });
+      dispatchCustomEvent(this, 'change', { target: this, value: this._value, validation: this._validatorResults });
     }, 50);
   }
 
@@ -203,7 +158,7 @@ export class GvSchemaForm extends LitElement {
     if (control.type === 'integer' && value != null && ((value.trim && value.length > 0) || value.length > 0)) {
       value = parseInt(value, 10);
     }
-    set(this._values, currentTarget.id, value);
+    set(this._value, currentTarget.id, value);
   }
 
   _onChange({ detail: { currentTarget, value, control } }) {
@@ -231,15 +186,14 @@ export class GvSchemaForm extends LitElement {
       }
     }
     if (value == null) {
-      del(this._values, currentTarget.id);
+      del(this._value, currentTarget.id);
     } else {
-      set(this._values, currentTarget.id, value);
+      set(this._value, currentTarget.id, value);
     }
 
     this._updateDynamicControls();
-    this._validatorResults = this.validate();
+    this.validate();
     this.dirty = true;
-    this._updateActions();
     this._dispatchChange();
   }
 
@@ -303,7 +257,7 @@ export class GvSchemaForm extends LitElement {
     }
     const isReadonly = this.readonly || control.readOnly === true;
     const isWriteOnly = control.writeOnly === true;
-    const value = get(this._values, key);
+    const value = get(this._value, key);
     return html`<gv-schema-form-control
       .id="${key}"
       .errors="${this.errors}"
@@ -341,7 +295,7 @@ export class GvSchemaForm extends LitElement {
 
     let result = true;
     for (const operation of condition) {
-      // operation only have one operator with a single object containing operand values
+      // operation only have one operator with a single object containing operand value
       const operator = Object.keys(operation)[0];
 
       switch (operator) {
@@ -378,7 +332,7 @@ export class GvSchemaForm extends LitElement {
     return modelAttributes
       .map((modelAttribute) => {
         const testValue = operands[modelAttribute];
-        let value = get(this._values, modelAttribute);
+        let value = get(this._value, modelAttribute);
         if (value == null && control.type === 'string') {
           value = '';
         }
@@ -393,7 +347,7 @@ export class GvSchemaForm extends LitElement {
   _evaluateNotDefCondition(control, condition) {
     const operator = Object.keys(condition)[0];
     const modelAttribute = condition[operator];
-    return get(this._values, modelAttribute) === undefined || get(this._values, modelAttribute) === null;
+    return get(this._value, modelAttribute) === undefined || get(this._value, modelAttribute) === null;
   }
 
   _evaluateDefCondition(control, condition) {
@@ -475,10 +429,13 @@ export class GvSchemaForm extends LitElement {
   validate() {
     if (this.schema) {
       // Additional properties should not block the validation of the form
-      this._validatorResults = this._validator.validate(this._values, { ...this.schema, additionalProperties: {} });
+      this._validatorResults = this._validator.validate(this._value, { ...this.schema, additionalProperties: {} });
       this.errors = this._getErrors();
+    } else {
+      this._validatorResults = {};
     }
-    return this._validatorResults;
+
+    dispatchCustomEvent(this, 'error', this._validatorResults.valid ? null : this._validatorResults.errors);
   }
 
   isValid() {
@@ -489,30 +446,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   isTouch() {
-    return this._touch || (this.dirty && this.validateOnRender);
-  }
-
-  canSubmit() {
-    return this.isTouch() && this.isValid();
-  }
-
-  _updateActions() {
-    const submitBtn = this._getSubmitBtn();
-    if (submitBtn != null) {
-      if (this.canSubmit()) {
-        this._getSubmitBtn().removeAttribute('disabled');
-      } else {
-        this._getSubmitBtn().setAttribute('disabled', true);
-      }
-    }
-    const resetBtn = this._getResetBtn();
-    if (resetBtn != null) {
-      if (this.dirty) {
-        resetBtn.removeAttribute('disabled');
-      } else {
-        resetBtn.setAttribute('disabled', true);
-      }
-    }
+    return this._touch || this.dirty;
   }
 
   _updateChildren(withValidation) {
@@ -520,19 +454,20 @@ export class GvSchemaForm extends LitElement {
       this._validatorResults = {};
       this.errors = null;
       this.requestValidation();
-    } else {
-      this._updateActionsTimeout = setTimeout(() => this._updateActions(), 0);
     }
   }
 
+  firstUpdated() {
+    this.validate();
+  }
+
   async updated(changedProperties) {
-    clearTimeout(this._updateActionsTimeout);
-    if (changedProperties.has('_values')) {
+    if (changedProperties.has('_value')) {
       this.getControls().forEach((control) => {
-        control.value = get(this._values, control.id);
+        control.value = get(this._value, control.id);
       });
     }
-    this._updateChildren(this.validateOnRender && (changedProperties.has('_values') || changedProperties.has('schema')));
+    this._updateChildren(changedProperties.has('_value') || changedProperties.has('schema'));
   }
 
   async getUpdateComplete() {
@@ -542,55 +477,11 @@ export class GvSchemaForm extends LitElement {
   }
 
   render() {
-    return html`<form class="${classMap({ scrollable: this.scrollable })}" @submit="${this._onSubmit}">
+    return html`
       <div class="${classMap({ container: true, confirm: this._confirm })}">
-        ${this.hasHeader === true
-          ? html`
-              <div class="header">
-                <div class="${classMap({ title: true, center: this.hasHeader && !this.hasFooter })}">
-                  <slot name="title"></slot>
-                </div>
-                <div class="left">
-                  <slot name="header-left"></slot>
-                </div>
-                ${this.readonly === true || this.hasFooter === true
-                  ? ''
-                  : html`<div class="right">
-                      <gv-button
-                        id="reset"
-                        outlined
-                        small
-                        @gv-button:click="${this._onReset}"
-                        icon="general:update"
-                        title="Reset"
-                      ></gv-button>
-                      <gv-button
-                        id="submit"
-                        small
-                        @gv-button:click="${this._onSubmit}"
-                        icon="code:check"
-                        .title="${this.submitLabel}"
-                      ></gv-button>
-                    </div> `}
-              </div>
-            `
-          : ''}
         <div class="content">${this.schema != null ? this._renderPart() : html``}</div>
-        ${this.hasFooter === true && this.readonly !== true
-          ? html`
-              <div class="footer">
-                <div class="left"></div>
-                <div class="right">
-                  <gv-button id="reset" outlined @gv-button:click="${this._onReset}" icon="general:update" title="Reset">Reset</gv-button>
-                  <gv-button id="submit" @gv-button:click="${this._onSubmit}" icon="code:check" .title="${this.submitLabel}"
-                    >${this.submitLabel}</gv-button
-                  >
-                </div>
-              </div>
-            `
-          : ''}
       </div>
-    </form>`;
+    `;
   }
 
   static get styles() {
@@ -765,4 +656,4 @@ export class GvSchemaForm extends LitElement {
   }
 }
 
-window.customElements.define('gv-schema-form', GvSchemaForm);
+window.customElements.define('gv-schema-form-group', GvSchemaFormGroup);
