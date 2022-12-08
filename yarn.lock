@@ -3773,11 +3773,11 @@ __metadata:
     danger: 10.9.0
     date-fns: ^2.26.0
     del: 6.1.1
-    eslint: 8.28.0
+    eslint: 8.29.0
     eslint-config-prettier: 8.5.0
     eslint-config-standard: 16.0.3
     eslint-plugin-import: 2.26.0
-    eslint-plugin-lit: 1.6.1
+    eslint-plugin-lit: 1.7.0
     eslint-plugin-node: 11.1.0
     eslint-plugin-promise: 6.1.1
     eslint-plugin-standard: 4.1.0
@@ -3798,20 +3798,20 @@ __metadata:
     license-check-and-add: 4.0.5
     lint-staged: 12.5.0
     lit: ^2.0.2
-    lit-html: 2.4.0
+    lit-html: 2.5.0
     markdown-it: 12.3.2
     messageformat: ^2.3.0
     node-static: 0.7.11
     nodemon: 2.0.20
     object-path: ^0.11.8
     pascal-case: 3.1.2
-    prettier: 2.8.0
+    prettier: 2.8.1
     resize-observer-polyfill: ^1.5.1
     semantic-release: 18.0.1
     sort-package-json: 1.57.0
     svgo: 2.8.0
     svgstore: 3.0.1
-    typescript: 4.9.3
+    typescript: 4.9.4
     web-component-analyzer: 1.1.6
     webpack-env: 0.8.0
     webpack-merge: 5.8.0
@@ -10621,16 +10621,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-lit@npm:1.6.1":
-  version: 1.6.1
-  resolution: "eslint-plugin-lit@npm:1.6.1"
+"eslint-plugin-lit@npm:1.7.0":
+  version: 1.7.0
+  resolution: "eslint-plugin-lit@npm:1.7.0"
   dependencies:
     parse5: ^6.0.1
     parse5-htmlparser2-tree-adapter: ^6.0.1
     requireindex: ^1.2.0
   peerDependencies:
     eslint: ">= 5"
-  checksum: 75e4dd2fb074cb600db1aee78196e201196bce21b8983c9bb64eea86c7d24f7013868bf5aa92f3c3f0087e232abf1ddb1954fd2d37d7ba4a897d4d085d9a14eb
+  checksum: 8d75d5637dc96d0bdd121c441691dc34f678846855da8aa80cf8e0f06634ddb06d889a82fade05f64250b13101dea5307499bb171ce71fcccb9af4b7e30f654c
   languageName: node
   linkType: hard
 
@@ -10729,9 +10729,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.28.0":
-  version: 8.28.0
-  resolution: "eslint@npm:8.28.0"
+"eslint@npm:8.29.0":
+  version: 8.29.0
+  resolution: "eslint@npm:8.29.0"
   dependencies:
     "@eslint/eslintrc": ^1.3.3
     "@humanwhocodes/config-array": ^0.11.6
@@ -10774,7 +10774,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 1b793486b2ec80f0602d75fff7116f7c39a3286f523608a999eead9bec4154a06841785d2b4fb87f8292a94cf85778c1dbfaec727772a09c4d604fdb9ff0809a
+  checksum: e05204b05907b82d910983995cb946e0ba62ca514eb2b6791c43f623333b143564a2eee0139909d31c10935c21877d815b1f76dd674a59cb91c471064325c4ab
   languageName: node
   linkType: hard
 
@@ -15155,12 +15155,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit-html@npm:2.4.0":
-  version: 2.4.0
-  resolution: "lit-html@npm:2.4.0"
+"lit-html@npm:2.5.0":
+  version: 2.5.0
+  resolution: "lit-html@npm:2.5.0"
   dependencies:
     "@types/trusted-types": ^2.0.2
-  checksum: fb2ff513a23ce35783c231d3c184103b681f62792e2fa500b17f0bbd93b1a3168153b3fd52ccaca2c25ee5bb7f4006b657fc15ae893fa5dc733774c01eda5dce
+  checksum: 5376c423253037fbe1cb24f8178104eca6186df19d06bc91ad8d5d251af8467fd269a6c7e97ffaa5e9872a8dd453a40c3ffbe23c81d2823078f59be03f94c1bc
   languageName: node
   linkType: hard
 
@@ -18138,12 +18138,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.8.0":
-  version: 2.8.0
-  resolution: "prettier@npm:2.8.0"
+"prettier@npm:2.8.1":
+  version: 2.8.1
+  resolution: "prettier@npm:2.8.1"
   bin:
     prettier: bin-prettier.js
-  checksum: 72004ce0cc9bb097daf3e3833f62495768724392c1d5b178dd47372337616e9e50ecbb0804f236596223f7b5eb1bbe69cefc8957dca21112c5777e77ef73a564
+  checksum: 4f21a0f1269f76fb36f54e9a8a1ea4c11e27478958bf860661fb4b6d7ac69aac1581f8724fa98ea3585e56d42a2ea317a17ff6e3324f40cb11ff9e20b73785cc
   languageName: node
   linkType: hard
 
@@ -21308,13 +21308,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.9.3":
-  version: 4.9.3
-  resolution: "typescript@npm:4.9.3"
+"typescript@npm:4.9.4":
+  version: 4.9.4
+  resolution: "typescript@npm:4.9.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 17b8f816050b412403e38d48eef0e893deb6be522d6dc7caf105e54a72e34daf6835c447735fd2b28b66784e72bfbf87f627abb4818a8e43d1fa8106396128dc
+  checksum: e782fb9e0031cb258a80000f6c13530288c6d63f1177ed43f770533fdc15740d271554cdae86701c1dd2c83b082cea808b07e97fd68b38a172a83dbf9e0d0ef9
   languageName: node
   linkType: hard
 
@@ -21338,13 +21338,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.9.3#~builtin<compat/typescript>":
-  version: 4.9.3
-  resolution: "typescript@patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=493e53"
+"typescript@patch:typescript@4.9.4#~builtin<compat/typescript>":
+  version: 4.9.4
+  resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=493e53"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ef65c22622d864497d0a0c5db693523329b3284c15fe632e93ad9aa059e8dc38ef3bd767d6f26b1e5ecf9446f49bd0f6c4e5714a2eeaf352805dc002479843d1
+  checksum: 37f6e2c3c5e2aa5934b85b0fddbf32eeac8b1bacf3a5b51d01946936d03f5377fe86255d4e5a4ae628fd0cd553386355ad362c57f13b4635064400f3e8e05b9d
   languageName: node
   linkType: hard
 
