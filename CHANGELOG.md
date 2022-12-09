@@ -1,3 +1,10 @@
+# [3.38.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.37.1...v3.38.0) (2022-12-09)
+
+
+### Features
+
+* add new gv-shema-form-group ([29470ec](https://github.com/gravitee-io/gravitee-ui-components/commit/29470ec093950f1b9a471093a04586405edd476f))
+
 ## [3.37.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.37.0...v3.37.1) (2022-11-14)
 
 
