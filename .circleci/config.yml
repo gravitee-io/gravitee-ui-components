@@ -13,7 +13,7 @@ executors:
         enum: ['small', 'medium', 'large', 'xlarge']
         default: 'medium'
     docker:
-      - image: cimg/node:16.10
+      - image: cimg/node:16.18
     resource_class: <<parameters.class>>
 
 jobs:
