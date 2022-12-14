@@ -3767,7 +3767,7 @@ __metadata:
     asciidoctor-highlight.js: 0.4.0
     babel-jest: 27.5.1
     babel-loader: 8.3.0
-    chromatic: 6.11.4
+    chromatic: 6.13.0
     clipboard-copy: ^4.0.0
     codemirror-asciidoc: ^2.0.0
     danger: 10.9.0
@@ -3777,7 +3777,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-config-standard: 16.0.3
     eslint-plugin-import: 2.26.0
-    eslint-plugin-lit: 1.7.0
+    eslint-plugin-lit: 1.7.1
     eslint-plugin-node: 11.1.0
     eslint-plugin-promise: 6.1.1
     eslint-plugin-standard: 4.1.0
@@ -8570,9 +8570,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:6.11.4":
-  version: 6.11.4
-  resolution: "chromatic@npm:6.11.4"
+"chromatic@npm:6.13.0":
+  version: 6.13.0
+  resolution: "chromatic@npm:6.13.0"
   dependencies:
     "@discoveryjs/json-ext": ^0.5.7
     "@types/webpack-env": ^1.17.0
@@ -8580,7 +8580,7 @@ __metadata:
     chroma: bin/main.cjs
     chromatic: bin/main.cjs
     chromatic-cli: bin/main.cjs
-  checksum: 7af3302b410a42d7e4833be0c94830a4848ccd877920bbb32082554da7fd1bbf46af800bb9f66ee14fb24a124df2229102ddc5e5dc91237f6339dc7b1394fbe3
+  checksum: c2b54d1a8e3e3bed3571f41e3befbf0fbfb71d8c08007c9e56095b1ad837bf5e1441c8fc5bfff4a4f5d6a4dd7088dd2893132d170384c462b358f98479e27963
   languageName: node
   linkType: hard
 
@@ -10621,16 +10621,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-lit@npm:1.7.0":
-  version: 1.7.0
-  resolution: "eslint-plugin-lit@npm:1.7.0"
+"eslint-plugin-lit@npm:1.7.1":
+  version: 1.7.1
+  resolution: "eslint-plugin-lit@npm:1.7.1"
   dependencies:
     parse5: ^6.0.1
     parse5-htmlparser2-tree-adapter: ^6.0.1
     requireindex: ^1.2.0
   peerDependencies:
     eslint: ">= 5"
-  checksum: 8d75d5637dc96d0bdd121c441691dc34f678846855da8aa80cf8e0f06634ddb06d889a82fade05f64250b13101dea5307499bb171ce71fcccb9af4b7e30f654c
+  checksum: 54f0e44c6eb2872ee320b0c39dcc3cbcced18a2b0ab21cc14b71e9e54b7958fea6a02f2f1a2990552f3a38dab78b9a82fb93b7eb4be6544f4d92ec55f233f4a7
   languageName: node
   linkType: hard
 
