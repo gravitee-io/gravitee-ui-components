@@ -1,3 +1,10 @@
+## [3.38.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.0...v3.38.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* **gv-input:** dispatch submit event only on required icon ([91c267b](https://github.com/gravitee-io/gravitee-ui-components/commit/91c267bd90dcfe604da1e98827e0895b6b03b687))
+
 # [3.38.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.37.1...v3.38.0) (2022-12-09)
 
 
