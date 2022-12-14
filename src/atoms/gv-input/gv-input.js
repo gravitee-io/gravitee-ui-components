@@ -427,9 +427,11 @@ export class GvInput extends InputElement(LitElement) {
     return this._type;
   }
 
-  _onIconClick() {
+  _onIconClick(e) {
     dispatchCustomEvent(this, 'icon-click', this.value);
-    dispatchCustomEvent(this, 'submit', this.value);
+    if (e.target.classList.contains('submit')) {
+      dispatchCustomEvent(this, 'submit', this.value);
+    }
   }
 
   _onIconVisibleClick(e) {
@@ -462,7 +464,7 @@ export class GvInput extends InputElement(LitElement) {
   _renderClearIcon() {
     if (this.isClearable) {
       return html`<div class="box-icon box-icon-clear">
-        <gv-icon class="link" shape="code:error" title="${i18n('gv-input.clear')}" @click="${this.clear}"></gv-icon>
+        <gv-icon class="link submit" shape="code:error" title="${i18n('gv-input.clear')}" @click="${this.clear}"></gv-icon>
       </div>`;
     }
     return '';
