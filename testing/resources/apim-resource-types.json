@@ -74,7 +74,8 @@
           "clientSecret": {
             "title": "Client Secret",
             "description": "The client secret.",
-            "type": "string"
+            "type": "string",
+            "writeOnly": true
           },
           "userClaim": {
             "title": "User claim",
