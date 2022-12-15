@@ -510,13 +510,15 @@ export class GvDatePicker extends LitElement {
 
   monthChanged(month, year) {
     if (year && month) {
-      const add = this.time && this.range ? 0 : 1;
-      const monthPlus = `0${(month % 12) + add}`;
-      this._monthPlus = monthPlus.substring(monthPlus.length - 2);
-      if (this._monthPlus === '01') {
-        this._yearPlus = parseInt(year, 10) + add;
+      this._yearPlus = parseInt(year, 10);
+      if (this.time && this.range) {
+        this._monthPlus = month;
       } else {
-        this._yearPlus = parseInt(year, 10);
+        const monthPlus = `0${(month % 12) + 1}`;
+        this._monthPlus = monthPlus.substring(monthPlus.length - 2);
+        if (this._monthPlus === '01') {
+          this._yearPlus += 1;
+        }
       }
     }
   }
@@ -634,6 +636,7 @@ export class GvDatePicker extends LitElement {
       this.invalid = isInvalid(this._from, this._min, this._max, !this.time);
     }
     this.valid = !this.invalid;
+
     this.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
     dispatchCustomEvent(this, 'input', this.value);
   }
