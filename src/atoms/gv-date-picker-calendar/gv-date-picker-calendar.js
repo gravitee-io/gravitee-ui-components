@@ -28,6 +28,7 @@ import {
   parse,
   setHours,
   setMinutes,
+  setSeconds,
   startOfDay,
   subMonths,
   subYears,
@@ -750,6 +751,7 @@ export class GvDatePickerCalendar extends LitElement {
     let selectedDate = new Date(this._from * 1000);
     selectedDate = setHours(selectedDate, parseInt(this._hour ? this._hour : 0, 10));
     selectedDate = setMinutes(selectedDate, parseInt(this._minute ? this._minute : 0, 10));
+    selectedDate = setSeconds(selectedDate, parseInt(this._second ? this._second : 0, 10));
     return selectedDate.getTime() / 1000;
   }
 
