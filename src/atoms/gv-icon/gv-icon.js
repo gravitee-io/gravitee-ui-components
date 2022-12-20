@@ -78,11 +78,17 @@ export class GvIcon extends LitElement {
   }
 
   static getHref(shape) {
-    const [category, icon] = shape.split(':');
-    return `./icons/${category}.svg#${icon}`;
+    if (shape) {
+      const [category, icon] = shape.split(':');
+      return `./icons/${category}.svg#${icon}`;
+    }
+    return undefined;
   }
 
   render() {
+    if (this.shape == null) {
+      return '';
+    }
     const icon = svg`<use href="${GvIcon.getHref(this.shape)}" />`;
     return html`<svg xmlns="http://www.w3.org/2000/svg" class="${classMap({ 'no-color': !this.canCustomize() })}">${icon}</svg>`;
   }
