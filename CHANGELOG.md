@@ -1,3 +1,10 @@
+## [3.38.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.3...v3.38.4) (2022-12-20)
+
+
+### Bug Fixes
+
+* **gv-icon:** load icon only if has shape ([b4b08de](https://github.com/gravitee-io/gravitee-ui-components/commit/b4b08de7ccb106096196d5390257f2be456e0f48))
+
 ## [3.38.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.2...v3.38.3) (2022-12-20)
 
 
