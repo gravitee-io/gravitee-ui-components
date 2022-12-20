@@ -1,3 +1,10 @@
+## [3.38.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.2...v3.38.3) (2022-12-20)
+
+
+### Bug Fixes
+
+* **gv-date-picker:** fix range time mode ([dd6f4c3](https://github.com/gravitee-io/gravitee-ui-components/commit/dd6f4c3fc156ae7445bf9bc67446bdc92da929ce))
+
 ## [3.38.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.1...v3.38.2) (2022-12-15)
 
 
