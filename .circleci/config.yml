@@ -209,9 +209,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: DANGER_GITHUB_API_TOKEN
-          context:
-            - gravitee-qa
-            - cicd-orchestrator
+          context: cicd-orchestrator
           requires:
             - install
       - build:
@@ -229,9 +227,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://hyuyfd_i5JChvc8OgSoxgg/field/password
                 var-name: NPM_TOKEN
-          context:
-            - gravitee-qa
-            - cicd-orchestrator
+          context: cicd-orchestrator
           requires:
             - build
       - trigger-chromatic:
@@ -248,9 +244,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
                 var-name: GITHUB_TOKEN
-          context:
-            - gravitee-qa
-            - cicd-orchestrator
+          context: cicd-orchestrator
           requires:
             - build
             - trigger-chromatic
@@ -274,9 +268,7 @@ workflows:
             - keeper/env-export:
                 secret-url: keeper://q9AKrHbbTqSGDoUl-Lg85g/custom_field/email
                 var-name: GIT_COMMITTER_EMAIL
-          context:
-            - gravitee-qa
-            - cicd-orchestrator
+          context: cicd-orchestrator
           requires:
             - build
             - lint-test
