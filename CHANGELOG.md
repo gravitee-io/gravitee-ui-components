@@ -1,3 +1,10 @@
+## [3.38.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.4...v3.38.5) (2023-02-03)
+
+
+### Bug Fixes
+
+* **gv-button:** remove useless css rule ([dfb3294](https://github.com/gravitee-io/gravitee-ui-components/commit/dfb32941425f03e221b88d77aa30468e8ce41429))
+
 ## [3.38.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.3...v3.38.4) (2022-12-20)
 
 
