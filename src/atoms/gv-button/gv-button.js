@@ -258,10 +258,6 @@ export class GvButton extends KeyboardElement(LitElement) {
           height: 100%;
         }
 
-        .button.noContent slot {
-          display: none;
-        }
-
         .loading gv-icon {
           animation: spinner 1.6s linear infinite;
           --gv-icon--s: 20px;
