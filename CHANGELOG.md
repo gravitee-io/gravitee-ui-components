@@ -1,3 +1,10 @@
+## [3.38.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.6...v3.38.7) (2023-03-06)
+
+
+### Bug Fixes
+
+* **gv-properties:** handle page size update ([d0de1b1](https://github.com/gravitee-io/gravitee-ui-components/commit/d0de1b15be3cfa7c8efed0f9f4ef83fe59a41653))
+
 ## [3.38.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.5...v3.38.6) (2023-03-06)
 
 
