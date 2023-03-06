@@ -534,7 +534,12 @@ export class GvProperties extends KeyboardElement(LitElement) {
   }
 
   _onPaginate({ detail }) {
-    this._paginationData.current_page = detail.page;
+    if (detail.page) {
+      this._paginationData.current_page = detail.page;
+    }
+    if (detail.size) {
+      this._pageSize = detail.size;
+    }
     this._onClosePropertySchemaForm();
     this.requestUpdate();
   }
