@@ -1,3 +1,10 @@
+## [3.38.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.5...v3.38.6) (2023-03-06)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** handle plans named with a special character ([a5e6510](https://github.com/gravitee-io/gravitee-ui-components/commit/a5e6510e7ba3f2fe39fbacc20b7c7e78f3ca45a1))
+
 ## [3.38.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.4...v3.38.5) (2023-02-03)
 
 
