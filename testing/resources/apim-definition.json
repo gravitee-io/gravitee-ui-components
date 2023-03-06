@@ -372,6 +372,11 @@
           ]
         }
       ]
+    },
+    {
+      "id": "p-3",
+      "name": "Plan % containing $ special + characters",
+      "flows": []
     }
   ],
   "resources": [

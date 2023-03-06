@@ -630,7 +630,7 @@ export class GvPolicyStudioMenu extends LitElement {
 
         return html`${groups.map((group, index) => {
           let groupData = filteredData.filter((data) => data[groupKey] === group);
-          const listId = group ? group.replace(/\s+/g, '-').toLowerCase() : `group-${index}`;
+          const listId = group ? this._computeId(group) : `group-${index}`;
           const anchor = `#${listId}`;
           let right = html`<gv-state>${groupData.length}</gv-state>`;
           if (addHandler) {
@@ -654,7 +654,7 @@ export class GvPolicyStudioMenu extends LitElement {
         })}`;
       } else {
         if (listId == null) {
-          listId = type.replace(/\s+/g, '-').toLowerCase();
+          listId = this._computeId(type);
         }
         if (type === 'flows') {
           list = this._renderFlows(filteredData, type, isChild, listId, isOpen);
@@ -706,6 +706,19 @@ export class GvPolicyStudioMenu extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     dispatchCustomEvent(this, 'add-flow');
+  }
+
+  /**
+   * Compute id from input based on the following rules:
+   *  - replace all non alphanumeric characters by `-`
+   *  - convert to lower case
+   *
+   * @param input {string} the input
+   * @returns {string} the computed id
+   * @private
+   */
+  _computeId(input) {
+    return input.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
   }
 
   render() {
