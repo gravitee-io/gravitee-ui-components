@@ -88,7 +88,7 @@
     "babel-jest": "27.5.1",
     "babel-loader": "8.3.0",
     "chromatic": "6.17.1",
-    "danger": "10.9.0",
+    "danger": "11.2.4",
     "del": "6.1.1",
     "eslint": "8.35.0",
     "eslint-config-prettier": "8.7.0",
