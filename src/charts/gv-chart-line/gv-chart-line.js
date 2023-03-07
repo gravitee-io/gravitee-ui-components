@@ -92,7 +92,8 @@ export class GvChartLine extends ChartElement(LitElement) {
       },
       tooltip: {
         formatter: function () {
-          const nbCol = Math.trunc(this.points.filter((p) => p.y).length / 10);
+          const maxNumberOfElementPerColumn = 6;
+          const nbCol = Math.trunc(this.points.filter((p) => p.y).length / maxNumberOfElementPerColumn);
           let s = '<div><b>' + new Date(this.x).toLocaleString(getLanguage()) + '</b></div>';
           s += '<div class="' + (nbCol >= 2 ? 'tooltip tooltip-' + (nbCol > 5 ? 5 : nbCol) : '') + '">';
           if (
