@@ -1,3 +1,10 @@
+## [3.38.8](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.7...v3.38.8) (2023-03-07)
+
+
+### Bug Fixes
+
+* **gv-chart-line:** use more column in tooltip to avoid length issue with lots of series ([c6a57f9](https://github.com/gravitee-io/gravitee-ui-components/commit/c6a57f9d86d22efe4aae5ceb50103abe966b2a2c))
+
 ## [3.38.7](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.6...v3.38.7) (2023-03-06)
 
 
