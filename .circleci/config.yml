@@ -230,15 +230,6 @@ workflows:
           context: cicd-orchestrator
           requires:
             - build
-      - trigger-chromatic:
-          type: approval
-          requires:
-            - build
-            - lint-test
-          # Ignore this manual step and trigger chromatic automatically on `master`
-          filters:
-            branches:
-              ignore: master
       - chromatic-deployment:
           pre-steps:
             - keeper/env-export:
@@ -247,7 +238,7 @@ workflows:
           context: cicd-orchestrator
           requires:
             - build
-            - trigger-chromatic
+            - lint-test
       - release:
           pre-steps:
             - keeper/env-export:
