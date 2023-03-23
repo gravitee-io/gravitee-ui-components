@@ -218,6 +218,16 @@
         },
         "required": ["pattern"]
       }
+    },
+    "whitelistClientCertificates": {
+      "title": "Allowed client certificates (requires client authentication)",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(?: *[A-Z]+ *= *(?:\\w|\\*|\\?| )+,?)*$",
+        "description": "Name of client (X.500 principal). Can be expressed with an Ant pattern. For example: CN=localhost,O=GraviteeSource*,C=??",
+        "title": "Distinguish Name"
+      }
     }
   },
   "required": ["multiselect", "timeToLiveSeconds"],

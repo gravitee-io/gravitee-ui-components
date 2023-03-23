@@ -57,6 +57,7 @@ describe('S C H E M A  F O R M', () => {
     'readonly',
     'writeonly',
     'whitelist',
+    'whitelistClientCertificates',
   ];
 
   const checkControl = (id, attributes = []) => {
@@ -100,6 +101,7 @@ describe('S C H E M A  F O R M', () => {
     checkControl('select');
     checkControl('multiselect');
     checkControl('whitelist');
+    checkControl('whitelistClientCertificates');
   });
 
   test('should create element with valid values', async () => {
