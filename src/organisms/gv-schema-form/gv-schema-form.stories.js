@@ -130,7 +130,22 @@ export const HTMLToJson = makeStory(conf, {
 });
 
 export const HttpConnector = makeStory(conf, {
-  items: [{ schema: httpConnector }],
+  items: [
+    {
+      schema: httpConnector,
+      value: {
+        ssl: {
+          trustStore: {
+            type: 'PEM',
+          },
+        },
+        proxy: {
+          enabled: true,
+          useSystemProxy: true,
+        },
+      },
+    },
+  ],
 });
 
 export const ResourceCacheRedis = makeStory(conf, {

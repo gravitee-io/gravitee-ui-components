@@ -130,6 +130,13 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
     }
   }
 
+  firstUpdated() {
+    // Need to update properties after the browser has rendered the element once
+    // and so the sub elements. Otherwise, the "state" (disabled, readonly,
+    // required) is not forwarded to the sub elements.
+    this._updateProperties(this.getControl());
+  }
+
   _renderControl() {
     const elementName = this.getElementName();
     const element = document.createElement(elementName);
