@@ -1,3 +1,11 @@
+## [3.38.9](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.8...v3.38.9) (2023-03-29)
+
+
+### Bug Fixes
+
+* **gv-input:** remove search icon in password mode ([c199fde](https://github.com/gravitee-io/gravitee-ui-components/commit/c199fde25977a21b3d36743bafdaf9c794d088b1))
+* **gv-schema-form:** handle disabled state on input with x-schema-form condition when loading ([755fdcc](https://github.com/gravitee-io/gravitee-ui-components/commit/755fdcc69384d662f25f0a2942589e58b985499c))
+
 ## [3.38.8](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.7...v3.38.8) (2023-03-07)
 
 
