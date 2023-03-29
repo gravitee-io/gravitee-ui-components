@@ -417,10 +417,6 @@ export class GvInput extends InputElement(LitElement) {
       this.icon = GvInput.shapeSearch;
       this.clearable = true;
     }
-
-    if (this._type === 'password') {
-      this.icon = GvInput.shapeSearch;
-    }
   }
 
   get type() {
