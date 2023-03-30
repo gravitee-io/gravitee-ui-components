@@ -26,6 +26,7 @@ const conf = {
   css: `
     :host {
       height: 250px;
+      overflow: auto;
     }
 
     gv-select {

@@ -25,6 +25,7 @@ import '../gv-icon';
 import { dispatchCustomEvent } from '../../lib/events';
 import { InputElement } from '../../mixins/input-element';
 import { withResizeObserver } from '../../mixins/with-resize-observer';
+import { createPopper } from '@popperjs/core';
 
 /**
  * A select component, is more like a list box...
@@ -149,11 +150,10 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         .select__list {
           color: var(--c);
           list-style: none;
-          position: absolute;
+          position: fixed;
           background-color: var(--bgc-list);
           list-style: none;
           padding: 0;
-          transition: all 0.3s ease 0s;
           margin: 0;
           width: 100%;
           cursor: pointer;
@@ -366,6 +366,30 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
     }
   }
 
+  /**
+   * When the component has been updated for the first time we can create the
+   * popper instance that will be used to position the list of options.
+   */
+  firstUpdated() {
+    const input = this.shadowRoot.querySelector(`#${this._id}`);
+    const list = this.shadowRoot.querySelector(`#${this._id}-list`);
+
+    if (input && list) {
+      this.popperInstance = createPopper(input, list, {
+        placement: 'bottom-start',
+        strategy: 'fixed',
+      });
+    }
+  }
+
+  updated() {
+    if (this.popperInstance) {
+      // Let's ask the popper instance to update itself to be sure the list of
+      // options is correctly positioned
+      this.popperInstance.update();
+    }
+  }
+
   render() {
     const classes = {
       box: true,
@@ -400,7 +424,12 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
         </div>
         ${this.readonly
           ? ''
-          : html` <ul class="${classMap(Object.assign({ select__list: true }))}" role="listbox" ?aria-expanded="${!this._isClosed}">
+          : html` <ul
+              id="${this._id}-list"
+              class="${classMap(Object.assign({ select__list: true }))}"
+              role="listbox"
+              ?aria-expanded="${!this._isClosed}"
+            >
               ${this._options &&
               repeat(
                 this._options,
