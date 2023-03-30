@@ -1,5 +1,8 @@
 import { jest } from '@jest/globals';
 
+// Mock Popper.js as there is no need to have it
+jest.mock('@popperjs/core');
+
 document.createRange = () => {
   const range = new Range();
 

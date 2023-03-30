@@ -3926,6 +3926,7 @@ __metadata:
     "@formatjs/intl-locale": ^2.4.40
     "@formatjs/intl-relativetimeformat": ^9.3.2
     "@highcharts/map-collection": 2.0.1
+    "@popperjs/core": ^2.11.7
     "@semantic-release/changelog": 6.0.2
     "@semantic-release/git": 10.0.1
     "@storybook/addon-a11y": 6.5.16
@@ -4926,6 +4927,13 @@ __metadata:
   dependencies:
     "@octokit/openapi-types": ^11.2.0
   checksum: f122b9aee8f6baddd515e34a0913e73b21d4bc82d6ee59d77a8aaf01b4a02c10867dd013003d087a83dc96db23511893669015af6d30c27cece185e21cf1df89
+  languageName: node
+  linkType: hard
+
+"@popperjs/core@npm:^2.11.7":
+  version: 2.11.7
+  resolution: "@popperjs/core@npm:2.11.7"
+  checksum: 5b6553747899683452a1d28898c1b39173a4efd780e74360bfcda8eb42f1c5e819602769c81a10920fc68c881d07fb40429604517d499567eac079cfa6470f19
   languageName: node
   linkType: hard
 
