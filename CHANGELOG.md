@@ -1,3 +1,10 @@
+## [3.38.10](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.9...v3.38.10) (2023-03-31)
+
+
+### Bug Fixes
+
+* **gv-select:** correctly display and place option list when used in a small container ([3942165](https://github.com/gravitee-io/gravitee-ui-components/commit/3942165632c36327ca617a83e0a0c5b4a5a5e733))
+
 ## [3.38.9](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.8...v3.38.9) (2023-03-29)
 
 
