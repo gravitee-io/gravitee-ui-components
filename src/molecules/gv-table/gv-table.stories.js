@@ -140,6 +140,10 @@ export const pagination = makeStory(conf, {
   items: [{ items: [...apiItems, ...apiItems], options: { ...apiOptions, paging: 2 }, title: 'APIs', order: 'name' }],
 });
 
+export const paginationPartialPage = makeStory(conf, {
+  items: [{ items: [...apiItems, ...apiItems], options: { ...apiOptions, paging: 5 }, title: 'APIs', order: 'name' }],
+});
+
 export const components = makeStory(conf, {
   items: [
     {
