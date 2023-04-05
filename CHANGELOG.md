@@ -1,3 +1,10 @@
+## [3.38.11](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.10...v3.38.11) (2023-04-05)
+
+
+### Bug Fixes
+
+* **gv-table:** pagination issue when number of items don't divide by the page size ([1e6e473](https://github.com/gravitee-io/gravitee-ui-components/commit/1e6e4739e26587e7576a7f63335babeae4f6f183))
+
 ## [3.38.10](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.9...v3.38.10) (2023-03-31)
 
 
