@@ -605,12 +605,13 @@ export class GvTable extends withResizeObserver(LitElement) {
 
   _renderPagination() {
     if (this.options && this.options.paging && this._itemsProvider) {
+      const nbPages = Math.ceil(this._itemsProvider.length / this.options.paging);
       const paginationData = {
         first: 1,
-        last: this._itemsProvider.length / this.options.paging,
+        last: nbPages,
         total: this._itemsProvider.length,
         current_page: this._page,
-        total_pages: this._itemsProvider.length / this.options.paging,
+        total_pages: nbPages,
       };
       return html`<gv-pagination .data="${paginationData}" widget="true"></gv-pagination>`;
     }
