@@ -1,3 +1,10 @@
+## [3.38.12](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.11...v3.38.12) (2023-04-14)
+
+
+### Bug Fixes
+
+* dispatch input event to work with Angular's ngDefaultControl ([93250ae](https://github.com/gravitee-io/gravitee-ui-components/commit/93250aeedda9ca45b541d44000fd094f2c678444))
+
 ## [3.38.11](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.10...v3.38.11) (2023-04-05)
 
 
