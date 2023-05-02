@@ -106,9 +106,13 @@ export function ChartElement(ParentClass) {
     updated(changedProperties) {
       super.updated(changedProperties);
       if (changedProperties.has('_series')) {
-        this.getOptions().then((options) => {
-          this._additionalOptions = options;
-        });
+        this.getOptions()
+          .then((options) => {
+            this._additionalOptions = options;
+          })
+          .catch((err) => {
+            console.warn(err);
+          });
       }
     }
 
@@ -152,9 +156,9 @@ export function ChartElement(ParentClass) {
 
         setTimeout(() => {
           if (options.chart.map) {
-            Highmaps.mapChart(container, options);
+            this._chart = Highmaps.mapChart(container, options);
           } else {
-            Highcharts.chart(container, options);
+            this._chart = Highcharts.chart(container, options);
           }
         });
       }

@@ -22,6 +22,7 @@ export { GvTag } from './atoms/gv-tag';
 export { GvText } from './atoms/gv-text';
 export { GvChartBar } from './charts/gv-chart-bar';
 export { GvChartGauge } from './charts/gv-chart-gauge';
+export { GvChartGaugeProgress } from './charts/gv-chart-gauge-progress';
 export { GvChartHistogram } from './charts/gv-chart-histogram';
 export { GvChartLine } from './charts/gv-chart-line';
 export { GvChartMap } from './charts/gv-chart-map';
