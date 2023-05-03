@@ -409,6 +409,7 @@ export class GvProperties extends KeyboardElement(LitElement) {
               name: 'key',
               required: true,
               readonly: this.readonly,
+              'ongv-input:input': this._onInput.bind(this),
             },
           },
           {
