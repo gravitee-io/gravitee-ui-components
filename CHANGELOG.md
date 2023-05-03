@@ -1,3 +1,10 @@
+## [3.39.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.0...v3.39.1) (2023-05-03)
+
+
+### Bug Fixes
+
+* emit change event on key input change ([3d8529e](https://github.com/gravitee-io/gravitee-ui-components/commit/3d8529e6e492acd6d8340f90b199559fe6123635))
+
 # [3.39.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.38.12...v3.39.0) (2023-05-03)
 
 
