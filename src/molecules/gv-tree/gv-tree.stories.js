@@ -34,7 +34,7 @@ const menuItems = [
       { name: 'page 21', value: 'p21' },
       { name: 'page 22', value: 'p22' },
       {
-        name: 'folder 21',
+        name: 'folder 21 - With long name to test line break',
         id: 'f21',
         children: [
           { name: 'page 211', value: 'p211' },
