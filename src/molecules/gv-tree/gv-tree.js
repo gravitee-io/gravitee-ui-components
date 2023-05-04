@@ -90,7 +90,8 @@ export class GvTree extends LitElement {
 
         ul {
           display: block;
-          line-height: 2;
+          line-height: 1.5em;
+          text-align: left;
           list-style: none;
           margin: 0;
           padding: 0;
