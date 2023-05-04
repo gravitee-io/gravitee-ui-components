@@ -1,3 +1,10 @@
+## [3.39.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.2...v3.39.3) (2023-05-04)
+
+
+### Bug Fixes
+
+* keep name text aline left when is long string ([b5158cc](https://github.com/gravitee-io/gravitee-ui-components/commit/b5158cc6b58c8e96603b6f5f7ff923f1b17b3f1b))
+
 ## [3.39.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.1...v3.39.2) (2023-05-04)
 
 
