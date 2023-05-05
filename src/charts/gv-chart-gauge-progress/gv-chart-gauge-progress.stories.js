@@ -51,4 +51,15 @@ const series = [
 
 export const Basics = makeStory(conf, {
   items: [{ series, max: 60 * 1000 }],
+  play: async ({ component }) => {
+    // console.log('component', component);
+    let value = 1000;
+    const interval = setInterval(() => {
+      value += 1000;
+      component.value = value;
+      if (component.value >= component.max) {
+        clearInterval(interval);
+      }
+    }, 1000);
+  },
 });
