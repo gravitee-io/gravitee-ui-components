@@ -23,6 +23,7 @@ const series = {
     Unknown: 1000000,
     FR: 7567,
     GB: 1232,
+    CN: 5232,
     US: 2000,
     RU: 922,
     IT: 3000,

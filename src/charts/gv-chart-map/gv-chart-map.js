@@ -39,7 +39,7 @@ export class GvChartMap extends ChartElement(LitElement) {
     if (this._series && this._series.values) {
       Object.keys(this._series.values).forEach((k) => {
         if (!this.options.excludedKeys || (this.options.excludedKeys && !this.options.excludedKeys.includes(k))) {
-          data.push({ key: k, value: this._series.values[k] });
+          data.push({ key: k.toLowerCase(), value: this._series.values[k] });
         }
       });
     }
@@ -49,7 +49,7 @@ export class GvChartMap extends ChartElement(LitElement) {
       key = 'name';
       map = await import('@highcharts/map-collection/countries/' + zone.substring(0, 2) + '/' + zone + '-all.geo.json');
     } else {
-      key = 'hc-a2';
+      key = 'hc-key';
       map = await import('@highcharts/map-collection/custom/world.geo.json');
     }
     return {
