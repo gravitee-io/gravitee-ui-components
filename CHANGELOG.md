@@ -1,3 +1,10 @@
+## [3.39.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.3...v3.39.4) (2023-05-05)
+
+
+### Bug Fixes
+
+* **gv-chart-gauge-progress:** simplify component ([bdf4ac0](https://github.com/gravitee-io/gravitee-ui-components/commit/bdf4ac0febb3f5f831176b96804996422b2f1f6a))
+
 ## [3.39.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.2...v3.39.3) (2023-05-04)
 
 
