@@ -28,31 +28,20 @@ import { GvChartGauge } from '../gv-chart-gauge';
  * @attr {Object} pane - The pane serves as a container for axes and backgrounds for circular gauges and polar charts.
  */
 export class GvChartGaugeProgress extends GvChartGauge {
-  connectedCallback() {
-    super.connectedCallback();
-    this.start();
+  static get properties() {
+    return {
+      ...super.properties,
+      value: { type: Number },
+    };
   }
 
-  start() {
-    this.startedAt = Date.now();
-    this.updatePoint(0);
-    requestAnimationFrame(this.updateProgress.bind(this));
-  }
-
-  updateProgress() {
-    const elapsedTime = Date.now() - this.startedAt;
-    this.updatePoint(elapsedTime);
-    if (elapsedTime > 0 && elapsedTime < this.max) {
-      // Queue the next frame
-      requestAnimationFrame(this.updateProgress.bind(this));
-    }
-  }
-
-  updatePoint(playback) {
-    if (this._chart) {
+  shouldUpdate(changedProperties) {
+    if (changedProperties.has('value') && this._chart) {
       const point = this._chart.series[0].points[0];
-      point.update(playback);
+      point.update(this.value);
+      return false;
     }
+    return super.shouldUpdate(changedProperties);
   }
 
   async getOptions() {
@@ -69,7 +58,12 @@ export class GvChartGaugeProgress extends GvChartGauge {
             return `Done !`;
           }
           const remainingTime = Math.ceil((max - this.y) / 60000);
-          return `${remainingTime} min remaining...`;
+          const prefix = `${remainingTime} min`;
+          const suffix = 'remaining...';
+          const spaces = Array(Math.round((suffix.length - prefix.length) / 2))
+            .fill('&nbsp;')
+            .join('');
+          return `${spaces}${prefix}<br/>${suffix}`;
         },
         borderWidth: 0,
         style: {
