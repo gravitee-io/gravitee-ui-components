@@ -1,3 +1,10 @@
+## [3.39.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.4...v3.39.5) (2023-05-09)
+
+
+### Bug Fixes
+
+* use `hc-key` ref in map to ensure china is properly identified ([05a0896](https://github.com/gravitee-io/gravitee-ui-components/commit/05a089698471e53959adb51bed9758453c93f0e1)), closes [33579#p117910](https://github.com/33579/issues/p117910)
+
 ## [3.39.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.3...v3.39.4) (2023-05-05)
 
 
