@@ -1,3 +1,10 @@
+## [3.39.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.5...v3.39.6) (2023-05-16)
+
+
+### Bug Fixes
+
+* **gv-policy-studio:** resolve drag and drop on FF linux ([b8baf6e](https://github.com/gravitee-io/gravitee-ui-components/commit/b8baf6eadaa58aae07075149b23316d112a697f1))
+
 ## [3.39.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.4...v3.39.5) (2023-05-09)
 
 
