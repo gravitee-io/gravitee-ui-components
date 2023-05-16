@@ -50,6 +50,7 @@ export class GvPolicyStudioMenu extends LitElement {
     super();
     this.selectedIds = [];
     this.flowsTitle = 'Flows';
+    this._hasDragLock = false;
   }
 
   static get styles() {
@@ -319,6 +320,7 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _onDragStartPolicy(policy, e) {
+    this._hasDragLock = true;
     e.dataTransfer.setData('text/plain', JSON.stringify({ policy }));
     const size = 100;
     this._draggablePolicyImage = appendDraggableImage(policy.icon, size);
@@ -327,6 +329,7 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _onDragEndPolicy() {
+    this._hasDragLock = false;
     if (this._draggablePolicyImage) {
       this._draggablePolicyImage.remove();
       this._draggablePolicyImage = null;
@@ -363,7 +366,9 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _onMouseLeavePolicy() {
-    dispatchCustomEvent(this, 'target-policy', null);
+    if (this._hasDragLock === false) {
+      dispatchCustomEvent(this, 'target-policy', null);
+    }
   }
 
   _onMouseEnterFlow(e) {
