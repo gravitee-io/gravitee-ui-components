@@ -46,31 +46,35 @@ export class GvChartGaugeProgress extends GvChartGauge {
 
   async getOptions() {
     const options = await super.getOptions();
-
     const max = this.max;
-    options.series[0].dataLabels = [
-      {
-        enabled: true,
-        align: 'center',
-        verticalAlign: 'middle',
-        formatter: function () {
-          if (this.y >= max) {
-            return `Done !`;
-          }
-          const remainingTime = Math.ceil((max - this.y) / 60000);
-          const prefix = `${remainingTime} min`;
-          const suffix = 'remaining...';
-          const spaces = Array(Math.round((suffix.length - prefix.length) / 2))
-            .fill('&nbsp;')
-            .join('');
-          return `${spaces}${prefix}<br/>${suffix}`;
-        },
-        borderWidth: 0,
-        style: {
-          fontSize: '16px',
-        },
+
+    const dataLabel = {
+      enabled: true,
+      align: 'center',
+      verticalAlign: 'middle',
+      formatter: function () {
+        if (this.y >= max) {
+          return `Done !`;
+        }
+        const remainingTime = Math.ceil((max - this.y) / 60000);
+        const prefix = `${remainingTime} min`;
+        const suffix = 'remaining...';
+        const spaces = Array(Math.round((suffix.length - prefix.length) / 2))
+          .fill('&nbsp;')
+          .join('');
+        return `${spaces}${prefix}<br/>${suffix}`;
       },
-    ];
+      borderWidth: 0,
+    };
+    if (options.series[0].dataLabels) {
+      if (Array.isArray(options.series[0].dataLabels) && options.series[0].dataLabels.length > 0) {
+        options.series[0].dataLabels[0] = { ...options.series[0].dataLabels[0], ...dataLabel };
+      } else {
+        options.series[0].dataLabels = { ...options.series[0].dataLabels, ...dataLabel };
+      }
+    } else {
+      options.series[0].dataLabels = dataLabel;
+    }
 
     return options;
   }
