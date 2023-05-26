@@ -46,6 +46,16 @@ const series = [
         y: 0,
       },
     ],
+    dataLabels: {
+      color: 'var(--gv-theme-color-info)',
+      enabled: true,
+      align: 'center',
+      verticalAlign: 'middle',
+      style: {
+        fontSize: '14px',
+        textOutline: 'none',
+      },
+    },
   },
 ];
 
