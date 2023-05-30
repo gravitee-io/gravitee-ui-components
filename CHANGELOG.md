@@ -1,3 +1,10 @@
+# [3.40.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.6...v3.40.0) (2023-05-30)
+
+
+### Features
+
+* improve customization of gv-chart-gauge-progress ([4350493](https://github.com/gravitee-io/gravitee-ui-components/commit/43504934d7cc93a5f10b36ce31e55fedcc019a5b))
+
 ## [3.39.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.5...v3.39.6) (2023-05-16)
 
 
