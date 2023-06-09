@@ -1,3 +1,10 @@
+# [3.41.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.40.0...v3.41.0) (2023-06-09)
+
+
+### Features
+
+* better support AM Flow icons ([f1650dc](https://github.com/gravitee-io/gravitee-ui-components/commit/f1650dc5e8108cc84dd978ebadd1d68a2cde0ec8))
+
 # [3.40.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.39.6...v3.40.0) (2023-05-30)
 
 
