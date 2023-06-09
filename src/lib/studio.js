@@ -89,26 +89,9 @@ export function getFlowTitle(flow, collectionName, withMethods = true, draggable
     if (flow.condition) {
       rendering.push(html`<gv-icon title="Conditional flow" class="content-icon-conditional" shape="code:if"></gv-icon>`);
     }
-    // TODO: Extract icon/shape on flow definition
     const methods = flow.methods || [];
     if (flow.type != null) {
-      let shape = null;
-      if (flow.type.toUpperCase() === 'ROOT') {
-        shape = 'home:earth';
-      } else if (flow.type.toUpperCase() === 'LOGIN') {
-        shape = 'finance:file';
-      } else if (flow.type.toUpperCase() === 'LOGIN_IDENTIFIER') {
-        shape = 'code:right-circle';
-      } else if (flow.type.toUpperCase() === 'RESET_PASSWORD') {
-        shape = 'finance:protected-file';
-      } else if (flow.type.toUpperCase() === 'CONSENT') {
-        shape = 'general:shield-check';
-      } else if (flow.type.toUpperCase() === 'REGISTER') {
-        shape = 'communication:shield-user';
-      } else if (flow.type.toUpperCase() === 'REGISTRATION_CONFIRMATION') {
-        shape = 'communication:clipboard-check';
-      }
-
+      const shape = flow.icon;
       if (shape != null) {
         rendering = [...rendering, html`<gv-icon title="${flow.type}" shape="${shape}" class="icon-type"></gv-icon>`];
       }
