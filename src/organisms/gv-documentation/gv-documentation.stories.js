@@ -65,3 +65,8 @@ export const Async = makeStory(conf, {
     }),
   ],
 });
+
+const maliciousAsciidoc = '```test"><img src=x onerror=alert(1)></img>';
+export const SanitizedMaliciousDoc = makeStory(conf, {
+  items: [{ text: maliciousAsciidoc }],
+});
