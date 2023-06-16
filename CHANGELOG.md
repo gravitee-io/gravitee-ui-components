@@ -1,3 +1,11 @@
+## [3.41.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.41.0...v3.41.1) (2023-06-16)
+
+
+### Bug Fixes
+
+* downgrade `[@storybook](https://github.com/storybook)` to `6.4` to fix docs ([716bc6e](https://github.com/gravitee-io/gravitee-ui-components/commit/716bc6ee8e482683a22ebe69c75fc7607eff1dab))
+* sanitize Asciidoc content to avoid XSS attacks ([0372368](https://github.com/gravitee-io/gravitee-ui-components/commit/0372368ed7939b6c84da8482bb8b5cc52a7fa483))
+
 # [3.41.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.40.0...v3.41.0) (2023-06-09)
 
 
