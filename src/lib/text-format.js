@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { sanitize } from 'dompurify';
+
 export async function loadAsciiDoctor() {
   let _gvAsciidoctor = window._gvAsciidoctor;
 
@@ -37,7 +39,7 @@ export function toDom(text, type = 'adoc', small = false) {
     if (text) {
       let innerHTML = '';
       if (type === 'adoc') {
-        innerHTML = asciidoctor
+        const htmlContent = asciidoctor
           .convert(text, {
             attributes: {
               showtitle: true,
@@ -48,6 +50,8 @@ export function toDom(text, type = 'adoc', small = false) {
           // any other routing framework. By default, href will have the following format:
           // href="[SERVER_BASE]/#a_link" i.e. href="https://apim-master-portal.cloud.gravitee.io/#a_link"
           .replace(/href="#/g, `href="${window.location.href}#`);
+        // Sanitize HTML content to avoid XSS attacks
+        innerHTML = sanitize(htmlContent);
       } else {
         throw new Error(`Library not found for type : '${type}' | ${text}`);
       }
