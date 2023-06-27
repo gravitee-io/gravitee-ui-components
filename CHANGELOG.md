@@ -1,3 +1,10 @@
+# [3.42.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.41.1...v3.42.0) (2023-06-27)
+
+
+### Features
+
+* use gioConfig.banner.text as description by default ([6dec123](https://github.com/gravitee-io/gravitee-ui-components/commit/6dec1239bda75698eb7eba01b0cbc195264f355c))
+
 ## [3.41.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.41.0...v3.41.1) (2023-06-16)
 
 
