@@ -18,6 +18,7 @@ import { makeStory } from '../../../testing/lib/make-story';
 import mixed from '../../../testing/resources/schemas/mixed.json';
 import htmlToJson from '../../../testing/resources/schemas/html-to-json.json';
 import httpConnector from '../../../testing/resources/schemas/http-connector.json';
+import policyCache from '../../../testing/resources/schemas/policy-cache.json';
 import { fetch } from 'whatwg-fetch';
 import grammar from '../../../testing/resources/el-grammar.json';
 import resourceCacheRedis from '../../../testing/resources/schemas/resource-cache-redis.json';
@@ -131,6 +132,10 @@ export const HTMLToJson = makeStory(conf, {
 
 export const HttpConnector = makeStory(conf, {
   items: [{ schema: httpConnector }],
+});
+
+export const PolicyCache = makeStory(conf, {
+  items: [{ schema: policyCache }],
 });
 
 export const ResourceCacheRedis = makeStory(conf, {

@@ -1,6 +1,7 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "id": "urn:jsonschema:io:gravitee:policy:cache:configuration:CachePolicyConfiguration",
+  "additionalProperties": false,
   "properties": {
     "cacheName": {
       "title": "Cache name",
@@ -9,20 +10,47 @@
       "x-schema-form": {
         "event": {
           "name": "fetch-resources",
-          "types": ["cache"]
+          "regexTypes": "^cache"
         }
       }
     },
     "key": {
       "title": "Key",
-      "description": "The key used to store the element (support EL).",
-      "type": "string"
+      "description": "The key used to store the element (Support EL).",
+      "type": "string",
+      "x-schema-form": {
+        "expression-language": true
+      }
     },
     "timeToLiveSeconds": {
       "title": "Time to live (in seconds)",
       "default": 600,
       "description": "Time to live of the element put in cache (Default to 10 minutes).",
       "type": "integer"
+    },
+    "methods": {
+      "title": "Methods to cache",
+      "description": "Select which method you want to cache.",
+      "type": "array",
+      "default": ["GET", "OPTIONS", "HEAD"],
+      "items": {
+        "type": "string",
+        "enum": ["CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE"]
+      }
+    },
+    "responseCondition": {
+      "title": "Response Condition",
+      "description": "(Support EL)",
+      "type": "string",
+      "x-schema-form": {
+        "expression-language": true
+      },
+      "gioConfig": {
+        "banner": {
+          "title": "Response Condition",
+          "text": "Add an extra condition (with Expression Language) based on the response to activate cache.<br>For example use <strong>{#upstreamResponse.status == 200}</strong> to only cache 200 responses status. By default, 2xx only are cached.<br> \uD83D\uDEA8 <code>upstreamResponse.content</code> is not supported."
+        }
+      }
     },
     "useResponseCacheHeaders": {
       "title": "Use response headers",
@@ -31,10 +59,15 @@
     },
     "scope": {
       "title": "Scope",
-      "description": "Cached response can be set for a single consumer (application) or for all consumers.<br><strong>WARNING:</strong> Please be aware that by using an \"API\" scope, data will be shared between all consumers!",
       "type": "string",
       "default": "APPLICATION",
-      "enum": ["API", "APPLICATION"]
+      "enum": ["API", "APPLICATION"],
+      "gioConfig": {
+        "banner": {
+          "title": "Scope",
+          "text": "Cached response can be set for a single consumer (application) or for all consumers.<br><strong>WARNING:</strong> Please be aware that by using an \"API\" scope, data will be shared between all consumers!"
+        }
+      }
     }
   },
   "required": ["cacheName", "timeToLiveSeconds"]

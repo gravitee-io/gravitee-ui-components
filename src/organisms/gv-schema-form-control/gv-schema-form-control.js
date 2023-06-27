@@ -213,8 +213,8 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
       element.type = 'password';
     }
 
-    if (this.control.description) {
-      element.description = this.control.description;
+    if (this.control.description || this.control.gioConfig?.banner) {
+      element.description = this.control.gioConfig?.banner?.text ?? this.control.description;
     }
 
     if (placeholder != null) {
