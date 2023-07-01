@@ -423,6 +423,7 @@
       "category": "security",
       "onRequest": true,
       "onResponse": true,
+      "deployed": false,
       "schema": {
         "type": "object",
         "id": "urn:jsonschema:io:gravitee:policy:IPFilteringPolicyConfiguration",
