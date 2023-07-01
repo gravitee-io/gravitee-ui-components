@@ -699,6 +699,10 @@ export class GvDesign extends KeyboardElement(LitElement) {
     } catch (e) {}
   }
 
+  _onDisplayPolicyCTA({ detail: { policy } }) {
+    dispatchCustomEvent(this, 'display-policy-cta', { policy });
+  }
+
   _fetchDocumentation(policy) {
     if (this.documentation == null || this.documentation.id !== policy.id) {
       dispatchCustomEvent(this, 'fetch-documentation', { policy });
@@ -1415,6 +1419,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
             ?readonly="${readonlyMode}"
             @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
             @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
+            @gv-policy-studio-menu:display-policy-cta="${this._onDisplayPolicyCTA}"
             @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}"
           >
             <div slot="header" class="search-policies">
@@ -1490,6 +1495,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
         @gv-policy-studio-menu:delete-flow="${this._onDeleteFlow}"
         @gv-policy-studio-menu:duplicate-flow="${this._onDuplicateFlow}"
         @gv-policy-studio-menu:select-flows="${this._onSelectFlows}"
+        @gv-policy-studio-menu:display-policy-cta="${this._onDisplayPolicyCTA}"
       >
         <div slot="header" class="header-actions">
           ${this._flowFilterOptions != null
