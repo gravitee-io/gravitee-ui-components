@@ -521,6 +521,10 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _onClickPolicy(policy) {
+    if (!policy.deployed) {
+      dispatchCustomEvent(this, 'display-policy-cta', { policy });
+      return;
+    }
     if (!this.disabled) {
       this.selectedIds = [policy.id];
       dispatchCustomEvent(this, 'fetch-documentation', { policy });
@@ -762,7 +766,8 @@ export class GvPolicyStudioMenu extends LitElement {
             )
           : ''}
       </div>
-      <slot name="footer"></slot>`;
+      <slot name="footer"></slot>
+      <gv-modal> </gv-modal>`;
   }
 }
 
