@@ -582,7 +582,11 @@ export class GvPolicyStudioMenu extends LitElement {
   }
 
   _isDraggable(policy) {
-    return !this.disabled && (this.hasPolicyFilter !== true || policy.onRequest === true || policy.onResponse === true);
+    return (
+      !this.disabled &&
+      policy.deployed !== false &&
+      (this.hasPolicyFilter !== true || policy.onRequest === true || policy.onResponse === true)
+    );
   }
 
   _renderPolicies(filteredData, type, isChild, id, group) {
