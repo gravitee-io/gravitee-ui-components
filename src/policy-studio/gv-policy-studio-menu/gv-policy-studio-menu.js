@@ -283,6 +283,11 @@ export class GvPolicyStudioMenu extends LitElement {
           align-items: center;
         }
 
+        .policy-lock {
+          --gv-icon--s: 20px;
+          --gv-icon--c: #51438e;
+        }
+
         .policy .draggable-icon {
           opacity: 0;
           visibility: hidden;
@@ -612,10 +617,16 @@ export class GvPolicyStudioMenu extends LitElement {
             ? html`<gv-icon class="policy-icon" shape="${this._getGroupShape(group)}"></gv-icon>`
             : html`<gv-image src="${content.icon}"></gv-image>`}
           <div class="policy-name">${content.name}</div>
-          ${draggable ? html`<gv-icon class="draggable-icon" shape="design:arrows"></gv-icon>` : html``}
+          ${draggable ? html`<gv-icon class="draggable-icon" shape="design:arrows"></gv-icon>` : html``} ${this._getLockIcon(content)}
         </div>`;
       })}
     </div>`;
+  }
+
+  _getLockIcon(policy) {
+    if (policy.deployed === false) {
+      return html`<gv-icon class="policy-lock" shape="general:lock"></gv-icon>`;
+    }
   }
 
   _getGroupShape(groupName) {
