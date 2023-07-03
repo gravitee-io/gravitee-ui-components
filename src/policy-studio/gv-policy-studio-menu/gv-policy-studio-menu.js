@@ -284,7 +284,7 @@ export class GvPolicyStudioMenu extends LitElement {
         }
 
         .policy-lock {
-          --gv-icon--s: 20px;
+          --gv-icon--s: 16px;
           --gv-icon--c: #51438e;
         }
 
@@ -629,7 +629,7 @@ export class GvPolicyStudioMenu extends LitElement {
 
   _getLockIcon(policy) {
     if (policy.deployed === false) {
-      return html`<gv-icon class="policy-lock" shape="general:lock"></gv-icon>`;
+      return html`<gv-icon class="policy-lock" shape="policy:lock"></gv-icon>`;
     }
   }
 
@@ -781,8 +781,7 @@ export class GvPolicyStudioMenu extends LitElement {
             )
           : ''}
       </div>
-      <slot name="footer"></slot>
-      <gv-modal> </gv-modal>`;
+      <slot name="footer"></slot>`;
   }
 }
 
