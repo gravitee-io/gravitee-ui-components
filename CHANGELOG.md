@@ -1,3 +1,15 @@
+# [3.43.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.42.0...v3.43.0) (2023-07-04)
+
+
+### Bug Fixes
+
+* use lock icon from mockup ([19e6b61](https://github.com/gravitee-io/gravitee-ui-components/commit/19e6b61c244779e7ef8a207f7f91b4e42a09e3f4))
+
+
+### Features
+
+* dispatch event when undeployed policy is clicked in menu ([e548ed5](https://github.com/gravitee-io/gravitee-ui-components/commit/e548ed5995188f9690f314c9e17756dfd8d2ba64))
+
 # [3.42.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.41.1...v3.42.0) (2023-06-27)
 
 
