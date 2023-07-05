@@ -142,6 +142,10 @@ export class GvResources extends KeyboardElement(LitElement) {
     };
   }
 
+  _onDisplayResourceCTA(option) {
+    dispatchCustomEvent(this, 'display-resource-cta', option);
+  }
+
   _onCreateResource({ detail }) {
     this._currentResourceLoading = true;
     const defaultResourceType = this.types.find((type) => type.id === detail.id);
@@ -313,12 +317,25 @@ export class GvResources extends KeyboardElement(LitElement) {
       return this._renderDoc();
     } else if (this.readonly !== true) {
       const resourceOpts = this.types.map((resource) => {
-        return { id: resource.id, title: resource.name, description: resource.description, image: resource.icon };
+        return {
+          id: resource.id,
+          title: resource.name,
+          description: resource.description,
+          image: resource.icon,
+          locked: resource.deployed === false,
+        };
       });
 
-      return html`<div class="resources-bottom-container">
-                        <gv-option class="resource__option" .options="${resourceOpts}" @gv-option:select="${this._onCreateResource}">
-                  </div>`;
+      return html`
+        <div class="resources-bottom-container">
+          <gv-option
+            class="resource__option"
+            .options="${resourceOpts}"
+            @gv-option:select="${this._onCreateResource}"
+            @gv-option:display-resource-cta="${this._onDisplayResourceCTA}"
+          ></gv-option>
+        </div>
+      `;
     } else if (this.readonly && this.resources.length > 0) {
       return html`<div class="resources-bottom-container empty">You can see the resource configuration by clicking on it</div>`;
     }

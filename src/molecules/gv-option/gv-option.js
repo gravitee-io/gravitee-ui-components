@@ -73,6 +73,7 @@ export class GvOption extends LitElement {
         }
 
         gv-button {
+          position: relative;
           margin: 0;
         }
 
@@ -125,6 +126,21 @@ export class GvOption extends LitElement {
         gv-button.description {
           margin: 0.5rem;
         }
+
+        .enterprise-lock__container {
+          position: absolute;
+          top: 1px;
+          right: 1px;
+          padding: 6px 6px 16px 16px;
+          border-radius: 0 0 0 38px;
+          background: #e7e8ef;
+          z-index: 2;
+        }
+
+        .enterprise-lock__container .lock {
+          width: 16px;
+          color: #6c59bd;
+        }
       `,
     ];
   }
@@ -136,6 +152,10 @@ export class GvOption extends LitElement {
   }
 
   _onClick(option) {
+    if (option.locked) {
+      dispatchCustomEvent(this, 'display-resource-cta', option);
+      return;
+    }
     this.setValue(option);
     dispatchCustomEvent(this, 'select', option);
     this.dispatchEvent(new Event('input'), { bubbles: true, cancelable: true });
@@ -185,7 +205,7 @@ export class GvOption extends LitElement {
   _renderOption(option, index) {
     const isActive = this.isActive(option);
     const outlined = this.outlined || (!isActive && this._hasDescription);
-    return html`<gv-button
+    return html` <gv-button
       .icon=${ifDefined(!this._hasDescription ? option.icon : null)}
       .iconRight=${ifDefined(!option.icon && option.iconRight ? option.iconRight : null)}
       .title="${ifDefined(option.title)}"
@@ -201,6 +221,7 @@ export class GvOption extends LitElement {
         description: option.description != null,
       })}"
     >
+      ${this.getLockIcon(option)}
       ${!this._hasDescription
         ? option.title != null
           ? option.label || option.title
@@ -215,6 +236,16 @@ export class GvOption extends LitElement {
             <div class="description-content" .innerHTML="${option.description}"></div>
           </div>`}
     </gv-button>`;
+  }
+
+  getLockIcon(option) {
+    return option.locked
+      ? html`
+          <div class="enterprise-lock__container">
+            <gv-icon shape="policy:lock" class="lock"></gv-icon>
+          </div>
+        `
+      : html``;
   }
 
   render() {
