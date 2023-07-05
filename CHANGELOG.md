@@ -1,3 +1,10 @@
+# [3.44.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.43.0...v3.44.0) (2023-07-05)
+
+
+### Features
+
+* dispatch event when selecting an ee resource ([6aa7600](https://github.com/gravitee-io/gravitee-ui-components/commit/6aa76007f29fce07a3818d05bdebeff43f7e01d3))
+
 # [3.43.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.42.0...v3.43.0) (2023-07-04)
 
 
