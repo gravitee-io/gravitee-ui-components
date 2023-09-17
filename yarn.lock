@@ -4109,7 +4109,7 @@ __metadata:
     web-component-analyzer: 1.1.6
     webpack-env: 0.8.0
     webpack-merge: 5.8.0
-    whatwg-fetch: ^3.4.1
+    whatwg-fetch: ^3.6.17
     zx: 4.3.0
   peerDependencies:
     "@asciidoctor/core": ^2.2.4
@@ -23807,10 +23807,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"whatwg-fetch@npm:^3.4.1":
-  version: 3.6.2
-  resolution: "whatwg-fetch@npm:3.6.2"
-  checksum: ee976b7249e7791edb0d0a62cd806b29006ad7ec3a3d89145921ad8c00a3a67e4be8f3fb3ec6bc7b58498724fd568d11aeeeea1f7827e7e1e5eae6c8a275afed
+"whatwg-fetch@npm:^3.6.17":
+  version: 3.6.19
+  resolution: "whatwg-fetch@npm:3.6.19"
+  checksum: 2896bc9ca867ea514392c73e2a272f65d5c4916248fe0837a9df5b1b92f247047bc76cf7c29c28a01ac6c5fb4314021d2718958c8a08292a96d56f72b2f56806
   languageName: node
   linkType: hard
 
