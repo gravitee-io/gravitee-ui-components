@@ -3947,25 +3947,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-getcanonicallocales@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@formatjs/intl-getcanonicallocales@npm:1.8.0"
+"@formatjs/ecma402-abstract@npm:1.11.4":
+  version: 1.11.4
+  resolution: "@formatjs/ecma402-abstract@npm:1.11.4"
   dependencies:
+    "@formatjs/intl-localematcher": 0.2.25
     tslib: ^2.1.0
-  peerDependencies:
-    "@types/node": 14 || 16
-  checksum: 7a14001445d2680c552f4b835b7280e8f9404f195ad6af19d17ec73a4ff4b7fa240a2e524d40d0c2e95f9dbe68c87fcf21a5e173651cebbe143dffbf404d3632
+  checksum: 05dbe1c6457acfe9cdc0fc770940260e19fa588be6c655b1ff1697506348dac1eee9b249b64e6544531174d07a5a74a9e75f68430947cfdc074ebe8e3c86f86f
   languageName: node
   linkType: hard
 
-"@formatjs/intl-locale@npm:^2.4.40":
-  version: 2.4.41
-  resolution: "@formatjs/intl-locale@npm:2.4.41"
+"@formatjs/intl-getcanonicallocales@npm:1.9.2":
+  version: 1.9.2
+  resolution: "@formatjs/intl-getcanonicallocales@npm:1.9.2"
   dependencies:
-    "@formatjs/ecma402-abstract": 1.11.0
-    "@formatjs/intl-getcanonicallocales": 1.8.0
     tslib: ^2.1.0
-  checksum: d8341d680ef2ab294741cc613ebb0e4d4834cb4ad9c8f9771a38f67dc368aedfd2a319067d6e6f86170751564ad81d4ca20838787e80f8c8788ee2f546167804
+  checksum: 59eeec747fb5eaed29838e240bcccd3ec2188d101cfa44b3910879c48e5e1ce41b729e077ba4580840db44fea1e77998e1692dc11e6c35376ce68e5d52dd7ee5
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-locale@npm:^2.4.47":
+  version: 2.4.47
+  resolution: "@formatjs/intl-locale@npm:2.4.47"
+  dependencies:
+    "@formatjs/ecma402-abstract": 1.11.4
+    "@formatjs/intl-getcanonicallocales": 1.9.2
+    tslib: ^2.1.0
+  checksum: 8adbb4e8514422779c0df1d2d110730d1b41552f452d05813fff9c769c6f38d1dd33178e4a6ec65da9529baae1f1a8b22275ca0546e5c7867e6d0f9ed7204232
   languageName: node
   linkType: hard
 
@@ -3975,6 +3983,15 @@ __metadata:
   dependencies:
     tslib: ^2.1.0
   checksum: d766eb8ce8b2628d781fdb34fd0833a0a1b28f20e70a72dfabbca27cf02bd1b994a72c357b2b3d4888bc20c33b6b7cc7e10e92847ec228a40745a2e84d8d2e24
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-localematcher@npm:0.2.25":
+  version: 0.2.25
+  resolution: "@formatjs/intl-localematcher@npm:0.2.25"
+  dependencies:
+    tslib: ^2.1.0
+  checksum: ee00ddc23317dc47a58831aaca5112e101d8bb1f38adc0ecfe1a9d7e008d0bb1091519f07e1d7d805b0c1e28f2c3e75f697ae479e22423445814412c7669284c
   languageName: node
   linkType: hard
 
@@ -4044,7 +4061,7 @@ __metadata:
     "@codemirror/stream-parser": ^0.19.3
     "@commitlint/cli": 16.3.0
     "@commitlint/config-conventional": 16.2.4
-    "@formatjs/intl-locale": ^2.4.40
+    "@formatjs/intl-locale": ^2.4.47
     "@formatjs/intl-relativetimeformat": ^9.3.2
     "@highcharts/map-collection": 2.0.1
     "@popperjs/core": ^2.11.7
@@ -12596,7 +12613,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^1.0.0#~builtin<compat/fsevents>, fsevents@patch:fsevents@^1.2.7#~builtin<compat/fsevents>":
   version: 1.2.13
-  resolution: "fsevents@patch:fsevents@npm%3A1.2.13#~builtin<compat/fsevents>::version=1.2.13&hash=d11327"
+  resolution: "fsevents@patch:fsevents@npm%3A1.2.13#~builtin<compat/fsevents>::version=1.2.13&hash=18f3a7"
   dependencies:
     bindings: ^1.5.0
     nan: ^2.12.1
@@ -12606,7 +12623,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^2.1.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -20565,7 +20582,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.3.2#~builtin<compat/resolve>":
   version: 1.20.0
-  resolution: "resolve@patch:resolve@npm%3A1.20.0#~builtin<compat/resolve>::version=1.20.0&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.20.0#~builtin<compat/resolve>::version=1.20.0&hash=07638b"
   dependencies:
     is-core-module: ^2.2.0
     path-parse: ^1.0.6
@@ -20575,7 +20592,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>":
   version: 1.22.3
-  resolution: "resolve@patch:resolve@npm%3A1.22.3#~builtin<compat/resolve>::version=1.22.3&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.3#~builtin<compat/resolve>::version=1.22.3&hash=07638b"
   dependencies:
     is-core-module: ^2.12.0
     path-parse: ^1.0.7
@@ -20588,7 +20605,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
   version: 1.22.1
-  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"
   dependencies:
     is-core-module: ^2.9.0
     path-parse: ^1.0.7
@@ -22815,17 +22832,17 @@ __metadata:
 
 "typescript@patch:typescript@4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  checksum: 2eee5c37cad4390385db5db5a8e81470e42e8f1401b0358d7390095d6f681b410f2c4a0c496c6ff9ebd775423c7785cdace7bcdad76c7bee283df3d9718c0f20
   languageName: node
   linkType: hard
 
 "typescript@patch:typescript@^3.8.3#~builtin<compat/typescript>":
   version: 3.9.10
-  resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"
+  resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -22835,7 +22852,7 @@ __metadata:
 
 "typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>":
   version: 4.5.4
-  resolution: "typescript@patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=bcec9a"
+  resolution: "typescript@patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
