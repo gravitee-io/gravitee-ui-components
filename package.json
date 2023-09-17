@@ -66,7 +66,7 @@
     "dompurify": "^3.0.3",
     "jdenticon": "^3.1.0",
     "jsonschema": "^1.4.0",
-    "lit": "^2.0.2",
+    "lit": "^2.8.0",
     "object-path": "^0.11.8",
     "resize-observer-polyfill": "^1.5.1",
     "whatwg-fetch": "^3.6.17"
