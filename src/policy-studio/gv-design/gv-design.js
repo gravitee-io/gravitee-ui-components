@@ -1297,9 +1297,6 @@ export class GvDesign extends KeyboardElement(LitElement) {
 
   saved() {
     if (this.isDirty) {
-      this._initialDefinition = deepClone(this._definitionSaved);
-      this._definition = deepClone(this._definitionSaved);
-      this._definitionSaved = null;
       this.isDirty = false;
       this._checkCurrentFlowStep();
       this.definedPlans.forEach((plan) => {
