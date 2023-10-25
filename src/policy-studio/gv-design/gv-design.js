@@ -599,6 +599,10 @@ export class GvDesign extends KeyboardElement(LitElement) {
     await this._setCurrentFlowStep(null, null, force);
   }
 
+  async validate() {
+    return this._askToValidateForms();
+  }
+
   async _askToValidateForms() {
     if (this._currentAskConfirmation == null) {
       this._currentAskConfirmation = true;
