@@ -1,3 +1,10 @@
+# [3.45.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.44.0...v3.45.0) (2023-10-26)
+
+
+### Features
+
+* expose validate fn to force form validation ([052f747](https://github.com/gravitee-io/gravitee-ui-components/commit/052f747eb3198f16b74e53aecdfd137475fbeb56))
+
 # [3.44.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.43.0...v3.44.0) (2023-07-05)
 
 
