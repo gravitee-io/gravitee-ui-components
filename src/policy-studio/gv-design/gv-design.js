@@ -331,6 +331,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
               });
       this._initialDefinition = { ...definition, flows, resources, plans };
       this._definition = deepClone(this._initialDefinition);
+      this._currentAskConfirmation = null;
       this.isDirty = false;
       this._selectFirstFlow();
     }
@@ -563,6 +564,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   _onChangeFlowStepState({ detail }) {
+    this._currentAskConfirmation = null;
     const targetFlow = this._findFlowById(detail.flowId);
     const step = targetFlow[detail.flowKey][detail.position];
     step.enabled = detail.enabled;
@@ -778,6 +780,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   async _onSubmitFlowStep({ detail }) {
+    this._currentAskConfirmation = null;
     this._writeFlowStep(detail.values);
     await this.requestUpdate('_definition');
     this.getChildren().forEach((c) => c.requestUpdate());
