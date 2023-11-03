@@ -599,6 +599,10 @@ export class GvDesign extends KeyboardElement(LitElement) {
     await this._setCurrentFlowStep(null, null, force);
   }
 
+  async validate() {
+    return this._askToValidateForms();
+  }
+
   async _askToValidateForms() {
     if (this._currentAskConfirmation == null) {
       this._currentAskConfirmation = true;
@@ -1293,9 +1297,6 @@ export class GvDesign extends KeyboardElement(LitElement) {
 
   saved() {
     if (this.isDirty) {
-      this._initialDefinition = deepClone(this._definitionSaved);
-      this._definition = deepClone(this._definitionSaved);
-      this._definitionSaved = null;
       this.isDirty = false;
       this._checkCurrentFlowStep();
       this.definedPlans.forEach((plan) => {
