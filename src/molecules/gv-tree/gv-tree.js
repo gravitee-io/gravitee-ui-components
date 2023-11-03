@@ -86,6 +86,7 @@ export class GvTree extends LitElement {
 
         .main-tree-menu > ul {
           position: relative;
+          padding-right: 0.5em;
         }
 
         ul {
@@ -99,7 +100,7 @@ export class GvTree extends LitElement {
 
         ul li {
           display: block;
-          padding: 0.5em 0.5em 0.5em 1em;
+          padding: 0.5em 0 0.5em 1em;
         }
 
         ul li ul {
