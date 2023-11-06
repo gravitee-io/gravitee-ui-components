@@ -1,3 +1,10 @@
+## [3.45.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.0...v3.45.1) (2023-11-06)
+
+
+### Bug Fixes
+
+* remove nesting of folder arrows ([944f82c](https://github.com/gravitee-io/gravitee-ui-components/commit/944f82c616a98e042c44e4513677fa8573eaa666))
+
 # [3.45.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.44.0...v3.45.0) (2023-10-26)
 
 
