@@ -1,3 +1,10 @@
+## [3.45.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.1...v3.45.2) (2023-11-06)
+
+
+### Bug Fixes
+
+* remove confirm state when policy changed or submitted ([807e7fb](https://github.com/gravitee-io/gravitee-ui-components/commit/807e7fb76e55308eb81755481ac150a11ad166e9))
+
 ## [3.45.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.0...v3.45.1) (2023-11-06)
 
 
