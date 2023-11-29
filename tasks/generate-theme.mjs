@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-
-const del = require('del');
-const fs = require('fs-extra');
+import { deleteAsync } from 'del';
+import { appendFile, copyFile, mkdir, readFile } from 'fs/promises'
+import { analyzeText, transformAnalyzerResult } from "web-component-analyzer";
 const rawGlob = require('glob');
 const util = require('util');
 const glob = util.promisify(rawGlob);
-const wca = require('web-component-analyzer');
 const themeFilepath = 'src/theme/definition.json';
 const cssFilepath = 'assets/css/gravitee-theme.generated.css';
 
@@ -35,22 +33,24 @@ const formatCssProperty = (cssProperty) => {
 };
 
 async function run() {
-  await del(['assets/css/github-markdown-css', 'assets/css/highlight.js']);
-  fs.copy('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
-  fs.copy('node_modules/highlight.js/styles/github.css', 'assets/css/highlight.js/github.css');
+  await deleteAsync(['assets/css/github-markdown-css', 'assets/css/highlight.js']);
+  await mkdir('assets/css/github-markdown-css')
+  await mkdir('assets/css/highlight.js');
+  await copyFile('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
+  await copyFile('node_modules/highlight.js/styles/github.css', 'assets/css/highlight.js/github.css');
 
   const sourceFilepaths = await glob('./src/**/*.{js,ts}', {
     ignore: ['./src/lib/*.{js,ts}', './src/styles/*.{js,ts}', './src/studio-policy/*.{js,ts}'],
   });
 
-  await del([themeFilepath, cssFilepath]);
+  await deleteAsync([themeFilepath, cssFilepath]);
 
   let gvTheme;
   let themableElements = [];
   for (const src of sourceFilepaths) {
-    const code = await fs.readFile(src, 'utf8');
-    const { results, program } = wca.analyzeText(code, { config: { features: ['cssproperty'] } });
-    const output = wca.transformAnalyzerResult('json', results, program);
+    const code = await readFile(src, 'utf8');
+    const { results, program } = analyzeText(code, { config: { features: ['cssproperty'] } });
+    const output = transformAnalyzerResult('json', results, program);
     const tag = JSON.parse(output).tags[0];
     if (tag && tag.name && tag.name === 'gv-theme') {
       gvTheme = tag;
@@ -135,12 +135,12 @@ async function run() {
   const theme = gvThemeProperties.map((property) => {
     return `  ${property.name}: ${property.value};\n`;
   });
-  await fs.appendFile(cssFilepath, `:root{\n${theme.join('')}}`);
+  await appendFile(cssFilepath, `:root{\n${theme.join('')}}`);
 
   gvTheme.css = gvThemeProperties.filter((cssProperty) => cssProperty.type.toLowerCase() !== 'image');
   delete gvTheme.cssProperties;
 
-  await fs.appendFile(themeFilepath, JSON.stringify({ data: [gvTheme].concat(gvComponents) }, null, 2));
+  await appendFile(themeFilepath, JSON.stringify({ data: [gvTheme].concat(gvComponents) }, null, 2));
 }
 
 run().catch(console.error);
