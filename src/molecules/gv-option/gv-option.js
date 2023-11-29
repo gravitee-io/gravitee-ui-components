@@ -205,7 +205,7 @@ export class GvOption extends LitElement {
   _renderOption(option, index) {
     const isActive = this.isActive(option);
     const outlined = this.outlined || (!isActive && this._hasDescription);
-    return html` <gv-button
+    return html`<gv-button
       .icon=${ifDefined(!this._hasDescription ? option.icon : null)}
       .iconRight=${ifDefined(!option.icon && option.iconRight ? option.iconRight : null)}
       .title="${ifDefined(option.title)}"
