@@ -27,7 +27,7 @@
     "docs": "wca analyze src/** --outFile .docs/custom-elements.json && node tasks/generate-docs.js",
     "generate:dist": "yarn compile && cp -R assets dist/ && cp package.json dist/",
     "generate:icons": "node tasks/generate-icons.js && yarn lint:fix",
-    "generate:theme": "node tasks/generate-theme.js && yarn lint:fix",
+    "generate:theme": "zx tasks/generate-theme.mjs && yarn lint:fix",
     "lint": "eslint src testing tasks && yarn prettier",
     "lint:commit": "commitlint --from $(git describe --tags --abbrev=0) --to HEAD --verbose",
     "lint:fix": "eslint --fix src testing tasks && yarn prettier:fix",
