@@ -56,7 +56,7 @@
     "@codemirror/basic-setup": "^0.19.1",
     "@codemirror/language-data": "^0.19.1",
     "@codemirror/stream-parser": "^0.19.3",
-    "@formatjs/intl-locale": "^2.4.40",
+    "@formatjs/intl-locale": "^2.4.47",
     "@formatjs/intl-relativetimeformat": "^9.3.2",
     "@popperjs/core": "^2.11.7",
     "clipboard-copy": "^4.0.0",
