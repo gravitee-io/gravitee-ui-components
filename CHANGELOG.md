@@ -1,3 +1,10 @@
+## [3.45.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.2...v3.45.3) (2023-11-30)
+
+
+### Bug Fixes
+
+* remove useless space before button ([6cc1239](https://github.com/gravitee-io/gravitee-ui-components/commit/6cc12399e04da39e732ce05602f904dcd8ae6225))
+
 ## [3.45.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.1...v3.45.2) (2023-11-06)
 
 
