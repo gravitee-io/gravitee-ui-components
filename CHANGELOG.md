@@ -1,3 +1,10 @@
+## [3.45.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.3...v3.45.4) (2023-11-30)
+
+
+### Bug Fixes
+
+* upgrade whatwg-fetch from 3.6.2 to 3.6.17 ([bbfb445](https://github.com/gravitee-io/gravitee-ui-components/commit/bbfb445d333c066b6c76a04cfc19398b759ed5cb))
+
 ## [3.45.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.2...v3.45.3) (2023-11-30)
 
 
