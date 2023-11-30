@@ -1,3 +1,10 @@
+## [3.45.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.4...v3.45.5) (2023-11-30)
+
+
+### Bug Fixes
+
+* upgrade @codemirror/stream-parser from 0.19.3 to 0.19.9 ([b7f1de3](https://github.com/gravitee-io/gravitee-ui-components/commit/b7f1de36e162e3668916b61878025f8cb9eeaa3a))
+
 ## [3.45.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.3...v3.45.4) (2023-11-30)
 
 
