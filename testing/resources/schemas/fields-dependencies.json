@@ -25,7 +25,7 @@
         },
         "path": {
           "title": "Path",
-          "description": "The path of flow (must start by /)",
+          "description": "The path of flow (must start by /). Trailing slash is ignored.",
           "type": "string",
           "pattern": "^/",
           "x-schema-form": {
