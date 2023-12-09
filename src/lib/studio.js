@@ -120,14 +120,23 @@ export function getFlowTitle(flow, collectionName, withMethods = true, draggable
         rendering.push(html`<div class="${classMap(classes)}">${flow.name}</div>`);
       }
     } else if (flow['path-operator']) {
-      const path = flow['path-operator'].path || '/';
-      if (path) {
-        const pathWithOperator = flow['path-operator'].operator === 'STARTS_WITH' ? `${path.endsWith('/') ? path : `${path}/`}**` : path;
-        if (flow._dirty) {
-          rendering.push(html`<div class="${classMap(classes)}"><mark>${pathWithOperator}</mark></div>`);
-        } else {
-          rendering.push(html`<div class="${classMap(classes)}">${pathWithOperator}</div>`);
-        }
+      let pathWithOperator = '/';
+      if (flow['path-operator'].path && flow['path-operator'].path.length > 1) {
+        flow['path-operator'].path.split('/').forEach((pathPart) => {
+          if (pathPart !== '') {
+            pathWithOperator += `${pathPart}/`;
+          }
+        });
+        pathWithOperator = pathWithOperator.substring(0, pathWithOperator.length - 1);
+      }
+      if (flow['path-operator'].operator === 'STARTS_WITH') {
+        pathWithOperator += '**';
+      }
+
+      if (flow._dirty) {
+        rendering.push(html`<div class="${classMap(classes)}"><mark>${pathWithOperator}</mark></div>`);
+      } else {
+        rendering.push(html`<div class="${classMap(classes)}">${pathWithOperator}</div>`);
       }
     }
 

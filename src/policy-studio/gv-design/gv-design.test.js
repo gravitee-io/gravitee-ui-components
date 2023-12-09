@@ -151,7 +151,7 @@ describe('D E S I G N', () => {
               },
               path: {
                 title: 'Path',
-                description: 'The path of flow (must start by /)',
+                description: 'The path of flow (must start by /). Trailing slash is ignored.',
                 type: 'string',
                 pattern: '^/',
                 default: '/',
