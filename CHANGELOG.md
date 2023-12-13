@@ -1,3 +1,10 @@
+## [3.45.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.5...v3.45.6) (2023-12-13)
+
+
+### Bug Fixes
+
+* don't add a trailing slash ([811b1e4](https://github.com/gravitee-io/gravitee-ui-components/commit/811b1e477a44b8dbe3e82479529a9b849498e61f))
+
 ## [3.45.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.4...v3.45.5) (2023-11-30)
 
 
