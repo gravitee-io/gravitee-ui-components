@@ -1,3 +1,17 @@
+# [4.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.6...v4.0.0) (2023-12-15)
+
+
+### Features
+
+* bump asciidoctor to 3.0.2 ([d3327f2](https://github.com/gravitee-io/gravitee-ui-components/commit/d3327f285083df8d64c55f87854855b27a2ae66d))
+
+
+### BREAKING CHANGES
+
+* The @asciidoctor/core & asciidoctor dependency are now in version ^3.0.2.
+Note: npm is likely to return a warring because asciidoctor-highlight.js continues to require
+version 2.x of asciidoctor. We can ignore this error `--force`
+
 ## [3.45.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.5...v3.45.6) (2023-12-13)
 
 
