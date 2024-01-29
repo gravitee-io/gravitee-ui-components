@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.0.0...v4.1.0) (2024-01-29)
+
+
+### Features
+
+* collapse `gv-tree` by default + add tooltip when closed ([b5d6bb0](https://github.com/gravitee-io/gravitee-ui-components/commit/b5d6bb0b989791448b731fb9ec00ce6c882d4f31))
+
 # [4.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v3.45.6...v4.0.0) (2023-12-15)
 
 
