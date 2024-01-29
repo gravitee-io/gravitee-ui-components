@@ -31,6 +31,7 @@ import { classMap } from 'lit/directives/class-map.js';
  *
  * @attr {Array} items - list of items and subitems to be displayed in the menu MenuItem: {name: String, value: any, children: Array<MenuItem>}
  * @attr {Boolean} closed - allows to close the menu
+ * @attr {String} closedTooltip - tooltip shown when closed and hovering over icon
  * @attr {Object} selectedItem - the item selected
  *
  * @cssprop {Color} [--gv-tree--bgc=var(--gv-theme-neutral-color-lightest, #ffffff)] - Background color
@@ -44,6 +45,7 @@ export class GvTree extends LitElement {
     return {
       items: { type: Array },
       closed: { type: Boolean, reflect: true },
+      closedTooltip: { type: String },
       selectedItem: { type: Object },
     };
   }
@@ -177,7 +179,8 @@ export class GvTree extends LitElement {
 
   constructor() {
     super();
-    this.closed = false;
+    this.closed = true;
+    this.closedTooltip = 'Expand';
   }
 
   _onSelect(menuItem, e) {
@@ -233,18 +236,23 @@ export class GvTree extends LitElement {
     dispatchCustomEvent(this, 'toggle', { closed: this.closed });
   }
 
+  _getIcon() {
+    const innerContent = this.closed
+      ? html`<gv-popover position="right">
+          <gv-icon shape="text:menu" @click=${this._toggleMenu}></gv-icon>
+          <div slot="popover">${this.closedTooltip}</div>
+        </gv-popover>`
+      : html` <gv-icon shape="navigation:angle-double-left" @click=${this._toggleMenu}></gv-icon>`;
+    return html`<div class="switch">${innerContent}</div>`;
+  }
+
   render() {
     const classes = {
       tree: true,
       closed: this.closed,
     };
     return html`
-      <div class=${classMap(classes)}>
-        <div class="switch">
-          <gv-icon shape="${this.closed ? 'text:menu' : 'navigation:angle-double-left'}" @click=${this._toggleMenu}></gv-icon>
-        </div>
-        ${html`<div class="main-tree-menu">${this._getMenu(this.items)}</div>`}
-      </div>
+      <div class=${classMap(classes)}>${this._getIcon()} ${html`<div class="main-tree-menu">${this._getMenu(this.items)}</div>`}</div>
     `;
   }
 }
