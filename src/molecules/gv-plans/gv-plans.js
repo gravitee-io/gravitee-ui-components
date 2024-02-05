@@ -16,14 +16,12 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { css, LitElement, html } from 'lit';
 import { dispatchCustomEvent } from '../../lib/events';
-import { getCssVar, hexToRGB } from '../../lib/style';
 
 import { i18n } from '../../lib/i18n';
 import { link } from '../../styles/link';
 import { repeat } from 'lit/directives/repeat.js';
 import { skeleton } from '../../styles/skeleton';
 import { empty } from '../../styles/empty';
-import { styleMap } from 'lit/directives/style-map.js';
 import '../../atoms/gv-icon';
 
 /**
@@ -83,6 +81,7 @@ export class GvPlans extends LitElement {
         .plans {
           display: flex;
           list-style-type: none;
+          border: 1px solid var(--bgc);
           border-radius: 2px;
           padding: 0;
           margin: 0;
@@ -94,12 +93,18 @@ export class GvPlans extends LitElement {
           padding: 16px;
           line-height: 24px;
           cursor: pointer;
+          opacity: 0.5;
+        }
+
+        .plan:hover {
+          opacity: 1;
         }
 
         .plan.active {
           background-color: var(--bgc);
           color: var(--fc);
           transition: all 0.2s ease-in;
+          opacity: 1;
         }
 
         .name {
@@ -373,13 +378,6 @@ export class GvPlans extends LitElement {
   }
 
   render() {
-    const bgc = getCssVar(this, '--gv-plans--bgc', '#5A7684');
-    const { r, g, b } = hexToRGB(bgc);
-    const style = {
-      backgroundColor: `rgba(${r}, ${g}, ${b}, 0.1)`,
-      color: `rgba(${r}, ${g}, ${b}, 0.5)`,
-    };
-
     if (!this.skeleton) {
       if (this._error) {
         return html`<div class="error">
@@ -396,7 +394,7 @@ export class GvPlans extends LitElement {
     const classes = { skeleton: this.skeleton };
     const currentPlans = this.plans;
     return html`<div class="${classMap(classes)}">
-      <ul class="plans" style="${styleMap(style)}">
+      <ul class="plans">
         ${this._renderHeader(currentPlans)}
       </ul>
       <div class="selectors">${this._renderTriangles(currentPlans)}</div>
