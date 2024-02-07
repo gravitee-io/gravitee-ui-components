@@ -143,8 +143,22 @@ export class GvTree extends LitElement {
           box-sizing: border-box;
         }
 
+        ul label:hover,
+        .selected > label {
+          font-style: italic;
+          text-decoration: underline;
+        }
+
+        .folder > label:hover,
         .folder > label {
           font-weight: bold;
+          font-style: normal;
+          text-decoration: none;
+        }
+
+        ul label:hover,
+        .folder > label:hover {
+          opacity: 0.8;
         }
 
         .tree-arrow {
