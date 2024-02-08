@@ -1,3 +1,11 @@
+## [4.1.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.1.0...v4.1.1) (2024-02-08)
+
+
+### Bug Fixes
+
+* **gv-plans:** improve a11y ([33f151a](https://github.com/gravitee-io/gravitee-ui-components/commit/33f151ad27f36671a2ca882580d5773b92c9ccc0))
+* **gv-tree:** improve a11y ([7a5b463](https://github.com/gravitee-io/gravitee-ui-components/commit/7a5b463af938034ae0a20ed97adb1fe97c812e2d))
+
 # [4.1.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.0.0...v4.1.0) (2024-01-29)
 
 
