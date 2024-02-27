@@ -99,6 +99,11 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
           text-after-overflow: '...';
         }
 
+        .row .description * {
+          display: contents;
+          font-size: var(--gv-theme-font-size-m, 14px);
+        }
+
         .row .meta {
           display: flex;
           flex-direction: column;
@@ -193,7 +198,7 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
                   <h3 class="name">${getTitle(this._item)}</h3>
                   <div class="version">${getVersion(this._item)}</div>
                 </div>
-                <div class="description">${getDescription(this._item)}</div>
+                <div class="description" .innerHTML="${getDescription(this._item)}"></div>
               </div>
               <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
                 <div class="meta__owner">
