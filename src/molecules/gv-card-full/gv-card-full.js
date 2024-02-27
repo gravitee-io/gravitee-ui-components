@@ -134,11 +134,15 @@ export class GvCardFull extends ItemResource(LitElement) {
         .description {
           padding: 0 16px;
           margin: 6px 0;
-          flex: 1;
-          flex-grow: 1;
           max-height: 150px;
+          flex: 1;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+
+        .description * {
+          display: contents;
+          font-size: var(--gv-theme-font-size-m, 14px);
         }
 
         .infos {
@@ -184,6 +188,16 @@ export class GvCardFull extends ItemResource(LitElement) {
     }
   }
 
+  _getDescription() {
+    if (this._error) {
+      return i18n('gv-card-full.error');
+    }
+    if (this._empty) {
+      return i18n('gv-card-full.empty');
+    }
+    return getDescription(this._item);
+  }
+
   render() {
     const title = getTitle(this._item);
     const owner = getOwner(this._item);
@@ -200,12 +214,10 @@ export class GvCardFull extends ItemResource(LitElement) {
         </div>
         <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${getVersion(this._item)}</span></div>
       </div>
-      <div class="${classMap({ skeleton: this._skeleton, description: true })}">
-        ${truncate(
-          this._error ? i18n('gv-card-full.error') : this._empty ? i18n('gv-card-full.empty') : getDescription(this._item),
-          this.limit,
-        )}
-      </div>
+      <div
+        class="${classMap({ skeleton: this._skeleton, description: true })}"
+        .innerHTML="${truncate(this._getDescription(), this.limit)}"
+      ></div>
       <span class="${classMap({ skeleton: this._skeleton })}">
         <div class="infos">${this._renderMetricsWithRating()}</div>
 
