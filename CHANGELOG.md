@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.1.1...v4.2.0) (2024-02-27)
+
+
+### Features
+
+* render markdown in gv-card-full description ([152bb09](https://github.com/gravitee-io/gravitee-ui-components/commit/152bb09572dfbd4b7cfe1ad0f2cab66560056bbd))
+
 ## [4.1.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.1.0...v4.1.1) (2024-02-08)
 
 
