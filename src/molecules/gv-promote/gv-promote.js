@@ -141,6 +141,12 @@ export class GvPromote extends ItemResource(LitElement) {
           text-align: justify;
         }
 
+        .description *,
+        .description-large * {
+          display: contents;
+          font-size: var(--gv-theme-font-size-m, 14px);
+        }
+
         .infos {
           display: flex;
           justify-content: flex-end;
@@ -187,14 +193,13 @@ export class GvPromote extends ItemResource(LitElement) {
                       ? html`<div class="owner"><gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>`
                       : ''}
                     <p
+                      .innerHTML="${truncate(getDescription(this._item), this.limit)}"
                       class=${classMap({
                         skeleton: this._skeleton,
                         description: true,
                         'description-large': getDescription(this._item).split(' ').length > 10,
                       })}
-                    >
-                      ${truncate(getDescription(this._item), this.limit)}
-                    </p>
+                    ></p>
                     <div class=${classMap({ skeleton: this._skeleton, infos: true })}>${this._renderMetricsWithRating()}</div>
                     <div class="labels">${this._renderLabels(true)}</div>
                     <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}"

@@ -20,15 +20,15 @@ import { makeStory, storyWait } from '../../../testing/lib/make-story';
 
 const name = 'supernova cloud';
 const description =
-  'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, ' +
+  '<h1>Tempore</h1> quo <h2>primis</h2> auspiciis in <a href="">mundanum fulgorem</a> surgeret victura dum erunt homines Roma, ' +
   'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 const longDescription =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non viverra magna. ' +
+  '<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non viverra magna. ' +
   'Duis justo risus, iaculis vel luctus vel, euismod quis ipsum. Sed pellentesque elit eu enim auctor ullamcorper. ' +
-  'Donec rhoncus, nunc eget tempus viverra, leo libero lobortis nibh, quis vulputate ligula nunc sit amet erat. ' +
+  'Donec rhoncus, nunc eget tempus viverra, leo libero lobortis nibh, </h1><h2>quis vulputate ligula nunc sit amet erat. ' +
   'Suspendisse mi mauris, convallis non lobortis id, elementum eu orci. Fusce mattis aliquam augue eu pharetra. ' +
   'Morbi quam neque, interdum ut ullamcorper lacinia, viverra ut odio. Aliquam porttitor a augue ut dignissim. ' +
-  'Nulla facilisi. Praesent eget varius ante. Interdum et malesuada fames ac ante ipsum primis in faucibus.';
+  'Nulla facilisi. Praesent eget varius ante. Interdum et malesuada fames ac ante ipsum primis in faucibus.</h2>';
 
 const ratingSummary = { average: 3.2, count: 345 };
 const metrics = { hits: '11M+', subscribers: '689', health: '0.95' };
