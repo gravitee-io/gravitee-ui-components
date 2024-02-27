@@ -1,3 +1,10 @@
+## [4.2.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.1...v4.2.2) (2024-02-27)
+
+
+### Bug Fixes
+
+* render markdown in gv-row description ([e2a7a42](https://github.com/gravitee-io/gravitee-ui-components/commit/e2a7a422c009d66fd9f2dd518db4fbb72794b13b))
+
 ## [4.2.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.0...v4.2.1) (2024-02-27)
 
 
