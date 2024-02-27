@@ -19,7 +19,7 @@ import { makeStory, storyWait } from '../../../testing/lib/make-story';
 
 const name = 'Supernova';
 const description =
-  'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, ' +
+  '<h1>Tempore</h1> <h2>quo primis</h2> <h3>auspiciis</h3> <h4>in</h4> mundanum <a href="">fulgorem surgeret</a> victura dum erunt homines Roma, ' +
   'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
 
 const version = 'v.1.1';

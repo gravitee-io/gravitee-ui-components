@@ -86,7 +86,7 @@ export function getEntrypoints(item) {
 }
 
 export function getDescription(item) {
-  if (item) {
+  if (item && item.description) {
     return item.description;
   }
   return '';
