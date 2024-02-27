@@ -25,9 +25,16 @@ const states = [
   { value: 'running', major: true },
 ];
 const owner = { display_name: 'Garry Marshall' };
-const description =
-  'Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, ' +
-  'ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque  plerumque dissidentes,';
+const description = `
+<h2>Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+accusantium doloremque laudantium, <a href="">totam rem aperiam</a>,
+eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae
+vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
+ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem
+ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam
+eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</h2>
+`;
 const labels = ['brta', 'custom', 'web'];
 const api = {
   name: 'Long Supernova',
