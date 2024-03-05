@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import 'whatwg-fetch';
+import MessageFormat from '@messageformat/core';
 
 /**
  * @param {string} key - The translation key
@@ -49,7 +50,6 @@ function getTranslation(key) {
 // Init private translation storage
 i18n._translations = {};
 
-const MessageFormat = require('messageformat');
 i18n._messageFormatter = new MessageFormat(i18n._lang);
 
 /**
