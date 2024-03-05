@@ -1,3 +1,10 @@
+## [4.2.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.2...v4.2.3) (2024-03-05)
+
+
+### Bug Fixes
+
+* **deps:** replace dependency messageformat with @messageformat/core 3.3.0 ([f8f01c3](https://github.com/gravitee-io/gravitee-ui-components/commit/f8f01c361e3e099e2a23c9ec538525403da76694))
+
 ## [4.2.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.1...v4.2.2) (2024-02-27)
 
 
