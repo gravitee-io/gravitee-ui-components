@@ -4070,7 +4070,7 @@ __metadata:
     "@commitlint/config-conventional": 16.2.4
     "@formatjs/intl-locale": ^2.4.40
     "@formatjs/intl-relativetimeformat": ^9.3.2
-    "@highcharts/map-collection": 2.0.1
+    "@highcharts/map-collection": 2.1.0
     "@messageformat/core": 3.3.0
     "@popperjs/core": ^2.11.7
     "@semantic-release/changelog": 6.0.2
@@ -4104,7 +4104,7 @@ __metadata:
     fs-extra: 11.2.0
     github-markdown-css: 4.0.0
     glob: 7.2.3
-    highcharts: 10.3.3
+    highcharts: 11.4.1
     highlight.js: 11.7.0
     html-to-react: 1.5.0
     husky: 7.0.4
@@ -4140,7 +4140,7 @@ __metadata:
     "@highcharts/map-collection": ^1.0.0 || ^2.0.0
     asciidoctor: ^3.0.2
     asciidoctor-highlight.js: ^0.3.0 || ^0.4.0
-    highcharts: ^8.0.0 || ^9.0.0 || ^10.0.0
+    highcharts: ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
     highlight.js: ^10.7.0 || ^11.1.0
   peerDependenciesMeta:
     "@asciidoctor/core":
@@ -4158,10 +4158,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@highcharts/map-collection@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@highcharts/map-collection@npm:2.0.1"
-  checksum: 1870092eee043caa4995f173d279f56ebba6817997b5af9301037a0f455172ab595a9cdc1c4b0474d881ed7f2b02ba5668093c398dfb6bda7856c907caac7efb
+"@highcharts/map-collection@npm:2.1.0":
+  version: 2.1.0
+  resolution: "@highcharts/map-collection@npm:2.1.0"
+  checksum: acf19a80fc07e152c9df36ad0f14435eb4a5b9079b88f67216d1389643fc7bd32fa209ff2bc5331bd941a52c99403163a47a58ba7da2c3e3352e8c63f7e7c1f1
   languageName: node
   linkType: hard
 
@@ -9209,9 +9209,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001286, caniuse-lite@npm:^1.0.30001332, caniuse-lite@npm:^1.0.30001400":
-  version: 1.0.30001473
-  resolution: "caniuse-lite@npm:1.0.30001473"
-  checksum: 007ad17463612d38080fc59b5fa115ccb1016a1aff8daab92199a7cf8eb91cf987e85e7015cb0bca830ee2ef45f252a016c29a98a6497b334cceb038526b73f1
+  version: 1.0.30001609
+  resolution: "caniuse-lite@npm:1.0.30001609"
+  checksum: 462f38b5c33ce544dcfa65cc3940fca7fe2d3d916ec2d9c9905ea7becf6930c540774a1278f901fe44d3b85f7d7a2f05523d27602c6ce93bb2b3806e9f3e9989
   languageName: node
   linkType: hard
 
@@ -13731,10 +13731,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highcharts@npm:10.3.3":
-  version: 10.3.3
-  resolution: "highcharts@npm:10.3.3"
-  checksum: f40690109486fdada407cdc94f257dd869ebbcdd0c7ac4c7b85021c087523b4c32ea88725dce5f1b490c9669573240e17622c4765366ed4c38ff2b2503f092e9
+"highcharts@npm:11.4.1":
+  version: 11.4.1
+  resolution: "highcharts@npm:11.4.1"
+  checksum: ecba6bab6a156e4b603ae04549327c1a54ef59fa10981024ab763c20540076f067334b48db8e1774e9a8248ee4a035323a7a34c815ce01fc2bd40b2bb3f8f468
   languageName: node
   linkType: hard
 
