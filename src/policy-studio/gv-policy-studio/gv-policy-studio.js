@@ -1093,6 +1093,7 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
   }
 
   _renderFlowStepForm(readonlyMode) {
+    const flowStepForm = this._getFlowStepForm();
     const values = this._currentFlowStep._values || this._currentFlowStep._initialValues;
 
     const groups = [
@@ -1110,6 +1111,8 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
                 .id="${FLOW_STEP_FORM_ID}"
                 .schema="${this._flowStepSchema}"
                 .icon="design:edit"
+                .touch="${flowStepForm?.touch}"
+                .dirty="${flowStepForm?._dirty}"
                 has-header
                 validate-on-render
                 .values="${values}"

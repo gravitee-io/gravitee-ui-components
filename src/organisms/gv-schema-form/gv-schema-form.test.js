@@ -324,7 +324,7 @@ describe('S C H E M A  F O R M', () => {
     component.validate();
 
     component.updateComplete.then(() => {
-      component._touch = true;
+      component.touch = true;
       expect(component.canSubmit()).toBeTruthy();
       done();
     });

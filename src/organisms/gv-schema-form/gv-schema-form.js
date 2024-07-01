@@ -57,7 +57,7 @@ export class GvSchemaForm extends LitElement {
       validateOnRender: { type: Boolean, attribute: 'validate-on-render' },
       _validatorResults: { type: Object },
       skeleton: { type: Boolean, reflect: true },
-      _touch: { type: Boolean },
+      touch: { type: Boolean },
       readonly: { type: Boolean, reflect: true },
       scrollable: { type: Boolean, reflect: true },
       groups: { type: Array },
@@ -71,7 +71,7 @@ export class GvSchemaForm extends LitElement {
     this.submitLabel = 'Ok';
     this.hasHeader = false;
     this.hasFooter = false;
-    this._touch = false;
+    this.touch = false;
     this._validator = new Validator();
     this._validatorResults = {};
     this._ignoreProperties = [];
@@ -109,7 +109,7 @@ export class GvSchemaForm extends LitElement {
 
   reset(values = null) {
     this._values = deepClone(values || this._initialValues);
-    this._touch = false;
+    this.touch = false;
     this._setDirty(false);
     this.getControls().forEach((s) => {
       s.requestUpdate();
@@ -141,7 +141,7 @@ export class GvSchemaForm extends LitElement {
     if (this.isValid()) {
       this._initialValues = deepClone(this._values);
       this.dirty = false;
-      this._touch = false;
+      this.touch = false;
       dispatchCustomEvent(this, 'submit', { values: this._values, validatorResults });
     } else {
       dispatchCustomEvent(this, 'error', { values: this._values, validatorResults });
@@ -153,7 +153,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   _setTouch(touch = true) {
-    this._touch = !!touch;
+    this.touch = !!touch;
   }
 
   confirm(force = false) {
@@ -489,7 +489,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   isTouch() {
-    return this._touch || (this.dirty && this.validateOnRender);
+    return this.touch || (this.dirty && this.validateOnRender);
   }
 
   canSubmit() {
