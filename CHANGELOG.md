@@ -1,3 +1,10 @@
+## [4.2.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.3...v4.2.4) (2024-07-02)
+
+
+### Bug Fixes
+
+* keep "touch" and "dirty" states of gv-schema-form when using policy documentation ([442506b](https://github.com/gravitee-io/gravitee-ui-components/commit/442506b603c97c328fddfe71d0608d6118a3b830))
+
 ## [4.2.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.2...v4.2.3) (2024-03-05)
 
 
