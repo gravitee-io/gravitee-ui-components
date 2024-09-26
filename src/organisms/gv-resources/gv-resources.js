@@ -135,10 +135,11 @@ export class GvResources extends KeyboardElement(LitElement) {
     };
 
     const schema = typeof resourceType.schema === 'string' ? JSON.parse(resourceType.schema) : resourceType.schema;
+    const schemaRequired = schema.required ? schema.required : [];
 
     return {
       properties: { ...defaultSchema.properties, ...schema.properties },
-      required: [...defaultSchema.required, ...schema.required],
+      required: [...defaultSchema.required, ...schemaRequired],
     };
   }
 

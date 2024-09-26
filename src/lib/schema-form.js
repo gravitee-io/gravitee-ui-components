@@ -39,6 +39,6 @@ function _canInline(schema, key) {
 }
 
 export function canGrid(schema) {
-  const keys = Object.keys(schema.properties);
+  const keys = Object.keys(schema.properties || {});
   return keys.length > 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
 }

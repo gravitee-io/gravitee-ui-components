@@ -91,7 +91,7 @@ export class GvSchemaFormControlObject extends UpdateAfterBrowser(LitElement) {
   }
 
   render() {
-    const keys = Object.keys(this.schema.properties);
+    const keys = Object.keys(this.schema.properties || {});
     const isGrid = canGrid(this.schema);
     const classes = {
       'form_control-inline': canInline(this.schema),
