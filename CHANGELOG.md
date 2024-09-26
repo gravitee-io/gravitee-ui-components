@@ -1,3 +1,10 @@
+## [4.2.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.4...v4.2.5) (2024-09-26)
+
+
+### Bug Fixes
+
+* schema.required is not a mandatory property ([d2f6456](https://github.com/gravitee-io/gravitee-ui-components/commit/d2f6456c1b70ca0353abdcadb44c5c7b78ac1c76))
+
 ## [4.2.4](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.3...v4.2.4) (2024-07-02)
 
 
