@@ -1,3 +1,10 @@
+## [4.2.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.5...v4.2.6) (2024-09-27)
+
+
+### Bug Fixes
+
+* lock dompurify to 3.1.5 to avoid issue with 3.1.7 ([9a7cfba](https://github.com/gravitee-io/gravitee-ui-components/commit/9a7cfba7876a12c557a581d6501126cae92fde3a))
+
 ## [4.2.5](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.4...v4.2.5) (2024-09-26)
 
 
