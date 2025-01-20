@@ -1,3 +1,15 @@
+# [4.3.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.6...v4.3.0) (2025-01-20)
+
+
+### Bug Fixes
+
+* do not use del in generate-icons.js script ([67a8d6a](https://github.com/gravitee-io/gravitee-ui-components/commit/67a8d6a940aac823a4df5366ec26f35bf459b549))
+
+
+### Features
+
+* add kubernetes icon ([a6d2709](https://github.com/gravitee-io/gravitee-ui-components/commit/a6d270931d399f5978071a2e0f4649fd4259a29f))
+
 ## [4.2.6](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.5...v4.2.6) (2024-09-27)
 
 
