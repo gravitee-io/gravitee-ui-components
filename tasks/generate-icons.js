@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const del = require('del');
 const fs = require('fs-extra');
 const rawGlob = require('glob');
 const util = require('util');
@@ -54,7 +53,7 @@ async function run() {
     iconsByShape[category][id] = svgContent;
   }
 
-  await del('assets/icons');
+  await fs.rm('assets/icons', { recursive: true, force: true });
   await fs.mkdir('assets/icons', { recursive: true });
   // Generate shapes
   for (const [shapeId, icons] of Object.entries(iconsByShape)) {
