@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { sanitize } from 'dompurify';
+import DOMPurify from 'dompurify';
 
 export async function loadAsciiDoctor() {
   let _gvAsciidoctor = window._gvAsciidoctor;
@@ -51,7 +51,7 @@ export function toDom(text, type = 'adoc', small = false) {
           // href="[SERVER_BASE]/#a_link" i.e. href="https://apim-master-portal.cloud.gravitee.io/#a_link"
           .replace(/href="#/g, `href="${window.location.href}#`);
         // Sanitize HTML content to avoid XSS attacks
-        innerHTML = sanitize(htmlContent);
+        innerHTML = DOMPurify.sanitize(htmlContent);
       } else {
         throw new Error(`Library not found for type : '${type}' | ${text}`);
       }
