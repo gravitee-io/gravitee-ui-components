@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.0...v4.3.1) (2025-04-04)
+
+
+### Bug Fixes
+
+* change how sanitize from DOMPurify is imported ([e0af88e](https://github.com/gravitee-io/gravitee-ui-components/commit/e0af88e00a1ffd8e302f643e3ee2557e613bab2e))
+
 # [4.3.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.2.6...v4.3.0) (2025-01-20)
 
 
