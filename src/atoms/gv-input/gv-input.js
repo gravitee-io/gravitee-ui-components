@@ -216,7 +216,7 @@ export class GvInput extends InputElement(LitElement) {
     if (changedProperties.has('required')) {
       this.getInputElement().required = this.required;
       this.getInputElement()['aria-required'] = !!this.required;
-      if (this.value == null || this.value.trim() === '') {
+      if (this.value == null || String(this.value).trim() === '') {
         this.invalid = true;
       }
     }
