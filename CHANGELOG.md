@@ -1,3 +1,10 @@
+## [4.3.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.1...v4.3.2) (2025-04-09)
+
+
+### Bug Fixes
+
+* apim-9162: dev portal - application alert displays miss value after save ([fded48e](https://github.com/gravitee-io/gravitee-ui-components/commit/fded48ed6c9d697a8b977d0c44cf5d1348a0b666))
+
 ## [4.3.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.0...v4.3.1) (2025-04-04)
 
 
