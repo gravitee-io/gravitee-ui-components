@@ -1,3 +1,10 @@
+## [4.3.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.2...v4.3.3) (2025-04-11)
+
+
+### Bug Fixes
+
+* json schema version ([9e14133](https://github.com/gravitee-io/gravitee-ui-components/commit/9e141337cd7167befe00a6873f52937cb3644d46))
+
 ## [4.3.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.1...v4.3.2) (2025-04-09)
 
 
