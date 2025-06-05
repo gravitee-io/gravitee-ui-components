@@ -16,6 +16,7 @@
 import './gv-documentation';
 import { policyMockReadme } from '../../../testing/resources/adoc/policy-mock-readme';
 import { makeStory, storyWait } from '../../../testing/lib/make-story';
+import { policyCalloutReadme } from '../../../testing/resources/md/policy-mock-readme';
 
 export default {
   title: 'Organisms/gv-documentation',
@@ -64,6 +65,10 @@ export const Async = makeStory(conf, {
       component.removeAttribute('skeleton');
     }),
   ],
+});
+
+export const MarkdownDoc = makeStory(conf, {
+  items: [{ text: policyCalloutReadme, type: 'md' }],
 });
 
 const maliciousAsciidoc = '```test"><img src=x onerror=alert(1)></img>';
