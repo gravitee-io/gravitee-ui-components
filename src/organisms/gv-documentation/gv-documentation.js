@@ -142,7 +142,9 @@ export class GvDocumentation extends LitElement {
 
   constructor() {
     super();
-    this.type = 'adoc';
+    if (!this.type) {
+      this.type = 'adoc';
+    }
   }
 
   _onCloseDocumentation() {

@@ -15,6 +15,7 @@
  */
 
 import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 
 export async function loadAsciiDoctor() {
   let _gvAsciidoctor = window._gvAsciidoctor;
@@ -34,44 +35,40 @@ export async function loadAsciiDoctor() {
   return _gvAsciidoctor;
 }
 
-export function toDom(text, type = 'adoc', small = false) {
-  return loadAsciiDoctor().then((asciidoctor) => {
-    if (text) {
-      let innerHTML = '';
-      if (type === 'adoc') {
-        const htmlContent = asciidoctor
-          .convert(text, {
-            attributes: {
-              showtitle: true,
-              'source-highlighter': 'highlightjs-ext',
-            },
-          })
-          // Replace href links to include potential parts of the URL that can be set by Angular router or
-          // any other routing framework. By default, href will have the following format:
-          // href="[SERVER_BASE]/#a_link" i.e. href="https://apim-master-portal.cloud.gravitee.io/#a_link"
-          .replace(/href="#/g, `href="${window.location.href}#`);
-        // Sanitize HTML content to avoid XSS attacks
-        innerHTML = DOMPurify.sanitize(htmlContent);
-      } else {
-        throw new Error(`Library not found for type : '${type}' | ${text}`);
-      }
+export async function toDom(text, type = 'adoc', small = false) {
+  if (!text) return;
 
-      const element = document.createElement('div');
-      element.innerHTML = innerHTML;
-      element.style.width = '100%';
-      element.style.maxWidth = '1000px';
-      element.style.margin = '0 auto';
-      element.classList.add('markdown-body');
-      if (small) {
-        element.classList.add('small');
-      }
-      const titleElement = element.querySelector('h1');
-      let title = '';
-      if (titleElement) {
-        title = titleElement.textContent;
-      }
+  let innerHTML = '';
+  if (type === 'adoc') {
+    const asciidoctor = await loadAsciiDoctor();
+    const htmlContent = asciidoctor
+      .convert(text, {
+        attributes: {
+          showtitle: true,
+          'source-highlighter': 'highlightjs-ext',
+        },
+      })
+      .replace(/href="#/g, `href="${window.location.href}#`);
+    innerHTML = DOMPurify.sanitize(htmlContent);
+  } else if (type === 'md' || type === 'markdown') {
+    const htmlContent = marked.parse(text).replace(/href="#/g, `href="${window.location.href}#`);
+    innerHTML = DOMPurify.sanitize(htmlContent);
+  } else {
+    throw new Error(`Unsupported documentation type: '${type}'`);
+  }
 
-      return { title, element };
-    }
-  });
+  const element = document.createElement('div');
+  element.innerHTML = innerHTML;
+  element.style.width = '100%';
+  element.style.maxWidth = '1000px';
+  element.style.margin = '5px auto';
+  element.classList.add('markdown-body');
+  if (small) {
+    element.classList.add('small');
+  }
+
+  const titleElement = element.querySelector('h1');
+  const title = titleElement ? titleElement.textContent : '';
+
+  return { title, element };
 }

@@ -888,6 +888,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
           <gv-documentation
             .text="${this.documentation.content}"
             .image="${this.documentation.image}"
+            .type="${this.documentation.type}"
             ?disabled="${this._currentAskConfirmation}"
             @gv-documentation:close="${this._onCloseDocumentation}"
           ></gv-documentation>
@@ -897,6 +898,7 @@ export class GvDesign extends KeyboardElement(LitElement) {
       return html`<gv-documentation
         .text="${this.documentation.content}"
         .image="${this.documentation.image}"
+        .type="${this.documentation.type}"
         ?disabled="${this._currentAskConfirmation}"
         @gv-documentation:close="${this._onCloseDocumentation}"
       ></gv-documentation>`;

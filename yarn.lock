@@ -4119,6 +4119,7 @@ __metadata:
     lit: ^2.0.2
     lit-html: 2.6.1
     markdown-it: 12.3.2
+    marked: 15.0.12
     node-static: 0.7.11
     nodemon: 2.0.21
     object-path: ^0.11.8
@@ -17138,6 +17139,15 @@ __metadata:
   peerDependencies:
     marked: ^1.0.0 || ^2.0.0
   checksum: a68a4cfd22b42f990a82e3234c68006ab4d1285a4a9bdd162f597740d9a55275c10c78ca21fa3927a76b2197589fe382e33af9baa2ccb2153812986c15aa73b8
+  languageName: node
+  linkType: hard
+
+"marked@npm:15.0.12":
+  version: 15.0.12
+  resolution: "marked@npm:15.0.12"
+  bin:
+    marked: bin/marked.js
+  checksum: 2ac72fc0bc7ecb47de246e396c7054d311f55379957e4e01796c12d196cb84480e8d53e54948f957a078f9166692fea8b0309fc597f26f855573e7ba5c1ec7eb
   languageName: node
   linkType: hard
 
