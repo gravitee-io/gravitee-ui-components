@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.3...v4.4.0) (2025-06-12)
+
+
+### Features
+
+* handle multiple policy documentation types ([7366cf3](https://github.com/gravitee-io/gravitee-ui-components/commit/7366cf380a4132c69dc174a7b859b56736e9179d))
+
 ## [4.3.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.2...v4.3.3) (2025-04-11)
 
 
