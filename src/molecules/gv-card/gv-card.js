@@ -94,10 +94,13 @@ export class GvCard extends ItemResource(LitElement) {
           font-weight: bold;
           white-space: nowrap;
           overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
         }
 
         .content {
           flex: 1;
+          min-width: 0;
           padding: 6px 16px 12px;
         }
 
@@ -105,7 +108,13 @@ export class GvCard extends ItemResource(LitElement) {
           color: var(--gv-theme-neutral-color-dark, #d9d9d9);
           top: 0.4rem;
           right: 0.4rem;
+          left: 0.4rem;
           position: absolute;
+          max-width: calc(100% - 0.8rem);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: right;
         }
       `,
       skeleton,
@@ -114,8 +123,9 @@ export class GvCard extends ItemResource(LitElement) {
 
   render() {
     const title = getTitle(this._item);
+    const version = getVersion(this._item);
     return html`<div class="card" title="${title}">
-      <span class="${classMap({ skeleton: this._skeleton, version: true })}">${getVersion(this._item)}</span>
+      <span class="${classMap({ skeleton: this._skeleton, version: true })}" title="${version}">${version}</span>
       <div class="${classMap({ image: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
 
       <div class="${classMap({ content: true, empty: this._error || this._empty })}">
