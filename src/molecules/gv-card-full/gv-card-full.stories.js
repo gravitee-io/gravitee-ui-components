@@ -75,6 +75,16 @@ const apiItems = [
       owner,
     },
   },
+  {
+    item: {
+      name: 'Supernova with long version',
+      description,
+      version: '1.0.757-task_ABC-123_DEF-456_allow_pipe_dash-SNAPSHOT',
+      labels,
+      states: [{ value: 'running', major: true }],
+      owner: { display_name: 'ContentHubAdmin' },
+    },
+  },
 ];
 
 const appItems = [{ item: application }, { item: application, metrics: applicationMetrics }];
