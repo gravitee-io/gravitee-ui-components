@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.4.0...v4.4.1) (2026-06-03)
+
+
+### Bug Fixes
+
+* **portal:** fix OIDC login icon contrast when button color is unset ([a1244d0](https://github.com/gravitee-io/gravitee-ui-components/commit/a1244d036f4d9f1a9021af41d3a909d21c587136))
+
 # [4.4.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.3.3...v4.4.0) (2025-06-12)
 
 
