@@ -94,9 +94,11 @@ export class GvCardFull extends ItemResource(LitElement) {
 
         .card > div {
           display: flex;
+          min-width: 0;
         }
 
         .image {
+          flex: 0 0 auto;
           min-height: 65px;
           min-width: 0;
           position: relative;
@@ -109,6 +111,9 @@ export class GvCardFull extends ItemResource(LitElement) {
           text-transform: capitalize;
           font-weight: bold;
           padding-bottom: 5px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
 
         .owner {
@@ -118,17 +123,29 @@ export class GvCardFull extends ItemResource(LitElement) {
           display: flex;
           padding-bottom: 2px;
           line-height: initial;
+          min-width: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
 
         .content {
           flex: 1;
+          min-width: 0;
+          overflow: hidden;
           padding: 0 10px 10px 10px;
         }
 
         .version {
+          flex: 0 1 auto;
+          min-width: 0;
+          max-width: 45%;
           color: var(--gv-theme-neutral-color-dark, #d9d9d9);
           padding: 10px 8px;
           font-size: var(--gv-theme-font-size-s, 12px);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
 
         .description {
@@ -201,6 +218,7 @@ export class GvCardFull extends ItemResource(LitElement) {
   render() {
     const title = getTitle(this._item);
     const owner = getOwner(this._item);
+    const version = getVersion(this._item);
     const classes = { error: this._error || this._empty, card: true };
     return html`<div class="${classMap(classes)}" title="${title}" @click="${this._onClick}">
       <div class="${classMap({ skeleton: this._skeleton })}">
@@ -212,7 +230,7 @@ export class GvCardFull extends ItemResource(LitElement) {
             : ''}
           <div class="states">${this._renderStates()}</div>
         </div>
-        <div class="version"><span class="${classMap({ skeleton: this._skeleton })}">${getVersion(this._item)}</span></div>
+        <div class="version" title="${version}"><span class="${classMap({ skeleton: this._skeleton })}">${version}</span></div>
       </div>
       <div
         class="${classMap({ skeleton: this._skeleton, description: true })}"
