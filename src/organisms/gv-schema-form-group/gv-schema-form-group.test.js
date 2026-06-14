@@ -15,6 +15,13 @@
  */
 import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { Page, querySelector, since } from '../../../testing/lib/test-utils';
+import {
+  expectControlGuardsHoldWithRootOneOf,
+  expectNoThrowOnNonArrayErrors,
+  expectRootOneOfBanner,
+  rootOneOfSchema,
+  rootOneOfWithPropertiesSchema,
+} from '../../../testing/lib/schema-form-test-utils';
 import './gv-schema-form-group';
 import mixed from '../../../testing/resources/schemas/mixed.json';
 import fieldsDependencies from '../../../testing/resources/schemas/fields-dependencies.json';
@@ -514,5 +521,29 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     };
     component.validate();
     expect(component.errors).toEqual([]);
+  });
+
+  test('should not throw when errors is a non-array value', async () => {
+    // Use a minimal schema so the test doesn't churn the 21-control mixed tree.
+    component.schema = { type: 'object', properties: { foo: { type: 'string' } } };
+    component.value = {};
+    await component.updateComplete;
+    await expectNoThrowOnNonArrayErrors(component);
+  });
+
+  test('should render a banner and not throw on root oneOf failures', async () => {
+    component.schema = rootOneOfSchema;
+    component.value = {};
+    component._setTouch(true);
+    await component.updateComplete;
+    await expectRootOneOfBanner(component);
+  });
+
+  test('should not crash when root oneOf coexists with rendered controls', async () => {
+    component.schema = rootOneOfWithPropertiesSchema;
+    component.value = {};
+    component._setTouch(true);
+    await component.updateComplete;
+    await expectControlGuardsHoldWithRootOneOf(component);
   });
 });

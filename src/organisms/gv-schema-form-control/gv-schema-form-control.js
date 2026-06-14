@@ -328,7 +328,7 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
       this._updateProperties(this.getControl());
     }
 
-    if (changedProperties.has('errors') && this.errors != null) {
+    if (changedProperties.has('errors') && Array.isArray(this.errors)) {
       // Set errors to complex controls
       this.getControls().forEach((control) => {
         control.errors = this.errors;
@@ -339,11 +339,19 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
       errorContainer.forEach((container) => (container.innerHTML = ''));
       this.errors.forEach((error) => {
         const key = error.property === 'instance' ? error.argument : error.property.replace('instance.', '');
-        const errorContainer = this.shadowRoot.querySelector(`[id="${key}-error"]`);
+        // oneOf/anyOf errors expose `argument` as an array of branch descriptors
+        // with no single field to attach to. Skip those rather than build an
+        // invalid CSS selector that throws DOMException and aborts shouldUpdate,
+        // leaving the form unrendered.
+        if (typeof key !== 'string' || key === '') {
+          return;
+        }
+        const escapedKey = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(key) : key.replace(/[^a-zA-Z0-9_-]/g, (c) => `\\${c}`);
+        const errorContainer = this.shadowRoot.querySelector(`[id="${escapedKey}-error"]`);
         if (errorContainer) {
           const message = document.createElement('gv-input-message');
           message.innerHTML = this.formatErrorMessage(error);
-          message.level = 'warn';
+          message.level = 'warning';
           errorContainer.appendChild(message);
         }
       });
