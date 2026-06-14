@@ -103,7 +103,7 @@ jobs:
       - keeper/exec:
           step-name: Running Chromatic
           command: |
-            SB_URL=$(npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static | grep -o "View your Storybook at https:\/\/[0-9a-z-]*\.chromatic\.com" | grep -o "https:.*")
+            SB_URL=$(npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-once-uploaded -d=storybook-static | grep -o "View your Storybook at https:\/\/[0-9a-z-]*\.chromatic\.com" | grep -o "https:.*" | head -n 1)
             if [ -z "$SB_URL" ]
             then
               echo "Something bad happened when running Chromatic"
