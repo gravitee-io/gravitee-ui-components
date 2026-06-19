@@ -1,3 +1,10 @@
+# [4.5.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.4.1...v4.5.0) (2026-06-19)
+
+
+### Features
+
+* remove use of gh cli orb ([9e63815](https://github.com/gravitee-io/gravitee-ui-components/commit/9e638158a0e7f9239717e538a2fabd9fc9f65f1d))
+
 ## [4.4.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.4.0...v4.4.1) (2026-06-03)
 
 
