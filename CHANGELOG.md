@@ -1,3 +1,10 @@
+## [4.5.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.0...v4.5.1) (2026-06-19)
+
+
+### Bug Fixes
+
+* **portal:** prevent API card layout break on long version strings ([996430c](https://github.com/gravitee-io/gravitee-ui-components/commit/996430c4eb8e20f9b0feeec2f44ba0cd6a677c4f))
+
 # [4.5.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.4.1...v4.5.0) (2026-06-19)
 
 
