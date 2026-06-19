@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   keeper: gravitee-io/keeper@0.6.2
-  gh: circleci/github-cli@2.2.0
 
 executors:
   node-lts:
@@ -110,25 +109,30 @@ jobs:
               exit 1
             fi
             echo "export SB_URL=$SB_URL" >> $BASH_ENV
-      - gh/setup
       - run:
           name: Edit Pull Request Description
           command: |
-            # First check there is an associated pull request, otherwise just stop the job here
-            if ! gh pr view --json title;
-            then
-              echo "No PR found for this branch, stopping the job here."
+            GITHUB_API="https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+            AUTH_HEADER="Authorization: Bearer ${GITHUB_TOKEN}"
+            ACCEPT_HEADER="Accept: application/vnd.github+json"
+
+            # Fetch open PR for current branch (returns a JSON array, possibly empty)
+            PR_JSON=$(curl -sSf -G \
+              -H "$AUTH_HEADER" \
+              -H "$ACCEPT_HEADER" \
+              --data-urlencode "head=${CIRCLE_PROJECT_USERNAME}:${CIRCLE_BRANCH}" \
+              --data-urlencode "state=open" \
+              --data-urlencode "per_page=1" \
+              "${GITHUB_API}/pulls")
+
+            PR_NUMBER=$(echo "$PR_JSON" | jq -r '.[0].number // empty')
+
+            if [ -z "$PR_NUMBER" ]; then
+              echo "No open PR found for this branch, stopping the job here."
               exit 0
             fi
 
-            # If PR state is different from OPEN
-            if [ "$(gh pr view --json state --jq .state)" != "OPEN" ];
-            then
-              echo "PR is not opened, stopping the job here."
-              exit 0
-            fi
-
-            export PR_BODY_STORYBOOK_SECTION="
+            PR_BODY_STORYBOOK_SECTION="
             <!-- Storybook placeholder -->
             ---
 
@@ -136,9 +140,15 @@ jobs:
             <!-- Storybook placeholder end -->
             "
 
-            export CLEAN_BODY=$(gh pr view --json body --jq .body | sed '/Storybook placeholder -->/,/Storybook placeholder end -->/d')
+            CLEAN_BODY=$(echo "$PR_JSON" | jq -r '.[0].body // ""' | sed '/Storybook placeholder -->/,/Storybook placeholder end -->/d')
+            FINAL_BODY="${CLEAN_BODY}${PR_BODY_STORYBOOK_SECTION}"
 
-            gh pr edit --body "$CLEAN_BODY$PR_BODY_STORYBOOK_SECTION"
+            curl -sSf -X PATCH \
+              -H "$AUTH_HEADER" \
+              -H "$ACCEPT_HEADER" \
+              "${GITHUB_API}/pulls/${PR_NUMBER}" \
+              --data "$(jq -n --arg body "$FINAL_BODY" '{body: $body}')" \
+              -o /dev/null
 
   release:
     executor:
@@ -166,7 +176,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - gh/setup
       - run:
           name: 🐙 Prerelease the Kraken
           command: |
@@ -183,7 +192,29 @@ jobs:
 
             npm publish --ignore-scripts --tag prerelease
 
-            gh pr comment --body "**Gravitee.io Automatic Deployment**
+            cd ..
+
+            GITHUB_API="https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+            AUTH_HEADER="Authorization: Bearer ${GITHUB_TOKEN}"
+            ACCEPT_HEADER="Accept: application/vnd.github+json"
+
+            # Fetch open PR for current branch (returns a JSON array, possibly empty)
+            PR_JSON=$(curl -sSf -G \
+              -H "$AUTH_HEADER" \
+              -H "$ACCEPT_HEADER" \
+              --data-urlencode "head=${CIRCLE_PROJECT_USERNAME}:${CIRCLE_BRANCH}" \
+              --data-urlencode "state=open" \
+              --data-urlencode "per_page=1" \
+              "${GITHUB_API}/pulls")
+
+            PR_NUMBER=$(echo "$PR_JSON" | jq -r '.[0].number // empty')
+
+            if [ -z "$PR_NUMBER" ]; then
+              echo "No open PR found for this branch, stopping the job here."
+              exit 0
+            fi
+
+            COMMENT_BODY="**Gravitee.io Automatic Deployment**
 
             A beta version of this package has been published! 🚀
 
@@ -196,6 +227,13 @@ jobs:
             yarn add @gravitee/ui-components@${versionTag}
             \`\`\`
             "
+
+            curl -sSf -X POST \
+              -H "$AUTH_HEADER" \
+              -H "$ACCEPT_HEADER" \
+              "${GITHUB_API}/issues/${PR_NUMBER}/comments" \
+              --data "$(jq -n --arg body "$COMMENT_BODY" '{body: $body}')" \
+              -o /dev/null
 
 workflows:
   validate:
