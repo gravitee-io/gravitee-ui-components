@@ -15,6 +15,9 @@
  */
 import '../gv-date-picker-calendar';
 import enUS from 'date-fns/locale/en-US';
+import cs from 'date-fns/locale/cs';
+import fr from 'date-fns/locale/fr';
+import it from 'date-fns/locale/it';
 import { format, getMonth, getYear, parse } from 'date-fns';
 import { classMap } from 'lit/directives/class-map.js';
 import { css, LitElement, html } from 'lit';
@@ -24,7 +27,10 @@ import { isInvalid } from '../../lib/date';
 import { until } from 'lit/directives/until.js';
 import { dispatchCustomEvent } from '../../lib/events';
 
-const locales = { en: enUS };
+// Locales are imported statically: a dynamic `date-fns/locale/${lang}` import is
+// only resolvable by webpack (magic comments) and breaks at runtime under
+// bundlers like esbuild that ship it to the browser as a bare specifier.
+const locales = { en: enUS, cs, fr, it };
 
 /**
  * Date Picker
@@ -290,24 +296,7 @@ export class GvDatePicker extends LitElement {
 
   async getLocale() {
     const lang = getLanguage();
-    if (!lang) {
-      return locales.en;
-    }
-    if (!locales[lang]) {
-      try {
-        const locale = await import(
-          // TODO: complete or improve the solution when managing a larger set of languages
-          /* webpackInclude: /(en|fr|cs)\/index\.js$/ */
-          /* webpackMode: "lazy-once" */
-          /* webpackChunkName: "date-fns-locale" */
-          `date-fns/locale/${lang}/index.js`
-        );
-        locales[lang] = locale.default;
-      } catch (e) {
-        console.error(`[Error] cannot load locale ${lang}`, e);
-      }
-    }
-    return locales[lang];
+    return locales[lang] || locales.en;
   }
 
   get dateFromPlaceholder() {
