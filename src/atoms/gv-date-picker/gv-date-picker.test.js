@@ -15,6 +15,7 @@
  */
 import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
 import { Page, querySelector } from '../../../testing/lib/test-utils';
+import { setLanguage } from '../../lib/i18n';
 import './gv-date-picker';
 
 describe('D A T E P I C K E R', () => {
@@ -27,11 +28,40 @@ describe('D A T E P I C K E R', () => {
 
   afterEach(() => {
     page.clear();
+    setLanguage(undefined);
   });
 
   test('should create element', () => {
     expect(window.customElements.get('gv-date-picker')).toBeDefined();
     const component = querySelector('gv-date-picker');
     expect(component).toBeDefined();
+  });
+
+  describe('getLocale', () => {
+    test.each([
+      ['en', 'en-US'],
+      ['fr', 'fr'],
+      ['cs', 'cs'],
+      ['it', 'it'],
+    ])('should resolve the %s locale without dynamic import', async (lang, expectedCode) => {
+      setLanguage(lang);
+      const component = querySelector('gv-date-picker');
+      const locale = await component.getLocale();
+      expect(locale).toBeDefined();
+      expect(locale.code).toEqual(expectedCode);
+    });
+
+    test('should fall back to en-US for an unsupported language', async () => {
+      setLanguage('de');
+      const component = querySelector('gv-date-picker');
+      const locale = await component.getLocale();
+      expect(locale.code).toEqual('en-US');
+    });
+
+    test('should fall back to en-US when no language is set', async () => {
+      const component = querySelector('gv-date-picker');
+      const locale = await component.getLocale();
+      expect(locale.code).toEqual('en-US');
+    });
   });
 });
