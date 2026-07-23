@@ -1,3 +1,10 @@
+## [4.5.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.1...v4.5.2) (2026-07-23)
+
+
+### Bug Fixes
+
+* **gv-date-picker:** statically import date-fns locales to fix runtime locale loading ([f7f1a0b](https://github.com/gravitee-io/gravitee-ui-components/commit/f7f1a0be9a495465430a8e38d6c93c2a36eb2bac))
+
 ## [4.5.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.0...v4.5.1) (2026-06-19)
 
 
