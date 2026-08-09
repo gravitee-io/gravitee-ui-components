@@ -53,7 +53,7 @@
     "colors": "1.4.0"
   },
   "dependencies": {
-    "@codemirror/basic-setup": "^0.19.1",
+    "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/language-data": "^0.19.1",
     "@codemirror/stream-parser": "^0.19.9",
     "@formatjs/intl-locale": "^2.4.40",
