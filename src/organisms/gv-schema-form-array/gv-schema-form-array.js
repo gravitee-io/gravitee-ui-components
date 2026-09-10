@@ -19,6 +19,7 @@ import { dispatchCustomEvent } from '../../lib/events';
 import { classMap } from 'lit/directives/class-map.js';
 import { skeleton } from '../../styles/skeleton';
 import { UpdateAfterBrowser } from '../../mixins/update-after-browser';
+import { untilSettled } from '../../lib/updates';
 
 /**
  * Schema form array component
@@ -121,8 +122,7 @@ export class GvSchemaFormArray extends UpdateAfterBrowser(LitElement) {
   }
 
   async getUpdateComplete() {
-    await super.getUpdateComplete();
-    await Promise.all(this.getControls().map((e) => e.updateComplete));
+    return untilSettled(this, () => super.getUpdateComplete());
   }
 
   shouldUpdate(changedProperties) {

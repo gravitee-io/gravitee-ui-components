@@ -29,6 +29,7 @@ import '../../organisms/gv-schema-form-array';
 import '../../organisms/gv-schema-form-control-object';
 import { isCodemirror, isObject, isComplexArray } from '../../lib/schema-form';
 import { UpdateAfterBrowser } from '../../mixins/update-after-browser';
+import { untilSettled } from '../../lib/updates';
 
 export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
   static get properties() {
@@ -309,9 +310,11 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
   }
 
   async getUpdateComplete() {
-    await super.getUpdateComplete();
-    await Promise.all(this.getControls().map((e) => e.updateComplete));
-    await this._valuePropagation;
+    return untilSettled(this, async () => {
+      const result = await super.getUpdateComplete();
+      await this._valuePropagation;
+      return result;
+    });
   }
 
   formatErrorMessage(error) {

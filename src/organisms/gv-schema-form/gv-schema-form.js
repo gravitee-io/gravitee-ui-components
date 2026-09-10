@@ -22,6 +22,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { Validator } from 'jsonschema';
 import { empty } from '../../styles/empty';
 import '../gv-schema-form-control';
+import { untilSettled } from '../../lib/updates';
 
 /**
  * Schema form component
@@ -536,9 +537,7 @@ export class GvSchemaForm extends LitElement {
   }
 
   async getUpdateComplete() {
-    const result = await super.getUpdateComplete();
-    await Promise.all(this.getControls().map((e) => e.updateComplete));
-    return result;
+    return untilSettled(this, () => super.getUpdateComplete());
   }
 
   render() {
