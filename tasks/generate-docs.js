@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 const fs = require('fs-extra');
-const rawGlob = require('glob');
-const util = require('util');
-
-const glob = util.promisify(rawGlob);
+const { glob } = require('glob');
 
 async function run() {
   const svgFilepaths = await glob('.files/icons/**/*.svg');
