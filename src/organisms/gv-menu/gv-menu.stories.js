@@ -44,7 +44,7 @@ export const Empty = makeStory(conf, { items: [{}] });
 export const RightSlot = makeStory(conf, {
   items: [
     {
-      routes: routes,
+      routes,
       innerHTML: '<gv-button slot="right" primary icon="code:plus">Create an app</gv-button>',
     },
   ],
@@ -53,7 +53,7 @@ export const RightSlot = makeStory(conf, {
 export const TopSlot = makeStory(conf, {
   items: [
     {
-      routes: routes,
+      routes,
       innerHTML: '<gv-header slot="top" can-subscribe></gv-header>',
     },
   ],
@@ -81,7 +81,7 @@ export const TopSlot = makeStory(conf, {
 export const TopSlotSticky = makeStory(conf, {
   items: [
     {
-      routes: routes,
+      routes,
       innerHTML: '<gv-header slot="top" can-subscribe></gv-header>',
       sticky: true,
     },
@@ -110,7 +110,7 @@ export const TopSlotSticky = makeStory(conf, {
 export const RightTransitionSlot = makeStory(conf, {
   items: [
     {
-      routes: routes,
+      routes,
       innerHTML: '<gv-input slot="right-transition" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
     },
   ],
@@ -119,7 +119,7 @@ export const RightTransitionSlot = makeStory(conf, {
 export const TopRightTransitionSlot = makeStory(conf, {
   items: [
     {
-      routes: routes,
+      routes,
       innerHTML:
         '<gv-header slot="top" can-subscribe></gv-header>' +
         '<gv-input slot="right-transition" type="search" placeholder="Rechercher une API, une APP..."></gv-input>',
@@ -155,7 +155,7 @@ const options = [
 export const TopRightSlot = makeStory(conf, {
   items: [
     {
-      routes: routes,
+      routes,
       innerHTML: '<gv-header slot="top" can-subscribe></gv-header>' + '<gv-select slot="right"></gv-select>',
     },
   ],

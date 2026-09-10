@@ -41,8 +41,8 @@ export const Basics = makeStory(conf, { items });
 
 const itemsWithLogo = [
   {
-    routes: routes,
-    logo: logo,
+    routes,
+    logo,
   },
 ];
 

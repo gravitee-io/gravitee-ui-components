@@ -118,7 +118,6 @@ export class GvHttpClient extends LitElement {
     let mode = 'text';
 
     if (this.response.headers) {
-      // eslint-disable-next-line no-unused-vars
       const contentTypeHeader = Object.entries(this.response.headers).find(([key, value]) => {
         return key.toLowerCase() === 'content-type';
       });
@@ -137,7 +136,7 @@ export class GvHttpClient extends LitElement {
 
     const gvCodeOptions = {
       lineNumbers: true,
-      mode: mode,
+      mode,
     };
 
     return html`

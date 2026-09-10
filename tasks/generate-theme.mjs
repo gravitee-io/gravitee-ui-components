@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import { deleteAsync } from 'del';
-import { appendFile, copyFile, mkdir, readFile } from 'fs/promises'
-import { analyzeText, transformAnalyzerResult } from "web-component-analyzer";
+import { appendFile, copyFile, mkdir, readFile } from 'fs/promises';
+import { analyzeText, transformAnalyzerResult } from 'web-component-analyzer';
 const rawGlob = require('glob');
 const util = require('util');
 const glob = util.promisify(rawGlob);
@@ -34,7 +34,7 @@ const formatCssProperty = (cssProperty) => {
 
 async function run() {
   await deleteAsync(['assets/css/github-markdown-css', 'assets/css/highlight.js']);
-  await mkdir('assets/css/github-markdown-css')
+  await mkdir('assets/css/github-markdown-css');
   await mkdir('assets/css/highlight.js');
   await copyFile('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
   await copyFile('node_modules/highlight.js/styles/github.css', 'assets/css/highlight.js/github.css');
