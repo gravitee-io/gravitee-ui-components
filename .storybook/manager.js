@@ -1,5 +1,5 @@
-import { addons } from '@storybook/addons';
-import { create } from '@storybook/theming/create';
+import { addons } from 'storybook/manager-api';
+import { create } from 'storybook/theming/create';
 import brandImage from '../assets/images/gravitee-logo-dark-blue.svg';
 
 const graviteeTheme = create({
@@ -14,5 +14,7 @@ addons.setConfig({
   sidebar: {
     showRoots: true,
   },
-  enableShortcuts: false,
+  ui: {
+    enableShortcuts: false,
+  },
 });
