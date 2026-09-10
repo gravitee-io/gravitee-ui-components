@@ -71,6 +71,7 @@
     "jdenticon": "^3.1.0",
     "jsonschema": "1.4.1",
     "lit": "3",
+    "marked": "^18.0.12",
     "object-path": "^0.11.8",
     "resize-observer-polyfill": "^1.5.1",
     "whatwg-fetch": "^3.6.17"
@@ -120,7 +121,6 @@
     "license-check-and-add": "4.0.5",
     "lint-staged": "17.5.0",
     "markdown-it": "15.0.1",
-    "marked": "15.0.12",
     "node-static": "0.7.11",
     "pascal-case": "4.0.0",
     "prettier": "3.8.5",
