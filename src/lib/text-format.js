@@ -17,21 +17,18 @@
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 
+import { HIGHLIGHTER_NAME, registerHighlightJs } from './asciidoctor-highlightjs';
+
 export async function loadAsciiDoctor() {
   let _gvAsciidoctor = window._gvAsciidoctor;
 
   // Load asciidoctor if is not already loaded
   if (_gvAsciidoctor == null) {
-    _gvAsciidoctor = (await import('@asciidoctor/core')).default();
+    _gvAsciidoctor = await import('@asciidoctor/core');
+    await registerHighlightJs(_gvAsciidoctor);
     window._gvAsciidoctor = _gvAsciidoctor;
   }
 
-  // Load asciidoctor highlight if is not already loaded
-  if (window._gvAsciidoctorHighlight == null) {
-    const highlightJsExt = await import('asciidoctor-highlight.js');
-    highlightJsExt.default.register(_gvAsciidoctor.Extensions);
-    window._gvAsciidoctorHighlight = true;
-  }
   return _gvAsciidoctor;
 }
 
@@ -41,14 +38,14 @@ export async function toDom(text, type = 'adoc', small = false) {
   let innerHTML = '';
   if (type === 'adoc') {
     const asciidoctor = await loadAsciiDoctor();
-    const htmlContent = asciidoctor
-      .convert(text, {
+    const htmlContent = (
+      await asciidoctor.convert(text, {
         attributes: {
           showtitle: true,
-          'source-highlighter': 'highlightjs-ext',
+          'source-highlighter': HIGHLIGHTER_NAME,
         },
       })
-      .replace(/href="#/g, `href="${window.location.href}#`);
+    ).replace(/href="#/g, `href="${window.location.href}#`);
     innerHTML = DOMPurify.sanitize(htmlContent);
   } else if (type === 'md' || type === 'markdown') {
     const htmlContent = marked.parse(text).replace(/href="#/g, `href="${window.location.href}#`);
