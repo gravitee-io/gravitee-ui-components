@@ -104,6 +104,36 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     checkControl('whitelistClientCertificates');
   });
 
+  test('should leave nothing pending once updateComplete resolves', async () => {
+    const pending = (root, found = []) => {
+      root.querySelectorAll('*').forEach((element) => {
+        if (element.isUpdatePending === true) {
+          found.push(element.tagName.toLowerCase() + '#' + element.id);
+        }
+        if (element.shadowRoot != null) {
+          pending(element.shadowRoot, found);
+        }
+      });
+      return found;
+    };
+
+    component.value = {
+      body: '<xml>foobar</xml>',
+      'path-operator': { operator: 'EQUALS', path: '/foobar' },
+      select: 'b',
+      multiselect: ['a', 'b', 'c'],
+      attributes: [{ name: 'foo', value: 'bar' }],
+      timeToLiveSeconds: 50,
+    };
+
+    component.requestUpdate();
+    await component.updateComplete;
+
+    // The controls receive their value after the group has rendered, so an `updateComplete` that
+    // only waits for the group hands back a form whose controls are still empty.
+    expect(pending(component.shadowRoot)).toEqual([]);
+  });
+
   test('should create element with valid value', async () => {
     component.value = {
       body: '<xml>foobar</xml>',
