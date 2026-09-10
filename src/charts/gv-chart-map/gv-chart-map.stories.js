@@ -40,16 +40,6 @@ const franceSeries = {
   },
 };
 
-const hdfSeries = {
-  values: {
-    Nord: 7567,
-    'Pas-de-Calais': 1232,
-    Aisne: 2000,
-    Somme: 922,
-    Oise: 3000,
-  },
-};
-
 const options = {
   name: 'Number of API requests',
   excludedKeys: ['Unknown'],
@@ -79,10 +69,6 @@ export const Basics = makeStory(conf, {
 
 export const France = makeStory(conf, {
   items: [{ series: franceSeries, options: { ...options, ...{ zone: 'fr' } } }],
-});
-
-export const HautsDeFrance = makeStory(conf, {
-  items: [{ series: hdfSeries, options: { ...options, ...{ zone: 'fr-hdf' } } }],
 });
 
 export const Empty = makeStory(conf, {
