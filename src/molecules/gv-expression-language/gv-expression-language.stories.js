@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import './gv-expression-language';
 import '../gv-code';
 import { makeStory, storyWait } from '../../../testing/lib/make-story';
 import grammar from '../../../testing/resources/el-grammar.json';
