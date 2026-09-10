@@ -23,37 +23,6 @@ import 'highcharts/modules/map';
 import { cache } from 'lit/directives/cache.js';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
 
-const PALETTE_CLASS = 'highcharts-palette';
-
-/**
- * Highcharts paints itself through CSS variables that it declares in a stylesheet of its own, under
- * `:root`. That stylesheet is written next to the chart, so inside the shadow root, where `:root`
- * matches nothing and every colour falls back to black. Declaring the same variables on the
- * document, which is where they would have landed on their own, lets them inherit into every shadow
- * tree. The values are the ones Highcharts computed, so the palette stays its own.
- *
- * @param chart the chart that has just been created
- */
-function exposePaletteToDocument(chart) {
-  if (document.head.querySelector(`style.${PALETTE_CLASS}`) != null) {
-    return;
-  }
-  const { light, dark } = chart.palette?.cssVars || {};
-  if (light == null) {
-    return;
-  }
-  const declarations = Object.entries(light)
-    .map(([name, value]) => {
-      const counterpart = dark?.[name];
-      return counterpart && counterpart !== value ? `${name}: light-dark(${value}, ${counterpart});` : `${name}: ${value};`;
-    })
-    .join('\n  ');
-  const style = document.createElement('style');
-  style.className = PALETTE_CLASS;
-  style.textContent = `:root {\n  ${declarations}\n}`;
-  document.head.appendChild(style);
-}
-
 /**
  * This is a mixin for ChartElement
  * @mixinFunction
@@ -174,6 +143,14 @@ export function ChartElement(ParentClass) {
               height: '100%',
               width: '100%',
             },
+            // Highcharts declares its colours as CSS variables under `:root`, which matches nothing
+            // inside a shadow root: every one of them would fall back to black. Asking for a palette
+            // other than the default makes it scope them to the chart's own `<defs>`, in the same
+            // shadow tree. `light` rather than the default `light dark`, so that a component library
+            // does not silently repaint its host's charts on an operating system set to dark.
+            palette: {
+              colorScheme: 'light',
+            },
             credits: {
               enabled: false,
             },
@@ -194,7 +171,6 @@ export function ChartElement(ParentClass) {
 
         setTimeout(() => {
           this._chart = options.chart.map ? Highcharts.mapChart(container, options) : Highcharts.chart(container, options);
-          exposePaletteToDocument(this._chart);
         });
       }
 
