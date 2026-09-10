@@ -16,7 +16,11 @@
 import { deleteAsync } from 'del';
 import { appendFile, copyFile, mkdir, readFile } from 'fs/promises';
 import { glob } from 'glob';
-import { analyzeText, transformAnalyzerResult } from 'web-component-analyzer';
+import { createRequire } from 'module';
+
+// The ESM build of the analyzer reads TypeScript through named imports, which Node cannot resolve
+// from a CommonJS module. Its CommonJS build has no such need.
+const { analyzeText, transformAnalyzerResult } = createRequire(import.meta.url)('web-component-analyzer');
 const themeFilepath = 'src/theme/definition.json';
 const cssFilepath = 'assets/css/gravitee-theme.generated.css';
 
@@ -53,7 +57,9 @@ async function run() {
     if (tag && tag.name && tag.name === 'gv-theme') {
       gvTheme = tag;
       delete gvTheme.description;
-    } else if (tag && tag.description && tag.description.includes('@theme')) {
+      // The analyzer cuts the description short at `@theme`, an unknown JSDoc tag, so the marker is
+      // read from the source itself.
+    } else if (tag && code.includes('@theme')) {
       const cssProperties = tag.cssProperties;
       if (cssProperties) {
         const matches = code.match(/var\(--gv[a-zA-Z-, 0-9.#();'/]*\)/g);
