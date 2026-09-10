@@ -27,6 +27,9 @@ import { withResizeObserver } from '../../mixins/with-resize-observer';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import '../../atoms/gv-image';
 import '../../organisms/gv-pagination';
+import '../../atoms/gv-tag';
+import '../gv-identity-picture';
+import '../gv-confirm';
 import { getCssVar } from '../../lib/style';
 
 /**

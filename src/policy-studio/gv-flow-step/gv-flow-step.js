@@ -20,6 +20,8 @@ import { dispatchCustomEvent } from '../../lib/events';
 import '../../atoms/gv-image';
 import '../../molecules/gv-dropdown-menu';
 import '../../atoms/gv-switch';
+import '../../atoms/gv-button';
+import '../../atoms/gv-icon';
 
 /**
  * Flow area component

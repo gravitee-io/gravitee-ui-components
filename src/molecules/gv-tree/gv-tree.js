@@ -17,6 +17,7 @@ import { LitElement, html, css } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import '../../atoms/gv-button';
 import '../../atoms/gv-icon';
+import '../gv-popover';
 import { dispatchCustomEvent } from '../../lib/events';
 import { classMap } from 'lit/directives/class-map.js';
 

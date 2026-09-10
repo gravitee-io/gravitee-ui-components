@@ -29,6 +29,8 @@ import '../../molecules/gv-row';
 import '../gv-flow';
 import '../gv-flow-step';
 import '../gv-policy-studio-menu';
+import '../../organisms/gv-properties';
+import '../../organisms/gv-resources';
 import { empty } from '../../styles/empty';
 import { cache } from 'lit/directives/cache.js';
 import { deepClone, deepEqual } from '../../lib/utils';

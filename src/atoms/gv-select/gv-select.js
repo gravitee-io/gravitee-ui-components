@@ -22,6 +22,8 @@ import { link } from '../../styles/link';
 import { input } from '../../styles/input';
 import { repeat } from 'lit/directives/repeat.js';
 import '../gv-icon';
+import '../../molecules/gv-table';
+import '../gv-select-native';
 import { dispatchCustomEvent } from '../../lib/events';
 import { InputElement } from '../../mixins/input-element';
 import { withResizeObserver } from '../../mixins/with-resize-observer';

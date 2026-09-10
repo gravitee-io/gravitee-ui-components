@@ -15,6 +15,7 @@
  */
 import { getApplicationTypeIcon } from './theme';
 import { html } from 'lit';
+import '../atoms/gv-icon';
 
 export function getVersion(item) {
   if (item) {

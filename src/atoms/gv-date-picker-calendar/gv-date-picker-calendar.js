@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import '../gv-date-picker-cell';
+import '../gv-button';
 import {
   addDays,
   addMonths,

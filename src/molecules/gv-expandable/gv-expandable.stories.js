@@ -15,6 +15,7 @@
  */
 
 import './gv-expandable';
+import '../../organisms/gv-schema-form';
 import { makeStory, storyWait } from '../../../testing/lib/make-story';
 import mixed from '../../../testing/resources/schemas/mixed.json';
 

@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 import './gv-menu';
+import '../../atoms/gv-button';
+import '../../atoms/gv-input';
+import '../../atoms/gv-select';
+import '../gv-header';
 import horizontalImage from '../../../assets/images/gravitee-logo-cyan.svg';
 import { makeStory, storyWait } from '../../../testing/lib/make-story';
 

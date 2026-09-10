@@ -24,6 +24,7 @@ import { input } from '../../styles/input';
 import { dispatchCustomEvent } from '../../lib/events';
 import { InputElement } from '../../mixins/input-element';
 import { i18n } from '../../lib/i18n';
+import '../gv-icon';
 
 /**
  * A select native component.

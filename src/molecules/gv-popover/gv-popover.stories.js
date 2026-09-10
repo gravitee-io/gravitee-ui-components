@@ -15,6 +15,7 @@
  */
 import '../../atoms/gv-button';
 import './gv-popover';
+import '../../atoms/gv-tag';
 import { makeStory } from '../../../testing/lib/make-story';
 
 export default {

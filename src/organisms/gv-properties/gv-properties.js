@@ -24,6 +24,7 @@ import '../../atoms/gv-icon';
 import '../../atoms/gv-text';
 import '../../atoms/gv-input-message';
 import '../../atoms/gv-select';
+import '../gv-documentation';
 import { dispatchCustomEvent } from '../../lib/events';
 import { ERROR_TYPES, parseRaw, toNameEqualsValueString } from '../../lib/properties';
 import { i18n } from '../../lib/i18n';

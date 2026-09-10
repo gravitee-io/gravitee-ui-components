@@ -16,6 +16,10 @@
 import { html } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import '../molecules/gv-identity-picture';
+import '../atoms/gv-state';
+import '../atoms/gv-tag';
+import '../molecules/gv-metrics';
+import '../molecules/gv-rating';
 import { getLabels, getPicture, getStates, getRating, getPictureDisplayName } from '../lib/item';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
 
