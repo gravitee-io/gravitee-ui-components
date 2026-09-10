@@ -77,7 +77,11 @@ module.exports = {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    // Jest picks the CommonJS build, whose dynamic imports need the ESM VM flag. The ESM build goes
+    // through Babel instead, which turns them into plain requires.
+    '^@codemirror/language-data$': '<rootDir>/node_modules/@codemirror/language-data/dist/index.js',
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -170,7 +174,7 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   transformIgnorePatterns: [
-    '/node_modules/(?!(lit-element/.*?\\.js)|(lit-html/.*?\\.js)|(lit/.*?\\.js)|(@lit/.*?\\.js)|(resize-observer-polyfill/.*?\\.js)|(codemirror-asciidoc/.*?\\.js)$)',
+    '/node_modules/(?!(lit-element/.*?\\.js)|(lit-html/.*?\\.js)|(lit/.*?\\.js)|(@lit/.*?\\.js)|(resize-observer-polyfill/.*?\\.js)|(codemirror-asciidoc/.*?\\.js)|(@codemirror/language-data/.*?\\.js)$)',
   ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them

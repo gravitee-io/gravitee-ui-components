@@ -15,12 +15,12 @@
  */
 import { css, html } from 'lit';
 
-import { EditorView, basicSetup } from '@codemirror/basic-setup';
+import { basicSetup } from 'codemirror';
+import { EditorView, placeholder } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import { autocompletion } from '@codemirror/autocomplete';
 import { json } from '@codemirror/lang-json';
 import { languages } from '@codemirror/language-data';
-import { placeholder } from '@codemirror/view';
 
 import { shapeClipboard } from '../../styles/shapes';
 import { dispatchCustomEvent } from '../../lib/events';
@@ -239,7 +239,7 @@ export class GvCode extends GvInput {
       if (modeOnly === 'asciidoc') {
         const [{ asciidoc }, { StreamLanguage }] = await Promise.all([
           import('codemirror-asciidoc/lib/asciidoc'),
-          import('@codemirror/stream-parser'),
+          import('@codemirror/language'),
         ]);
         return {
           name: 'asciidoc',

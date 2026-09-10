@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import './gv-card-list';
 import '../gv-category-list';
 import { makeStory, storyWait } from '../../../testing/lib/make-story';
 import horizontalImage from '../../../assets/images/gravitee-logo-cyan.svg';
