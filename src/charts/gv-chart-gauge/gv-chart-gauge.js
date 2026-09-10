@@ -16,8 +16,8 @@
 import { LitElement } from 'lit';
 import { ChartElement } from '../../mixins/chart-element';
 // Highcharts modules register themselves on import: they are no longer factories to call.
-import 'highcharts/esm/highcharts-more';
-import 'highcharts/esm/modules/solid-gauge';
+import 'highcharts/highcharts-more';
+import 'highcharts/modules/solid-gauge';
 
 /**
  * Gauge chart component
