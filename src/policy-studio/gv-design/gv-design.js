@@ -351,7 +351,8 @@ export class GvDesign extends KeyboardElement(LitElement) {
   }
 
   get selectedFlowsId() {
-    return this._selectedFlowsId.filter((id) => this._findFlowById(id) != null);
+    // Lit reads the getter to capture the previous value, before the setter has ever run.
+    return (this._selectedFlowsId || []).filter((id) => this._findFlowById(id) != null);
   }
 
   _updateSelectedFlows(selectedFlowsId) {

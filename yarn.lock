@@ -2713,8 +2713,7 @@ __metadata:
     jsonschema: 1.4.1
     license-check-and-add: 4.0.5
     lint-staged: 17.5.0
-    lit: ^2.0.2
-    lit-html: 2.6.1
+    lit: 3
     markdown-it: 15.0.1
     marked: 15.0.12
     node-static: 0.7.11
@@ -3313,10 +3312,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lit/reactive-element@npm:^1.0.0":
-  version: 1.0.2
-  resolution: "@lit/reactive-element@npm:1.0.2"
-  checksum: 105fd68b5fb23dec75ea0e273ebbe94272639db4f8a41a4764eef7c9c172ac498c6c4a658d8e9b20006dc543f86a7d0061267f84096dbf980c300b79bd5adcf2
+"@lit-labs/ssr-dom-shim@npm:^1.5.0":
+  version: 1.6.0
+  resolution: "@lit-labs/ssr-dom-shim@npm:1.6.0"
+  checksum: 95f6eca9c462e2750c12f93a6cb40b962d75650169e0f6151b8e44a0f44600fd63fc9be69dc8136992162eb8ad95631cb65996b56cf183d3d11905801f16ac02
+  languageName: node
+  linkType: hard
+
+"@lit/reactive-element@npm:^2.1.0":
+  version: 2.1.2
+  resolution: "@lit/reactive-element@npm:2.1.2"
+  dependencies:
+    "@lit-labs/ssr-dom-shim": ^1.5.0
+  checksum: e0ed931b9cd50ce9521db7da528c00e1a8b912a66ac7b0f43554992e43cc7c20735b34bf99750d86b9256228818835ca2e9bf517653b246c73a6aac92cdd894c
   languageName: node
   linkType: hard
 
@@ -10829,33 +10837,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit-element@npm:^3.0.0":
-  version: 3.0.2
-  resolution: "lit-element@npm:3.0.2"
+"lit-element@npm:^4.2.0":
+  version: 4.2.2
+  resolution: "lit-element@npm:4.2.2"
   dependencies:
-    "@lit/reactive-element": ^1.0.0
-    lit-html: ^2.0.0
-  checksum: 7d7ffa7ce6f524eabd540181b52c2663686d53e9cc5593af0a3f72740f526091265d209779f4bae5f8da4d1850fe1ebf9e8d337cc54108d1a1c54feca6337c3c
+    "@lit-labs/ssr-dom-shim": ^1.5.0
+    "@lit/reactive-element": ^2.1.0
+    lit-html: ^3.3.0
+  checksum: 554254b87c7a5b486351a4aecb78919f3665d91de0466c85041572e37f94dd4887f7a4765a90a59e3933f1a54fcf68c20a411319bf06c3e8dce6cfac8de4ca30
   languageName: node
   linkType: hard
 
-"lit-html@npm:2.6.1, lit-html@npm:^2.0.0":
-  version: 2.6.1
-  resolution: "lit-html@npm:2.6.1"
+"lit-html@npm:^3.3.0":
+  version: 3.3.3
+  resolution: "lit-html@npm:3.3.3"
   dependencies:
     "@types/trusted-types": ^2.0.2
-  checksum: 32291eb5bcaa7fcc1d433522a9a62c3c3d240e49bb8c57ccea5c10014823d94f62f17e2d5361781cb6ee0b3c9078ef839de6164d5374371d650471904515e48e
+  checksum: ea1bd50456a456c4141644589c91a03aa5f3b60b431fe8922b13a9e26befc9e18b32c75ec0a8e4c7821358137b1c5a8e808f558307114e41cb306b65f39aa6ec
   languageName: node
   linkType: hard
 
-"lit@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "lit@npm:2.0.2"
+"lit@npm:3":
+  version: 3.3.3
+  resolution: "lit@npm:3.3.3"
   dependencies:
-    "@lit/reactive-element": ^1.0.0
-    lit-element: ^3.0.0
-    lit-html: ^2.0.0
-  checksum: 52a04b25164da1683c7295b305087794f175165cd1561e03f0c50ae998823f0e26101c82add05dea773e35472fbe3ed84486a4685294897f588d126fe8419e05
+    "@lit/reactive-element": ^2.1.0
+    lit-element: ^4.2.0
+    lit-html: ^3.3.0
+  checksum: 662059cd8684a5a97f2aab6ea84bfcaea8562398f2c3c9f9e652ddc1595dd7fc0afd8ec64ca2e580fe0fa9f00e63a482a94f3704f8086c091fd8affe6183b9d7
   languageName: node
   linkType: hard
 

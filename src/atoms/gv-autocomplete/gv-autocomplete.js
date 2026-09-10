@@ -55,7 +55,7 @@ const ESCAPE_KEY_CODE = 27;
 export class GvAutocomplete extends LitElement {
   static get properties() {
     return {
-      options: { type: Array, reflect: true },
+      options: { type: Array },
       value: { type: String, reflect: true },
       style: { type: String },
       minChars: { type: Number },
