@@ -15,10 +15,6 @@
  */
 'use strict';
 
-// Require ESM modules like we're in the future
-// eslint-disable-next-line no-global-assign
-require = require('esm')(module);
-
 const en = require('../assets/i18n/en.json');
 const fr = require('../assets/i18n/fr.json');
 
@@ -41,8 +37,8 @@ async function getUsedKeys(sourceFilepaths) {
         plugins: [
           '@babel/plugin-transform-typescript',
           ['@babel/plugin-proposal-decorators', { legacy: true }],
-          ['@babel/plugin-proposal-class-properties', { loose: true }],
-          ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
+          ['@babel/plugin-transform-class-properties', { loose: true }],
+          ['@babel/plugin-transform-private-property-in-object', { loose: true }],
         ],
       },
     });
