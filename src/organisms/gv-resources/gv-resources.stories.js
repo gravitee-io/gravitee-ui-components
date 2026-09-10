@@ -24,7 +24,9 @@ export default {
   component: 'gv-resources',
   parameters: {
     options: {
-      showPanel: false,
+      layout: {
+        showPanel: false,
+      },
     },
   },
 };

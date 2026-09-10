@@ -1,6 +1,7 @@
 assets/
 dist/
 coverage/
+.docs/
 docker/
 docs/
 storybook-static/

@@ -23,7 +23,9 @@ export default {
   component: 'gv-documentation',
   parameters: {
     options: {
-      showPanel: false,
+      layout: {
+        showPanel: false,
+      },
     },
   },
 };

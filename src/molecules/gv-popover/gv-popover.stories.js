@@ -22,7 +22,9 @@ export default {
   component: 'gv-popover',
   parameters: {
     options: {
-      showPanel: false,
+      layout: {
+        showPanel: false,
+      },
     },
   },
 };

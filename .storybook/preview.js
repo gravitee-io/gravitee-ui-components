@@ -1,4 +1,4 @@
-import { setCustomElements } from '@storybook/web-components';
+import { setCustomElementsManifest } from '@storybook/web-components-vite';
 import '../assets/css/gravitee-theme.generated.css';
 import '../assets/css/documentation.css';
 import { defaultLanguages, i18nDecorator, languages } from '../testing/lib/i18n-decorator';
@@ -31,25 +31,26 @@ Array.from(new Array(10)).map((_, i) => {
   };
 });
 
-const KIND_SORT = ['welcome', 'documentation', 'atoms', 'molecules', 'organisms', 'charts', 'policy'];
-
 export const parameters = {
-  options: {
-    docs: {
+  docs: {
+    story: {
       iframeHeight: '200px',
-      inlineStories: false,
+      inline: false,
     },
-    showPanel: true,
+  },
+  options: {
+    // Storybook evaluates this function in isolation, so it cannot close over anything defined in this module.
     storySort: (a, b) => {
-      if (a[1].kind !== b[1].kind) {
-        const aKind = KIND_SORT.indexOf(a[1].id.split('-')[0]) + a[1].kind;
-        const bKind = KIND_SORT.indexOf(b[1].id.split('-')[0]) + b[1].kind;
+      const kindSort = ['welcome', 'documentation', 'atoms', 'molecules', 'organisms', 'charts', 'policy'];
+      if (a.title !== b.title) {
+        const aKind = kindSort.indexOf(a.id.split('-')[0]) + a.title;
+        const bKind = kindSort.indexOf(b.id.split('-')[0]) + b.title;
         return aKind.localeCompare(bKind, undefined, { numeric: true });
       }
       return -1;
     },
   },
-  viewport: { viewports },
+  viewport: { options: viewports },
   // Set a default delay, to have input's validation messages properly displayed
   chromatic: { delay: 50 },
 };
@@ -63,4 +64,4 @@ customElements.tags.forEach((tagDefinition) => {
   (tagDefinition.properties || []).forEach((def) => addDefaultValue(def));
 });
 
-setCustomElements(customElements);
+setCustomElementsManifest(customElements);

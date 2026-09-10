@@ -32,7 +32,9 @@ export default {
   component: 'gv-design',
   parameters: {
     options: {
-      showPanel: false,
+      layout: {
+        showPanel: false,
+      },
     },
     // DO NOT REACTIVATE a11y on these stories for now as the a11y checks are taking forever to run
     a11y: { disable: true },
