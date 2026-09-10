@@ -16,7 +16,7 @@
 import { LitElement } from 'lit';
 import '../../atoms/gv-button';
 import '../../atoms/gv-tag';
-import Highcharts from 'highcharts';
+import Highcharts from 'highcharts/esm/highcharts';
 import { ChartElement } from '../../mixins/chart-element';
 import { dispatchCustomEvent } from '../../lib/events';
 import { getLanguage } from '../../lib/i18n';

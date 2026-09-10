@@ -2889,7 +2889,7 @@ __metadata:
     fs-extra: 11.4.0
     github-markdown-css: 5.9.0
     glob: 13.0.6
-    highcharts: 10.3.3
+    highcharts: 13.0.2
     highlight.js: 11.12.0
     html-to-react: 1.7.0
     husky: 9.1.7
@@ -2924,7 +2924,7 @@ __metadata:
     "@highcharts/map-collection": ^1.0.0 || ^2.0.0
     asciidoctor: ^3.0.2
     asciidoctor-highlight.js: ^0.3.0 || ^0.4.0
-    highcharts: ^8.0.0 || ^9.0.0 || ^10.0.0
+    highcharts: ^13.0.0
     highlight.js: ^10.7.0 || ^11.1.0
   peerDependenciesMeta:
     "@asciidoctor/core":
@@ -9429,10 +9429,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highcharts@npm:10.3.3":
-  version: 10.3.3
-  resolution: "highcharts@npm:10.3.3"
-  checksum: f40690109486fdada407cdc94f257dd869ebbcdd0c7ac4c7b85021c087523b4c32ea88725dce5f1b490c9669573240e17622c4765366ed4c38ff2b2503f092e9
+"highcharts@npm:13.0.2":
+  version: 13.0.2
+  resolution: "highcharts@npm:13.0.2"
+  peerDependencies:
+    jspdf: ^4.1.0
+    svg2pdf.js: ^2.7.0
+  peerDependenciesMeta:
+    jspdf:
+      optional: true
+    svg2pdf.js:
+      optional: true
+  checksum: bdc5bcfe00bd691e4c89bc75914e66efd7785bfb9fa58734e9b45419ae2c903d4e4067118afdd1dc0c06e2f8613f932a3cfb222785155e83be5db3234ecb005a
   languageName: node
   linkType: hard
 

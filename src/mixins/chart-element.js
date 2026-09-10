@@ -15,8 +15,11 @@
  */
 import { html, css } from 'lit';
 import { i18n } from '../lib/i18n';
-import Highcharts from 'highcharts';
-import Highmaps from 'highcharts/highmaps';
+// Highcharts modules register themselves against the instance they import, so everything here goes
+// through the same ESM entry point: mixing it with the UMD build gives two instances that ignore
+// each other's modules.
+import Highcharts from 'highcharts/esm/highcharts';
+import 'highcharts/esm/modules/map';
 import { cache } from 'lit/directives/cache.js';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
 
@@ -155,11 +158,7 @@ export function ChartElement(ParentClass) {
         }
 
         setTimeout(() => {
-          if (options.chart.map) {
-            this._chart = Highmaps.mapChart(container, options);
-          } else {
-            this._chart = Highcharts.chart(container, options);
-          }
+          this._chart = options.chart.map ? Highcharts.mapChart(container, options) : Highcharts.chart(container, options);
         });
       }
 
