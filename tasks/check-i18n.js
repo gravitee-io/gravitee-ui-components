@@ -19,11 +19,9 @@ const en = require('../assets/i18n/en.json');
 const fr = require('../assets/i18n/fr.json');
 
 const fs = require('fs-extra');
-const rawGlob = require('glob');
-const util = require('util');
+const { glob } = require('glob');
 const { extractFromCode } = require('i18n-extract');
 
-const glob = util.promisify(rawGlob);
 const translationsByLang = { en, fr };
 
 async function getUsedKeys(sourceFilepaths) {

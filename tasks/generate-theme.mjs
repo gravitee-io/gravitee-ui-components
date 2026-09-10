@@ -15,10 +15,8 @@
  */
 import { deleteAsync } from 'del';
 import { appendFile, copyFile, mkdir, readFile } from 'fs/promises';
+import { glob } from 'glob';
 import { analyzeText, transformAnalyzerResult } from 'web-component-analyzer';
-const rawGlob = require('glob');
-const util = require('util');
-const glob = util.promisify(rawGlob);
 const themeFilepath = 'src/theme/definition.json';
 const cssFilepath = 'assets/css/gravitee-theme.generated.css';
 
@@ -129,7 +127,8 @@ async function run() {
       delete element.cssProperties;
       return element;
     })
-    .reverse();
+    // Sorted by name so the generated definition does not depend on the order the sources are globbed in.
+    .sort((element, other) => element.name.localeCompare(other.name));
 
   /** Generate Theme **/
   const theme = gvThemeProperties.map((property) => {

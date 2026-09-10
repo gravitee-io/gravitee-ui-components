@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 const fs = require('fs-extra');
-const rawGlob = require('glob');
-const util = require('util');
-const { optimize, extendDefaultPlugins } = require('svgo');
+const { glob } = require('glob');
+const { optimize } = require('svgo');
 const svgstore = require('svgstore');
 
-const glob = util.promisify(rawGlob);
+// SVGO dropped `extendDefaultPlugins`: the default set is now the `preset-default` plugin.
 const svgoConfig = {
-  plugins: extendDefaultPlugins([
+  plugins: [
+    'preset-default',
     'removeXMLNS',
     'removeDimensions',
     {
@@ -30,11 +30,11 @@ const svgoConfig = {
         attrs: '(svg|path|rect):fill:.*',
       },
     },
-  ]),
+  ],
 };
 
 const svgoThirdPartyConfig = {
-  plugins: extendDefaultPlugins(['removeXMLNS', 'removeDimensions']),
+  plugins: ['preset-default', 'removeXMLNS', 'removeDimensions'],
 };
 const iconsByShape = {};
 
@@ -63,7 +63,7 @@ async function run() {
     for (const iconId in icons) {
       store.add(iconId, icons[iconId]);
     }
-    await fs.writeFile(`assets/icons/${shapeId}.svg`, store);
+    await fs.writeFile(`assets/icons/${shapeId}.svg`, store.toString());
   }
 }
 
