@@ -16,6 +16,7 @@
 import { css, LitElement, html } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import '../../atoms/gv-relative-time';
+import '../../atoms/gv-text';
 import '../../molecules/gv-identity-picture';
 import '../../molecules/gv-rating';
 import '../../molecules/gv-confirm';
