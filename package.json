@@ -97,7 +97,7 @@
     "@storybook/addon-docs": "10.6.0",
     "@storybook/web-components-vite": "10.6.0",
     "babel-jest": "30.5.1",
-    "babel-plugin-transform-import-meta": "2.3.3",
+    "babel-plugin-transform-import-meta": "3.0.0",
     "chromatic": "18.7.4",
     "danger": "14.0.7",
     "del": "8.0.1",
