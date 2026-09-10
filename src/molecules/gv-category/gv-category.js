@@ -19,6 +19,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
 import { i18n } from '../../lib/i18n';
 import { withSkeletonAttribute } from '../../mixins/with-skeleton-attribute';
+import '../gv-identity-picture';
 
 /**
  * A card used to display a category

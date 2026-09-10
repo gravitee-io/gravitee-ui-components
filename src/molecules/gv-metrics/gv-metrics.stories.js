@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import './gv-metrics';
+import '../gv-rating';
 import { makeStory, storyWait } from '../../../testing/lib/make-story';
 
 export default {

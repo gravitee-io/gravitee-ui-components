@@ -16,6 +16,7 @@
 import './gv-autocomplete';
 import '../gv-input';
 import '../gv-image';
+import '../gv-button';
 import { makeStory } from '../../../testing/lib/make-story';
 import picture from '../../../assets/images/avatar.png';
 

@@ -20,6 +20,9 @@ import { classMap } from 'lit/directives/class-map.js';
 import { skeleton } from '../../styles/skeleton';
 import { UpdateAfterBrowser } from '../../mixins/update-after-browser';
 import { untilSettled } from '../../lib/updates';
+import '../../atoms/gv-button';
+import '../../molecules/gv-expandable';
+import '../gv-schema-form-control';
 
 /**
  * Schema form array component

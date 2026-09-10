@@ -19,6 +19,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { link } from '../../styles/link';
 import { dispatchCustomEvent } from '../../lib/events';
 import { i18n } from '../../lib/i18n';
+import '../../atoms/gv-icon';
 
 /**
  * Stepper component

@@ -19,6 +19,9 @@ import { dispatchCustomEvent } from '../../lib/events';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { i18n } from '../../lib/i18n';
 import { classMap } from 'lit/directives/class-map.js';
+import '../gv-button';
+import '../gv-icon';
+import '../gv-image';
 
 /**
  * File upload

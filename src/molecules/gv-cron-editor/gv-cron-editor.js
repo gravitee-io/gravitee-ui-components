@@ -17,6 +17,8 @@ import '../../atoms/gv-date-picker';
 import '../../organisms/gv-tabs';
 import '../../atoms/gv-input';
 import '../../atoms/gv-tag';
+import '../../atoms/gv-checkbox';
+import '../../atoms/gv-select';
 import { css, LitElement, html } from 'lit';
 import { skeleton } from '../../styles/skeleton';
 import { InputElement } from '../../mixins/input-element';

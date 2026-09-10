@@ -15,6 +15,7 @@
  */
 
 import './gv-row-expandable';
+import '../../atoms/gv-state';
 import { makeStory } from '../../../testing/lib/make-story';
 
 const conf = {

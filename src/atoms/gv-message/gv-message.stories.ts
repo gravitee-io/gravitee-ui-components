@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import './gv-message';
+import '../gv-button';
 import { makeStory } from '../../../testing/lib/make-story';
 
 export default {

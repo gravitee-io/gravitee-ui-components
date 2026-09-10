@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import '../gv-date-picker-calendar';
+import '../gv-input';
 import { cs, enUS, fr, it } from 'date-fns/locale';
 import { format, getMonth, getYear, parse } from 'date-fns';
 import { classMap } from 'lit/directives/class-map.js';

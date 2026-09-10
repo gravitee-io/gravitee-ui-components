@@ -18,6 +18,9 @@ import { dispatchCustomEvent } from '../../lib/events';
 import { toDom } from '../../lib/text-format';
 import { empty } from '../../styles/empty';
 import { classMap } from 'lit/directives/class-map.js';
+import '../../atoms/gv-button';
+import '../../atoms/gv-icon';
+import '../../atoms/gv-image';
 
 /**
  *  Documentation component

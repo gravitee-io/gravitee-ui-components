@@ -15,6 +15,8 @@
  */
 import { css, html, LitElement } from 'lit';
 import { dispatchCustomEvent } from '../../lib/events';
+import '../../atoms/gv-button';
+import '../../atoms/gv-input';
 
 /**
  * The newsletter subscription page

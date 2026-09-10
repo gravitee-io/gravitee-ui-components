@@ -19,6 +19,7 @@ import { LitElement, html, css } from 'lit';
 import { skeleton } from '../../styles/skeleton';
 import { dispatchCustomEvent } from '../../lib/events';
 import { InputElement } from '../../mixins/input-element';
+import '../gv-icon';
 
 /**
  * A wrapper of a <checkbox> component.

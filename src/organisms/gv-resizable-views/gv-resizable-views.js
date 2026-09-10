@@ -16,6 +16,8 @@
 import { css, LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
+import '../../atoms/gv-button';
+import '../../atoms/gv-icon';
 
 /**
  * Resizable views component

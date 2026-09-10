@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import './gv-user-menu';
+import '../../molecules/gv-identity-picture';
 import bigImage from '../../../assets/images/gravitee-logo-cyan.svg';
 import avatarSrc from '../../../assets/images/avatar.png';
 import { makeStory, storyWait } from '../../../testing/lib/make-story';

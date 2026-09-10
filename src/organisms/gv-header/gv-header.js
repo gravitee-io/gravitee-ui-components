@@ -16,6 +16,7 @@
 import { css, html, LitElement } from 'lit';
 import '../../atoms/gv-button';
 import '../../atoms/gv-tag';
+import '../../atoms/gv-link';
 import { i18n } from '../../lib/i18n';
 import { isSameRoutes } from '../../lib/utils';
 import { repeat } from 'lit/directives/repeat.js';

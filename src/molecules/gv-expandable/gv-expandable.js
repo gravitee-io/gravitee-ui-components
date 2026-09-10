@@ -17,6 +17,7 @@ import { css, html, LitElement } from 'lit';
 import { link } from '../../styles/link';
 import { classMap } from 'lit/directives/class-map.js';
 import { dispatchCustomEvent } from '../../lib/events';
+import '../../atoms/gv-icon';
 
 /**
  * Expandable component
