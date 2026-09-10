@@ -16,7 +16,7 @@
 import { getLanguage, getAvailableLanguages } from '../../lib/i18n';
 import { LitElement, html } from 'lit';
 import { until } from 'lit/directives/until.js';
-import { shouldPolyfill as shouldPolyfillIntlRelativeTimeFormat } from '@formatjs/intl-relativetimeformat/should-polyfill';
+import { shouldPolyfill as shouldPolyfillIntlRelativeTimeFormat } from '@formatjs/intl-relativetimeformat/should-polyfill.js';
 
 const options = {
   year: 'numeric',
@@ -69,8 +69,8 @@ export class GvRelativeTime extends LitElement {
         return this._formatter;
       } else {
         // Load the needed polyfills 1st BEFORE loading data
-        return import('@formatjs/intl-locale/polyfill')
-          .then(() => import('@formatjs/intl-relativetimeformat/polyfill'))
+        return import('@formatjs/intl-locale/polyfill.js')
+          .then(() => import('@formatjs/intl-relativetimeformat/polyfill.js'))
           .then(() =>
             Promise.all([
               ...Object.values(getAvailableLanguages()).map((_lang) => {
@@ -79,7 +79,7 @@ export class GvRelativeTime extends LitElement {
                   /* webpackInclude: /(en|fr|cs)\.js$/ */
                   /* webpackMode: "lazy-once" */
                   /* webpackChunkName: "intl-relativetimeformat-locale-data" */
-                  `@formatjs/intl-relativetimeformat/locale-data/${_lang}`
+                  `@formatjs/intl-relativetimeformat/locale-data/${_lang}.js`
                 );
               }),
             ]),
