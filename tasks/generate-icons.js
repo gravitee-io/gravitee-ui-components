@@ -39,7 +39,8 @@ const svgoThirdPartyConfig = {
 const iconsByShape = {};
 
 async function run() {
-  const svgFilepaths = await glob('.files/icons/**/*.svg');
+  // Sorted so the generated sprites do not depend on the order the sources are globbed in.
+  const svgFilepaths = (await glob('.files/icons/**/*.svg')).sort((path, other) => path.localeCompare(other));
   for (const src of svgFilepaths) {
     const relativePath = src.replace('.files/icons/', '');
     const [category, filename] = relativePath.split('/');
