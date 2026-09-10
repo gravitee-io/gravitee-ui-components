@@ -47,14 +47,15 @@ export class GvChartMap extends ChartElement(LitElement) {
     if (this.options.zone) {
       const zone = this.options.zone.toLowerCase();
       key = 'name';
-      map = await import('@highcharts/map-collection/countries/' + zone.substring(0, 2) + '/' + zone + '-all.geo.json');
+      map = await import(`@highcharts/map-collection/countries/${zone.substring(0, 2)}/${zone}-all.geo.json`);
     } else {
       key = 'hc-key';
-      map = await import('@highcharts/map-collection/custom/world.geo.json');
+      map = await import(`@highcharts/map-collection/custom/world.geo.json`);
     }
     return {
       chart: {
-        map,
+        // Bundlers expose a JSON module either as its namespace or through its default export.
+        map: map.default || map,
       },
       mapNavigation: {
         enabled: true,
@@ -70,7 +71,7 @@ export class GvChartMap extends ChartElement(LitElement) {
         stops: [
           [0, '#EFEFFF'],
           [0.5, Highcharts.getOptions().colors[0]],
-          [1, Highcharts.Color(Highcharts.getOptions().colors[0]).brighten(-0.5).get()],
+          [1, Highcharts.color(Highcharts.getOptions().colors[0]).brighten(-0.5).get()],
         ],
       },
       series: [
