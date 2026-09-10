@@ -15,11 +15,11 @@
  */
 import { html, css } from 'lit';
 import { i18n } from '../lib/i18n';
-// Highcharts modules register themselves against the instance they import, so everything here goes
-// through the same ESM entry point: mixing it with the UMD build gives two instances that ignore
-// each other's modules.
-import Highcharts from 'highcharts/esm/highcharts';
-import 'highcharts/esm/modules/map';
+// The default entry point, and its UMD modules, so that a host importing `highcharts` gets the very
+// instance these charts draw with: `highcharts` has no `exports` map, and its ESM build is a
+// separate object that would silently ignore the host's `setOptions`.
+import Highcharts from 'highcharts';
+import 'highcharts/modules/map';
 import { cache } from 'lit/directives/cache.js';
 import { withSkeletonAttribute } from './with-skeleton-attribute';
 
