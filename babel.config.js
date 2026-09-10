@@ -17,7 +17,7 @@ module.exports = (api) => {
       ],
       plugins: [
         '@babel/plugin-transform-typescript',
-        ['@babel/plugin-proposal-decorators', { legacy: true }],
+        ['@babel/plugin-proposal-decorators', { version: 'legacy' }],
         ['@babel/plugin-transform-class-properties', { loose: true }],
         ['@babel/plugin-transform-private-property-in-object', { loose: true }],
       ],
