@@ -15,9 +15,9 @@
  */
 import { LitElement } from 'lit';
 import { ChartElement } from '../../mixins/chart-element';
-import ChartModuleMore from 'highcharts/highcharts-more';
-import Highcharts from 'highcharts';
-import HCSolidGauge from 'highcharts/modules/solid-gauge';
+// Highcharts modules register themselves on import: they are no longer factories to call.
+import 'highcharts/esm/highcharts-more';
+import 'highcharts/esm/modules/solid-gauge';
 
 /**
  * Gauge chart component
@@ -32,12 +32,6 @@ import HCSolidGauge from 'highcharts/modules/solid-gauge';
  * @attr {Object} pane - The pane serves as a container for axes and backgrounds for circular gauges and polar charts.
  */
 export class GvChartGauge extends ChartElement(LitElement) {
-  constructor() {
-    super();
-    ChartModuleMore(Highcharts);
-    HCSolidGauge(Highcharts);
-  }
-
   static get properties() {
     return {
       /** @required */
