@@ -38,7 +38,11 @@ async function run() {
   await deleteAsync(['assets/css/github-markdown-css', 'assets/css/highlight.js']);
   await mkdir('assets/css/github-markdown-css');
   await mkdir('assets/css/highlight.js');
-  await copyFile('node_modules/github-markdown-css/github-markdown.css', 'assets/css/github-markdown-css/github-markdown.css');
+  // The light variant rather than the default one, which carries a `prefers-color-scheme: dark`
+  // block: `gv-documentation` links this stylesheet into its shadow root, where media queries still
+  // apply, so a host on a dark operating system would get dark documentation pages inside an
+  // otherwise light application.
+  await copyFile('node_modules/github-markdown-css/github-markdown-light.css', 'assets/css/github-markdown-css/github-markdown.css');
   await copyFile('node_modules/highlight.js/styles/github.css', 'assets/css/highlight.js/github.css');
 
   const sourceFilepaths = await glob('./src/**/*.{js,ts}', {
