@@ -66,7 +66,7 @@
     "dompurify": "3.4.15",
     "jdenticon": "^3.1.0",
     "jsonschema": "1.4.1",
-    "lit": "^2.0.2",
+    "lit": "3",
     "object-path": "^0.11.8",
     "resize-observer-polyfill": "^1.5.1",
     "whatwg-fetch": "^3.6.17"
@@ -115,7 +115,6 @@
     "jest-environment-jsdom": "30.5.1",
     "license-check-and-add": "4.0.5",
     "lint-staged": "17.5.0",
-    "lit-html": "2.6.1",
     "markdown-it": "15.0.1",
     "marked": "15.0.12",
     "node-static": "0.7.11",
