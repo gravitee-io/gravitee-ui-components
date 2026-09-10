@@ -22,9 +22,9 @@ import { classMap } from 'lit/directives/class-map.js';
 /**
  *  Documentation component
  *
- * ⚠️ This component is based on `asciidoctor`, `highlight.js` and `asciidoctor-highlight.js`.
+ * ⚠️ This component is based on `@asciidoctor/core` and `highlight.js`.
  * To use this component in your project be sure the dependencies are installed or
- * install them with: `npm install asciidoctor highlight.js asciidoctor-highlight.js --save`
+ * install them with: `npm install @asciidoctor/core highlight.js --save`
  *
  * @attr {String} text - Documentation content
  * @attr {String} type - Type of content
