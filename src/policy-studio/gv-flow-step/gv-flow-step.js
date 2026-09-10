@@ -285,7 +285,9 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
 
         :host([hover]) .drop-area {
           transform: translateY(-4px);
-          box-shadow: 0 0 0 1px #5a7684, 0 1px 3px #5a7684;
+          box-shadow:
+            0 0 0 1px #5a7684,
+            0 1px 3px #5a7684;
           border-color: transparent;
         }
 
@@ -296,7 +298,9 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
         :host([editing]) .drop-area {
           border-color: #5a7684;
           transform: translateY(-4px);
-          box-shadow: 0 0 0 1px #5a7684, 0 1px 3px #5a7684;
+          box-shadow:
+            0 0 0 1px #5a7684,
+            0 1px 3px #5a7684;
           transition: all 0.2s;
         }
 
@@ -350,7 +354,11 @@ export class GvFlowStep extends withResizeObserver(LitElement) {
           flex-direction: column;
           --gv-button--fz: 11px;
           flex: 1;
-          transition: color 150ms ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
+          transition:
+            color 150ms ease-in-out,
+            transform 0.3s ease-in-out,
+            box-shadow 0.3s ease-in-out,
+            border 0.3s ease-in-out;
           background-color: white;
         }
 

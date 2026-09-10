@@ -537,15 +537,15 @@ export class GvTable extends withResizeObserver(LitElement) {
             skeleton: this._skeleton,
             selected: this._isSelected(item),
           })} style=${styleMap({
-                ...styleGridColumns,
-                ...{
-                  height: this.rowheight,
-                  'grid-auto-rows': this.rowheight ? null : 'minmax(80px, auto)',
-                  cursor: this.options.selectable ? 'pointer' : '',
-                  'border-color': this.options.selectable && this._isSelected(item) ? 'var(--selected--bgc)' : '',
-                  'column-gap': 'var(--gv-table--colmg, 0.2rem)',
-                },
-              })}
+            ...styleGridColumns,
+            ...{
+              height: this.rowheight,
+              'grid-auto-rows': this.rowheight ? null : 'minmax(80px, auto)',
+              cursor: this.options.selectable ? 'pointer' : '',
+              'border-color': this.options.selectable && this._isSelected(item) ? 'var(--selected--bgc)' : '',
+              'column-gap': 'var(--gv-table--colmg, 0.2rem)',
+            },
+          })}
             @click="${this._onSelect.bind(this, item)}"
             @mouseenter="${this._onMouseEnter.bind(this, item)}">
             ${

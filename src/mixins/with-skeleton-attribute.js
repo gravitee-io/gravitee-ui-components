@@ -77,9 +77,12 @@ export function withSkeletonAttribute(ParentClass) {
           .then((value) => {
             clearTimeout(timer);
             if (end && end - start < minimumTimeOfSkeleton) {
-              setTimeout(() => {
-                this[this._skeletonAttribute] = value;
-              }, minimumTimeOfSkeleton - (end - start));
+              setTimeout(
+                () => {
+                  this[this._skeletonAttribute] = value;
+                },
+                minimumTimeOfSkeleton - (end - start),
+              );
             } else {
               this._invisible = value === undefined;
               this._skeleton = value === null;
@@ -96,9 +99,12 @@ export function withSkeletonAttribute(ParentClass) {
           .catch((err) => {
             clearTimeout(timer);
             if (end && end - start < minimumTimeOfSkeleton) {
-              setTimeout(() => {
-                this[this._skeletonAttribute] = Promise.reject(err);
-              }, minimumTimeOfSkeleton - (end - start));
+              setTimeout(
+                () => {
+                  this[this._skeletonAttribute] = Promise.reject(err);
+                },
+                minimumTimeOfSkeleton - (end - start),
+              );
             } else {
               this._error = true;
               this._skeleton = false;

@@ -112,7 +112,12 @@ export class GvPolicyStudioMenu extends LitElement {
         .expandable {
           background: #fff;
           overflow: hidden;
-          transition: height, opacity, width, padding, color 0.25s ease-in-out;
+          transition:
+            height,
+            opacity,
+            width,
+            padding,
+            color 0.25s ease-in-out;
           line-height: 0;
           color: transparent;
           box-sizing: border-box;
@@ -546,37 +551,36 @@ export class GvPolicyStudioMenu extends LitElement {
       ${repeat(
         filteredData,
         () => uuid(),
-        (content, index) =>
-          html`
+        (content, index) => html`
+          <div
+            draggable="${this.sortable && !this.disabled && !readonlyForFlow}"
+            tabindex="0"
+            @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
+            @dragenter="${this._onDragEnterFlow}"
+            @dragend="${this._onDragEndFlow}"
+            @dragover="${this._onDragOverFlow}"
+            @keydown="${this._onKeyDownFlow.bind(this, index)}"
+            @mouseenter="${this._onMouseEnterFlow}"
+            @mouseleave="${this._onMouseLeaveFlow}"
+            class="${classMap({
+              entry: true,
+              flow: true,
+              sortable: this.sortable && !this.disabled && !readonlyForFlow,
+              selected: this.selectedIds.includes(content._id),
+              child: isChild,
+              disabled: content.enabled === false,
+            })}"
+          >
             <div
-              draggable="${this.sortable && !this.disabled && !readonlyForFlow}"
-              tabindex="0"
-              @dragstart="${this._onDragStartFlow.bind(this, content, index)}"
-              @dragenter="${this._onDragEnterFlow}"
-              @dragend="${this._onDragEndFlow}"
-              @dragover="${this._onDragOverFlow}"
-              @keydown="${this._onKeyDownFlow.bind(this, index)}"
-              @mouseenter="${this._onMouseEnterFlow}"
-              @mouseleave="${this._onMouseLeaveFlow}"
-              class="${classMap({
-                entry: true,
-                flow: true,
-                sortable: this.sortable && !this.disabled && !readonlyForFlow,
-                selected: this.selectedIds.includes(content._id),
-                child: isChild,
-                disabled: content.enabled === false,
-              })}"
+              title="${content.name} | Compare with current selection (Shift + click)"
+              @click="${this._onClickFlow.bind(this, content)}"
+              class="entry-name link"
             >
-              <div
-                title="${content.name} | Compare with current selection (Shift + click)"
-                @click="${this._onClickFlow.bind(this, content)}"
-                class="entry-name link"
-              >
-                ${getFlowTitle(content, null, true, this.sortable && !readonlyForFlow, true)}
-              </div>
-              ${this._renderFlowActions(content, this.readonly || readonlyForFlow)}
+              ${getFlowTitle(content, null, true, this.sortable && !readonlyForFlow, true)}
             </div>
-          `,
+            ${this._renderFlowActions(content, this.readonly || readonlyForFlow)}
+          </div>
+        `,
       )}
     </div> `;
   }

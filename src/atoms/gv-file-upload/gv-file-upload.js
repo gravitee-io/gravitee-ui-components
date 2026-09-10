@@ -69,7 +69,9 @@ export class GvFileUpload extends LitElement {
           display: block;
           border: 1px dashed #28444f;
           border-radius: 4px;
-          transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear;
+          transition:
+            outline-offset 0.15s ease-in-out,
+            background-color 0.15s linear;
           height: 100%;
         }
 

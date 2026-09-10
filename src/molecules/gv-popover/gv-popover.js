@@ -82,7 +82,9 @@ export class GvPopover extends LitElement {
           top: calc(100% + 0.4rem);
           transform: translateX(-50%);
           left: 50%;
-          box-shadow: 1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5), 0 2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          box-shadow:
+            1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5),
+            0 2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
         }
 
         :host([position='bottom'][arrow]) .popover {
@@ -99,7 +101,9 @@ export class GvPopover extends LitElement {
           bottom: calc(100% + 0.4rem);
           transform: translateX(-50%);
           left: 50%;
-          box-shadow: 1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5), 0 -2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          box-shadow:
+            1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5),
+            0 -2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
         }
 
         :host([position='top'][arrow]) .popover {
@@ -116,7 +120,9 @@ export class GvPopover extends LitElement {
           top: 50%;
           transform: translateY(-50%);
           right: calc(100% + 0.4rem);
-          box-shadow: -1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5), -1px 2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          box-shadow:
+            -1px 0 0 0 var(--gv-theme-neutral-color, #f5f5f5),
+            -1px 2px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
         }
 
         :host([position='left'][arrow]) .popover {
@@ -133,7 +139,9 @@ export class GvPopover extends LitElement {
           top: 50%;
           transform: translateY(-50%);
           left: calc(100% + 0.4rem);
-          box-shadow: 1px 0 0 1px var(--gv-theme-neutral-color, #f5f5f5), 1px 1px 1px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          box-shadow:
+            1px 0 0 1px var(--gv-theme-neutral-color, #f5f5f5),
+            1px 1px 1px var(--gv-theme-neutral-color-dark, #bfbfbf);
         }
 
         :host([position='right'][arrow]) .popover {
