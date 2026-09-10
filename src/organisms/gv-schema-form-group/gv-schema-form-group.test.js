@@ -31,7 +31,7 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     component = page.create('gv-schema-form-group', {
       schema: mixed,
     });
-    await awaitControls(component);
+    await component.updateComplete;
   });
 
   afterEach(() => {
@@ -60,15 +60,6 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     'whitelistClientCertificates',
   ];
 
-  // `updated()` pushes the values down to the nested controls after `updateComplete` has already
-  // resolved, so every level has to be awaited on its own.
-  const awaitControls = async (element) => {
-    await element.updateComplete;
-    if (typeof element.getControls === 'function') {
-      await Promise.all(element.getControls().map(awaitControls));
-    }
-  };
-
   const checkControl = (id, attributes = []) => {
     const ids = id.split('.');
     const acc = [];
@@ -96,7 +87,7 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     expect(window.customElements.get('gv-schema-form-group')).toBeDefined();
     expect(component).toEqual(querySelector('gv-schema-form-group'));
 
-    await awaitControls(component);
+    await component.updateComplete;
 
     expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
@@ -134,7 +125,7 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     };
 
     component.requestUpdate();
-    await awaitControls(component);
+    await component.updateComplete;
 
     expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
@@ -162,7 +153,7 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     };
     component.requestUpdate();
 
-    await awaitControls(component);
+    await component.updateComplete;
 
     expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
@@ -178,7 +169,7 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     };
     component.requestUpdate();
 
-    await awaitControls(component);
+    await component.updateComplete;
 
     expect(component.getControls().map((e) => e.id)).toEqual(mixedControls);
 
@@ -202,7 +193,7 @@ describe('S C H E M A  F O R M  G R O U P', () => {
       attributes: [{ name: 'foo', value: '' }, {}],
     };
 
-    await awaitControls(component);
+    await component.updateComplete;
 
     checkControl('body', { value: '<xml></xml>' });
     checkControl('path-operator', { value: { operator: 'Fake value', path: 'not a path' } });

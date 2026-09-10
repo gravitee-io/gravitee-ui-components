@@ -299,7 +299,10 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
 
   async updated(changedProperties) {
     if (changedProperties.has('value')) {
-      Promise.all(this.getControls().map((control) => control.updateComplete)).then(() => {
+      // Lit ignores whatever `updated` returns, so the propagation is held for `getUpdateComplete`
+      // to await: on its own it would land at an unpredictable time, after the element has told
+      // everyone it was up to date.
+      this._valuePropagation = Promise.all(this.getControls().map((control) => control.updateComplete)).then(() => {
         this._setValue(this.getControl());
       });
     }
@@ -308,6 +311,7 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
   async getUpdateComplete() {
     await super.getUpdateComplete();
     await Promise.all(this.getControls().map((e) => e.updateComplete));
+    await this._valuePropagation;
   }
 
   formatErrorMessage(error) {
