@@ -48,7 +48,7 @@ describe('B U T T O N', () => {
 
       component.click();
 
-      expect(mockFn).toBeCalled();
+      expect(mockFn).toHaveBeenCalled();
     });
   });
 
@@ -75,7 +75,7 @@ describe('B U T T O N', () => {
 
       component.click();
 
-      expect(mockFn).toBeCalled();
+      expect(mockFn).toHaveBeenCalled();
     });
   });
 });

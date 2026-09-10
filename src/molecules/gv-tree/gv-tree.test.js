@@ -72,6 +72,6 @@ describe('<gv-tree>', () => {
     component._onClick(folder2);
 
     expect(component.items[3].expanded).toEqual(true);
-    expect(requestUpdateSpy).toBeCalled();
+    expect(requestUpdateSpy).toHaveBeenCalled();
   });
 });
