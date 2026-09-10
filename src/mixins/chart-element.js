@@ -146,6 +146,10 @@ export function ChartElement(ParentClass) {
           })
           .catch((err) => {
             console.warn(err);
+            // A chart that cannot build its options says so, rather than leaving a skeleton behind.
+            this._error = true;
+            this._skeleton = false;
+            this._empty = false;
           });
       }
     }
