@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable no-useless-escape */
+
 export const policyCalloutReadme = `= Callout Policy
 ## Overview
 You can use the \`callout-http\` policy to invoke an HTTP(S) URL and place a subset or all of the content in

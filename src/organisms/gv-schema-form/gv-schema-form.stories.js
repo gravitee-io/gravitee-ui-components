@@ -250,7 +250,6 @@ async function fetchSchema(autocomplete, nextBtn, policyName = null, branch = 'm
   const schemaName = policyName === 'gravitee-policy-groovy' ? 'policy-schema-form' : 'schema-form';
   const url = `https://raw.githubusercontent.com/gravitee-io/${names.join('/')}/src/main/resources/schemas/${schemaName}.json`;
 
-  // eslint-disable-next-line no-undef
   fetch(url)
     .then((response) => {
       return response.json();
@@ -277,7 +276,6 @@ async function fetchSchema(autocomplete, nextBtn, policyName = null, branch = 'm
       }
     })
     .catch((ex) => {
-      // eslint-disable-next-line no-console
       console.error(`[ui-components] cannot load policy ${policyName}`, ex);
       if (form) {
         policies = policies.map((policy, index) => {

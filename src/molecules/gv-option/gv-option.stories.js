@@ -55,7 +55,7 @@ export const Description = makeStory(conf, {
 export const Multiple = makeStory(conf, {
   items: [
     {
-      options: options.map((p, i) => Promise.resolve({ ...p, description: description })),
+      options: options.map((p, i) => Promise.resolve({ ...p, description })),
       value: ['cap', 'shorts'],
       multiple: true,
     },
@@ -71,7 +71,7 @@ const withoutIconOptions = [
 export const NoIcon = makeStory(conf, {
   items: [
     {
-      options: withoutIconOptions.map((p) => Promise.resolve({ ...p, description: description })),
+      options: withoutIconOptions.map((p) => Promise.resolve({ ...p, description })),
       value: 'cap',
     },
   ],

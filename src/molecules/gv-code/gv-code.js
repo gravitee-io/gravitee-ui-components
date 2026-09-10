@@ -178,7 +178,7 @@ export class GvCode extends GvInput {
     this._editorView = new EditorView({
       root: this.shadowRoot,
       parent,
-      state: state,
+      state,
       dispatch: (transaction) => {
         try {
           this._editorView.update([transaction]);

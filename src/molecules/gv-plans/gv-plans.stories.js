@@ -44,7 +44,7 @@ const conf = {
 };
 
 export const basicUsage = makeStory(conf, {
-  items: [{ plans: plans }],
+  items: [{ plans }],
 });
 
 export const onePlan = makeStory(conf, {

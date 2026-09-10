@@ -54,7 +54,7 @@ export class GvChartBar extends ChartElement(LitElement) {
       },
       series: total === 0 ? [] : [this.options],
       xAxis: {
-        categories: categories,
+        categories,
       },
       legend: {
         enabled: false,
