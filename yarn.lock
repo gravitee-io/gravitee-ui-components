@@ -1310,7 +1310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-private-methods@npm:^8.0.1":
+"@babel/plugin-transform-private-methods@npm:8.0.1, @babel/plugin-transform-private-methods@npm:^8.0.1":
   version: 8.0.1
   resolution: "@babel/plugin-transform-private-methods@npm:8.0.1"
   dependencies:
@@ -1624,7 +1624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/template@npm:^7.29.7":
+"@babel/template@npm:^7.25.9, @babel/template@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/template@npm:7.29.7"
   dependencies:
@@ -2817,6 +2817,7 @@ __metadata:
     "@babel/core": 8.0.1
     "@babel/plugin-proposal-decorators": 8.0.2
     "@babel/plugin-transform-class-properties": 8.0.1
+    "@babel/plugin-transform-private-methods": 8.0.1
     "@babel/plugin-transform-private-property-in-object": 8.0.1
     "@babel/plugin-transform-typescript": 8.0.1
     "@babel/preset-env": 8.0.2
@@ -2842,6 +2843,7 @@ __metadata:
     "@storybook/addon-docs": 10.6.0
     "@storybook/web-components-vite": 10.6.0
     babel-jest: 30.5.1
+    babel-plugin-transform-import-meta: 2.3.3
     chromatic: 18.7.4
     clipboard-copy: ^4.0.0
     codemirror: ^6.0.2
@@ -2862,7 +2864,6 @@ __metadata:
     glob: 13.0.6
     highcharts: 13.0.2
     highlight.js: 11.12.0
-    html-to-react: 1.7.0
     husky: 9.1.7
     i18n-extract: 0.6.7
     is-ci: 4.1.0
@@ -2873,7 +2874,6 @@ __metadata:
     license-check-and-add: 4.0.5
     lint-staged: 17.5.1
     lit: ^3.3.3
-    markdown-it: 15.0.1
     marked: ^18.0.12
     node-static: 0.7.11
     object-path: ^0.11.8
@@ -5874,13 +5874,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argparse@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "argparse@npm:3.0.1"
-  checksum: d31241a2782572191b222da4b8aec0ff29e50fb73be4292de70bc59a8fe9476a3e48a50b9690b60f7b5385df4f810041d64cbea120d821de5a0f38d183a7de79
-  languageName: node
-  linkType: hard
-
 "argue-cli@npm:^3.1.0":
   version: 3.2.0
   resolution: "argue-cli@npm:3.2.0"
@@ -6108,6 +6101,18 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0
   checksum: b3bef42e34a5aadd8e533497ceddf035da501df93e23ac3f374b96ddfeb2f958d6db1d4433e5f2592e19244adb698eb8d31e5867507b2c96b0e8eb5cac622542
+  languageName: node
+  linkType: hard
+
+"babel-plugin-transform-import-meta@npm:2.3.3":
+  version: 2.3.3
+  resolution: "babel-plugin-transform-import-meta@npm:2.3.3"
+  dependencies:
+    "@babel/template": ^7.25.9
+    tslib: ^2.8.1
+  peerDependencies:
+    "@babel/core": ^7.10.0
+  checksum: 6bf8d18781f89a4bbfc4a8e57dfee190441dfc59c41d900910f3985133054556bcf068c49df1a6f80d456bb2e572e94df2c4515d5c1e3248e902da14c3766ce4
   languageName: node
   linkType: hard
 
@@ -7492,7 +7497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domhandler@npm:^5.0, domhandler@npm:^5.0.2, domhandler@npm:^5.0.3":
+"domhandler@npm:^5.0.2, domhandler@npm:^5.0.3":
   version: 5.0.3
   resolution: "domhandler@npm:5.0.3"
   dependencies:
@@ -7533,7 +7538,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domutils@npm:^3.1.0, domutils@npm:^3.2.2":
+"domutils@npm:^3.2.2":
   version: 3.2.2
   resolution: "domutils@npm:3.2.2"
   dependencies:
@@ -7662,7 +7667,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"entities@npm:^4.2.0, entities@npm:^4.5.0":
+"entities@npm:^4.2.0":
   version: 4.5.0
   resolution: "entities@npm:4.5.0"
   checksum: 853f8ebd5b425d350bffa97dd6958143179a5938352ccae092c62d1267c4e392a039be1bae7d51b6e4ffad25f51f9617531fedf5237f15df302ccfb452cbf2d7
@@ -9209,19 +9214,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-to-react@npm:1.7.0":
-  version: 1.7.0
-  resolution: "html-to-react@npm:1.7.0"
-  dependencies:
-    domhandler: ^5.0
-    htmlparser2: ^9.0
-    lodash.camelcase: ^4.3.0
-  peerDependencies:
-    react: ^0.13.0 || ^0.14.0 || >=15
-  checksum: 2366ba0f3eb05b4f83fc46ff5dad9813c28506ece8b70cccdaac202fef51675e110ca467ed78d29f347a41e0f89efb6d825db2db0715f00105b414e0120f4447
-  languageName: node
-  linkType: hard
-
 "htmlparser2@npm:^6.1.0":
   version: 6.1.0
   resolution: "htmlparser2@npm:6.1.0"
@@ -9231,18 +9223,6 @@ __metadata:
     domutils: ^2.5.2
     entities: ^2.0.0
   checksum: 81a7b3d9c3bb9acb568a02fc9b1b81ffbfa55eae7f1c41ae0bf840006d1dbf54cb3aa245b2553e2c94db674840a9f0fdad7027c9a9d01a062065314039058c4e
-  languageName: node
-  linkType: hard
-
-"htmlparser2@npm:^9.0":
-  version: 9.1.0
-  resolution: "htmlparser2@npm:9.1.0"
-  dependencies:
-    domelementtype: ^2.3.0
-    domhandler: ^5.0.3
-    domutils: ^3.1.0
-    entities: ^4.5.0
-  checksum: e5f8d5193967e4a500226f37bdf2c0f858cecb39dde14d0439f24bf2c461a4342778740d988fbaba652b0e4cb6052f7f2e99e69fc1a329a86c629032bb76e7c8
   languageName: node
   linkType: hard
 
@@ -11080,15 +11060,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linkify-it@npm:^6.0.0":
-  version: 6.1.0
-  resolution: "linkify-it@npm:6.1.0"
-  dependencies:
-    uc.micro: ^3.0.0
-  checksum: 2c8ed6d324b6a3a163eb255fe994455edd2e6733630fd01926bff3304109f3c5e706008134168a6191b2e5913c599cc4785eaebe538b30618deca9d902468c8c
-  languageName: node
-  linkType: hard
-
 "lint-staged@npm:17.5.1":
   version: 17.5.1
   resolution: "lint-staged@npm:17.5.1"
@@ -11191,13 +11162,6 @@ __metadata:
   version: 4.18.1
   resolution: "lodash-es@npm:4.18.1"
   checksum: 578993943cfa779e784aeed96766484ec6ab15cd855e52c79631de6371ac49fadd6dd9f4719f8d1223ab2bcb0dfbece484f548191dd34d3dd8b39e1af712a343
-  languageName: node
-  linkType: hard
-
-"lodash.camelcase@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "lodash.camelcase@npm:4.3.0"
-  checksum: cb9227612f71b83e42de93eccf1232feeb25e705bdb19ba26c04f91e885bfd3dd5c517c4a97137658190581d3493ea3973072ca010aab7e301046d90740393d1
   languageName: node
   linkType: hard
 
@@ -11407,22 +11371,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it@npm:15.0.1":
-  version: 15.0.1
-  resolution: "markdown-it@npm:15.0.1"
-  dependencies:
-    argparse: ^3.0.0
-    entities: ^8.0.0
-    linkify-it: ^6.0.0
-    mdurl: ^2.1.0
-    punycode.js: ^2.3.1
-    uc.micro: ^3.0.0
-  bin:
-    markdown-it: bin/markdown-it.mjs
-  checksum: e3022464cd76af63cba4647ceb9146a2fbfbb3e8ad4072aeb4c61704e496bd21549c5a78eac4954d1e53746ff9539ff2da75d02fb7bfe0526ee5873d63f40bc6
-  languageName: node
-  linkType: hard
-
 "marked-terminal@npm:^7.3.0":
   version: 7.3.0
   resolution: "marked-terminal@npm:7.3.0"
@@ -11476,13 +11424,6 @@ __metadata:
   version: 2.27.1
   resolution: "mdn-data@npm:2.27.1"
   checksum: a19a8d524b774089731f2ebaaf17aa110d8031fd4f313c23692b3636e117042d760098a9e8091035933b26c9252c4355008f56f5383f986b6df9c54f3fed8ebc
-  languageName: node
-  linkType: hard
-
-"mdurl@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "mdurl@npm:2.1.0"
-  checksum: 43267b3eba1abcad1448d0716509a94792a3fea041aed65bd38f911dac95640d25d2fa96f48c8763376058256d680a9aa6e4134825b851eb9eb5fce68fcf990c
   languageName: node
   linkType: hard
 
@@ -13184,13 +13125,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"punycode.js@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "punycode.js@npm:2.3.1"
-  checksum: 13466d7ed5e8dacdab8c4cc03837e7dd14218a59a40eb14a837f1f53ca396e18ef2c4ee6d7766b8ed2fc391d6a3ac489eebf2de83b3596f5a54e86df4a251b72
-  languageName: node
-  linkType: hard
-
 "punycode@npm:^2.1.0, punycode@npm:^2.3.1":
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
@@ -14834,7 +14768,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.1, tslib@npm:^2.2.0, tslib@npm:^2.4.0":
+"tslib@npm:^2.0.1, tslib@npm:^2.2.0, tslib@npm:^2.4.0, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: e4aba30e632b8c8902b47587fd13345e2827fa639e7c3121074d5ee0880723282411a8838f830b55100cbe4517672f84a2472667d355b81e8af165a55dc6203a
@@ -15002,13 +14936,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: dc7141ab555b23a8650a6787f98845fc11692063d02b75ff49433091b3af2fe3d773650dea18389d7c21f47d620fb3b110ea363dab4ab039417a6ccbbaf96fc2
-  languageName: node
-  linkType: hard
-
-"uc.micro@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "uc.micro@npm:3.0.0"
-  checksum: b692954bfe7811f03f73849b92e7beb9a55fafb370645ee40af60ab26b43923e77dbe9b444d2278cb974b0979f4f5239da3dfad4a9baac5ccc4e074c3d838499
   languageName: node
   linkType: hard
 
