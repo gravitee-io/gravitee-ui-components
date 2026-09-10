@@ -2834,7 +2834,7 @@ __metadata:
     "@eslint/js": 9.39.5
     "@formatjs/intl-locale": ^5.3.10
     "@formatjs/intl-relativetimeformat": ^12.3.13
-    "@highcharts/map-collection": 2.0.1
+    "@highcharts/map-collection": 2.3.3
     "@messageformat/core": 3.4.0
     "@popperjs/core": ^2.11.7
     "@semantic-release/changelog": 7.0.0
@@ -2907,10 +2907,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@highcharts/map-collection@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@highcharts/map-collection@npm:2.0.1"
-  checksum: 1870092eee043caa4995f173d279f56ebba6817997b5af9301037a0f455172ab595a9cdc1c4b0474d881ed7f2b02ba5668093c398dfb6bda7856c907caac7efb
+"@highcharts/map-collection@npm:2.3.3":
+  version: 2.3.3
+  resolution: "@highcharts/map-collection@npm:2.3.3"
+  checksum: 8f5538cfbbf273479135ac8710bd0e880a4e3559b76e71da3edf21ebde209e2eefd54e8a99826b5029125ec01873c61f3ea1095cba0b731145c1f21a6407a93e
   languageName: node
   linkType: hard
 
