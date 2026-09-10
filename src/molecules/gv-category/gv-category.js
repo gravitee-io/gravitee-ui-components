@@ -64,7 +64,9 @@ export class GvCategory extends withSkeletonAttribute(LitElement) {
           flex-direction: column;
           height: var(--gv-category--h, 200px);
           padding: 2rem;
-          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color-dark, #bfbfbf), 0 1px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          box-shadow:
+            0 0 0 1px var(--gv-theme-neutral-color-dark, #bfbfbf),
+            0 1px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
           transition: all 0.3s;
           position: relative;
         }

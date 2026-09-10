@@ -68,7 +68,9 @@ export class GvNewsletterSubscription extends LitElement {
           align-items: center;
           justify-content: space-between;
           max-width: 680px;
-          box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+          box-shadow:
+            0 0 20px 0 rgba(0, 0, 0, 0.2),
+            0 5px 5px 0 rgba(0, 0, 0, 0.24);
           padding: 25px 20px 5px 20px;
         }
 

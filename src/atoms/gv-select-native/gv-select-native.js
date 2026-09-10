@@ -103,10 +103,17 @@ export class GvSelectNative extends InputElement(LitElement) {
 
         select,
         .multiple .input {
-          background-image: linear-gradient(45deg, transparent 50%, var(--c) 50%), linear-gradient(135deg, var(--c) 50%, transparent 50%),
+          background-image:
+            linear-gradient(45deg, transparent 50%, var(--c) 50%), linear-gradient(135deg, var(--c) 50%, transparent 50%),
             linear-gradient(to right, #ccc, #ccc);
-          background-position: calc(100% - 17px) calc(1em + 2px), calc(100% - 12px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
-          background-size: 5px 5px, 5px 5px, 1px 1.5em;
+          background-position:
+            calc(100% - 17px) calc(1em + 2px),
+            calc(100% - 12px) calc(1em + 2px),
+            calc(100% - 2.5em) 0.5em;
+          background-size:
+            5px 5px,
+            5px 5px,
+            1px 1.5em;
           background-repeat: no-repeat;
           -webkit-appearance: none;
           appearance: none;
@@ -137,8 +144,14 @@ export class GvSelectNative extends InputElement(LitElement) {
 
         .small select,
         .small.multiple .input {
-          background-position: calc(100% - 16px) calc(0.8em), calc(100% - 11px) calc(0.8em), calc(100% - 2.5em) 0.5em;
-          background-size: 5px 5px, 5px 5px, 1px 1em;
+          background-position:
+            calc(100% - 16px) calc(0.8em),
+            calc(100% - 11px) calc(0.8em),
+            calc(100% - 2.5em) 0.5em;
+          background-size:
+            5px 5px,
+            5px 5px,
+            1px 1em;
         }
 
         .multiple select {

@@ -230,8 +230,8 @@ export class GvOption extends LitElement {
             ${option.icon
               ? html`<gv-icon shape="${option.icon}"></gv-icon>`
               : option.image
-              ? html`<gv-image src="${option.image}"></gv-image>`
-              : ''}
+                ? html`<gv-image src="${option.image}"></gv-image>`
+                : ''}
             <div class="title">${option.title}</div>
             <div class="description-content" .innerHTML="${option.description}"></div>
           </div>`}

@@ -98,7 +98,9 @@ export class GvAutocomplete extends LitElement {
           color: var(--gv-autocomplete--c, var(--gv-theme-font-color, #262626));
           margin: 0.2rem;
           position: absolute;
-          box-shadow: 0 0 0 1px var(--gv-theme-neutral-color, #f5f5f5), 0 1px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
+          box-shadow:
+            0 0 0 1px var(--gv-theme-neutral-color, #f5f5f5),
+            0 1px 3px var(--gv-theme-neutral-color-dark, #bfbfbf);
           border-radius: 2px;
           display: block;
           width: 100%;
@@ -109,7 +111,9 @@ export class GvAutocomplete extends LitElement {
           opacity: 0;
           -webkit-transform: -webkit-translateY(-2em);
           transform: translateY(-2em);
-          -webkit-transition: -webkit-transform 150ms ease-in-out, opacity 150ms ease-in-out;
+          -webkit-transition:
+            -webkit-transform 150ms ease-in-out,
+            opacity 150ms ease-in-out;
           -moz-transition: all 150ms ease-in-out;
           -ms-transition: all 150ms ease-in-out;
           -o-transition: all 150ms ease-in-out;

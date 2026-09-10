@@ -187,24 +187,26 @@ export class GvPagination extends LitElement {
       right = right.slice(0, addRight);
     }
     const leftP = left.map(
-      (i) => html`<gv-button
-        ?small="${this.small}"
-        ?medium="${this.medium}"
-        ?large="${this.large}"
-        outlined
-        @gv-button:click="${this.goToPage.bind(this, i)}"
-        >${i}</gv-button
-      >`,
+      (i) =>
+        html`<gv-button
+          ?small="${this.small}"
+          ?medium="${this.medium}"
+          ?large="${this.large}"
+          outlined
+          @gv-button:click="${this.goToPage.bind(this, i)}"
+          >${i}</gv-button
+        >`,
     );
     const rightP = right.map(
-      (i) => html`<gv-button
-        ?small="${this.small}"
-        ?medium="${this.medium}"
-        ?large="${this.large}"
-        outlined
-        @gv-button:click="${this.goToPage.bind(this, i)}"
-        >${i}</gv-button
-      >`,
+      (i) =>
+        html`<gv-button
+          ?small="${this.small}"
+          ?medium="${this.medium}"
+          ?large="${this.large}"
+          outlined
+          @gv-button:click="${this.goToPage.bind(this, i)}"
+          >${i}</gv-button
+        >`,
     );
 
     leftP.unshift(

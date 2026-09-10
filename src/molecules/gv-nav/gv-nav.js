@@ -74,7 +74,9 @@ export class GvNav extends LitElement {
           opacity: 0.5;
           top: 0;
           left: 0;
-          transition: transform 250ms ease-in-out, width 250ms;
+          transition:
+            transform 250ms ease-in-out,
+            width 250ms;
         }
       `,
     ];

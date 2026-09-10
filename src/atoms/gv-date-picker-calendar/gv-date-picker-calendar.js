@@ -331,26 +331,27 @@ export class GvDatePickerCalendar extends LitElement {
       (dimension) =>
         html`${dimension &&
         dimension.map(
-          (data) => html` <div>
-            ${data
-              ? html`
-                  <gv-date-picker-cell
-                    .disabledDates="${this.disabledDates}"
-                    .min="${this.monthMode || this.yearMode ? null : this.min}"
-                    .max="${this.monthMode || this.yearMode ? null : this.max}"
-                    .month="${this.month}"
-                    .hoveredDate="${this.hoveredDate}"
-                    .dateTo="${this._to}"
-                    .dateFrom="${this._from}"
-                    .data="${data}"
-                    .time="${this.time}"
-                    ?isCurrent="${this.isCurrentDate(data)}"
-                    @gv-date-picker-cell:hover="${this._onHover}"
-                    @gv-date-picker-cell:select="${this._onSelect}"
-                  ></gv-date-picker-cell>
-                `
-              : null}
-          </div>`,
+          (data) =>
+            html` <div>
+              ${data
+                ? html`
+                    <gv-date-picker-cell
+                      .disabledDates="${this.disabledDates}"
+                      .min="${this.monthMode || this.yearMode ? null : this.min}"
+                      .max="${this.monthMode || this.yearMode ? null : this.max}"
+                      .month="${this.month}"
+                      .hoveredDate="${this.hoveredDate}"
+                      .dateTo="${this._to}"
+                      .dateFrom="${this._from}"
+                      .data="${data}"
+                      .time="${this.time}"
+                      ?isCurrent="${this.isCurrentDate(data)}"
+                      @gv-date-picker-cell:hover="${this._onHover}"
+                      @gv-date-picker-cell:select="${this._onSelect}"
+                    ></gv-date-picker-cell>
+                  `
+                : null}
+            </div>`,
         )}`,
     )}`;
   }
