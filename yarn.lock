@@ -1624,7 +1624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/template@npm:^7.25.9, @babel/template@npm:^7.29.7":
+"@babel/template@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/template@npm:7.29.7"
   dependencies:
@@ -2843,7 +2843,7 @@ __metadata:
     "@storybook/addon-docs": 10.6.0
     "@storybook/web-components-vite": 10.6.0
     babel-jest: 30.5.1
-    babel-plugin-transform-import-meta: 2.3.3
+    babel-plugin-transform-import-meta: 3.0.0
     chromatic: 18.7.4
     clipboard-copy: ^4.0.0
     codemirror: ^6.0.2
@@ -6104,15 +6104,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-transform-import-meta@npm:2.3.3":
-  version: 2.3.3
-  resolution: "babel-plugin-transform-import-meta@npm:2.3.3"
+"babel-plugin-transform-import-meta@npm:3.0.0":
+  version: 3.0.0
+  resolution: "babel-plugin-transform-import-meta@npm:3.0.0"
   dependencies:
-    "@babel/template": ^7.25.9
+    "@babel/template": ^8.0.0
     tslib: ^2.8.1
   peerDependencies:
-    "@babel/core": ^7.10.0
-  checksum: 6bf8d18781f89a4bbfc4a8e57dfee190441dfc59c41d900910f3985133054556bcf068c49df1a6f80d456bb2e572e94df2c4515d5c1e3248e902da14c3766ce4
+    "@babel/core": ^8.0.1
+  checksum: f5e8e093d83f3ca3aefcadbc1c0e0d5077e5d7b0ee12325003dfe16ee2e1bbd48f18bbc14ad9738a991308f15968ee50fe4122dc5cf5e63d290abddf5f9272c2
   languageName: node
   linkType: hard
 
