@@ -3816,7 +3816,6 @@ __metadata:
     eslint-plugin-node: 11.1.0
     eslint-plugin-promise: 6.1.1
     eslint-plugin-standard: 4.1.0
-    esm: 3.2.25
     fs-extra: 11.4.0
     github-markdown-css: 4.0.0
     glob: 7.2.3
@@ -11555,13 +11554,6 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: 6212173691d90b1bc94dd3d640e1f210374b30c3905fc0a15e501cf71c6ca52aa3d80ea7a9a245adaaed26d6019169e01fb6881b3f2885b188d37069c749308c
-  languageName: node
-  linkType: hard
-
-"esm@npm:3.2.25":
-  version: 3.2.25
-  resolution: "esm@npm:3.2.25"
-  checksum: 978aabe2de83541c105605a6d60a26ed8e627ef6bb0a7605fe15a95bbdea6b8348bd045255cb22219c054dd09a81a94823df00843d9e97f42419c92015ce3a64
   languageName: node
   linkType: hard
 
