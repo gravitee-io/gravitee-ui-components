@@ -1,3 +1,98 @@
+# [5.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.2...v5.0.0) (2026-09-11)
+
+
+### Bug Fixes
+
+* **charts:** draw with the Highcharts instance the host imports ([f4c899a](https://github.com/gravitee-io/gravitee-ui-components/commit/f4c899a327bd1732da80926a9c10033e394155a3))
+* **charts:** paint the charts again under Highcharts 13 ([8cb4458](https://github.com/gravitee-io/gravitee-ui-components/commit/8cb44580983b94e318f0f030195699a0c17cc33d))
+* **charts:** scope the Highcharts palette to the chart instead of the document ([b55b6a0](https://github.com/gravitee-io/gravitee-ui-components/commit/b55b6a07551142fcfe1fee55aca414fc541ed690))
+* **charts:** show the error state when a chart cannot build its options ([37cf3ac](https://github.com/gravitee-io/gravitee-ui-components/commit/37cf3ac4b3b8b527965464052f96862e7fc01ede))
+* **gv-chart-map:** render the map again in the Vite based Storybook ([ab4539f](https://github.com/gravitee-io/gravitee-ui-components/commit/ab4539f3e7fd096aa22a4c81cf8654f02a8b57ce))
+* **gv-documentation:** vendor the light github-markdown stylesheet ([4f34333](https://github.com/gravitee-io/gravitee-ui-components/commit/4f3433320523611b50fa417565f7f215e59368c7))
+* **gv-rating-list:** import the gv-text it renders ([9e95e4b](https://github.com/gravitee-io/gravitee-ui-components/commit/9e95e4b08c7261c690c6462fe0ecb610b33cfa00))
+* **gv-schema-form-control:** let updateComplete wait for the values to reach the controls ([d6dc875](https://github.com/gravitee-io/gravitee-ui-components/commit/d6dc875379ff90b7df12de1c05c5b6b3320538f5))
+* **gv-schema-form:** settle the control tree before updateComplete resolves ([3feffd6](https://github.com/gravitee-io/gravitee-ui-components/commit/3feffd6a0112592b2367c72878e1b8c98fdbf646))
+* **icons:** keep the OIDC logo monochrome across sprite regenerations ([d6ec3da](https://github.com/gravitee-io/gravitee-ui-components/commit/d6ec3da74af50be74d1cba0c817bcda92df2c0c0))
+* import every component that a module renders ([fe924b6](https://github.com/gravitee-io/gravitee-ui-components/commit/fe924b6df9641eca0b55080f1eb83a511d6ef485))
+
+
+### Features
+
+* **deps:** declare marked as a dependency and move it to 18 ([89208a0](https://github.com/gravitee-io/gravitee-ui-components/commit/89208a0bead9f6a95afdd5d05de80a73ec70599b))
+* **deps:** move CodeMirror to 6 ([a90e070](https://github.com/gravitee-io/gravitee-ui-components/commit/a90e070673bf1d1cc52c4b2975fef10ebaf8dea0))
+* **deps:** move date-fns to 4 and the FormatJS polyfills to their current majors ([e69a304](https://github.com/gravitee-io/gravitee-ui-components/commit/e69a3046c2733eb636c02297ea19c7810d03ef90))
+* **deps:** move Highcharts to 13 ([8c56f4c](https://github.com/gravitee-io/gravitee-ui-components/commit/8c56f4c648e5a167fcf34e6172b7054818307ef3))
+* **deps:** move lit to 3 ([38827ec](https://github.com/gravitee-io/gravitee-ui-components/commit/38827ec78e31da1d3f09a4b58facbc60d04a08f7))
+* migrate to @asciidoctor/core 4 ([e7afbe3](https://github.com/gravitee-io/gravitee-ui-components/commit/e7afbe35cbdea836ea2ba18217934418b91809ba))
+
+
+### BREAKING CHANGES
+
+* `@asciidoctor/core` is now a `^4.0.0` peer dependency, and the `asciidoctor` and
+`asciidoctor-highlight.js` peer dependencies are gone. Version 4 is a JavaScript rewrite with no
+default factory and an asynchronous `convert`, and `asciidoctor-highlight.js` cannot run against it.
+Source blocks are now colorized by an adapter built on the `highlight.js` peer dependency, which
+stays.
+
+Version 4 asks two things of a consumer. Its browser build uses `import.meta`, which Jest
+cannot load, so a suite that renders documentation needs the CommonJS build instead, and a
+file URL for it to resolve its own path from:
+
+    @jest-environment-options {"customExportConditions": ["require", "node"], "url": "file:///"}
+
+That same browser build imports `node:fs/promises` and `node:path` behind runtime guards,
+which a browser bundler has to be told to leave alone: in Angular, through the
+`externalDependencies` build option.
+* **deps:** `highcharts` becomes a `^13.0.0` peer dependency.
+
+Highcharts modules stopped being factories to call: they register themselves against the
+instance they are imported from. The library imports the default entry point and its UMD
+modules, so a host that imports `highcharts` draws with the very instance the charts use
+and its `setOptions` keep applying. Maps go through the `map` module rather than the
+separate Highmaps distribution, which puts every chart on one instance and halves the
+chart bundle.
+
+An application still on Highcharts 9 or 10 has to upgrade along with the library: calls of
+the `require('highcharts/highcharts-more')(Highcharts)` form throw on 13.
+* **deps:** `marked` becomes a dependency of the library.
+
+`text-format` imports it from the published source while it was only declared as a
+development dependency, leaving consumers to provide it without anything saying so.
+
+Version 18 is ESM only. A consumer that pins an older major gets it installed under
+`@gravitee/ui-components/node_modules/marked`, and a Jest suite then has to let that copy
+through, or importing `text-format` fails on `Unexpected token 'export'`:
+
+    transformIgnorePatterns: ['/node_modules/(?!...|(marked/.*?\\.js)|...)']
+* **deps:** `@codemirror/basic-setup` and `@codemirror/stream-parser` are gone.
+The editor now depends on `codemirror` 6 for its `basicSetup`, and `StreamLanguage`
+comes from `@codemirror/language`.
+
+The packages `gv-code` imports were only reaching it through `@codemirror/basic-setup`,
+so they are declared for what they are. Two stories were missing the import of their
+own component, which the single webpack bundle used to hide and code splitting exposes.
+* **deps:** `date-fns` moves to `^4.0.0`, `@formatjs/intl-locale` to `^5.0.0` and
+`@formatjs/intl-relativetimeformat` to `^12.0.0`.
+
+date-fns 3 dropped the default export of its locales, which are now named exports of
+`date-fns/locale`. The FormatJS packages declare an `exports` map that keeps the file
+extension, so the polyfill entry points are spelled with their `.js` suffix.
+
+The FormatJS polyfills ship as ESM too, so a consumer's Jest has to transform `@formatjs`
+alongside them.
+* **deps:** the components now render with lit 3, which consumers get through the
+`lit` dependency.
+
+Lit 3 wraps the accessors a component defines for its own reactive properties, so it
+reads the getter to capture the previous value and requests an update afterwards. Two
+getters ran before their backing field existed, and two properties started reflecting
+for the first time: `gv-autocomplete` no longer asks for its array of options to be
+reflected, and the `type` of `gv-input` now reaches the DOM, which finally gives the
+number fields of `gv-cron-editor` the width their stylesheet always asked for.
+
+lit 3 also brings `@lit-labs/ssr-dom-shim`, which a consumer's Jest has to transform along
+with `lit` itself.
+
 ## [4.5.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.1...v4.5.2) (2026-07-23)
 
 
