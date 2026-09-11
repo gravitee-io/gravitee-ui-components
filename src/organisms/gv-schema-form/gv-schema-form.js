@@ -21,6 +21,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { Validator } from 'jsonschema';
 import { empty } from '../../styles/empty';
+import { formatFormLevelError, getFormLevelErrors } from '../../lib/schema-form';
+import '../../atoms/gv-input-message';
 import '../gv-schema-form-control';
 import { untilSettled } from '../../lib/updates';
 
@@ -574,6 +576,9 @@ export class GvSchemaForm extends LitElement {
               </div>
             `
           : ''}
+        ${getFormLevelErrors(this.errors).map(
+          (error) => html`<gv-input-message class="form-level-error" level="warning">${formatFormLevelError(error)}</gv-input-message>`,
+        )}
         <div class="content">${this.schema != null ? this._renderPart() : html``}</div>
         ${this.hasFooter === true && this.readonly !== true
           ? html`
@@ -631,6 +636,10 @@ export class GvSchemaForm extends LitElement {
         .footer,
         .content {
           background-color: var(--bgc);
+        }
+
+        .form-level-error {
+          margin: 0.4rem;
         }
 
         .content {

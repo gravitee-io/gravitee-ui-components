@@ -15,6 +15,13 @@
  */
 import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { Page, querySelector, since } from '../../../testing/lib/test-utils';
+import {
+  expectControlGuardsHoldWithRootOneOf,
+  expectNoThrowOnNonArrayErrors,
+  expectRootOneOfBanner,
+  rootOneOfSchema,
+  rootOneOfWithPropertiesSchema,
+} from '../../../testing/lib/schema-form-test-utils';
 import './gv-schema-form';
 import mixed from '../../../testing/resources/schemas/mixed.json';
 import fieldsDependencies from '../../../testing/resources/schemas/fields-dependencies.json';
@@ -596,6 +603,28 @@ describe('S C H E M A  F O R M', () => {
     expect(results.errors[0].message).toEqual(
       'A path or a content is <span class="error">required</span> - for JKS and PKCS#12 a password is also <span class="error">required</span>',
     );
+  });
+
+  test('should render a banner and not throw on root oneOf failures', async () => {
+    component.schema = rootOneOfSchema;
+    component.values = {};
+    component.touch = true;
+    await expectRootOneOfBanner(component);
+  });
+
+  test('should not crash when root oneOf coexists with rendered controls', async () => {
+    component.schema = rootOneOfWithPropertiesSchema;
+    component.values = {};
+    component.touch = true;
+    await expectControlGuardsHoldWithRootOneOf(component);
+  });
+
+  test('should not throw when errors is a non-array value', async () => {
+    // Use a minimal schema so the test doesn't churn the 21-control mixed tree.
+    component.schema = { type: 'object', properties: { foo: { type: 'string' } } };
+    component.values = {};
+    await component.updateComplete;
+    await expectNoThrowOnNonArrayErrors(component);
   });
 
   test('should validate with additional properties', () => {

@@ -42,3 +42,47 @@ export function canGrid(schema) {
   const keys = Object.keys(schema.properties || {});
   return keys.length > 2 && keys.filter((key) => _canInline(schema, key)).length === keys.length;
 }
+
+const FORM_LEVEL_PREFIXES = {
+  oneOf: 'Select exactly one of',
+  anyOf: 'Select at least one of',
+};
+
+/**
+ * Returns validation errors that don't map to any single control: root
+ * oneOf/anyOf failures report property === 'instance' with an array argument.
+ * They would otherwise be silently dropped by gv-schema-form-control, leaving
+ * the user with no feedback on why the form is invalid.
+ */
+export function getFormLevelErrors(errors) {
+  if (!Array.isArray(errors)) return [];
+  return errors.filter(
+    (error) =>
+      error != null && error.property === 'instance' && (error.name === 'oneOf' || error.name === 'anyOf') && Array.isArray(error.argument),
+  );
+}
+
+/**
+ * `jsonschema` builds error.argument as an array of JSON-stringified titles
+ * (e.g. '"My title "'). Surface them as a readable comma list rather than the
+ * raw `JSON.stringify`'d message.
+ */
+export function formatFormLevelError(error) {
+  const titles = error.argument
+    .map(stripJsonStringifyWrap)
+    .map((title) => title.trim())
+    .filter((title) => title.length > 0);
+  if (titles.length === 0) {
+    return error.message;
+  }
+  const prefix = FORM_LEVEL_PREFIXES[error.name];
+  return prefix ? `${prefix}: ${titles.join(', ')}` : titles.join(', ');
+}
+
+// Strips the surrounding double-quotes JSON.stringify(title) adds, while
+// leaving non-string entries (e.g. '<#/defs/Foo>', '[subschema 0]') intact.
+function stripJsonStringifyWrap(entry) {
+  if (typeof entry !== 'string') return String(entry);
+  const match = entry.match(/^"(.*)"$/s);
+  return match ? match[1] : entry;
+}
