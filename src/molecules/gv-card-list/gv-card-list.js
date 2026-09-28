@@ -46,21 +46,16 @@ export class GvCardList extends withResizeObserver(LitElement) {
         :host {
           box-sizing: border-box;
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           grid-gap: 0.5rem;
         }
 
-        :host([w-lt-1270]) .container {
-          grid-template-columns: repeat(2, 1fr);
+        :host([w-lt-1270]) {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        :host([w-lt-845]) .container {
-          display: flex;
-          flex-direction: column;
-        }
-
-        :host([w-lt-845]) .container > .item {
-          flex: 0 1 auto;
+        :host([w-lt-845]) {
+          grid-template-columns: minmax(0, 1fr);
         }
 
         .item {
