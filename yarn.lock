@@ -2720,20 +2720,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-getcanonicallocales@npm:3.2.11":
-  version: 3.2.11
-  resolution: "@formatjs/intl-getcanonicallocales@npm:3.2.11"
-  checksum: 10/3132dba96c7cfe63787e126a91e620211a32fa6a623cb763f96102ff153845fb12486f378aa1d761736a7641adb19f5cc307156c8b7a40eedd00223b87c8d2a9
+"@formatjs/intl-getcanonicallocales@npm:3.2.12":
+  version: 3.2.12
+  resolution: "@formatjs/intl-getcanonicallocales@npm:3.2.12"
+  checksum: 10/6a80331ce5425307d66e59ab06c4d29dc56d755c297d9bd7111bbc4f5271620af7fba347d082593477b351369c16db4dea0b09fe60205f11c559e8ac1a7e09a0
   languageName: node
   linkType: hard
 
 "@formatjs/intl-locale@npm:^5.3.10":
-  version: 5.3.10
-  resolution: "@formatjs/intl-locale@npm:5.3.10"
+  version: 5.3.12
+  resolution: "@formatjs/intl-locale@npm:5.3.12"
   dependencies:
-    "@formatjs/intl-getcanonicallocales": "npm:3.2.11"
-    "@formatjs/intl-supportedvaluesof": "npm:2.3.9"
-  checksum: 10/f7d8be5ea145089b9daa56e24158f835ed0f3d67d3230b42c3a8a32f3dbdd98534236e9262d86f628288d09968fec32d1c2f5906ec1d5f38e692d436a4052255
+    "@formatjs/intl-getcanonicallocales": "npm:3.2.12"
+    "@formatjs/intl-supportedvaluesof": "npm:2.3.11"
+  checksum: 10/4d40f3abeb54746e9188123c1d86ab6f7aa95e4f8918cd0d4eb2bfcc4c47cc82524ea91248207d31c335963cdb1d52c76b37aa27caf9a1920fe910448ea4627e
   languageName: node
   linkType: hard
 
@@ -2755,12 +2755,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-supportedvaluesof@npm:2.3.9":
-  version: 2.3.9
-  resolution: "@formatjs/intl-supportedvaluesof@npm:2.3.9"
+"@formatjs/intl-supportedvaluesof@npm:2.3.11":
+  version: 2.3.11
+  resolution: "@formatjs/intl-supportedvaluesof@npm:2.3.11"
   dependencies:
     "@formatjs/fast-memoize": "npm:3.1.7"
-  checksum: 10/36254064dd8aab3cb2cbe31db88d751cb0c1d2b0739563ddd1736ed7bd8ec02881de385a69cc4ab7b691f670a3f11ec61a41ba678baa3d0967d87dc0b395cc7b
+  checksum: 10/f5838770f2540f651c8ec3383f5eeab009a3971db28a1d641782c2bf198e50fb831b1430a6457acbda41569c0de42b448fa9347c537768947113913f5b8cd581
   languageName: node
   linkType: hard
 
