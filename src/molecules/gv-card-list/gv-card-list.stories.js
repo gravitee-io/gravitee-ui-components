@@ -64,6 +64,39 @@ export const basics = makeStory(conf, {
   items: [{ items: apiItems }],
 });
 
+const longNameItems = [
+  'Customer Onboarding Integration Platform Backend Service',
+  'Internal Payments Reconciliation and Settlement Gateway',
+  'Partner Loyalty Rewards Synchronisation Connector',
+].map((longName) => ({ item: Promise.resolve({ name: longName, description, version, states, labels }) }));
+
+// The breakpoints follow the width of the list itself, so each list is given the width of one layout
+export const breakpoints = makeStory(conf, {
+  css: `
+    gv-card-list {
+      margin-bottom: 2rem;
+    }
+
+    gv-card-list:nth-of-type(1) {
+      width: 1300px;
+    }
+
+    gv-card-list:nth-of-type(2) {
+      width: 1000px;
+    }
+
+    gv-card-list:nth-of-type(3) {
+      width: 600px;
+    }
+  `,
+  items: [{ items: longNameItems }, { items: longNameItems }, { items: longNameItems }],
+});
+// Wide enough for the 1300px list, and late enough for the cards to fade in
+breakpoints.parameters = {
+  ...breakpoints.parameters,
+  chromatic: { viewports: [1440], delay: 1000 },
+};
+
 export const empty = makeStory(conf, {
   items: [{}],
 });
