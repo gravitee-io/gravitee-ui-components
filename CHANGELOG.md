@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/gravitee-io/gravitee-ui-components/compare/v5.0.0...v5.0.1) (2026-09-29)
+
+
+### Bug Fixes
+
+* **gv-card-list:** apply the responsive breakpoints to the host grid ([#706](https://github.com/gravitee-io/gravitee-ui-components/issues/706)) ([b46ddc4](https://github.com/gravitee-io/gravitee-ui-components/commit/b46ddc499f09da96408e0f0b010bea5ed5d7b687))
+
 # [5.0.0](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.2...v5.0.0) (2026-09-11)
 
 
