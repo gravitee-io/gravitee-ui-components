@@ -21,6 +21,9 @@ import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { Validator } from 'jsonschema';
 import { empty } from '../../styles/empty';
+import { renderFormLevelErrors, renderGroupedSchemaControls, schemaFormOneOfStyles } from '../../lib/schema-form-oneof';
+import { SchemaFormOneOf } from '../../mixins/schema-form-oneof';
+import '../../atoms/gv-input-message';
 import '../gv-schema-form-control';
 
 /**
@@ -41,9 +44,10 @@ import '../gv-schema-form-control';
  * @cssprop {Color} [--gv-schema-form--bgc=#ffffff] - Background color
  * @cssprop {Length} [--gv-schema-form-control--m=0.4rem] - Control margin
  */
-export class GvSchemaForm extends LitElement {
+export class GvSchemaForm extends SchemaFormOneOf(LitElement) {
   static get properties() {
     return {
+      ...super.properties,
       schema: { type: Object },
       errors: { type: Object },
       values: { type: Object },
@@ -83,6 +87,18 @@ export class GvSchemaForm extends LitElement {
     this.addEventListener('gv-schema-form-control:control-ready', this._onControlReady.bind(this));
   }
 
+  _getSchemaFormModel() {
+    return this._values;
+  }
+
+  _afterOneOfBranchChange() {
+    this._setDirty(true);
+    this._setTouch(true);
+    this.requestValidation();
+    this._dispatchChange();
+    this.requestUpdate();
+  }
+
   set values(values) {
     if (!deepEqual(this._values, values)) {
       if (values) {
@@ -91,6 +107,7 @@ export class GvSchemaForm extends LitElement {
         this._initialValues = {};
       }
       this._values = deepClone(this._initialValues);
+      this._syncOneOfIndex();
     }
   }
 
@@ -111,6 +128,7 @@ export class GvSchemaForm extends LitElement {
     this._values = deepClone(values || this._initialValues);
     this.touch = false;
     this._setDirty(false);
+    this._syncOneOfIndex(true);
     this.getControls().forEach((s) => {
       s.requestUpdate();
     });
@@ -292,32 +310,6 @@ export class GvSchemaForm extends LitElement {
     super.performUpdate();
   }
 
-  _renderControl(key) {
-    // This is require to clean cache of <gv-schema-form-control>
-    const control = { ...this.schema.properties[key] };
-    const isRequired = (this.schema.required && this.schema.required.includes(key)) || this._evaluateCondition(control, 'required');
-    const isDisabled = (this.schema.disabled && this.schema.disabled.includes(key)) || this._evaluateCondition(control, 'disabled');
-    const isHidden = this._evaluateCondition(control, 'hidden');
-    if (isHidden) {
-      this._ignoreProperties.push(key);
-    }
-    const isReadonly = this.readonly || control.readOnly === true;
-    const isWriteOnly = control.writeOnly === true;
-    const value = get(this._values, key);
-    return html`<gv-schema-form-control
-      .id="${key}"
-      .errors="${this.errors}"
-      .control="${control}"
-      .skeleton="${this.skeleton}"
-      .value="${value}"
-      ?readonly="${isReadonly}"
-      ?writeonly="${isWriteOnly}"
-      ?required="${isRequired}"
-      ?disabled="${isDisabled}"
-      ?hidden="${isHidden}"
-    ></gv-schema-form-control>`;
-  }
-
   _hasCondition(control) {
     if (control['x-schema-form']) {
       return this._dynamicAttributes.find((condition) => control['x-schema-form'][condition] != null) != null;
@@ -414,28 +406,11 @@ export class GvSchemaForm extends LitElement {
     this._ignoreProperties = [];
 
     if (this.groups) {
-      // Remove undefined group items
-      const groupsCleaned = this.groups.reduce((prev, group) => {
-        const itemsExistingInSchemaKeys = keys.filter((key) => [...(group.items || [])].includes(key));
-        prev.push({
-          ...group,
-          items: itemsExistingInSchemaKeys || [],
-        });
-        return prev;
-      }, []);
-
-      // Add non grouped items inside default group
-      const defaultGroup = groupsCleaned.find((g) => g.default) || { default: true, items: [] };
-      const zipGroupedItems = groupsCleaned.reduce((prev, group) => [...prev, ...group.items], []);
-      defaultGroup.items = keys.filter((key) => !zipGroupedItems.includes(key));
-
-      return repeat(
-        groupsCleaned,
-        (group) =>
-          html`${group.name
-            ? html`<h2 class="group-title">${group.name}</h2>
-                ${repeat(group.items, (key) => this._renderControl(key))}`
-            : repeat(group.items, (key) => this._renderControl(key))} `,
+      return renderGroupedSchemaControls(
+        this.groups,
+        keys,
+        (key) => this._renderControl(key),
+        () => this._renderOneOfPart(),
       );
     }
 
@@ -445,7 +420,8 @@ export class GvSchemaForm extends LitElement {
         (key) => key,
         (key) => this._renderControl(key),
       ),
-    )}`;
+    )}
+    ${this._renderOneOfPart()}`;
   }
 
   getControls() {
@@ -575,6 +551,7 @@ export class GvSchemaForm extends LitElement {
               </div>
             `
           : ''}
+        ${renderFormLevelErrors(this.errors)}
         <div class="content">${this.schema != null ? this._renderPart() : html``}</div>
         ${this.hasFooter === true && this.readonly !== true
           ? html`
@@ -596,6 +573,7 @@ export class GvSchemaForm extends LitElement {
   static get styles() {
     return [
       empty,
+      schemaFormOneOfStyles,
       // language=CSS
       css`
         :host {

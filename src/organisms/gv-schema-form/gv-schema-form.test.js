@@ -15,6 +15,7 @@
  */
 import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { Page, querySelector, since } from '../../../testing/lib/test-utils';
+import { describeRootOneOfBehaviors } from '../../../testing/lib/schema-form-test-utils';
 import './gv-schema-form';
 import mixed from '../../../testing/resources/schemas/mixed.json';
 import fieldsDependencies from '../../../testing/resources/schemas/fields-dependencies.json';
@@ -596,6 +597,41 @@ describe('S C H E M A  F O R M', () => {
     expect(results.errors[0].message).toEqual(
       'A path or a content is <span class="error">required</span> - for JKS and PKCS#12 a password is also <span class="error">required</span>',
     );
+  });
+
+  test('should keep the same input element while typing', async () => {
+    const form = page.create('gv-schema-form', {
+      schema: {
+        type: 'object',
+        properties: { name: { type: 'string' }, other: { type: 'string' } },
+        required: ['other'],
+      },
+    });
+    await form.updateComplete;
+    const control = form.getControl('name');
+    await control.updateComplete;
+    const input = control.shadowRoot.querySelector('.form__control');
+
+    for (const text of ['a', 'ab']) {
+      control.shadowRoot
+        .querySelector('.form__control')
+        .dispatchEvent(new CustomEvent('gv-input:input', { detail: text, bubbles: true, composed: true }));
+      await form.updateComplete;
+      await control.updateComplete;
+    }
+
+    expect(control.shadowRoot.querySelector('.form__control')).toBe(input);
+  });
+
+  describeRootOneOfBehaviors(() => component, {
+    setModel: (c, model) => {
+      c.values = model;
+    },
+    getModel: (c) => c.values,
+    touch: (c) => {
+      c.touch = true;
+    },
+    getErrors: (c) => c.validate().errors,
   });
 
   test('should validate with additional properties', () => {
