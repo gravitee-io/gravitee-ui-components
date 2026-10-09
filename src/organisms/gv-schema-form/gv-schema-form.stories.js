@@ -84,6 +84,45 @@ const mixedValues = {
   multiselect: ['a', 'b', 'c'],
 };
 
+const rootOneOfSchema = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  type: 'object',
+  oneOf: [
+    {
+      title: 'OpenApi source from a Content Provider Resource ',
+      properties: { resourceName: { type: 'string', title: 'Resource name' } },
+      required: ['resourceName'],
+    },
+    {
+      title: 'OpenApi source from an JSON editor ',
+      properties: { sourceJson: { type: 'string', title: 'JSON' } },
+      required: ['sourceJson'],
+    },
+    {
+      title: 'OpenApi source from an YAML editor ',
+      properties: { sourceYaml: { type: 'string', title: 'YAML' } },
+      required: ['sourceYaml'],
+    },
+    {
+      title: 'OpenApi source from a URL',
+      properties: { sourceUrl: { type: 'string', title: 'URL' } },
+      required: ['sourceUrl'],
+    },
+  ],
+};
+
+export const RootOneOf = makeStory(conf, {
+  items: [
+    {
+      title: 'Root oneOf — surfaces validator failure as a banner',
+      schema: rootOneOfSchema,
+      values: {},
+      'has-footer': true,
+      'validate-on-render': true,
+    },
+  ],
+});
+
 export const Skeleton = makeStory(conf, {
   items: [
     {
@@ -333,13 +372,13 @@ export const AllPolicies = makeStory(conf, {
       '@click': async (e) => {
         if (e.target && e.target.id === 'next-schema') {
           const autocomplete = e.target.previousElementSibling;
-          fetchSchema(autocomplete, e.target);
+          await fetchSchema(autocomplete, e.target);
         }
       },
-      '@gv-autocomplete:select': ({ detail, target }) => {
+      '@gv-autocomplete:select': async ({ detail, target }) => {
         const policyName = detail.value;
         const autocomplete = target;
-        fetchSchema(autocomplete, target.nextElementSibling, policyName);
+        await fetchSchema(autocomplete, target.nextElementSibling, policyName);
       },
       '@gv-expression-language:ready': ({ detail }) => {
         detail.currentTarget.grammar = grammar;
