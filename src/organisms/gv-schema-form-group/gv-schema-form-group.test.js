@@ -15,6 +15,7 @@
  */
 import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { Page, querySelector, since } from '../../../testing/lib/test-utils';
+import { describeRootOneOfBehaviors } from '../../../testing/lib/schema-form-test-utils';
 import './gv-schema-form-group';
 import mixed from '../../../testing/resources/schemas/mixed.json';
 import fieldsDependencies from '../../../testing/resources/schemas/fields-dependencies.json';
@@ -514,5 +515,79 @@ describe('S C H E M A  F O R M  G R O U P', () => {
     };
     component.validate();
     expect(component.errors).toEqual([]);
+  });
+
+  test('should render the field of the new branch after switching', async () => {
+    const group = page.create('gv-schema-form-group', {
+      schema: {
+        type: 'object',
+        oneOf: [
+          { title: 'Resource', properties: { resourceName: { type: 'string', title: 'Resource name' } } },
+          { title: 'URL', properties: { sourceUrl: { type: 'boolean', title: 'Source URL' } } },
+        ],
+      },
+      value: { resourceName: 'my-resource' },
+    });
+    await group.updateComplete;
+
+    const select = group.shadowRoot.querySelector('.oneof-select select');
+    select.value = '1';
+    select.dispatchEvent(new Event('change'));
+    await group.updateComplete;
+
+    const control = group.shadowRoot.querySelector('gv-schema-form-control');
+    await control.updateComplete;
+    const input = control.shadowRoot.querySelector('.form__control');
+
+    expect(control.id).toEqual('sourceUrl');
+    expect(input.tagName).toEqual('GV-SWITCH');
+  });
+
+  test('should replace control when shared oneOf key changes definition', async () => {
+    const group = page.create('gv-schema-form-group', {
+      schema: {
+        type: 'object',
+        oneOf: [
+          { title: 'Text mode', properties: { mode: { type: 'string', title: 'Mode' } }, required: ['mode'] },
+          {
+            title: 'Enum mode',
+            properties: { mode: { type: 'string', title: 'Mode', enum: ['x', 'y'] } },
+            required: ['mode'],
+          },
+        ],
+      },
+      value: { mode: 'plain' },
+    });
+    await group.updateComplete;
+
+    const firstControl = group.shadowRoot.querySelector('gv-schema-form-control');
+    await firstControl.updateComplete;
+    expect(firstControl.shadowRoot.querySelector('.form__control').tagName).toEqual('GV-INPUT');
+
+    const select = group.shadowRoot.querySelector('.oneof-select select');
+    select.value = '1';
+    select.dispatchEvent(new Event('change'));
+    await group.updateComplete;
+
+    const control = group.shadowRoot.querySelector('gv-schema-form-control');
+    await control.updateComplete;
+    const input = control.shadowRoot.querySelector('.form__control');
+
+    expect(control.id).toEqual('mode');
+    expect(input.tagName).toEqual('GV-SELECT-NATIVE');
+  });
+
+  describeRootOneOfBehaviors(() => component, {
+    setModel: (c, model) => {
+      c.value = model;
+    },
+    getModel: (c) => c.value,
+    touch: (c) => {
+      c._setTouch(true);
+    },
+    getErrors: (c) => {
+      c.validate();
+      return c.errors;
+    },
   });
 });

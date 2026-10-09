@@ -135,6 +135,40 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
     // and so the sub elements. Otherwise, the "state" (disabled, readonly,
     // required) is not forwarded to the sub elements.
     this._updateProperties(this.getControl());
+    this._renderErrors();
+  }
+
+  _renderErrors() {
+    if (!Array.isArray(this.errors)) {
+      return;
+    }
+    this.getControls().forEach((control) => {
+      control.errors = this.errors;
+    });
+
+    const errorContainers = this.shadowRoot.querySelectorAll('.form__control-error');
+    errorContainers.forEach((container) => (container.innerHTML = ''));
+    this.errors.forEach((error) => {
+      let key;
+      if (error.property === 'instance') {
+        key = error.argument;
+      } else if (typeof error.property === 'string') {
+        key = error.property.replace('instance.', '');
+      } else {
+        return;
+      }
+      if (typeof key !== 'string' || key === '') {
+        return;
+      }
+      const escapedKey = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(key) : key.replace(/[^a-zA-Z0-9_-]/g, (c) => `\\${c}`);
+      const errorContainer = this.shadowRoot.querySelector(`[id="${escapedKey}-error"]`);
+      if (errorContainer) {
+        const message = document.createElement('gv-input-message');
+        message.innerHTML = this.formatErrorMessage(error);
+        message.level = 'warning';
+        errorContainer.appendChild(message);
+      }
+    });
   }
 
   _renderControl() {
@@ -328,25 +362,16 @@ export class GvSchemaFormControl extends UpdateAfterBrowser(LitElement) {
       this._updateProperties(this.getControl());
     }
 
-    if (changedProperties.has('errors') && this.errors != null) {
-      // Set errors to complex controls
-      this.getControls().forEach((control) => {
-        control.errors = this.errors;
-      });
-
-      // Find simple controls and append error message
-      const errorContainer = this.shadowRoot.querySelectorAll('.form__control-error');
-      errorContainer.forEach((container) => (container.innerHTML = ''));
-      this.errors.forEach((error) => {
-        const key = error.property === 'instance' ? error.argument : error.property.replace('instance.', '');
-        const errorContainer = this.shadowRoot.querySelector(`[id="${key}-error"]`);
-        if (errorContainer) {
-          const message = document.createElement('gv-input-message');
-          message.innerHTML = this.formatErrorMessage(error);
-          message.level = 'warn';
-          errorContainer.appendChild(message);
-        }
-      });
+    if (changedProperties.has('errors') && Array.isArray(this.errors) && this.hasUpdated) {
+      this._renderErrors();
+      // Keep the existing input mounted (typing), but still push value/control updates
+      // that would otherwise be skipped by returning false.
+      if (changedProperties.has('control')) {
+        return super.shouldUpdate(changedProperties);
+      }
+      if (changedProperties.has('value')) {
+        this._setValue(this.getControl());
+      }
       return false;
     }
     return super.shouldUpdate(changedProperties);
