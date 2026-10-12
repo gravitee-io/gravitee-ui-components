@@ -8,6 +8,10 @@
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "devDependencies (non-major)",
       "groupSlug": "devdependencies-non-major"
+    },
+    {
+      "matchPackageNames": ["i18n-extract"],
+      "allowedVersions": "!/^0\\.6\\.8$/"
     }
   ]
 }
