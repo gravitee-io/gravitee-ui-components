@@ -427,36 +427,40 @@ export class GvSelect extends withResizeObserver(InputElement(LitElement)) {
           />
           ${this._renderIcon()}
         </div>
-        ${this.readonly
-          ? ''
-          : html` <ul
-              id="${this._id}-list"
-              class="${classMap(Object.assign({ select__list: true }))}"
-              role="listbox"
-              ?aria-expanded="${!this._isClosed}"
-            >
-              ${this._options &&
-              repeat(
-                this._options,
-                (option) => option,
-                (option) => html`
-                  <li
-                    class="${classMap({
-                      select__list__item: true,
-                      selected: this.isSelected(option),
-                      disabled: option.disabled,
-                    })}"
-                    @click=${this._onSelect.bind(this, option)}
-                    data-value="${option.value}"
-                    .title="${ifDefined(option.title)}"
-                    role="option"
-                    ?aria-selected="${this.isSelected(option)}"
-                  >
-                    ${option.label}
-                  </li>
-                `,
-              )}
-            </ul>`}
+        ${
+          this.readonly
+            ? ''
+            : html` <ul
+                id="${this._id}-list"
+                class="${classMap(Object.assign({ select__list: true }))}"
+                role="listbox"
+                ?aria-expanded="${!this._isClosed}"
+              >
+                ${
+                  this._options &&
+                  repeat(
+                    this._options,
+                    (option) => option,
+                    (option) => html`
+                      <li
+                        class="${classMap({
+                          select__list__item: true,
+                          selected: this.isSelected(option),
+                          disabled: option.disabled,
+                        })}"
+                        @click=${this._onSelect.bind(this, option)}
+                        data-value="${option.value}"
+                        .title="${ifDefined(option.title)}"
+                        role="option"
+                        ?aria-selected="${this.isSelected(option)}"
+                      >
+                        ${option.label}
+                      </li>
+                    `,
+                  )
+                }
+              </ul>`
+        }
       </div>
       ${this.description != null ? html`<div class="description" .innerHTML="${this.description}"></div>` : ''}
     `;

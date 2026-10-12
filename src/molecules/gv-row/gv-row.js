@@ -189,24 +189,26 @@ export class GvRow extends withResizeObserver(ItemResource(LitElement)) {
     const owner = getOwner(this._item);
     return html`
       <div class=${classMap(classes)}>
-        ${!this._skeleton && (this._error || this._empty)
-          ? html`<div class="message">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>`
-          : html`
-              <div class="${classMap({ skeleton: this._skeleton })}">${this._renderImage()}</div>
-              <div class="${classMap({ group: true, skeleton: this._skeleton })}">
-                <div class="title">
-                  <h3 class="name">${getTitle(this._item)}</h3>
-                  <div class="version">${getVersion(this._item)}</div>
+        ${
+          !this._skeleton && (this._error || this._empty)
+            ? html`<div class="message">${this._error ? i18n('gv-row.error') : i18n('gv-row.empty')}</div>`
+            : html`
+                <div class="${classMap({ skeleton: this._skeleton })}">${this._renderImage()}</div>
+                <div class="${classMap({ group: true, skeleton: this._skeleton })}">
+                  <div class="title">
+                    <h3 class="name">${getTitle(this._item)}</h3>
+                    <div class="version">${getVersion(this._item)}</div>
+                  </div>
+                  <div class="description" .innerHTML="${getDescription(this._item)}"></div>
                 </div>
-                <div class="description" .innerHTML="${getDescription(this._item)}"></div>
-              </div>
-              <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
-                <div class="meta__owner">
-                  ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}` : ''}
+                <div class="${classMap({ meta: true, skeleton: this._skeleton })}">
+                  <div class="meta__owner">
+                    ${owner != null && owner.trim().length > 0 ? html`<gv-icon shape="general:user" size="8px"></gv-icon>${owner}` : ''}
+                  </div>
+                  ${this.small !== true ? html`<div class="meta__tags">${this._renderLabels()}</div>` : ''}
                 </div>
-                ${this.small !== true ? html`<div class="meta__tags">${this._renderLabels()}</div>` : ''}
-              </div>
-            `}
+              `
+        }
       </div>
     `;
   }

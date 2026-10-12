@@ -221,12 +221,14 @@ export class GvRating extends LitElement {
                 (star, index) => html` ${this._renderStar(star, index)} `,
               )}
             </div>
-            ${this.count
-              ? html`<div>
-                  <div class="info-title">${this.count || ''}</div>
-                  <div class="info-subtitle">${this._getCountTitle()}</div>
-                </div>`
-              : ''}
+            ${
+              this.count
+                ? html`<div>
+                    <div class="info-title">${this.count || ''}</div>
+                    <div class="info-subtitle">${this._getCountTitle()}</div>
+                  </div>`
+                : ''
+            }
           </div>
         </div>
       </div>

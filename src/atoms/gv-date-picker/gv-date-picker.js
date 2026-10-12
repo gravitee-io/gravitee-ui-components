@@ -347,37 +347,38 @@ export class GvDatePicker extends LitElement {
     };
 
     return html` <div class="${classMap(classes)}">
-      ${this.range
-        ? html`
-            ${this.label ? html`<label for=${this._id} title="${this.label}">${this.label}</label>` : ''}
-            <div class="range-input">
-              <div class="box-icon box-icon-calendar"><gv-icon shape="general:calendar"></gv-icon></div>
-              <gv-input
-                id="${this._id}"
-                ?small="${this.small}"
-                ?disabled="${this.disabled}"
-                @focus="${this._onFocus.bind(this, 'from')}"
-                @blur="${this._onBlurForm}"
-                @gv-input:submit="${this._onBlurForm}"
-                .value="${until(this.getFormattedDate(this._from))}"
-                .placeholder="${this.dateFromPlaceholder}"
-              ></gv-input>
-              <div class="box-icon box-icon-arrow"><gv-icon shape="navigation:arrow-right"></gv-icon></div>
-              <gv-input
-                .placeholder="${this.dateToPlaceholder}"
-                ?small="${this.small}"
-                ?disabled="${this.disabled}"
-                @focus="${this._onFocus.bind(this, 'to')}"
-                @blur="${this._onBlurTo}"
-                @gv-input:submit="${this._onBlurTo}"
-                .value="${until(this.getFormattedDate(this._to))}"
-              ></gv-input>
-              <div class="box-icon box-icon-clear">
-                ${this.hasContent ? html`<gv-icon class="link" @click=${this._onClear} shape="code:error"></gv-icon>` : ''}
+      ${
+        this.range
+          ? html`
+              ${this.label ? html`<label for=${this._id} title="${this.label}">${this.label}</label>` : ''}
+              <div class="range-input">
+                <div class="box-icon box-icon-calendar"><gv-icon shape="general:calendar"></gv-icon></div>
+                <gv-input
+                  id="${this._id}"
+                  ?small="${this.small}"
+                  ?disabled="${this.disabled}"
+                  @focus="${this._onFocus.bind(this, 'from')}"
+                  @blur="${this._onBlurForm}"
+                  @gv-input:submit="${this._onBlurForm}"
+                  .value="${until(this.getFormattedDate(this._from))}"
+                  .placeholder="${this.dateFromPlaceholder}"
+                ></gv-input>
+                <div class="box-icon box-icon-arrow"><gv-icon shape="navigation:arrow-right"></gv-icon></div>
+                <gv-input
+                  .placeholder="${this.dateToPlaceholder}"
+                  ?small="${this.small}"
+                  ?disabled="${this.disabled}"
+                  @focus="${this._onFocus.bind(this, 'to')}"
+                  @blur="${this._onBlurTo}"
+                  @gv-input:submit="${this._onBlurTo}"
+                  .value="${until(this.getFormattedDate(this._to))}"
+                ></gv-input>
+                <div class="box-icon box-icon-clear">
+                  ${this.hasContent ? html`<gv-icon class="link" @click=${this._onClear} shape="code:error"></gv-icon>` : ''}
+                </div>
               </div>
-            </div>
-          `
-        : html`
+            `
+          : html`
         <gv-input
         id="${this._id}"
         icon="${this.time && this.strict ? 'home:timer' : 'general:calendar'}"
@@ -392,89 +393,96 @@ export class GvDatePicker extends LitElement {
          @gv-input:clear="${this._onClear}"
         .placeholder="${this.dateToPlaceholder}"
         .value="${until(this.getFormattedDate(this._from))}"></gv-input></div>
-        `}
+        `
+      }
 
       <span class="calendar">
-        ${this.range
-          ? html`
-              ${this.hasFrom()
-                ? html`<gv-date-picker-calendar
-                    .disabledDates="${this.disabledDates}"
-                    .min="${this._min}"
-                    .max="${this._max}"
-                    ?time="${this.time}"
-                    ?strict="${this.strict}"
-                    ?small="${this.small}"
-                    ?prev="${true}"
-                    ?next="${this.time}"
-                    ?range="${this.range && !this.time}"
-                    .month="${this._month}"
-                    .year="${this._year}"
-                    .hoveredDate="${this._hoveredDate}"
-                    .dateTo="${this._to}"
-                    .dateFrom="${this._from}"
-                    .locale="${until(this.getLocale())}"
-                    @gv-date-picker-calendar:month-mode="${this._onMonthMode}"
-                    @gv-date-picker-calendar:year-mode="${this._onYearMode}"
-                    @gv-date-picker-calendar:month-changed="${this._onMonthChanged}"
-                    @gv-date-picker-calendar:year-changed="${this._onYearChanged}"
-                    @hovered-date-changed="${this.hoveredDateChanged}"
-                    @date-to-changed="${this.dateToChanged}"
-                    @date-from-changed="${this.dateFromChanged}"
-                  >
-                  </gv-date-picker-calendar>`
-                : ''}
-              ${this.hasTo()
-                ? html`<gv-date-picker-calendar
-                    .disabledDates="${this.disabledDates}"
-                    .min="${this._min}"
-                    .max="${this._max}"
-                    ?time="${this.time}"
-                    ?strict="${this.strict}"
-                    ?small="${this.small}"
-                    ?prev="${this.time}"
-                    ?next="${true}"
-                    ?range="${this.range && !this.time}"
-                    .month="${this._monthPlus}"
-                    .year="${this._yearPlus}"
-                    .hoveredDate="${this._hoveredDate}"
-                    .dateTo="${this._to}"
-                    .dateFrom="${this._from}"
-                    .locale="${until(this.getLocale())}"
-                    @gv-date-picker-calendar:month-mode="${this._onMonthMode}"
-                    @gv-date-picker-calendar:year-mode="${this._onYearMode}"
-                    @gv-date-picker-calendar:month-changed="${this._onMonthChanged}"
-                    @gv-date-picker-calendar:year-changed="${this._onYearChanged}"
-                    @hovered-date-changed="${this.hoveredDateChanged}"
-                    @date-to-changed="${this.dateToChanged}"
-                    @date-from-changed="${this.dateFromChanged}"
-                  >
-                  </gv-date-picker-calendar>`
-                : ''}
-            `
-          : html`
-              <gv-date-picker-calendar
-                .disabledDates="${this.disabledDates}"
-                .min="${this._min}"
-                .max="${this._max}"
-                ?time="${this.time}"
-                ?small="${this.small}"
-                ?strict="${this.strict}"
-                ?prev="${true}"
-                ?next="${true}"
-                ?range="${this.range}"
-                .month="${this._month}"
-                .year="${this._year}"
-                .hoveredDate="${this._hoveredDate}"
-                .dateTo="${this._to}"
-                .dateFrom="${this._from}"
-                .locale="${until(this.getLocale())}"
-                @hovered-date-changed="${this.hoveredDateChanged}"
-                @date-to-changed="${this.dateToChanged}"
-                @date-from-changed="${this.dateFromChanged}"
-              >
-              </gv-date-picker-calendar>
-            `}
+        ${
+          this.range
+            ? html`
+                ${
+                  this.hasFrom()
+                    ? html`<gv-date-picker-calendar
+                        .disabledDates="${this.disabledDates}"
+                        .min="${this._min}"
+                        .max="${this._max}"
+                        ?time="${this.time}"
+                        ?strict="${this.strict}"
+                        ?small="${this.small}"
+                        ?prev="${true}"
+                        ?next="${this.time}"
+                        ?range="${this.range && !this.time}"
+                        .month="${this._month}"
+                        .year="${this._year}"
+                        .hoveredDate="${this._hoveredDate}"
+                        .dateTo="${this._to}"
+                        .dateFrom="${this._from}"
+                        .locale="${until(this.getLocale())}"
+                        @gv-date-picker-calendar:month-mode="${this._onMonthMode}"
+                        @gv-date-picker-calendar:year-mode="${this._onYearMode}"
+                        @gv-date-picker-calendar:month-changed="${this._onMonthChanged}"
+                        @gv-date-picker-calendar:year-changed="${this._onYearChanged}"
+                        @hovered-date-changed="${this.hoveredDateChanged}"
+                        @date-to-changed="${this.dateToChanged}"
+                        @date-from-changed="${this.dateFromChanged}"
+                      >
+                      </gv-date-picker-calendar>`
+                    : ''
+                }
+                ${
+                  this.hasTo()
+                    ? html`<gv-date-picker-calendar
+                        .disabledDates="${this.disabledDates}"
+                        .min="${this._min}"
+                        .max="${this._max}"
+                        ?time="${this.time}"
+                        ?strict="${this.strict}"
+                        ?small="${this.small}"
+                        ?prev="${this.time}"
+                        ?next="${true}"
+                        ?range="${this.range && !this.time}"
+                        .month="${this._monthPlus}"
+                        .year="${this._yearPlus}"
+                        .hoveredDate="${this._hoveredDate}"
+                        .dateTo="${this._to}"
+                        .dateFrom="${this._from}"
+                        .locale="${until(this.getLocale())}"
+                        @gv-date-picker-calendar:month-mode="${this._onMonthMode}"
+                        @gv-date-picker-calendar:year-mode="${this._onYearMode}"
+                        @gv-date-picker-calendar:month-changed="${this._onMonthChanged}"
+                        @gv-date-picker-calendar:year-changed="${this._onYearChanged}"
+                        @hovered-date-changed="${this.hoveredDateChanged}"
+                        @date-to-changed="${this.dateToChanged}"
+                        @date-from-changed="${this.dateFromChanged}"
+                      >
+                      </gv-date-picker-calendar>`
+                    : ''
+                }
+              `
+            : html`
+                <gv-date-picker-calendar
+                  .disabledDates="${this.disabledDates}"
+                  .min="${this._min}"
+                  .max="${this._max}"
+                  ?time="${this.time}"
+                  ?small="${this.small}"
+                  ?strict="${this.strict}"
+                  ?prev="${true}"
+                  ?next="${true}"
+                  ?range="${this.range}"
+                  .month="${this._month}"
+                  .year="${this._year}"
+                  .hoveredDate="${this._hoveredDate}"
+                  .dateTo="${this._to}"
+                  .dateFrom="${this._from}"
+                  .locale="${until(this.getLocale())}"
+                  @hovered-date-changed="${this.hoveredDateChanged}"
+                  @date-to-changed="${this.dateToChanged}"
+                  @date-from-changed="${this.dateFromChanged}"
+                >
+                </gv-date-picker-calendar>
+              `
+        }
       </span>
     </div>`;
   }

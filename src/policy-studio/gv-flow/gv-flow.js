@@ -382,8 +382,9 @@ export class GvFlow extends LitElement {
               </div>
             </div>
 
-            ${hasPost
-              ? html`
+            ${
+              hasPost
+                ? html`
                         <div class="${classMap({ post: true, targeted: postTarget, forbidden: postForbidden })}">
                           <div class='arrow arrow-left'> </div>
                             <div class="drop-box"
@@ -397,7 +398,8 @@ export class GvFlow extends LitElement {
                              </div>
                           </div>
                         </div>`
-              : ''}
+                : ''
+            }
           </div>
         </div>
       </div>

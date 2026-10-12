@@ -239,11 +239,11 @@ export class GvTree extends LitElement {
   }
 
   _getMenuItem(menuItem) {
-    return html` ${menuItem.children && menuItem.children.length > 0
-      ? html`<li class="tree-menu__item folder">${this._getMenuItemFolder(menuItem)}</li>`
-      : html`<li class="tree-menu__item page ${menuItem === this.selectedItem ? 'selected' : ''}">
-          ${this._getMenuItemPage(menuItem)}
-        </li>`}`;
+    return html` ${
+      menuItem.children && menuItem.children.length > 0
+        ? html`<li class="tree-menu__item folder">${this._getMenuItemFolder(menuItem)}</li>`
+        : html`<li class="tree-menu__item page ${menuItem === this.selectedItem ? 'selected' : ''}">${this._getMenuItemPage(menuItem)}</li>`
+    }`;
   }
 
   _toggleMenu() {

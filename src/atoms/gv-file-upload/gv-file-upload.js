@@ -307,31 +307,37 @@ export class GvFileUpload extends LitElement {
           />
         </div>
       </div>
-      ${this._files.length > 0
-        ? html`
-            <div class="files">
-              <gv-icon shape="general:clip"></gv-icon>
-              <div class="filename">${this._files[0].name}</div>
-              <gv-icon class="link" @click="${this._removeFile.bind(this, 0)}" shape="general:trash"></gv-icon>
-            </div>
-          `
-        : ''}
-      ${this._errors.length > 0
-        ? html`
-            <div class="files">
-              <gv-icon class="error" shape="code:stop"></gv-icon>
-              <div class="filename">${this._errors[0].file.name} <span class="error">(${this._errors[0].error})</span></div>
-            </div>
-          `
-        : ''}
-      ${this.value && this._files.length === 0 && this._errors.length === 0
-        ? html`
-            <div class="files">
-              <div class="filename"></div>
-              <gv-button link @click="${this._removeFile.bind(this, 0)}">${i18n('gv-file-upload.removePicture')}</gv-button>
-            </div>
-          `
-        : ''}
+      ${
+        this._files.length > 0
+          ? html`
+              <div class="files">
+                <gv-icon shape="general:clip"></gv-icon>
+                <div class="filename">${this._files[0].name}</div>
+                <gv-icon class="link" @click="${this._removeFile.bind(this, 0)}" shape="general:trash"></gv-icon>
+              </div>
+            `
+          : ''
+      }
+      ${
+        this._errors.length > 0
+          ? html`
+              <div class="files">
+                <gv-icon class="error" shape="code:stop"></gv-icon>
+                <div class="filename">${this._errors[0].file.name} <span class="error">(${this._errors[0].error})</span></div>
+              </div>
+            `
+          : ''
+      }
+      ${
+        this.value && this._files.length === 0 && this._errors.length === 0
+          ? html`
+              <div class="files">
+                <div class="filename"></div>
+                <gv-button link @click="${this._removeFile.bind(this, 0)}">${i18n('gv-file-upload.removePicture')}</gv-button>
+              </div>
+            `
+          : ''
+      }
     `;
   }
 

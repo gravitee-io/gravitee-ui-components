@@ -192,23 +192,27 @@ export class GvDocumentation extends LitElement {
 
     return html`<link @load="${this._onLoad}" rel="stylesheet" href="css/documentation.css" />
       <div class="container">
-        ${this.withoutHeader
-          ? html``
-          : html`<div class="header">
-              <div class="left">
-                ${this.disabled
-                  ? html``
-                  : html`<gv-button
-                      icon="general:close"
-                      outlined
-                      small
-                      @gv-button:click="${this._onCloseDocumentation}"
-                      title="Close"
-                    ></gv-button>`}
-              </div>
-              <div class="title">${title}</div>
-              <div class="right">${this._renderIcon()}</div>
-            </div>`}
+        ${
+          this.withoutHeader
+            ? html``
+            : html`<div class="header">
+                <div class="left">
+                  ${
+                    this.disabled
+                      ? html``
+                      : html`<gv-button
+                          icon="general:close"
+                          outlined
+                          small
+                          @gv-button:click="${this._onCloseDocumentation}"
+                          title="Close"
+                        ></gv-button>`
+                  }
+                </div>
+                <div class="title">${title}</div>
+                <div class="right">${this._renderIcon()}</div>
+              </div>`
+        }
         <div class="${classMap({ 'doc-content': true, show: this._cssLoaded })}">
           ${content}
           <slot name="empty" class="${classMap({ empty: true, show: content == null })}">

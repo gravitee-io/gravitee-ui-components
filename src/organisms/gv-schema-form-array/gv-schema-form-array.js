@@ -70,20 +70,24 @@ export class GvSchemaFormArray extends UpdateAfterBrowser(LitElement) {
       form__item_cards: !isInline,
     };
     return html`<div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}">
-      ${!isInline
-        ? html`<div class="${classMap({ 'form__item-label': true, skeleton: this.skeleton })}">
-            <label>${this.schema.title}</label>
-            ${this.readonly !== true
-              ? html`<gv-button
-                  link
-                  small
-                  @gv-button:click="${this._onRemove.bind(this, index)}"
-                  icon="general:close"
-                  title="Remove"
-                ></gv-button>`
-              : ''}
-          </div>`
-        : ''}
+      ${
+        !isInline
+          ? html`<div class="${classMap({ 'form__item-label': true, skeleton: this.skeleton })}">
+              <label>${this.schema.title}</label>
+              ${
+                this.readonly !== true
+                  ? html`<gv-button
+                      link
+                      small
+                      @gv-button:click="${this._onRemove.bind(this, index)}"
+                      icon="general:close"
+                      title="Remove"
+                    ></gv-button>`
+                  : ''
+              }
+            </div>`
+          : ''
+      }
       <div class="form__item_entry">
         <gv-schema-form-control
           .id="${id}"
@@ -94,15 +98,17 @@ export class GvSchemaFormArray extends UpdateAfterBrowser(LitElement) {
           ?disabled="${isDisabled}"
           ?readonly="${this.readonly}"
         ></gv-schema-form-control>
-        ${!isInline
-          ? ''
-          : html`<gv-button
-              link
-              small
-              @gv-button:click="${this._onRemove.bind(this, index)}"
-              icon="general:close"
-              title="Remove"
-            ></gv-button>`}
+        ${
+          !isInline
+            ? ''
+            : html`<gv-button
+                link
+                small
+                @gv-button:click="${this._onRemove.bind(this, index)}"
+                icon="general:close"
+                title="Remove"
+              ></gv-button>`
+        }
       </div>
     </div> `;
   }
@@ -148,9 +154,11 @@ export class GvSchemaFormArray extends UpdateAfterBrowser(LitElement) {
           <label><span>${this.title || this.id}</span><span class="form__item-length">(${this.value.length})</span></label>
           ${this.description ? html`<div class="description">${this.description}</div>` : ''}
         </div>
-        ${this.readonly !== true
-          ? html`<gv-button outlined small icon="code:plus" @gv-button:click="${this._onNew}">New ${this.schema.title}</gv-button>`
-          : ''}
+        ${
+          this.readonly !== true
+            ? html`<gv-button outlined small icon="code:plus" @gv-button:click="${this._onNew}">New ${this.schema.title}</gv-button>`
+            : ''
+        }
       </div>
       <div class="form__item-group" id="${this.id}" slot="details">
         ${this.value != null && Array.isArray(this.value) ? this.value.map((value, index) => this._renderValue(value, index)) : ''}

@@ -98,17 +98,19 @@ export class GvMetric extends LitElement {
 
     return html`
       <div class=${classMap(modes)}>
-        ${this.value
-          ? html`
-              <div class="icon">
-                <gv-icon shape="${this.icon}"></gv-icon>
-              </div>
-              <div class="metric-data">
-                <div class="metric-value">${this.value}</div>
-                <div class="metric-name">${this.name}</div>
-              </div>
-            `
-          : ''}
+        ${
+          this.value
+            ? html`
+                <div class="icon">
+                  <gv-icon shape="${this.icon}"></gv-icon>
+                </div>
+                <div class="metric-data">
+                  <div class="metric-value">${this.value}</div>
+                  <div class="metric-name">${this.name}</div>
+                </div>
+              `
+            : ''
+        }
       </div>
     `;
   }

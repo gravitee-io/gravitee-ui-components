@@ -157,9 +157,9 @@ export class GvTag extends LitElement {
 
     return html`
       <div class=${classMap(modes)} @click="${this._onTagClick}">
-        ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<slot></slot>${this.iconRight
-          ? html`<gv-icon shape="${this.iconRight}"></gv-icon>`
-          : ''}
+        ${this.icon ? html`<gv-icon shape="${this.icon}"></gv-icon>` : ''}<slot></slot>${
+          this.iconRight ? html`<gv-icon shape="${this.iconRight}"></gv-icon>` : ''
+        }
       </div>
     `;
   }

@@ -423,43 +423,49 @@ export class GvPolicyStudioMenu extends LitElement {
     const enabled = content.enabled !== false;
     const stateLabel = enabled ? 'Disable flow ?' : 'Enable flow ?';
     return html`<div class="actions">
-      ${this.hasCompare() || this.selectedIds.includes(content._id)
-        ? ''
-        : html`<gv-button
-            tabindex="0"
-            link
-            small
-            icon="navigation:route"
-            @gv-button:click="${this._compareFlow.bind(this, content)}"
-            title="Compare"
-          ></gv-button>`}
-      ${this.canAdd && readonlyMode !== true
-        ? html`<gv-button
+      ${
+        this.hasCompare() || this.selectedIds.includes(content._id)
+          ? ''
+          : html`<gv-button
               tabindex="0"
               link
               small
-              icon="general:duplicate"
-              @gv-button:click="${this._onDuplicateFlow.bind(this, content)}"
-              title="Duplicate"
-            ></gv-button>
-            <gv-button
-              tabindex="0"
-              link
-              small
-              icon="home:trash"
-              @gv-button:click="${this._onDeleteFlow.bind(this, content)}"
-              title="Delete"
+              icon="navigation:route"
+              @gv-button:click="${this._compareFlow.bind(this, content)}"
+              title="Compare"
             ></gv-button>`
-        : ''}
-      ${readonlyMode !== true
-        ? html`<gv-switch
-            tabindex="0"
-            small
-            title="${stateLabel}"
-            .value="${enabled}"
-            @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"
-          ></gv-switch>`
-        : ''}
+      }
+      ${
+        this.canAdd && readonlyMode !== true
+          ? html`<gv-button
+                tabindex="0"
+                link
+                small
+                icon="general:duplicate"
+                @gv-button:click="${this._onDuplicateFlow.bind(this, content)}"
+                title="Duplicate"
+              ></gv-button>
+              <gv-button
+                tabindex="0"
+                link
+                small
+                icon="home:trash"
+                @gv-button:click="${this._onDeleteFlow.bind(this, content)}"
+                title="Delete"
+              ></gv-button>`
+          : ''
+      }
+      ${
+        readonlyMode !== true
+          ? html`<gv-switch
+              tabindex="0"
+              small
+              title="${stateLabel}"
+              .value="${enabled}"
+              @gv-switch:input="${this._onChangeFlowState.bind(this, content)}"
+            ></gv-switch>`
+          : ''
+      }
     </div>`;
   }
 
@@ -621,9 +627,11 @@ export class GvPolicyStudioMenu extends LitElement {
           @click="${this._onClickPolicy.bind(this, content)}"
           title="Show documentation of ${content.name}"
         >
-          ${content.icon == null && group != null
-            ? html`<gv-icon class="policy-icon" shape="${this._getGroupShape(group)}"></gv-icon>`
-            : html`<gv-image src="${content.icon}"></gv-image>`}
+          ${
+            content.icon == null && group != null
+              ? html`<gv-icon class="policy-icon" shape="${this._getGroupShape(group)}"></gv-icon>`
+              : html`<gv-image src="${content.icon}"></gv-image>`
+          }
           <div class="policy-name">${content.name}</div>
           ${draggable ? html`<gv-icon class="draggable-icon" shape="design:arrows"></gv-icon>` : html``} ${this._getLockIcon(content)}
         </div>`;
@@ -752,38 +760,44 @@ export class GvPolicyStudioMenu extends LitElement {
   render() {
     return html` <slot name="header"></slot>
       <div class="box">
-        ${this.plans != null
-          ? this._renderPart(
-              'flows',
-              '',
-              'shopping:sale#2',
-              this.plans,
-              false,
-              this.canAdd && !this.disabled && !this.readonlyPlans ? this._onAddFlowToPlan : null,
-              'name',
-            )
-          : ``}
-        ${this.flows != null
-          ? this._renderPart(
-              'flows',
-              this.flowsTitle,
-              'shopping:box#3',
-              this.flows,
-              false,
-              this.canAdd && !this.disabled ? this._onAddFlow : null,
-            )
-          : ``}
-        ${this.policies != null
-          ? this._renderPart(
-              'policies',
-              'Policies',
-              'communication:shield-thunder',
-              this.policies,
-              true,
-              null,
-              this.policies.length > 0 && this.policies[0].category != null ? 'category' : null,
-            )
-          : ''}
+        ${
+          this.plans != null
+            ? this._renderPart(
+                'flows',
+                '',
+                'shopping:sale#2',
+                this.plans,
+                false,
+                this.canAdd && !this.disabled && !this.readonlyPlans ? this._onAddFlowToPlan : null,
+                'name',
+              )
+            : ``
+        }
+        ${
+          this.flows != null
+            ? this._renderPart(
+                'flows',
+                this.flowsTitle,
+                'shopping:box#3',
+                this.flows,
+                false,
+                this.canAdd && !this.disabled ? this._onAddFlow : null,
+              )
+            : ``
+        }
+        ${
+          this.policies != null
+            ? this._renderPart(
+                'policies',
+                'Policies',
+                'communication:shield-thunder',
+                this.policies,
+                true,
+                null,
+                this.policies.length > 0 && this.policies[0].category != null ? 'category' : null,
+              )
+            : ''
+        }
       </div>
       <slot name="footer"></slot>`;
   }

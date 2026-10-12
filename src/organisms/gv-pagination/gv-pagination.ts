@@ -242,9 +242,9 @@ export class GvPagination extends LitElement {
       ?medium="${this.medium}"
       ?large="${this.large}"
       primary
-      .title="${this.widget
-        ? i18n('gv-pagination.results', { count: this.data.total })
-        : this.data.current_page + ' / ' + pagination.length}"
+      .title="${
+        this.widget ? i18n('gv-pagination.results', { count: this.data.total }) : this.data.current_page + ' / ' + pagination.length
+      }"
       >${this.widget ? this.data.current_page + ' / ' + pagination.length : this.data.current_page}</gv-button
     >`}
     ${this.widget ? rightP.slice(rightP.length - 1, rightP.length) : rightP}`;
@@ -280,42 +280,46 @@ export class GvPagination extends LitElement {
 
     if (this.hasData && !this.hide) {
       return html`<div class="${classMap(classes)}">
-        ${this.hasSearch
-          ? html`<gv-input
-                class="goto"
-                @gv-input:submit="${this.onSubmit}"
-                type="number"
-                min="1"
+        ${
+          this.hasSearch
+            ? html`<gv-input
+                  class="goto"
+                  @gv-input:submit="${this.onSubmit}"
+                  type="number"
+                  min="1"
+                  .disabled="${this.disabled}"
+                  .value="${this.data?.current_page}"
+                  max="${this.data.total_pages}"
+                  placeholder="Page"
+                  ?small="${this.small}"
+                  ?medium="${this.medium}"
+                  ?large="${this.large}"
+                  .title="${this.data?.current_page + ' / ' + this.data.total_pages}"
+                ></gv-input>
+                <gv-button
+                  ?small="${this.small}"
+                  ?medium="${this.medium}"
+                  ?large="${this.large}"
+                  outlined
+                  @gv-button:click="${this.onClickToSearch}"
+                  icon="general:search"
+                  .title="${i18n('gv-pagination.goTo')}"
+                ></gv-button>`
+            : ''
+        }
+        ${
+          this.hasSelect
+            ? html`<gv-select-native
+                .value="${this.pageSize}"
+                .options="${this.data.sizes}"
                 .disabled="${this.disabled}"
-                .value="${this.data?.current_page}"
-                max="${this.data.total_pages}"
-                placeholder="Page"
+                @gv-select-native:input="${this.onChangePageSize}"
                 ?small="${this.small}"
                 ?medium="${this.medium}"
                 ?large="${this.large}"
-                .title="${this.data?.current_page + ' / ' + this.data.total_pages}"
-              ></gv-input>
-              <gv-button
-                ?small="${this.small}"
-                ?medium="${this.medium}"
-                ?large="${this.large}"
-                outlined
-                @gv-button:click="${this.onClickToSearch}"
-                icon="general:search"
-                .title="${i18n('gv-pagination.goTo')}"
-              ></gv-button>`
-          : ''}
-        ${this.hasSelect
-          ? html`<gv-select-native
-              .value="${this.pageSize}"
-              .options="${this.data.sizes}"
-              .disabled="${this.disabled}"
-              @gv-select-native:input="${this.onChangePageSize}"
-              ?small="${this.small}"
-              ?medium="${this.medium}"
-              ?large="${this.large}"
-            ></gv-select-native>`
-          : ''}
+              ></gv-select-native>`
+            : ''
+        }
         ${this.renderPagination()}
       </div>`;
     }
