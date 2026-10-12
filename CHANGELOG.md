@@ -1,3 +1,10 @@
+## [4.5.3](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.2...v4.5.3) (2026-10-12)
+
+
+### Bug Fixes
+
+* **schema-form:** restore settings for root oneOf schemas ([79adcef](https://github.com/gravitee-io/gravitee-ui-components/commit/79adcef03c9e58fd55511735a147b9fd76047bf6))
+
 ## [4.5.2](https://github.com/gravitee-io/gravitee-ui-components/compare/v4.5.1...v4.5.2) (2026-07-23)
 
 
