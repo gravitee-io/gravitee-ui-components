@@ -41,7 +41,7 @@ jobs:
 
   lint-test:
     executor:
-      class: small
+      class: medium
       name: node-lts
     steps:
       - checkout
@@ -58,7 +58,8 @@ jobs:
           command: yarn lint
       - run:
           name: Run unit tests
-          command: yarn test:coverage --ci --runInBand
+          # NODE_OPTIONS is set inline: the `test` script of package.json overrides it
+          command: NODE_OPTIONS="--unhandled-rejections=warn --max-old-space-size=3072" yarn jest --collect-coverage --ci --runInBand
 
   dangerjs:
     executor:
