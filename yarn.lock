@@ -3026,7 +3026,7 @@ __metadata:
     highlight.js: "npm:11.12.0"
     http-server: "npm:14.1.1"
     husky: "npm:9.1.7"
-    i18n-extract: "npm:0.6.8"
+    i18n-extract: "npm:0.6.7"
     is-ci: "npm:4.1.0"
     jdenticon: "npm:^3.1.0"
     jest: "npm:30.5.2"
@@ -9405,9 +9405,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18n-extract@npm:0.6.8":
-  version: 0.6.8
-  resolution: "i18n-extract@npm:0.6.8"
+"i18n-extract@npm:0.6.7":
+  version: 0.6.7
+  resolution: "i18n-extract@npm:0.6.7"
   dependencies:
     "@babel/core": "npm:^7.4.0"
     "@babel/plugin-proposal-class-properties": "npm:^7.4.0"
@@ -9417,7 +9417,7 @@ __metadata:
     "@babel/traverse": "npm:^7.4.0"
     gettext-parser: "npm:^3.1.1"
     glob: "npm:^7.1.3"
-  checksum: 10/a00ca6ffa3ab8b35b085709a3c7fb9c26c4429317897dd038443bfa92d762a9c01524d46454041e39ce7550c811e34eba380e905380085269b48c32fe5f9cb16
+  checksum: 10/2f1b8d1e1d6be61375a117c50e6808021f58ef056cd1d5c392861ac8d8823fe87f99b949b35d9554ca8293522be07258f9514f3dde44eb96447843669103b193
   languageName: node
   linkType: hard
 
