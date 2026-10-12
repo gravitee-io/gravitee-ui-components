@@ -254,10 +254,12 @@ workflows:
           requires:
             - install
       - prerelease:
-          # Ignore this prerelease step on `master`
+          # Ignore this prerelease step on `master` and maintenance branches
           filters:
             branches:
-              ignore: master
+              ignore:
+                - master
+                - /^\d+\.\d+\.x$/
           pre-steps:
             - keeper/env-export:
                 secret-url: keeper://TIlcGPFq4rN5GvgnZb9hng/field/password
@@ -303,4 +305,6 @@ workflows:
             - lint-test
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - /^\d+\.\d+\.x$/
