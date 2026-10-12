@@ -227,9 +227,11 @@ export class GvCardFull extends ItemResource(LitElement) {
         <div class="${classMap({ image: true })}">${this._renderImage()}</div>
         <div class="content">
           <div class="${classMap({ title: true })}">${title}</div>
-          ${owner != null && owner.trim().length > 0
-            ? html`<div class="owner"><gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>`
-            : ''}
+          ${
+            owner != null && owner.trim().length > 0
+              ? html`<div class="owner"><gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>`
+              : ''
+          }
           <div class="states">${this._renderStates()}</div>
         </div>
         <div class="version" title="${version}"><span class="${classMap({ skeleton: this._skeleton })}">${version}</span></div>

@@ -163,13 +163,15 @@ export class GvHttpClient extends LitElement {
       <div class="response-row-item">Response</div>
       ${this.method ? html` <div class="response-row-item-method">${this.method}</div>` : ''}
       ${this.path ? html` <div class="response-row-item">${this.path}</div>` : ''}
-      ${this.response.statusCode
-        ? html` <div class="response-row-item">
-            <gv-state ?success="${successfulRequest}" ?error="${errorRequest}">
-              ${this.response.statusCode} - ${statusCode[this.response.statusCode].description}
-            </gv-state>
-          </div>`
-        : ''}
+      ${
+        this.response.statusCode
+          ? html` <div class="response-row-item">
+              <gv-state ?success="${successfulRequest}" ?error="${errorRequest}">
+                ${this.response.statusCode} - ${statusCode[this.response.statusCode].description}
+              </gv-state>
+            </div>`
+          : ''
+      }
     </div> `;
   }
 

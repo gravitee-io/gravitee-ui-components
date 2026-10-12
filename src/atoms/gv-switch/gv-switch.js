@@ -215,12 +215,14 @@ export class GvSwitch extends LitElement {
 
     return html`
       <div class="container">
-        ${this.label || this.description
-          ? html`<div class="${classMap({ labels: true, skeleton: this.skeleton })}">
-              ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
-              ${this.description ? html`<label class="switch-description" .innerHTML="${this.description}"></label>` : ''}
-            </div>`
-          : ''}
+        ${
+          this.label || this.description
+            ? html`<div class="${classMap({ labels: true, skeleton: this.skeleton })}">
+                ${this.label ? html`<label class="switch-title">${this.label}</label>` : ''}
+                ${this.description ? html`<label class="switch-description" .innerHTML="${this.description}"></label>` : ''}
+              </div>`
+            : ''
+        }
         <div class="switch-container">
           <div class=${classMap(classes)}>
             <input

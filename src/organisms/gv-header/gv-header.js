@@ -272,15 +272,19 @@ export class GvHeader extends withResizeObserver(ItemResource(LitElement)) {
         ${this._renderImage()}
         <div class="title">
           ${!(this._error || this._empty) && !this.sticky ? html`<div class="version">${getVersion(this._item)}</div>` : ''}
-          ${this._error || this._empty
-            ? html`<div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>`
-            : html`<h1>${getTitle(this._item)} ${nbApisInView !== null ? html`<span>(${nbApisInView})</span>` : ''}</h1>`}
+          ${
+            this._error || this._empty
+              ? html`<div class="error">${this._error ? i18n('gv-header.error') : i18n('gv-header.empty')}</div>`
+              : html`<h1>${getTitle(this._item)} ${nbApisInView !== null ? html`<span>(${nbApisInView})</span>` : ''}</h1>`
+          }
         </div>
-        ${!(this._error || this._empty) && this.canSubscribe
-          ? html`<div class="actions">
-              <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header.subscribe')}</gv-button>
-            </div>`
-          : ``}
+        ${
+          !(this._error || this._empty) && this.canSubscribe
+            ? html`<div class="actions">
+                <gv-button primary @click="${this._onSubscribe}">${i18n('gv-header.subscribe')}</gv-button>
+              </div>`
+            : ``
+        }
       </div>
     `;
   }

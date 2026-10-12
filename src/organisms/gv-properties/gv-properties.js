@@ -500,15 +500,17 @@ export class GvProperties extends KeyboardElement(LitElement) {
                   @gv-input:input="${this._onInputNew.bind(this, 'value')}"
                   .value="${this._newItem.value}"
                 ></gv-input>
-                ${this.encryptable
-                  ? html` <gv-switch
-                      class="control"
-                      required
-                      description="${i18n('gv-properties.encrypted-toggle')}"
-                      @gv-switch:input="${this._onInputNew.bind(this, 'encryptable')}"
-                      .value="${this._newItem.encryptable}"
-                    ></gv-switch>`
-                  : ''}
+                ${
+                  this.encryptable
+                    ? html` <gv-switch
+                        class="control"
+                        required
+                        description="${i18n('gv-properties.encrypted-toggle')}"
+                        @gv-switch:input="${this._onInputNew.bind(this, 'encryptable')}"
+                        .value="${this._newItem.encryptable}"
+                      ></gv-switch>`
+                    : ''
+                }
                 <gv-button
                   id="add-property"
                   icon="code:plus"

@@ -199,21 +199,23 @@ export class GvList extends withSkeletonAttribute(LitElement) {
       <ul class="list">
         <h3>${this.title ? this.title : ''} ${this._items && this._items.length > 0 ? html`<span>(${this._items.length})</span>` : ''}</h3>
         <div class="scrollable-container">
-          ${this._items
-            ? repeat(
-                this._items,
-                (item) => item,
-                (item) => {
-                  if (this.clickable) {
-                    return html`<li class="${classMap({ item: true, link: true })}" @click="${this._onClick.bind(this, item)}">
-                      ${this._renderItem(item)}
-                    </li>`;
-                  } else {
-                    return html`<li class="${classMap({ item: true })}">${this._renderItem(item)}</li>`;
-                  }
-                },
-              )
-            : ''}
+          ${
+            this._items
+              ? repeat(
+                  this._items,
+                  (item) => item,
+                  (item) => {
+                    if (this.clickable) {
+                      return html`<li class="${classMap({ item: true, link: true })}" @click="${this._onClick.bind(this, item)}">
+                        ${this._renderItem(item)}
+                      </li>`;
+                    } else {
+                      return html`<li class="${classMap({ item: true })}">${this._renderItem(item)}</li>`;
+                    }
+                  },
+                )
+              : ''
+          }
         </div>
       </ul>
     `;

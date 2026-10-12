@@ -522,9 +522,11 @@ export class GvCronEditor extends withResizeObserver(InputElement(LitElement)) {
 
           <div slot="content" id="pro" class="tab-content tab-content_pro">
             <gv-button link small class="tab-content_pro-details_btn" @click="${this.displayProDetails}">
-              ${this._state.pro.displayDetails
-                ? 'Hide information about cron rules and examples'
-                : 'Display information about cron rules and examples'}
+              ${
+                this._state.pro.displayDetails
+                  ? 'Hide information about cron rules and examples'
+                  : 'Display information about cron rules and examples'
+              }
             </gv-button>
             ${this.renderProDetails()}
           </div>

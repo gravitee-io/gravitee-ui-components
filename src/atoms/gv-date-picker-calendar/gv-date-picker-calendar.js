@@ -293,9 +293,11 @@ export class GvDatePickerCalendar extends LitElement {
     if (this.prev || this.monthMode || this.yearMode) {
       return html`
         <gv-button link icon="navigation:angle-double-left" @click="${this._onPrevYear}" ?small="${this.small}"></gv-button>
-        ${this.monthMode || this.yearMode
-          ? ''
-          : html`<gv-button link icon="navigation:angle-left" ?small="${this.small}" @click="${this._onPrevMonth}"></gv-button>`}
+        ${
+          this.monthMode || this.yearMode
+            ? ''
+            : html`<gv-button link icon="navigation:angle-left" ?small="${this.small}" @click="${this._onPrevMonth}"></gv-button>`
+        }
       `;
     }
     return '';
@@ -304,11 +306,13 @@ export class GvDatePickerCalendar extends LitElement {
   _renderCurrentNav() {
     return html`
       <div class="current">
-        ${this.yearMode
-          ? ''
-          : html`<gv-button link @click="${this._onSelectMonth}" ?small="${this.small}"
-              ><span class="monthName">${until(this.computeName(this.month, this.year))}</span></gv-button
-            >`}
+        ${
+          this.yearMode
+            ? ''
+            : html`<gv-button link @click="${this._onSelectMonth}" ?small="${this.small}"
+                ><span class="monthName">${until(this.computeName(this.month, this.year))}</span></gv-button
+              >`
+        }
         <gv-button ?small="${this.small}" link @click="${this._onSelectYear}">${this.computeCurrentYearName()}</gv-button>
       </div>
     `;
@@ -317,9 +321,11 @@ export class GvDatePickerCalendar extends LitElement {
   _renderNextNav() {
     if (this.next || this.monthMode || this.yearMode) {
       return html`
-        ${this.monthMode || this.yearMode
-          ? ''
-          : html`<gv-button link icon="navigation:angle-right" ?small="${this.small}" @click="${this._onNextMonth}"></gv-button>`}
+        ${
+          this.monthMode || this.yearMode
+            ? ''
+            : html`<gv-button link icon="navigation:angle-right" ?small="${this.small}" @click="${this._onNextMonth}"></gv-button>`
+        }
         <gv-button ?small="${this.small}" link icon="navigation:angle-double-right" @click="${this._onNextYear}"></gv-button>
       `;
     }
@@ -327,34 +333,40 @@ export class GvDatePickerCalendar extends LitElement {
 
   _renderDays() {
     return html` ${this._dayNamesOfWeek && this._dayNamesOfWeek.map((dayNameOfWeek) => html`<div class="day">${dayNameOfWeek}</div>`)}
-    ${this._dimensions &&
-    this._dimensions.map(
-      (dimension) =>
-        html`${dimension &&
-        dimension.map(
-          (data) =>
-            html` <div>
-              ${data
-                ? html`
-                    <gv-date-picker-cell
-                      .disabledDates="${this.disabledDates}"
-                      .min="${this.monthMode || this.yearMode ? null : this.min}"
-                      .max="${this.monthMode || this.yearMode ? null : this.max}"
-                      .month="${this.month}"
-                      .hoveredDate="${this.hoveredDate}"
-                      .dateTo="${this._to}"
-                      .dateFrom="${this._from}"
-                      .data="${data}"
-                      .time="${this.time}"
-                      ?isCurrent="${this.isCurrentDate(data)}"
-                      @gv-date-picker-cell:hover="${this._onHover}"
-                      @gv-date-picker-cell:select="${this._onSelect}"
-                    ></gv-date-picker-cell>
-                  `
-                : null}
-            </div>`,
-        )}`,
-    )}`;
+    ${
+      this._dimensions &&
+      this._dimensions.map(
+        (dimension) =>
+          html`${
+            dimension &&
+            dimension.map(
+              (data) =>
+                html` <div>
+                  ${
+                    data
+                      ? html`
+                          <gv-date-picker-cell
+                            .disabledDates="${this.disabledDates}"
+                            .min="${this.monthMode || this.yearMode ? null : this.min}"
+                            .max="${this.monthMode || this.yearMode ? null : this.max}"
+                            .month="${this.month}"
+                            .hoveredDate="${this.hoveredDate}"
+                            .dateTo="${this._to}"
+                            .dateFrom="${this._from}"
+                            .data="${data}"
+                            .time="${this.time}"
+                            ?isCurrent="${this.isCurrentDate(data)}"
+                            @gv-date-picker-cell:hover="${this._onHover}"
+                            @gv-date-picker-cell:select="${this._onSelect}"
+                          ></gv-date-picker-cell>
+                        `
+                      : null
+                  }
+                </div>`,
+            )
+          }`,
+      )
+    }`;
   }
 
   isStrictTime() {
@@ -368,86 +380,102 @@ export class GvDatePickerCalendar extends LitElement {
     };
     return html`
       <div class="box">
-        ${this.isStrictTime()
-          ? ''
-          : html`<div class="box-col">
-              <div class="nav">${this._renderPreviousNav()} ${this._renderCurrentNav()} ${this._renderNextNav()}</div>
-              <div class="${classMap(classes)}">${this._renderDays()}</div>
-            </div>`}
-        ${this.time && !this.monthMode && !this.yearMode
-          ? html`<div class="box-col">
-              ${this.isStrictTime() ? '' : html`<div class="nav-times">${this.getTime()}</div>`}
-              <div class="times">
-                <div class="time">
-                  ${this._hours &&
-                  this._hours.map(
-                    (val) =>
-                      html`<div
-                        @click="${this._onSelectHour.bind(this, val)}"
-                        class="${classMap({
-                          hour: true,
-                          selected: this._hour === val,
-                          disabled: this.isHoursDisabled(val),
-                        })}"
-                      >
-                        ${val}
-                      </div>`,
-                  )}
-                </div>
-                <div class="time">
-                  ${this._minutes &&
-                  this._minutes.map(
-                    (val) =>
-                      html`<div
-                        @click="${this._onSelectMinute.bind(this, val)}"
-                        class="${classMap({
-                          minute: true,
-                          selected: this._minute === val,
-                          disabled: this.isMinutesDisabled(val),
-                        })}"
-                      >
-                        ${val}
-                      </div>`,
-                  )}
-                </div>
-
-                ${this.isStrictTime()
-                  ? html`<div class="time">
-                      ${this._seconds &&
-                      this._seconds.map(
+        ${
+          this.isStrictTime()
+            ? ''
+            : html`<div class="box-col">
+                <div class="nav">${this._renderPreviousNav()} ${this._renderCurrentNav()} ${this._renderNextNav()}</div>
+                <div class="${classMap(classes)}">${this._renderDays()}</div>
+              </div>`
+        }
+        ${
+          this.time && !this.monthMode && !this.yearMode
+            ? html`<div class="box-col">
+                ${this.isStrictTime() ? '' : html`<div class="nav-times">${this.getTime()}</div>`}
+                <div class="times">
+                  <div class="time">
+                    ${
+                      this._hours &&
+                      this._hours.map(
                         (val) =>
                           html`<div
-                            @click="${this._onSelectSecond.bind(this, val)}"
+                            @click="${this._onSelectHour.bind(this, val)}"
                             class="${classMap({
-                              second: true,
-                              selected: this._second === val,
-                              disabled: this.isSecondsDisabled(val),
+                              hour: true,
+                              selected: this._hour === val,
+                              disabled: this.isHoursDisabled(val),
                             })}"
                           >
                             ${val}
                           </div>`,
-                      )}
-                    </div>`
-                  : ''}
-              </div>
-            </div>`
-          : ''}
+                      )
+                    }
+                  </div>
+                  <div class="time">
+                    ${
+                      this._minutes &&
+                      this._minutes.map(
+                        (val) =>
+                          html`<div
+                            @click="${this._onSelectMinute.bind(this, val)}"
+                            class="${classMap({
+                              minute: true,
+                              selected: this._minute === val,
+                              disabled: this.isMinutesDisabled(val),
+                            })}"
+                          >
+                            ${val}
+                          </div>`,
+                      )
+                    }
+                  </div>
+
+                  ${
+                    this.isStrictTime()
+                      ? html`<div class="time">
+                          ${
+                            this._seconds &&
+                            this._seconds.map(
+                              (val) =>
+                                html`<div
+                                  @click="${this._onSelectSecond.bind(this, val)}"
+                                  class="${classMap({
+                                    second: true,
+                                    selected: this._second === val,
+                                    disabled: this.isSecondsDisabled(val),
+                                  })}"
+                                >
+                                  ${val}
+                                </div>`,
+                            )
+                          }
+                        </div>`
+                      : ''
+                  }
+                </div>
+              </div>`
+            : ''
+        }
       </div>
-      ${this.hasGoToday()
-        ? html` <div class="foot">
-            <gv-button link @click=${this.goToday}>${i18n('gv-date-picker.today')}</gv-button>
-          </div>`
-        : ''}
-      ${this.time && !this.monthMode && !this.yearMode
-        ? html` <div class="foot foot-time">
-            <gv-button primary outlined small @click=${this._onNow}
-              >${this.isStrictTime() ? i18n('gv-date-picker.currentTime') : i18n('gv-date-picker.now')}</gv-button
-            >
-            <gv-button primary small @click=${this._onDateTimeSelected} .disabled="${this.disableValidation === true}"
-              >${i18n('gv-date-picker.ok')}</gv-button
-            >
-          </div>`
-        : ''}
+      ${
+        this.hasGoToday()
+          ? html` <div class="foot">
+              <gv-button link @click=${this.goToday}>${i18n('gv-date-picker.today')}</gv-button>
+            </div>`
+          : ''
+      }
+      ${
+        this.time && !this.monthMode && !this.yearMode
+          ? html` <div class="foot foot-time">
+              <gv-button primary outlined small @click=${this._onNow}
+                >${this.isStrictTime() ? i18n('gv-date-picker.currentTime') : i18n('gv-date-picker.now')}</gv-button
+              >
+              <gv-button primary small @click=${this._onDateTimeSelected} .disabled="${this.disableValidation === true}"
+                >${i18n('gv-date-picker.ok')}</gv-button
+              >
+            </div>`
+          : ''
+      }
     `;
   }
 

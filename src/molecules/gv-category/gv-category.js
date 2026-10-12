@@ -150,22 +150,24 @@ export class GvCategory extends withSkeletonAttribute(LitElement) {
       @click=${this._onClick}
       class="${classMap({ card: true, skeleton: this._skeleton, empty: this._error || this._empty })}"
     >
-      ${this._error || this._empty
-        ? html`
-            <div class="${classMap({ skeleton: this._skeleton })}">
-              <span>${this._error ? i18n('gv-category.error') : i18n('gv-category.empty')}</span>
-            </div>
-          `
-        : html` <div class="box">
-              <gv-identity-picture
-                .skeleton="${this._skeleton}"
-                display_name="${this._get('name')}"
-                picture="${this._get('_links') ? this._get('_links').picture : ''}"
-              ></gv-identity-picture>
-              <div class="title">${this._get('name')}${total ? html`<span>(${total})</span>` : ''}</div>
-            </div>
+      ${
+        this._error || this._empty
+          ? html`
+              <div class="${classMap({ skeleton: this._skeleton })}">
+                <span>${this._error ? i18n('gv-category.error') : i18n('gv-category.empty')}</span>
+              </div>
+            `
+          : html` <div class="box">
+                <gv-identity-picture
+                  .skeleton="${this._skeleton}"
+                  display_name="${this._get('name')}"
+                  picture="${this._get('_links') ? this._get('_links').picture : ''}"
+                ></gv-identity-picture>
+                <div class="title">${this._get('name')}${total ? html`<span>(${total})</span>` : ''}</div>
+              </div>
 
-            <div class="description">${truncate(this._get('description'), this.limit)}</div>`}
+              <div class="description">${truncate(this._get('description'), this.limit)}</div>`
+      }
     </div> `;
   }
 }

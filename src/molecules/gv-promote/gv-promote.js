@@ -180,32 +180,38 @@ export class GvPromote extends ItemResource(LitElement) {
     return html`<div class="container">
       <div class="${classMap({ skeleton: this._skeleton, image: true })}">${this._renderImage()}</div>
       <div class="content">
-        ${this._error && !this._skeleton
-          ? html`<p class="description error">${i18n('gv-promote.error')}</p>`
-          : html`
-              ${this._empty && !this._skeleton
-                ? html`<p class="description empty">${i18n('gv-promote.empty')}</p>`
-                : html` <div class=${classMap({ skeleton: this._skeleton, title: true })}>
-                      <h2>${getTitle(this._item)}</h2>
-                      <span class="version">${getVersion(this._item)}</span>
-                    </div>
-                    ${owner != null && owner.trim().length > 0
-                      ? html`<div class="owner"><gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>`
-                      : ''}
-                    <p
-                      .innerHTML="${truncate(getDescription(this._item), this.limit)}"
-                      class=${classMap({
-                        skeleton: this._skeleton,
-                        description: true,
-                        'description-large': getDescription(this._item).split(' ').length > 10,
-                      })}
-                    ></p>
-                    <div class=${classMap({ skeleton: this._skeleton, infos: true })}>${this._renderMetricsWithRating()}</div>
-                    <div class="labels">${this._renderLabels(true)}</div>
-                    <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}"
-                      >${i18n('gv-promote.view')}</gv-button
-                    >`}
-            `}
+        ${
+          this._error && !this._skeleton
+            ? html`<p class="description error">${i18n('gv-promote.error')}</p>`
+            : html`
+                ${
+                  this._empty && !this._skeleton
+                    ? html`<p class="description empty">${i18n('gv-promote.empty')}</p>`
+                    : html` <div class=${classMap({ skeleton: this._skeleton, title: true })}>
+                          <h2>${getTitle(this._item)}</h2>
+                          <span class="version">${getVersion(this._item)}</span>
+                        </div>
+                        ${
+                          owner != null && owner.trim().length > 0
+                            ? html`<div class="owner"><gv-icon shape="general:user" size="8px"></gv-icon>${owner}</div>`
+                            : ''
+                        }
+                        <p
+                          .innerHTML="${truncate(getDescription(this._item), this.limit)}"
+                          class=${classMap({
+                            skeleton: this._skeleton,
+                            description: true,
+                            'description-large': getDescription(this._item).split(' ').length > 10,
+                          })}
+                        ></p>
+                        <div class=${classMap({ skeleton: this._skeleton, infos: true })}>${this._renderMetricsWithRating()}</div>
+                        <div class="labels">${this._renderLabels(true)}</div>
+                        <gv-button ?skeleton=${this._skeleton} .href="${this.href}" @click="${this._onClick}"
+                          >${i18n('gv-promote.view')}</gv-button
+                        >`
+                }
+              `
+        }
       </div>
     </div>`;
   }

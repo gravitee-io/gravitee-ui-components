@@ -341,12 +341,14 @@ export class GvSelectNative extends InputElement(LitElement) {
           .size="${this._options.length}"
           style="height: ${height}px"
         >
-          ${this._options &&
-          repeat(
-            this._options,
-            (option) => option,
-            (option) => html` <option value="${option.value || ''}" ?selected="${this.isSelected(option)}">${option.label}</option> `,
-          )}
+          ${
+            this._options &&
+            repeat(
+              this._options,
+              (option) => option,
+              (option) => html` <option value="${option.value || ''}" ?selected="${this.isSelected(option)}">${option.label}</option> `,
+            )
+          }
         </select>
         <div class="box-icon box-icon-clear">
           <gv-icon class="link" shape="code:error" title="${i18n('gv-input.clear')}" @click="${this._onClear}"></gv-icon>
@@ -363,12 +365,14 @@ export class GvSelectNative extends InputElement(LitElement) {
         ?disabled=${this.disabled || this.skeleton}
         .placeholder=${ifDefined(this.placeholder)}
       >
-        ${this._options &&
-        repeat(
-          this._options,
-          (option) => option,
-          (option) => html` <option value="${option.value || ''}" ?selected="${this.isSelected(option)}">${option.label}</option>`,
-        )}
+        ${
+          this._options &&
+          repeat(
+            this._options,
+            (option) => option,
+            (option) => html` <option value="${option.value || ''}" ?selected="${this.isSelected(option)}">${option.label}</option>`,
+          )
+        }
       </select>`;
     }
   }

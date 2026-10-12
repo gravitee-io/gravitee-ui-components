@@ -223,19 +223,23 @@ export class GvOption extends LitElement {
       })}"
     >
       ${this.getLockIcon(option)}
-      ${!this._hasDescription
-        ? option.title != null
-          ? option.label || option.title
-          : ''
-        : html`<div class="content">
-            ${option.icon
-              ? html`<gv-icon shape="${option.icon}"></gv-icon>`
-              : option.image
-                ? html`<gv-image src="${option.image}"></gv-image>`
-                : ''}
-            <div class="title">${option.title}</div>
-            <div class="description-content" .innerHTML="${option.description}"></div>
-          </div>`}
+      ${
+        !this._hasDescription
+          ? option.title != null
+            ? option.label || option.title
+            : ''
+          : html`<div class="content">
+              ${
+                option.icon
+                  ? html`<gv-icon shape="${option.icon}"></gv-icon>`
+                  : option.image
+                    ? html`<gv-image src="${option.image}"></gv-image>`
+                    : ''
+              }
+              <div class="title">${option.title}</div>
+              <div class="description-content" .innerHTML="${option.description}"></div>
+            </div>`
+      }
     </gv-button>`;
   }
 

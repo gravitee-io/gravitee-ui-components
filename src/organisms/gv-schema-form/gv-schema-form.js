@@ -519,52 +519,58 @@ export class GvSchemaForm extends SchemaFormOneOf(LitElement) {
   render() {
     return html`<form class="${classMap({ scrollable: this.scrollable })}" @submit="${this._onSubmit}">
       <div class="${classMap({ container: true, confirm: this._confirm })}">
-        ${this.hasHeader === true
-          ? html`
-              <div class="header">
-                <div class="${classMap({ title: true, center: this.hasHeader && !this.hasFooter })}">
-                  <slot name="title"></slot>
+        ${
+          this.hasHeader === true
+            ? html`
+                <div class="header">
+                  <div class="${classMap({ title: true, center: this.hasHeader && !this.hasFooter })}">
+                    <slot name="title"></slot>
+                  </div>
+                  <div class="left">
+                    <slot name="header-left"></slot>
+                  </div>
+                  ${
+                    this.readonly === true || this.hasFooter === true
+                      ? ''
+                      : html`<div class="right">
+                          <gv-button
+                            id="reset"
+                            outlined
+                            small
+                            @gv-button:click="${this._onReset}"
+                            icon="general:update"
+                            title="Reset"
+                          ></gv-button>
+                          <gv-button
+                            id="submit"
+                            small
+                            @gv-button:click="${this._onSubmit}"
+                            icon="code:check"
+                            .title="${this.submitLabel}"
+                          ></gv-button>
+                        </div> `
+                  }
                 </div>
-                <div class="left">
-                  <slot name="header-left"></slot>
-                </div>
-                ${this.readonly === true || this.hasFooter === true
-                  ? ''
-                  : html`<div class="right">
-                      <gv-button
-                        id="reset"
-                        outlined
-                        small
-                        @gv-button:click="${this._onReset}"
-                        icon="general:update"
-                        title="Reset"
-                      ></gv-button>
-                      <gv-button
-                        id="submit"
-                        small
-                        @gv-button:click="${this._onSubmit}"
-                        icon="code:check"
-                        .title="${this.submitLabel}"
-                      ></gv-button>
-                    </div> `}
-              </div>
-            `
-          : ''}
+              `
+            : ''
+        }
         ${renderFormLevelErrors(this.errors)}
         <div class="content">${this.schema != null ? this._renderPart() : html``}</div>
-        ${this.hasFooter === true && this.readonly !== true
-          ? html`
-              <div class="footer">
-                <div class="left"></div>
-                <div class="right">
-                  <gv-button id="reset" outlined @gv-button:click="${this._onReset}" icon="general:update" title="Reset">Reset</gv-button>
-                  <gv-button id="submit" @gv-button:click="${this._onSubmit}" icon="code:check" .title="${this.submitLabel}"
-                    >${this.submitLabel}</gv-button
-                  >
+        ${
+          this.hasFooter === true && this.readonly !== true
+            ? html`
+                <div class="footer">
+                  <div class="left"></div>
+                  <div class="right">
+                    <gv-button id="reset" outlined @gv-button:click="${this._onReset}" icon="general:update" title="Reset">Reset</gv-button>
+                    <gv-button id="submit" @gv-button:click="${this._onSubmit}" icon="code:check" .title="${this.submitLabel}"
+                      >${this.submitLabel}</gv-button
+                    >
+                  </div>
                 </div>
-              </div>
-            `
-          : ''}
+              `
+            : ''
+        }
       </div>
     </form>`;
   }

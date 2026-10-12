@@ -278,11 +278,13 @@ export class GvAutocomplete extends LitElement {
     return html` <div class="container">
       ${this._renderStyle()}
       <slot></slot>
-      ${this._hasNoOptionSlot() && this._forceOpen
-        ? html`<div class="options open" style="${styleMap({ top: `${top}px` })}">
-            <slot name="noOption" class="${!options || options.length === 0 ? 'show' : 'hide'}"></slot>
-          </div>`
-        : ''}
+      ${
+        this._hasNoOptionSlot() && this._forceOpen
+          ? html`<div class="options open" style="${styleMap({ top: `${top}px` })}">
+              <slot name="noOption" class="${!options || options.length === 0 ? 'show' : 'hide'}"></slot>
+            </div>`
+          : ''
+      }
       <div class="${classMap(classes)}" @mouseleave="${this._onMouseLeave}" style="${styleMap({ top: `${top}px` })}">
         ${repeat(
           options,

@@ -244,32 +244,40 @@ export class GvRatingList extends LitElement {
   }
 
   _renderAnswers(rating) {
-    return html` ${rating.answers
-      ? html` ${this._canAddAnswer()
-            ? html`<a class="link link-answer" @click="${this._editAnswer.bind(this, rating)}">
-                <gv-icon class="link" shape="communication:chat#5"></gv-icon> ${i18n('gv-rating-list.reply')}</a
-              >`
-            : ''}
-          ${rating._edit
-            ? html`
-                <div class="answer answer-form">
-                  <gv-text
-                    rows="4"
-                    label="${i18n('gv-rating-list.answerLabel')}"
-                    required
-                    @input="${this._onResponseInput.bind(this)}"
-                  ></gv-text>
-                  <div class="actions">
-                    <gv-button primary outlined @click="${this._onClose.bind(this, rating)}">${i18n('gv-rating-list.cancel')}</gv-button>
-                    <gv-button primary @click="${this._onAnswer.bind(this, rating)}" .disabled="${!this._hasValidAnswer}"
-                      >${i18n('gv-rating-list.send')}</gv-button
-                    >
-                  </div>
-                </div>
-              `
-            : ''}
-          <div>${repeat(rating.answers, (answer) => this._renderAnswer(rating, answer))}</div>`
-      : ''}`;
+    return html` ${
+      rating.answers
+        ? html` ${
+              this._canAddAnswer()
+                ? html`<a class="link link-answer" @click="${this._editAnswer.bind(this, rating)}">
+                    <gv-icon class="link" shape="communication:chat#5"></gv-icon> ${i18n('gv-rating-list.reply')}</a
+                  >`
+                : ''
+            }
+            ${
+              rating._edit
+                ? html`
+                    <div class="answer answer-form">
+                      <gv-text
+                        rows="4"
+                        label="${i18n('gv-rating-list.answerLabel')}"
+                        required
+                        @input="${this._onResponseInput.bind(this)}"
+                      ></gv-text>
+                      <div class="actions">
+                        <gv-button primary outlined @click="${this._onClose.bind(this, rating)}"
+                          >${i18n('gv-rating-list.cancel')}</gv-button
+                        >
+                        <gv-button primary @click="${this._onAnswer.bind(this, rating)}" .disabled="${!this._hasValidAnswer}"
+                          >${i18n('gv-rating-list.send')}</gv-button
+                        >
+                      </div>
+                    </div>
+                  `
+                : ''
+            }
+            <div>${repeat(rating.answers, (answer) => this._renderAnswer(rating, answer))}</div>`
+        : ''
+    }`;
   }
 
   _onDelete(rating) {
@@ -283,29 +291,33 @@ export class GvRatingList extends LitElement {
   _renderActions(data, parent) {
     if (parent) {
       return html`
-        ${this._canDeleteAnswer()
-          ? html`<gv-confirm
-              danger
-              icon="home:trash"
-              @gv-confirm:ok="${this._onDeleteAnswer.bind(this, parent, data)}"
-              message="${i18n('gv-rating-list.confirmAnswerDelete')}"
-            >
-              <gv-icon title="${i18n('gv-rating-list.deleteAnswer')}" class="link delete-answer" shape="home:trash"></gv-icon>
-            </gv-confirm>`
-          : ''}
+        ${
+          this._canDeleteAnswer()
+            ? html`<gv-confirm
+                danger
+                icon="home:trash"
+                @gv-confirm:ok="${this._onDeleteAnswer.bind(this, parent, data)}"
+                message="${i18n('gv-rating-list.confirmAnswerDelete')}"
+              >
+                <gv-icon title="${i18n('gv-rating-list.deleteAnswer')}" class="link delete-answer" shape="home:trash"></gv-icon>
+              </gv-confirm>`
+            : ''
+        }
       `;
     } else {
       return html`
-        ${this._canDelete(data.id)
-          ? html`<gv-confirm
-              danger
-              icon="home:trash"
-              @gv-confirm:ok="${this._onDelete.bind(this, data)}"
-              message="${i18n('gv-rating-list.confirmRatingDelete')}"
-            >
-              <gv-icon title="${i18n('gv-rating-list.deleteRating')}" class="link delete-rating" shape="home:trash"></gv-icon>
-            </gv-confirm>`
-          : html`<div class="fake-icon"></div>`}
+        ${
+          this._canDelete(data.id)
+            ? html`<gv-confirm
+                danger
+                icon="home:trash"
+                @gv-confirm:ok="${this._onDelete.bind(this, data)}"
+                message="${i18n('gv-rating-list.confirmRatingDelete')}"
+              >
+                <gv-icon title="${i18n('gv-rating-list.deleteRating')}" class="link delete-rating" shape="home:trash"></gv-icon>
+              </gv-confirm>`
+            : html`<div class="fake-icon"></div>`
+        }
       `;
     }
   }
@@ -320,13 +332,15 @@ export class GvRatingList extends LitElement {
         <gv-identity-picture rounded .display_name="${displayName}" .picture="${picture}"></gv-identity-picture>
         <div class="rating-content">
           <div class="title">
-            <b>${data.title ? data.title : data.author.display_name}</b>${parent
-              ? ''
-              : html`<gv-rating
-                  .readonly="${!this._canUpdate(data.id)}"
-                  @input="${this._onUpdateRating.bind(this, data)}"
-                  value="${data.value}"
-                ></gv-rating>`}${this._renderActions(data, parent)}
+            <b>${data.title ? data.title : data.author.display_name}</b>${
+              parent
+                ? ''
+                : html`<gv-rating
+                    .readonly="${!this._canUpdate(data.id)}"
+                    @input="${this._onUpdateRating.bind(this, data)}"
+                    value="${data.value}"
+                  ></gv-rating>`
+            }${this._renderActions(data, parent)}
           </div>
           <div class="sub-title">${this._getDisplayName(data)}<gv-relative-time datetime="${data.date}" noFuture></gv-relative-time></div>
           <p class="comment">${data.comment}</p>

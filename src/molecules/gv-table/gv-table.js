@@ -374,17 +374,19 @@ export class GvTable extends withResizeObserver(LitElement) {
       };
 
       return html` <div class=${classMap({ theader: true })} style=${styleMap(style)}>
-        ${this.options && this.options.data && this._items && this._items.length
-          ? repeat(
-              this.options.data,
-              (option) => option,
-              (option) => {
-                const orderValue = this.order && this.order.startsWith('-') ? this.order.substring(1) : this.order;
-                const label = this.format && option.label ? this.format(option.label) : option.label;
-                const style = typeof option.headerStyle === 'function' ? option.headerStyle(label) : option.headerStyle;
-                return html` <div style="${style || ''}">
-                  ${this.order && !this.nosort
-                    ? html`
+        ${
+          this.options && this.options.data && this._items && this._items.length
+            ? repeat(
+                this.options.data,
+                (option) => option,
+                (option) => {
+                  const orderValue = this.order && this.order.startsWith('-') ? this.order.substring(1) : this.order;
+                  const label = this.format && option.label ? this.format(option.label) : option.label;
+                  const style = typeof option.headerStyle === 'function' ? option.headerStyle(label) : option.headerStyle;
+                  return html` <div style="${style || ''}">
+                    ${
+                      this.order && !this.nosort
+                        ? html`
                    <gv-button link @click="${this._onSortChanged.bind(this, option.field || option.tag)}">${until(label)}</gv-button>
                       ${
                         orderValue === option.tag || (orderValue === option.field && option.type !== 'image')
@@ -392,11 +394,13 @@ export class GvTable extends withResizeObserver(LitElement) {
                           : ''
                       }
                     </a>`
-                    : until(label)}
-                </div>`;
-              },
-            )
-          : ''}
+                        : until(label)
+                    }
+                  </div>`;
+                },
+              )
+            : ''
+        }
       </div>`;
     }
   }
@@ -529,12 +533,13 @@ export class GvTable extends withResizeObserver(LitElement) {
       style=${styleMap({ height: this.rowsheight, 'user-select': this.options.selectable ? 'none' : '' })}
       @mouseleave="${this._onMouseLeave.bind(this)}"
     >
-      ${this._items && this._items.length
-        ? repeat(
-            this._items,
-            (item) => item,
-            (item, itemIndex) => {
-              return html`
+      ${
+        this._items && this._items.length
+          ? repeat(
+              this._items,
+              (item) => item,
+              (item, itemIndex) => {
+                return html`
           <div class=${classMap({
             row: true,
             skeleton: this._skeleton,
@@ -560,9 +565,9 @@ export class GvTable extends withResizeObserver(LitElement) {
                       const style = typeof option.style === 'function' ? option.style(item) : option.style;
                       const formattedValue = this._getFormattedCellValue(option, item);
                       return html`<div class="cell" style="${ifDefined(style)}" title="${formattedValue}">
-                        ${this._renderCell(formattedValue, option, item, itemIndex)}${this._renderTag(option, item)}${option.icon
-                          ? this._renderIcon(item, itemIndex, option)
-                          : ''}
+                        ${this._renderCell(formattedValue, option, item, itemIndex)}${this._renderTag(option, item)}${
+                          option.icon ? this._renderIcon(item, itemIndex, option) : ''
+                        }
                       </div> `;
                     },
                   )
@@ -570,9 +575,10 @@ export class GvTable extends withResizeObserver(LitElement) {
             }
           </div>
         </div>`;
-            },
-          )
-        : ''}
+              },
+            )
+          : ''
+      }
     </div>`;
   }
 
@@ -671,18 +677,22 @@ export class GvTable extends withResizeObserver(LitElement) {
 
     return html`
       <div class=${classMap(classes)} style="${styleMap({ display: this.rowsheight ? 'block' : 'flex' })}">
-        ${this.title
-          ? html` <div class="header">
-              <h3 class="title">
-                ${this.title} ${!this._empty ? html`<span>(${this.total || (this._items && this._items.length)})</span>` : ''}
-              </h3>
-            </div>`
-          : ''}
-        ${!this._empty && this.options && this.options.data
-          ? this._renderItems()
-          : html` <div class="empty" style="${styleMap(emptyStyle)}">
-              ${this.emptymessage ? this.emptymessage : i18n('gv-table.empty')}
-            </div>`}
+        ${
+          this.title
+            ? html` <div class="header">
+                <h3 class="title">
+                  ${this.title} ${!this._empty ? html`<span>(${this.total || (this._items && this._items.length)})</span>` : ''}
+                </h3>
+              </div>`
+            : ''
+        }
+        ${
+          !this._empty && this.options && this.options.data
+            ? this._renderItems()
+            : html` <div class="empty" style="${styleMap(emptyStyle)}">
+                ${this.emptymessage ? this.emptymessage : i18n('gv-table.empty')}
+              </div>`
+        }
       </div>
     `;
   }

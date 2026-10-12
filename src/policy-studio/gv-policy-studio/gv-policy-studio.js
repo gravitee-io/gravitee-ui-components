@@ -938,9 +938,11 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
     return html`<div slot="content" class="empty">
       <div>
         Select a flow
-        ${readonlyMode !== true
-          ? html`or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one</gv-button>`
-          : ''}
+        ${
+          readonlyMode !== true
+            ? html`or <gv-button @gv-button:click="${this._onAddFlow}" outlined icon="code:plus" large>design new one</gv-button>`
+            : ''
+        }
       </div>
     </div>`;
   }
@@ -1578,43 +1580,47 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           ${this._renderFlow(1, false, readonlyMode)} ${this._renderPolicy(readonlyMode)} ${this._renderFlowForm(readonlyMode)}
         </div>
       </gv-resizable-views>
-      ${readonlyMode !== true
-        ? html`<gv-policy-studio-menu
-            class="right-menu"
-            ?disabled="${this._currentAskConfirmation}"
-            .policies="${this._getFilteredPolicies()}"
-            .selectedIds="${[this._currentPolicyId]}"
-            .query="${this._searchPolicyQuery}"
-            ?has-policy-filter="${this._policyFilterOptions != null}"
-            ?readonly="${readonlyMode}"
-            @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
-            @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
-            @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}"
-          >
-            <div slot="header" class="search-policies">
-              ${this._policyFilterOptions != null
-                ? html`<gv-option
-                    ?disabled="${this._currentAskConfirmation}"
-                    .options="${this._policyFilterOptions}"
-                    multiple
-                    outlined
-                    .value="${this._policyFilter}"
-                    small
-                    @gv-option:select="${this._onFilterPolicies}"
-                  ></gv-option>`
-                : ''}
-              <gv-input
-                id="search-policy"
-                ?disabled="${this._currentAskConfirmation}"
-                placeholder="Filter policies (Shift + Alt + Space)"
-                type="search"
-                small
-                @gv-input:input="${this._onSearchPolicy}"
-                @gv-input:clear="${this._onClearPolicy}"
-              ></gv-input>
-            </div>
-          </gv-policy-studio-menu>`
-        : ''}
+      ${
+        readonlyMode !== true
+          ? html`<gv-policy-studio-menu
+              class="right-menu"
+              ?disabled="${this._currentAskConfirmation}"
+              .policies="${this._getFilteredPolicies()}"
+              .selectedIds="${[this._currentPolicyId]}"
+              .query="${this._searchPolicyQuery}"
+              ?has-policy-filter="${this._policyFilterOptions != null}"
+              ?readonly="${readonlyMode}"
+              @gv-policy-studio-menu:target-policy="${this._onTargetPolicy}"
+              @gv-policy-studio-menu:fetch-documentation="${this._onOpenDocumentationFromMenu}"
+              @gv-policy-studio-menu:dragend-policy="${this._onDragEndPolicy}"
+            >
+              <div slot="header" class="search-policies">
+                ${
+                  this._policyFilterOptions != null
+                    ? html`<gv-option
+                        ?disabled="${this._currentAskConfirmation}"
+                        .options="${this._policyFilterOptions}"
+                        multiple
+                        outlined
+                        .value="${this._policyFilter}"
+                        small
+                        @gv-option:select="${this._onFilterPolicies}"
+                      ></gv-option>`
+                    : ''
+                }
+                <gv-input
+                  id="search-policy"
+                  ?disabled="${this._currentAskConfirmation}"
+                  placeholder="Filter policies (Shift + Alt + Space)"
+                  type="search"
+                  small
+                  @gv-input:input="${this._onSearchPolicy}"
+                  @gv-input:clear="${this._onClearPolicy}"
+                ></gv-input>
+              </div>
+            </gv-policy-studio-menu>`
+          : ''
+      }
     </div>`;
   }
 
@@ -1651,14 +1657,16 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           @gv-schema-form:cancel="${this._onCancelFlowMode}"
           @gv-schema-form:submit="${this._onSubmitFlowMode}"
         >
-          ${!this.configurationInformation
-            ? ''
-            : html`
-                <div class="api-settings-information" slot="title">
-                  <gv-icon class="api-settings-information__icon" title="Info" shape="code:info"></gv-icon>
-                  <blockquote class="api-settings-information__blockquote">${this.configurationInformation}</blockquote>
-                </div>
-              `}
+          ${
+            !this.configurationInformation
+              ? ''
+              : html`
+                  <div class="api-settings-information" slot="title">
+                    <gv-icon class="api-settings-information__icon" title="Info" shape="code:info"></gv-icon>
+                    <blockquote class="api-settings-information__blockquote">${this.configurationInformation}</blockquote>
+                  </div>
+                `
+          }
         </gv-schema-form>
       </div>`;
     }
@@ -1734,17 +1742,19 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
       >
         <div slot="header" class="header-actions">
           <div class="title">${this._definition.name}</div>
-          ${this._flowFilterOptions != null
-            ? html`<gv-option
-                ?disabled="${this._currentAskConfirmation}"
-                .options="${this._flowFilterOptions}"
-                multiple
-                outlined
-                .value="${this._flowFilter}"
-                small
-                @gv-option:select="${this._onFilterFlows}"
-              ></gv-option>`
-            : ''}
+          ${
+            this._flowFilterOptions != null
+              ? html`<gv-option
+                  ?disabled="${this._currentAskConfirmation}"
+                  .options="${this._flowFilterOptions}"
+                  multiple
+                  outlined
+                  .value="${this._flowFilter}"
+                  small
+                  @gv-option:select="${this._onFilterFlows}"
+                ></gv-option>`
+              : ''
+          }
           <gv-input
             ?disabled="${this._currentAskConfirmation}"
             id="search-flow"
@@ -1756,19 +1766,21 @@ export class GvPolicyStudio extends KeyboardElement(LitElement) {
           ></gv-input>
         </div>
 
-        ${this.readonly !== true
-          ? html` <div slot="footer" class="footer-actions">
-              <gv-button
-                class="btn-large"
-                .disabled="${!this.isDirty || this._currentAskConfirmation}"
-                @gv-button:click="${this._onSaveAll}"
-                >Save</gv-button
-              >
-              <gv-button link .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onResetAll}"
-                >Reset</gv-button
-              >
-            </div>`
-          : ''}
+        ${
+          this.readonly !== true
+            ? html` <div slot="footer" class="footer-actions">
+                <gv-button
+                  class="btn-large"
+                  .disabled="${!this.isDirty || this._currentAskConfirmation}"
+                  @gv-button:click="${this._onSaveAll}"
+                  >Save</gv-button
+                >
+                <gv-button link .disabled="${!this.isDirty || this._currentAskConfirmation}" @gv-button:click="${this._onResetAll}"
+                  >Reset</gv-button
+                >
+              </div>`
+            : ''
+        }
       </gv-policy-studio-menu>
 
       <gv-tabs

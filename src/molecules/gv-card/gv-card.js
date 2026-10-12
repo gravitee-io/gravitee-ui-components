@@ -131,12 +131,14 @@ export class GvCard extends ItemResource(LitElement) {
       <div class="${classMap({ image: true, skeleton: this._skeleton })}">${this._renderImage()}</div>
 
       <div class="${classMap({ content: true, empty: this._error || this._empty })}">
-        ${this._error || this._empty
-          ? html` <span>${this._error ? i18n('gv-card.error') : i18n('gv-card.empty')}</span> `
-          : html` <div class="${classMap({ skeleton: this._skeleton })}">
-                <span class="title">${title}</span>
-              </div>
-              <div>${this._renderStates()}</div>`}
+        ${
+          this._error || this._empty
+            ? html` <span>${this._error ? i18n('gv-card.error') : i18n('gv-card.empty')}</span> `
+            : html` <div class="${classMap({ skeleton: this._skeleton })}">
+                  <span class="title">${title}</span>
+                </div>
+                <div>${this._renderStates()}</div>`
+        }
       </div>
     </div>`;
   }
